@@ -1,3 +1,4 @@
+
 class  UnitCardData {
     final String unitName;
 
@@ -10,8 +11,6 @@ class  UnitCardData {
     final int objectiveControl;
     final List<int> points;
     final List<String> keywords;
-
-
 
     UnitCardData({
     required this.unitName,
@@ -26,6 +25,35 @@ class  UnitCardData {
     required this.keywords
 
 } );
+    // serialize
+    Map<String, dynamic> toJson() =>{
+      'Name' : unitName,
+      'Movement' : movement,
+      'Toughness' : toughness,
+      'Save' : save,
+      'Invulnerable Save' : invulnerableSave,
+      'Wounds' : wounds,
+      'Leadership' : leadership,
+      'Objective Control' : objectiveControl,
+      'Points' : points,
+      'Keywords' : keywords
+    };
+
+    // deserialize
+  static UnitCardData fromJson(Map<String, dynamic> json) => UnitCardData(
+      unitName: json['Name'] as String,
+      movement:  json ['Movement' ] as int,
+      toughness: json['Toughness'] as int,
+      save: json['Save'] as int,
+      invulnerableSave: json['Invulnerable Save' ] as int,
+      wounds: json['Wounds'] as int,
+      leadership: json['Leadership'] as int,
+      objectiveControl: json['Objective Control'] as int,
+      points: (json['Points'] as List).map((element) => element as int).toList(),
+      keywords: (json['Keywords'] as List).map((element) => element as String).toList()
+  );
+
+
 }
 
 enum TypeWeapon{

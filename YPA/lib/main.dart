@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:ypa/buttons.dart';
+import 'data.dart';
 
 void main() {
   runApp( Container(
@@ -15,6 +18,25 @@ void main() {
     ),
 
   ));
+
+  // Объект → JSON
+  UnitCardData testData = UnitCardData(unitName: 'testName',
+      movement: 6,
+      toughness: 4,
+      save: 3,
+      invulnerableSave: 0,
+      wounds: 2,
+      leadership: 2,
+      objectiveControl: 2,
+      points: [100,150],
+      keywords: ['k1','k2']);
+  String ljson = jsonEncode(testData.toJson());
+  print(ljson);
+
+  // JSON → Объект
+  Map<String, dynamic> jsonMap = jsonDecode(ljson);
+  UnitCardData decodedUnit = UnitCardData.fromJson(jsonMap);
+  print(decodedUnit.unitName); // Alice
 }
 
 class MyApp extends StatelessWidget  {
