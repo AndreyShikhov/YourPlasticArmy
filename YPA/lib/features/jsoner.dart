@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'dart:convert';
-import 'data.dart';
+import '../core/data/data.dart';
 /*
 class Jsoner {
 
