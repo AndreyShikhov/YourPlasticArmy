@@ -34,8 +34,10 @@ class Ypa extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: BaseWindow(bgColor: Colors.black38,),
-    );
+      home: BaseWindow(
+          bgColor: Colors.lightBlue,
+          child: MainScreen(contentColor: Colors.black38,))
+      );
   }
 }
 
