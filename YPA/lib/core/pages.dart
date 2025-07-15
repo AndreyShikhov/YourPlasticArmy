@@ -6,7 +6,7 @@ class BaseWindow extends StatelessWidget {
 
   final Color bgColor;
   final Widget child; // content widget
-  const BaseWindow( {super.key,
+  const BaseWindow({super.key,
     this.bgColor = Colors.black,
     required this.child
   });
@@ -21,42 +21,71 @@ class BaseWindow extends StatelessWidget {
 }
 
 
-class MainScreen extends StatelessWidget
-{
-  final Color contentColor;
+class MainScreen extends StatefulWidget {
 
-  const MainScreen({super.key, this.contentColor = Colors.black});
+  @override
+  _MainScreenState createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  final Color contentColor = Colors.black26;
+  bool _isBTNActiveWH  = true;
+  bool _isBTNActiveVS  = true;
+  bool _isBTNActiveAnal  = true;
+
+  void enableAllButtons({bool isEnable = true})
+  {
+    _isBTNActiveWH = isEnable;
+    _isBTNActiveVS = isEnable;
+    _isBTNActiveAnal = isEnable;
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    return  Container(
+    return Container(
       color: contentColor,
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             MainButton(
-                onPressed: (){},
                 textBTN: 'Firtst button',
-                isActive: true),
+                isActive: _isBTNActiveWH,
+                onPressed: ()
+                {
+                 print('fuck');
+                 setState(()=> enableAllButtons(isEnable: false));
+                },
+              style: MainButton.mainButtonStyle(context),
+
+            ),
+
             const SizedBox(height: 20),
 
 
-           MainButton(
-               onPressed: (){},
-               textBTN: 'Second',
-               isActive: true),
+            MainButton(
+                textBTN: 'Second',
+                isActive: _isBTNActiveVS,
+                onPressed: ()
+                {
+                  setState(()=> enableAllButtons(isEnable: false));
+                },
+            ),
+
             const SizedBox(height: 20),
 
-           MainButton(
-               onPressed: (){},
-               textBTN: 'Third button',
-               isActive: true),
+            MainButton(
+                textBTN: 'Third button',
+                isActive: _isBTNActiveAnal,
+                onPressed: ()
+                {
+                  setState(()=> enableAllButtons(isEnable: false));
+                },),
             const SizedBox(height: 20),
           ],
         ),
       ),
     );
   }
-
 }

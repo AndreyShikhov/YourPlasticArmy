@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:ypa/core/buttons.dart';
 import 'package:ypa/core/pages.dart';
 import 'core/data/data.dart';
+import 'core/data/style_data .dart';
 
 void main() {
   runApp( const Ypa());
@@ -35,8 +35,8 @@ class Ypa extends StatelessWidget{
   Widget build(BuildContext context) {
     return MaterialApp(
       home: BaseWindow(
-          bgColor: Colors.lightBlue,
-          child: MainScreen(contentColor: Colors.black38,))
+          bgColor: mainScreenColor,
+          child: MainScreen())
       );
   }
 }
