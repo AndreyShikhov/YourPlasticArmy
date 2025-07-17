@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:ypa/core/pages.dart';
+import 'package:ypa/core/router/router.dart';
+import 'package:ypa/core/widgets/base_window.dart';
+import 'package:ypa/core/screens/main_screen.dart';
 import 'core/data/data.dart';
 import 'core/data/style_data .dart';
 
@@ -33,10 +35,10 @@ class Ypa extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: BaseWindow(
-          bgColor: mainScreenColor,
-          child: MainScreen())
+    return MaterialApp.router(
+      routerConfig: router, // connect router
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData.dark(),
       );
   }
 }
