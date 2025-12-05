@@ -1,5 +1,9 @@
 # Project-level configuration.
 cmake_minimum_required(VERSION 3.14)
+# Используйте вашу версию VS 2026
+set(CMAKE_GENERATOR "Visual Studio 18 2026" CACHE STRING "CMake Generator" FORCE)
+set(CMAKE_GENERATOR_PLATFORM "x64" CACHE STRING "Platform" FORCE)
+#project(runner LANGUAGES CXX)
 project(ypa LANGUAGES CXX)
 
 # The name of the executable created for the application. Change this to change
