@@ -1,7 +1,14 @@
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ypa/core/widgets/buttons.dart';
 
+
+enum ButtonType {
+  warhammer40k,
+  vs,
+  analytics
+}
 
 class MainScreen extends StatefulWidget {
 
@@ -11,17 +18,55 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final Color contentColor = Colors.black26;
-  bool _isBTNActiveWH  = true;
-  bool _isBTNActiveVS  = true;
-  bool _isBTNActiveAnal  = true;
+
+
 
   void enableAllButtons({bool isEnable = true})
   {
-    _isBTNActiveWH = isEnable;
-    _isBTNActiveVS = isEnable;
-    _isBTNActiveAnal = isEnable;
+    setState(() {
+      _statesAllButtons = {
+        ButtonType.warhammer40k: isEnable,
+        ButtonType.vs: isEnable,
+        ButtonType.analytics: isEnable,
+      };
+    });
   }
 
+  final List<String> _buttonTitles = [
+    'Warhammer 40K',
+    'VS',
+    'Analytiks'
+  ];
+
+
+
+  Map<ButtonType, bool> _statesAllButtons = {
+    ButtonType.warhammer40k: true,
+    ButtonType.vs: true,
+    ButtonType.analytics: true
+  };
+
+
+  List get _buttonHandlers => [
+    () =>  context.go('/army_lyst'),
+  ];
+
+List<Widget> _buildButtons(){
+    return _buttonTitles.asMap().entries.map((elem){
+      final int index  = elem.key;
+      final title = elem.value;
+      final buttonType = ButtonType.values[index];
+      return MainButton(
+          onPressed: (){
+            setState(()=> enableAllButtons(isEnable: false));
+            //_buttonHandlers[0]();
+          },
+          isActive:  _statesAllButtons[buttonType] ?? true ,
+          textBTN:  title,
+          style: MainButton.mainButtonStyle(context),
+      );
+    }).toList();
+}
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +75,14 @@ class _MainScreenState extends State<MainScreen> {
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            MainButton(
+         children: _buildButtons(),
+         // children: [
+
+          /*  MainButton(
               textBTN: 'WH 40K',
               isActive: _isBTNActiveWH,
               onPressed: ()
               {
-
                 setState(()=> enableAllButtons(isEnable: false));
                 context.go('/army_lyst');
                 print('fuck');
@@ -66,8 +112,8 @@ class _MainScreenState extends State<MainScreen> {
               {
                 setState(()=> enableAllButtons(isEnable: false));
               },),
-            const SizedBox(height: 20),
-          ],
+            const SizedBox(height: 20),*/
+          //],
         ),
       ),
     );
