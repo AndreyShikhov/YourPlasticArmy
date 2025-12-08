@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../widgets/buttons.dart';
 
 
@@ -31,6 +30,7 @@ class _ArmyLystScreen extends State<ArmyLystScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+
             MainButton(
               textBTN: 'Army',
               isActive: _isBTNActiveWH,

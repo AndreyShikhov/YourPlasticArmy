@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ypa/core/router/router.dart';
 import 'package:ypa/core/widgets/buttons.dart';
 
 
@@ -21,8 +22,7 @@ class _MainScreenState extends State<MainScreen> {
 
 
 
-  void enableAllButtons({bool isEnable = true})
-  {
+  void enableAllButtons({bool isEnable = true}) {
     setState(() {
       _statesAllButtons = {
         ButtonType.warhammer40k: isEnable,
@@ -59,7 +59,8 @@ List<Widget> _buildButtons(){
       return MainButton(
           onPressed: (){
             setState(()=> enableAllButtons(isEnable: false));
-            //_buttonHandlers[0]();
+            // переход на другой экран
+            _buttonHandlers[0]();
           },
           isActive:  _statesAllButtons[buttonType] ?? true ,
           textBTN:  title,
@@ -75,45 +76,7 @@ List<Widget> _buildButtons(){
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-         children: _buildButtons(),
-         // children: [
-
-          /*  MainButton(
-              textBTN: 'WH 40K',
-              isActive: _isBTNActiveWH,
-              onPressed: ()
-              {
-                setState(()=> enableAllButtons(isEnable: false));
-                context.go('/army_lyst');
-                print('fuck');
-              },
-              style: MainButton.mainButtonStyle(context),
-
-            ),
-
-            const SizedBox(height: 20),
-
-
-            MainButton(
-              textBTN: 'Second',
-              isActive: _isBTNActiveVS,
-              onPressed: ()
-              {
-                setState(()=> enableAllButtons(isEnable: false));
-              },
-            ),
-
-            const SizedBox(height: 20),
-
-            MainButton(
-              textBTN: 'Third button',
-              isActive: _isBTNActiveAnal,
-              onPressed: ()
-              {
-                setState(()=> enableAllButtons(isEnable: false));
-              },),
-            const SizedBox(height: 20),*/
-          //],
+          children: _buildButtons(),
         ),
       ),
     );
