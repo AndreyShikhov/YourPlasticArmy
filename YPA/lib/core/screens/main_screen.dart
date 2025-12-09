@@ -7,8 +7,7 @@ import 'package:ypa/core/widgets/buttons.dart';
 
 enum ButtonType {
   warhammer40k,
-  vs,
-  analytics
+  warhammerAoS,
 }
 
 class MainScreen extends StatefulWidget {
@@ -20,35 +19,27 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final Color contentColor = Colors.black26;
 
+  List get _buttonHandlers => [
+        () =>  context.go('/game_screen'),
+  ];
 
+  Map<ButtonType, bool> _statesAllButtons = {
+    ButtonType.warhammer40k: true,
+    ButtonType.warhammerAoS: true,
+  };
 
   void enableAllButtons({bool isEnable = true}) {
     setState(() {
       _statesAllButtons = {
         ButtonType.warhammer40k: isEnable,
-        ButtonType.vs: isEnable,
-        ButtonType.analytics: isEnable,
+        ButtonType.warhammerAoS: isEnable,
       };
     });
   }
 
   final List<String> _buttonTitles = [
     'Warhammer 40K',
-    'VS',
-    'Analytiks'
-  ];
-
-
-
-  Map<ButtonType, bool> _statesAllButtons = {
-    ButtonType.warhammer40k: true,
-    ButtonType.vs: true,
-    ButtonType.analytics: true
-  };
-
-
-  List get _buttonHandlers => [
-    () =>  context.go('/army_lyst'),
+    'Warhammer AoS',
   ];
 
 List<Widget> _buildButtons(){
