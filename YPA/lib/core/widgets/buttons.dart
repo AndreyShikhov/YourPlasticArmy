@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ypa/core/data/style_data .dart';
+import 'package:ypa/core/data/style_data.dart';
 
 class MainButton extends FilledButton {
   final String ? textBTN;

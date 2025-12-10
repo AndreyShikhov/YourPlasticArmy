@@ -22,7 +22,7 @@ class _GameScreen extends State<GameScreen>{
 
 
   List get _buttonHandlers => [
-        () =>  context.go('/army_lyst'),
+        () =>  context.go('/game_screen/army_lyst'),
   ];
 
   Map<ButtonType, bool> _statesAllButtons = {
@@ -53,8 +53,9 @@ class _GameScreen extends State<GameScreen>{
       final int index  = elem.key;
       final title = elem.value;
       final buttonType = ButtonType.values[index];
-      return MainButton(
-        onPressed: (){
+
+      return MainButton (
+        onPressed: () async {
           setState(()=> enableAllButtons(isEnable: false));
           // переход на другой экран
           _buttonHandlers[0]();
@@ -67,16 +68,29 @@ class _GameScreen extends State<GameScreen>{
   }
 
   @override
-  Widget build(BuildContext){
-    return Container(
-      color: contentColor,
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-            children: _buildButtons(),
-            //const SizedBox(height: 20),
+  Widget build(BuildContext context){
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor:  Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: (){
+            Navigator.pop(context,'reset_buttons');
+          },
         ),
       ),
+        body:Container(
+          color: contentColor,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: _buildButtons(),
+              //const SizedBox(height: 20),
+            ),
+          ),
+        )
     );
+
   }
 }

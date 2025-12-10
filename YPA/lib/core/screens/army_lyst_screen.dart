@@ -10,12 +10,11 @@ class ArmyLystScreen extends StatefulWidget {
 
 class _ArmyLystScreen extends State<ArmyLystScreen> {
   final Color contentColor = Colors.black26;
-  bool _isBTNActiveWH  = true;
-  bool _isBTNActiveVS  = true;
-  bool _isBTNActiveAnal  = true;
+  bool _isBTNActiveWH = true;
+  bool _isBTNActiveVS = true;
+  bool _isBTNActiveAnal = true;
 
-  void enableAllButtons({bool isEnable = true})
-  {
+  void enableAllButtons({bool isEnable = true}) {
     _isBTNActiveWH = isEnable;
     _isBTNActiveVS = isEnable;
     _isBTNActiveAnal = isEnable;
@@ -24,28 +23,36 @@ class _ArmyLystScreen extends State<ArmyLystScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: contentColor,
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context, 'reset_buttons');
+          },
+        ),
+      ),
+      body: Container(
+        color: contentColor,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
 
-            MainButton(
-              textBTN: 'Army',
-              isActive: _isBTNActiveWH,
-              onPressed: ()
-              {
-                print('fuck');
-                setState(()=> enableAllButtons(isEnable: false));
-              },
-              style: MainButton.mainButtonStyle(context),
-
-            ),
-
-            const SizedBox(height: 20),
-
-          ],
+              MainButton(
+                textBTN: 'Army',
+                isActive: _isBTNActiveWH,
+                onPressed: () {
+                  print('fuck');
+                  setState(() => enableAllButtons(isEnable: false));
+                },
+                style: MainButton.mainButtonStyle(context),
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
         ),
       ),
     );

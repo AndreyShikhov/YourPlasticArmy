@@ -2,10 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:ypa/core/router/router.dart';
-import 'package:ypa/core/widgets/base_window.dart';
-import 'package:ypa/core/screens/main_screen.dart';
 import 'core/data/data.dart';
-import 'core/data/style_data .dart';
+
 
 
 void main() {

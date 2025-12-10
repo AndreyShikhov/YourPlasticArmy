@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ypa/core/router/router.dart';
 import 'package:ypa/core/widgets/buttons.dart';
 
 
@@ -15,6 +14,7 @@ class MainScreen extends StatefulWidget {
   @override
   _MainScreenState createState() => _MainScreenState();
 }
+
 
 class _MainScreenState extends State<MainScreen> {
   final Color contentColor = Colors.black26;
@@ -47,8 +47,10 @@ List<Widget> _buildButtons(){
       final int index  = elem.key;
       final title = elem.value;
       final buttonType = ButtonType.values[index];
+
       return MainButton(
-          onPressed: (){
+          onPressed: () async {
+            // deactivate all buttons
             setState(()=> enableAllButtons(isEnable: false));
             // переход на другой экран
             _buttonHandlers[0]();
