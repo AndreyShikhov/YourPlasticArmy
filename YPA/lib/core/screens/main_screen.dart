@@ -19,6 +19,20 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final Color contentColor = Colors.black26;
 
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    // Проверяем, активен ли сейчас этот экран
+    if (ModalRoute.of(context)?.isCurrent == true) {
+      // Активируем кнопки при возврате
+      setState(() => enableAllButtons(isEnable: true));
+    }
+  }
+
+
+
   List get _buttonHandlers => [
         () =>  context.go('/game_screen'),
   ];
