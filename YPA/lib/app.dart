@@ -1,14 +1,25 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:ypa/core/router/router.dart';
 import 'core/data/data.dart';
 
+import 'package:ypa/core/providers/user_provider.dart';
 
 
 
 void main() {
-  runApp( const Ypa());
+  runApp(
+    MultiProvider( // Виджет MultiProvider
+      providers: [
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+        // Добавляйте здесь другие провайдеры
+      ],
+      child: const Ypa(), // Ваш главный виджет приложения
+    ),
+  );
+
 
   // Объект → JSON
   UnitCardData testData = UnitCardData(unitName: 'testName',
