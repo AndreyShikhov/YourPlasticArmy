@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:ypa/core/widgets/buttons.dart';
 import 'package:ypa/core/data/style_data.dart';
@@ -26,6 +27,14 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final Color contentColor = Colors.black26;
 
+  Map<ButtonType, bool> _statesAllButtons = {
+    ButtonType.warhammer40k: true,
+    ButtonType.warhammerAoS: true,
+  };
+  final List<String> _buttonTitles = [
+    'Warhammer 40K',
+    'Warhammer AoS',
+  ];
 
 
   @override
@@ -40,17 +49,6 @@ class _MainScreenState extends State<MainScreen> {
   }
 
 
-
-  List get _buttonHandlers => [
-        () =>  context.go('/game_screen'),
-  ];
-
-  Map<ButtonType, bool> _statesAllButtons = {
-    ButtonType.warhammer40k: true,
-    ButtonType.warhammerAoS: true,
-  };
-
-
   void enableAllButtons({bool isEnable = true}) {
     setState(() {
       _statesAllButtons = {
@@ -60,129 +58,10 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
-  final List<String> _buttonTitles = [
-    'Warhammer 40K',
-    'Warhammer AoS',
+  List get _buttonHandlers => [
+        () =>  context.go('/game_screen'),
   ];
 
-List<Widget> _buildButtons(){
-    return _buttonTitles.asMap().entries.map((elem){
-      final int index  = elem.key;
-      final title = elem.value;
-      final buttonType = ButtonType.values[index];
-
-      return MainButton(
-          onPressed: () async {
-            // deactivate all buttons
-            setState(()=> enableAllButtons(isEnable: false));
-            // переход на другой экран
-            _buttonHandlers[0]();
-          },
-          isActive:  _statesAllButtons[buttonType] ?? true ,
-          textBTN:  title,
-          style: MainButton.mainButtonStyle(context),
-      );
-    }).toList();
-}
-
-  Widget _buildDrawer(BuildContext context, UserProvider user) {
-    return Drawer(
-      backgroundColor: Color.fromARGB(255, 50, 50, 50),
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          // Шапка меню
-          DrawerHeader(
-            decoration: BoxDecoration(
-              color: Color.fromARGB(255, 78, 73, 73),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'YPA',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 8),
-                Text(
-                  user.getUserName(),
-                  style: TextStyle(
-                    color: Colors.grey[300],
-                    fontSize: 14,
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          // Пункты меню
-          _buildDrawerItem(
-            icon: Icons.settings,
-            title: 'Настройки',
-            onTap: () {
-              Navigator.pop(context); // Закрываем меню
-              // TODO: Переход на экран настроек
-              print('Настройки');
-            },
-          ),
-
-          _buildDrawerItem(
-            icon: Icons.help,
-            title: 'Помощь',
-            onTap: () {
-              Navigator.pop(context);
-              print('Помощь');
-            },
-          ),
-
-          _buildDrawerItem(
-            icon: Icons.info,
-            title: 'О приложении',
-            onTap: () {
-              Navigator.pop(context);
-              print('О приложении');
-            },
-          ),
-
-          // Разделитель
-          Divider(color: Colors.grey[700]),
-
-          _buildDrawerItem(
-            icon: Icons.exit_to_app,
-            title: 'Выйти',
-            onTap: () {
-              print('Выход');
-              Navigator.pop(context); // Закрыть диалог
-              // Для веба/десктопа — закрыть вкладку
-              // Для мобильных — SystemNavigator.pop()
-              if (Platform.isAndroid || Platform.isIOS) {
-                SystemNavigator.pop();
-              }
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDrawerItem({
-    required IconData icon,
-    required String title,
-    required VoidCallback onTap,
-  }) {
-    return ListTile(
-      leading: Icon(icon, color: Colors.white),
-      title: Text(
-        title,
-        style: TextStyle(color: Colors.white),
-      ),
-      onTap: onTap,
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -214,5 +93,149 @@ List<Widget> _buildButtons(){
         ),
     );
   }
+
+  List<Widget> _buildButtons(){
+    return _buttonTitles.asMap().entries.map((elem){
+      final int index  = elem.key;
+      final title = elem.value;
+      final buttonType = ButtonType.values[index];
+
+      return MainButton(
+        onPressed: () async {
+          // deactivate all buttons
+          setState(()=> enableAllButtons(isEnable: false));
+          // переход на другой экран
+          _buttonHandlers[0]();
+        },
+        isActive:  _statesAllButtons[buttonType] ?? true ,
+        textBTN:  title,
+        style: MainButton.mainButtonStyle(context),
+      );
+    }).toList();
+  }
+
+  Widget _buildDrawer(BuildContext context, UserProvider user) {
+
+    return Drawer(
+      backgroundColor: Color.fromARGB(255, 50, 50, 50),
+      child: Column(
+        children: [
+          // Основное содержимое меню (прокручиваемое)
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                // Шапка меню
+                DrawerHeader(
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 78, 73, 73),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'YPA',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        user.getUserName(),
+                        style: TextStyle(
+                          color: Colors.grey[300],
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                // Пункты меню
+                _buildDrawerItem(
+                  icon: Icons.settings,
+                  title: 'Настройки',
+                  onTap: () {
+                    Navigator.pop(context);
+                    print('Настройки');
+                  },
+                ),
+
+                _buildDrawerItem(
+                  icon: Icons.help,
+                  title: 'Помощь',
+                  onTap: () {
+                    Navigator.pop(context);
+                    print('Помощь');
+                  },
+                ),
+
+                _buildDrawerItem(
+                  icon: Icons.info,
+                  title: 'О приложении',
+                  onTap: () {
+                    Navigator.pop(context);
+                    print('О приложении');
+                  },
+                ),
+
+                // Разделитель
+                Divider(color: Colors.grey[700]),
+
+                _buildDrawerItem(
+                  icon: Icons.exit_to_app,
+                  title: 'Выйти',
+                  onTap: () {
+                    print('Выход');
+                    Navigator.pop(context);
+                    if (Platform.isAndroid || Platform.isIOS) {
+                      SystemNavigator.pop();
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
+
+          // Версия приложения ВСЕГДА внизу
+          FutureBuilder<PackageInfo>(
+            future: PackageInfo.fromPlatform(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 40, 40, 40),
+                    border: Border(top: BorderSide(color: Colors.grey[700]!)),
+                  ),
+                  child: Text(
+                    'Version: ${snapshot.data!.version} (${snapshot.data!.buildNumber})',
+                    style: TextStyle(color: Colors.grey[500], fontSize: 12),
+                  ),
+                );
+              }
+              return Container(); // Показываем пустой контейнер при загрузке
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDrawerItem({
+    required IconData icon,
+    required String title,
+    required VoidCallback onTap,
+  }) { return ListTile(
+    leading: Icon(icon, color: Colors.white),
+    title: Text(
+      title,
+      style: TextStyle(color: Colors.white),
+    ),
+    onTap: onTap,
+  );}
 }
 
