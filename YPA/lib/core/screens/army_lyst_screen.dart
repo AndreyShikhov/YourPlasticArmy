@@ -1,59 +1,39 @@
 import 'package:flutter/material.dart';
-import '../widgets/buttons.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../providers/army_list_provider.dart';
 
 
-class ArmyLystScreen extends StatefulWidget {
 
-  @override
-  _ArmyLystScreen createState() => _ArmyLystScreen();
-}
 
-class _ArmyLystScreen extends State<ArmyLystScreen> {
-  final Color contentColor = Colors.black26;
-  bool _isBTNActiveWH = true;
-  bool _isBTNActiveVS = true;
-  bool _isBTNActiveAnal = true;
-
-  void enableAllButtons({bool isEnable = true}) {
-    _isBTNActiveWH = isEnable;
-    _isBTNActiveVS = isEnable;
-    _isBTNActiveAnal = isEnable;
-  }
-
+class ArmyListScreen extends ConsumerWidget {
+  const ArmyListScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final armiesAsync = ref.watch(armyListProvider);
+
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
-            Navigator.pop(context, 'reset_buttons');
-          },
-        ),
-      ),
-      body: Container(
-        color: contentColor,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-
-              MainButton(
-                textBTN: 'Army',
-                isActive: _isBTNActiveWH,
-                onPressed: () {
-                  print('fuck');
-                  setState(() => enableAllButtons(isEnable: false));
-                },
-                style: MainButton.mainButtonStyle(context),
-              ),
-              const SizedBox(height: 20),
-            ],
+      appBar: AppBar(title: const Text('Armies')),
+      body: armiesAsync.when(
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (e, _) => Center(child: Text('Error: $e')),
+        data: (armies) => ListView.builder(
+          itemCount: armies.length,
+          itemBuilder: (_, i) => ListTile(
+            title: Text(armies[i].name),
+            subtitle: Text(armies[i].faction),
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          ref.read(armyListProvider.notifier).addArmy(
+            name: 'Ultramarines',
+            faction: 'Space Marines',
+            points: 2000,
+          );
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }

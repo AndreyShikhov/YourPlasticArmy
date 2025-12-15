@@ -31,7 +31,7 @@ final GoRouter router = GoRouter(
                      path: 'army_lyst',
                      builder: (context, state) =>BaseWindow(
                          bgColor: mainScreenColor,
-                         child: ArmyLystScreen()
+                         child: ArmyListScreen()
                      ),
                  ),
                ],

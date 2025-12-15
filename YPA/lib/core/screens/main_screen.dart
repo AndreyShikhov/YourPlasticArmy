@@ -1,15 +1,14 @@
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:provider/provider.dart';
-import 'package:ypa/core/widgets/buttons.dart';
-import 'package:ypa/core/data/style_data.dart';
-import 'package:flutter/services.dart';
 
-import '../providers/user_provider.dart';
+import '../data/style_data.dart';
+import '../providers/user_notifier.dart';
+import '../widgets/buttons.dart';
 
 
 enum ButtonType {
@@ -17,123 +16,107 @@ enum ButtonType {
   warhammerAoS,
 }
 
-class MainScreen extends StatefulWidget {
+class MainScreen extends ConsumerStatefulWidget {
+  const MainScreen({super.key});
 
   @override
-  _MainScreenState createState() => _MainScreenState();
+  ConsumerState<MainScreen> createState() => _MainScreenState();
 }
 
-
-class _MainScreenState extends State<MainScreen> {
-  final Color contentColor = Colors.black26;
-
+class _MainScreenState extends ConsumerState<MainScreen> {
   Map<ButtonType, bool> _statesAllButtons = {
     ButtonType.warhammer40k: true,
     ButtonType.warhammerAoS: true,
   };
+
   final List<String> _buttonTitles = [
     'Warhammer 40K',
     'Warhammer AoS',
   ];
 
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    // Проверяем, активен ли сейчас этот экран
     if (ModalRoute.of(context)?.isCurrent == true) {
-      // Активируем кнопки при возврате
-      setState(() => enableAllButtons(isEnable: true));
+      setState(() => _enableAllButtons(true));
     }
   }
 
-
-  void enableAllButtons({bool isEnable = true}) {
-    setState(() {
-      _statesAllButtons = {
-        ButtonType.warhammer40k: isEnable,
-        ButtonType.warhammerAoS: isEnable,
-      };
-    });
+  void _enableAllButtons(bool isEnable) {
+    _statesAllButtons = {
+      ButtonType.warhammer40k: isEnable,
+      ButtonType.warhammerAoS: isEnable,
+    };
   }
 
-  List get _buttonHandlers => [
-        () =>  context.go('/game_screen'),
-  ];
-
+  void _goToGame() {
+    context.go('/game_screen');
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Получаем доступ к UserProvider
-    final userProvider = context.watch<UserProvider>();
-    userProvider.setName("Duda");
+    final userState = ref.watch(userStateProvider);
 
     return Scaffold(
-      appBar: AppBar (
-        backgroundColor:  Color(0x7160605E),
-        shadowColor: Color(0x3C373771),
+      appBar: AppBar(
+        backgroundColor: const Color(0x7160605E),
         elevation: 0,
         leading: Builder(
-          builder: (context)=> IconButton(
-              onPressed: ()=> Scaffold.of(context).openDrawer(),
-              icon: const Icon (Icons.menu, color: Colors.white,)
-          ),
-      ),
-      ),
-        drawer: _buildDrawer(context, userProvider),
-        body: Container(
-          color: mainScreenColor,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: _buildButtons(),
-            ),
+          builder: (context) => IconButton(
+            onPressed: () => Scaffold.of(context).openDrawer(),
+            icon: const Icon(Icons.menu),
           ),
         ),
+      ),
+      drawer: _buildDrawer(context, userState),
+      body: Container(
+        color: mainScreenColor,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: _buildButtons(),
+          ),
+        ),
+      ),
     );
   }
 
-  List<Widget> _buildButtons(){
-    return _buttonTitles.asMap().entries.map((elem){
-      final int index  = elem.key;
-      final title = elem.value;
-      final buttonType = ButtonType.values[index];
+  List<Widget> _buildButtons() {
+    return _buttonTitles.asMap().entries.map((entry) {
+      final index = entry.key;
+      final title = entry.value;
+      final type = ButtonType.values[index];
 
       return MainButton(
-        onPressed: () async {
-          // deactivate all buttons
-          setState(()=> enableAllButtons(isEnable: false));
-          // переход на другой экран
-          _buttonHandlers[0]();
-        },
-        isActive:  _statesAllButtons[buttonType] ?? true ,
-        textBTN:  title,
+        textBTN: title,
+        isActive: _statesAllButtons[type] ?? true,
         style: MainButton.mainButtonStyle(context),
+        onPressed: () {
+          setState(() => _enableAllButtons(false));
+          _goToGame();
+        },
       );
     }).toList();
   }
 
-  Widget _buildDrawer(BuildContext context, UserProvider user) {
-
+  Widget _buildDrawer(BuildContext context, UserState user) {
     return Drawer(
-      backgroundColor: Color.fromARGB(255, 50, 50, 50),
+      backgroundColor: const Color(0xFF323232),
       child: Column(
         children: [
-          // Основное содержимое меню (прокручиваемое)
           Expanded(
             child: ListView(
               padding: EdgeInsets.zero,
               children: [
-                // Шапка меню
                 DrawerHeader(
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 78, 73, 73),
+                  decoration: const BoxDecoration(
+                    color: Color(0xFF4E4949),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'YPA',
                         style: TextStyle(
                           color: Colors.white,
@@ -141,54 +124,25 @@ class _MainScreenState extends State<MainScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Text(
-                        user.getUserName(),
+                        user.userName ?? 'Guest',
                         style: TextStyle(
-                          color: Colors.grey[300],
+                          color: Colors.grey,
                           fontSize: 14,
                         ),
                       ),
                     ],
                   ),
                 ),
-
-                // Пункты меню
-                _buildDrawerItem(
-                  icon: Icons.settings,
-                  title: 'Настройки',
+                _drawerItem(Icons.settings, 'Настройки', context),
+                _drawerItem(Icons.help, 'Помощь', context),
+                _drawerItem(Icons.info, 'О приложении', context),
+                const Divider(),
+                ListTile(
+                  leading: const Icon(Icons.exit_to_app),
+                  title: const Text('Выйти'),
                   onTap: () {
-                    Navigator.pop(context);
-                    print('Настройки');
-                  },
-                ),
-
-                _buildDrawerItem(
-                  icon: Icons.help,
-                  title: 'Помощь',
-                  onTap: () {
-                    Navigator.pop(context);
-                    print('Помощь');
-                  },
-                ),
-
-                _buildDrawerItem(
-                  icon: Icons.info,
-                  title: 'О приложении',
-                  onTap: () {
-                    Navigator.pop(context);
-                    print('О приложении');
-                  },
-                ),
-
-                // Разделитель
-                Divider(color: Colors.grey[700]),
-
-                _buildDrawerItem(
-                  icon: Icons.exit_to_app,
-                  title: 'Выйти',
-                  onTap: () {
-                    print('Выход');
                     Navigator.pop(context);
                     if (Platform.isAndroid || Platform.isIOS) {
                       SystemNavigator.pop();
@@ -198,26 +152,17 @@ class _MainScreenState extends State<MainScreen> {
               ],
             ),
           ),
-
-          // Версия приложения ВСЕГДА внизу
           FutureBuilder<PackageInfo>(
             future: PackageInfo.fromPlatform(),
             builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 40, 40, 40),
-                    border: Border(top: BorderSide(color: Colors.grey[700]!)),
-                  ),
-                  child: Text(
-                    'Version: ${snapshot.data!.version} (${snapshot.data!.buildNumber})',
-                    style: TextStyle(color: Colors.grey[500], fontSize: 12),
-                  ),
-                );
-              }
-              return Container(); // Показываем пустой контейнер при загрузке
+              if (!snapshot.hasData) return const SizedBox.shrink();
+              return Padding(
+                padding: const EdgeInsets.all(16),
+                child: Text(
+                  'Version ${snapshot.data!.version}',
+                  style: const TextStyle(color: Colors.grey, fontSize: 12),
+                ),
+              );
             },
           ),
         ],
@@ -225,17 +170,11 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  Widget _buildDrawerItem({
-    required IconData icon,
-    required String title,
-    required VoidCallback onTap,
-  }) { return ListTile(
-    leading: Icon(icon, color: Colors.white),
-    title: Text(
-      title,
-      style: TextStyle(color: Colors.white),
-    ),
-    onTap: onTap,
-  );}
+  Widget _drawerItem(IconData icon, String title, BuildContext context) {
+    return ListTile(
+      leading: Icon(icon),
+      title: Text(title),
+      onTap: () => Navigator.pop(context),
+    );
+  }
 }
-

@@ -50,20 +50,8 @@ class $ArmiesTable extends Armies with TableInfo<$ArmiesTable, Army> {
     type: DriftSqlType.int,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _createdAtMeta = const VerificationMeta(
-    'createdAt',
-  );
   @override
-  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
-    'created_at',
-    aliasedName,
-    false,
-    type: DriftSqlType.dateTime,
-    requiredDuringInsert: false,
-    defaultValue: currentDateAndTime,
-  );
-  @override
-  List<GeneratedColumn> get $columns => [id, name, faction, points, createdAt];
+  List<GeneratedColumn> get $columns => [id, name, faction, points];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -103,12 +91,6 @@ class $ArmiesTable extends Armies with TableInfo<$ArmiesTable, Army> {
     } else if (isInserting) {
       context.missing(_pointsMeta);
     }
-    if (data.containsKey('created_at')) {
-      context.handle(
-        _createdAtMeta,
-        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
-      );
-    }
     return context;
   }
 
@@ -134,10 +116,6 @@ class $ArmiesTable extends Armies with TableInfo<$ArmiesTable, Army> {
         DriftSqlType.int,
         data['${effectivePrefix}points'],
       )!,
-      createdAt: attachedDatabase.typeMapping.read(
-        DriftSqlType.dateTime,
-        data['${effectivePrefix}created_at'],
-      )!,
     );
   }
 
@@ -152,13 +130,11 @@ class Army extends DataClass implements Insertable<Army> {
   final String name;
   final String faction;
   final int points;
-  final DateTime createdAt;
   const Army({
     required this.id,
     required this.name,
     required this.faction,
     required this.points,
-    required this.createdAt,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -167,7 +143,6 @@ class Army extends DataClass implements Insertable<Army> {
     map['name'] = Variable<String>(name);
     map['faction'] = Variable<String>(faction);
     map['points'] = Variable<int>(points);
-    map['created_at'] = Variable<DateTime>(createdAt);
     return map;
   }
 
@@ -177,7 +152,6 @@ class Army extends DataClass implements Insertable<Army> {
       name: Value(name),
       faction: Value(faction),
       points: Value(points),
-      createdAt: Value(createdAt),
     );
   }
 
@@ -191,7 +165,6 @@ class Army extends DataClass implements Insertable<Army> {
       name: serializer.fromJson<String>(json['name']),
       faction: serializer.fromJson<String>(json['faction']),
       points: serializer.fromJson<int>(json['points']),
-      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
     );
   }
   @override
@@ -202,22 +175,14 @@ class Army extends DataClass implements Insertable<Army> {
       'name': serializer.toJson<String>(name),
       'faction': serializer.toJson<String>(faction),
       'points': serializer.toJson<int>(points),
-      'createdAt': serializer.toJson<DateTime>(createdAt),
     };
   }
 
-  Army copyWith({
-    int? id,
-    String? name,
-    String? faction,
-    int? points,
-    DateTime? createdAt,
-  }) => Army(
+  Army copyWith({int? id, String? name, String? faction, int? points}) => Army(
     id: id ?? this.id,
     name: name ?? this.name,
     faction: faction ?? this.faction,
     points: points ?? this.points,
-    createdAt: createdAt ?? this.createdAt,
   );
   Army copyWithCompanion(ArmiesCompanion data) {
     return Army(
@@ -225,7 +190,6 @@ class Army extends DataClass implements Insertable<Army> {
       name: data.name.present ? data.name.value : this.name,
       faction: data.faction.present ? data.faction.value : this.faction,
       points: data.points.present ? data.points.value : this.points,
-      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
     );
   }
 
@@ -235,14 +199,13 @@ class Army extends DataClass implements Insertable<Army> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('faction: $faction, ')
-          ..write('points: $points, ')
-          ..write('createdAt: $createdAt')
+          ..write('points: $points')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, name, faction, points, createdAt);
+  int get hashCode => Object.hash(id, name, faction, points);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -250,8 +213,7 @@ class Army extends DataClass implements Insertable<Army> {
           other.id == this.id &&
           other.name == this.name &&
           other.faction == this.faction &&
-          other.points == this.points &&
-          other.createdAt == this.createdAt);
+          other.points == this.points);
 }
 
 class ArmiesCompanion extends UpdateCompanion<Army> {
@@ -259,20 +221,17 @@ class ArmiesCompanion extends UpdateCompanion<Army> {
   final Value<String> name;
   final Value<String> faction;
   final Value<int> points;
-  final Value<DateTime> createdAt;
   const ArmiesCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.faction = const Value.absent(),
     this.points = const Value.absent(),
-    this.createdAt = const Value.absent(),
   });
   ArmiesCompanion.insert({
     this.id = const Value.absent(),
     required String name,
     required String faction,
     required int points,
-    this.createdAt = const Value.absent(),
   }) : name = Value(name),
        faction = Value(faction),
        points = Value(points);
@@ -281,14 +240,12 @@ class ArmiesCompanion extends UpdateCompanion<Army> {
     Expression<String>? name,
     Expression<String>? faction,
     Expression<int>? points,
-    Expression<DateTime>? createdAt,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (faction != null) 'faction': faction,
       if (points != null) 'points': points,
-      if (createdAt != null) 'created_at': createdAt,
     });
   }
 
@@ -297,14 +254,12 @@ class ArmiesCompanion extends UpdateCompanion<Army> {
     Value<String>? name,
     Value<String>? faction,
     Value<int>? points,
-    Value<DateTime>? createdAt,
   }) {
     return ArmiesCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
       faction: faction ?? this.faction,
       points: points ?? this.points,
-      createdAt: createdAt ?? this.createdAt,
     );
   }
 
@@ -323,9 +278,6 @@ class ArmiesCompanion extends UpdateCompanion<Army> {
     if (points.present) {
       map['points'] = Variable<int>(points.value);
     }
-    if (createdAt.present) {
-      map['created_at'] = Variable<DateTime>(createdAt.value);
-    }
     return map;
   }
 
@@ -335,8 +287,7 @@ class ArmiesCompanion extends UpdateCompanion<Army> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('faction: $faction, ')
-          ..write('points: $points, ')
-          ..write('createdAt: $createdAt')
+          ..write('points: $points')
           ..write(')'))
         .toString();
   }
@@ -359,7 +310,6 @@ typedef $$ArmiesTableCreateCompanionBuilder =
       required String name,
       required String faction,
       required int points,
-      Value<DateTime> createdAt,
     });
 typedef $$ArmiesTableUpdateCompanionBuilder =
     ArmiesCompanion Function({
@@ -367,7 +317,6 @@ typedef $$ArmiesTableUpdateCompanionBuilder =
       Value<String> name,
       Value<String> faction,
       Value<int> points,
-      Value<DateTime> createdAt,
     });
 
 class $$ArmiesTableFilterComposer
@@ -396,11 +345,6 @@ class $$ArmiesTableFilterComposer
 
   ColumnFilters<int> get points => $composableBuilder(
     column: $table.points,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<DateTime> get createdAt => $composableBuilder(
-    column: $table.createdAt,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -433,11 +377,6 @@ class $$ArmiesTableOrderingComposer
     column: $table.points,
     builder: (column) => ColumnOrderings(column),
   );
-
-  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
-    column: $table.createdAt,
-    builder: (column) => ColumnOrderings(column),
-  );
 }
 
 class $$ArmiesTableAnnotationComposer
@@ -460,9 +399,6 @@ class $$ArmiesTableAnnotationComposer
 
   GeneratedColumn<int> get points =>
       $composableBuilder(column: $table.points, builder: (column) => column);
-
-  GeneratedColumn<DateTime> get createdAt =>
-      $composableBuilder(column: $table.createdAt, builder: (column) => column);
 }
 
 class $$ArmiesTableTableManager
@@ -497,13 +433,11 @@ class $$ArmiesTableTableManager
                 Value<String> name = const Value.absent(),
                 Value<String> faction = const Value.absent(),
                 Value<int> points = const Value.absent(),
-                Value<DateTime> createdAt = const Value.absent(),
               }) => ArmiesCompanion(
                 id: id,
                 name: name,
                 faction: faction,
                 points: points,
-                createdAt: createdAt,
               ),
           createCompanionCallback:
               ({
@@ -511,13 +445,11 @@ class $$ArmiesTableTableManager
                 required String name,
                 required String faction,
                 required int points,
-                Value<DateTime> createdAt = const Value.absent(),
               }) => ArmiesCompanion.insert(
                 id: id,
                 name: name,
                 faction: faction,
                 points: points,
-                createdAt: createdAt,
               ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
