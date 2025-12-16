@@ -23,14 +23,8 @@ class DatabaseActions {
 
   Future<void> clearDatabase() async {
     final db = await _db;
-
-    await db.transaction(() async {
-      await db.delete(db.units).go();
-      await db.delete(db.codexes).go();
-      await db.delete(db.factions).go();
-    });
+    await db.clearDatabase();
   }
-
 
   Future<void> seedDatabase() async {
     final db = await _db;
@@ -38,7 +32,7 @@ class DatabaseActions {
   }
 
   Future<void> resetDatabase() async {
-    await clearDatabase();
-    await seedDatabase();
+    final db = await _db;
+    await db.resetDatabase();
   }
 }

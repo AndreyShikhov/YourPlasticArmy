@@ -37,11 +37,26 @@ class AppDatabase extends _$AppDatabase {
 
 
   Future<void> seedDatabase() async {
-
     await transaction(() async {
-
     });
   }
+
+  Future<void> clearDatabase() async {
+    await transaction(() async {
+      await delete(units).go();
+      await delete(codexes).go();
+      await delete(role).go();
+      await delete(factions).go();
+    });
+  }
+
+  Future<void> resetDatabase() async {
+    await transaction(() async {
+      await clearDatabase();
+      await seedDatabase();
+    });
+  }
+
 }
 
 // ===================
@@ -54,3 +69,5 @@ LazyDatabase _openConnection() {
     return NativeDatabase(file);
   });
 }
+
+

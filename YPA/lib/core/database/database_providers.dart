@@ -7,7 +7,6 @@ import 'app_database.dart';
 final databaseProvider = FutureProvider<AppDatabase>((ref) async {
   final appdb = AppDatabase();
 
-
    Future<bool> isDBEmpty(AppDatabase db) async {
      final factionsList = await db.select(db.factions).get();
      return factionsList.isEmpty;
