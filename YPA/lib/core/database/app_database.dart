@@ -8,7 +8,9 @@ import 'package:path_provider/path_provider.dart';
 
 import 'package:ypa/core/database/tables/codexes_table.dart';
 import 'package:ypa/core/database/tables/factions_table.dart';
+import 'package:ypa/core/database/tables/role_table.dart';
 import 'package:ypa/core/database/tables/units_table.dart';
+
 
 part 'app_database.g.dart';
 
@@ -22,6 +24,7 @@ part 'app_database.g.dart';
     Factions,
     Codexes,
     Units,
+    Role,
   ],
 )
 
@@ -33,7 +36,7 @@ class AppDatabase extends _$AppDatabase {
   int get schemaVersion => 1;
 
 
-  Future<void> seedIfEmpty() async {
+  Future<void> seedDatabase() async {
 
     await transaction(() async {
 

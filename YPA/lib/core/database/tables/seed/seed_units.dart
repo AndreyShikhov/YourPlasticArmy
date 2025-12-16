@@ -1,77 +1,67 @@
 import 'package:drift/drift.dart';
+import 'package:ypa/core/database/tables/seed/units/_types.dart';
+import 'package:ypa/core/database/tables/seed/units/blood_angels.dart';
+import 'package:ypa/core/database/tables/seed/units/orks.dart';
+import 'package:ypa/core/database/tables/seed/units/space_marines.dart';
 import '../../app_database.dart';
 
 
-List<Map<String, String?>> getAllSpaceMarine() {
-  final listSpaceMarine = [
-    {
-      'name': 'Intercessor Squad',
-      'faction': 'Space Marines',
-      'codex': null,
-    },
-    {
-      'name': 'Assault Intercessor Squad',
-      'faction': 'Space Marines',
-      'codex': null,
-    },
-    {
-      'name': 'Heavy Intercessor Squad',
-      'faction': 'Space Marines',
-      'codex': null,
-    },
-  ];
- return listSpaceMarine;
-}
 
-List<Map<String, String?>> getAllBloodAngels() {
-  final listBloodAngels = [
-    {
-      'name': 'Death Company',
-      'faction': 'Space Marines',
-      'codex': 'Blood Angels',
-    },
-    {
-      'name': 'Death Company',
-      'faction': 'Space Marines',
-      'codex': 'Blood Angels',
-    },
-  ];
-  return listBloodAngels;
-}
 
-List<Map<String, String?>> getAllOrks() {
-  final listOrks = [
-    {
-      'name': 'Boyz',
-      'faction': 'Orks',
-      'codex': null,
-    },
-  ];
-  return listOrks;
-}
 
 Future<void> seedUnits(
     AppDatabase db,
     Map<String, int> factionIds,
     Map<String, int> codexIds,
+    Map<String, int> roleIds,
     ) async
 {
 
-  List<Map<String, String?>> units = [];
+  final  units = <UnitSeed>[
+    ...spaceMarinesUnits(),
+    ...bloodAngelsUnits(),
+    ...orksUnits(),
+  ];
 
-  units + getAllSpaceMarine();
-  units + getAllBloodAngels();
-  units + getAllOrks();
+
 
   for (final u in units) {
+    _validateUnitSeed(u, factionIds, codexIds, roleIds);
+
     await db.into(db.units).insert(
       UnitsCompanion.insert(
-        name: u['name'] as String,
-        factionId: factionIds[u['faction']]!,
-        codexId: u['codex'] == null
+        name: u.name,
+        factionId: factionIds[u.faction]!,
+        codexId: u.codex == null
             ? const Value.absent()
-            : Value(codexIds[u['codex']]!),
+            : Value(codexIds[u.codex]!),
+        roleId: roleIds[u.role]!,
       ),
+    );
+  }
+}
+
+void _validateUnitSeed(
+    UnitSeed unit,
+    Map<String, int> factionIds,
+    Map<String, int> codexIds,
+    Map<String, int> roleIds,
+    ) {
+  if (!factionIds.containsKey(unit.faction)) {
+    throw StateError(
+      'Seed error: unknown faction "${unit.faction}" for unit "${unit.name}"',
+    );
+  }
+
+  if (!roleIds.containsKey(unit.role)) {
+    throw StateError(
+      'Seed error: unknown role "${unit.role}" for unit "${unit.name}"',
+    );
+  }
+
+  if (unit.codex != null && !codexIds.containsKey(unit.codex)) {
+    throw StateError(
+      'Seed error: unknown codex "${unit.codex}" for unit "${unit.name}"',
     );
   }
 }

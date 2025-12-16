@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 
+import 'role_table.dart';
 import 'codexes_table.dart';
 import 'factions_table.dart';
 
@@ -14,4 +15,8 @@ class Units extends Table {
 
   IntColumn get codexId =>
       integer().nullable().references(Codexes, #id)();
+
+  IntColumn get roleId =>
+      integer().references(Role, #id)();
+
 }
