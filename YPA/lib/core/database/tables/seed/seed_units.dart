@@ -1,8 +1,8 @@
 import 'package:drift/drift.dart';
-import 'package:ypa/core/database/tables/seed/units/_types.dart';
-import 'package:ypa/core/database/tables/seed/units/blood_angels.dart';
-import 'package:ypa/core/database/tables/seed/units/orks.dart';
-import 'package:ypa/core/database/tables/seed/units/space_marines.dart';
+import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
+import 'package:ypa/core/database/tables/seed/seed_objects//units/blood_angels.dart';
+import 'package:ypa/core/database/tables/seed/seed_objects/units/orks.dart';
+import 'package:ypa/core/database/tables/seed/seed_objects/units/space_marines.dart';
 import '../../app_database.dart';
 
 
@@ -36,6 +36,7 @@ Future<void> seedUnits(
             ? const Value.absent()
             : Value(codexIds[u.codex]!),
         roleId: roleIds[u.role]!,
+
       ),
     );
   }

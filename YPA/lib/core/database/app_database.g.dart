@@ -981,6 +981,1821 @@ class UnitsCompanion extends UpdateCompanion<Unit> {
   }
 }
 
+class $DetachmentsTable extends Detachments
+    with TableInfo<$DetachmentsTable, Detachment> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $DetachmentsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _codeMeta = const VerificationMeta('code');
+  @override
+  late final GeneratedColumn<String> code = GeneratedColumn<String>(
+    'code',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _descriptionMeta = const VerificationMeta(
+    'description',
+  );
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+    'description',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _ruleNameMeta = const VerificationMeta(
+    'ruleName',
+  );
+  @override
+  late final GeneratedColumn<String> ruleName = GeneratedColumn<String>(
+    'rule_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _ruleShortMeta = const VerificationMeta(
+    'ruleShort',
+  );
+  @override
+  late final GeneratedColumn<String> ruleShort = GeneratedColumn<String>(
+    'rule_short',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _ruleFullMeta = const VerificationMeta(
+    'ruleFull',
+  );
+  @override
+  late final GeneratedColumn<String> ruleFull = GeneratedColumn<String>(
+    'rule_full',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    code,
+    name,
+    description,
+    ruleName,
+    ruleShort,
+    ruleFull,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'detachments';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<Detachment> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('code')) {
+      context.handle(
+        _codeMeta,
+        code.isAcceptableOrUnknown(data['code']!, _codeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_codeMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+        _descriptionMeta,
+        description.isAcceptableOrUnknown(
+          data['description']!,
+          _descriptionMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_descriptionMeta);
+    }
+    if (data.containsKey('rule_name')) {
+      context.handle(
+        _ruleNameMeta,
+        ruleName.isAcceptableOrUnknown(data['rule_name']!, _ruleNameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_ruleNameMeta);
+    }
+    if (data.containsKey('rule_short')) {
+      context.handle(
+        _ruleShortMeta,
+        ruleShort.isAcceptableOrUnknown(data['rule_short']!, _ruleShortMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_ruleShortMeta);
+    }
+    if (data.containsKey('rule_full')) {
+      context.handle(
+        _ruleFullMeta,
+        ruleFull.isAcceptableOrUnknown(data['rule_full']!, _ruleFullMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_ruleFullMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Detachment map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Detachment(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      code: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}code'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      description: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}description'],
+      )!,
+      ruleName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}rule_name'],
+      )!,
+      ruleShort: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}rule_short'],
+      )!,
+      ruleFull: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}rule_full'],
+      )!,
+    );
+  }
+
+  @override
+  $DetachmentsTable createAlias(String alias) {
+    return $DetachmentsTable(attachedDatabase, alias);
+  }
+}
+
+class Detachment extends DataClass implements Insertable<Detachment> {
+  final int id;
+  final String code;
+  final String name;
+  final String description;
+  final String ruleName;
+  final String ruleShort;
+  final String ruleFull;
+  const Detachment({
+    required this.id,
+    required this.code,
+    required this.name,
+    required this.description,
+    required this.ruleName,
+    required this.ruleShort,
+    required this.ruleFull,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['code'] = Variable<String>(code);
+    map['name'] = Variable<String>(name);
+    map['description'] = Variable<String>(description);
+    map['rule_name'] = Variable<String>(ruleName);
+    map['rule_short'] = Variable<String>(ruleShort);
+    map['rule_full'] = Variable<String>(ruleFull);
+    return map;
+  }
+
+  DetachmentsCompanion toCompanion(bool nullToAbsent) {
+    return DetachmentsCompanion(
+      id: Value(id),
+      code: Value(code),
+      name: Value(name),
+      description: Value(description),
+      ruleName: Value(ruleName),
+      ruleShort: Value(ruleShort),
+      ruleFull: Value(ruleFull),
+    );
+  }
+
+  factory Detachment.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Detachment(
+      id: serializer.fromJson<int>(json['id']),
+      code: serializer.fromJson<String>(json['code']),
+      name: serializer.fromJson<String>(json['name']),
+      description: serializer.fromJson<String>(json['description']),
+      ruleName: serializer.fromJson<String>(json['ruleName']),
+      ruleShort: serializer.fromJson<String>(json['ruleShort']),
+      ruleFull: serializer.fromJson<String>(json['ruleFull']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'code': serializer.toJson<String>(code),
+      'name': serializer.toJson<String>(name),
+      'description': serializer.toJson<String>(description),
+      'ruleName': serializer.toJson<String>(ruleName),
+      'ruleShort': serializer.toJson<String>(ruleShort),
+      'ruleFull': serializer.toJson<String>(ruleFull),
+    };
+  }
+
+  Detachment copyWith({
+    int? id,
+    String? code,
+    String? name,
+    String? description,
+    String? ruleName,
+    String? ruleShort,
+    String? ruleFull,
+  }) => Detachment(
+    id: id ?? this.id,
+    code: code ?? this.code,
+    name: name ?? this.name,
+    description: description ?? this.description,
+    ruleName: ruleName ?? this.ruleName,
+    ruleShort: ruleShort ?? this.ruleShort,
+    ruleFull: ruleFull ?? this.ruleFull,
+  );
+  Detachment copyWithCompanion(DetachmentsCompanion data) {
+    return Detachment(
+      id: data.id.present ? data.id.value : this.id,
+      code: data.code.present ? data.code.value : this.code,
+      name: data.name.present ? data.name.value : this.name,
+      description: data.description.present
+          ? data.description.value
+          : this.description,
+      ruleName: data.ruleName.present ? data.ruleName.value : this.ruleName,
+      ruleShort: data.ruleShort.present ? data.ruleShort.value : this.ruleShort,
+      ruleFull: data.ruleFull.present ? data.ruleFull.value : this.ruleFull,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Detachment(')
+          ..write('id: $id, ')
+          ..write('code: $code, ')
+          ..write('name: $name, ')
+          ..write('description: $description, ')
+          ..write('ruleName: $ruleName, ')
+          ..write('ruleShort: $ruleShort, ')
+          ..write('ruleFull: $ruleFull')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, code, name, description, ruleName, ruleShort, ruleFull);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Detachment &&
+          other.id == this.id &&
+          other.code == this.code &&
+          other.name == this.name &&
+          other.description == this.description &&
+          other.ruleName == this.ruleName &&
+          other.ruleShort == this.ruleShort &&
+          other.ruleFull == this.ruleFull);
+}
+
+class DetachmentsCompanion extends UpdateCompanion<Detachment> {
+  final Value<int> id;
+  final Value<String> code;
+  final Value<String> name;
+  final Value<String> description;
+  final Value<String> ruleName;
+  final Value<String> ruleShort;
+  final Value<String> ruleFull;
+  const DetachmentsCompanion({
+    this.id = const Value.absent(),
+    this.code = const Value.absent(),
+    this.name = const Value.absent(),
+    this.description = const Value.absent(),
+    this.ruleName = const Value.absent(),
+    this.ruleShort = const Value.absent(),
+    this.ruleFull = const Value.absent(),
+  });
+  DetachmentsCompanion.insert({
+    this.id = const Value.absent(),
+    required String code,
+    required String name,
+    required String description,
+    required String ruleName,
+    required String ruleShort,
+    required String ruleFull,
+  }) : code = Value(code),
+       name = Value(name),
+       description = Value(description),
+       ruleName = Value(ruleName),
+       ruleShort = Value(ruleShort),
+       ruleFull = Value(ruleFull);
+  static Insertable<Detachment> custom({
+    Expression<int>? id,
+    Expression<String>? code,
+    Expression<String>? name,
+    Expression<String>? description,
+    Expression<String>? ruleName,
+    Expression<String>? ruleShort,
+    Expression<String>? ruleFull,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (code != null) 'code': code,
+      if (name != null) 'name': name,
+      if (description != null) 'description': description,
+      if (ruleName != null) 'rule_name': ruleName,
+      if (ruleShort != null) 'rule_short': ruleShort,
+      if (ruleFull != null) 'rule_full': ruleFull,
+    });
+  }
+
+  DetachmentsCompanion copyWith({
+    Value<int>? id,
+    Value<String>? code,
+    Value<String>? name,
+    Value<String>? description,
+    Value<String>? ruleName,
+    Value<String>? ruleShort,
+    Value<String>? ruleFull,
+  }) {
+    return DetachmentsCompanion(
+      id: id ?? this.id,
+      code: code ?? this.code,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      ruleName: ruleName ?? this.ruleName,
+      ruleShort: ruleShort ?? this.ruleShort,
+      ruleFull: ruleFull ?? this.ruleFull,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (code.present) {
+      map['code'] = Variable<String>(code.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (ruleName.present) {
+      map['rule_name'] = Variable<String>(ruleName.value);
+    }
+    if (ruleShort.present) {
+      map['rule_short'] = Variable<String>(ruleShort.value);
+    }
+    if (ruleFull.present) {
+      map['rule_full'] = Variable<String>(ruleFull.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DetachmentsCompanion(')
+          ..write('id: $id, ')
+          ..write('code: $code, ')
+          ..write('name: $name, ')
+          ..write('description: $description, ')
+          ..write('ruleName: $ruleName, ')
+          ..write('ruleShort: $ruleShort, ')
+          ..write('ruleFull: $ruleFull')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $DetachmentCodexTable extends DetachmentCodex
+    with TableInfo<$DetachmentCodexTable, DetachmentCodexData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $DetachmentCodexTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _detachmentIdMeta = const VerificationMeta(
+    'detachmentId',
+  );
+  @override
+  late final GeneratedColumn<int> detachmentId = GeneratedColumn<int>(
+    'detachment_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES detachments (id)',
+    ),
+  );
+  static const VerificationMeta _codexIdMeta = const VerificationMeta(
+    'codexId',
+  );
+  @override
+  late final GeneratedColumn<int> codexId = GeneratedColumn<int>(
+    'codex_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES codexes (id)',
+    ),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, detachmentId, codexId];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'detachment_codex';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<DetachmentCodexData> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('detachment_id')) {
+      context.handle(
+        _detachmentIdMeta,
+        detachmentId.isAcceptableOrUnknown(
+          data['detachment_id']!,
+          _detachmentIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_detachmentIdMeta);
+    }
+    if (data.containsKey('codex_id')) {
+      context.handle(
+        _codexIdMeta,
+        codexId.isAcceptableOrUnknown(data['codex_id']!, _codexIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_codexIdMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  List<Set<GeneratedColumn>> get uniqueKeys => [
+    {detachmentId, codexId},
+  ];
+  @override
+  DetachmentCodexData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return DetachmentCodexData(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      detachmentId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}detachment_id'],
+      )!,
+      codexId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}codex_id'],
+      )!,
+    );
+  }
+
+  @override
+  $DetachmentCodexTable createAlias(String alias) {
+    return $DetachmentCodexTable(attachedDatabase, alias);
+  }
+}
+
+class DetachmentCodexData extends DataClass
+    implements Insertable<DetachmentCodexData> {
+  final int id;
+  final int detachmentId;
+  final int codexId;
+  const DetachmentCodexData({
+    required this.id,
+    required this.detachmentId,
+    required this.codexId,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['detachment_id'] = Variable<int>(detachmentId);
+    map['codex_id'] = Variable<int>(codexId);
+    return map;
+  }
+
+  DetachmentCodexCompanion toCompanion(bool nullToAbsent) {
+    return DetachmentCodexCompanion(
+      id: Value(id),
+      detachmentId: Value(detachmentId),
+      codexId: Value(codexId),
+    );
+  }
+
+  factory DetachmentCodexData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return DetachmentCodexData(
+      id: serializer.fromJson<int>(json['id']),
+      detachmentId: serializer.fromJson<int>(json['detachmentId']),
+      codexId: serializer.fromJson<int>(json['codexId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'detachmentId': serializer.toJson<int>(detachmentId),
+      'codexId': serializer.toJson<int>(codexId),
+    };
+  }
+
+  DetachmentCodexData copyWith({int? id, int? detachmentId, int? codexId}) =>
+      DetachmentCodexData(
+        id: id ?? this.id,
+        detachmentId: detachmentId ?? this.detachmentId,
+        codexId: codexId ?? this.codexId,
+      );
+  DetachmentCodexData copyWithCompanion(DetachmentCodexCompanion data) {
+    return DetachmentCodexData(
+      id: data.id.present ? data.id.value : this.id,
+      detachmentId: data.detachmentId.present
+          ? data.detachmentId.value
+          : this.detachmentId,
+      codexId: data.codexId.present ? data.codexId.value : this.codexId,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DetachmentCodexData(')
+          ..write('id: $id, ')
+          ..write('detachmentId: $detachmentId, ')
+          ..write('codexId: $codexId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, detachmentId, codexId);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DetachmentCodexData &&
+          other.id == this.id &&
+          other.detachmentId == this.detachmentId &&
+          other.codexId == this.codexId);
+}
+
+class DetachmentCodexCompanion extends UpdateCompanion<DetachmentCodexData> {
+  final Value<int> id;
+  final Value<int> detachmentId;
+  final Value<int> codexId;
+  const DetachmentCodexCompanion({
+    this.id = const Value.absent(),
+    this.detachmentId = const Value.absent(),
+    this.codexId = const Value.absent(),
+  });
+  DetachmentCodexCompanion.insert({
+    this.id = const Value.absent(),
+    required int detachmentId,
+    required int codexId,
+  }) : detachmentId = Value(detachmentId),
+       codexId = Value(codexId);
+  static Insertable<DetachmentCodexData> custom({
+    Expression<int>? id,
+    Expression<int>? detachmentId,
+    Expression<int>? codexId,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (detachmentId != null) 'detachment_id': detachmentId,
+      if (codexId != null) 'codex_id': codexId,
+    });
+  }
+
+  DetachmentCodexCompanion copyWith({
+    Value<int>? id,
+    Value<int>? detachmentId,
+    Value<int>? codexId,
+  }) {
+    return DetachmentCodexCompanion(
+      id: id ?? this.id,
+      detachmentId: detachmentId ?? this.detachmentId,
+      codexId: codexId ?? this.codexId,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (detachmentId.present) {
+      map['detachment_id'] = Variable<int>(detachmentId.value);
+    }
+    if (codexId.present) {
+      map['codex_id'] = Variable<int>(codexId.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DetachmentCodexCompanion(')
+          ..write('id: $id, ')
+          ..write('detachmentId: $detachmentId, ')
+          ..write('codexId: $codexId')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $EnhancementsTable extends Enhancements
+    with TableInfo<$EnhancementsTable, Enhancement> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $EnhancementsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _codeMeta = const VerificationMeta('code');
+  @override
+  late final GeneratedColumn<String> code = GeneratedColumn<String>(
+    'code',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _descriptionMeta = const VerificationMeta(
+    'description',
+  );
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+    'description',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _detachmentIdMeta = const VerificationMeta(
+    'detachmentId',
+  );
+  @override
+  late final GeneratedColumn<int> detachmentId = GeneratedColumn<int>(
+    'detachment_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES detachments (id)',
+    ),
+  );
+  static const VerificationMeta _pointsMeta = const VerificationMeta('points');
+  @override
+  late final GeneratedColumn<int> points = GeneratedColumn<int>(
+    'points',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    code,
+    name,
+    description,
+    detachmentId,
+    points,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'enhancements';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<Enhancement> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('code')) {
+      context.handle(
+        _codeMeta,
+        code.isAcceptableOrUnknown(data['code']!, _codeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_codeMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+        _descriptionMeta,
+        description.isAcceptableOrUnknown(
+          data['description']!,
+          _descriptionMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_descriptionMeta);
+    }
+    if (data.containsKey('detachment_id')) {
+      context.handle(
+        _detachmentIdMeta,
+        detachmentId.isAcceptableOrUnknown(
+          data['detachment_id']!,
+          _detachmentIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_detachmentIdMeta);
+    }
+    if (data.containsKey('points')) {
+      context.handle(
+        _pointsMeta,
+        points.isAcceptableOrUnknown(data['points']!, _pointsMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  List<Set<GeneratedColumn>> get uniqueKeys => [
+    {code, detachmentId},
+  ];
+  @override
+  Enhancement map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Enhancement(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      code: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}code'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      description: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}description'],
+      )!,
+      detachmentId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}detachment_id'],
+      )!,
+      points: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}points'],
+      )!,
+    );
+  }
+
+  @override
+  $EnhancementsTable createAlias(String alias) {
+    return $EnhancementsTable(attachedDatabase, alias);
+  }
+}
+
+class Enhancement extends DataClass implements Insertable<Enhancement> {
+  final String id;
+  final String code;
+  final String name;
+  final String description;
+  final int detachmentId;
+  final int points;
+  const Enhancement({
+    required this.id,
+    required this.code,
+    required this.name,
+    required this.description,
+    required this.detachmentId,
+    required this.points,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['code'] = Variable<String>(code);
+    map['name'] = Variable<String>(name);
+    map['description'] = Variable<String>(description);
+    map['detachment_id'] = Variable<int>(detachmentId);
+    map['points'] = Variable<int>(points);
+    return map;
+  }
+
+  EnhancementsCompanion toCompanion(bool nullToAbsent) {
+    return EnhancementsCompanion(
+      id: Value(id),
+      code: Value(code),
+      name: Value(name),
+      description: Value(description),
+      detachmentId: Value(detachmentId),
+      points: Value(points),
+    );
+  }
+
+  factory Enhancement.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Enhancement(
+      id: serializer.fromJson<String>(json['id']),
+      code: serializer.fromJson<String>(json['code']),
+      name: serializer.fromJson<String>(json['name']),
+      description: serializer.fromJson<String>(json['description']),
+      detachmentId: serializer.fromJson<int>(json['detachmentId']),
+      points: serializer.fromJson<int>(json['points']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'code': serializer.toJson<String>(code),
+      'name': serializer.toJson<String>(name),
+      'description': serializer.toJson<String>(description),
+      'detachmentId': serializer.toJson<int>(detachmentId),
+      'points': serializer.toJson<int>(points),
+    };
+  }
+
+  Enhancement copyWith({
+    String? id,
+    String? code,
+    String? name,
+    String? description,
+    int? detachmentId,
+    int? points,
+  }) => Enhancement(
+    id: id ?? this.id,
+    code: code ?? this.code,
+    name: name ?? this.name,
+    description: description ?? this.description,
+    detachmentId: detachmentId ?? this.detachmentId,
+    points: points ?? this.points,
+  );
+  Enhancement copyWithCompanion(EnhancementsCompanion data) {
+    return Enhancement(
+      id: data.id.present ? data.id.value : this.id,
+      code: data.code.present ? data.code.value : this.code,
+      name: data.name.present ? data.name.value : this.name,
+      description: data.description.present
+          ? data.description.value
+          : this.description,
+      detachmentId: data.detachmentId.present
+          ? data.detachmentId.value
+          : this.detachmentId,
+      points: data.points.present ? data.points.value : this.points,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Enhancement(')
+          ..write('id: $id, ')
+          ..write('code: $code, ')
+          ..write('name: $name, ')
+          ..write('description: $description, ')
+          ..write('detachmentId: $detachmentId, ')
+          ..write('points: $points')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, code, name, description, detachmentId, points);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Enhancement &&
+          other.id == this.id &&
+          other.code == this.code &&
+          other.name == this.name &&
+          other.description == this.description &&
+          other.detachmentId == this.detachmentId &&
+          other.points == this.points);
+}
+
+class EnhancementsCompanion extends UpdateCompanion<Enhancement> {
+  final Value<String> id;
+  final Value<String> code;
+  final Value<String> name;
+  final Value<String> description;
+  final Value<int> detachmentId;
+  final Value<int> points;
+  final Value<int> rowid;
+  const EnhancementsCompanion({
+    this.id = const Value.absent(),
+    this.code = const Value.absent(),
+    this.name = const Value.absent(),
+    this.description = const Value.absent(),
+    this.detachmentId = const Value.absent(),
+    this.points = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  EnhancementsCompanion.insert({
+    required String id,
+    required String code,
+    required String name,
+    required String description,
+    required int detachmentId,
+    this.points = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       code = Value(code),
+       name = Value(name),
+       description = Value(description),
+       detachmentId = Value(detachmentId);
+  static Insertable<Enhancement> custom({
+    Expression<String>? id,
+    Expression<String>? code,
+    Expression<String>? name,
+    Expression<String>? description,
+    Expression<int>? detachmentId,
+    Expression<int>? points,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (code != null) 'code': code,
+      if (name != null) 'name': name,
+      if (description != null) 'description': description,
+      if (detachmentId != null) 'detachment_id': detachmentId,
+      if (points != null) 'points': points,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  EnhancementsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? code,
+    Value<String>? name,
+    Value<String>? description,
+    Value<int>? detachmentId,
+    Value<int>? points,
+    Value<int>? rowid,
+  }) {
+    return EnhancementsCompanion(
+      id: id ?? this.id,
+      code: code ?? this.code,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      detachmentId: detachmentId ?? this.detachmentId,
+      points: points ?? this.points,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (code.present) {
+      map['code'] = Variable<String>(code.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (detachmentId.present) {
+      map['detachment_id'] = Variable<int>(detachmentId.value);
+    }
+    if (points.present) {
+      map['points'] = Variable<int>(points.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('EnhancementsCompanion(')
+          ..write('id: $id, ')
+          ..write('code: $code, ')
+          ..write('name: $name, ')
+          ..write('description: $description, ')
+          ..write('detachmentId: $detachmentId, ')
+          ..write('points: $points, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $StratagemsTable extends Stratagems
+    with TableInfo<$StratagemsTable, Stratagem> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $StratagemsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _cpCostMeta = const VerificationMeta('cpCost');
+  @override
+  late final GeneratedColumn<int> cpCost = GeneratedColumn<int>(
+    'cp_cost',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _whenMeta = const VerificationMeta('when');
+  @override
+  late final GeneratedColumn<String> when = GeneratedColumn<String>(
+    'when',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _targetMeta = const VerificationMeta('target');
+  @override
+  late final GeneratedColumn<String> target = GeneratedColumn<String>(
+    'target',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _effectMeta = const VerificationMeta('effect');
+  @override
+  late final GeneratedColumn<String> effect = GeneratedColumn<String>(
+    'effect',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  late final GeneratedColumnWithTypeConverter<StratagemScope, String> scope =
+      GeneratedColumn<String>(
+        'scope',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      ).withConverter<StratagemScope>($StratagemsTable.$converterscope);
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    name,
+    cpCost,
+    when,
+    target,
+    effect,
+    scope,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'stratagems';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<Stratagem> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('cp_cost')) {
+      context.handle(
+        _cpCostMeta,
+        cpCost.isAcceptableOrUnknown(data['cp_cost']!, _cpCostMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_cpCostMeta);
+    }
+    if (data.containsKey('when')) {
+      context.handle(
+        _whenMeta,
+        when.isAcceptableOrUnknown(data['when']!, _whenMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_whenMeta);
+    }
+    if (data.containsKey('target')) {
+      context.handle(
+        _targetMeta,
+        target.isAcceptableOrUnknown(data['target']!, _targetMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_targetMeta);
+    }
+    if (data.containsKey('effect')) {
+      context.handle(
+        _effectMeta,
+        effect.isAcceptableOrUnknown(data['effect']!, _effectMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_effectMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Stratagem map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Stratagem(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      cpCost: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}cp_cost'],
+      )!,
+      when: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}when'],
+      )!,
+      target: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}target'],
+      )!,
+      effect: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}effect'],
+      )!,
+      scope: $StratagemsTable.$converterscope.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}scope'],
+        )!,
+      ),
+    );
+  }
+
+  @override
+  $StratagemsTable createAlias(String alias) {
+    return $StratagemsTable(attachedDatabase, alias);
+  }
+
+  static JsonTypeConverter2<StratagemScope, String, String> $converterscope =
+      const EnumNameConverter<StratagemScope>(StratagemScope.values);
+}
+
+class Stratagem extends DataClass implements Insertable<Stratagem> {
+  final int id;
+  final String name;
+  final int cpCost;
+  final String when;
+  final String target;
+  final String effect;
+  final StratagemScope scope;
+  const Stratagem({
+    required this.id,
+    required this.name,
+    required this.cpCost,
+    required this.when,
+    required this.target,
+    required this.effect,
+    required this.scope,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['name'] = Variable<String>(name);
+    map['cp_cost'] = Variable<int>(cpCost);
+    map['when'] = Variable<String>(when);
+    map['target'] = Variable<String>(target);
+    map['effect'] = Variable<String>(effect);
+    {
+      map['scope'] = Variable<String>(
+        $StratagemsTable.$converterscope.toSql(scope),
+      );
+    }
+    return map;
+  }
+
+  StratagemsCompanion toCompanion(bool nullToAbsent) {
+    return StratagemsCompanion(
+      id: Value(id),
+      name: Value(name),
+      cpCost: Value(cpCost),
+      when: Value(when),
+      target: Value(target),
+      effect: Value(effect),
+      scope: Value(scope),
+    );
+  }
+
+  factory Stratagem.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Stratagem(
+      id: serializer.fromJson<int>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      cpCost: serializer.fromJson<int>(json['cpCost']),
+      when: serializer.fromJson<String>(json['when']),
+      target: serializer.fromJson<String>(json['target']),
+      effect: serializer.fromJson<String>(json['effect']),
+      scope: $StratagemsTable.$converterscope.fromJson(
+        serializer.fromJson<String>(json['scope']),
+      ),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'name': serializer.toJson<String>(name),
+      'cpCost': serializer.toJson<int>(cpCost),
+      'when': serializer.toJson<String>(when),
+      'target': serializer.toJson<String>(target),
+      'effect': serializer.toJson<String>(effect),
+      'scope': serializer.toJson<String>(
+        $StratagemsTable.$converterscope.toJson(scope),
+      ),
+    };
+  }
+
+  Stratagem copyWith({
+    int? id,
+    String? name,
+    int? cpCost,
+    String? when,
+    String? target,
+    String? effect,
+    StratagemScope? scope,
+  }) => Stratagem(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    cpCost: cpCost ?? this.cpCost,
+    when: when ?? this.when,
+    target: target ?? this.target,
+    effect: effect ?? this.effect,
+    scope: scope ?? this.scope,
+  );
+  Stratagem copyWithCompanion(StratagemsCompanion data) {
+    return Stratagem(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      cpCost: data.cpCost.present ? data.cpCost.value : this.cpCost,
+      when: data.when.present ? data.when.value : this.when,
+      target: data.target.present ? data.target.value : this.target,
+      effect: data.effect.present ? data.effect.value : this.effect,
+      scope: data.scope.present ? data.scope.value : this.scope,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Stratagem(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('cpCost: $cpCost, ')
+          ..write('when: $when, ')
+          ..write('target: $target, ')
+          ..write('effect: $effect, ')
+          ..write('scope: $scope')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, name, cpCost, when, target, effect, scope);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Stratagem &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.cpCost == this.cpCost &&
+          other.when == this.when &&
+          other.target == this.target &&
+          other.effect == this.effect &&
+          other.scope == this.scope);
+}
+
+class StratagemsCompanion extends UpdateCompanion<Stratagem> {
+  final Value<int> id;
+  final Value<String> name;
+  final Value<int> cpCost;
+  final Value<String> when;
+  final Value<String> target;
+  final Value<String> effect;
+  final Value<StratagemScope> scope;
+  const StratagemsCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.cpCost = const Value.absent(),
+    this.when = const Value.absent(),
+    this.target = const Value.absent(),
+    this.effect = const Value.absent(),
+    this.scope = const Value.absent(),
+  });
+  StratagemsCompanion.insert({
+    this.id = const Value.absent(),
+    required String name,
+    required int cpCost,
+    required String when,
+    required String target,
+    required String effect,
+    required StratagemScope scope,
+  }) : name = Value(name),
+       cpCost = Value(cpCost),
+       when = Value(when),
+       target = Value(target),
+       effect = Value(effect),
+       scope = Value(scope);
+  static Insertable<Stratagem> custom({
+    Expression<int>? id,
+    Expression<String>? name,
+    Expression<int>? cpCost,
+    Expression<String>? when,
+    Expression<String>? target,
+    Expression<String>? effect,
+    Expression<String>? scope,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (cpCost != null) 'cp_cost': cpCost,
+      if (when != null) 'when': when,
+      if (target != null) 'target': target,
+      if (effect != null) 'effect': effect,
+      if (scope != null) 'scope': scope,
+    });
+  }
+
+  StratagemsCompanion copyWith({
+    Value<int>? id,
+    Value<String>? name,
+    Value<int>? cpCost,
+    Value<String>? when,
+    Value<String>? target,
+    Value<String>? effect,
+    Value<StratagemScope>? scope,
+  }) {
+    return StratagemsCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      cpCost: cpCost ?? this.cpCost,
+      when: when ?? this.when,
+      target: target ?? this.target,
+      effect: effect ?? this.effect,
+      scope: scope ?? this.scope,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (cpCost.present) {
+      map['cp_cost'] = Variable<int>(cpCost.value);
+    }
+    if (when.present) {
+      map['when'] = Variable<String>(when.value);
+    }
+    if (target.present) {
+      map['target'] = Variable<String>(target.value);
+    }
+    if (effect.present) {
+      map['effect'] = Variable<String>(effect.value);
+    }
+    if (scope.present) {
+      map['scope'] = Variable<String>(
+        $StratagemsTable.$converterscope.toSql(scope.value),
+      );
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('StratagemsCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('cpCost: $cpCost, ')
+          ..write('when: $when, ')
+          ..write('target: $target, ')
+          ..write('effect: $effect, ')
+          ..write('scope: $scope')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $StratagemDetachmentsTable extends StratagemDetachments
+    with TableInfo<$StratagemDetachmentsTable, StratagemDetachment> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $StratagemDetachmentsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _stratagemIdMeta = const VerificationMeta(
+    'stratagemId',
+  );
+  @override
+  late final GeneratedColumn<int> stratagemId = GeneratedColumn<int>(
+    'stratagem_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES stratagems (id)',
+    ),
+  );
+  static const VerificationMeta _detachmentIdMeta = const VerificationMeta(
+    'detachmentId',
+  );
+  @override
+  late final GeneratedColumn<int> detachmentId = GeneratedColumn<int>(
+    'detachment_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES detachments (id)',
+    ),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [stratagemId, detachmentId];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'stratagem_detachments';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<StratagemDetachment> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('stratagem_id')) {
+      context.handle(
+        _stratagemIdMeta,
+        stratagemId.isAcceptableOrUnknown(
+          data['stratagem_id']!,
+          _stratagemIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_stratagemIdMeta);
+    }
+    if (data.containsKey('detachment_id')) {
+      context.handle(
+        _detachmentIdMeta,
+        detachmentId.isAcceptableOrUnknown(
+          data['detachment_id']!,
+          _detachmentIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_detachmentIdMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {stratagemId, detachmentId};
+  @override
+  StratagemDetachment map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return StratagemDetachment(
+      stratagemId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}stratagem_id'],
+      )!,
+      detachmentId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}detachment_id'],
+      )!,
+    );
+  }
+
+  @override
+  $StratagemDetachmentsTable createAlias(String alias) {
+    return $StratagemDetachmentsTable(attachedDatabase, alias);
+  }
+}
+
+class StratagemDetachment extends DataClass
+    implements Insertable<StratagemDetachment> {
+  final int stratagemId;
+  final int detachmentId;
+  const StratagemDetachment({
+    required this.stratagemId,
+    required this.detachmentId,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['stratagem_id'] = Variable<int>(stratagemId);
+    map['detachment_id'] = Variable<int>(detachmentId);
+    return map;
+  }
+
+  StratagemDetachmentsCompanion toCompanion(bool nullToAbsent) {
+    return StratagemDetachmentsCompanion(
+      stratagemId: Value(stratagemId),
+      detachmentId: Value(detachmentId),
+    );
+  }
+
+  factory StratagemDetachment.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return StratagemDetachment(
+      stratagemId: serializer.fromJson<int>(json['stratagemId']),
+      detachmentId: serializer.fromJson<int>(json['detachmentId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'stratagemId': serializer.toJson<int>(stratagemId),
+      'detachmentId': serializer.toJson<int>(detachmentId),
+    };
+  }
+
+  StratagemDetachment copyWith({int? stratagemId, int? detachmentId}) =>
+      StratagemDetachment(
+        stratagemId: stratagemId ?? this.stratagemId,
+        detachmentId: detachmentId ?? this.detachmentId,
+      );
+  StratagemDetachment copyWithCompanion(StratagemDetachmentsCompanion data) {
+    return StratagemDetachment(
+      stratagemId: data.stratagemId.present
+          ? data.stratagemId.value
+          : this.stratagemId,
+      detachmentId: data.detachmentId.present
+          ? data.detachmentId.value
+          : this.detachmentId,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('StratagemDetachment(')
+          ..write('stratagemId: $stratagemId, ')
+          ..write('detachmentId: $detachmentId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(stratagemId, detachmentId);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is StratagemDetachment &&
+          other.stratagemId == this.stratagemId &&
+          other.detachmentId == this.detachmentId);
+}
+
+class StratagemDetachmentsCompanion
+    extends UpdateCompanion<StratagemDetachment> {
+  final Value<int> stratagemId;
+  final Value<int> detachmentId;
+  final Value<int> rowid;
+  const StratagemDetachmentsCompanion({
+    this.stratagemId = const Value.absent(),
+    this.detachmentId = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  StratagemDetachmentsCompanion.insert({
+    required int stratagemId,
+    required int detachmentId,
+    this.rowid = const Value.absent(),
+  }) : stratagemId = Value(stratagemId),
+       detachmentId = Value(detachmentId);
+  static Insertable<StratagemDetachment> custom({
+    Expression<int>? stratagemId,
+    Expression<int>? detachmentId,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (stratagemId != null) 'stratagem_id': stratagemId,
+      if (detachmentId != null) 'detachment_id': detachmentId,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  StratagemDetachmentsCompanion copyWith({
+    Value<int>? stratagemId,
+    Value<int>? detachmentId,
+    Value<int>? rowid,
+  }) {
+    return StratagemDetachmentsCompanion(
+      stratagemId: stratagemId ?? this.stratagemId,
+      detachmentId: detachmentId ?? this.detachmentId,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (stratagemId.present) {
+      map['stratagem_id'] = Variable<int>(stratagemId.value);
+    }
+    if (detachmentId.present) {
+      map['detachment_id'] = Variable<int>(detachmentId.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('StratagemDetachmentsCompanion(')
+          ..write('stratagemId: $stratagemId, ')
+          ..write('detachmentId: $detachmentId, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -988,6 +2803,14 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $CodexesTable codexes = $CodexesTable(this);
   late final $RoleTable role = $RoleTable(this);
   late final $UnitsTable units = $UnitsTable(this);
+  late final $DetachmentsTable detachments = $DetachmentsTable(this);
+  late final $DetachmentCodexTable detachmentCodex = $DetachmentCodexTable(
+    this,
+  );
+  late final $EnhancementsTable enhancements = $EnhancementsTable(this);
+  late final $StratagemsTable stratagems = $StratagemsTable(this);
+  late final $StratagemDetachmentsTable stratagemDetachments =
+      $StratagemDetachmentsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -997,6 +2820,11 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     codexes,
     role,
     units,
+    detachments,
+    detachmentCodex,
+    enhancements,
+    stratagems,
+    stratagemDetachments,
   ];
 }
 
@@ -1354,6 +3182,26 @@ final class $$CodexesTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<$DetachmentCodexTable, List<DetachmentCodexData>>
+  _detachmentCodexRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.detachmentCodex,
+    aliasName: $_aliasNameGenerator(db.codexes.id, db.detachmentCodex.codexId),
+  );
+
+  $$DetachmentCodexTableProcessedTableManager get detachmentCodexRefs {
+    final manager = $$DetachmentCodexTableTableManager(
+      $_db,
+      $_db.detachmentCodex,
+    ).filter((f) => f.codexId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _detachmentCodexRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$CodexesTableFilterComposer
@@ -1414,6 +3262,31 @@ class $$CodexesTableFilterComposer
           }) => $$UnitsTableFilterComposer(
             $db: $db,
             $table: $db.units,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> detachmentCodexRefs(
+    Expression<bool> Function($$DetachmentCodexTableFilterComposer f) f,
+  ) {
+    final $$DetachmentCodexTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.detachmentCodex,
+      getReferencedColumn: (t) => t.codexId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DetachmentCodexTableFilterComposer(
+            $db: $db,
+            $table: $db.detachmentCodex,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -1529,6 +3402,31 @@ class $$CodexesTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> detachmentCodexRefs<T extends Object>(
+    Expression<T> Function($$DetachmentCodexTableAnnotationComposer a) f,
+  ) {
+    final $$DetachmentCodexTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.detachmentCodex,
+      getReferencedColumn: (t) => t.codexId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DetachmentCodexTableAnnotationComposer(
+            $db: $db,
+            $table: $db.detachmentCodex,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$CodexesTableTableManager
@@ -1544,7 +3442,11 @@ class $$CodexesTableTableManager
           $$CodexesTableUpdateCompanionBuilder,
           (Codexe, $$CodexesTableReferences),
           Codexe,
-          PrefetchHooks Function({bool factionId, bool unitsRefs})
+          PrefetchHooks Function({
+            bool factionId,
+            bool unitsRefs,
+            bool detachmentCodexRefs,
+          })
         > {
   $$CodexesTableTableManager(_$AppDatabase db, $CodexesTable table)
     : super(
@@ -1582,60 +3484,90 @@ class $$CodexesTableTableManager
                 ),
               )
               .toList(),
-          prefetchHooksCallback: ({factionId = false, unitsRefs = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [if (unitsRefs) db.units],
-              addJoins:
-                  <
-                    T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic
-                    >
-                  >(state) {
-                    if (factionId) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.factionId,
-                                referencedTable: $$CodexesTableReferences
-                                    ._factionIdTable(db),
-                                referencedColumn: $$CodexesTableReferences
-                                    ._factionIdTable(db)
-                                    .id,
-                              )
-                              as T;
-                    }
+          prefetchHooksCallback:
+              ({
+                factionId = false,
+                unitsRefs = false,
+                detachmentCodexRefs = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (unitsRefs) db.units,
+                    if (detachmentCodexRefs) db.detachmentCodex,
+                  ],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (factionId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.factionId,
+                                    referencedTable: $$CodexesTableReferences
+                                        ._factionIdTable(db),
+                                    referencedColumn: $$CodexesTableReferences
+                                        ._factionIdTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
 
-                    return state;
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (unitsRefs)
+                        await $_getPrefetchedData<Codexe, $CodexesTable, Unit>(
+                          currentTable: table,
+                          referencedTable: $$CodexesTableReferences
+                              ._unitsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$CodexesTableReferences(db, table, p0).unitsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.codexId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (detachmentCodexRefs)
+                        await $_getPrefetchedData<
+                          Codexe,
+                          $CodexesTable,
+                          DetachmentCodexData
+                        >(
+                          currentTable: table,
+                          referencedTable: $$CodexesTableReferences
+                              ._detachmentCodexRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$CodexesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).detachmentCodexRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.codexId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
                   },
-              getPrefetchedDataCallback: (items) async {
-                return [
-                  if (unitsRefs)
-                    await $_getPrefetchedData<Codexe, $CodexesTable, Unit>(
-                      currentTable: table,
-                      referencedTable: $$CodexesTableReferences._unitsRefsTable(
-                        db,
-                      ),
-                      managerFromTypedResult: (p0) =>
-                          $$CodexesTableReferences(db, table, p0).unitsRefs,
-                      referencedItemsForCurrentItem: (item, referencedItems) =>
-                          referencedItems.where((e) => e.codexId == item.id),
-                      typedResults: items,
-                    ),
-                ];
+                );
               },
-            );
-          },
         ),
       );
 }
@@ -1652,7 +3584,11 @@ typedef $$CodexesTableProcessedTableManager =
       $$CodexesTableUpdateCompanionBuilder,
       (Codexe, $$CodexesTableReferences),
       Codexe,
-      PrefetchHooks Function({bool factionId, bool unitsRefs})
+      PrefetchHooks Function({
+        bool factionId,
+        bool unitsRefs,
+        bool detachmentCodexRefs,
+      })
     >;
 typedef $$RoleTableCreateCompanionBuilder =
     RoleCompanion Function({Value<int> id, required String role});
@@ -2349,6 +4285,2004 @@ typedef $$UnitsTableProcessedTableManager =
       Unit,
       PrefetchHooks Function({bool factionId, bool codexId, bool roleId})
     >;
+typedef $$DetachmentsTableCreateCompanionBuilder =
+    DetachmentsCompanion Function({
+      Value<int> id,
+      required String code,
+      required String name,
+      required String description,
+      required String ruleName,
+      required String ruleShort,
+      required String ruleFull,
+    });
+typedef $$DetachmentsTableUpdateCompanionBuilder =
+    DetachmentsCompanion Function({
+      Value<int> id,
+      Value<String> code,
+      Value<String> name,
+      Value<String> description,
+      Value<String> ruleName,
+      Value<String> ruleShort,
+      Value<String> ruleFull,
+    });
+
+final class $$DetachmentsTableReferences
+    extends BaseReferences<_$AppDatabase, $DetachmentsTable, Detachment> {
+  $$DetachmentsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$DetachmentCodexTable, List<DetachmentCodexData>>
+  _detachmentCodexRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.detachmentCodex,
+    aliasName: $_aliasNameGenerator(
+      db.detachments.id,
+      db.detachmentCodex.detachmentId,
+    ),
+  );
+
+  $$DetachmentCodexTableProcessedTableManager get detachmentCodexRefs {
+    final manager = $$DetachmentCodexTableTableManager(
+      $_db,
+      $_db.detachmentCodex,
+    ).filter((f) => f.detachmentId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _detachmentCodexRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$EnhancementsTable, List<Enhancement>>
+  _enhancementsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.enhancements,
+    aliasName: $_aliasNameGenerator(
+      db.detachments.id,
+      db.enhancements.detachmentId,
+    ),
+  );
+
+  $$EnhancementsTableProcessedTableManager get enhancementsRefs {
+    final manager = $$EnhancementsTableTableManager(
+      $_db,
+      $_db.enhancements,
+    ).filter((f) => f.detachmentId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_enhancementsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<
+    $StratagemDetachmentsTable,
+    List<StratagemDetachment>
+  >
+  _stratagemDetachmentsRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.stratagemDetachments,
+        aliasName: $_aliasNameGenerator(
+          db.detachments.id,
+          db.stratagemDetachments.detachmentId,
+        ),
+      );
+
+  $$StratagemDetachmentsTableProcessedTableManager
+  get stratagemDetachmentsRefs {
+    final manager = $$StratagemDetachmentsTableTableManager(
+      $_db,
+      $_db.stratagemDetachments,
+    ).filter((f) => f.detachmentId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _stratagemDetachmentsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$DetachmentsTableFilterComposer
+    extends Composer<_$AppDatabase, $DetachmentsTable> {
+  $$DetachmentsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get code => $composableBuilder(
+    column: $table.code,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get ruleName => $composableBuilder(
+    column: $table.ruleName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get ruleShort => $composableBuilder(
+    column: $table.ruleShort,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get ruleFull => $composableBuilder(
+    column: $table.ruleFull,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  Expression<bool> detachmentCodexRefs(
+    Expression<bool> Function($$DetachmentCodexTableFilterComposer f) f,
+  ) {
+    final $$DetachmentCodexTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.detachmentCodex,
+      getReferencedColumn: (t) => t.detachmentId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DetachmentCodexTableFilterComposer(
+            $db: $db,
+            $table: $db.detachmentCodex,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> enhancementsRefs(
+    Expression<bool> Function($$EnhancementsTableFilterComposer f) f,
+  ) {
+    final $$EnhancementsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.enhancements,
+      getReferencedColumn: (t) => t.detachmentId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EnhancementsTableFilterComposer(
+            $db: $db,
+            $table: $db.enhancements,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> stratagemDetachmentsRefs(
+    Expression<bool> Function($$StratagemDetachmentsTableFilterComposer f) f,
+  ) {
+    final $$StratagemDetachmentsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.stratagemDetachments,
+      getReferencedColumn: (t) => t.detachmentId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$StratagemDetachmentsTableFilterComposer(
+            $db: $db,
+            $table: $db.stratagemDetachments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$DetachmentsTableOrderingComposer
+    extends Composer<_$AppDatabase, $DetachmentsTable> {
+  $$DetachmentsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get code => $composableBuilder(
+    column: $table.code,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get ruleName => $composableBuilder(
+    column: $table.ruleName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get ruleShort => $composableBuilder(
+    column: $table.ruleShort,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get ruleFull => $composableBuilder(
+    column: $table.ruleFull,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$DetachmentsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $DetachmentsTable> {
+  $$DetachmentsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get code =>
+      $composableBuilder(column: $table.code, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get ruleName =>
+      $composableBuilder(column: $table.ruleName, builder: (column) => column);
+
+  GeneratedColumn<String> get ruleShort =>
+      $composableBuilder(column: $table.ruleShort, builder: (column) => column);
+
+  GeneratedColumn<String> get ruleFull =>
+      $composableBuilder(column: $table.ruleFull, builder: (column) => column);
+
+  Expression<T> detachmentCodexRefs<T extends Object>(
+    Expression<T> Function($$DetachmentCodexTableAnnotationComposer a) f,
+  ) {
+    final $$DetachmentCodexTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.detachmentCodex,
+      getReferencedColumn: (t) => t.detachmentId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DetachmentCodexTableAnnotationComposer(
+            $db: $db,
+            $table: $db.detachmentCodex,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> enhancementsRefs<T extends Object>(
+    Expression<T> Function($$EnhancementsTableAnnotationComposer a) f,
+  ) {
+    final $$EnhancementsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.enhancements,
+      getReferencedColumn: (t) => t.detachmentId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EnhancementsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.enhancements,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> stratagemDetachmentsRefs<T extends Object>(
+    Expression<T> Function($$StratagemDetachmentsTableAnnotationComposer a) f,
+  ) {
+    final $$StratagemDetachmentsTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.stratagemDetachments,
+          getReferencedColumn: (t) => t.detachmentId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$StratagemDetachmentsTableAnnotationComposer(
+                $db: $db,
+                $table: $db.stratagemDetachments,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+}
+
+class $$DetachmentsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $DetachmentsTable,
+          Detachment,
+          $$DetachmentsTableFilterComposer,
+          $$DetachmentsTableOrderingComposer,
+          $$DetachmentsTableAnnotationComposer,
+          $$DetachmentsTableCreateCompanionBuilder,
+          $$DetachmentsTableUpdateCompanionBuilder,
+          (Detachment, $$DetachmentsTableReferences),
+          Detachment,
+          PrefetchHooks Function({
+            bool detachmentCodexRefs,
+            bool enhancementsRefs,
+            bool stratagemDetachmentsRefs,
+          })
+        > {
+  $$DetachmentsTableTableManager(_$AppDatabase db, $DetachmentsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$DetachmentsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$DetachmentsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$DetachmentsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> code = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String> description = const Value.absent(),
+                Value<String> ruleName = const Value.absent(),
+                Value<String> ruleShort = const Value.absent(),
+                Value<String> ruleFull = const Value.absent(),
+              }) => DetachmentsCompanion(
+                id: id,
+                code: code,
+                name: name,
+                description: description,
+                ruleName: ruleName,
+                ruleShort: ruleShort,
+                ruleFull: ruleFull,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String code,
+                required String name,
+                required String description,
+                required String ruleName,
+                required String ruleShort,
+                required String ruleFull,
+              }) => DetachmentsCompanion.insert(
+                id: id,
+                code: code,
+                name: name,
+                description: description,
+                ruleName: ruleName,
+                ruleShort: ruleShort,
+                ruleFull: ruleFull,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$DetachmentsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({
+                detachmentCodexRefs = false,
+                enhancementsRefs = false,
+                stratagemDetachmentsRefs = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (detachmentCodexRefs) db.detachmentCodex,
+                    if (enhancementsRefs) db.enhancements,
+                    if (stratagemDetachmentsRefs) db.stratagemDetachments,
+                  ],
+                  addJoins: null,
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (detachmentCodexRefs)
+                        await $_getPrefetchedData<
+                          Detachment,
+                          $DetachmentsTable,
+                          DetachmentCodexData
+                        >(
+                          currentTable: table,
+                          referencedTable: $$DetachmentsTableReferences
+                              ._detachmentCodexRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$DetachmentsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).detachmentCodexRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.detachmentId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (enhancementsRefs)
+                        await $_getPrefetchedData<
+                          Detachment,
+                          $DetachmentsTable,
+                          Enhancement
+                        >(
+                          currentTable: table,
+                          referencedTable: $$DetachmentsTableReferences
+                              ._enhancementsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$DetachmentsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).enhancementsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.detachmentId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (stratagemDetachmentsRefs)
+                        await $_getPrefetchedData<
+                          Detachment,
+                          $DetachmentsTable,
+                          StratagemDetachment
+                        >(
+                          currentTable: table,
+                          referencedTable: $$DetachmentsTableReferences
+                              ._stratagemDetachmentsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$DetachmentsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).stratagemDetachmentsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.detachmentId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$DetachmentsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $DetachmentsTable,
+      Detachment,
+      $$DetachmentsTableFilterComposer,
+      $$DetachmentsTableOrderingComposer,
+      $$DetachmentsTableAnnotationComposer,
+      $$DetachmentsTableCreateCompanionBuilder,
+      $$DetachmentsTableUpdateCompanionBuilder,
+      (Detachment, $$DetachmentsTableReferences),
+      Detachment,
+      PrefetchHooks Function({
+        bool detachmentCodexRefs,
+        bool enhancementsRefs,
+        bool stratagemDetachmentsRefs,
+      })
+    >;
+typedef $$DetachmentCodexTableCreateCompanionBuilder =
+    DetachmentCodexCompanion Function({
+      Value<int> id,
+      required int detachmentId,
+      required int codexId,
+    });
+typedef $$DetachmentCodexTableUpdateCompanionBuilder =
+    DetachmentCodexCompanion Function({
+      Value<int> id,
+      Value<int> detachmentId,
+      Value<int> codexId,
+    });
+
+final class $$DetachmentCodexTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $DetachmentCodexTable,
+          DetachmentCodexData
+        > {
+  $$DetachmentCodexTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $DetachmentsTable _detachmentIdTable(_$AppDatabase db) =>
+      db.detachments.createAlias(
+        $_aliasNameGenerator(
+          db.detachmentCodex.detachmentId,
+          db.detachments.id,
+        ),
+      );
+
+  $$DetachmentsTableProcessedTableManager get detachmentId {
+    final $_column = $_itemColumn<int>('detachment_id')!;
+
+    final manager = $$DetachmentsTableTableManager(
+      $_db,
+      $_db.detachments,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_detachmentIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $CodexesTable _codexIdTable(_$AppDatabase db) =>
+      db.codexes.createAlias(
+        $_aliasNameGenerator(db.detachmentCodex.codexId, db.codexes.id),
+      );
+
+  $$CodexesTableProcessedTableManager get codexId {
+    final $_column = $_itemColumn<int>('codex_id')!;
+
+    final manager = $$CodexesTableTableManager(
+      $_db,
+      $_db.codexes,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_codexIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$DetachmentCodexTableFilterComposer
+    extends Composer<_$AppDatabase, $DetachmentCodexTable> {
+  $$DetachmentCodexTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$DetachmentsTableFilterComposer get detachmentId {
+    final $$DetachmentsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.detachmentId,
+      referencedTable: $db.detachments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DetachmentsTableFilterComposer(
+            $db: $db,
+            $table: $db.detachments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$CodexesTableFilterComposer get codexId {
+    final $$CodexesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.codexId,
+      referencedTable: $db.codexes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CodexesTableFilterComposer(
+            $db: $db,
+            $table: $db.codexes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$DetachmentCodexTableOrderingComposer
+    extends Composer<_$AppDatabase, $DetachmentCodexTable> {
+  $$DetachmentCodexTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$DetachmentsTableOrderingComposer get detachmentId {
+    final $$DetachmentsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.detachmentId,
+      referencedTable: $db.detachments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DetachmentsTableOrderingComposer(
+            $db: $db,
+            $table: $db.detachments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$CodexesTableOrderingComposer get codexId {
+    final $$CodexesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.codexId,
+      referencedTable: $db.codexes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CodexesTableOrderingComposer(
+            $db: $db,
+            $table: $db.codexes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$DetachmentCodexTableAnnotationComposer
+    extends Composer<_$AppDatabase, $DetachmentCodexTable> {
+  $$DetachmentCodexTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  $$DetachmentsTableAnnotationComposer get detachmentId {
+    final $$DetachmentsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.detachmentId,
+      referencedTable: $db.detachments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DetachmentsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.detachments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$CodexesTableAnnotationComposer get codexId {
+    final $$CodexesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.codexId,
+      referencedTable: $db.codexes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CodexesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.codexes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$DetachmentCodexTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $DetachmentCodexTable,
+          DetachmentCodexData,
+          $$DetachmentCodexTableFilterComposer,
+          $$DetachmentCodexTableOrderingComposer,
+          $$DetachmentCodexTableAnnotationComposer,
+          $$DetachmentCodexTableCreateCompanionBuilder,
+          $$DetachmentCodexTableUpdateCompanionBuilder,
+          (DetachmentCodexData, $$DetachmentCodexTableReferences),
+          DetachmentCodexData,
+          PrefetchHooks Function({bool detachmentId, bool codexId})
+        > {
+  $$DetachmentCodexTableTableManager(
+    _$AppDatabase db,
+    $DetachmentCodexTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$DetachmentCodexTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$DetachmentCodexTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$DetachmentCodexTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> detachmentId = const Value.absent(),
+                Value<int> codexId = const Value.absent(),
+              }) => DetachmentCodexCompanion(
+                id: id,
+                detachmentId: detachmentId,
+                codexId: codexId,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int detachmentId,
+                required int codexId,
+              }) => DetachmentCodexCompanion.insert(
+                id: id,
+                detachmentId: detachmentId,
+                codexId: codexId,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$DetachmentCodexTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({detachmentId = false, codexId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (detachmentId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.detachmentId,
+                                referencedTable:
+                                    $$DetachmentCodexTableReferences
+                                        ._detachmentIdTable(db),
+                                referencedColumn:
+                                    $$DetachmentCodexTableReferences
+                                        ._detachmentIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+                    if (codexId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.codexId,
+                                referencedTable:
+                                    $$DetachmentCodexTableReferences
+                                        ._codexIdTable(db),
+                                referencedColumn:
+                                    $$DetachmentCodexTableReferences
+                                        ._codexIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$DetachmentCodexTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $DetachmentCodexTable,
+      DetachmentCodexData,
+      $$DetachmentCodexTableFilterComposer,
+      $$DetachmentCodexTableOrderingComposer,
+      $$DetachmentCodexTableAnnotationComposer,
+      $$DetachmentCodexTableCreateCompanionBuilder,
+      $$DetachmentCodexTableUpdateCompanionBuilder,
+      (DetachmentCodexData, $$DetachmentCodexTableReferences),
+      DetachmentCodexData,
+      PrefetchHooks Function({bool detachmentId, bool codexId})
+    >;
+typedef $$EnhancementsTableCreateCompanionBuilder =
+    EnhancementsCompanion Function({
+      required String id,
+      required String code,
+      required String name,
+      required String description,
+      required int detachmentId,
+      Value<int> points,
+      Value<int> rowid,
+    });
+typedef $$EnhancementsTableUpdateCompanionBuilder =
+    EnhancementsCompanion Function({
+      Value<String> id,
+      Value<String> code,
+      Value<String> name,
+      Value<String> description,
+      Value<int> detachmentId,
+      Value<int> points,
+      Value<int> rowid,
+    });
+
+final class $$EnhancementsTableReferences
+    extends BaseReferences<_$AppDatabase, $EnhancementsTable, Enhancement> {
+  $$EnhancementsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $DetachmentsTable _detachmentIdTable(_$AppDatabase db) =>
+      db.detachments.createAlias(
+        $_aliasNameGenerator(db.enhancements.detachmentId, db.detachments.id),
+      );
+
+  $$DetachmentsTableProcessedTableManager get detachmentId {
+    final $_column = $_itemColumn<int>('detachment_id')!;
+
+    final manager = $$DetachmentsTableTableManager(
+      $_db,
+      $_db.detachments,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_detachmentIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$EnhancementsTableFilterComposer
+    extends Composer<_$AppDatabase, $EnhancementsTable> {
+  $$EnhancementsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get code => $composableBuilder(
+    column: $table.code,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get points => $composableBuilder(
+    column: $table.points,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$DetachmentsTableFilterComposer get detachmentId {
+    final $$DetachmentsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.detachmentId,
+      referencedTable: $db.detachments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DetachmentsTableFilterComposer(
+            $db: $db,
+            $table: $db.detachments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$EnhancementsTableOrderingComposer
+    extends Composer<_$AppDatabase, $EnhancementsTable> {
+  $$EnhancementsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get code => $composableBuilder(
+    column: $table.code,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get points => $composableBuilder(
+    column: $table.points,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$DetachmentsTableOrderingComposer get detachmentId {
+    final $$DetachmentsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.detachmentId,
+      referencedTable: $db.detachments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DetachmentsTableOrderingComposer(
+            $db: $db,
+            $table: $db.detachments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$EnhancementsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $EnhancementsTable> {
+  $$EnhancementsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get code =>
+      $composableBuilder(column: $table.code, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get points =>
+      $composableBuilder(column: $table.points, builder: (column) => column);
+
+  $$DetachmentsTableAnnotationComposer get detachmentId {
+    final $$DetachmentsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.detachmentId,
+      referencedTable: $db.detachments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DetachmentsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.detachments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$EnhancementsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $EnhancementsTable,
+          Enhancement,
+          $$EnhancementsTableFilterComposer,
+          $$EnhancementsTableOrderingComposer,
+          $$EnhancementsTableAnnotationComposer,
+          $$EnhancementsTableCreateCompanionBuilder,
+          $$EnhancementsTableUpdateCompanionBuilder,
+          (Enhancement, $$EnhancementsTableReferences),
+          Enhancement,
+          PrefetchHooks Function({bool detachmentId})
+        > {
+  $$EnhancementsTableTableManager(_$AppDatabase db, $EnhancementsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$EnhancementsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$EnhancementsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$EnhancementsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> code = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String> description = const Value.absent(),
+                Value<int> detachmentId = const Value.absent(),
+                Value<int> points = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => EnhancementsCompanion(
+                id: id,
+                code: code,
+                name: name,
+                description: description,
+                detachmentId: detachmentId,
+                points: points,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String code,
+                required String name,
+                required String description,
+                required int detachmentId,
+                Value<int> points = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => EnhancementsCompanion.insert(
+                id: id,
+                code: code,
+                name: name,
+                description: description,
+                detachmentId: detachmentId,
+                points: points,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$EnhancementsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({detachmentId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (detachmentId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.detachmentId,
+                                referencedTable: $$EnhancementsTableReferences
+                                    ._detachmentIdTable(db),
+                                referencedColumn: $$EnhancementsTableReferences
+                                    ._detachmentIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$EnhancementsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $EnhancementsTable,
+      Enhancement,
+      $$EnhancementsTableFilterComposer,
+      $$EnhancementsTableOrderingComposer,
+      $$EnhancementsTableAnnotationComposer,
+      $$EnhancementsTableCreateCompanionBuilder,
+      $$EnhancementsTableUpdateCompanionBuilder,
+      (Enhancement, $$EnhancementsTableReferences),
+      Enhancement,
+      PrefetchHooks Function({bool detachmentId})
+    >;
+typedef $$StratagemsTableCreateCompanionBuilder =
+    StratagemsCompanion Function({
+      Value<int> id,
+      required String name,
+      required int cpCost,
+      required String when,
+      required String target,
+      required String effect,
+      required StratagemScope scope,
+    });
+typedef $$StratagemsTableUpdateCompanionBuilder =
+    StratagemsCompanion Function({
+      Value<int> id,
+      Value<String> name,
+      Value<int> cpCost,
+      Value<String> when,
+      Value<String> target,
+      Value<String> effect,
+      Value<StratagemScope> scope,
+    });
+
+final class $$StratagemsTableReferences
+    extends BaseReferences<_$AppDatabase, $StratagemsTable, Stratagem> {
+  $$StratagemsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<
+    $StratagemDetachmentsTable,
+    List<StratagemDetachment>
+  >
+  _stratagemDetachmentsRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.stratagemDetachments,
+        aliasName: $_aliasNameGenerator(
+          db.stratagems.id,
+          db.stratagemDetachments.stratagemId,
+        ),
+      );
+
+  $$StratagemDetachmentsTableProcessedTableManager
+  get stratagemDetachmentsRefs {
+    final manager = $$StratagemDetachmentsTableTableManager(
+      $_db,
+      $_db.stratagemDetachments,
+    ).filter((f) => f.stratagemId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _stratagemDetachmentsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$StratagemsTableFilterComposer
+    extends Composer<_$AppDatabase, $StratagemsTable> {
+  $$StratagemsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get cpCost => $composableBuilder(
+    column: $table.cpCost,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get when => $composableBuilder(
+    column: $table.when,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get target => $composableBuilder(
+    column: $table.target,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get effect => $composableBuilder(
+    column: $table.effect,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<StratagemScope, StratagemScope, String>
+  get scope => $composableBuilder(
+    column: $table.scope,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  Expression<bool> stratagemDetachmentsRefs(
+    Expression<bool> Function($$StratagemDetachmentsTableFilterComposer f) f,
+  ) {
+    final $$StratagemDetachmentsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.stratagemDetachments,
+      getReferencedColumn: (t) => t.stratagemId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$StratagemDetachmentsTableFilterComposer(
+            $db: $db,
+            $table: $db.stratagemDetachments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$StratagemsTableOrderingComposer
+    extends Composer<_$AppDatabase, $StratagemsTable> {
+  $$StratagemsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get cpCost => $composableBuilder(
+    column: $table.cpCost,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get when => $composableBuilder(
+    column: $table.when,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get target => $composableBuilder(
+    column: $table.target,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get effect => $composableBuilder(
+    column: $table.effect,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get scope => $composableBuilder(
+    column: $table.scope,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$StratagemsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $StratagemsTable> {
+  $$StratagemsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<int> get cpCost =>
+      $composableBuilder(column: $table.cpCost, builder: (column) => column);
+
+  GeneratedColumn<String> get when =>
+      $composableBuilder(column: $table.when, builder: (column) => column);
+
+  GeneratedColumn<String> get target =>
+      $composableBuilder(column: $table.target, builder: (column) => column);
+
+  GeneratedColumn<String> get effect =>
+      $composableBuilder(column: $table.effect, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<StratagemScope, String> get scope =>
+      $composableBuilder(column: $table.scope, builder: (column) => column);
+
+  Expression<T> stratagemDetachmentsRefs<T extends Object>(
+    Expression<T> Function($$StratagemDetachmentsTableAnnotationComposer a) f,
+  ) {
+    final $$StratagemDetachmentsTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.stratagemDetachments,
+          getReferencedColumn: (t) => t.stratagemId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$StratagemDetachmentsTableAnnotationComposer(
+                $db: $db,
+                $table: $db.stratagemDetachments,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+}
+
+class $$StratagemsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $StratagemsTable,
+          Stratagem,
+          $$StratagemsTableFilterComposer,
+          $$StratagemsTableOrderingComposer,
+          $$StratagemsTableAnnotationComposer,
+          $$StratagemsTableCreateCompanionBuilder,
+          $$StratagemsTableUpdateCompanionBuilder,
+          (Stratagem, $$StratagemsTableReferences),
+          Stratagem,
+          PrefetchHooks Function({bool stratagemDetachmentsRefs})
+        > {
+  $$StratagemsTableTableManager(_$AppDatabase db, $StratagemsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$StratagemsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$StratagemsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$StratagemsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<int> cpCost = const Value.absent(),
+                Value<String> when = const Value.absent(),
+                Value<String> target = const Value.absent(),
+                Value<String> effect = const Value.absent(),
+                Value<StratagemScope> scope = const Value.absent(),
+              }) => StratagemsCompanion(
+                id: id,
+                name: name,
+                cpCost: cpCost,
+                when: when,
+                target: target,
+                effect: effect,
+                scope: scope,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String name,
+                required int cpCost,
+                required String when,
+                required String target,
+                required String effect,
+                required StratagemScope scope,
+              }) => StratagemsCompanion.insert(
+                id: id,
+                name: name,
+                cpCost: cpCost,
+                when: when,
+                target: target,
+                effect: effect,
+                scope: scope,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$StratagemsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({stratagemDetachmentsRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (stratagemDetachmentsRefs) db.stratagemDetachments,
+              ],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (stratagemDetachmentsRefs)
+                    await $_getPrefetchedData<
+                      Stratagem,
+                      $StratagemsTable,
+                      StratagemDetachment
+                    >(
+                      currentTable: table,
+                      referencedTable: $$StratagemsTableReferences
+                          ._stratagemDetachmentsRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$StratagemsTableReferences(
+                            db,
+                            table,
+                            p0,
+                          ).stratagemDetachmentsRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where(
+                            (e) => e.stratagemId == item.id,
+                          ),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$StratagemsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $StratagemsTable,
+      Stratagem,
+      $$StratagemsTableFilterComposer,
+      $$StratagemsTableOrderingComposer,
+      $$StratagemsTableAnnotationComposer,
+      $$StratagemsTableCreateCompanionBuilder,
+      $$StratagemsTableUpdateCompanionBuilder,
+      (Stratagem, $$StratagemsTableReferences),
+      Stratagem,
+      PrefetchHooks Function({bool stratagemDetachmentsRefs})
+    >;
+typedef $$StratagemDetachmentsTableCreateCompanionBuilder =
+    StratagemDetachmentsCompanion Function({
+      required int stratagemId,
+      required int detachmentId,
+      Value<int> rowid,
+    });
+typedef $$StratagemDetachmentsTableUpdateCompanionBuilder =
+    StratagemDetachmentsCompanion Function({
+      Value<int> stratagemId,
+      Value<int> detachmentId,
+      Value<int> rowid,
+    });
+
+final class $$StratagemDetachmentsTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $StratagemDetachmentsTable,
+          StratagemDetachment
+        > {
+  $$StratagemDetachmentsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $StratagemsTable _stratagemIdTable(_$AppDatabase db) =>
+      db.stratagems.createAlias(
+        $_aliasNameGenerator(
+          db.stratagemDetachments.stratagemId,
+          db.stratagems.id,
+        ),
+      );
+
+  $$StratagemsTableProcessedTableManager get stratagemId {
+    final $_column = $_itemColumn<int>('stratagem_id')!;
+
+    final manager = $$StratagemsTableTableManager(
+      $_db,
+      $_db.stratagems,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_stratagemIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $DetachmentsTable _detachmentIdTable(_$AppDatabase db) =>
+      db.detachments.createAlias(
+        $_aliasNameGenerator(
+          db.stratagemDetachments.detachmentId,
+          db.detachments.id,
+        ),
+      );
+
+  $$DetachmentsTableProcessedTableManager get detachmentId {
+    final $_column = $_itemColumn<int>('detachment_id')!;
+
+    final manager = $$DetachmentsTableTableManager(
+      $_db,
+      $_db.detachments,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_detachmentIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$StratagemDetachmentsTableFilterComposer
+    extends Composer<_$AppDatabase, $StratagemDetachmentsTable> {
+  $$StratagemDetachmentsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  $$StratagemsTableFilterComposer get stratagemId {
+    final $$StratagemsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.stratagemId,
+      referencedTable: $db.stratagems,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$StratagemsTableFilterComposer(
+            $db: $db,
+            $table: $db.stratagems,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$DetachmentsTableFilterComposer get detachmentId {
+    final $$DetachmentsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.detachmentId,
+      referencedTable: $db.detachments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DetachmentsTableFilterComposer(
+            $db: $db,
+            $table: $db.detachments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$StratagemDetachmentsTableOrderingComposer
+    extends Composer<_$AppDatabase, $StratagemDetachmentsTable> {
+  $$StratagemDetachmentsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  $$StratagemsTableOrderingComposer get stratagemId {
+    final $$StratagemsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.stratagemId,
+      referencedTable: $db.stratagems,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$StratagemsTableOrderingComposer(
+            $db: $db,
+            $table: $db.stratagems,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$DetachmentsTableOrderingComposer get detachmentId {
+    final $$DetachmentsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.detachmentId,
+      referencedTable: $db.detachments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DetachmentsTableOrderingComposer(
+            $db: $db,
+            $table: $db.detachments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$StratagemDetachmentsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $StratagemDetachmentsTable> {
+  $$StratagemDetachmentsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  $$StratagemsTableAnnotationComposer get stratagemId {
+    final $$StratagemsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.stratagemId,
+      referencedTable: $db.stratagems,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$StratagemsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.stratagems,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$DetachmentsTableAnnotationComposer get detachmentId {
+    final $$DetachmentsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.detachmentId,
+      referencedTable: $db.detachments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DetachmentsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.detachments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$StratagemDetachmentsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $StratagemDetachmentsTable,
+          StratagemDetachment,
+          $$StratagemDetachmentsTableFilterComposer,
+          $$StratagemDetachmentsTableOrderingComposer,
+          $$StratagemDetachmentsTableAnnotationComposer,
+          $$StratagemDetachmentsTableCreateCompanionBuilder,
+          $$StratagemDetachmentsTableUpdateCompanionBuilder,
+          (StratagemDetachment, $$StratagemDetachmentsTableReferences),
+          StratagemDetachment,
+          PrefetchHooks Function({bool stratagemId, bool detachmentId})
+        > {
+  $$StratagemDetachmentsTableTableManager(
+    _$AppDatabase db,
+    $StratagemDetachmentsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$StratagemDetachmentsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$StratagemDetachmentsTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$StratagemDetachmentsTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> stratagemId = const Value.absent(),
+                Value<int> detachmentId = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => StratagemDetachmentsCompanion(
+                stratagemId: stratagemId,
+                detachmentId: detachmentId,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required int stratagemId,
+                required int detachmentId,
+                Value<int> rowid = const Value.absent(),
+              }) => StratagemDetachmentsCompanion.insert(
+                stratagemId: stratagemId,
+                detachmentId: detachmentId,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$StratagemDetachmentsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({stratagemId = false, detachmentId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (stratagemId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.stratagemId,
+                                referencedTable:
+                                    $$StratagemDetachmentsTableReferences
+                                        ._stratagemIdTable(db),
+                                referencedColumn:
+                                    $$StratagemDetachmentsTableReferences
+                                        ._stratagemIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+                    if (detachmentId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.detachmentId,
+                                referencedTable:
+                                    $$StratagemDetachmentsTableReferences
+                                        ._detachmentIdTable(db),
+                                referencedColumn:
+                                    $$StratagemDetachmentsTableReferences
+                                        ._detachmentIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$StratagemDetachmentsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $StratagemDetachmentsTable,
+      StratagemDetachment,
+      $$StratagemDetachmentsTableFilterComposer,
+      $$StratagemDetachmentsTableOrderingComposer,
+      $$StratagemDetachmentsTableAnnotationComposer,
+      $$StratagemDetachmentsTableCreateCompanionBuilder,
+      $$StratagemDetachmentsTableUpdateCompanionBuilder,
+      (StratagemDetachment, $$StratagemDetachmentsTableReferences),
+      StratagemDetachment,
+      PrefetchHooks Function({bool stratagemId, bool detachmentId})
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -2360,4 +6294,14 @@ class $AppDatabaseManager {
   $$RoleTableTableManager get role => $$RoleTableTableManager(_db, _db.role);
   $$UnitsTableTableManager get units =>
       $$UnitsTableTableManager(_db, _db.units);
+  $$DetachmentsTableTableManager get detachments =>
+      $$DetachmentsTableTableManager(_db, _db.detachments);
+  $$DetachmentCodexTableTableManager get detachmentCodex =>
+      $$DetachmentCodexTableTableManager(_db, _db.detachmentCodex);
+  $$EnhancementsTableTableManager get enhancements =>
+      $$EnhancementsTableTableManager(_db, _db.enhancements);
+  $$StratagemsTableTableManager get stratagems =>
+      $$StratagemsTableTableManager(_db, _db.stratagems);
+  $$StratagemDetachmentsTableTableManager get stratagemDetachments =>
+      $$StratagemDetachmentsTableTableManager(_db, _db.stratagemDetachments);
 }

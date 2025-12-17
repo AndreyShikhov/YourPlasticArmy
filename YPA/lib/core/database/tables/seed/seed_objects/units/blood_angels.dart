@@ -1,4 +1,4 @@
-import '_types.dart';
+import '../_types.dart';
 
 List<UnitSeed> bloodAngelsUnits() {
   return const [
