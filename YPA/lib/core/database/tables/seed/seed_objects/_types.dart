@@ -1,3 +1,4 @@
+import '../../stratagems_table.dart';
 
 class UnitSeed {
   final String name;
@@ -55,6 +56,39 @@ class EnhancementSeed {
     required this.description,
     required this.detachmentCode,
     this.points = 0,
+  });
+}
+
+enum StratagemScope {
+  core,
+  detachment,
+}
+
+class StrategemsSeed {
+  final String  code;
+  final String  name;
+  final String  description;
+  final int       cpCost;
+  final String  phase;
+  final String  target;
+  final String  effect;
+  final String? condition;
+  final bool   oncePerBattle;
+  final String? codexId;
+  final String? detachmentId;
+
+  const StrategemsSeed({
+    required this.code,
+    required this.name,
+    required this.description,
+    this.cpCost = 1,
+    required this.phase,
+    required this.target,
+    required this.effect,
+    this.condition,
+    this.oncePerBattle = false,
+    this.codexId,
+    this.detachmentId,
   });
 }
 

@@ -12,8 +12,6 @@ import 'package:ypa/core/database/tables/detachments_table.dart';
 import 'package:ypa/core/database/tables/enhancements_table.dart';
 import 'package:ypa/core/database/tables/factions_table.dart';
 import 'package:ypa/core/database/tables/role_table.dart';
-import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
-import 'package:ypa/core/database/tables/stratagem_detachments_table.dart';
 import 'package:ypa/core/database/tables/stratagems_table.dart';
 import 'package:ypa/core/database/tables/units_table.dart';
 
@@ -38,8 +36,7 @@ part 'app_database.g.dart';
     DetachmentCodex,
     Enhancements,
 
-    Stratagems,
-    StratagemDetachments,
+    Strategems,
   ],
 )
 
