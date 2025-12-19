@@ -1,43 +1,34 @@
-import '../../app_database.dart';
+import 'package:drift/drift.dart';
 
+import '../../app_database.dart';
 
 
 
 Future<Map<String, int>> seedCodexes(
     AppDatabase db,
-    Map<String, int> factionIds,
+    Map<String, int> armyIds,
     ) async {
-  final data = {
-    'Space Marines': [
-      'Black Templars',
-      'Blood Angels',
-      'Dark Angels',
-      'Deathwatch',
-      'Imperial Fists',
-      'Iron Hands',
-      'Raven Guard',
-      'Salamanders',
-      'Space Wolves',
-      'Ultramarines',
-      'White Scars',
-    ],
-  };
+
+  final data = [
+    ('ultramarines', 'Ultramarines', 'space_marines'),
+    ('blood_angels', 'Blood Angels', 'space_marines'),
+  ];
 
   final result = <String, int>{};
 
-  for (final entry in data.entries) {
-    final factionId = factionIds[entry.key]!;
+  for (final (code, name, armyCode) in data) {
+    final id = await db.into(db.codexes).insert(
+      CodexesCompanion.insert(
+        code: code,
+        name: name,
+        armyId: armyIds[armyCode]!,
+      ),
+      mode: InsertMode.insertOrIgnore,
+    );
 
-    for (final codex in entry.value) {
-      final id = await db.into(db.codexes).insert(
-        CodexesCompanion.insert(
-          codex: codex,
-          factionId: factionId,
-        ),
-      );
-      result[codex] = id;
-    }
+    result[code] = id;
   }
 
   return result;
 }
+

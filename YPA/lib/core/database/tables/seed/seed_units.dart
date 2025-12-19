@@ -11,58 +11,49 @@ import '../../app_database.dart';
 
 Future<void> seedUnits(
     AppDatabase db,
-    Map<String, int> factionIds,
+    Map<String, int> armyIds,
     Map<String, int> codexIds,
     Map<String, int> roleIds,
-    ) async
-{
+    ) async {
 
-  final  units = <UnitSeed>[
+  final units = <UnitSeed>[
     ...spaceMarinesUnits(),
     ...bloodAngelsUnits(),
     ...orksUnits(),
   ];
 
-
-
   for (final u in units) {
-    _validateUnitSeed(u, factionIds, codexIds, roleIds);
+    _validateUnitSeed(u, armyIds, codexIds, roleIds);
 
     await db.into(db.units).insert(
       UnitsCompanion.insert(
         name: u.name,
-        factionId: factionIds[u.faction]!,
+        armyId: armyIds[u.army]!,
         codexId: u.codex == null
             ? const Value.absent()
             : Value(codexIds[u.codex]!),
         roleId: roleIds[u.role]!,
-
       ),
     );
   }
 }
 
+
 void _validateUnitSeed(
     UnitSeed unit,
-    Map<String, int> factionIds,
+    Map<String, int> armyIds,
     Map<String, int> codexIds,
     Map<String, int> roleIds,
     ) {
-  if (!factionIds.containsKey(unit.faction)) {
-    throw StateError(
-      'Seed error: unknown faction "${unit.faction}" for unit "${unit.name}"',
-    );
+  if (!armyIds.containsKey(unit.army)) {
+    throw StateError('Unknown army ${unit.army}');
   }
 
   if (!roleIds.containsKey(unit.role)) {
-    throw StateError(
-      'Seed error: unknown role "${unit.role}" for unit "${unit.name}"',
-    );
+    throw StateError('Unknown role ${unit.role}');
   }
 
   if (unit.codex != null && !codexIds.containsKey(unit.codex)) {
-    throw StateError(
-      'Seed error: unknown codex "${unit.codex}" for unit "${unit.name}"',
-    );
+    throw StateError('Unknown codex ${unit.codex}');
   }
 }

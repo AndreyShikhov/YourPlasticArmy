@@ -1,22 +1,20 @@
 import 'package:drift/drift.dart';
-
-import 'role_table.dart';
 import 'codexes_table.dart';
-import 'factions_table.dart';
-
-
+import 'armies_table.dart';
+import 'role_table.dart';
 
 class Units extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text()();
 
-  IntColumn get factionId =>
-      integer().references(Factions, #id)();
+  /// Always required
+  IntColumn get armyId =>
+      integer().references(Armies, #id)();
 
+  /// Nullable (orks, demons, etc.)
   IntColumn get codexId =>
       integer().nullable().references(Codexes, #id)();
 
   IntColumn get roleId =>
       integer().references(Role, #id)();
-
 }

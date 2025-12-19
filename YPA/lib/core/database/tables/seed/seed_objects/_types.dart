@@ -1,14 +1,87 @@
 import '../../stratagems_table.dart';
 
+
+enum GamePhase {
+  command,
+  movement,
+  shooting,
+  charge,
+  fight,
+}
+
+
+enum UnitRole {
+  characters,
+  battleline,
+  dedicatedTransports,
+  fortifications,
+  other,
+}
+
+enum StrategemType {
+  core,
+  army,
+  detachment,
+}
+
+enum WeaponType {
+  melee,
+  ranged,
+}
+
+enum DamageType {
+  normal,
+  mortal,
+}
+
+enum AbilityTrigger {
+  passive,
+  commandPhase,
+  movementPhase,
+  shootingPhase,
+  chargePhase,
+  fightPhase,
+  reaction,
+}
+
+enum DetachmentRuleType {
+  armyRule,
+  detachmentRule,
+}
+
+enum SaveType {
+  armor,
+  invulnerable,
+  feelNoPain,
+}
+
+enum RangeType {
+  self,
+  aura,
+  ranged,
+}
+
+
+class FactionSeed {
+  final String code;
+  final String name;
+
+  const FactionSeed({
+    required this.code,
+    required this.name,
+  });
+}
+
+
 class UnitSeed {
   final String name;
-  final String faction;
+  final String army;
   final String? codex;
   final String role;
 
   const UnitSeed({
     required this.name,
-    required this.faction,
+    required this.army,
     this.codex,
     required this.role,
   });
@@ -59,10 +132,7 @@ class EnhancementSeed {
   });
 }
 
-enum StratagemScope {
-  core,
-  detachment,
-}
+
 
 class StrategemsSeed {
   final String  code;

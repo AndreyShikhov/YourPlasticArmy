@@ -6,31 +6,31 @@ List<UnitSeed> bloodAngelsUnits() {
     //=============Characters============
     UnitSeed(
       name: 'Astorath',
-      faction: 'Space Marines',
+      army: 'Space Marines',
       codex: 'Blood Angels',
       role: 'Characters',
     ),
     UnitSeed(
       name: 'Blood Angels Captain',
-      faction: 'Space Marines',
+      army: 'Space Marines',
       codex: 'Blood Angels',
       role: 'Characters',
     ),
     UnitSeed(
       name: 'Chief Librarian Mephiston',
-      faction: 'Space Marines',
+      army: 'Space Marines',
       codex: 'Blood Angels',
       role: 'Characters',
     ),
     UnitSeed(
       name: 'Commander Dante',
-      faction: 'Space Marines',
+      army: 'Space Marines',
       codex: 'Blood Angels',
       role: 'Characters',
     ),
     UnitSeed(
       name: 'Death Company Captain',
-      faction: 'Space Marines',
+      army: 'Space Marines',
       codex: 'Blood Angels',
       role: 'Characters',
     ),
@@ -40,31 +40,31 @@ List<UnitSeed> bloodAngelsUnits() {
     //=============Other============
     UnitSeed(
       name: 'Death Company Dreadnought',
-      faction: 'Space Marines',
+      army: 'Space Marines',
       codex: 'Blood Angels',
       role: 'Other',
     ),
     UnitSeed(
       name: 'Death Company Marines',
-      faction: 'Space Marines',
+      army: 'Space Marines',
       codex: 'Blood Angels',
       role: 'Other',
     ),
     UnitSeed(
       name: 'Death Company Marines with Bolt Rifles',
-      faction: 'Space Marines',
+      army: 'Space Marines',
       codex: 'Blood Angels',
       role: 'Other',
     ),
     UnitSeed(
       name: 'Death Company Marines With Jump Packs',
-      faction: 'Space Marines',
+      army: 'Space Marines',
       codex: 'Blood Angels',
       role: 'Other',
     ),
     UnitSeed(
       name: 'Sanguinary Guard',
-      faction: 'Space Marines',
+      army:  'Space Marines',
       codex: 'Blood Angels',
       role: 'Other',
     ),

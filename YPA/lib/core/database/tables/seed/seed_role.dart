@@ -22,7 +22,9 @@ Future<Map<String, int>> seedRole(
 
   for (final role in data) {
     final id = await db.into(db.role)
-        .insert(RoleCompanion.insert(role: role));
+        .insert(RoleCompanion.insert(
+        code: '',
+        name: ''));
     result[role] = id;
   }
 

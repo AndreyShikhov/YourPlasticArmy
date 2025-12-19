@@ -1,23 +1,27 @@
-import 'package:ypa/core/database/tables/seed/seed_codexes.dart';
-import 'package:ypa/core/database/tables/seed/seed_detachment_codexes.dart';
-import 'package:ypa/core/database/tables/seed/seed_detachments.dart';
-import 'package:ypa/core/database/tables/seed/seed_enhancements.dart';
-import 'package:ypa/core/database/tables/seed/seed_factions.dart';
-import 'package:ypa/core/database/tables/seed/seed_role.dart';
-import 'package:ypa/core/database/tables/seed/seed_units.dart';
-
 import '../../app_database.dart';
 
+import 'seed_factions.dart';
+import 'seed_armies.dart';
+import 'seed_codexes.dart';
+import 'seed_role.dart';
+import 'seed_detachments.dart';
+import 'seed_detachment_codexes.dart';
+import 'seed_enhancements.dart';
+import 'seed_stratagems.dart';
+import 'seed_units.dart';
 
-
-
-Future<void> seedDatabase(AppDatabase db) async {
+Future<void> seedAllData(AppDatabase db) async {
   final factionIds = await seedFactions(db);
-  final codexIds = await seedCodexes(db, factionIds);
-  final roleIds = await seedRole(db);
+  final armyIds    = await seedArmies(db, factionIds);
+  final codexIds   = await seedCodexes(db, armyIds);
+  final roleIds    = await seedRole(db);
 
   final detachmentIds = await seedDetachments(db);
-  final detachmentCodexIds = await seedDetachmentCodex(db, detachmentIds, codexIds);
-  final enhancments = await seedEnhancements(db);
-  await seedUnits(db, factionIds, codexIds, roleIds);
+
+  await seedDetachmentCodex(db, detachmentIds, codexIds,);
+
+  await seedEnhancements(db);
+  await seedStrategems(db);
+
+  await seedUnits(db, armyIds, codexIds, roleIds,);
 }
