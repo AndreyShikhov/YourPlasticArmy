@@ -5,12 +5,14 @@ class Armies extends Table {
   IntColumn get id => integer().autoIncrement()();
 
   /// space_marines, orks
-  TextColumn get code => text().unique()();
+  TextColumn get armyCode => text().unique().withLength(min: 1)();
 
   /// Space Marines, Orks
-  TextColumn get name => text()();
+  TextColumn get name => text().withLength(min: 1)();
 
   /// Imperium / Chaos / Xenos
   IntColumn get factionId =>
       integer().references(Factions, #id)();
+
+
 }

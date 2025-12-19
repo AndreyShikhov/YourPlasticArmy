@@ -1,5 +1,3 @@
-import '../../stratagems_table.dart';
-
 
 enum GamePhase {
   command,
@@ -7,15 +5,6 @@ enum GamePhase {
   shooting,
   charge,
   fight,
-}
-
-
-enum UnitRole {
-  characters,
-  battleline,
-  dedicatedTransports,
-  fortifications,
-  other,
 }
 
 enum StrategemType {
@@ -62,28 +51,156 @@ enum RangeType {
 }
 
 
-class FactionSeed {
-  final String code;
-  final String name;
-
-  const FactionSeed({
-    required this.code,
-    required this.name,
-  });
+enum FactionCode {
+  imperium,
+  chaos,
+  xenos,
+}
+extension FactionCodeX on FactionCode {
+  String get code => name; // imperium
+  String get title {
+    switch (this) {
+      case FactionCode.imperium:
+        return 'Imperium';
+      case FactionCode.chaos:
+        return 'Chaos';
+      case FactionCode.xenos:
+        return 'Xenos';
+    }
+  }
 }
 
 
+enum ArmyCode {
+  spaceMarines,
+  orks,
+}
+extension ArmyCodeX on ArmyCode {
+  String get code {
+    switch (this) {
+      case ArmyCode.spaceMarines:
+        return 'space_marines';
+      case ArmyCode.orks:
+        return 'orks';
+    }
+  }
+
+  String get title {
+    switch (this) {
+      case ArmyCode.spaceMarines:
+        return 'Space Marines';
+      case ArmyCode.orks:
+        return 'Orks';
+    }
+  }
+
+  FactionCode get faction {
+    switch (this) {
+      case ArmyCode.spaceMarines:
+        return FactionCode.imperium;
+      case ArmyCode.orks:
+        return FactionCode.xenos;
+    }
+  }
+}
+
+enum CodexCode {
+  ultramarines,
+  bloodAngels,
+}
+extension CodexCodeX on CodexCode {
+  String get code {
+    switch (this) {
+      case CodexCode.ultramarines:
+        return 'ultramarines';
+      case CodexCode.bloodAngels:
+        return 'blood_angels';
+    }
+  }
+
+  String get title {
+    switch (this) {
+      case CodexCode.ultramarines:
+        return 'Ultramarines';
+      case CodexCode.bloodAngels:
+        return 'Blood Angels';
+    }
+  }
+
+  ArmyCode get army {
+    switch (this) {
+      case CodexCode.ultramarines:
+      case CodexCode.bloodAngels:
+        return ArmyCode.spaceMarines;
+    }
+  }
+}
+
+enum UnitRoleCode {
+  characters,
+  battleline,
+  dedicatedTransports,
+  fortifications,
+  other,
+}
+extension UnitRoleCodeX on UnitRoleCode {
+  String get code => name;
+
+  String get title {
+    switch (this) {
+      case UnitRoleCode.characters:
+        return 'Characters';
+      case UnitRoleCode.battleline:
+        return 'Battleline';
+      case UnitRoleCode.dedicatedTransports:
+        return 'Dedicated Transports';
+      case UnitRoleCode.fortifications:
+        return 'Fortifications';
+      case UnitRoleCode.other:
+        return 'Other';
+    }
+  }
+}
+
+
+
+
+
+class CodexSeed {
+  final CodexCode code;
+  final ArmyCode army;
+
+  const CodexSeed({
+    required this.code,
+    required this.army,
+  });
+
+  String get name => code.title;
+}
+
+class ArmySeed {
+  final ArmyCode armyCode;
+  final String armyName;
+  final FactionCode factionCode;
+
+  const ArmySeed({
+    required this.armyCode,
+    required this.armyName,
+    required this.factionCode,
+  });
+}
+
 class UnitSeed {
   final String name;
-  final String army;
-  final String? codex;
-  final String role;
+  final ArmyCode army;
+  final CodexCode? codex;
+  final UnitRoleCode role;
 
   const UnitSeed({
     required this.name,
     required this.army,
-    this.codex,
     required this.role,
+    this.codex,
   });
 }
 
@@ -108,7 +225,8 @@ class DetachmentSeed {
 
 class DetachmentCodexLinkSeed {
   final String detachmentCode;
-  final String codex;
+  final CodexCode codex;
+
 
   const DetachmentCodexLinkSeed({
     required this.detachmentCode,
@@ -131,8 +249,6 @@ class EnhancementSeed {
     this.points = 0,
   });
 }
-
-
 
 class StrategemsSeed {
   final String  code;

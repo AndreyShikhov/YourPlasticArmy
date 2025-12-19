@@ -6,13 +6,16 @@ List<DetachmentCodexLinkSeed> detachmentsCodex() {
     //=============Spacemarine============
     DetachmentCodexLinkSeed(
         detachmentCode: 'gladius_task_force',
-        codex: 'space_marines'),
+        codex: CodexCode.bloodAngels
+    ),
     DetachmentCodexLinkSeed(
         detachmentCode: 'gladius_task_force',
-        codex: 'blood_angels'),
+        codex: CodexCode.bloodAngels,
+    ),
     DetachmentCodexLinkSeed(
         detachmentCode: 'gladius_task_force',
-        codex: 'ultramarines'),
+        codex: CodexCode.ultramarines,
+    ),
   ];
 }
 

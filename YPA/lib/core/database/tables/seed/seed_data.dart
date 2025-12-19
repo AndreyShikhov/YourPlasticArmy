@@ -11,17 +11,14 @@ import 'seed_stratagems.dart';
 import 'seed_units.dart';
 
 Future<void> seedAllData(AppDatabase db) async {
-  final factionIds = await seedFactions(db);
-  final armyIds    = await seedArmies(db, factionIds);
-  final codexIds   = await seedCodexes(db, armyIds);
-  final roleIds    = await seedRole(db);
+  final factionIds     = await seedFactions(db);
+  final armyIds        = await seedArmies(db, factionIds);
+  final codexIds       = await seedCodexes(db, armyIds);
+  final roleIds        = await seedRole(db);
+  final detachmentIds  = await seedDetachments(db);
+  await seedDetachmentCodex(db, detachmentIds, codexIds);
+  await seedEnhancements(db, detachmentIds);
+  await seedUnits(db, armyIds, codexIds, roleIds);
+  await seedStrategems(db, codexIds, detachmentIds);
 
-  final detachmentIds = await seedDetachments(db);
-
-  await seedDetachmentCodex(db, detachmentIds, codexIds,);
-
-  await seedEnhancements(db);
-  await seedStrategems(db);
-
-  await seedUnits(db, armyIds, codexIds, roleIds,);
 }

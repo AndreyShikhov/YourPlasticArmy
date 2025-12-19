@@ -5,7 +5,7 @@ import 'role_table.dart';
 
 class Units extends Table {
   IntColumn get id => integer().autoIncrement()();
-  TextColumn get name => text()();
+  TextColumn get name => text().withLength(min: 1)();
 
   /// Always required
   IntColumn get armyId =>

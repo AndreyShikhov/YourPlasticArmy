@@ -4,35 +4,40 @@ import 'package:ypa/core/database/tables/seed/seed_objects/strategems/strategems
 
 import '../../app_database.dart';
 
-Future<Map<String, int>> seedStrategems(AppDatabase db) async {
+
+
+Future<Map<String, int>> seedStrategems(
+    AppDatabase db,
+    Map<String, int> codexIds,
+    Map<String, int> detachmentIds,
+    ) async {
   final data = strategemsSeed();
   final result = <String, int>{};
 
   for (final strategem in data) {
-
-    // --- domain validation ---
-    if (strategem.codexId == null) {
+    // --- codex validation ---
+    if (!codexIds.containsKey(strategem.codexId)) {
       throw StateError(
-        'Strategem ${strategem.code} has no codexId',
+        'Seed error: unknown codex "${strategem.codexId}" for strategem "${strategem.code}"',
       );
     }
 
     // --- resolve detachment ---
     Value<int?> detachmentDbId = const Value.absent();
 
-
     if (strategem.detachmentId != null) {
-      final detachment = await (db.select(db.detachments)
-        ..where((d) => d.code.equals(strategem.detachmentId!)))
-          .getSingle();
+      if (!detachmentIds.containsKey(strategem.detachmentId)) {
+        throw StateError(
+          'Seed error: unknown detachment "${strategem.detachmentId}" for strategem "${strategem.code}"',
+        );
+      }
 
-      detachmentDbId = Value(detachment.id);
+      detachmentDbId = Value(detachmentIds[strategem.detachmentId]!);
     }
 
     // --- insert ---
     final id = await db.into(db.strategems).insert(
       StrategemsCompanion.insert(
-        id: const Uuid().v4(),
         code: strategem.code,
         name: strategem.name,
         description: strategem.description,
@@ -40,7 +45,7 @@ Future<Map<String, int>> seedStrategems(AppDatabase db) async {
         phase: strategem.phase,
         target: strategem.target,
         effect: strategem.effect,
-        codexId: strategem.codexId!,
+        codexId: codexIds[strategem.codexId]!,
         detachmentId: detachmentDbId,
       ),
     );

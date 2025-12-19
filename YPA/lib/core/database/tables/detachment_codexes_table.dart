@@ -12,7 +12,8 @@ class DetachmentCodex extends Table {
       integer().references(Codexes, #id)();
 
   @override
-  List<Set<Column>> get uniqueKeys => [
-      {detachmentId, codexId},
+  List<Set<Column<Object>>> get uniqueKeys => [
+    {detachmentId, codexId},
   ];
 }
+

@@ -8,26 +8,29 @@ import '../../app_database.dart';
 
 
 
-Future<void> seedEnhancements(AppDatabase db) async {
+Future<void> seedEnhancements(
+    AppDatabase db,
+    Map<String, int> detachmentIds,
+    ) async {
+  final seeds = enhancementSeed();
 
-  final enhancementSeeds = enhancementSeed();
-
-  for (final seed in enhancementSeeds) {
-    final detachment = await (db.select(db.detachments)
-      ..where((d) => d.code.equals(seed.detachmentCode)))
-        .getSingle();
+  for (final seed in seeds) {
+    if (!detachmentIds.containsKey(seed.detachmentCode)) {
+      throw StateError(
+        'Seed error: unknown detachment "${seed.detachmentCode}" for enhancement "${seed.code}"',
+      );
+    }
 
     await db.into(db.enhancements).insert(
       EnhancementsCompanion.insert(
-          id: const Uuid().v4(),
-          code: seed.code,
-          name: seed.name,
-          description: seed.description,
-          detachmentId: detachment.id,
-          points: Value(seed.points),
+        id: const Uuid().v4(),
+        code: seed.code,
+        name: seed.name,
+        description: seed.description,
+        detachmentId: detachmentIds[seed.detachmentCode]!,
+        points: Value(seed.points),
       ),
       mode: InsertMode.insertOrIgnore,
     );
   }
 }
-

@@ -1,4 +1,6 @@
 import 'package:drift/drift.dart';
+import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
+import 'package:ypa/core/database/tables/seed/seed_objects/codexes/codex.dart';
 
 import '../../app_database.dart';
 
@@ -8,27 +10,32 @@ Future<Map<String, int>> seedCodexes(
     AppDatabase db,
     Map<String, int> armyIds,
     ) async {
-
-  final data = [
-    ('ultramarines', 'Ultramarines', 'space_marines'),
-    ('blood_angels', 'Blood Angels', 'space_marines'),
-  ];
-
+  final codexes = getAllCodexes();
   final result = <String, int>{};
 
-  for (final (code, name, armyCode) in data) {
-    final id = await db.into(db.codexes).insert(
+  for (final c in codexes) {
+    // 1. insert or ignore
+    await db.into(db.codexes).insert(
       CodexesCompanion.insert(
-        code: code,
-        name: name,
-        armyId: armyIds[armyCode]!,
+        code: c.code.code,
+        name: c.code.title,
+        armyId: armyIds[c.army.code]!,
       ),
       mode: InsertMode.insertOrIgnore,
     );
 
-    result[code] = id;
+    // 2. select id
+    final existing = await (db.select(db.codexes)
+      ..where((t) => t.code.equals(c.code.code)))
+        .getSingleOrNull();
+
+    if (existing != null) {
+      result[c.code.code] = existing.id;
+      continue;
+    }
   }
 
   return result;
 }
+
 

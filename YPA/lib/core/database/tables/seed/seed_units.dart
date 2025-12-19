@@ -8,14 +8,12 @@ import '../../app_database.dart';
 
 
 
-
 Future<void> seedUnits(
     AppDatabase db,
     Map<String, int> armyIds,
     Map<String, int> codexIds,
     Map<String, int> roleIds,
     ) async {
-
   final units = <UnitSeed>[
     ...spaceMarinesUnits(),
     ...bloodAngelsUnits(),
@@ -34,10 +32,10 @@ Future<void> seedUnits(
             : Value(codexIds[u.codex]!),
         roleId: roleIds[u.role]!,
       ),
+      mode: InsertMode.insertOrIgnore,
     );
   }
 }
-
 
 void _validateUnitSeed(
     UnitSeed unit,
@@ -46,14 +44,20 @@ void _validateUnitSeed(
     Map<String, int> roleIds,
     ) {
   if (!armyIds.containsKey(unit.army)) {
-    throw StateError('Unknown army ${unit.army}');
+    throw StateError(
+      'Seed error: unknown army "${unit.army}" for unit "${unit.name}"',
+    );
   }
 
   if (!roleIds.containsKey(unit.role)) {
-    throw StateError('Unknown role ${unit.role}');
+    throw StateError(
+      'Seed error: unknown role "${unit.role}" for unit "${unit.name}"',
+    );
   }
 
   if (unit.codex != null && !codexIds.containsKey(unit.codex)) {
-    throw StateError('Unknown codex ${unit.codex}');
+    throw StateError(
+      'Seed error: unknown codex "${unit.codex}" for unit "${unit.name}"',
+    );
   }
 }

@@ -27,6 +27,7 @@ class $FactionsTable extends Factions with TableInfo<$FactionsTable, Faction> {
     'code',
     aliasedName,
     false,
+    additionalChecks: GeneratedColumn.checkTextLength(minTextLength: 1),
     type: DriftSqlType.string,
     requiredDuringInsert: true,
     defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
@@ -37,6 +38,7 @@ class $FactionsTable extends Factions with TableInfo<$FactionsTable, Faction> {
     'name',
     aliasedName,
     false,
+    additionalChecks: GeneratedColumn.checkTextLength(minTextLength: 1),
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
@@ -267,12 +269,15 @@ class $ArmiesTable extends Armies with TableInfo<$ArmiesTable, Army> {
       'PRIMARY KEY AUTOINCREMENT',
     ),
   );
-  static const VerificationMeta _codeMeta = const VerificationMeta('code');
+  static const VerificationMeta _armyCodeMeta = const VerificationMeta(
+    'armyCode',
+  );
   @override
-  late final GeneratedColumn<String> code = GeneratedColumn<String>(
-    'code',
+  late final GeneratedColumn<String> armyCode = GeneratedColumn<String>(
+    'army_code',
     aliasedName,
     false,
+    additionalChecks: GeneratedColumn.checkTextLength(minTextLength: 1),
     type: DriftSqlType.string,
     requiredDuringInsert: true,
     defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
@@ -283,6 +288,7 @@ class $ArmiesTable extends Armies with TableInfo<$ArmiesTable, Army> {
     'name',
     aliasedName,
     false,
+    additionalChecks: GeneratedColumn.checkTextLength(minTextLength: 1),
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
@@ -301,7 +307,7 @@ class $ArmiesTable extends Armies with TableInfo<$ArmiesTable, Army> {
     ),
   );
   @override
-  List<GeneratedColumn> get $columns => [id, code, name, factionId];
+  List<GeneratedColumn> get $columns => [id, armyCode, name, factionId];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -317,13 +323,13 @@ class $ArmiesTable extends Armies with TableInfo<$ArmiesTable, Army> {
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    if (data.containsKey('code')) {
+    if (data.containsKey('army_code')) {
       context.handle(
-        _codeMeta,
-        code.isAcceptableOrUnknown(data['code']!, _codeMeta),
+        _armyCodeMeta,
+        armyCode.isAcceptableOrUnknown(data['army_code']!, _armyCodeMeta),
       );
     } else if (isInserting) {
-      context.missing(_codeMeta);
+      context.missing(_armyCodeMeta);
     }
     if (data.containsKey('name')) {
       context.handle(
@@ -354,9 +360,9 @@ class $ArmiesTable extends Armies with TableInfo<$ArmiesTable, Army> {
         DriftSqlType.int,
         data['${effectivePrefix}id'],
       )!,
-      code: attachedDatabase.typeMapping.read(
+      armyCode: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
-        data['${effectivePrefix}code'],
+        data['${effectivePrefix}army_code'],
       )!,
       name: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
@@ -379,7 +385,7 @@ class Army extends DataClass implements Insertable<Army> {
   final int id;
 
   /// space_marines, orks
-  final String code;
+  final String armyCode;
 
   /// Space Marines, Orks
   final String name;
@@ -388,7 +394,7 @@ class Army extends DataClass implements Insertable<Army> {
   final int factionId;
   const Army({
     required this.id,
-    required this.code,
+    required this.armyCode,
     required this.name,
     required this.factionId,
   });
@@ -396,7 +402,7 @@ class Army extends DataClass implements Insertable<Army> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
-    map['code'] = Variable<String>(code);
+    map['army_code'] = Variable<String>(armyCode);
     map['name'] = Variable<String>(name);
     map['faction_id'] = Variable<int>(factionId);
     return map;
@@ -405,7 +411,7 @@ class Army extends DataClass implements Insertable<Army> {
   ArmiesCompanion toCompanion(bool nullToAbsent) {
     return ArmiesCompanion(
       id: Value(id),
-      code: Value(code),
+      armyCode: Value(armyCode),
       name: Value(name),
       factionId: Value(factionId),
     );
@@ -418,7 +424,7 @@ class Army extends DataClass implements Insertable<Army> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return Army(
       id: serializer.fromJson<int>(json['id']),
-      code: serializer.fromJson<String>(json['code']),
+      armyCode: serializer.fromJson<String>(json['armyCode']),
       name: serializer.fromJson<String>(json['name']),
       factionId: serializer.fromJson<int>(json['factionId']),
     );
@@ -428,22 +434,23 @@ class Army extends DataClass implements Insertable<Army> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
-      'code': serializer.toJson<String>(code),
+      'armyCode': serializer.toJson<String>(armyCode),
       'name': serializer.toJson<String>(name),
       'factionId': serializer.toJson<int>(factionId),
     };
   }
 
-  Army copyWith({int? id, String? code, String? name, int? factionId}) => Army(
-    id: id ?? this.id,
-    code: code ?? this.code,
-    name: name ?? this.name,
-    factionId: factionId ?? this.factionId,
-  );
+  Army copyWith({int? id, String? armyCode, String? name, int? factionId}) =>
+      Army(
+        id: id ?? this.id,
+        armyCode: armyCode ?? this.armyCode,
+        name: name ?? this.name,
+        factionId: factionId ?? this.factionId,
+      );
   Army copyWithCompanion(ArmiesCompanion data) {
     return Army(
       id: data.id.present ? data.id.value : this.id,
-      code: data.code.present ? data.code.value : this.code,
+      armyCode: data.armyCode.present ? data.armyCode.value : this.armyCode,
       name: data.name.present ? data.name.value : this.name,
       factionId: data.factionId.present ? data.factionId.value : this.factionId,
     );
@@ -453,7 +460,7 @@ class Army extends DataClass implements Insertable<Army> {
   String toString() {
     return (StringBuffer('Army(')
           ..write('id: $id, ')
-          ..write('code: $code, ')
+          ..write('armyCode: $armyCode, ')
           ..write('name: $name, ')
           ..write('factionId: $factionId')
           ..write(')'))
@@ -461,45 +468,45 @@ class Army extends DataClass implements Insertable<Army> {
   }
 
   @override
-  int get hashCode => Object.hash(id, code, name, factionId);
+  int get hashCode => Object.hash(id, armyCode, name, factionId);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is Army &&
           other.id == this.id &&
-          other.code == this.code &&
+          other.armyCode == this.armyCode &&
           other.name == this.name &&
           other.factionId == this.factionId);
 }
 
 class ArmiesCompanion extends UpdateCompanion<Army> {
   final Value<int> id;
-  final Value<String> code;
+  final Value<String> armyCode;
   final Value<String> name;
   final Value<int> factionId;
   const ArmiesCompanion({
     this.id = const Value.absent(),
-    this.code = const Value.absent(),
+    this.armyCode = const Value.absent(),
     this.name = const Value.absent(),
     this.factionId = const Value.absent(),
   });
   ArmiesCompanion.insert({
     this.id = const Value.absent(),
-    required String code,
+    required String armyCode,
     required String name,
     required int factionId,
-  }) : code = Value(code),
+  }) : armyCode = Value(armyCode),
        name = Value(name),
        factionId = Value(factionId);
   static Insertable<Army> custom({
     Expression<int>? id,
-    Expression<String>? code,
+    Expression<String>? armyCode,
     Expression<String>? name,
     Expression<int>? factionId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
-      if (code != null) 'code': code,
+      if (armyCode != null) 'army_code': armyCode,
       if (name != null) 'name': name,
       if (factionId != null) 'faction_id': factionId,
     });
@@ -507,13 +514,13 @@ class ArmiesCompanion extends UpdateCompanion<Army> {
 
   ArmiesCompanion copyWith({
     Value<int>? id,
-    Value<String>? code,
+    Value<String>? armyCode,
     Value<String>? name,
     Value<int>? factionId,
   }) {
     return ArmiesCompanion(
       id: id ?? this.id,
-      code: code ?? this.code,
+      armyCode: armyCode ?? this.armyCode,
       name: name ?? this.name,
       factionId: factionId ?? this.factionId,
     );
@@ -525,8 +532,8 @@ class ArmiesCompanion extends UpdateCompanion<Army> {
     if (id.present) {
       map['id'] = Variable<int>(id.value);
     }
-    if (code.present) {
-      map['code'] = Variable<String>(code.value);
+    if (armyCode.present) {
+      map['army_code'] = Variable<String>(armyCode.value);
     }
     if (name.present) {
       map['name'] = Variable<String>(name.value);
@@ -541,7 +548,7 @@ class ArmiesCompanion extends UpdateCompanion<Army> {
   String toString() {
     return (StringBuffer('ArmiesCompanion(')
           ..write('id: $id, ')
-          ..write('code: $code, ')
+          ..write('armyCode: $armyCode, ')
           ..write('name: $name, ')
           ..write('factionId: $factionId')
           ..write(')'))
@@ -573,6 +580,7 @@ class $CodexesTable extends Codexes with TableInfo<$CodexesTable, Codexe> {
     'code',
     aliasedName,
     false,
+    additionalChecks: GeneratedColumn.checkTextLength(minTextLength: 1),
     type: DriftSqlType.string,
     requiredDuringInsert: true,
     defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
@@ -583,6 +591,7 @@ class $CodexesTable extends Codexes with TableInfo<$CodexesTable, Codexe> {
     'name',
     aliasedName,
     false,
+    additionalChecks: GeneratedColumn.checkTextLength(minTextLength: 1),
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
@@ -871,6 +880,7 @@ class $RoleTable extends Role with TableInfo<$RoleTable, RoleData> {
     'code',
     aliasedName,
     false,
+    additionalChecks: GeneratedColumn.checkTextLength(minTextLength: 1),
     type: DriftSqlType.string,
     requiredDuringInsert: true,
     defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
@@ -881,6 +891,7 @@ class $RoleTable extends Role with TableInfo<$RoleTable, RoleData> {
     'name',
     aliasedName,
     false,
+    additionalChecks: GeneratedColumn.checkTextLength(minTextLength: 1),
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
@@ -1113,6 +1124,7 @@ class $UnitsTable extends Units with TableInfo<$UnitsTable, Unit> {
     'name',
     aliasedName,
     false,
+    additionalChecks: GeneratedColumn.checkTextLength(minTextLength: 1),
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
@@ -1467,8 +1479,10 @@ class $DetachmentsTable extends Detachments
     'code',
     aliasedName,
     false,
+    additionalChecks: GeneratedColumn.checkTextLength(minTextLength: 1),
     type: DriftSqlType.string,
     requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
   );
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
@@ -1476,6 +1490,7 @@ class $DetachmentsTable extends Detachments
     'name',
     aliasedName,
     false,
+    additionalChecks: GeneratedColumn.checkTextLength(minTextLength: 1),
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
@@ -1498,6 +1513,7 @@ class $DetachmentsTable extends Detachments
     'rule_name',
     aliasedName,
     false,
+    additionalChecks: GeneratedColumn.checkTextLength(minTextLength: 1),
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
@@ -2584,12 +2600,16 @@ class $StrategemsTable extends Strategems
   $StrategemsTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
     'id',
     aliasedName,
     false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
   );
   static const VerificationMeta _codeMeta = const VerificationMeta('code');
   @override
@@ -2599,6 +2619,7 @@ class $StrategemsTable extends Strategems
     false,
     type: DriftSqlType.string,
     requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
   );
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
@@ -2656,41 +2677,15 @@ class $StrategemsTable extends Strategems
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _conditionMeta = const VerificationMeta(
-    'condition',
-  );
-  @override
-  late final GeneratedColumn<String> condition = GeneratedColumn<String>(
-    'condition',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-  );
-  static const VerificationMeta _oncePerBattleMeta = const VerificationMeta(
-    'oncePerBattle',
-  );
-  @override
-  late final GeneratedColumn<bool> oncePerBattle = GeneratedColumn<bool>(
-    'once_per_battle',
-    aliasedName,
-    false,
-    type: DriftSqlType.bool,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'CHECK ("once_per_battle" IN (0, 1))',
-    ),
-    defaultValue: const Constant(false),
-  );
   static const VerificationMeta _codexIdMeta = const VerificationMeta(
     'codexId',
   );
   @override
-  late final GeneratedColumn<String> codexId = GeneratedColumn<String>(
+  late final GeneratedColumn<int> codexId = GeneratedColumn<int>(
     'codex_id',
     aliasedName,
     false,
-    type: DriftSqlType.string,
+    type: DriftSqlType.int,
     requiredDuringInsert: true,
     defaultConstraints: GeneratedColumn.constraintIsAlways(
       'REFERENCES codexes (id)',
@@ -2720,8 +2715,6 @@ class $StrategemsTable extends Strategems
     phase,
     target,
     effect,
-    condition,
-    oncePerBattle,
     codexId,
     detachmentId,
   ];
@@ -2739,8 +2732,6 @@ class $StrategemsTable extends Strategems
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
     }
     if (data.containsKey('code')) {
       context.handle(
@@ -2801,21 +2792,6 @@ class $StrategemsTable extends Strategems
     } else if (isInserting) {
       context.missing(_effectMeta);
     }
-    if (data.containsKey('condition')) {
-      context.handle(
-        _conditionMeta,
-        condition.isAcceptableOrUnknown(data['condition']!, _conditionMeta),
-      );
-    }
-    if (data.containsKey('once_per_battle')) {
-      context.handle(
-        _oncePerBattleMeta,
-        oncePerBattle.isAcceptableOrUnknown(
-          data['once_per_battle']!,
-          _oncePerBattleMeta,
-        ),
-      );
-    }
     if (data.containsKey('codex_id')) {
       context.handle(
         _codexIdMeta,
@@ -2843,7 +2819,7 @@ class $StrategemsTable extends Strategems
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return Strategem(
       id: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
+        DriftSqlType.int,
         data['${effectivePrefix}id'],
       )!,
       code: attachedDatabase.typeMapping.read(
@@ -2874,16 +2850,8 @@ class $StrategemsTable extends Strategems
         DriftSqlType.string,
         data['${effectivePrefix}effect'],
       )!,
-      condition: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}condition'],
-      ),
-      oncePerBattle: attachedDatabase.typeMapping.read(
-        DriftSqlType.bool,
-        data['${effectivePrefix}once_per_battle'],
-      )!,
       codexId: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
+        DriftSqlType.int,
         data['${effectivePrefix}codex_id'],
       )!,
       detachmentId: attachedDatabase.typeMapping.read(
@@ -2900,7 +2868,7 @@ class $StrategemsTable extends Strategems
 }
 
 class Strategem extends DataClass implements Insertable<Strategem> {
-  final String id;
+  final int id;
   final String code;
   final String name;
   final String description;
@@ -2908,14 +2876,11 @@ class Strategem extends DataClass implements Insertable<Strategem> {
   final String phase;
   final String target;
   final String effect;
-  final String? condition;
-  final bool oncePerBattle;
 
-  /// Всегда задан — стратегемы не бывают вне Codex
-  final String codexId;
+  /// FK → Codex
+  final int codexId;
 
-  /// NULL → базовая стратегема
-  /// NOT NULL → detachment-стратегема
+  /// FK → Detachment (optional)
   final int? detachmentId;
   const Strategem({
     required this.id,
@@ -2926,15 +2891,13 @@ class Strategem extends DataClass implements Insertable<Strategem> {
     required this.phase,
     required this.target,
     required this.effect,
-    this.condition,
-    required this.oncePerBattle,
     required this.codexId,
     this.detachmentId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<String>(id);
+    map['id'] = Variable<int>(id);
     map['code'] = Variable<String>(code);
     map['name'] = Variable<String>(name);
     map['description'] = Variable<String>(description);
@@ -2942,11 +2905,7 @@ class Strategem extends DataClass implements Insertable<Strategem> {
     map['phase'] = Variable<String>(phase);
     map['target'] = Variable<String>(target);
     map['effect'] = Variable<String>(effect);
-    if (!nullToAbsent || condition != null) {
-      map['condition'] = Variable<String>(condition);
-    }
-    map['once_per_battle'] = Variable<bool>(oncePerBattle);
-    map['codex_id'] = Variable<String>(codexId);
+    map['codex_id'] = Variable<int>(codexId);
     if (!nullToAbsent || detachmentId != null) {
       map['detachment_id'] = Variable<int>(detachmentId);
     }
@@ -2963,10 +2922,6 @@ class Strategem extends DataClass implements Insertable<Strategem> {
       phase: Value(phase),
       target: Value(target),
       effect: Value(effect),
-      condition: condition == null && nullToAbsent
-          ? const Value.absent()
-          : Value(condition),
-      oncePerBattle: Value(oncePerBattle),
       codexId: Value(codexId),
       detachmentId: detachmentId == null && nullToAbsent
           ? const Value.absent()
@@ -2980,7 +2935,7 @@ class Strategem extends DataClass implements Insertable<Strategem> {
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return Strategem(
-      id: serializer.fromJson<String>(json['id']),
+      id: serializer.fromJson<int>(json['id']),
       code: serializer.fromJson<String>(json['code']),
       name: serializer.fromJson<String>(json['name']),
       description: serializer.fromJson<String>(json['description']),
@@ -2988,9 +2943,7 @@ class Strategem extends DataClass implements Insertable<Strategem> {
       phase: serializer.fromJson<String>(json['phase']),
       target: serializer.fromJson<String>(json['target']),
       effect: serializer.fromJson<String>(json['effect']),
-      condition: serializer.fromJson<String?>(json['condition']),
-      oncePerBattle: serializer.fromJson<bool>(json['oncePerBattle']),
-      codexId: serializer.fromJson<String>(json['codexId']),
+      codexId: serializer.fromJson<int>(json['codexId']),
       detachmentId: serializer.fromJson<int?>(json['detachmentId']),
     );
   }
@@ -2998,7 +2951,7 @@ class Strategem extends DataClass implements Insertable<Strategem> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<String>(id),
+      'id': serializer.toJson<int>(id),
       'code': serializer.toJson<String>(code),
       'name': serializer.toJson<String>(name),
       'description': serializer.toJson<String>(description),
@@ -3006,15 +2959,13 @@ class Strategem extends DataClass implements Insertable<Strategem> {
       'phase': serializer.toJson<String>(phase),
       'target': serializer.toJson<String>(target),
       'effect': serializer.toJson<String>(effect),
-      'condition': serializer.toJson<String?>(condition),
-      'oncePerBattle': serializer.toJson<bool>(oncePerBattle),
-      'codexId': serializer.toJson<String>(codexId),
+      'codexId': serializer.toJson<int>(codexId),
       'detachmentId': serializer.toJson<int?>(detachmentId),
     };
   }
 
   Strategem copyWith({
-    String? id,
+    int? id,
     String? code,
     String? name,
     String? description,
@@ -3022,9 +2973,7 @@ class Strategem extends DataClass implements Insertable<Strategem> {
     String? phase,
     String? target,
     String? effect,
-    Value<String?> condition = const Value.absent(),
-    bool? oncePerBattle,
-    String? codexId,
+    int? codexId,
     Value<int?> detachmentId = const Value.absent(),
   }) => Strategem(
     id: id ?? this.id,
@@ -3035,8 +2984,6 @@ class Strategem extends DataClass implements Insertable<Strategem> {
     phase: phase ?? this.phase,
     target: target ?? this.target,
     effect: effect ?? this.effect,
-    condition: condition.present ? condition.value : this.condition,
-    oncePerBattle: oncePerBattle ?? this.oncePerBattle,
     codexId: codexId ?? this.codexId,
     detachmentId: detachmentId.present ? detachmentId.value : this.detachmentId,
   );
@@ -3052,10 +2999,6 @@ class Strategem extends DataClass implements Insertable<Strategem> {
       phase: data.phase.present ? data.phase.value : this.phase,
       target: data.target.present ? data.target.value : this.target,
       effect: data.effect.present ? data.effect.value : this.effect,
-      condition: data.condition.present ? data.condition.value : this.condition,
-      oncePerBattle: data.oncePerBattle.present
-          ? data.oncePerBattle.value
-          : this.oncePerBattle,
       codexId: data.codexId.present ? data.codexId.value : this.codexId,
       detachmentId: data.detachmentId.present
           ? data.detachmentId.value
@@ -3074,8 +3017,6 @@ class Strategem extends DataClass implements Insertable<Strategem> {
           ..write('phase: $phase, ')
           ..write('target: $target, ')
           ..write('effect: $effect, ')
-          ..write('condition: $condition, ')
-          ..write('oncePerBattle: $oncePerBattle, ')
           ..write('codexId: $codexId, ')
           ..write('detachmentId: $detachmentId')
           ..write(')'))
@@ -3092,8 +3033,6 @@ class Strategem extends DataClass implements Insertable<Strategem> {
     phase,
     target,
     effect,
-    condition,
-    oncePerBattle,
     codexId,
     detachmentId,
   );
@@ -3109,14 +3048,12 @@ class Strategem extends DataClass implements Insertable<Strategem> {
           other.phase == this.phase &&
           other.target == this.target &&
           other.effect == this.effect &&
-          other.condition == this.condition &&
-          other.oncePerBattle == this.oncePerBattle &&
           other.codexId == this.codexId &&
           other.detachmentId == this.detachmentId);
 }
 
 class StrategemsCompanion extends UpdateCompanion<Strategem> {
-  final Value<String> id;
+  final Value<int> id;
   final Value<String> code;
   final Value<String> name;
   final Value<String> description;
@@ -3124,11 +3061,8 @@ class StrategemsCompanion extends UpdateCompanion<Strategem> {
   final Value<String> phase;
   final Value<String> target;
   final Value<String> effect;
-  final Value<String?> condition;
-  final Value<bool> oncePerBattle;
-  final Value<String> codexId;
+  final Value<int> codexId;
   final Value<int?> detachmentId;
-  final Value<int> rowid;
   const StrategemsCompanion({
     this.id = const Value.absent(),
     this.code = const Value.absent(),
@@ -3138,14 +3072,11 @@ class StrategemsCompanion extends UpdateCompanion<Strategem> {
     this.phase = const Value.absent(),
     this.target = const Value.absent(),
     this.effect = const Value.absent(),
-    this.condition = const Value.absent(),
-    this.oncePerBattle = const Value.absent(),
     this.codexId = const Value.absent(),
     this.detachmentId = const Value.absent(),
-    this.rowid = const Value.absent(),
   });
   StrategemsCompanion.insert({
-    required String id,
+    this.id = const Value.absent(),
     required String code,
     required String name,
     required String description,
@@ -3153,13 +3084,9 @@ class StrategemsCompanion extends UpdateCompanion<Strategem> {
     required String phase,
     required String target,
     required String effect,
-    this.condition = const Value.absent(),
-    this.oncePerBattle = const Value.absent(),
-    required String codexId,
+    required int codexId,
     this.detachmentId = const Value.absent(),
-    this.rowid = const Value.absent(),
-  }) : id = Value(id),
-       code = Value(code),
+  }) : code = Value(code),
        name = Value(name),
        description = Value(description),
        cpCost = Value(cpCost),
@@ -3168,7 +3095,7 @@ class StrategemsCompanion extends UpdateCompanion<Strategem> {
        effect = Value(effect),
        codexId = Value(codexId);
   static Insertable<Strategem> custom({
-    Expression<String>? id,
+    Expression<int>? id,
     Expression<String>? code,
     Expression<String>? name,
     Expression<String>? description,
@@ -3176,11 +3103,8 @@ class StrategemsCompanion extends UpdateCompanion<Strategem> {
     Expression<String>? phase,
     Expression<String>? target,
     Expression<String>? effect,
-    Expression<String>? condition,
-    Expression<bool>? oncePerBattle,
-    Expression<String>? codexId,
+    Expression<int>? codexId,
     Expression<int>? detachmentId,
-    Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -3191,16 +3115,13 @@ class StrategemsCompanion extends UpdateCompanion<Strategem> {
       if (phase != null) 'phase': phase,
       if (target != null) 'target': target,
       if (effect != null) 'effect': effect,
-      if (condition != null) 'condition': condition,
-      if (oncePerBattle != null) 'once_per_battle': oncePerBattle,
       if (codexId != null) 'codex_id': codexId,
       if (detachmentId != null) 'detachment_id': detachmentId,
-      if (rowid != null) 'rowid': rowid,
     });
   }
 
   StrategemsCompanion copyWith({
-    Value<String>? id,
+    Value<int>? id,
     Value<String>? code,
     Value<String>? name,
     Value<String>? description,
@@ -3208,11 +3129,8 @@ class StrategemsCompanion extends UpdateCompanion<Strategem> {
     Value<String>? phase,
     Value<String>? target,
     Value<String>? effect,
-    Value<String?>? condition,
-    Value<bool>? oncePerBattle,
-    Value<String>? codexId,
+    Value<int>? codexId,
     Value<int?>? detachmentId,
-    Value<int>? rowid,
   }) {
     return StrategemsCompanion(
       id: id ?? this.id,
@@ -3223,11 +3141,8 @@ class StrategemsCompanion extends UpdateCompanion<Strategem> {
       phase: phase ?? this.phase,
       target: target ?? this.target,
       effect: effect ?? this.effect,
-      condition: condition ?? this.condition,
-      oncePerBattle: oncePerBattle ?? this.oncePerBattle,
       codexId: codexId ?? this.codexId,
       detachmentId: detachmentId ?? this.detachmentId,
-      rowid: rowid ?? this.rowid,
     );
   }
 
@@ -3235,7 +3150,7 @@ class StrategemsCompanion extends UpdateCompanion<Strategem> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (id.present) {
-      map['id'] = Variable<String>(id.value);
+      map['id'] = Variable<int>(id.value);
     }
     if (code.present) {
       map['code'] = Variable<String>(code.value);
@@ -3258,20 +3173,11 @@ class StrategemsCompanion extends UpdateCompanion<Strategem> {
     if (effect.present) {
       map['effect'] = Variable<String>(effect.value);
     }
-    if (condition.present) {
-      map['condition'] = Variable<String>(condition.value);
-    }
-    if (oncePerBattle.present) {
-      map['once_per_battle'] = Variable<bool>(oncePerBattle.value);
-    }
     if (codexId.present) {
-      map['codex_id'] = Variable<String>(codexId.value);
+      map['codex_id'] = Variable<int>(codexId.value);
     }
     if (detachmentId.present) {
       map['detachment_id'] = Variable<int>(detachmentId.value);
-    }
-    if (rowid.present) {
-      map['rowid'] = Variable<int>(rowid.value);
     }
     return map;
   }
@@ -3287,11 +3193,8 @@ class StrategemsCompanion extends UpdateCompanion<Strategem> {
           ..write('phase: $phase, ')
           ..write('target: $target, ')
           ..write('effect: $effect, ')
-          ..write('condition: $condition, ')
-          ..write('oncePerBattle: $oncePerBattle, ')
           ..write('codexId: $codexId, ')
-          ..write('detachmentId: $detachmentId, ')
-          ..write('rowid: $rowid')
+          ..write('detachmentId: $detachmentId')
           ..write(')'))
         .toString();
   }
@@ -3573,14 +3476,14 @@ typedef $$FactionsTableProcessedTableManager =
 typedef $$ArmiesTableCreateCompanionBuilder =
     ArmiesCompanion Function({
       Value<int> id,
-      required String code,
+      required String armyCode,
       required String name,
       required int factionId,
     });
 typedef $$ArmiesTableUpdateCompanionBuilder =
     ArmiesCompanion Function({
       Value<int> id,
-      Value<String> code,
+      Value<String> armyCode,
       Value<String> name,
       Value<int> factionId,
     });
@@ -3659,8 +3562,8 @@ class $$ArmiesTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<String> get code => $composableBuilder(
-    column: $table.code,
+  ColumnFilters<String> get armyCode => $composableBuilder(
+    column: $table.armyCode,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -3757,8 +3660,8 @@ class $$ArmiesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<String> get code => $composableBuilder(
-    column: $table.code,
+  ColumnOrderings<String> get armyCode => $composableBuilder(
+    column: $table.armyCode,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -3803,8 +3706,8 @@ class $$ArmiesTableAnnotationComposer
   GeneratedColumn<int> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
-  GeneratedColumn<String> get code =>
-      $composableBuilder(column: $table.code, builder: (column) => column);
+  GeneratedColumn<String> get armyCode =>
+      $composableBuilder(column: $table.armyCode, builder: (column) => column);
 
   GeneratedColumn<String> get name =>
       $composableBuilder(column: $table.name, builder: (column) => column);
@@ -3916,24 +3819,24 @@ class $$ArmiesTableTableManager
           updateCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
-                Value<String> code = const Value.absent(),
+                Value<String> armyCode = const Value.absent(),
                 Value<String> name = const Value.absent(),
                 Value<int> factionId = const Value.absent(),
               }) => ArmiesCompanion(
                 id: id,
-                code: code,
+                armyCode: armyCode,
                 name: name,
                 factionId: factionId,
               ),
           createCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
-                required String code,
+                required String armyCode,
                 required String name,
                 required int factionId,
               }) => ArmiesCompanion.insert(
                 id: id,
-                code: code,
+                armyCode: armyCode,
                 name: name,
                 factionId: factionId,
               ),
@@ -4112,6 +4015,24 @@ final class $$CodexesTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<$StrategemsTable, List<Strategem>>
+  _strategemsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.strategems,
+    aliasName: $_aliasNameGenerator(db.codexes.id, db.strategems.codexId),
+  );
+
+  $$StrategemsTableProcessedTableManager get strategemsRefs {
+    final manager = $$StrategemsTableTableManager(
+      $_db,
+      $_db.strategems,
+    ).filter((f) => f.codexId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_strategemsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$CodexesTableFilterComposer
@@ -4202,6 +4123,31 @@ class $$CodexesTableFilterComposer
           }) => $$DetachmentCodexTableFilterComposer(
             $db: $db,
             $table: $db.detachmentCodex,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> strategemsRefs(
+    Expression<bool> Function($$StrategemsTableFilterComposer f) f,
+  ) {
+    final $$StrategemsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.strategems,
+      getReferencedColumn: (t) => t.codexId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$StrategemsTableFilterComposer(
+            $db: $db,
+            $table: $db.strategems,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -4350,6 +4296,31 @@ class $$CodexesTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> strategemsRefs<T extends Object>(
+    Expression<T> Function($$StrategemsTableAnnotationComposer a) f,
+  ) {
+    final $$StrategemsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.strategems,
+      getReferencedColumn: (t) => t.codexId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$StrategemsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.strategems,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$CodexesTableTableManager
@@ -4369,6 +4340,7 @@ class $$CodexesTableTableManager
             bool armyId,
             bool unitsRefs,
             bool detachmentCodexRefs,
+            bool strategemsRefs,
           })
         > {
   $$CodexesTableTableManager(_$AppDatabase db, $CodexesTable table)
@@ -4419,12 +4391,14 @@ class $$CodexesTableTableManager
                 armyId = false,
                 unitsRefs = false,
                 detachmentCodexRefs = false,
+                strategemsRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
                   explicitlyWatchedTables: [
                     if (unitsRefs) db.units,
                     if (detachmentCodexRefs) db.detachmentCodex,
+                    if (strategemsRefs) db.strategems,
                   ],
                   addJoins:
                       <
@@ -4494,6 +4468,27 @@ class $$CodexesTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (strategemsRefs)
+                        await $_getPrefetchedData<
+                          Codexe,
+                          $CodexesTable,
+                          Strategem
+                        >(
+                          currentTable: table,
+                          referencedTable: $$CodexesTableReferences
+                              ._strategemsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$CodexesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).strategemsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.codexId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -4518,6 +4513,7 @@ typedef $$CodexesTableProcessedTableManager =
         bool armyId,
         bool unitsRefs,
         bool detachmentCodexRefs,
+        bool strategemsRefs,
       })
     >;
 typedef $$RoleTableCreateCompanionBuilder =
@@ -6507,7 +6503,7 @@ typedef $$EnhancementsTableProcessedTableManager =
     >;
 typedef $$StrategemsTableCreateCompanionBuilder =
     StrategemsCompanion Function({
-      required String id,
+      Value<int> id,
       required String code,
       required String name,
       required String description,
@@ -6515,15 +6511,12 @@ typedef $$StrategemsTableCreateCompanionBuilder =
       required String phase,
       required String target,
       required String effect,
-      Value<String?> condition,
-      Value<bool> oncePerBattle,
-      required String codexId,
+      required int codexId,
       Value<int?> detachmentId,
-      Value<int> rowid,
     });
 typedef $$StrategemsTableUpdateCompanionBuilder =
     StrategemsCompanion Function({
-      Value<String> id,
+      Value<int> id,
       Value<String> code,
       Value<String> name,
       Value<String> description,
@@ -6531,16 +6524,30 @@ typedef $$StrategemsTableUpdateCompanionBuilder =
       Value<String> phase,
       Value<String> target,
       Value<String> effect,
-      Value<String?> condition,
-      Value<bool> oncePerBattle,
-      Value<String> codexId,
+      Value<int> codexId,
       Value<int?> detachmentId,
-      Value<int> rowid,
     });
 
 final class $$StrategemsTableReferences
     extends BaseReferences<_$AppDatabase, $StrategemsTable, Strategem> {
   $$StrategemsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $CodexesTable _codexIdTable(_$AppDatabase db) => db.codexes
+      .createAlias($_aliasNameGenerator(db.strategems.codexId, db.codexes.id));
+
+  $$CodexesTableProcessedTableManager get codexId {
+    final $_column = $_itemColumn<int>('codex_id')!;
+
+    final manager = $$CodexesTableTableManager(
+      $_db,
+      $_db.codexes,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_codexIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
 
   static $DetachmentsTable _detachmentIdTable(_$AppDatabase db) =>
       db.detachments.createAlias(
@@ -6571,7 +6578,7 @@ class $$StrategemsTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<String> get id => $composableBuilder(
+  ColumnFilters<int> get id => $composableBuilder(
     column: $table.id,
     builder: (column) => ColumnFilters(column),
   );
@@ -6611,15 +6618,28 @@ class $$StrategemsTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<String> get condition => $composableBuilder(
-    column: $table.condition,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<bool> get oncePerBattle => $composableBuilder(
-    column: $table.oncePerBattle,
-    builder: (column) => ColumnFilters(column),
-  );
+  $$CodexesTableFilterComposer get codexId {
+    final $$CodexesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.codexId,
+      referencedTable: $db.codexes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CodexesTableFilterComposer(
+            $db: $db,
+            $table: $db.codexes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 
   $$DetachmentsTableFilterComposer get detachmentId {
     final $$DetachmentsTableFilterComposer composer = $composerBuilder(
@@ -6654,7 +6674,7 @@ class $$StrategemsTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<String> get id => $composableBuilder(
+  ColumnOrderings<int> get id => $composableBuilder(
     column: $table.id,
     builder: (column) => ColumnOrderings(column),
   );
@@ -6694,15 +6714,28 @@ class $$StrategemsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<String> get condition => $composableBuilder(
-    column: $table.condition,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<bool> get oncePerBattle => $composableBuilder(
-    column: $table.oncePerBattle,
-    builder: (column) => ColumnOrderings(column),
-  );
+  $$CodexesTableOrderingComposer get codexId {
+    final $$CodexesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.codexId,
+      referencedTable: $db.codexes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CodexesTableOrderingComposer(
+            $db: $db,
+            $table: $db.codexes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 
   $$DetachmentsTableOrderingComposer get detachmentId {
     final $$DetachmentsTableOrderingComposer composer = $composerBuilder(
@@ -6737,7 +6770,7 @@ class $$StrategemsTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<String> get id =>
+  GeneratedColumn<int> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
   GeneratedColumn<String> get code =>
@@ -6763,13 +6796,28 @@ class $$StrategemsTableAnnotationComposer
   GeneratedColumn<String> get effect =>
       $composableBuilder(column: $table.effect, builder: (column) => column);
 
-  GeneratedColumn<String> get condition =>
-      $composableBuilder(column: $table.condition, builder: (column) => column);
-
-  GeneratedColumn<bool> get oncePerBattle => $composableBuilder(
-    column: $table.oncePerBattle,
-    builder: (column) => column,
-  );
+  $$CodexesTableAnnotationComposer get codexId {
+    final $$CodexesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.codexId,
+      referencedTable: $db.codexes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CodexesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.codexes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 
   $$DetachmentsTableAnnotationComposer get detachmentId {
     final $$DetachmentsTableAnnotationComposer composer = $composerBuilder(
@@ -6808,7 +6856,7 @@ class $$StrategemsTableTableManager
           $$StrategemsTableUpdateCompanionBuilder,
           (Strategem, $$StrategemsTableReferences),
           Strategem,
-          PrefetchHooks Function({bool detachmentId})
+          PrefetchHooks Function({bool codexId, bool detachmentId})
         > {
   $$StrategemsTableTableManager(_$AppDatabase db, $StrategemsTable table)
     : super(
@@ -6823,7 +6871,7 @@ class $$StrategemsTableTableManager
               $$StrategemsTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
               ({
-                Value<String> id = const Value.absent(),
+                Value<int> id = const Value.absent(),
                 Value<String> code = const Value.absent(),
                 Value<String> name = const Value.absent(),
                 Value<String> description = const Value.absent(),
@@ -6831,11 +6879,8 @@ class $$StrategemsTableTableManager
                 Value<String> phase = const Value.absent(),
                 Value<String> target = const Value.absent(),
                 Value<String> effect = const Value.absent(),
-                Value<String?> condition = const Value.absent(),
-                Value<bool> oncePerBattle = const Value.absent(),
-                Value<String> codexId = const Value.absent(),
+                Value<int> codexId = const Value.absent(),
                 Value<int?> detachmentId = const Value.absent(),
-                Value<int> rowid = const Value.absent(),
               }) => StrategemsCompanion(
                 id: id,
                 code: code,
@@ -6845,15 +6890,12 @@ class $$StrategemsTableTableManager
                 phase: phase,
                 target: target,
                 effect: effect,
-                condition: condition,
-                oncePerBattle: oncePerBattle,
                 codexId: codexId,
                 detachmentId: detachmentId,
-                rowid: rowid,
               ),
           createCompanionCallback:
               ({
-                required String id,
+                Value<int> id = const Value.absent(),
                 required String code,
                 required String name,
                 required String description,
@@ -6861,11 +6903,8 @@ class $$StrategemsTableTableManager
                 required String phase,
                 required String target,
                 required String effect,
-                Value<String?> condition = const Value.absent(),
-                Value<bool> oncePerBattle = const Value.absent(),
-                required String codexId,
+                required int codexId,
                 Value<int?> detachmentId = const Value.absent(),
-                Value<int> rowid = const Value.absent(),
               }) => StrategemsCompanion.insert(
                 id: id,
                 code: code,
@@ -6875,11 +6914,8 @@ class $$StrategemsTableTableManager
                 phase: phase,
                 target: target,
                 effect: effect,
-                condition: condition,
-                oncePerBattle: oncePerBattle,
                 codexId: codexId,
                 detachmentId: detachmentId,
-                rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -6889,7 +6925,7 @@ class $$StrategemsTableTableManager
                 ),
               )
               .toList(),
-          prefetchHooksCallback: ({detachmentId = false}) {
+          prefetchHooksCallback: ({codexId = false, detachmentId = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
@@ -6909,6 +6945,19 @@ class $$StrategemsTableTableManager
                       dynamic
                     >
                   >(state) {
+                    if (codexId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.codexId,
+                                referencedTable: $$StrategemsTableReferences
+                                    ._codexIdTable(db),
+                                referencedColumn: $$StrategemsTableReferences
+                                    ._codexIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
                     if (detachmentId) {
                       state =
                           state.withJoin(
@@ -6946,7 +6995,7 @@ typedef $$StrategemsTableProcessedTableManager =
       $$StrategemsTableUpdateCompanionBuilder,
       (Strategem, $$StrategemsTableReferences),
       Strategem,
-      PrefetchHooks Function({bool detachmentId})
+      PrefetchHooks Function({bool codexId, bool detachmentId})
     >;
 
 class $AppDatabaseManager {

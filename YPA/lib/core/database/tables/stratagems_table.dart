@@ -4,9 +4,9 @@ import 'codexes_table.dart';
 import 'detachments_table.dart';
 
 class Strategems extends Table {
-  TextColumn get id => text()();
+  IntColumn get id => integer().autoIncrement()();
 
-  TextColumn get code => text()();
+  TextColumn get code => text().unique()();
   TextColumn get name => text()();
   TextColumn get description => text()();
 
@@ -15,21 +15,13 @@ class Strategems extends Table {
   TextColumn get phase => text()();
   TextColumn get target => text()();
   TextColumn get effect => text()();
-  TextColumn get condition => text().nullable()();
 
-  BoolColumn get oncePerBattle =>
-      boolean().withDefault(const Constant(false))();
+  /// FK → Codex
+  IntColumn get codexId =>
+      integer().references(Codexes, #id)();
 
-  /// Всегда задан — стратегемы не бывают вне Codex
-  TextColumn get codexId =>
-      text().references(Codexes, #id)();
-
-  /// NULL → базовая стратегема
-  /// NOT NULL → detachment-стратегема
+  /// FK → Detachment (optional)
   IntColumn get detachmentId =>
-      integer().references(Detachments, #id).nullable()();
-
-
-  @override
-  Set<Column> get primaryKey => {id};
+      integer().nullable().references(Detachments, #id)();
 }
+
