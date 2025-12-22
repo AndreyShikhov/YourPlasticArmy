@@ -1,6 +1,6 @@
 import '../../domain/models/detachment/detachment_dom.dart';
 import '../../domain/models/detachment/detachment_name.dart';
-import '../../domain/models/detachment/repository/detachment_repository.dart';
+import '../../domain/models/detachment/detachment_repository.dart';
 
 class CreateDetachment {
   final DetachmentRepository repository;

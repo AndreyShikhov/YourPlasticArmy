@@ -2,7 +2,7 @@ import 'package:drift/drift.dart';
 import 'armies_table.dart';
 
 class Codexes extends Table {
-  IntColumn get id => integer().autoIncrement()();
+  TextColumn get id => text()();
 
   /// ultramarines, blood_angels
   TextColumn get code => text().unique().withLength(min: 1)();
@@ -14,5 +14,6 @@ class Codexes extends Table {
   IntColumn get armyId =>
       integer().references(Armies, #id)();
 
-
+  @override
+  Set<Column> get primaryKey => {id};
 }
