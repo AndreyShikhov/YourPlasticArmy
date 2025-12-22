@@ -7,7 +7,7 @@ import 'package:path_provider/path_provider.dart';
 
 
 import 'package:ypa/core/database/tables/codexes_table.dart';
-import 'package:ypa/core/database/tables/detachment_codexes_table.dart';
+import 'package:ypa/core/database/tables/codex_detachments_table.dart';
 import 'package:ypa/core/database/tables/detachments_table.dart';
 import 'package:ypa/core/database/tables/enhancements_table.dart';
 import 'package:ypa/core/database/tables/armies_table.dart';
@@ -35,7 +35,7 @@ part 'app_database.g.dart';
     Units,
     Role,
     Detachments,
-    DetachmentCodex,
+    CodexDetachments,
     Enhancements,
     Strategems,
   ],
@@ -66,7 +66,7 @@ class AppDatabase extends _$AppDatabase {
       await delete(strategems).go();
 
       // 2. M:N связи
-      await delete(detachmentCodex).go();
+      await delete(codexDetachments).go();
 
       // 3. Codex-level
       await delete(detachments).go();

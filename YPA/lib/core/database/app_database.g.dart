@@ -1927,69 +1927,61 @@ class DetachmentsCompanion extends UpdateCompanion<DetachmentRow> {
   }
 }
 
-class $DetachmentCodexTable extends DetachmentCodex
-    with TableInfo<$DetachmentCodexTable, DetachmentCodexData> {
+class $CodexDetachmentsTable extends CodexDetachments
+    with TableInfo<$CodexDetachmentsTable, CodexDetachment> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $DetachmentCodexTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  $CodexDetachmentsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _codexIdMeta = const VerificationMeta(
+    'codexId',
+  );
   @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-    'id',
+  late final GeneratedColumn<String> codexId = GeneratedColumn<String>(
+    'codex_id',
     aliasedName,
     false,
-    hasAutoIncrement: true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
     defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'PRIMARY KEY AUTOINCREMENT',
+      'REFERENCES codexes (id)',
     ),
   );
   static const VerificationMeta _detachmentIdMeta = const VerificationMeta(
     'detachmentId',
   );
   @override
-  late final GeneratedColumn<int> detachmentId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> detachmentId = GeneratedColumn<String>(
     'detachment_id',
     aliasedName,
     false,
-    type: DriftSqlType.int,
+    type: DriftSqlType.string,
     requiredDuringInsert: true,
     defaultConstraints: GeneratedColumn.constraintIsAlways(
       'REFERENCES detachments (id)',
     ),
   );
-  static const VerificationMeta _codexIdMeta = const VerificationMeta(
-    'codexId',
-  );
   @override
-  late final GeneratedColumn<int> codexId = GeneratedColumn<int>(
-    'codex_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES codexes (id)',
-    ),
-  );
-  @override
-  List<GeneratedColumn> get $columns => [id, detachmentId, codexId];
+  List<GeneratedColumn> get $columns => [codexId, detachmentId];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'detachment_codex';
+  static const String $name = 'codex_detachments';
   @override
   VerificationContext validateIntegrity(
-    Insertable<DetachmentCodexData> instance, {
+    Insertable<CodexDetachment> instance, {
     bool isInserting = false,
   }) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    if (data.containsKey('codex_id')) {
+      context.handle(
+        _codexIdMeta,
+        codexId.isAcceptableOrUnknown(data['codex_id']!, _codexIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_codexIdMeta);
     }
     if (data.containsKey('detachment_id')) {
       context.handle(
@@ -2002,193 +1994,163 @@ class $DetachmentCodexTable extends DetachmentCodex
     } else if (isInserting) {
       context.missing(_detachmentIdMeta);
     }
-    if (data.containsKey('codex_id')) {
-      context.handle(
-        _codexIdMeta,
-        codexId.isAcceptableOrUnknown(data['codex_id']!, _codexIdMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_codexIdMeta);
-    }
     return context;
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => {codexId, detachmentId};
   @override
-  List<Set<GeneratedColumn>> get uniqueKeys => [
-    {detachmentId, codexId},
-  ];
-  @override
-  DetachmentCodexData map(Map<String, dynamic> data, {String? tablePrefix}) {
+  CodexDetachment map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return DetachmentCodexData(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}id'],
+    return CodexDetachment(
+      codexId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}codex_id'],
       )!,
       detachmentId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
+        DriftSqlType.string,
         data['${effectivePrefix}detachment_id'],
-      )!,
-      codexId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}codex_id'],
       )!,
     );
   }
 
   @override
-  $DetachmentCodexTable createAlias(String alias) {
-    return $DetachmentCodexTable(attachedDatabase, alias);
+  $CodexDetachmentsTable createAlias(String alias) {
+    return $CodexDetachmentsTable(attachedDatabase, alias);
   }
 }
 
-class DetachmentCodexData extends DataClass
-    implements Insertable<DetachmentCodexData> {
-  final int id;
-  final int detachmentId;
-  final int codexId;
-  const DetachmentCodexData({
-    required this.id,
-    required this.detachmentId,
-    required this.codexId,
-  });
+class CodexDetachment extends DataClass implements Insertable<CodexDetachment> {
+  final String codexId;
+  final String detachmentId;
+  const CodexDetachment({required this.codexId, required this.detachmentId});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['detachment_id'] = Variable<int>(detachmentId);
-    map['codex_id'] = Variable<int>(codexId);
+    map['codex_id'] = Variable<String>(codexId);
+    map['detachment_id'] = Variable<String>(detachmentId);
     return map;
   }
 
-  DetachmentCodexCompanion toCompanion(bool nullToAbsent) {
-    return DetachmentCodexCompanion(
-      id: Value(id),
-      detachmentId: Value(detachmentId),
+  CodexDetachmentsCompanion toCompanion(bool nullToAbsent) {
+    return CodexDetachmentsCompanion(
       codexId: Value(codexId),
+      detachmentId: Value(detachmentId),
     );
   }
 
-  factory DetachmentCodexData.fromJson(
+  factory CodexDetachment.fromJson(
     Map<String, dynamic> json, {
     ValueSerializer? serializer,
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return DetachmentCodexData(
-      id: serializer.fromJson<int>(json['id']),
-      detachmentId: serializer.fromJson<int>(json['detachmentId']),
-      codexId: serializer.fromJson<int>(json['codexId']),
+    return CodexDetachment(
+      codexId: serializer.fromJson<String>(json['codexId']),
+      detachmentId: serializer.fromJson<String>(json['detachmentId']),
     );
   }
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'detachmentId': serializer.toJson<int>(detachmentId),
-      'codexId': serializer.toJson<int>(codexId),
+      'codexId': serializer.toJson<String>(codexId),
+      'detachmentId': serializer.toJson<String>(detachmentId),
     };
   }
 
-  DetachmentCodexData copyWith({int? id, int? detachmentId, int? codexId}) =>
-      DetachmentCodexData(
-        id: id ?? this.id,
-        detachmentId: detachmentId ?? this.detachmentId,
+  CodexDetachment copyWith({String? codexId, String? detachmentId}) =>
+      CodexDetachment(
         codexId: codexId ?? this.codexId,
+        detachmentId: detachmentId ?? this.detachmentId,
       );
-  DetachmentCodexData copyWithCompanion(DetachmentCodexCompanion data) {
-    return DetachmentCodexData(
-      id: data.id.present ? data.id.value : this.id,
+  CodexDetachment copyWithCompanion(CodexDetachmentsCompanion data) {
+    return CodexDetachment(
+      codexId: data.codexId.present ? data.codexId.value : this.codexId,
       detachmentId: data.detachmentId.present
           ? data.detachmentId.value
           : this.detachmentId,
-      codexId: data.codexId.present ? data.codexId.value : this.codexId,
     );
   }
 
   @override
   String toString() {
-    return (StringBuffer('DetachmentCodexData(')
-          ..write('id: $id, ')
-          ..write('detachmentId: $detachmentId, ')
-          ..write('codexId: $codexId')
+    return (StringBuffer('CodexDetachment(')
+          ..write('codexId: $codexId, ')
+          ..write('detachmentId: $detachmentId')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, detachmentId, codexId);
+  int get hashCode => Object.hash(codexId, detachmentId);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is DetachmentCodexData &&
-          other.id == this.id &&
-          other.detachmentId == this.detachmentId &&
-          other.codexId == this.codexId);
+      (other is CodexDetachment &&
+          other.codexId == this.codexId &&
+          other.detachmentId == this.detachmentId);
 }
 
-class DetachmentCodexCompanion extends UpdateCompanion<DetachmentCodexData> {
-  final Value<int> id;
-  final Value<int> detachmentId;
-  final Value<int> codexId;
-  const DetachmentCodexCompanion({
-    this.id = const Value.absent(),
-    this.detachmentId = const Value.absent(),
+class CodexDetachmentsCompanion extends UpdateCompanion<CodexDetachment> {
+  final Value<String> codexId;
+  final Value<String> detachmentId;
+  final Value<int> rowid;
+  const CodexDetachmentsCompanion({
     this.codexId = const Value.absent(),
+    this.detachmentId = const Value.absent(),
+    this.rowid = const Value.absent(),
   });
-  DetachmentCodexCompanion.insert({
-    this.id = const Value.absent(),
-    required int detachmentId,
-    required int codexId,
-  }) : detachmentId = Value(detachmentId),
-       codexId = Value(codexId);
-  static Insertable<DetachmentCodexData> custom({
-    Expression<int>? id,
-    Expression<int>? detachmentId,
-    Expression<int>? codexId,
+  CodexDetachmentsCompanion.insert({
+    required String codexId,
+    required String detachmentId,
+    this.rowid = const Value.absent(),
+  }) : codexId = Value(codexId),
+       detachmentId = Value(detachmentId);
+  static Insertable<CodexDetachment> custom({
+    Expression<String>? codexId,
+    Expression<String>? detachmentId,
+    Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (detachmentId != null) 'detachment_id': detachmentId,
       if (codexId != null) 'codex_id': codexId,
+      if (detachmentId != null) 'detachment_id': detachmentId,
+      if (rowid != null) 'rowid': rowid,
     });
   }
 
-  DetachmentCodexCompanion copyWith({
-    Value<int>? id,
-    Value<int>? detachmentId,
-    Value<int>? codexId,
+  CodexDetachmentsCompanion copyWith({
+    Value<String>? codexId,
+    Value<String>? detachmentId,
+    Value<int>? rowid,
   }) {
-    return DetachmentCodexCompanion(
-      id: id ?? this.id,
-      detachmentId: detachmentId ?? this.detachmentId,
+    return CodexDetachmentsCompanion(
       codexId: codexId ?? this.codexId,
+      detachmentId: detachmentId ?? this.detachmentId,
+      rowid: rowid ?? this.rowid,
     );
   }
 
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
+    if (codexId.present) {
+      map['codex_id'] = Variable<String>(codexId.value);
     }
     if (detachmentId.present) {
-      map['detachment_id'] = Variable<int>(detachmentId.value);
+      map['detachment_id'] = Variable<String>(detachmentId.value);
     }
-    if (codexId.present) {
-      map['codex_id'] = Variable<int>(codexId.value);
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
     }
     return map;
   }
 
   @override
   String toString() {
-    return (StringBuffer('DetachmentCodexCompanion(')
-          ..write('id: $id, ')
+    return (StringBuffer('CodexDetachmentsCompanion(')
+          ..write('codexId: $codexId, ')
           ..write('detachmentId: $detachmentId, ')
-          ..write('codexId: $codexId')
+          ..write('rowid: $rowid')
           ..write(')'))
         .toString();
   }
@@ -3230,7 +3192,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $RoleTable role = $RoleTable(this);
   late final $UnitsTable units = $UnitsTable(this);
   late final $DetachmentsTable detachments = $DetachmentsTable(this);
-  late final $DetachmentCodexTable detachmentCodex = $DetachmentCodexTable(
+  late final $CodexDetachmentsTable codexDetachments = $CodexDetachmentsTable(
     this,
   );
   late final $EnhancementsTable enhancements = $EnhancementsTable(this);
@@ -3246,7 +3208,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     role,
     units,
     detachments,
-    detachmentCodex,
+    codexDetachments,
     enhancements,
     strategems,
   ];
@@ -3999,6 +3961,26 @@ final class $$CodexesTableReferences
       manager.$state.copyWith(prefetchedData: [item]),
     );
   }
+
+  static MultiTypedResultKey<$CodexDetachmentsTable, List<CodexDetachment>>
+  _codexDetachmentsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.codexDetachments,
+    aliasName: $_aliasNameGenerator(db.codexes.id, db.codexDetachments.codexId),
+  );
+
+  $$CodexDetachmentsTableProcessedTableManager get codexDetachmentsRefs {
+    final manager = $$CodexDetachmentsTableTableManager(
+      $_db,
+      $_db.codexDetachments,
+    ).filter((f) => f.codexId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _codexDetachmentsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$CodexesTableFilterComposer
@@ -4046,6 +4028,31 @@ class $$CodexesTableFilterComposer
           ),
     );
     return composer;
+  }
+
+  Expression<bool> codexDetachmentsRefs(
+    Expression<bool> Function($$CodexDetachmentsTableFilterComposer f) f,
+  ) {
+    final $$CodexDetachmentsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.codexDetachments,
+      getReferencedColumn: (t) => t.codexId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CodexDetachmentsTableFilterComposer(
+            $db: $db,
+            $table: $db.codexDetachments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
   }
 }
 
@@ -4137,6 +4144,31 @@ class $$CodexesTableAnnotationComposer
     );
     return composer;
   }
+
+  Expression<T> codexDetachmentsRefs<T extends Object>(
+    Expression<T> Function($$CodexDetachmentsTableAnnotationComposer a) f,
+  ) {
+    final $$CodexDetachmentsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.codexDetachments,
+      getReferencedColumn: (t) => t.codexId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CodexDetachmentsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.codexDetachments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$CodexesTableTableManager
@@ -4152,7 +4184,7 @@ class $$CodexesTableTableManager
           $$CodexesTableUpdateCompanionBuilder,
           (Codexe, $$CodexesTableReferences),
           Codexe,
-          PrefetchHooks Function({bool armyId})
+          PrefetchHooks Function({bool armyId, bool codexDetachmentsRefs})
         > {
   $$CodexesTableTableManager(_$AppDatabase db, $CodexesTable table)
     : super(
@@ -4201,47 +4233,72 @@ class $$CodexesTableTableManager
                 ),
               )
               .toList(),
-          prefetchHooksCallback: ({armyId = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [],
-              addJoins:
-                  <
-                    T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic
-                    >
-                  >(state) {
-                    if (armyId) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.armyId,
-                                referencedTable: $$CodexesTableReferences
-                                    ._armyIdTable(db),
-                                referencedColumn: $$CodexesTableReferences
-                                    ._armyIdTable(db)
-                                    .id,
-                              )
-                              as T;
-                    }
+          prefetchHooksCallback:
+              ({armyId = false, codexDetachmentsRefs = false}) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (codexDetachmentsRefs) db.codexDetachments,
+                  ],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (armyId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.armyId,
+                                    referencedTable: $$CodexesTableReferences
+                                        ._armyIdTable(db),
+                                    referencedColumn: $$CodexesTableReferences
+                                        ._armyIdTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
 
-                    return state;
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (codexDetachmentsRefs)
+                        await $_getPrefetchedData<
+                          Codexe,
+                          $CodexesTable,
+                          CodexDetachment
+                        >(
+                          currentTable: table,
+                          referencedTable: $$CodexesTableReferences
+                              ._codexDetachmentsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$CodexesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).codexDetachmentsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.codexId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
                   },
-              getPrefetchedDataCallback: (items) async {
-                return [];
+                );
               },
-            );
-          },
         ),
       );
 }
@@ -4258,7 +4315,7 @@ typedef $$CodexesTableProcessedTableManager =
       $$CodexesTableUpdateCompanionBuilder,
       (Codexe, $$CodexesTableReferences),
       Codexe,
-      PrefetchHooks Function({bool armyId})
+      PrefetchHooks Function({bool armyId, bool codexDetachmentsRefs})
     >;
 typedef $$RoleTableCreateCompanionBuilder =
     RoleCompanion Function({
@@ -4904,6 +4961,34 @@ typedef $$DetachmentsTableUpdateCompanionBuilder =
       Value<int> rowid,
     });
 
+final class $$DetachmentsTableReferences
+    extends BaseReferences<_$AppDatabase, $DetachmentsTable, DetachmentRow> {
+  $$DetachmentsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$CodexDetachmentsTable, List<CodexDetachment>>
+  _codexDetachmentsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.codexDetachments,
+    aliasName: $_aliasNameGenerator(
+      db.detachments.id,
+      db.codexDetachments.detachmentId,
+    ),
+  );
+
+  $$CodexDetachmentsTableProcessedTableManager get codexDetachmentsRefs {
+    final manager = $$CodexDetachmentsTableTableManager(
+      $_db,
+      $_db.codexDetachments,
+    ).filter((f) => f.detachmentId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _codexDetachmentsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
 class $$DetachmentsTableFilterComposer
     extends Composer<_$AppDatabase, $DetachmentsTable> {
   $$DetachmentsTableFilterComposer({
@@ -4947,6 +5032,31 @@ class $$DetachmentsTableFilterComposer
     column: $table.ruleFull,
     builder: (column) => ColumnFilters(column),
   );
+
+  Expression<bool> codexDetachmentsRefs(
+    Expression<bool> Function($$CodexDetachmentsTableFilterComposer f) f,
+  ) {
+    final $$CodexDetachmentsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.codexDetachments,
+      getReferencedColumn: (t) => t.detachmentId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CodexDetachmentsTableFilterComposer(
+            $db: $db,
+            $table: $db.codexDetachments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$DetachmentsTableOrderingComposer
@@ -5025,6 +5135,31 @@ class $$DetachmentsTableAnnotationComposer
 
   GeneratedColumn<String> get ruleFull =>
       $composableBuilder(column: $table.ruleFull, builder: (column) => column);
+
+  Expression<T> codexDetachmentsRefs<T extends Object>(
+    Expression<T> Function($$CodexDetachmentsTableAnnotationComposer a) f,
+  ) {
+    final $$CodexDetachmentsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.codexDetachments,
+      getReferencedColumn: (t) => t.detachmentId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CodexDetachmentsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.codexDetachments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$DetachmentsTableTableManager
@@ -5038,12 +5173,9 @@ class $$DetachmentsTableTableManager
           $$DetachmentsTableAnnotationComposer,
           $$DetachmentsTableCreateCompanionBuilder,
           $$DetachmentsTableUpdateCompanionBuilder,
-          (
-            DetachmentRow,
-            BaseReferences<_$AppDatabase, $DetachmentsTable, DetachmentRow>,
-          ),
+          (DetachmentRow, $$DetachmentsTableReferences),
           DetachmentRow,
-          PrefetchHooks Function()
+          PrefetchHooks Function({bool codexDetachmentsRefs})
         > {
   $$DetachmentsTableTableManager(_$AppDatabase db, $DetachmentsTable table)
     : super(
@@ -5097,9 +5229,47 @@ class $$DetachmentsTableTableManager
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$DetachmentsTableReferences(db, table, e),
+                ),
+              )
               .toList(),
-          prefetchHooksCallback: null,
+          prefetchHooksCallback: ({codexDetachmentsRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (codexDetachmentsRefs) db.codexDetachments,
+              ],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (codexDetachmentsRefs)
+                    await $_getPrefetchedData<
+                      DetachmentRow,
+                      $DetachmentsTable,
+                      CodexDetachment
+                    >(
+                      currentTable: table,
+                      referencedTable: $$DetachmentsTableReferences
+                          ._codexDetachmentsRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$DetachmentsTableReferences(
+                            db,
+                            table,
+                            p0,
+                          ).codexDetachmentsRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where(
+                            (e) => e.detachmentId == item.id,
+                          ),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
         ),
       );
 }
@@ -5114,152 +5284,373 @@ typedef $$DetachmentsTableProcessedTableManager =
       $$DetachmentsTableAnnotationComposer,
       $$DetachmentsTableCreateCompanionBuilder,
       $$DetachmentsTableUpdateCompanionBuilder,
-      (
-        DetachmentRow,
-        BaseReferences<_$AppDatabase, $DetachmentsTable, DetachmentRow>,
-      ),
+      (DetachmentRow, $$DetachmentsTableReferences),
       DetachmentRow,
-      PrefetchHooks Function()
+      PrefetchHooks Function({bool codexDetachmentsRefs})
     >;
-typedef $$DetachmentCodexTableCreateCompanionBuilder =
-    DetachmentCodexCompanion Function({
-      Value<int> id,
-      required int detachmentId,
-      required int codexId,
+typedef $$CodexDetachmentsTableCreateCompanionBuilder =
+    CodexDetachmentsCompanion Function({
+      required String codexId,
+      required String detachmentId,
+      Value<int> rowid,
     });
-typedef $$DetachmentCodexTableUpdateCompanionBuilder =
-    DetachmentCodexCompanion Function({
-      Value<int> id,
-      Value<int> detachmentId,
-      Value<int> codexId,
+typedef $$CodexDetachmentsTableUpdateCompanionBuilder =
+    CodexDetachmentsCompanion Function({
+      Value<String> codexId,
+      Value<String> detachmentId,
+      Value<int> rowid,
     });
 
-class $$DetachmentCodexTableFilterComposer
-    extends Composer<_$AppDatabase, $DetachmentCodexTable> {
-  $$DetachmentCodexTableFilterComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnFilters<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnFilters(column),
+final class $$CodexDetachmentsTableReferences
+    extends
+        BaseReferences<_$AppDatabase, $CodexDetachmentsTable, CodexDetachment> {
+  $$CodexDetachmentsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
   );
+
+  static $CodexesTable _codexIdTable(_$AppDatabase db) =>
+      db.codexes.createAlias(
+        $_aliasNameGenerator(db.codexDetachments.codexId, db.codexes.id),
+      );
+
+  $$CodexesTableProcessedTableManager get codexId {
+    final $_column = $_itemColumn<String>('codex_id')!;
+
+    final manager = $$CodexesTableTableManager(
+      $_db,
+      $_db.codexes,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_codexIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $DetachmentsTable _detachmentIdTable(_$AppDatabase db) =>
+      db.detachments.createAlias(
+        $_aliasNameGenerator(
+          db.codexDetachments.detachmentId,
+          db.detachments.id,
+        ),
+      );
+
+  $$DetachmentsTableProcessedTableManager get detachmentId {
+    final $_column = $_itemColumn<String>('detachment_id')!;
+
+    final manager = $$DetachmentsTableTableManager(
+      $_db,
+      $_db.detachments,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_detachmentIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
 }
 
-class $$DetachmentCodexTableOrderingComposer
-    extends Composer<_$AppDatabase, $DetachmentCodexTable> {
-  $$DetachmentCodexTableOrderingComposer({
+class $$CodexDetachmentsTableFilterComposer
+    extends Composer<_$AppDatabase, $CodexDetachmentsTable> {
+  $$CodexDetachmentsTableFilterComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
+  $$CodexesTableFilterComposer get codexId {
+    final $$CodexesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.codexId,
+      referencedTable: $db.codexes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CodexesTableFilterComposer(
+            $db: $db,
+            $table: $db.codexes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$DetachmentsTableFilterComposer get detachmentId {
+    final $$DetachmentsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.detachmentId,
+      referencedTable: $db.detachments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DetachmentsTableFilterComposer(
+            $db: $db,
+            $table: $db.detachments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
-class $$DetachmentCodexTableAnnotationComposer
-    extends Composer<_$AppDatabase, $DetachmentCodexTable> {
-  $$DetachmentCodexTableAnnotationComposer({
+class $$CodexDetachmentsTableOrderingComposer
+    extends Composer<_$AppDatabase, $CodexDetachmentsTable> {
+  $$CodexDetachmentsTableOrderingComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => column);
+  $$CodexesTableOrderingComposer get codexId {
+    final $$CodexesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.codexId,
+      referencedTable: $db.codexes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CodexesTableOrderingComposer(
+            $db: $db,
+            $table: $db.codexes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$DetachmentsTableOrderingComposer get detachmentId {
+    final $$DetachmentsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.detachmentId,
+      referencedTable: $db.detachments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DetachmentsTableOrderingComposer(
+            $db: $db,
+            $table: $db.detachments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
-class $$DetachmentCodexTableTableManager
+class $$CodexDetachmentsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $CodexDetachmentsTable> {
+  $$CodexDetachmentsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  $$CodexesTableAnnotationComposer get codexId {
+    final $$CodexesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.codexId,
+      referencedTable: $db.codexes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CodexesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.codexes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$DetachmentsTableAnnotationComposer get detachmentId {
+    final $$DetachmentsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.detachmentId,
+      referencedTable: $db.detachments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DetachmentsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.detachments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$CodexDetachmentsTableTableManager
     extends
         RootTableManager<
           _$AppDatabase,
-          $DetachmentCodexTable,
-          DetachmentCodexData,
-          $$DetachmentCodexTableFilterComposer,
-          $$DetachmentCodexTableOrderingComposer,
-          $$DetachmentCodexTableAnnotationComposer,
-          $$DetachmentCodexTableCreateCompanionBuilder,
-          $$DetachmentCodexTableUpdateCompanionBuilder,
-          (
-            DetachmentCodexData,
-            BaseReferences<
-              _$AppDatabase,
-              $DetachmentCodexTable,
-              DetachmentCodexData
-            >,
-          ),
-          DetachmentCodexData,
-          PrefetchHooks Function()
+          $CodexDetachmentsTable,
+          CodexDetachment,
+          $$CodexDetachmentsTableFilterComposer,
+          $$CodexDetachmentsTableOrderingComposer,
+          $$CodexDetachmentsTableAnnotationComposer,
+          $$CodexDetachmentsTableCreateCompanionBuilder,
+          $$CodexDetachmentsTableUpdateCompanionBuilder,
+          (CodexDetachment, $$CodexDetachmentsTableReferences),
+          CodexDetachment,
+          PrefetchHooks Function({bool codexId, bool detachmentId})
         > {
-  $$DetachmentCodexTableTableManager(
+  $$CodexDetachmentsTableTableManager(
     _$AppDatabase db,
-    $DetachmentCodexTable table,
+    $CodexDetachmentsTable table,
   ) : super(
         TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
-              $$DetachmentCodexTableFilterComposer($db: db, $table: table),
+              $$CodexDetachmentsTableFilterComposer($db: db, $table: table),
           createOrderingComposer: () =>
-              $$DetachmentCodexTableOrderingComposer($db: db, $table: table),
+              $$CodexDetachmentsTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
-              $$DetachmentCodexTableAnnotationComposer($db: db, $table: table),
+              $$CodexDetachmentsTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
               ({
-                Value<int> id = const Value.absent(),
-                Value<int> detachmentId = const Value.absent(),
-                Value<int> codexId = const Value.absent(),
-              }) => DetachmentCodexCompanion(
-                id: id,
-                detachmentId: detachmentId,
+                Value<String> codexId = const Value.absent(),
+                Value<String> detachmentId = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => CodexDetachmentsCompanion(
                 codexId: codexId,
+                detachmentId: detachmentId,
+                rowid: rowid,
               ),
           createCompanionCallback:
               ({
-                Value<int> id = const Value.absent(),
-                required int detachmentId,
-                required int codexId,
-              }) => DetachmentCodexCompanion.insert(
-                id: id,
-                detachmentId: detachmentId,
+                required String codexId,
+                required String detachmentId,
+                Value<int> rowid = const Value.absent(),
+              }) => CodexDetachmentsCompanion.insert(
                 codexId: codexId,
+                detachmentId: detachmentId,
+                rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$CodexDetachmentsTableReferences(db, table, e),
+                ),
+              )
               .toList(),
-          prefetchHooksCallback: null,
+          prefetchHooksCallback: ({codexId = false, detachmentId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (codexId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.codexId,
+                                referencedTable:
+                                    $$CodexDetachmentsTableReferences
+                                        ._codexIdTable(db),
+                                referencedColumn:
+                                    $$CodexDetachmentsTableReferences
+                                        ._codexIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+                    if (detachmentId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.detachmentId,
+                                referencedTable:
+                                    $$CodexDetachmentsTableReferences
+                                        ._detachmentIdTable(db),
+                                referencedColumn:
+                                    $$CodexDetachmentsTableReferences
+                                        ._detachmentIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
         ),
       );
 }
 
-typedef $$DetachmentCodexTableProcessedTableManager =
+typedef $$CodexDetachmentsTableProcessedTableManager =
     ProcessedTableManager<
       _$AppDatabase,
-      $DetachmentCodexTable,
-      DetachmentCodexData,
-      $$DetachmentCodexTableFilterComposer,
-      $$DetachmentCodexTableOrderingComposer,
-      $$DetachmentCodexTableAnnotationComposer,
-      $$DetachmentCodexTableCreateCompanionBuilder,
-      $$DetachmentCodexTableUpdateCompanionBuilder,
-      (
-        DetachmentCodexData,
-        BaseReferences<
-          _$AppDatabase,
-          $DetachmentCodexTable,
-          DetachmentCodexData
-        >,
-      ),
-      DetachmentCodexData,
-      PrefetchHooks Function()
+      $CodexDetachmentsTable,
+      CodexDetachment,
+      $$CodexDetachmentsTableFilterComposer,
+      $$CodexDetachmentsTableOrderingComposer,
+      $$CodexDetachmentsTableAnnotationComposer,
+      $$CodexDetachmentsTableCreateCompanionBuilder,
+      $$CodexDetachmentsTableUpdateCompanionBuilder,
+      (CodexDetachment, $$CodexDetachmentsTableReferences),
+      CodexDetachment,
+      PrefetchHooks Function({bool codexId, bool detachmentId})
     >;
 typedef $$EnhancementsTableCreateCompanionBuilder =
     EnhancementsCompanion Function({
@@ -5746,8 +6137,8 @@ class $AppDatabaseManager {
       $$UnitsTableTableManager(_db, _db.units);
   $$DetachmentsTableTableManager get detachments =>
       $$DetachmentsTableTableManager(_db, _db.detachments);
-  $$DetachmentCodexTableTableManager get detachmentCodex =>
-      $$DetachmentCodexTableTableManager(_db, _db.detachmentCodex);
+  $$CodexDetachmentsTableTableManager get codexDetachments =>
+      $$CodexDetachmentsTableTableManager(_db, _db.codexDetachments);
   $$EnhancementsTableTableManager get enhancements =>
       $$EnhancementsTableTableManager(_db, _db.enhancements);
   $$StrategemsTableTableManager get strategems =>

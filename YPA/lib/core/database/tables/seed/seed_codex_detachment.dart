@@ -5,10 +5,10 @@ import '../../app_database.dart';
 
 
 
-Future<void> seedDetachmentCodex(
+Future<void> seedCodexDetachments(
     AppDatabase db,
-    Map<String, int> detachmentIds,
-    Map<String, int> codexIds,
+    Map<String, String> detachmentIds,
+    Map<String, String> codexIds,
     ) async {
   final links = detachmentsCodex();
 
@@ -25,10 +25,10 @@ Future<void> seedDetachmentCodex(
       );
     }
 
-    await db.into(db.detachmentCodex).insert(
-      DetachmentCodexCompanion.insert(
-        detachmentId: detachmentIds[link.detachmentCode]!,
+    await db.into(db.codexDetachments).insert(
+      CodexDetachmentsCompanion.insert(
         codexId: codexIds[link.codex]!,
+        detachmentId: detachmentIds[link.detachmentCode]!,
       ),
       mode: InsertMode.insertOrIgnore,
     );
