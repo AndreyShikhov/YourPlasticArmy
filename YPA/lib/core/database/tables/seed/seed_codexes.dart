@@ -8,6 +8,9 @@ import '../../app_database.dart';
 
 
 
+import 'package:uuid/uuid.dart';
+import 'package:drift/drift.dart';
+
 Future<Map<String, String>> seedCodexes(
     AppDatabase db,
     Map<String, int> armyIds,
@@ -16,29 +19,27 @@ Future<Map<String, String>> seedCodexes(
   final result = <String, String>{};
 
   for (final c in codexes) {
-    // 1. insert or ignore
+    final codexId = const Uuid().v4();
+
     await db.into(db.codexes).insert(
       CodexesCompanion.insert(
-          id: CodexId.generate().value,
-          code: c.code.code,
-          name: c.name,
-          armyId: armyIds[c.army.code]!
+        id: codexId,
+        code: c.code.code,
+        name: c.name,
+        armyId: armyIds[c.army.code]!,
       ),
       mode: InsertMode.insertOrIgnore,
     );
 
-    // 2. select id
     final existing = await (db.select(db.codexes)
       ..where((t) => t.code.equals(c.code.code)))
         .getSingleOrNull();
 
     if (existing != null) {
       result[c.code.code] = existing.id;
-      continue;
     }
   }
 
   return result;
 }
-
 

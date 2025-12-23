@@ -1480,6 +1480,19 @@ class $DetachmentsTable extends Detachments
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _armyIdMeta = const VerificationMeta('armyId');
+  @override
+  late final GeneratedColumn<int> armyId = GeneratedColumn<int>(
+    'army_id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
   static const VerificationMeta _codeMeta = const VerificationMeta('code');
   @override
   late final GeneratedColumn<String> code = GeneratedColumn<String>(
@@ -1549,6 +1562,7 @@ class $DetachmentsTable extends Detachments
   @override
   List<GeneratedColumn> get $columns => [
     id,
+    armyId,
     code,
     name,
     description,
@@ -1572,6 +1586,12 @@ class $DetachmentsTable extends Detachments
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     } else if (isInserting) {
       context.missing(_idMeta);
+    }
+    if (data.containsKey('army_id')) {
+      context.handle(
+        _armyIdMeta,
+        armyId.isAcceptableOrUnknown(data['army_id']!, _armyIdMeta),
+      );
     }
     if (data.containsKey('code')) {
       context.handle(
@@ -1628,7 +1648,7 @@ class $DetachmentsTable extends Detachments
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => const {};
+  Set<GeneratedColumn> get $primaryKey => {armyId};
   @override
   DetachmentRow map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
@@ -1636,6 +1656,10 @@ class $DetachmentsTable extends Detachments
       id: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}id'],
+      )!,
+      armyId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}army_id'],
       )!,
       code: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
@@ -1672,6 +1696,7 @@ class $DetachmentsTable extends Detachments
 
 class DetachmentRow extends DataClass implements Insertable<DetachmentRow> {
   final String id;
+  final int armyId;
   final String code;
   final String name;
   final String description;
@@ -1680,6 +1705,7 @@ class DetachmentRow extends DataClass implements Insertable<DetachmentRow> {
   final String ruleFull;
   const DetachmentRow({
     required this.id,
+    required this.armyId,
     required this.code,
     required this.name,
     required this.description,
@@ -1691,6 +1717,7 @@ class DetachmentRow extends DataClass implements Insertable<DetachmentRow> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<String>(id);
+    map['army_id'] = Variable<int>(armyId);
     map['code'] = Variable<String>(code);
     map['name'] = Variable<String>(name);
     map['description'] = Variable<String>(description);
@@ -1703,6 +1730,7 @@ class DetachmentRow extends DataClass implements Insertable<DetachmentRow> {
   DetachmentsCompanion toCompanion(bool nullToAbsent) {
     return DetachmentsCompanion(
       id: Value(id),
+      armyId: Value(armyId),
       code: Value(code),
       name: Value(name),
       description: Value(description),
@@ -1719,6 +1747,7 @@ class DetachmentRow extends DataClass implements Insertable<DetachmentRow> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return DetachmentRow(
       id: serializer.fromJson<String>(json['id']),
+      armyId: serializer.fromJson<int>(json['armyId']),
       code: serializer.fromJson<String>(json['code']),
       name: serializer.fromJson<String>(json['name']),
       description: serializer.fromJson<String>(json['description']),
@@ -1732,6 +1761,7 @@ class DetachmentRow extends DataClass implements Insertable<DetachmentRow> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<String>(id),
+      'armyId': serializer.toJson<int>(armyId),
       'code': serializer.toJson<String>(code),
       'name': serializer.toJson<String>(name),
       'description': serializer.toJson<String>(description),
@@ -1743,6 +1773,7 @@ class DetachmentRow extends DataClass implements Insertable<DetachmentRow> {
 
   DetachmentRow copyWith({
     String? id,
+    int? armyId,
     String? code,
     String? name,
     String? description,
@@ -1751,6 +1782,7 @@ class DetachmentRow extends DataClass implements Insertable<DetachmentRow> {
     String? ruleFull,
   }) => DetachmentRow(
     id: id ?? this.id,
+    armyId: armyId ?? this.armyId,
     code: code ?? this.code,
     name: name ?? this.name,
     description: description ?? this.description,
@@ -1761,6 +1793,7 @@ class DetachmentRow extends DataClass implements Insertable<DetachmentRow> {
   DetachmentRow copyWithCompanion(DetachmentsCompanion data) {
     return DetachmentRow(
       id: data.id.present ? data.id.value : this.id,
+      armyId: data.armyId.present ? data.armyId.value : this.armyId,
       code: data.code.present ? data.code.value : this.code,
       name: data.name.present ? data.name.value : this.name,
       description: data.description.present
@@ -1776,6 +1809,7 @@ class DetachmentRow extends DataClass implements Insertable<DetachmentRow> {
   String toString() {
     return (StringBuffer('DetachmentRow(')
           ..write('id: $id, ')
+          ..write('armyId: $armyId, ')
           ..write('code: $code, ')
           ..write('name: $name, ')
           ..write('description: $description, ')
@@ -1787,13 +1821,22 @@ class DetachmentRow extends DataClass implements Insertable<DetachmentRow> {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, code, name, description, ruleName, ruleShort, ruleFull);
+  int get hashCode => Object.hash(
+    id,
+    armyId,
+    code,
+    name,
+    description,
+    ruleName,
+    ruleShort,
+    ruleFull,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is DetachmentRow &&
           other.id == this.id &&
+          other.armyId == this.armyId &&
           other.code == this.code &&
           other.name == this.name &&
           other.description == this.description &&
@@ -1804,32 +1847,32 @@ class DetachmentRow extends DataClass implements Insertable<DetachmentRow> {
 
 class DetachmentsCompanion extends UpdateCompanion<DetachmentRow> {
   final Value<String> id;
+  final Value<int> armyId;
   final Value<String> code;
   final Value<String> name;
   final Value<String> description;
   final Value<String> ruleName;
   final Value<String> ruleShort;
   final Value<String> ruleFull;
-  final Value<int> rowid;
   const DetachmentsCompanion({
     this.id = const Value.absent(),
+    this.armyId = const Value.absent(),
     this.code = const Value.absent(),
     this.name = const Value.absent(),
     this.description = const Value.absent(),
     this.ruleName = const Value.absent(),
     this.ruleShort = const Value.absent(),
     this.ruleFull = const Value.absent(),
-    this.rowid = const Value.absent(),
   });
   DetachmentsCompanion.insert({
     required String id,
+    this.armyId = const Value.absent(),
     required String code,
     required String name,
     required String description,
     required String ruleName,
     required String ruleShort,
     required String ruleFull,
-    this.rowid = const Value.absent(),
   }) : id = Value(id),
        code = Value(code),
        name = Value(name),
@@ -1839,45 +1882,45 @@ class DetachmentsCompanion extends UpdateCompanion<DetachmentRow> {
        ruleFull = Value(ruleFull);
   static Insertable<DetachmentRow> custom({
     Expression<String>? id,
+    Expression<int>? armyId,
     Expression<String>? code,
     Expression<String>? name,
     Expression<String>? description,
     Expression<String>? ruleName,
     Expression<String>? ruleShort,
     Expression<String>? ruleFull,
-    Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
+      if (armyId != null) 'army_id': armyId,
       if (code != null) 'code': code,
       if (name != null) 'name': name,
       if (description != null) 'description': description,
       if (ruleName != null) 'rule_name': ruleName,
       if (ruleShort != null) 'rule_short': ruleShort,
       if (ruleFull != null) 'rule_full': ruleFull,
-      if (rowid != null) 'rowid': rowid,
     });
   }
 
   DetachmentsCompanion copyWith({
     Value<String>? id,
+    Value<int>? armyId,
     Value<String>? code,
     Value<String>? name,
     Value<String>? description,
     Value<String>? ruleName,
     Value<String>? ruleShort,
     Value<String>? ruleFull,
-    Value<int>? rowid,
   }) {
     return DetachmentsCompanion(
       id: id ?? this.id,
+      armyId: armyId ?? this.armyId,
       code: code ?? this.code,
       name: name ?? this.name,
       description: description ?? this.description,
       ruleName: ruleName ?? this.ruleName,
       ruleShort: ruleShort ?? this.ruleShort,
       ruleFull: ruleFull ?? this.ruleFull,
-      rowid: rowid ?? this.rowid,
     );
   }
 
@@ -1886,6 +1929,9 @@ class DetachmentsCompanion extends UpdateCompanion<DetachmentRow> {
     final map = <String, Expression>{};
     if (id.present) {
       map['id'] = Variable<String>(id.value);
+    }
+    if (armyId.present) {
+      map['army_id'] = Variable<int>(armyId.value);
     }
     if (code.present) {
       map['code'] = Variable<String>(code.value);
@@ -1905,9 +1951,6 @@ class DetachmentsCompanion extends UpdateCompanion<DetachmentRow> {
     if (ruleFull.present) {
       map['rule_full'] = Variable<String>(ruleFull.value);
     }
-    if (rowid.present) {
-      map['rowid'] = Variable<int>(rowid.value);
-    }
     return map;
   }
 
@@ -1915,13 +1958,13 @@ class DetachmentsCompanion extends UpdateCompanion<DetachmentRow> {
   String toString() {
     return (StringBuffer('DetachmentsCompanion(')
           ..write('id: $id, ')
+          ..write('armyId: $armyId, ')
           ..write('code: $code, ')
           ..write('name: $name, ')
           ..write('description: $description, ')
           ..write('ruleName: $ruleName, ')
           ..write('ruleShort: $ruleShort, ')
-          ..write('ruleFull: $ruleFull, ')
-          ..write('rowid: $rowid')
+          ..write('ruleFull: $ruleFull')
           ..write(')'))
         .toString();
   }
@@ -4941,24 +4984,24 @@ typedef $$UnitsTableProcessedTableManager =
 typedef $$DetachmentsTableCreateCompanionBuilder =
     DetachmentsCompanion Function({
       required String id,
+      Value<int> armyId,
       required String code,
       required String name,
       required String description,
       required String ruleName,
       required String ruleShort,
       required String ruleFull,
-      Value<int> rowid,
     });
 typedef $$DetachmentsTableUpdateCompanionBuilder =
     DetachmentsCompanion Function({
       Value<String> id,
+      Value<int> armyId,
       Value<String> code,
       Value<String> name,
       Value<String> description,
       Value<String> ruleName,
       Value<String> ruleShort,
       Value<String> ruleFull,
-      Value<int> rowid,
     });
 
 final class $$DetachmentsTableReferences
@@ -5000,6 +5043,11 @@ class $$DetachmentsTableFilterComposer
   });
   ColumnFilters<String> get id => $composableBuilder(
     column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get armyId => $composableBuilder(
+    column: $table.armyId,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -5073,6 +5121,11 @@ class $$DetachmentsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<int> get armyId => $composableBuilder(
+    column: $table.armyId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<String> get code => $composableBuilder(
     column: $table.code,
     builder: (column) => ColumnOrderings(column),
@@ -5115,6 +5168,9 @@ class $$DetachmentsTableAnnotationComposer
   });
   GeneratedColumn<String> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get armyId =>
+      $composableBuilder(column: $table.armyId, builder: (column) => column);
 
   GeneratedColumn<String> get code =>
       $composableBuilder(column: $table.code, builder: (column) => column);
@@ -5191,42 +5247,42 @@ class $$DetachmentsTableTableManager
           updateCompanionCallback:
               ({
                 Value<String> id = const Value.absent(),
+                Value<int> armyId = const Value.absent(),
                 Value<String> code = const Value.absent(),
                 Value<String> name = const Value.absent(),
                 Value<String> description = const Value.absent(),
                 Value<String> ruleName = const Value.absent(),
                 Value<String> ruleShort = const Value.absent(),
                 Value<String> ruleFull = const Value.absent(),
-                Value<int> rowid = const Value.absent(),
               }) => DetachmentsCompanion(
                 id: id,
+                armyId: armyId,
                 code: code,
                 name: name,
                 description: description,
                 ruleName: ruleName,
                 ruleShort: ruleShort,
                 ruleFull: ruleFull,
-                rowid: rowid,
               ),
           createCompanionCallback:
               ({
                 required String id,
+                Value<int> armyId = const Value.absent(),
                 required String code,
                 required String name,
                 required String description,
                 required String ruleName,
                 required String ruleShort,
                 required String ruleFull,
-                Value<int> rowid = const Value.absent(),
               }) => DetachmentsCompanion.insert(
                 id: id,
+                armyId: armyId,
                 code: code,
                 name: name,
                 description: description,
                 ruleName: ruleName,
                 ruleShort: ruleShort,
                 ruleFull: ruleFull,
-                rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
               .map(

@@ -1,5 +1,7 @@
+import 'package:drift/drift.dart';
 import 'package:ypa/domain/models/detachment/detachment_dom.dart';
 
+import '../../domain/models/codex/codex_id.dart';
 import '../../domain/models/detachment/detachment_id.dart';
 import '../../domain/models/detachment/detachment_repository.dart';
 
@@ -22,6 +24,25 @@ class DriftDetachmentRepository
     );
   }
 
+  @override
+  Future<List<DetachmentDOM>> findByCodex(CodexId codexId) async {
+    final query = db.select(db.detachments).join([
+      innerJoin(
+        db.codexDetachments,
+        db.codexDetachments.detachmentId.equalsExp(
+          db.detachments.id,
+        ),
+      ),
+    ])
+      ..where(db.codexDetachments.codexId.equals(codexId.value));
+
+    final rows = await query.get();
+
+    return rows.map((row) {
+      final detachmentRow = row.readTable(db.detachments);
+      return DetachmentMapper.fromRow(detachmentRow);
+    }).toList();
+  }
 
   @override
   Future<DetachmentDOM?> findById(DetachmentId id) async {

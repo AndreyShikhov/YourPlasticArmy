@@ -1,3 +1,5 @@
+import 'package:ypa/domain/models/army/army_id.dart';
+
 import '../../domain/models/detachment/detachment_dom.dart';
 import '../../domain/models/detachment/detachment_name.dart';
 import '../../domain/models/detachment/detachment_repository.dart';
@@ -9,11 +11,14 @@ class CreateDetachment {
 
   Future<DetachmentDOM> call({
     required String name,
+    required ArmyId armyId,
   }) async {
     final all = await repository.findAll();
 
     final existing = all.where(
-          (d) => d.name.value == name,
+          (d) =>
+          d.name.value == name  &&
+          d.armyId.value == armyId.value,
     );
 
     if (existing.isNotEmpty) {
@@ -21,7 +26,8 @@ class CreateDetachment {
     }
 
     final detachment = DetachmentDOM.create(
-      name: DetachmentName(name),
+        name: DetachmentName(name),
+        armyId: ArmyId.fromInt(armyId.value)
     );
 
     await repository.save(detachment);

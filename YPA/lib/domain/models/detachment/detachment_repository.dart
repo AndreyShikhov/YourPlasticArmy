@@ -1,3 +1,4 @@
+import '../codex/codex_id.dart';
 import 'detachment_dom.dart';
 import 'detachment_id.dart';
 
@@ -7,6 +8,9 @@ abstract class DetachmentRepository {
 
   /// Найти Detachment по ID
   Future<DetachmentDOM?> findById(DetachmentId id);
+
+  /// Найти Detachment  по CodexId
+  Future<List<DetachmentDOM>> findByCodex(CodexId codexId);
 
   /// Получить все Detachment
   Future<List<DetachmentDOM>> findAll();

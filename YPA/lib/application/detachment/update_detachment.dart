@@ -1,3 +1,5 @@
+import 'package:ypa/domain/models/army/army_id.dart';
+
 import '../../domain/models/detachment/detachment_dom.dart';
 import '../../domain/models/detachment/detachment_id.dart';
 import '../../domain/models/detachment/detachment_name.dart';
@@ -11,6 +13,7 @@ class UpdateDetachment {
   Future<DetachmentDOM> call({
     required String id,
     required String name,
+    required ArmyId armyId,
   }) async {
     final detachmentId = DetachmentId.fromString(id);
 
@@ -23,6 +26,7 @@ class UpdateDetachment {
 
     final updated = DetachmentDOM.restore(
       id: existing.id,
+      armyId: armyId,
       name: DetachmentName(name),
     );
 

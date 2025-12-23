@@ -4,7 +4,7 @@ import 'package:drift/drift.dart';
 @DataClassName('DetachmentRow')
 class Detachments extends Table {
   TextColumn get id => text()();
-
+  IntColumn get armyId => integer().autoIncrement()();
   TextColumn get code => text().unique().withLength(min: 1)();            // gladius_task_force
   TextColumn get name => text().withLength(min: 1)();              // Gladius Task Force
   TextColumn get description => text()();       // flavour
