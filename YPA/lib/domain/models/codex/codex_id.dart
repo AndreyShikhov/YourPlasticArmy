@@ -21,6 +21,13 @@ class CodexId {
     return CodexId._(value);
   }
 
+  factory CodexId.fromInt(int value) {
+    if (value < 0) {
+      throw ArgumentError('CodexId cannot be < 0');
+    }
+    return CodexId._(value.toString());
+  }
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||

@@ -1,27 +1,24 @@
 import 'package:drift/drift.dart';
 
 import '../../core/database/app_database.dart';
+import '../../core/database/tables/seed/seed_objects/_types.dart';
+import '../../domain/models/army/army_id.dart';
+import '../../domain/models/codex/codex_id.dart';
 import '../../domain/models/unit/unit_dom.dart';
+import '../../domain/models/unit/unit_id.dart';
+import '../../domain/models/unit/unit_name.dart';
+import '../../domain/models/unit/unit_roleCode.dart';
+
 
 class UnitMapper {
-  // Преобразование из строки/row в Domain
   static UnitDOM fromRow(UnitRow row) {
     return UnitDOM.restore(
-      id: UnitId.fromString(row.id),
+      id: UnitId.fromString(row.id.toString()),
       name: UnitName(row.name),
-      roleCode: UnitRoleCode.values.firstWhere((v) => v.name == row.roleCode),
-      maxCount: row.maxCount,
-    );
-  }
-
-  // Преобразование Domain в Companion для записи в БД
-  static UnitsCompanion toCompanion(UnitDOM unit) {
-    return UnitsCompanion(
-      id: Value(unit.id.value),
-      name: Value(unit.name.value),
-      roleCode: Value(unit.roleCode.name),
-      maxCount: Value(unit.maxCount),
-      detachmentId: Value(unit.detachmentId.value), // связь с Detachment
+      armyId: ArmyId.fromInt(row.armyId),
+      codexId: CodexId.fromInt(row.codexId!),
+      role: UnitRoleCodeDom.fromInt(row.roleId),
     );
   }
 }
+

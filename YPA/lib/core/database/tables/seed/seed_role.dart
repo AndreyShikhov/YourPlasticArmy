@@ -1,3 +1,5 @@
+import 'package:drift/drift.dart';
+
 import '../../app_database.dart';
 
 
@@ -21,10 +23,13 @@ Future<Map<String, int>> seedRole(
   final result = <String, int>{};
 
   for (final role in data) {
-    final id = await db.into(db.role)
-        .insert(RoleCompanion.insert(
-        code: '',
-        name: ''));
+    final id = await db.into(db.role).insert(
+      RoleCompanion.insert(
+        code: role.toLowerCase().replaceAll(' ', '_'), // уникальный code
+        name: role, // отображаемое имя
+      ),
+      mode: InsertMode.insertOrIgnore,
+    );
     result[role] = id;
   }
 

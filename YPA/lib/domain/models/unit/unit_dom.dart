@@ -1,56 +1,40 @@
 import 'package:ypa/domain/models/unit/unit_id.dart';
 import 'package:ypa/domain/models/unit/unit_name.dart';
+import 'package:ypa/domain/models/unit/unit_roleCode.dart';
 
-import '../../../core/database/tables/seed/seed_objects/_types.dart';
+import '../army/army_id.dart';
+import '../codex/codex_id.dart';
 
 
 
 class UnitDOM {
   final UnitId id;
   final UnitName name;
-  final UnitRoleCode roleCode;
-  final int minCount;
-  final int maxCount;
+  final ArmyId armyId;
+  final CodexId? codexId;
+  final UnitRoleCodeDom role;
 
-  UnitDOM._({
+  const UnitDOM._({
     required this.id,
     required this.name,
-    required this.roleCode,
-    required this.minCount,
-    required this.maxCount,
+    required this.armyId,
+    required this.codexId,
+    required this.role,
   });
-
-  factory UnitDOM.create({
-    required UnitName name,
-    required UnitRoleCode roleCode,
-    int minCount = 1,
-    int maxCount = 1,
-  }) {
-    return UnitDOM._(
-      id: UnitId.generate(),
-      name: name,
-      roleCode: roleCode,
-      minCount: minCount,
-      maxCount: maxCount,
-    );
-  }
 
   factory UnitDOM.restore({
     required UnitId id,
     required UnitName name,
-    required UnitRoleCode roleCode,
-    int minCount = 1,
-    int maxCount = 1,
+    required ArmyId armyId,
+    required CodexId? codexId,
+    required UnitRoleCodeDom role,
   }) {
     return UnitDOM._(
       id: id,
       name: name,
-      roleCode: roleCode,
-      minCount: minCount,
-      maxCount: maxCount,
+      armyId: armyId,
+      codexId: codexId,
+      role: role,
     );
   }
 }
-
-
-

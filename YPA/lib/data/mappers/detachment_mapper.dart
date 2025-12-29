@@ -9,29 +9,19 @@ import '../../domain/models/detachment/detachment_name.dart';
 import '../../domain/models/unit/unit_dom.dart';
 
 class DetachmentMapper {
-  // Преобразование из строки/row в Domain
-  static DetachmentDOM fromRow(DetachmentRow row, {List<UnitDOM>? units}) {
-    final allowedRoles = (row.allowedUnitRoleCodes ?? [])
-        .map((role) => UnitRoleCode.values.firstWhere((v) => v.name == role))
-        .toSet();
-
+  static DetachmentDOM fromRow(DetachmentRow row) {
     return DetachmentDOM.restore(
       id: DetachmentId.fromString(row.id),
       armyId: ArmyId.fromInt(row.armyId),
       name: DetachmentName(row.name),
-      allowedUnitTypes: allowedRoles,
-      units: units,
     );
   }
 
-  // Преобразование Domain в Companion для записи в БД
   static DetachmentsCompanion toCompanion(DetachmentDOM detachment) {
     return DetachmentsCompanion(
       id: Value(detachment.id.value),
       armyId: Value(detachment.armyId.value),
       name: Value(detachment.name.value),
-      allowedUnitRoleCodes: Value(detachment.allowedUnitRoleCode.map((e) => e.name).toList()),
     );
   }
 }
-

@@ -1111,7 +1111,7 @@ class RoleCompanion extends UpdateCompanion<RoleData> {
   }
 }
 
-class $UnitsTable extends Units with TableInfo<$UnitsTable, Unit> {
+class $UnitsTable extends Units with TableInfo<$UnitsTable, UnitRow> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
@@ -1186,7 +1186,7 @@ class $UnitsTable extends Units with TableInfo<$UnitsTable, Unit> {
   static const String $name = 'units';
   @override
   VerificationContext validateIntegrity(
-    Insertable<Unit> instance, {
+    Insertable<UnitRow> instance, {
     bool isInserting = false,
   }) {
     final context = VerificationContext();
@@ -1230,9 +1230,9 @@ class $UnitsTable extends Units with TableInfo<$UnitsTable, Unit> {
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  Unit map(Map<String, dynamic> data, {String? tablePrefix}) {
+  UnitRow map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Unit(
+    return UnitRow(
       id: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}id'],
@@ -1262,7 +1262,7 @@ class $UnitsTable extends Units with TableInfo<$UnitsTable, Unit> {
   }
 }
 
-class Unit extends DataClass implements Insertable<Unit> {
+class UnitRow extends DataClass implements Insertable<UnitRow> {
   final int id;
   final String name;
 
@@ -1272,7 +1272,7 @@ class Unit extends DataClass implements Insertable<Unit> {
   /// Nullable (orks, demons, etc.)
   final int? codexId;
   final int roleId;
-  const Unit({
+  const UnitRow({
     required this.id,
     required this.name,
     required this.armyId,
@@ -1304,12 +1304,12 @@ class Unit extends DataClass implements Insertable<Unit> {
     );
   }
 
-  factory Unit.fromJson(
+  factory UnitRow.fromJson(
     Map<String, dynamic> json, {
     ValueSerializer? serializer,
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return Unit(
+    return UnitRow(
       id: serializer.fromJson<int>(json['id']),
       name: serializer.fromJson<String>(json['name']),
       armyId: serializer.fromJson<int>(json['armyId']),
@@ -1329,21 +1329,21 @@ class Unit extends DataClass implements Insertable<Unit> {
     };
   }
 
-  Unit copyWith({
+  UnitRow copyWith({
     int? id,
     String? name,
     int? armyId,
     Value<int?> codexId = const Value.absent(),
     int? roleId,
-  }) => Unit(
+  }) => UnitRow(
     id: id ?? this.id,
     name: name ?? this.name,
     armyId: armyId ?? this.armyId,
     codexId: codexId.present ? codexId.value : this.codexId,
     roleId: roleId ?? this.roleId,
   );
-  Unit copyWithCompanion(UnitsCompanion data) {
-    return Unit(
+  UnitRow copyWithCompanion(UnitsCompanion data) {
+    return UnitRow(
       id: data.id.present ? data.id.value : this.id,
       name: data.name.present ? data.name.value : this.name,
       armyId: data.armyId.present ? data.armyId.value : this.armyId,
@@ -1354,7 +1354,7 @@ class Unit extends DataClass implements Insertable<Unit> {
 
   @override
   String toString() {
-    return (StringBuffer('Unit(')
+    return (StringBuffer('UnitRow(')
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('armyId: $armyId, ')
@@ -1369,7 +1369,7 @@ class Unit extends DataClass implements Insertable<Unit> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is Unit &&
+      (other is UnitRow &&
           other.id == this.id &&
           other.name == this.name &&
           other.armyId == this.armyId &&
@@ -1377,7 +1377,7 @@ class Unit extends DataClass implements Insertable<Unit> {
           other.roleId == this.roleId);
 }
 
-class UnitsCompanion extends UpdateCompanion<Unit> {
+class UnitsCompanion extends UpdateCompanion<UnitRow> {
   final Value<int> id;
   final Value<String> name;
   final Value<int> armyId;
@@ -1399,7 +1399,7 @@ class UnitsCompanion extends UpdateCompanion<Unit> {
   }) : name = Value(name),
        armyId = Value(armyId),
        roleId = Value(roleId);
-  static Insertable<Unit> custom({
+  static Insertable<UnitRow> custom({
     Expression<int>? id,
     Expression<String>? name,
     Expression<int>? armyId,
@@ -3554,7 +3554,7 @@ final class $$ArmiesTableReferences
     );
   }
 
-  static MultiTypedResultKey<$UnitsTable, List<Unit>> _unitsRefsTable(
+  static MultiTypedResultKey<$UnitsTable, List<UnitRow>> _unitsRefsTable(
     _$AppDatabase db,
   ) => MultiTypedResultKey.fromTable(
     db.units,
@@ -3932,7 +3932,7 @@ class $$ArmiesTableTableManager
                           typedResults: items,
                         ),
                       if (unitsRefs)
-                        await $_getPrefetchedData<Army, $ArmiesTable, Unit>(
+                        await $_getPrefetchedData<Army, $ArmiesTable, UnitRow>(
                           currentTable: table,
                           referencedTable: $$ArmiesTableReferences
                               ._unitsRefsTable(db),
@@ -4377,7 +4377,7 @@ final class $$RoleTableReferences
     extends BaseReferences<_$AppDatabase, $RoleTable, RoleData> {
   $$RoleTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
-  static MultiTypedResultKey<$UnitsTable, List<Unit>> _unitsRefsTable(
+  static MultiTypedResultKey<$UnitsTable, List<UnitRow>> _unitsRefsTable(
     _$AppDatabase db,
   ) => MultiTypedResultKey.fromTable(
     db.units,
@@ -4566,7 +4566,7 @@ class $$RoleTableTableManager
               getPrefetchedDataCallback: (items) async {
                 return [
                   if (unitsRefs)
-                    await $_getPrefetchedData<RoleData, $RoleTable, Unit>(
+                    await $_getPrefetchedData<RoleData, $RoleTable, UnitRow>(
                       currentTable: table,
                       referencedTable: $$RoleTableReferences._unitsRefsTable(
                         db,
@@ -4617,7 +4617,7 @@ typedef $$UnitsTableUpdateCompanionBuilder =
     });
 
 final class $$UnitsTableReferences
-    extends BaseReferences<_$AppDatabase, $UnitsTable, Unit> {
+    extends BaseReferences<_$AppDatabase, $UnitsTable, UnitRow> {
   $$UnitsTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
   static $ArmiesTable _armyIdTable(_$AppDatabase db) => db.armies.createAlias(
@@ -4854,14 +4854,14 @@ class $$UnitsTableTableManager
         RootTableManager<
           _$AppDatabase,
           $UnitsTable,
-          Unit,
+          UnitRow,
           $$UnitsTableFilterComposer,
           $$UnitsTableOrderingComposer,
           $$UnitsTableAnnotationComposer,
           $$UnitsTableCreateCompanionBuilder,
           $$UnitsTableUpdateCompanionBuilder,
-          (Unit, $$UnitsTableReferences),
-          Unit,
+          (UnitRow, $$UnitsTableReferences),
+          UnitRow,
           PrefetchHooks Function({bool armyId, bool roleId})
         > {
   $$UnitsTableTableManager(_$AppDatabase db, $UnitsTable table)
@@ -4971,14 +4971,14 @@ typedef $$UnitsTableProcessedTableManager =
     ProcessedTableManager<
       _$AppDatabase,
       $UnitsTable,
-      Unit,
+      UnitRow,
       $$UnitsTableFilterComposer,
       $$UnitsTableOrderingComposer,
       $$UnitsTableAnnotationComposer,
       $$UnitsTableCreateCompanionBuilder,
       $$UnitsTableUpdateCompanionBuilder,
-      (Unit, $$UnitsTableReferences),
-      Unit,
+      (UnitRow, $$UnitsTableReferences),
+      UnitRow,
       PrefetchHooks Function({bool armyId, bool roleId})
     >;
 typedef $$DetachmentsTableCreateCompanionBuilder =

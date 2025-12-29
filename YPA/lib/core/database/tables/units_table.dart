@@ -3,6 +3,9 @@ import 'codexes_table.dart';
 import 'armies_table.dart';
 import 'role_table.dart';
 
+
+
+@DataClassName('UnitRow')
 class Units extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text().withLength(min: 1)();

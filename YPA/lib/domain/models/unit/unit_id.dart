@@ -5,12 +5,12 @@ class UnitId {
 
   const UnitId._(this.value);
 
-  factory UnitId.generate() {
-    // Генерация уникального ID, например через UUID
-    return UnitId._(const Uuid().v4());
-  }
-
+  /// Создать UnitId из строки
   factory UnitId.fromString(String value) {
+    if (value.isEmpty) {
+      throw Exception('UnitId не может быть пустым');
+    }
+    // Можно добавить проверку на корректный UUID, если нужно
     return UnitId._(value);
   }
 
@@ -21,4 +21,7 @@ class UnitId {
 
   @override
   int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
