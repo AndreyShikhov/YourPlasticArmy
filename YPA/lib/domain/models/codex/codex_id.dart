@@ -36,4 +36,9 @@ class CodexId {
   @override
   int get hashCode => value.hashCode;
 
+  int toInt ()
+  {
+    return  int.parse(value);
+  }
+
 }

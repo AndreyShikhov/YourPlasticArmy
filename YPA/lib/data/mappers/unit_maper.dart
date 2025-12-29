@@ -16,9 +16,19 @@ class UnitMapper {
       id: UnitId.fromString(row.id.toString()),
       name: UnitName(row.name),
       armyId: ArmyId.fromInt(row.armyId),
-      codexId: CodexId.fromInt(row.codexId!),
+      codexId: row.codexId != null ? CodexId.fromInt(row.codexId!) : null,
       role: UnitRoleCodeDom.fromInt(row.roleId),
     );
   }
-}
 
+
+  UnitsCompanion toCompanion(UnitDOM unit) {
+    return UnitsCompanion(
+      id: Value(unit.id.toInt()),
+      name: Value(unit.name.value),
+      armyId: Value(unit.armyId.value),
+      codexId: unit.codexId != null ? Value(unit.codexId!.toInt()) : const Value.absent(),
+      roleId: Value(unit.role.toInt()),
+    );
+  }
+}
