@@ -6,46 +6,55 @@ import '../../app_database.dart';
 
 
 
-Future<Map<String, int>> seedStrategems(
+Future<Map<String, int>> seedStratagems(
     AppDatabase db,
-    Map<String, int> codexIds,
-    Map<String, int> detachmentIds,
+    Map<String, String> codexIds,
+    Map<String, String> detachmentIds,
     ) async {
   final data = strategemsSeed();
   final result = <String, int>{};
 
   for (final strategem in data) {
     // --- codex validation ---
-    if (!codexIds.containsKey(strategem.codexId)) {
+    final codexId = strategem.codexId;
+    if (codexId == null) {
       throw StateError(
-        'Seed error: unknown codex "${strategem.codexId}" for strategem "${strategem.code}"',
+        'Seed error: strategem "${strategem.code}" must have a codexId',
+      );
+    }
+    final codexCode = codexId.toLowerCase();
+
+    if (!codexIds.containsKey(codexCode)) {
+      throw StateError(
+        'Seed error: unknown codex "$codexCode" for strategem "${strategem.code}"',
       );
     }
 
     // --- resolve detachment ---
-    Value<int?> detachmentDbId = const Value.absent();
+    Value<String?> detachmentDbId = const Value.absent();
 
-    if (strategem.detachmentId != null) {
-      if (!detachmentIds.containsKey(strategem.detachmentId)) {
+    if (strategem.detachmentId != null && strategem.detachmentId != 'NULL') {
+      final detachmentCode = strategem.detachmentId!.toLowerCase();
+      if (!detachmentIds.containsKey(detachmentCode)) {
         throw StateError(
-          'Seed error: unknown detachment "${strategem.detachmentId}" for strategem "${strategem.code}"',
+          'Seed error: unknown detachment "$detachmentCode" for strategem "${strategem.code}"',
         );
       }
 
-      detachmentDbId = Value(detachmentIds[strategem.detachmentId]!);
+      detachmentDbId = Value(detachmentIds[detachmentCode]!);
     }
 
     // --- insert ---
     final id = await db.into(db.strategems).insert(
       StrategemsCompanion.insert(
-        code: strategem.code,
+        code: strategem.code.toLowerCase(),
         name: strategem.name,
         description: strategem.description,
         cpCost: strategem.cpCost,
         phase: strategem.phase,
         target: strategem.target,
         effect: strategem.effect,
-        codexId: codexIds[strategem.codexId]!,
+        codexId: int.parse(codexIds[codexCode]!),
         detachmentId: detachmentDbId,
       ),
     );

@@ -10,24 +10,26 @@ import '../../app_database.dart';
 
 Future<void> seedEnhancements(
     AppDatabase db,
-    Map<String, int> detachmentIds,
+    Map<String, String> detachmentIds,
     ) async {
   final seeds = enhancementSeed();
 
   for (final seed in seeds) {
-    if (!detachmentIds.containsKey(seed.detachmentCode)) {
+    final detachmentCode = seed.detachmentCode.toLowerCase();
+
+    if (!detachmentIds.containsKey(detachmentCode)) {
       throw StateError(
-        'Seed error: unknown detachment "${seed.detachmentCode}" for enhancement "${seed.code}"',
+        'Seed error: unknown detachment "$detachmentCode" for enhancement "${seed.code}"',
       );
     }
 
     await db.into(db.enhancements).insert(
       EnhancementsCompanion.insert(
         id: const Uuid().v4(),
-        code: seed.code,
+        code: seed.code.toLowerCase(),
         name: seed.name,
         description: seed.description,
-        detachmentId: detachmentIds[seed.detachmentCode]!,
+        detachmentId: detachmentIds[detachmentCode]!,
         points: Value(seed.points),
       ),
       mode: InsertMode.insertOrIgnore,

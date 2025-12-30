@@ -7,8 +7,8 @@ class Enhancements extends Table {
   TextColumn get name => text()();
   TextColumn get description => text()();
 
-  IntColumn get detachmentId =>
-      integer().references(Detachments, #id)();
+  TextColumn get detachmentId =>
+      text().references(Detachments, #id)();
 
   IntColumn get points => integer().withDefault(const Constant(0))();
 

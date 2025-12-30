@@ -21,7 +21,7 @@ class Strategems extends Table {
       integer().references(Codexes, #id)();
 
   /// FK → Detachment (optional)
-  IntColumn get detachmentId =>
-      integer().nullable().references(Detachments, #id)();
+  TextColumn get detachmentId =>
+      text().nullable().references(Detachments, #id)();
 }
 

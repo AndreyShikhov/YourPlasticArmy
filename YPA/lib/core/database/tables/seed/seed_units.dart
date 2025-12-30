@@ -11,7 +11,7 @@ import '../../app_database.dart';
 Future<void> seedUnits(
     AppDatabase db,
     Map<String, int> armyIds,
-    Map<String, int> codexIds,
+    Map<String, String> codexIds,
     Map<String, int> roleIds,
     ) async {
   final units = <UnitSeed>[
@@ -29,7 +29,7 @@ Future<void> seedUnits(
         armyId: armyIds[u.army]!,
         codexId: u.codex == null
             ? const Value.absent()
-            : Value(codexIds[u.codex]!),
+            : Value(int.parse(codexIds[u.codex]!)),
         roleId: roleIds[u.role]!,
       ),
       mode: InsertMode.insertOrIgnore,
@@ -40,7 +40,7 @@ Future<void> seedUnits(
 void _validateUnitSeed(
     UnitSeed unit,
     Map<String, int> armyIds,
-    Map<String, int> codexIds,
+    Map<String, String> codexIds,
     Map<String, int> roleIds,
     ) {
   if (!armyIds.containsKey(unit.army)) {
