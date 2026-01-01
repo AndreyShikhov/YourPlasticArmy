@@ -16,13 +16,13 @@ Future<Map<String, int>> seedStratagems(
 
   for (final strategem in data) {
     // --- codex validation ---
-    final codexId = strategem.codexId;
-    if (codexId == null) {
+    final codexIdSeed = strategem.codexId;
+    if (codexIdSeed == null) {
       throw StateError(
         'Seed error: strategem "${strategem.code}" must have a codexId',
       );
     }
-    final codexCode = codexId.toLowerCase();
+    final codexCode = codexIdSeed.toLowerCase();
 
     if (!codexIds.containsKey(codexCode)) {
       throw StateError(
@@ -54,7 +54,8 @@ Future<Map<String, int>> seedStratagems(
         phase: strategem.phase,
         target: strategem.target,
         effect: strategem.effect,
-        codexId: int.parse(codexIds[codexCode]!),
+        // Исправлено: передаем строковый UUID, без int.parse
+        codexId: codexIds[codexCode]!,
         detachmentId: detachmentDbId,
       ),
     );

@@ -5,6 +5,7 @@ List<UnitSeed> bloodAngelsUnits() {
 
     //=============Characters============
    UnitSeed(
+       id: '01859068-15a0-47b2-a4e1-2c786729505f',
        name: 'Commander Dante',
        army: ArmyCode.spaceMarines,
        codex: CodexCode.bloodAngels,

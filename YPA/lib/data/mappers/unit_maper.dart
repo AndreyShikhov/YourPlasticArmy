@@ -1,7 +1,6 @@
 import 'package:drift/drift.dart';
 
 import '../../core/database/app_database.dart';
-import '../../core/database/tables/seed/seed_objects/_types.dart';
 import '../../domain/models/army/army_id.dart';
 import '../../domain/models/codex/codex_id.dart';
 import '../../domain/models/unit/unit_dom.dart';
@@ -16,7 +15,7 @@ class UnitMapper {
       id: UnitId.fromString(row.id.toString()),
       name: UnitName(row.name),
       armyId: ArmyId.fromInt(row.armyId),
-      codexId: row.codexId != null ? CodexId.fromInt(row.codexId!) : null,
+      codexId: row.codexId != null ? CodexId.fromString(row.codexId!) : null,
       role: UnitRoleCodeDom.fromInt(row.roleId),
     );
   }
@@ -24,10 +23,10 @@ class UnitMapper {
 
   UnitsCompanion toCompanion(UnitDOM unit) {
     return UnitsCompanion(
-      id: Value(unit.id.toInt()),
+      id: Value(unit.id.value),
       name: Value(unit.name.value),
       armyId: Value(unit.armyId.value),
-      codexId: unit.codexId != null ? Value(unit.codexId!.toInt()) : const Value.absent(),
+      codexId: unit.codexId != null ? Value(unit.codexId!.value) : const Value.absent(),
       roleId: Value(unit.role.toInt()),
     );
   }

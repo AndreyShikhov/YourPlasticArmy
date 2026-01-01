@@ -17,11 +17,11 @@ class Strategems extends Table {
   TextColumn get effect => text()();
 
   /// FK → Codex
-  IntColumn get codexId =>
-      integer().references(Codexes, #id)();
+  /// Исправлено: text() так как Codexes.id это UUID строка
+  TextColumn get codexId =>
+      text().references(Codexes, #id)();
 
   /// FK → Detachment (optional)
   TextColumn get detachmentId =>
       text().nullable().references(Detachments, #id)();
 }
-

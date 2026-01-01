@@ -20,7 +20,7 @@ class StratagemMapper {
       phase: row.phase,
       target: row.target,
       effect: row.effect,
-      codexId: CodexId.fromInt(row.codexId),
+      codexId: CodexId.fromString(row.codexId),
       detachmentId: row.detachmentId != null ? DetachmentId.fromString(row.detachmentId.toString()) : null,
     );
   }
@@ -35,7 +35,7 @@ class StratagemMapper {
       phase: Value(stratagem.phase),
       target: Value(stratagem.target),
       effect: Value(stratagem.effect),
-      codexId: Value(stratagem.codexId.toInt()),
+      codexId: Value(stratagem.codexId.value),
       detachmentId: stratagem.detachmentId != null
           ? Value(stratagem.detachmentId!.value)
           : const Value.absent(),

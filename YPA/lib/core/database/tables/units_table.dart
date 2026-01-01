@@ -7,7 +7,8 @@ import 'role_table.dart';
 
 @DataClassName('UnitRow')
 class Units extends Table {
-  IntColumn get id => integer().autoIncrement()();
+  TextColumn get id => text()();
+
   TextColumn get name => text().withLength(min: 1)();
 
   /// Always required
@@ -15,8 +16,9 @@ class Units extends Table {
       integer().references(Armies, #id)();
 
   /// Nullable (orks, demons, etc.)
-  IntColumn get codexId =>
-      integer().nullable().references(Codexes, #id)();
+  /// Исправлено: text() вместо integer(), так как Codexes.id это строка (UUID)
+  TextColumn get codexId =>
+      text().nullable().references(Codexes, #id)();
 
   IntColumn get roleId =>
       integer().references(Role, #id)();

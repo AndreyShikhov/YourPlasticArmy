@@ -24,9 +24,4 @@ class UnitId {
 
   @override
   String toString() => value;
-
-  int toInt()
-  {
-   return  int.parse(value);
-  }
 }

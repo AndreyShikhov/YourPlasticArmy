@@ -191,12 +191,15 @@ class ArmySeed {
 }
 
 class UnitSeed {
+  // ID теперь необязателен. Если null, будет сгенерирован при вставке.
+  final String? id;
   final String name;
   final ArmyCode army;
   final CodexCode? codex;
   final UnitRoleCode role;
 
   const UnitSeed({
+    this.id,
     required this.name,
     required this.army,
     required this.role,
@@ -277,4 +280,3 @@ class StrategemsSeed {
     this.detachmentId,
   });
 }
-

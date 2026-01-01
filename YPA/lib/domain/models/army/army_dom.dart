@@ -17,12 +17,13 @@ class ArmyDOM {
   });
 
   factory ArmyDOM.create({
+    required ArmyId id,
     required ArmyCode code,
     required ArmyName name,
     required FactionId factionId,
   }) {
     return ArmyDOM._(
-      id: ArmyId.generate(),
+      id: id,
       code: code,
       name: name,
       factionId: factionId,
