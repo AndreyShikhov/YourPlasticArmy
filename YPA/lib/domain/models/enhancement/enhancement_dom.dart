@@ -1,8 +1,6 @@
-import 'enhancement_id.dart';
-import 'enhancement_name.dart';
-import 'enhancement_code.dart';
-import 'enhancement_description.dart';
-import '../detachment/detachment_id.dart';
+
+import '../detachment/detachment.dart';
+import 'enhancement.dart';
 
 class EnhancementDOM {
   final EnhancementId id;

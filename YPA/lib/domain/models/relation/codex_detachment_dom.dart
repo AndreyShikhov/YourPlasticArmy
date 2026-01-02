@@ -1,5 +1,5 @@
-import '../codex/codex_id.dart';
-import '../detachment/detachment_id.dart';
+import '../codex/codex.dart';
+import '../detachment/detachment.dart';
 
 
 

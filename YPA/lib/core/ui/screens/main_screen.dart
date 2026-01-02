@@ -1,17 +1,15 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-
-import '../data/style_data.dart';
-import '../providers/user_notifier.dart';
+import '../../providers/user_notifier.dart';
 import '../widgets/buttons.dart';
+import 'data/style_data.dart';
 
 
-enum ButtonType {
+enum ButtonTypemMianScreen {
   warhammer40k,
   warhammerAoS,
 }
@@ -24,9 +22,9 @@ class MainScreen extends ConsumerStatefulWidget {
 }
 
 class _MainScreenState extends ConsumerState<MainScreen> {
-  Map<ButtonType, bool> _statesAllButtons = {
-    ButtonType.warhammer40k: true,
-    ButtonType.warhammerAoS: true,
+  Map<ButtonTypemMianScreen, bool> _statesAllButtons = {
+    ButtonTypemMianScreen.warhammer40k: true,
+    ButtonTypemMianScreen.warhammerAoS: true,
   };
 
   final List<String> _buttonTitles = [
@@ -45,8 +43,8 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 
   void _enableAllButtons(bool isEnable) {
     _statesAllButtons = {
-      ButtonType.warhammer40k: isEnable,
-      ButtonType.warhammerAoS: isEnable,
+      ButtonTypemMianScreen.warhammer40k: isEnable,
+      ButtonTypemMianScreen.warhammerAoS: isEnable,
     };
   }
 
@@ -86,7 +84,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     return _buttonTitles.asMap().entries.map((entry) {
       final index = entry.key;
       final title = entry.value;
-      final type = ButtonType.values[index];
+      final type = ButtonTypemMianScreen.values[index];
 
       return MainButton(
         textBTN: title,

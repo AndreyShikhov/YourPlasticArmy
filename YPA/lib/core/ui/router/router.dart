@@ -1,12 +1,8 @@
 import 'package:go_router/go_router.dart';
+import '../screens/data/style_data.dart';
+import 'package:ypa/core/ui/screens/screen.dart';
+import '../widgets/base_window.dart';
 
-import 'package:ypa/core/screens/game_screen.dart';
-
-import 'package:ypa/core/screens/main_screen.dart';
-import 'package:ypa/core/screens/army_lyst_screen.dart';
-import 'package:ypa/core/widgets/base_window.dart';
-
-import '../data/style_data.dart';
 
 
 final GoRouter router = GoRouter(

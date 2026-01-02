@@ -1,14 +1,9 @@
-import 'package:ypa/domain/models/army/army_id.dart';
-
 import '../../../core/database/tables/seed/seed_objects/_types.dart';
-import '../unit/unit_dom.dart';
-import 'detachment_id.dart';
-import 'detachment_name.dart';
-import 'detachment_code.dart';
-import 'detachment_description.dart';
-import 'detachment_rule_name.dart';
-import 'detachment_rule_short.dart';
-import 'detachment_rule_full.dart';
+import '../army/army.dart';
+import '../unit/unit.dart';
+import 'detachment.dart';
+
+
 
 class DetachmentDOM {
   final DetachmentId id;

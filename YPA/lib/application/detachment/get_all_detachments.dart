@@ -1,5 +1,4 @@
-import '../../domain/models/detachment/detachment_dom.dart';
-import '../../domain/models/detachment/detachment_repository.dart';
+import '../../domain/models/detachment/detachment.dart';
 
 class GetAllDetachments {
   final DetachmentRepository repository;

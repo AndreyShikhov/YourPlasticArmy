@@ -1,10 +1,8 @@
 import 'package:drift/drift.dart';
 
 import '../../core/database/app_database.dart';
-import '../../domain/models/faction/faction_dom.dart';
-import '../../domain/models/faction/faction_id.dart';
-import '../../domain/models/faction/faction_name.dart';
-import '../../domain/models/faction/faction_code.dart';
+import '../../domain/models/faction/faction.dart';
+
 
 class FactionMapper {
   static FactionDOM fromRow(Faction row) {

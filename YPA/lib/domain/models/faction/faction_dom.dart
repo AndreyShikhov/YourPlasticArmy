@@ -1,6 +1,4 @@
-import 'faction_id.dart';
-import 'faction_name.dart';
-import 'faction_code.dart';
+import 'faction.dart';
 
 class FactionDOM {
   final FactionId id;

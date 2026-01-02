@@ -1,8 +1,7 @@
 import '../../core/database/app_database.dart';
-import '../../domain/models/codex/codex_id.dart';
-import '../../domain/models/detachment/detachment_id.dart';
+import '../../domain/models/codex/codex.dart';
+import '../../domain/models/detachment/detachment.dart';
 import '../../domain/models/relation/codex_detachment_dom.dart';
-
 
 
 

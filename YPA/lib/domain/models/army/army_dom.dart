@@ -1,7 +1,6 @@
-import 'army_id.dart';
-import 'army_name.dart';
-import 'army_code.dart';
-import '../faction/faction_id.dart';
+import '../faction/faction.dart';
+import 'army.dart';
+
 
 class ArmyDOM {
   final ArmyId id;

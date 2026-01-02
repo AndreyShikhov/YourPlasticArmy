@@ -1,9 +1,6 @@
-import 'stratagem_id.dart';
-import 'stratagem_name.dart';
-import 'stratagem_code.dart';
-import 'stratagem_description.dart';
-import '../codex/codex_id.dart';
-import '../detachment/detachment_id.dart';
+import 'package:ypa/domain/models/stratagem/strategem.dart';
+import '../codex/codex.dart';
+import '../detachment/detachment.dart';
 
 class StratagemDOM {
   final StratagemId id;

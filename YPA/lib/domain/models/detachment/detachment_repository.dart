@@ -1,6 +1,6 @@
-import '../codex/codex_id.dart';
-import 'detachment_dom.dart';
-import 'detachment_id.dart';
+import '../codex/codex.dart';
+import 'detachment.dart';
+
 
 abstract class DetachmentRepository {
   /// Создать или сохранить Detachment

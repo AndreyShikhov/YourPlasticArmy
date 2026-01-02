@@ -1,5 +1,4 @@
-import '../core/data/data.dart' show TypeWeapon;
-import '../core/data/data.dart' show TypeWeaponAbilities;
+import '../core/ui/screens/data/data.dart';
 
 String getTextByTypeWeapon(TypeWeapon type)
 {

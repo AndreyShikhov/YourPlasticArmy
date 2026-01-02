@@ -1,12 +1,7 @@
 import 'package:drift/drift.dart';
-
 import '../../core/database/app_database.dart';
-import '../../domain/models/enhancement/enhancement_dom.dart';
-import '../../domain/models/enhancement/enhancement_id.dart';
-import '../../domain/models/enhancement/enhancement_name.dart';
-import '../../domain/models/enhancement/enhancement_code.dart';
-import '../../domain/models/enhancement/enhancement_description.dart';
-import '../../domain/models/detachment/detachment_id.dart';
+import '../../domain/models/detachment/detachment.dart';
+import '../../domain/models/enhancement/enhancement.dart';
 
 class EnhancementMapper {
   static EnhancementDOM fromRow(Enhancement row) {

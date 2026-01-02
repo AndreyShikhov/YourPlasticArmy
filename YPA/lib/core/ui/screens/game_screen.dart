@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ypa/core/widgets/buttons.dart';
+import '../widgets/buttons.dart';
 
 
 
-enum ButtonType {
+enum ButtonTypeGameScreen {
   armyBuilder,
   versus,
   analytics,
@@ -36,19 +36,19 @@ class _GameScreen extends State<GameScreen>{
         () =>  context.go('/game_screen/army_lyst'),
   ];
 
-  Map<ButtonType, bool> _statesAllButtons = {
-    ButtonType.armyBuilder: true,
-    ButtonType.versus: true,
-    ButtonType.analytics: true,
+  Map<ButtonTypeGameScreen, bool> _statesAllButtons = {
+    ButtonTypeGameScreen.armyBuilder: true,
+    ButtonTypeGameScreen.versus: true,
+    ButtonTypeGameScreen.analytics: true,
   };
 
   void enableAllButtons({bool isEnable = true})
   {
     setState(() {
       _statesAllButtons = {
-        ButtonType.armyBuilder: isEnable,
-        ButtonType.versus: isEnable,
-        ButtonType.analytics:isEnable,
+        ButtonTypeGameScreen.armyBuilder: isEnable,
+        ButtonTypeGameScreen.versus: isEnable,
+        ButtonTypeGameScreen.analytics:isEnable,
       };
     });
   }
@@ -63,7 +63,7 @@ class _GameScreen extends State<GameScreen>{
     return _buttonTitles.asMap().entries.map((elem){
       final int index  = elem.key;
       final title = elem.value;
-      final buttonType = ButtonType.values[index];
+      final buttonTypeGs = ButtonTypeGameScreen.values[index];
 
       return MainButton (
         onPressed: () async {
@@ -71,7 +71,7 @@ class _GameScreen extends State<GameScreen>{
           // переход на другой экран
           _buttonHandlers[0]();
         },
-        isActive:  _statesAllButtons[buttonType] ?? true ,
+        isActive:  _statesAllButtons[buttonTypeGs] ?? true ,
         textBTN:  title,
         style: MainButton.mainButtonStyle(context),
       );

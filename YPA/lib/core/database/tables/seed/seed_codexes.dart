@@ -2,14 +2,8 @@ import 'package:drift/drift.dart';
 import 'package:uuid/uuid.dart';
 import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
 import 'package:ypa/core/database/tables/seed/seed_objects/codexes/codex.dart';
-
-import '../../../../domain/models/codex/codex_id.dart';
 import '../../app_database.dart';
 
-
-
-import 'package:uuid/uuid.dart';
-import 'package:drift/drift.dart';
 
 Future<Map<String, String>> seedCodexes(
     AppDatabase db,

@@ -1,12 +1,8 @@
 import 'package:drift/drift.dart';
-
 import '../../core/database/app_database.dart';
-import '../../domain/models/army/army_id.dart';
-import '../../domain/models/codex/codex_id.dart';
-import '../../domain/models/unit/unit_dom.dart';
-import '../../domain/models/unit/unit_id.dart';
-import '../../domain/models/unit/unit_name.dart';
-import '../../domain/models/unit/unit_roleCode.dart';
+import '../../domain/models/army/army.dart';
+import '../../domain/models/codex/codex.dart';
+import '../../domain/models/unit/unit.dart';
 
 
 class UnitMapper {

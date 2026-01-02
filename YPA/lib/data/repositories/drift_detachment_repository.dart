@@ -1,12 +1,8 @@
 import 'package:drift/drift.dart';
-import 'package:ypa/domain/models/detachment/detachment_dom.dart';
-
-import '../../domain/models/codex/codex_id.dart';
-import '../../domain/models/detachment/detachment_id.dart';
-import '../../domain/models/detachment/detachment_repository.dart';
-
 import '../../core/database/app_database.dart';
 import '../../data/mappers/detachment_mapper.dart';
+import '../../domain/models/codex/codex.dart';
+import '../../domain/models/detachment/detachment.dart';
 
 class DriftDetachmentRepository
     implements DetachmentRepository {

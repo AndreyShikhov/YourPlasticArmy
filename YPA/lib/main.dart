@@ -1,10 +1,10 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:ypa/core/router/router.dart';
-import 'core/data/data.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'core/ui/router/router.dart';
+import 'core/ui/screens/data/data.dart';
+
+
 
 
 

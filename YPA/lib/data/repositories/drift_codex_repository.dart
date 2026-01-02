@@ -1,9 +1,7 @@
 import 'package:drift/drift.dart';
-
-import '../../domain/models//codex/codex_dom.dart';
-import '../../domain/models//codex/codex_repository.dart';
 import '../../core/database/app_database.dart';
-import '../../domain/models/army/army_id.dart';
+import '../../domain/models/army/army.dart';
+import '../../domain/models/codex/codex.dart';
 import '../mappers/codex_mapper.dart';
 
 class DriftCodexRepository implements CodexRepository {

@@ -1,9 +1,6 @@
-import 'package:ypa/domain/models/unit/unit_id.dart';
-import 'package:ypa/domain/models/unit/unit_name.dart';
-import 'package:ypa/domain/models/unit/unit_roleCode.dart';
-
-import '../army/army_id.dart';
-import '../codex/codex_id.dart';
+import 'package:ypa/domain/models/unit/unit.dart';
+import '../army/army.dart';
+import '../codex/codex.dart';
 
 
 

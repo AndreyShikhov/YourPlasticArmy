@@ -1,7 +1,7 @@
-import '../army/army_id.dart';
-import 'codex_id.dart';
-import 'codex_name.dart';
-import 'codex_code.dart';
+
+import '../army/army.dart';
+import 'codex.dart';
+
 
 class CodexDOM {
   final CodexId id;

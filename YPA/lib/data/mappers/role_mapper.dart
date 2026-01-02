@@ -1,11 +1,8 @@
 import 'package:drift/drift.dart';
 
 import '../../core/database/app_database.dart';
-import '../../core/database/tables/role_table.dart';
-import '../../domain/models/role/role_dom.dart';
-import '../../domain/models/role/role_id.dart';
-import '../../domain/models/role/role_name.dart';
-import '../../domain/models/role/role_code.dart';
+import '../../domain/models/role/role.dart';
+
 
 class RoleMapper {
   static RoleDOM fromRow(RoleData row) {

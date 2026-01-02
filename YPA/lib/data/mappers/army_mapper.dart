@@ -1,11 +1,9 @@
 import 'package:drift/drift.dart';
 
 import '../../core/database/app_database.dart';
-import '../../domain/models/army/army_dom.dart';
-import '../../domain/models/army/army_id.dart';
-import '../../domain/models/army/army_name.dart';
-import '../../domain/models/army/army_code.dart';
-import '../../domain/models/faction/faction_id.dart';
+import '../../domain/models/army/army.dart';
+import '../../domain/models/faction/faction.dart';
+
 
 class ArmyMapper {
   static ArmyDOM fromRow(Army row) {

@@ -1,6 +1,6 @@
-import 'role_id.dart';
-import 'role_name.dart';
-import 'role_code.dart';
+
+
+import 'package:ypa/domain/models/role/role.dart';
 
 class RoleDOM {
   final RoleId id;

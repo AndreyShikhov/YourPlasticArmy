@@ -1,13 +1,8 @@
 import 'package:drift/drift.dart';
-
 import '../../core/database/app_database.dart';
-import '../../domain/models/stratagem/stratagem_dom.dart';
-import '../../domain/models/stratagem/stratagem_id.dart';
-import '../../domain/models/stratagem/stratagem_name.dart';
-import '../../domain/models/stratagem/stratagem_code.dart';
-import '../../domain/models/stratagem/stratagem_description.dart';
-import '../../domain/models/codex/codex_id.dart';
-import '../../domain/models/detachment/detachment_id.dart';
+import '../../domain/models/codex/codex.dart';
+import '../../domain/models/detachment/detachment.dart';
+import '../../domain/models/stratagem/strategem.dart';
 
 class StratagemMapper {
   static StratagemDOM fromRow(Strategem row) {
