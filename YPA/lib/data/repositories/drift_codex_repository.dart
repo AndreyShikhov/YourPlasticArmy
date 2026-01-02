@@ -1,9 +1,7 @@
-import 'package:drift/drift.dart';
-import '../../core/database/app_database.dart';
-import '../../domain/models/army/army.dart';
-import '../../domain/models/codex/codex.dart';
-import '../mappers/mappers.dart';
-
+import 'package:ypa/core/database/app_database.dart';
+import 'package:ypa/data/mappers/codex_mapper.dart';
+import 'package:ypa/domain/models/army/army_id.dart';
+import 'package:ypa/domain/models/codex/codex.dart';
 
 class DriftCodexRepository implements CodexRepository {
   final AppDatabase db;
@@ -11,20 +9,8 @@ class DriftCodexRepository implements CodexRepository {
   DriftCodexRepository(this.db);
 
   @override
-  Future<List<CodexDOM>> findByArmy(ArmyId armyId) async {
-    final rows = await (db.select(db.codexes)
-      ..where((t) => t.armyId.equals(armyId.value)))
-        .get();
-
-    return rows.map(CodexMapper.fromRow).toList();
-  }
-
-  @override
-  Future<void> save(CodexDOM codex) async {
-    await db.into(db.codexes).insert(
-      CodexMapper.toCompanion(codex),
-      mode: InsertMode.insertOrReplace,
-    );
+  Future<void> delete(CodexId id) async {
+    await (db.delete(db.codexes)..where((tbl) => tbl.id.equals(id.value))).go();
   }
 
   @override
@@ -34,11 +20,19 @@ class DriftCodexRepository implements CodexRepository {
   }
 
   @override
-  Future<List<CodexDOM>> getByArmy(ArmyId armyId) async {
-    final query = db.select(db.codexes)
-      ..where((t) => t.armyId.equals(armyId.value));
-
-    final rows = await query.get();
+  Future<List<CodexDOM>> findByArmy(ArmyId armyId) async {
+    final rows = await (db.select(db.codexes)..where((tbl) => tbl.armyId.equals(armyId.value))).get();
     return rows.map(CodexMapper.fromRow).toList();
+  }
+
+  @override
+  Future<CodexDOM?> findById(CodexId id) async {
+    final row = await (db.select(db.codexes)..where((tbl) => tbl.id.equals(id.value))).getSingleOrNull();
+    return row != null ? CodexMapper.fromRow(row) : null;
+  }
+
+  @override
+  Future<void> save(CodexDOM codex) async {
+    await db.into(db.codexes).insertOnConflictUpdate(CodexMapper.toCompanion(codex));
   }
 }
