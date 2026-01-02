@@ -1,0 +1,45 @@
+import 'package:ypa/core/database/app_database.dart';
+import 'package:ypa/domain/models/army/army_id.dart';
+
+import '../../domain/models/unit/unit.dart';
+import '../mappers/mappers.dart';
+
+class DriftUnitRepository implements UnitRepository  {
+  final AppDatabase db;
+  
+  DriftUnitRepository(this.db);
+  
+  @override
+  Future<void> save(UnitDOM unit) async {
+    final companion = UnitMapper().toCompanion(unit);
+    await db.into(db.units).insertOnConflictUpdate(companion);
+  }
+
+  @override
+  Future<void> delete(UnitId id) async
+  {
+   await (db.delete(db.units)..where((tbl) => tbl.id.equals(id.value))).go();
+  }
+
+  @override
+  Future<List<UnitDOM>> findAll() async {
+
+    final rows = await db.select(db.units).get();
+
+    return rows.map(UnitMapper.fromRow).toList();
+  }
+
+  @override
+  Future<List<UnitDOM>> findByArmy(ArmyId armyId) async {
+    final rows = await (db.select(db.units)..where((tbl) => tbl.armyId.equals(armyId.value))).get();
+        
+    return rows.map(UnitMapper.fromRow).toList();
+  }
+
+  @override
+  Future<UnitDOM?> findById(UnitId id) async {
+    final row = await (db.select(db.units)..where((tbl) => tbl.id.equals(id.value))).getSingleOrNull();
+        
+    return row != null ? UnitMapper.fromRow(row) : null;
+  }
+}

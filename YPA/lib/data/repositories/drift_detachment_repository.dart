@@ -1,31 +1,27 @@
 import 'package:drift/drift.dart';
 import '../../core/database/app_database.dart';
-import '../../data/mappers/detachment_mapper.dart';
 import '../../domain/models/codex/codex.dart';
 import '../../domain/models/detachment/detachment.dart';
+import '../mappers/mappers.dart';
 
-class DriftDetachmentRepository
-    implements DetachmentRepository {
+class DriftDetachmentRepository implements DetachmentRepository {
   final AppDatabase db;
 
   DriftDetachmentRepository(this.db);
 
   @override
   Future<void> save(DetachmentDOM detachment) async {
-    final companion =
-    DetachmentMapper.toCompanion(detachment);
+    final companion = DetachmentMapper.toCompanion(detachment);
 
-    await db.into(db.detachments).insertOnConflictUpdate(
-      companion,
-    );
+    await db.into(db.detachments).insertOnConflictUpdate(companion);
   }
 
   @override
   Future<List<DetachmentDOM>> findByCodex(CodexId codexId) async {
-    final query = db.select(db.detachments).join([
-      innerJoin(
-        db.codexDetachments,
-        db.codexDetachments.detachmentId.equalsExp(
+    final query = db.select(db.detachments).join(
+        [innerJoin(
+          db.codexDetachments,
+          db.codexDetachments.detachmentId.equalsExp(
           db.detachments.id,
         ),
       ),
@@ -42,8 +38,7 @@ class DriftDetachmentRepository
 
   @override
   Future<DetachmentDOM?> findById(DetachmentId id) async {
-    final query = db.select(db.detachments)
-      ..where((tbl) => tbl.id.equals(id.value));
+    final query = db.select(db.detachments)..where((tbl) => tbl.id.equals(id.value));
 
     final row = await query.getSingleOrNull();
     if (row == null) return null;
@@ -55,15 +50,11 @@ class DriftDetachmentRepository
   Future<List<DetachmentDOM>> findAll() async {
     final rows = await db.select(db.detachments).get();
 
-    return rows
-        .map(DetachmentMapper.fromRow)
-        .toList();
+    return rows.map(DetachmentMapper.fromRow).toList();
   }
 
   @override
   Future<void> delete(DetachmentId id) async {
-    await (db.delete(db.detachments)
-      ..where((tbl) => tbl.id.equals(id.value)))
-        .go();
+    await (db.delete(db.detachments)..where((tbl) => tbl.id.equals(id.value))).go();
   }
 }

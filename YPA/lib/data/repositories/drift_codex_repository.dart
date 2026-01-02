@@ -2,7 +2,8 @@ import 'package:drift/drift.dart';
 import '../../core/database/app_database.dart';
 import '../../domain/models/army/army.dart';
 import '../../domain/models/codex/codex.dart';
-import '../mappers/codex_mapper.dart';
+import '../mappers/mappers.dart';
+
 
 class DriftCodexRepository implements CodexRepository {
   final AppDatabase db;
