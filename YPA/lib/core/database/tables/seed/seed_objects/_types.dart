@@ -1,4 +1,6 @@
 
+import 'package:ypa/domain/models/unit/unit_stats.dart';
+
 enum GamePhase {
   command,
   movement,
@@ -372,6 +374,8 @@ class UnitSeed {
   final ArmyCode army;
   final CodexCode? codex;
   final UnitRoleCode role;
+  // Добавляем stats для JSON поля
+  final UnitStats stats;
 
   const UnitSeed({
     this.id,
@@ -379,6 +383,7 @@ class UnitSeed {
     required this.army,
     required this.role,
     this.codex,
+    required this.stats,
   });
 }
 

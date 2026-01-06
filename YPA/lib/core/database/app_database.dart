@@ -5,6 +5,9 @@ import 'package:drift/native.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
+// Импорт модели для конвертера (ВАЖНО!)
+import 'package:ypa/domain/models/unit/unit_stats.dart';
+import 'package:ypa/core/database/converters/unit_stats_converter.dart';
 
 import 'package:ypa/core/database/tables/codexes_table.dart';
 import 'package:ypa/core/database/tables/codex_detachments_table.dart';
@@ -104,5 +107,3 @@ LazyDatabase _openConnection() {
     return NativeDatabase(file);
   });
 }
-
-

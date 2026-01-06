@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:ypa/core/database/converters/unit_stats_converter.dart';
 import 'codexes_table.dart';
 import 'armies_table.dart';
 import 'role_table.dart';
@@ -16,10 +17,12 @@ class Units extends Table {
       integer().references(Armies, #id)();
 
   /// Nullable (orks, demons, etc.)
-  /// Исправлено: text() вместо integer(), так как Codexes.id это строка (UUID)
   TextColumn get codexId =>
       text().nullable().references(Codexes, #id)();
 
   IntColumn get roleId =>
       integer().references(Role, #id)();
+      
+  /// Stats stored as JSON
+  TextColumn get stats => text().map(const UnitStatsConverter())();
 }

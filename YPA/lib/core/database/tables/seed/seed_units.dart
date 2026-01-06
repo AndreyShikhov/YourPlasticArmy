@@ -15,8 +15,8 @@ Future<void> seedUnits(
     ) async {
   final units = <UnitSeed>[
     ...spaceMarinesUnits(),
-    ...bloodAngelsUnits(),
-    ...orksUnits(),
+     ...bloodAngelsUnits(),
+     ...orksUnits(),
   ];
 
   for (final u in units) {
@@ -42,6 +42,7 @@ Future<void> seedUnits(
         armyId: armyId,
         codexId: codexIdValue,
         roleId: roleId,
+        stats: u.stats,
       ),
       mode: InsertMode.insertOrIgnore,
     );

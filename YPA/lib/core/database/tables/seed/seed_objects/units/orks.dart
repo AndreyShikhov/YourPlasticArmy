@@ -1,7 +1,9 @@
+import 'package:ypa/domain/models/unit/unit_stats.dart';
 import '../_types.dart';
 
+
 List<UnitSeed> orksUnits() {
-  return const [
+  return [
 
     //=============Characters============
 
@@ -11,7 +13,42 @@ List<UnitSeed> orksUnits() {
         id: '20c025c8-5282-4467-91f7-e7f093f1559c',
         name: 'Boyz',
         army: ArmyCode.orks,
-        role: UnitRoleCode.battleline
+        role: UnitRoleCode.battleline,
+        stats: UnitStats(
+            movement: 6,
+            toughness: 5,
+            save: 5,
+            invulnerableSave: 5, // Waaagh! energy? (обычно 6+ или 0)
+            wounds: 1,
+            leadership: 7,
+            objectiveControl: 2,
+            keywords: const ['Infantry', 'Battleline', 'Mob', 'Orks'],
+            factionKeywords: const ['Waaagh! Tribe'],
+            weapons: [
+               Weapon(
+                  name: 'Slugga',
+                  type: WeaponType.ranged,
+                  abilities:  [WeaponAbility.pistol],
+                  range: 12,
+                  attacks:  const Dice(fix: 1).toString(),
+                  skill: 5,
+                  strength: 4,
+                  ap: 0,
+                  damage: const Dice(fix: 1).toString()
+              ),
+              Weapon(
+                  name: 'Choppa',
+                  type: WeaponType.melee,
+                  abilities: const [],
+                  range: 0,
+                  attacks: const Dice(fix: 3).toString(),
+                  skill: 3,
+                  strength: 4,
+                  ap: -1,
+                  damage: const Dice(fix: 1).toString()
+              ),
+            ]
+        )
     ),
 
     //=============Dedicated Transports============
