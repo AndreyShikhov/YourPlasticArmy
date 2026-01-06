@@ -8,5 +8,9 @@ List<CodexSeed> getAllCodexes()
           code: CodexCode.ultramarines,
           army: ArmyCode.spaceMarines,
       ),
+      CodexSeed(
+          code: CodexCode.bloodAngels,
+          army: ArmyCode.spaceMarines,
+      ),
   ];
 }

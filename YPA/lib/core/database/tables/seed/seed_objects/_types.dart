@@ -146,6 +146,23 @@ enum UnitRoleCode {
 extension UnitRoleCodeX on UnitRoleCode {
   String get code => name;
 
+
+  String get SnakeName
+  {
+    switch(this){
+      case UnitRoleCode.characters:
+        return 'characters';
+      case UnitRoleCode.battleline:
+        return 'battleline';
+      case UnitRoleCode.dedicatedTransports:
+        return 'dedicated_transports';
+      case UnitRoleCode.fortifications:
+        return 'fortifications';
+      case UnitRoleCode.other:
+        return 'other';
+    }
+  }
+
   String get title {
     switch (this) {
       case UnitRoleCode.characters:

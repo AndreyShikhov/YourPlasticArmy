@@ -1,50 +1,41 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ypa/core/database/database_providers.dart';
 import 'core/ui/router/router.dart';
-import 'core/ui/screens/data/data.dart';
 
+void main() async {
+  // 1. Обязательная инициализация биндингов перед асинхронным кодом
+  WidgetsFlutterBinding.ensureInitialized();
 
+  // 2. Создаем контейнер для Riverpod вручную
+  final container = ProviderContainer();
 
+  // 3. Инициализируем базу данных
+  // Этот вызов выполнит код внутри databaseProvider:
+  // - Создаст файл БД (если нет)
+  // - Проверит на пустоту
+  // - Заполнит данными (seed), если нужно
+  await container.read(databaseProvider.future);
 
-
-void main() {
+  // 4. Запускаем приложение
   runApp(
-        const ProviderScope(
-          child: Ypa(),
-        ),
+    // Используем UncontrolledProviderScope, чтобы передать уже созданный контейнер
+    UncontrolledProviderScope(
+      container: container,
+      child: const Ypa(),
+    ),
   );
-
-  // Объект → JSON
-  UnitCardData testData = UnitCardData(unitName: 'testName',
-      movement: 6,
-      toughness: 4,
-      save: 3,
-      invulnerableSave: 0,
-      wounds: 2,
-      leadership: 2,
-      objectiveControl: 2,
-      points: [100,150],
-      keywords: ['k1','k2']);
-  String ljson = jsonEncode(testData.toJson());
-  print(ljson);
-
-  // JSON → Объект
-  Map<String, dynamic> jsonMap = jsonDecode(ljson);
-  UnitCardData decodedUnit = UnitCardData.fromJson(jsonMap);
-  print(decodedUnit.unitName); // Alice
 }
 
-class Ypa extends StatelessWidget{
+class Ypa extends StatelessWidget {
   const Ypa({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      routerConfig: router, // connect router
+      routerConfig: router,
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
-      );
+    );
   }
 }
-

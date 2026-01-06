@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:ypa/core/ui/screens/factions_screen.dart';
 import '../screens/data/style_data.dart';
 import 'package:ypa/core/ui/screens/screen.dart';
 import '../widgets/base_window.dart';
@@ -16,6 +17,10 @@ final GoRouter router = GoRouter(
               child: MainScreen()
           ),
         routes: [
+          GoRoute(
+            path: 'factions',
+            builder: (context, state) => const FactionsScreen(),
+          ),
           GoRoute(
             path: 'game_screen',
             builder: (context, state)=>BaseWindow(
