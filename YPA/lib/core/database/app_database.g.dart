@@ -3304,6 +3304,377 @@ class StrategemsCompanion extends UpdateCompanion<Strategem> {
   }
 }
 
+class $WeaponAbilitiesTable extends WeaponAbilities
+    with TableInfo<$WeaponAbilitiesTable, WeaponAbilitiesRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $WeaponAbilitiesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _codeMeta = const VerificationMeta('code');
+  @override
+  late final GeneratedColumn<String> code = GeneratedColumn<String>(
+    'code',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _shortDescriptionMeta = const VerificationMeta(
+    'shortDescription',
+  );
+  @override
+  late final GeneratedColumn<String> shortDescription = GeneratedColumn<String>(
+    'short_description',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _descriptionMeta = const VerificationMeta(
+    'description',
+  );
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+    'description',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    code,
+    name,
+    shortDescription,
+    description,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'weapon_abilities';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<WeaponAbilitiesRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('code')) {
+      context.handle(
+        _codeMeta,
+        code.isAcceptableOrUnknown(data['code']!, _codeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_codeMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('short_description')) {
+      context.handle(
+        _shortDescriptionMeta,
+        shortDescription.isAcceptableOrUnknown(
+          data['short_description']!,
+          _shortDescriptionMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_shortDescriptionMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+        _descriptionMeta,
+        description.isAcceptableOrUnknown(
+          data['description']!,
+          _descriptionMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_descriptionMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  WeaponAbilitiesRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return WeaponAbilitiesRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      code: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}code'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      shortDescription: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}short_description'],
+      )!,
+      description: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}description'],
+      )!,
+    );
+  }
+
+  @override
+  $WeaponAbilitiesTable createAlias(String alias) {
+    return $WeaponAbilitiesTable(attachedDatabase, alias);
+  }
+}
+
+class WeaponAbilitiesRow extends DataClass
+    implements Insertable<WeaponAbilitiesRow> {
+  final String id;
+  final String code;
+  final String name;
+  final String shortDescription;
+  final String description;
+  const WeaponAbilitiesRow({
+    required this.id,
+    required this.code,
+    required this.name,
+    required this.shortDescription,
+    required this.description,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['code'] = Variable<String>(code);
+    map['name'] = Variable<String>(name);
+    map['short_description'] = Variable<String>(shortDescription);
+    map['description'] = Variable<String>(description);
+    return map;
+  }
+
+  WeaponAbilitiesCompanion toCompanion(bool nullToAbsent) {
+    return WeaponAbilitiesCompanion(
+      id: Value(id),
+      code: Value(code),
+      name: Value(name),
+      shortDescription: Value(shortDescription),
+      description: Value(description),
+    );
+  }
+
+  factory WeaponAbilitiesRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return WeaponAbilitiesRow(
+      id: serializer.fromJson<String>(json['id']),
+      code: serializer.fromJson<String>(json['code']),
+      name: serializer.fromJson<String>(json['name']),
+      shortDescription: serializer.fromJson<String>(json['shortDescription']),
+      description: serializer.fromJson<String>(json['description']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'code': serializer.toJson<String>(code),
+      'name': serializer.toJson<String>(name),
+      'shortDescription': serializer.toJson<String>(shortDescription),
+      'description': serializer.toJson<String>(description),
+    };
+  }
+
+  WeaponAbilitiesRow copyWith({
+    String? id,
+    String? code,
+    String? name,
+    String? shortDescription,
+    String? description,
+  }) => WeaponAbilitiesRow(
+    id: id ?? this.id,
+    code: code ?? this.code,
+    name: name ?? this.name,
+    shortDescription: shortDescription ?? this.shortDescription,
+    description: description ?? this.description,
+  );
+  WeaponAbilitiesRow copyWithCompanion(WeaponAbilitiesCompanion data) {
+    return WeaponAbilitiesRow(
+      id: data.id.present ? data.id.value : this.id,
+      code: data.code.present ? data.code.value : this.code,
+      name: data.name.present ? data.name.value : this.name,
+      shortDescription: data.shortDescription.present
+          ? data.shortDescription.value
+          : this.shortDescription,
+      description: data.description.present
+          ? data.description.value
+          : this.description,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('WeaponAbilitiesRow(')
+          ..write('id: $id, ')
+          ..write('code: $code, ')
+          ..write('name: $name, ')
+          ..write('shortDescription: $shortDescription, ')
+          ..write('description: $description')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, code, name, shortDescription, description);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is WeaponAbilitiesRow &&
+          other.id == this.id &&
+          other.code == this.code &&
+          other.name == this.name &&
+          other.shortDescription == this.shortDescription &&
+          other.description == this.description);
+}
+
+class WeaponAbilitiesCompanion extends UpdateCompanion<WeaponAbilitiesRow> {
+  final Value<String> id;
+  final Value<String> code;
+  final Value<String> name;
+  final Value<String> shortDescription;
+  final Value<String> description;
+  final Value<int> rowid;
+  const WeaponAbilitiesCompanion({
+    this.id = const Value.absent(),
+    this.code = const Value.absent(),
+    this.name = const Value.absent(),
+    this.shortDescription = const Value.absent(),
+    this.description = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  WeaponAbilitiesCompanion.insert({
+    required String id,
+    required String code,
+    required String name,
+    required String shortDescription,
+    required String description,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       code = Value(code),
+       name = Value(name),
+       shortDescription = Value(shortDescription),
+       description = Value(description);
+  static Insertable<WeaponAbilitiesRow> custom({
+    Expression<String>? id,
+    Expression<String>? code,
+    Expression<String>? name,
+    Expression<String>? shortDescription,
+    Expression<String>? description,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (code != null) 'code': code,
+      if (name != null) 'name': name,
+      if (shortDescription != null) 'short_description': shortDescription,
+      if (description != null) 'description': description,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  WeaponAbilitiesCompanion copyWith({
+    Value<String>? id,
+    Value<String>? code,
+    Value<String>? name,
+    Value<String>? shortDescription,
+    Value<String>? description,
+    Value<int>? rowid,
+  }) {
+    return WeaponAbilitiesCompanion(
+      id: id ?? this.id,
+      code: code ?? this.code,
+      name: name ?? this.name,
+      shortDescription: shortDescription ?? this.shortDescription,
+      description: description ?? this.description,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (code.present) {
+      map['code'] = Variable<String>(code.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (shortDescription.present) {
+      map['short_description'] = Variable<String>(shortDescription.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('WeaponAbilitiesCompanion(')
+          ..write('id: $id, ')
+          ..write('code: $code, ')
+          ..write('name: $name, ')
+          ..write('shortDescription: $shortDescription, ')
+          ..write('description: $description, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -3318,6 +3689,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   );
   late final $EnhancementsTable enhancements = $EnhancementsTable(this);
   late final $StrategemsTable strategems = $StrategemsTable(this);
+  late final $WeaponAbilitiesTable weaponAbilities = $WeaponAbilitiesTable(
+    this,
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -3332,6 +3706,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     codexDetachments,
     enhancements,
     strategems,
+    weaponAbilities,
   ];
 }
 
@@ -7356,6 +7731,220 @@ typedef $$StrategemsTableProcessedTableManager =
       Strategem,
       PrefetchHooks Function({bool codexId, bool detachmentId})
     >;
+typedef $$WeaponAbilitiesTableCreateCompanionBuilder =
+    WeaponAbilitiesCompanion Function({
+      required String id,
+      required String code,
+      required String name,
+      required String shortDescription,
+      required String description,
+      Value<int> rowid,
+    });
+typedef $$WeaponAbilitiesTableUpdateCompanionBuilder =
+    WeaponAbilitiesCompanion Function({
+      Value<String> id,
+      Value<String> code,
+      Value<String> name,
+      Value<String> shortDescription,
+      Value<String> description,
+      Value<int> rowid,
+    });
+
+class $$WeaponAbilitiesTableFilterComposer
+    extends Composer<_$AppDatabase, $WeaponAbilitiesTable> {
+  $$WeaponAbilitiesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get code => $composableBuilder(
+    column: $table.code,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get shortDescription => $composableBuilder(
+    column: $table.shortDescription,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$WeaponAbilitiesTableOrderingComposer
+    extends Composer<_$AppDatabase, $WeaponAbilitiesTable> {
+  $$WeaponAbilitiesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get code => $composableBuilder(
+    column: $table.code,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get shortDescription => $composableBuilder(
+    column: $table.shortDescription,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$WeaponAbilitiesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $WeaponAbilitiesTable> {
+  $$WeaponAbilitiesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get code =>
+      $composableBuilder(column: $table.code, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get shortDescription => $composableBuilder(
+    column: $table.shortDescription,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => column,
+  );
+}
+
+class $$WeaponAbilitiesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $WeaponAbilitiesTable,
+          WeaponAbilitiesRow,
+          $$WeaponAbilitiesTableFilterComposer,
+          $$WeaponAbilitiesTableOrderingComposer,
+          $$WeaponAbilitiesTableAnnotationComposer,
+          $$WeaponAbilitiesTableCreateCompanionBuilder,
+          $$WeaponAbilitiesTableUpdateCompanionBuilder,
+          (
+            WeaponAbilitiesRow,
+            BaseReferences<
+              _$AppDatabase,
+              $WeaponAbilitiesTable,
+              WeaponAbilitiesRow
+            >,
+          ),
+          WeaponAbilitiesRow,
+          PrefetchHooks Function()
+        > {
+  $$WeaponAbilitiesTableTableManager(
+    _$AppDatabase db,
+    $WeaponAbilitiesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$WeaponAbilitiesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$WeaponAbilitiesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$WeaponAbilitiesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> code = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String> shortDescription = const Value.absent(),
+                Value<String> description = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => WeaponAbilitiesCompanion(
+                id: id,
+                code: code,
+                name: name,
+                shortDescription: shortDescription,
+                description: description,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String code,
+                required String name,
+                required String shortDescription,
+                required String description,
+                Value<int> rowid = const Value.absent(),
+              }) => WeaponAbilitiesCompanion.insert(
+                id: id,
+                code: code,
+                name: name,
+                shortDescription: shortDescription,
+                description: description,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$WeaponAbilitiesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $WeaponAbilitiesTable,
+      WeaponAbilitiesRow,
+      $$WeaponAbilitiesTableFilterComposer,
+      $$WeaponAbilitiesTableOrderingComposer,
+      $$WeaponAbilitiesTableAnnotationComposer,
+      $$WeaponAbilitiesTableCreateCompanionBuilder,
+      $$WeaponAbilitiesTableUpdateCompanionBuilder,
+      (
+        WeaponAbilitiesRow,
+        BaseReferences<
+          _$AppDatabase,
+          $WeaponAbilitiesTable,
+          WeaponAbilitiesRow
+        >,
+      ),
+      WeaponAbilitiesRow,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -7377,4 +7966,6 @@ class $AppDatabaseManager {
       $$EnhancementsTableTableManager(_db, _db.enhancements);
   $$StrategemsTableTableManager get strategems =>
       $$StrategemsTableTableManager(_db, _db.strategems);
+  $$WeaponAbilitiesTableTableManager get weaponAbilities =>
+      $$WeaponAbilitiesTableTableManager(_db, _db.weaponAbilities);
 }

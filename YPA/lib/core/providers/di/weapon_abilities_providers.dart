@@ -1,0 +1,26 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ypa/core/database/database_providers.dart';
+import 'package:ypa/data/repositories/drift_weapon_ability_repository.dart';
+import 'package:ypa/domain/models/weapon_ability/weapon_ability.dart';
+import 'package:ypa/application/weapon_abilities/get_all_weapon_abilities.dart';
+
+// --- REPOSITORIES ---
+
+final weaponAbilityRepositoryProvider = Provider<WeaponAbilityRepository>((ref) {
+  final db = ref.watch(databaseProvider).requireValue;
+  return DriftWeaponAbilityRepository(db);
+});
+
+// --- USE CASES ---
+
+final getAllWeaponAbilitiesUseCaseProvider = Provider<GetAllWeaponAbilities>((ref) {
+  final repository = ref.watch(weaponAbilityRepositoryProvider);
+  return GetAllWeaponAbilities(repository);
+});
+
+// --- UI STATE ---
+
+final weaponAbilitiesListProvider = FutureProvider<List<WeaponAbilityDOM>>((ref) async {
+  final useCase = ref.watch(getAllWeaponAbilitiesUseCaseProvider);
+  return useCase();
+});

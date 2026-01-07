@@ -1,18 +1,16 @@
 
 import 'package:ypa/domain/models/unit/unit_stats.dart';
 
+
+// ==========================================
+// ENUM
+// ==========================================
 enum GamePhase {
   command,
   movement,
   shooting,
   charge,
   fight,
-}
-
-enum StrategemType {
-  core,
-  army,
-  detachment,
 }
 
 enum WeaponType {
@@ -24,34 +22,6 @@ enum DamageType {
   normal,
   mortal,
 }
-
-enum AbilityTrigger {
-  passive,
-  commandPhase,
-  movementPhase,
-  shootingPhase,
-  chargePhase,
-  fightPhase,
-  reaction,
-}
-
-enum DetachmentRuleType {
-  armyRule,
-  detachmentRule,
-}
-
-enum SaveType {
-  armor,
-  invulnerable,
-  feelNoPain,
-}
-
-enum RangeType {
-  self,
-  aura,
-  ranged,
-}
-
 
 enum FactionCode {
   imperium,
@@ -339,9 +309,115 @@ extension UnitRoleCodeX on UnitRoleCode {
   }
 }
 
+enum WeaponAbilitiesCode {
+  assault,
+  rapidFire,
+  ignoresCover,
+  twinLinked,
+  pistol,
+  torrent,
+  lethalHits,
+  lance,
+  indirectFire,
+  blast,
+  precision,
+  melta,
+  heavy,
+  hazardous,
+  sustainedHits,
+  extraAttacks,
+  devastatingWounds,
+  anti,
+}
+// Исправлено: Weapom -> Weapon
+extension WeaponAbilitiesCodeX on WeaponAbilitiesCode {
+  String get code => name;
 
+  String get SnakeName {
+    switch (this) {
+      case WeaponAbilitiesCode.assault:
+        return 'assault';
+      case WeaponAbilitiesCode.rapidFire:
+        return 'rapid_fire';
+      case WeaponAbilitiesCode.ignoresCover:
+        return 'ignores_cover';
+      case WeaponAbilitiesCode.twinLinked:
+        return 'twin_linked';
+      case WeaponAbilitiesCode.pistol:
+        return 'pistol';
+      case WeaponAbilitiesCode.torrent:
+        return 'torrent';
+      case WeaponAbilitiesCode.lethalHits:
+        return 'lethal_hits';
+      case WeaponAbilitiesCode.lance:
+        return 'lance';
+      case WeaponAbilitiesCode.indirectFire:
+        return 'indirect_fire';
+      case WeaponAbilitiesCode.blast:
+        return 'blast';
+      case WeaponAbilitiesCode.precision:
+        return 'precision';
+      case WeaponAbilitiesCode.melta:
+        return 'melta';
+      case WeaponAbilitiesCode.heavy:
+        return 'heavy';
+      case WeaponAbilitiesCode.hazardous:
+        return 'hazardous';
+      case WeaponAbilitiesCode.sustainedHits:
+        return 'sustained_hits';
+      case WeaponAbilitiesCode.extraAttacks:
+        return 'extra_attacks';
+      case WeaponAbilitiesCode.devastatingWounds:
+        return 'devastating_wounds';
+      case WeaponAbilitiesCode.anti:
+        return 'anti';
+    }
+  }
 
-
+  String get title {
+    switch (this) {
+      case WeaponAbilitiesCode.assault:
+        return 'Assault';
+      case WeaponAbilitiesCode.rapidFire:
+        return 'Rapid Fire';
+      case WeaponAbilitiesCode.ignoresCover:
+        return 'Ignores Cover';
+      case WeaponAbilitiesCode.twinLinked:
+        return 'Twin Linked';
+      case WeaponAbilitiesCode.pistol:
+        return 'Pistol';
+      case WeaponAbilitiesCode.torrent:
+        return 'Torrent';
+      case WeaponAbilitiesCode.lethalHits:
+        return 'Lethal Hits';
+      case WeaponAbilitiesCode.lance:
+        return 'Lance';
+      case WeaponAbilitiesCode.indirectFire:
+        return 'Indirect Fire';
+      case WeaponAbilitiesCode.blast:
+        return 'Blast';
+      case WeaponAbilitiesCode.precision:
+        return 'Precision';
+      case WeaponAbilitiesCode.melta:
+        return 'Melta';
+      case WeaponAbilitiesCode.heavy:
+        return 'Heavy';
+      case WeaponAbilitiesCode.hazardous:
+        return 'Hazardous';
+      case WeaponAbilitiesCode.sustainedHits:
+        return 'Sustained Hits';
+      case WeaponAbilitiesCode.extraAttacks:
+        return 'Extra Attacks';
+      case WeaponAbilitiesCode.devastatingWounds:
+        return 'Devastating Wounds';
+      case WeaponAbilitiesCode.anti:
+        return 'Anti';
+    }
+  }
+}
+// ==========================================
+// OBJECTS CLASS
+// ==========================================
 
 class CodexSeed {
   final CodexCode code;
@@ -458,5 +534,26 @@ class StrategemsSeed {
     this.oncePerBattle = false,
     this.codexId,
     this.detachmentId,
+  });
+}
+
+
+
+
+
+class WeaponAbilitySeed {
+
+  final String? id;
+  final String code;
+  final String name;
+  final String shortDescription;
+  final String description;
+
+  const WeaponAbilitySeed({
+    this.id,
+    required this.code,
+    required this.name,
+    required this.shortDescription,
+    required this.description,
   });
 }

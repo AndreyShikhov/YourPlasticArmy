@@ -7,3 +7,4 @@ export 'faction_mapper.dart';
 export 'role_mapper.dart';
 export 'stratagem_mapper.dart';
 export 'unit_maper.dart';
+export 'weapon_ability_mapper.dart';
