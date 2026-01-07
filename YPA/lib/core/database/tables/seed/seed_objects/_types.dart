@@ -329,7 +329,7 @@ enum WeaponAbilitiesCode {
   devastatingWounds,
   anti,
 }
-// Исправлено: Weapom -> Weapon
+
 extension WeaponAbilitiesCodeX on WeaponAbilitiesCode {
   String get code => name;
 
@@ -415,6 +415,57 @@ extension WeaponAbilitiesCodeX on WeaponAbilitiesCode {
     }
   }
 }
+
+enum UnitAbilitiesCode {
+  deepStrike,
+  deadlyDemise,
+  fightsFirst,
+  firingDeck,
+  hover,
+  infiltrators,
+  leader,
+  loneOperative,
+  scouts,
+  stealth,
+  transport,
+}
+
+extension UnitAbilitiesCodeX on UnitAbilitiesCode {
+  String get code => name;
+
+  String get SnakeName {
+    switch (this) {
+      case UnitAbilitiesCode.deepStrike: return 'deep_strike';
+      case UnitAbilitiesCode.deadlyDemise: return 'deadly_demise';
+      case UnitAbilitiesCode.fightsFirst: return 'fights_first';
+      case UnitAbilitiesCode.firingDeck: return 'firing_deck';
+      case UnitAbilitiesCode.hover: return 'hover';
+      case UnitAbilitiesCode.infiltrators: return 'infiltrators';
+      case UnitAbilitiesCode.leader: return 'leader';
+      case UnitAbilitiesCode.loneOperative: return 'lone_operative';
+      case UnitAbilitiesCode.scouts: return 'scouts';
+      case UnitAbilitiesCode.stealth: return 'stealth';
+      case UnitAbilitiesCode.transport: return 'transport';
+    }
+  }
+
+  String get title {
+    switch (this) {
+      case UnitAbilitiesCode.deepStrike: return 'Deep Strike';
+      case UnitAbilitiesCode.deadlyDemise: return 'Deadly Demise';
+      case UnitAbilitiesCode.fightsFirst: return 'Fights First';
+      case UnitAbilitiesCode.firingDeck: return 'Firing Deck';
+      case UnitAbilitiesCode.hover: return 'Hover';
+      case UnitAbilitiesCode.infiltrators: return 'Infiltrators';
+      case UnitAbilitiesCode.leader: return 'Leader';
+      case UnitAbilitiesCode.loneOperative: return 'Lone Operative';
+      case UnitAbilitiesCode.scouts: return 'Scouts';
+      case UnitAbilitiesCode.stealth: return 'Stealth';
+      case UnitAbilitiesCode.transport: return 'Transport';
+    }
+  }
+}
+
 // ==========================================
 // OBJECTS CLASS
 // ==========================================
@@ -550,6 +601,22 @@ class WeaponAbilitySeed {
   final String description;
 
   const WeaponAbilitySeed({
+    this.id,
+    required this.code,
+    required this.name,
+    required this.shortDescription,
+    required this.description,
+  });
+}
+
+class UnitAbilitySeed {
+  final String? id;
+  final String code;
+  final String name;
+  final String shortDescription;
+  final String description;
+
+  const UnitAbilitySeed({
     this.id,
     required this.code,
     required this.name,

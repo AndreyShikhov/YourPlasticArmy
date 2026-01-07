@@ -4,24 +4,12 @@ import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
-import 'package:ypa/core/database/tables/weapon_abilities_table.dart';
+import 'package:ypa/core/database/tables/seed/seed_data.dart';
 
 // Импорт модели для конвертера (ВАЖНО!)
 import 'package:ypa/domain/models/unit/unit_stats.dart';
 import 'package:ypa/core/database/converters/unit_stats_converter.dart';
-
-import 'package:ypa/core/database/tables/codexes_table.dart';
-import 'package:ypa/core/database/tables/codex_detachments_table.dart';
-import 'package:ypa/core/database/tables/detachments_table.dart';
-import 'package:ypa/core/database/tables/enhancements_table.dart';
-import 'package:ypa/core/database/tables/armies_table.dart';
-import 'package:ypa/core/database/tables/factions_table.dart';
-import 'package:ypa/core/database/tables/seed/seed_data.dart';
-
-
-import 'package:ypa/core/database/tables/stratagems_table.dart';
-import 'package:ypa/core/database/tables/role_table.dart';
-import 'package:ypa/core/database/tables/units_table.dart';
+import 'package:ypa/core/database/tables/tables.dart';
 
 
 part 'app_database.g.dart';
@@ -43,6 +31,7 @@ part 'app_database.g.dart';
     Enhancements,
     Strategems,
     WeaponAbilities,
+    UnitAbilities,
   ],
 )
 
@@ -70,6 +59,7 @@ class AppDatabase extends _$AppDatabase {
       await delete(enhancements).go();
       await delete(strategems).go();
       await delete(weaponAbilities).go();
+      await delete(unitAbilities).go();
 
       // 2. M:N связи
       await delete(codexDetachments).go();
