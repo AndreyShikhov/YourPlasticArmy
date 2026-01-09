@@ -32,6 +32,7 @@ part 'app_database.g.dart';
     Strategems,
     WeaponAbilities,
     UnitAbilities,
+    UserArmies, // Добавлена новая таблица
   ],
 )
 
@@ -60,6 +61,7 @@ class AppDatabase extends _$AppDatabase {
       await delete(strategems).go();
       await delete(weaponAbilities).go();
       await delete(unitAbilities).go();
+      await delete(userArmies).go(); // Очистка новой таблицы
 
       // 2. M:N связи
       await delete(codexDetachments).go();

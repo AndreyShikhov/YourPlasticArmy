@@ -1,0 +1,33 @@
+import 'package:drift/drift.dart';
+import 'package:ypa/core/database/app_database.dart';
+import 'package:ypa/data/mappers/user_army_mapper.dart';
+import 'package:ypa/domain/models/user_army/user_army_dom.dart';
+import 'package:ypa/domain/models/user_army/user_army_repository.dart';
+
+class DriftUserArmyRepository implements UserArmyRepository {
+  final AppDatabase db;
+
+  DriftUserArmyRepository(this.db);
+
+  @override
+  Future<List<UserArmyDOM>> findAll() async {
+    final rows = await db.select(db.userArmies).get();
+    return rows.map(UserArmyMapper.fromRow).toList();
+  }
+
+  @override
+  Future<UserArmyDOM?> findById(String id) async {
+    final row = await (db.select(db.userArmies)..where((tbl) => tbl.id.equals(id))).getSingleOrNull();
+    return row != null ? UserArmyMapper.fromRow(row) : null;
+  }
+
+  @override
+  Future<void> save(UserArmyDOM userArmy) async {
+    await db.into(db.userArmies).insertOnConflictUpdate(UserArmyMapper.toCompanion(userArmy));
+  }
+
+  @override
+  Future<void> delete(String id) async {
+    await (db.delete(db.userArmies)..where((tbl) => tbl.id.equals(id))).go();
+  }
+}
