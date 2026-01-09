@@ -21,7 +21,7 @@ final getAllUnitAbilitiesUseCaseProvider = Provider<GetAllUnitAbilities>((ref) {
 
 // --- UI STATE ---
 
-final unitAbilitiesListProvider = FutureProvider<List<UnitAbility>>((ref) async {
+final unitAbilitiesListProvider = FutureProvider<List<UnitAbilityDOM>>((ref) async {
   final useCase = ref.watch(getAllUnitAbilitiesUseCaseProvider);
   return useCase();
 });

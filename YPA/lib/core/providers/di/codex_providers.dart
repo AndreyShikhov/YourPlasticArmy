@@ -4,7 +4,7 @@ import 'package:ypa/application/codex/get_codexes_by_army.dart';
 import 'package:ypa/core/database/database_providers.dart';
 import 'package:ypa/data/repositories/drift_codex_repository.dart';
 import 'package:ypa/domain/models/army/army_id.dart';
-import 'package:ypa/domain/models/codex/codex.dart';
+import 'package:ypa/domain/models/codex/codex_dom.dart'; // Явный импорт DOM
 import 'package:ypa/domain/models/codex/codex_repository.dart';
 
 // --- REPOSITORIES ---
@@ -28,7 +28,9 @@ final getCodexesByArmyUseCaseProvider = Provider<GetCodexesByArmy>((ref) {
 
 // --- UI STATE ---
 
-final codexesByArmyProvider = FutureProvider.family<List<Codex>, String>((ref, armyIdRaw) async {
+final codexesByArmyProvider = FutureProvider.family<List<CodexDOM>, String>((ref, armyIdRaw) async {
   final useCase = ref.watch(getCodexesByArmyUseCaseProvider);
-  return useCase(ArmyId(armyIdRaw));
+  // Исправление: парсим строку в int и вызываем фабрику fromInt
+  final armyId = ArmyId.fromInt(int.parse(armyIdRaw));
+  return useCase(armyId);
 });

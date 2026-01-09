@@ -4,7 +4,6 @@ import 'package:ypa/application/army/get_armies_by_faction.dart';
 import 'package:ypa/core/database/database_providers.dart';
 import 'package:ypa/data/repositories/drift_army_repository.dart';
 import 'package:ypa/domain/models/army/army.dart';
-import 'package:ypa/domain/models/army/army_repository.dart';
 import 'package:ypa/domain/models/faction/faction_id.dart';
 
 // --- REPOSITORIES ---
@@ -29,14 +28,15 @@ final getArmiesByFactionUseCaseProvider = Provider<GetArmiesByFaction>((ref) {
 // --- UI STATE ---
 
 // Провайдер всех армий
-final armiesListProvider = FutureProvider<List<Army>>((ref) async {
+final armiesListProvider = FutureProvider<List<ArmyDOM>>((ref) async {
   final useCase = ref.watch(getAllArmiesUseCaseProvider);
   return useCase();
 });
 
 // Провайдер армий для конкретной фракции (family - позволяет передать ID)
-// Использование: ref.watch(armiesByFactionProvider(factionIdString))
-final armiesByFactionProvider = FutureProvider.family<List<Army>, String>((ref, factionIdRaw) async {
+final armiesByFactionProvider = FutureProvider.family<List<ArmyDOM>, String>((ref, factionIdRaw) async {
   final useCase = ref.watch(getArmiesByFactionUseCaseProvider);
-  return useCase(FactionId(factionIdRaw));
+  // Исправление: парсим строку и вызываем фабрику
+  final factionId = FactionId.fromInt(int.parse(factionIdRaw));
+  return useCase(factionId);
 });

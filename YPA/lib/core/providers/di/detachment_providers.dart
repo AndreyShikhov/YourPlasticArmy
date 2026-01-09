@@ -6,12 +6,12 @@ import 'package:ypa/core/database/database_providers.dart';
 import 'package:ypa/data/repositories/drift_detachment_repository.dart';
 import 'package:ypa/data/repositories/drift_enhancement_repository.dart';
 import 'package:ypa/data/repositories/drift_stratagem_repository.dart';
-import 'package:ypa/domain/models/detachment/detachment.dart';
+import 'package:ypa/domain/models/detachment/detachment_dom.dart';
 import 'package:ypa/domain/models/detachment/detachment_id.dart';
 import 'package:ypa/domain/models/detachment/detachment_repository.dart';
-import 'package:ypa/domain/models/enhancement/enhancement.dart';
+import 'package:ypa/domain/models/enhancement/enhancement_dom.dart';
 import 'package:ypa/domain/models/enhancement/enhancement_repository.dart';
-import 'package:ypa/domain/models/stratagem/stratagem.dart';
+import 'package:ypa/domain/models/stratagem/stratagem_dom.dart';
 import 'package:ypa/domain/models/stratagem/stratagem_repository.dart';
 
 // --- REPOSITORIES ---
@@ -50,20 +50,24 @@ final getEnhancementsByDetachmentUseCaseProvider = Provider<GetEnhancementsByDet
 
 // --- UI STATE ---
 
-// Список всех детачментов (пока просто все, но в будущем можно фильтровать по армии)
-final allDetachmentsProvider = FutureProvider<List<Detachment>>((ref) async {
+// Список всех детачментов
+final allDetachmentsProvider = FutureProvider<List<DetachmentDOM>>((ref) async {
   final useCase = ref.watch(getAllDetachmentsUseCaseProvider);
   return useCase();
 });
 
 // Стратагемы для конкретного детачмента
-final stratagemsByDetachmentProvider = FutureProvider.family<List<Stratagem>, String>((ref, detachmentIdRaw) async {
+final stratagemsByDetachmentProvider = FutureProvider.family<List<StratagemDOM>, String>((ref, detachmentIdRaw) async {
   final useCase = ref.watch(getStratagemsByDetachmentUseCaseProvider);
-  return useCase(DetachmentId(detachmentIdRaw));
+  // Исправление: используем фабрику fromString
+  final detachmentId = DetachmentId.fromString(detachmentIdRaw);
+  return useCase(detachmentId);
 });
 
 // Улучшения для конкретного детачмента
-final enhancementsByDetachmentProvider = FutureProvider.family<List<Enhancement>, String>((ref, detachmentIdRaw) async {
+final enhancementsByDetachmentProvider = FutureProvider.family<List<EnhancementDOM>, String>((ref, detachmentIdRaw) async {
   final useCase = ref.watch(getEnhancementsByDetachmentUseCaseProvider);
-  return useCase(DetachmentId(detachmentIdRaw));
+  // Исправление: используем фабрику fromString
+  final detachmentId = DetachmentId.fromString(detachmentIdRaw);
+  return useCase(detachmentId);
 });

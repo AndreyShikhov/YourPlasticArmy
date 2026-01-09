@@ -9,9 +9,9 @@ import 'package:ypa/core/database/database_providers.dart';
 import 'package:ypa/data/repositories/drift_role_repository.dart';
 import 'package:ypa/data/repositories/drift_unit_repository.dart';
 import 'package:ypa/domain/models/army/army_id.dart';
-import 'package:ypa/domain/models/role/role.dart';
+import 'package:ypa/domain/models/role/role_dom.dart';
 import 'package:ypa/domain/models/role/role_repository.dart';
-import 'package:ypa/domain/models/unit/unit.dart';
+import 'package:ypa/domain/models/unit/unit_dom.dart';
 import 'package:ypa/domain/models/unit/unit_repository.dart';
 
 // --- REPOSITORIES ---
@@ -62,12 +62,14 @@ final deleteUnitUseCaseProvider = Provider<DeleteUnit>((ref) {
 
 // --- UI STATE ---
 
-final rolesListProvider = FutureProvider<List<Role>>((ref) async {
+final rolesListProvider = FutureProvider<List<RoleDOM>>((ref) async {
   final useCase = ref.watch(getAllRolesUseCaseProvider);
   return useCase();
 });
 
-final unitsByArmyProvider = FutureProvider.family<List<Unit>, String>((ref, armyIdRaw) async {
+final unitsByArmyProvider = FutureProvider.family<List<UnitDOM>, String>((ref, armyIdRaw) async {
   final useCase = ref.watch(getUnitsByArmyUseCaseProvider);
-  return useCase(ArmyId(armyIdRaw));
+  // Исправление: парсим строку и вызываем фабрику fromInt
+  final armyId = ArmyId.fromInt(int.parse(armyIdRaw));
+  return useCase(armyId);
 });
