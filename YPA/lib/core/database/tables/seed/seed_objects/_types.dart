@@ -394,7 +394,7 @@ extension CodexCodeX on CodexCode {
         return 'Chaos Daemons';
       case CodexCode.chaosKnights:
         return 'Chaos Knights';
-      case CodexCode.chaosSpaceMarines:
+      case CodexCode.chaosSpaceMarines
         return 'Chaos Space Marines';
       case CodexCode.deathGuard:
         return 'Death Guard';
@@ -409,7 +409,7 @@ extension CodexCodeX on CodexCode {
       case CodexCode.drukhari:
         return 'Drukhari';
       case CodexCode.genestealerCults:
-        return 'Genestealer Crowns';
+        return 'Genestealer Cults';
       case CodexCode.leaguesOfVotann:
         return 'Leagues of Votann';
       case CodexCode.necrons:

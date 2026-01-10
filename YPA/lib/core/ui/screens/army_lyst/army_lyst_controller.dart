@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/application/codex/get_codex_by_id.dart';
 import 'package:ypa/application/user_army/create_user_army.dart';
+import 'package:ypa/application/user_army/delet_user_army_by_id.dart';
 import 'package:ypa/application/user_army/get_user_armies.dart';
 import 'package:ypa/core/providers/di/codex_providers.dart';
 import 'package:ypa/core/providers/di/user_army_providers.dart';
@@ -12,18 +13,21 @@ final armyLystControllerProvider = StateNotifierProvider<ArmyLystController, Arm
   final getUserArmies = ref.watch(getUserArmiesUseCaseProvider);
   final createUserArmy = ref.watch(createUserArmyUseCaseProvider);
   final getCodexById = ref.watch(getCodexByIdUseCaseProvider);
-  return ArmyLystController(getUserArmies, createUserArmy, getCodexById);
+  final deleArmyById = ref.watch(deletUserArmyByIdUseCaseProvider);
+  return ArmyLystController(getUserArmies, createUserArmy, getCodexById, deleArmyById);
 });
 
 class ArmyLystController extends StateNotifier<ArmyLystState> {
   final GetUserArmies _getUserArmies;
   final CreateUserArmy _createUserArmy;
   final GetCodexById _getCodexById;
+  final DeletUserArmyById _deletUserArmyById;
 
   ArmyLystController(
     this._getUserArmies, 
     this._createUserArmy, 
     this._getCodexById,
+    this._deletUserArmyById,
   ) : super(const ArmyLystState()) {
     loadArmies();
   }
@@ -63,5 +67,9 @@ class ArmyLystController extends StateNotifier<ArmyLystState> {
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());
     }
+  }
+
+  Future<void> deleteArmy(String armyId) async {
+    await _deletUserArmyById(userArmyId: armyId);
   }
 }
