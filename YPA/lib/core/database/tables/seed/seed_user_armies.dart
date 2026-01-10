@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:uuid/uuid.dart';
+import '../../../../domain/models/codex/codex_id.dart';
 import '../../app_database.dart';
 
 Future<void> seedUserArmies(
@@ -18,7 +19,7 @@ Future<void> seedUserArmies(
       UserArmiesCompanion.insert(
         id: const Uuid().v4(),
         name: 'My First Ultramarines',
-        armyId: spaceMarineId,
+        codexId: CodexId.fromString('ultramarines').value,
         totalPoints: const Value(500),
         jsonData: '{"version": 1, "units": []}', // Пустой ростер для начала
         createdAt: Value(DateTime.now()),
@@ -31,7 +32,7 @@ Future<void> seedUserArmies(
       UserArmiesCompanion.insert(
         id: const Uuid().v4(),
         name: 'Green Tide Waaagh',
-        armyId: orkId,
+       codexId: CodexId.fromString('Orks').value,
         totalPoints: const Value(1000),
         jsonData: '{"version": 1, "units": []}',
         createdAt: Value(DateTime.now().subtract(const Duration(days: 1))),

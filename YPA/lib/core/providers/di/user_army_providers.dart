@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ypa/application/user_army/create_user_army.dart';
 import 'package:ypa/application/user_army/get_user_armies.dart';
 import 'package:ypa/core/database/database_providers.dart';
 import 'package:ypa/data/repositories/drift_user_army_repository.dart';
@@ -16,4 +17,9 @@ final userArmyRepositoryProvider = Provider<UserArmyRepository>((ref) {
 final getUserArmiesUseCaseProvider = Provider<GetUserArmies>((ref) {
   final repository = ref.watch(userArmyRepositoryProvider);
   return GetUserArmies(repository);
+});
+
+final createUserArmyUseCaseProvider = Provider<CreateUserArmy>((ref) {
+  final repository = ref.watch(userArmyRepositoryProvider);
+  return CreateUserArmy(repository);
 });

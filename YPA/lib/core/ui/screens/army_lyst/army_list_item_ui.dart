@@ -1,13 +1,13 @@
-
-
 class ArmyListItemUi {
-  int id;
-  String title;
-  int? pts;
+  final String id; // UUID
+  final String codexName;
+  final String title;
+  final int pts;
 
   ArmyListItemUi({
     required this.id,
+    required this.codexName,
     required this.title,
-    this.pts,
+    required this.pts,
   });
 }

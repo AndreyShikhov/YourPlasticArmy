@@ -4074,16 +4074,18 @@ class $UserArmiesTable extends UserArmies
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _armyIdMeta = const VerificationMeta('armyId');
+  static const VerificationMeta _codexIdMeta = const VerificationMeta(
+    'codexId',
+  );
   @override
-  late final GeneratedColumn<int> armyId = GeneratedColumn<int>(
-    'army_id',
+  late final GeneratedColumn<String> codexId = GeneratedColumn<String>(
+    'codex_id',
     aliasedName,
     false,
-    type: DriftSqlType.int,
+    type: DriftSqlType.string,
     requiredDuringInsert: true,
     defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES armies (id)',
+      'REFERENCES codexes (id)',
     ),
   );
   static const VerificationMeta _totalPointsMeta = const VerificationMeta(
@@ -4125,7 +4127,7 @@ class $UserArmiesTable extends UserArmies
   List<GeneratedColumn> get $columns => [
     id,
     name,
-    armyId,
+    codexId,
     totalPoints,
     jsonData,
     createdAt,
@@ -4155,13 +4157,13 @@ class $UserArmiesTable extends UserArmies
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
-    if (data.containsKey('army_id')) {
+    if (data.containsKey('codex_id')) {
       context.handle(
-        _armyIdMeta,
-        armyId.isAcceptableOrUnknown(data['army_id']!, _armyIdMeta),
+        _codexIdMeta,
+        codexId.isAcceptableOrUnknown(data['codex_id']!, _codexIdMeta),
       );
     } else if (isInserting) {
-      context.missing(_armyIdMeta);
+      context.missing(_codexIdMeta);
     }
     if (data.containsKey('total_points')) {
       context.handle(
@@ -4203,9 +4205,9 @@ class $UserArmiesTable extends UserArmies
         DriftSqlType.string,
         data['${effectivePrefix}name'],
       )!,
-      armyId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}army_id'],
+      codexId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}codex_id'],
       )!,
       totalPoints: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
@@ -4231,14 +4233,14 @@ class $UserArmiesTable extends UserArmies
 class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
   final String id;
   final String name;
-  final int armyId;
+  final String codexId;
   final int totalPoints;
   final String jsonData;
   final DateTime createdAt;
   const UserArmyRow({
     required this.id,
     required this.name,
-    required this.armyId,
+    required this.codexId,
     required this.totalPoints,
     required this.jsonData,
     required this.createdAt,
@@ -4248,7 +4250,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
     final map = <String, Expression>{};
     map['id'] = Variable<String>(id);
     map['name'] = Variable<String>(name);
-    map['army_id'] = Variable<int>(armyId);
+    map['codex_id'] = Variable<String>(codexId);
     map['total_points'] = Variable<int>(totalPoints);
     map['json_data'] = Variable<String>(jsonData);
     map['created_at'] = Variable<DateTime>(createdAt);
@@ -4259,7 +4261,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
     return UserArmiesCompanion(
       id: Value(id),
       name: Value(name),
-      armyId: Value(armyId),
+      codexId: Value(codexId),
       totalPoints: Value(totalPoints),
       jsonData: Value(jsonData),
       createdAt: Value(createdAt),
@@ -4274,7 +4276,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
     return UserArmyRow(
       id: serializer.fromJson<String>(json['id']),
       name: serializer.fromJson<String>(json['name']),
-      armyId: serializer.fromJson<int>(json['armyId']),
+      codexId: serializer.fromJson<String>(json['codexId']),
       totalPoints: serializer.fromJson<int>(json['totalPoints']),
       jsonData: serializer.fromJson<String>(json['jsonData']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
@@ -4286,7 +4288,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
     return <String, dynamic>{
       'id': serializer.toJson<String>(id),
       'name': serializer.toJson<String>(name),
-      'armyId': serializer.toJson<int>(armyId),
+      'codexId': serializer.toJson<String>(codexId),
       'totalPoints': serializer.toJson<int>(totalPoints),
       'jsonData': serializer.toJson<String>(jsonData),
       'createdAt': serializer.toJson<DateTime>(createdAt),
@@ -4296,14 +4298,14 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
   UserArmyRow copyWith({
     String? id,
     String? name,
-    int? armyId,
+    String? codexId,
     int? totalPoints,
     String? jsonData,
     DateTime? createdAt,
   }) => UserArmyRow(
     id: id ?? this.id,
     name: name ?? this.name,
-    armyId: armyId ?? this.armyId,
+    codexId: codexId ?? this.codexId,
     totalPoints: totalPoints ?? this.totalPoints,
     jsonData: jsonData ?? this.jsonData,
     createdAt: createdAt ?? this.createdAt,
@@ -4312,7 +4314,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
     return UserArmyRow(
       id: data.id.present ? data.id.value : this.id,
       name: data.name.present ? data.name.value : this.name,
-      armyId: data.armyId.present ? data.armyId.value : this.armyId,
+      codexId: data.codexId.present ? data.codexId.value : this.codexId,
       totalPoints: data.totalPoints.present
           ? data.totalPoints.value
           : this.totalPoints,
@@ -4326,7 +4328,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
     return (StringBuffer('UserArmyRow(')
           ..write('id: $id, ')
           ..write('name: $name, ')
-          ..write('armyId: $armyId, ')
+          ..write('codexId: $codexId, ')
           ..write('totalPoints: $totalPoints, ')
           ..write('jsonData: $jsonData, ')
           ..write('createdAt: $createdAt')
@@ -4336,14 +4338,14 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
 
   @override
   int get hashCode =>
-      Object.hash(id, name, armyId, totalPoints, jsonData, createdAt);
+      Object.hash(id, name, codexId, totalPoints, jsonData, createdAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is UserArmyRow &&
           other.id == this.id &&
           other.name == this.name &&
-          other.armyId == this.armyId &&
+          other.codexId == this.codexId &&
           other.totalPoints == this.totalPoints &&
           other.jsonData == this.jsonData &&
           other.createdAt == this.createdAt);
@@ -4352,7 +4354,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
 class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
   final Value<String> id;
   final Value<String> name;
-  final Value<int> armyId;
+  final Value<String> codexId;
   final Value<int> totalPoints;
   final Value<String> jsonData;
   final Value<DateTime> createdAt;
@@ -4360,7 +4362,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
   const UserArmiesCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
-    this.armyId = const Value.absent(),
+    this.codexId = const Value.absent(),
     this.totalPoints = const Value.absent(),
     this.jsonData = const Value.absent(),
     this.createdAt = const Value.absent(),
@@ -4369,19 +4371,19 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
   UserArmiesCompanion.insert({
     required String id,
     required String name,
-    required int armyId,
+    required String codexId,
     this.totalPoints = const Value.absent(),
     required String jsonData,
     this.createdAt = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        name = Value(name),
-       armyId = Value(armyId),
+       codexId = Value(codexId),
        jsonData = Value(jsonData);
   static Insertable<UserArmyRow> custom({
     Expression<String>? id,
     Expression<String>? name,
-    Expression<int>? armyId,
+    Expression<String>? codexId,
     Expression<int>? totalPoints,
     Expression<String>? jsonData,
     Expression<DateTime>? createdAt,
@@ -4390,7 +4392,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (name != null) 'name': name,
-      if (armyId != null) 'army_id': armyId,
+      if (codexId != null) 'codex_id': codexId,
       if (totalPoints != null) 'total_points': totalPoints,
       if (jsonData != null) 'json_data': jsonData,
       if (createdAt != null) 'created_at': createdAt,
@@ -4401,7 +4403,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
   UserArmiesCompanion copyWith({
     Value<String>? id,
     Value<String>? name,
-    Value<int>? armyId,
+    Value<String>? codexId,
     Value<int>? totalPoints,
     Value<String>? jsonData,
     Value<DateTime>? createdAt,
@@ -4410,7 +4412,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
     return UserArmiesCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
-      armyId: armyId ?? this.armyId,
+      codexId: codexId ?? this.codexId,
       totalPoints: totalPoints ?? this.totalPoints,
       jsonData: jsonData ?? this.jsonData,
       createdAt: createdAt ?? this.createdAt,
@@ -4427,8 +4429,8 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
     if (name.present) {
       map['name'] = Variable<String>(name.value);
     }
-    if (armyId.present) {
-      map['army_id'] = Variable<int>(armyId.value);
+    if (codexId.present) {
+      map['codex_id'] = Variable<String>(codexId.value);
     }
     if (totalPoints.present) {
       map['total_points'] = Variable<int>(totalPoints.value);
@@ -4450,7 +4452,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
     return (StringBuffer('UserArmiesCompanion(')
           ..write('id: $id, ')
           ..write('name: $name, ')
-          ..write('armyId: $armyId, ')
+          ..write('codexId: $codexId, ')
           ..write('totalPoints: $totalPoints, ')
           ..write('jsonData: $jsonData, ')
           ..write('createdAt: $createdAt, ')
@@ -4832,24 +4834,6 @@ final class $$ArmiesTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
-
-  static MultiTypedResultKey<$UserArmiesTable, List<UserArmyRow>>
-  _userArmiesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
-    db.userArmies,
-    aliasName: $_aliasNameGenerator(db.armies.id, db.userArmies.armyId),
-  );
-
-  $$UserArmiesTableProcessedTableManager get userArmiesRefs {
-    final manager = $$UserArmiesTableTableManager(
-      $_db,
-      $_db.userArmies,
-    ).filter((f) => f.armyId.id.sqlEquals($_itemColumn<int>('id')!));
-
-    final cache = $_typedResult.readTableOrNull(_userArmiesRefsTable($_db));
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
-  }
 }
 
 class $$ArmiesTableFilterComposer
@@ -4965,31 +4949,6 @@ class $$ArmiesTableFilterComposer
           }) => $$DetachmentsTableFilterComposer(
             $db: $db,
             $table: $db.detachments,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-
-  Expression<bool> userArmiesRefs(
-    Expression<bool> Function($$UserArmiesTableFilterComposer f) f,
-  ) {
-    final $$UserArmiesTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.userArmies,
-      getReferencedColumn: (t) => t.armyId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$UserArmiesTableFilterComposer(
-            $db: $db,
-            $table: $db.userArmies,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -5163,31 +5122,6 @@ class $$ArmiesTableAnnotationComposer
     );
     return f(composer);
   }
-
-  Expression<T> userArmiesRefs<T extends Object>(
-    Expression<T> Function($$UserArmiesTableAnnotationComposer a) f,
-  ) {
-    final $$UserArmiesTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.userArmies,
-      getReferencedColumn: (t) => t.armyId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$UserArmiesTableAnnotationComposer(
-            $db: $db,
-            $table: $db.userArmies,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
 }
 
 class $$ArmiesTableTableManager
@@ -5208,7 +5142,6 @@ class $$ArmiesTableTableManager
             bool codexesRefs,
             bool unitsRefs,
             bool detachmentsRefs,
-            bool userArmiesRefs,
           })
         > {
   $$ArmiesTableTableManager(_$AppDatabase db, $ArmiesTable table)
@@ -5258,7 +5191,6 @@ class $$ArmiesTableTableManager
                 codexesRefs = false,
                 unitsRefs = false,
                 detachmentsRefs = false,
-                userArmiesRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -5266,7 +5198,6 @@ class $$ArmiesTableTableManager
                     if (codexesRefs) db.codexes,
                     if (unitsRefs) db.units,
                     if (detachmentsRefs) db.detachments,
-                    if (userArmiesRefs) db.userArmies,
                   ],
                   addJoins:
                       <
@@ -5353,27 +5284,6 @@ class $$ArmiesTableTableManager
                               ),
                           typedResults: items,
                         ),
-                      if (userArmiesRefs)
-                        await $_getPrefetchedData<
-                          Army,
-                          $ArmiesTable,
-                          UserArmyRow
-                        >(
-                          currentTable: table,
-                          referencedTable: $$ArmiesTableReferences
-                              ._userArmiesRefsTable(db),
-                          managerFromTypedResult: (p0) =>
-                              $$ArmiesTableReferences(
-                                db,
-                                table,
-                                p0,
-                              ).userArmiesRefs,
-                          referencedItemsForCurrentItem:
-                              (item, referencedItems) => referencedItems.where(
-                                (e) => e.armyId == item.id,
-                              ),
-                          typedResults: items,
-                        ),
                     ];
                   },
                 );
@@ -5399,7 +5309,6 @@ typedef $$ArmiesTableProcessedTableManager =
         bool codexesRefs,
         bool unitsRefs,
         bool detachmentsRefs,
-        bool userArmiesRefs,
       })
     >;
 typedef $$CodexesTableCreateCompanionBuilder =
@@ -5493,6 +5402,24 @@ final class $$CodexesTableReferences
     ).filter((f) => f.codexId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_strategemsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$UserArmiesTable, List<UserArmyRow>>
+  _userArmiesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.userArmies,
+    aliasName: $_aliasNameGenerator(db.codexes.id, db.userArmies.codexId),
+  );
+
+  $$UserArmiesTableProcessedTableManager get userArmiesRefs {
+    final manager = $$UserArmiesTableTableManager(
+      $_db,
+      $_db.userArmies,
+    ).filter((f) => f.codexId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_userArmiesRefsTable($_db));
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: cache),
     );
@@ -5612,6 +5539,31 @@ class $$CodexesTableFilterComposer
           }) => $$StrategemsTableFilterComposer(
             $db: $db,
             $table: $db.strategems,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> userArmiesRefs(
+    Expression<bool> Function($$UserArmiesTableFilterComposer f) f,
+  ) {
+    final $$UserArmiesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.userArmies,
+      getReferencedColumn: (t) => t.codexId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UserArmiesTableFilterComposer(
+            $db: $db,
+            $table: $db.userArmies,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -5785,6 +5737,31 @@ class $$CodexesTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> userArmiesRefs<T extends Object>(
+    Expression<T> Function($$UserArmiesTableAnnotationComposer a) f,
+  ) {
+    final $$UserArmiesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.userArmies,
+      getReferencedColumn: (t) => t.codexId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UserArmiesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.userArmies,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$CodexesTableTableManager
@@ -5805,6 +5782,7 @@ class $$CodexesTableTableManager
             bool unitsRefs,
             bool codexDetachmentsRefs,
             bool strategemsRefs,
+            bool userArmiesRefs,
           })
         > {
   $$CodexesTableTableManager(_$AppDatabase db, $CodexesTable table)
@@ -5860,6 +5838,7 @@ class $$CodexesTableTableManager
                 unitsRefs = false,
                 codexDetachmentsRefs = false,
                 strategemsRefs = false,
+                userArmiesRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -5867,6 +5846,7 @@ class $$CodexesTableTableManager
                     if (unitsRefs) db.units,
                     if (codexDetachmentsRefs) db.codexDetachments,
                     if (strategemsRefs) db.strategems,
+                    if (userArmiesRefs) db.userArmies,
                   ],
                   addJoins:
                       <
@@ -5961,6 +5941,27 @@ class $$CodexesTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (userArmiesRefs)
+                        await $_getPrefetchedData<
+                          Codexe,
+                          $CodexesTable,
+                          UserArmyRow
+                        >(
+                          currentTable: table,
+                          referencedTable: $$CodexesTableReferences
+                              ._userArmiesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$CodexesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).userArmiesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.codexId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -5986,6 +5987,7 @@ typedef $$CodexesTableProcessedTableManager =
         bool unitsRefs,
         bool codexDetachmentsRefs,
         bool strategemsRefs,
+        bool userArmiesRefs,
       })
     >;
 typedef $$RoleTableCreateCompanionBuilder =
@@ -9039,7 +9041,7 @@ typedef $$UserArmiesTableCreateCompanionBuilder =
     UserArmiesCompanion Function({
       required String id,
       required String name,
-      required int armyId,
+      required String codexId,
       Value<int> totalPoints,
       required String jsonData,
       Value<DateTime> createdAt,
@@ -9049,7 +9051,7 @@ typedef $$UserArmiesTableUpdateCompanionBuilder =
     UserArmiesCompanion Function({
       Value<String> id,
       Value<String> name,
-      Value<int> armyId,
+      Value<String> codexId,
       Value<int> totalPoints,
       Value<String> jsonData,
       Value<DateTime> createdAt,
@@ -9060,18 +9062,17 @@ final class $$UserArmiesTableReferences
     extends BaseReferences<_$AppDatabase, $UserArmiesTable, UserArmyRow> {
   $$UserArmiesTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
-  static $ArmiesTable _armyIdTable(_$AppDatabase db) => db.armies.createAlias(
-    $_aliasNameGenerator(db.userArmies.armyId, db.armies.id),
-  );
+  static $CodexesTable _codexIdTable(_$AppDatabase db) => db.codexes
+      .createAlias($_aliasNameGenerator(db.userArmies.codexId, db.codexes.id));
 
-  $$ArmiesTableProcessedTableManager get armyId {
-    final $_column = $_itemColumn<int>('army_id')!;
+  $$CodexesTableProcessedTableManager get codexId {
+    final $_column = $_itemColumn<String>('codex_id')!;
 
-    final manager = $$ArmiesTableTableManager(
+    final manager = $$CodexesTableTableManager(
       $_db,
-      $_db.armies,
+      $_db.codexes,
     ).filter((f) => f.id.sqlEquals($_column));
-    final item = $_typedResult.readTableOrNull(_armyIdTable($_db));
+    final item = $_typedResult.readTableOrNull(_codexIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: [item]),
@@ -9113,20 +9114,20 @@ class $$UserArmiesTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  $$ArmiesTableFilterComposer get armyId {
-    final $$ArmiesTableFilterComposer composer = $composerBuilder(
+  $$CodexesTableFilterComposer get codexId {
+    final $$CodexesTableFilterComposer composer = $composerBuilder(
       composer: this,
-      getCurrentColumn: (t) => t.armyId,
-      referencedTable: $db.armies,
+      getCurrentColumn: (t) => t.codexId,
+      referencedTable: $db.codexes,
       getReferencedColumn: (t) => t.id,
       builder:
           (
             joinBuilder, {
             $addJoinBuilderToRootComposer,
             $removeJoinBuilderFromRootComposer,
-          }) => $$ArmiesTableFilterComposer(
+          }) => $$CodexesTableFilterComposer(
             $db: $db,
-            $table: $db.armies,
+            $table: $db.codexes,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -9171,20 +9172,20 @@ class $$UserArmiesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  $$ArmiesTableOrderingComposer get armyId {
-    final $$ArmiesTableOrderingComposer composer = $composerBuilder(
+  $$CodexesTableOrderingComposer get codexId {
+    final $$CodexesTableOrderingComposer composer = $composerBuilder(
       composer: this,
-      getCurrentColumn: (t) => t.armyId,
-      referencedTable: $db.armies,
+      getCurrentColumn: (t) => t.codexId,
+      referencedTable: $db.codexes,
       getReferencedColumn: (t) => t.id,
       builder:
           (
             joinBuilder, {
             $addJoinBuilderToRootComposer,
             $removeJoinBuilderFromRootComposer,
-          }) => $$ArmiesTableOrderingComposer(
+          }) => $$CodexesTableOrderingComposer(
             $db: $db,
-            $table: $db.armies,
+            $table: $db.codexes,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -9221,20 +9222,20 @@ class $$UserArmiesTableAnnotationComposer
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
 
-  $$ArmiesTableAnnotationComposer get armyId {
-    final $$ArmiesTableAnnotationComposer composer = $composerBuilder(
+  $$CodexesTableAnnotationComposer get codexId {
+    final $$CodexesTableAnnotationComposer composer = $composerBuilder(
       composer: this,
-      getCurrentColumn: (t) => t.armyId,
-      referencedTable: $db.armies,
+      getCurrentColumn: (t) => t.codexId,
+      referencedTable: $db.codexes,
       getReferencedColumn: (t) => t.id,
       builder:
           (
             joinBuilder, {
             $addJoinBuilderToRootComposer,
             $removeJoinBuilderFromRootComposer,
-          }) => $$ArmiesTableAnnotationComposer(
+          }) => $$CodexesTableAnnotationComposer(
             $db: $db,
-            $table: $db.armies,
+            $table: $db.codexes,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -9258,7 +9259,7 @@ class $$UserArmiesTableTableManager
           $$UserArmiesTableUpdateCompanionBuilder,
           (UserArmyRow, $$UserArmiesTableReferences),
           UserArmyRow,
-          PrefetchHooks Function({bool armyId})
+          PrefetchHooks Function({bool codexId})
         > {
   $$UserArmiesTableTableManager(_$AppDatabase db, $UserArmiesTable table)
     : super(
@@ -9275,7 +9276,7 @@ class $$UserArmiesTableTableManager
               ({
                 Value<String> id = const Value.absent(),
                 Value<String> name = const Value.absent(),
-                Value<int> armyId = const Value.absent(),
+                Value<String> codexId = const Value.absent(),
                 Value<int> totalPoints = const Value.absent(),
                 Value<String> jsonData = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
@@ -9283,7 +9284,7 @@ class $$UserArmiesTableTableManager
               }) => UserArmiesCompanion(
                 id: id,
                 name: name,
-                armyId: armyId,
+                codexId: codexId,
                 totalPoints: totalPoints,
                 jsonData: jsonData,
                 createdAt: createdAt,
@@ -9293,7 +9294,7 @@ class $$UserArmiesTableTableManager
               ({
                 required String id,
                 required String name,
-                required int armyId,
+                required String codexId,
                 Value<int> totalPoints = const Value.absent(),
                 required String jsonData,
                 Value<DateTime> createdAt = const Value.absent(),
@@ -9301,7 +9302,7 @@ class $$UserArmiesTableTableManager
               }) => UserArmiesCompanion.insert(
                 id: id,
                 name: name,
-                armyId: armyId,
+                codexId: codexId,
                 totalPoints: totalPoints,
                 jsonData: jsonData,
                 createdAt: createdAt,
@@ -9315,7 +9316,7 @@ class $$UserArmiesTableTableManager
                 ),
               )
               .toList(),
-          prefetchHooksCallback: ({armyId = false}) {
+          prefetchHooksCallback: ({codexId = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
@@ -9335,15 +9336,15 @@ class $$UserArmiesTableTableManager
                       dynamic
                     >
                   >(state) {
-                    if (armyId) {
+                    if (codexId) {
                       state =
                           state.withJoin(
                                 currentTable: table,
-                                currentColumn: table.armyId,
+                                currentColumn: table.codexId,
                                 referencedTable: $$UserArmiesTableReferences
-                                    ._armyIdTable(db),
+                                    ._codexIdTable(db),
                                 referencedColumn: $$UserArmiesTableReferences
-                                    ._armyIdTable(db)
+                                    ._codexIdTable(db)
                                     .id,
                               )
                               as T;
@@ -9372,7 +9373,7 @@ typedef $$UserArmiesTableProcessedTableManager =
       $$UserArmiesTableUpdateCompanionBuilder,
       (UserArmyRow, $$UserArmiesTableReferences),
       UserArmyRow,
-      PrefetchHooks Function({bool armyId})
+      PrefetchHooks Function({bool codexId})
     >;
 
 class $AppDatabaseManager {

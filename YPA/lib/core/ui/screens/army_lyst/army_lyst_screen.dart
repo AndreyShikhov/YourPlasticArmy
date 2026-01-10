@@ -86,12 +86,19 @@ class ArmyListScreen extends ConsumerWidget {
             print('Selected army ID: ${item.id}');
           },
           child: Text(
-            item.title,
+            _generatetextButton(item),
             style: const TextStyle(color: Colors.white, fontSize: 16),
             textAlign: TextAlign.center,
           ),
         ),
       ),
     );
+  }
+
+
+  String _generatetextButton(ArmyListItemUi item)
+  {
+    String finalTitle =  '${item.codexName}: ${item.title} (${item.pts} pts)';
+    return finalTitle;
   }
 }

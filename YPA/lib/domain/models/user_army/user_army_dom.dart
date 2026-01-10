@@ -1,17 +1,17 @@
-import 'package:ypa/domain/models/army/army_id.dart';
+import 'package:ypa/domain/models/codex/codex_id.dart';
 
 class UserArmyDOM {
   final String id;
   final String name;
-  final ArmyId armyId; // Ссылка на базовую армию (SM, Orks)
+  final CodexId codexId; // ИСПРАВЛЕНО: Ссылка на кодекс вместо армии
   final int totalPoints;
-  final String jsonData; // Весь состав армии
+  final String jsonData; 
   final DateTime createdAt;
 
   const UserArmyDOM({
     required this.id,
     required this.name,
-    required this.armyId,
+    required this.codexId,
     required this.totalPoints,
     required this.jsonData,
     required this.createdAt,

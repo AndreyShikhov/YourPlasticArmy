@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:ypa/core/database/app_database.dart';
-import 'package:ypa/domain/models/army/army_id.dart';
+import 'package:ypa/domain/models/codex/codex_id.dart';
 import 'package:ypa/domain/models/user_army/user_army_dom.dart';
 
 class UserArmyMapper {
@@ -8,7 +8,7 @@ class UserArmyMapper {
     return UserArmyDOM(
       id: row.id,
       name: row.name,
-      armyId: ArmyId.fromInt(row.armyId),
+      codexId: CodexId.fromString(row.codexId), // Теперь String UUID
       totalPoints: row.totalPoints,
       jsonData: row.jsonData,
       createdAt: row.createdAt,
@@ -19,8 +19,8 @@ class UserArmyMapper {
     return UserArmiesCompanion.insert(
       id: dom.id,
       name: dom.name,
-      armyId: dom.armyId.value,
-      totalPoints: Value(dom.totalPoints) ,
+      codexId: dom.codexId.value, // Теперь String
+      totalPoints: Value(dom.totalPoints),
       jsonData: dom.jsonData,
       createdAt: Value(dom.createdAt),
     );

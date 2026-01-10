@@ -237,33 +237,262 @@ extension ArmyCodeX on ArmyCode {
 }
 
 enum CodexCode {
-  ultramarines,
+  adeptaSororitas,
+  adeptusCustodes,
+  adeptusMechanicus,
+  adeptusTitanicus,
+  astraMilitarum,
+  greyKnights,
+  imperialAgents,
+  imperialKnights,
+  blackTemplars,
   bloodAngels,
+  darkAngels,
+  deathWatch,
+  imperialFists,
+  ironHands,
+  ravenGuard,
+  salamanders,
+  ultramarines,
+  whiteScars,
+  spaceWolves,
+
+  // Chaos
+  chaosDaemons,
+  chaosKnights,
+  chaosSpaceMarines,
+  deathGuard,
+  emperorsChildren,
+  thousandSons,
+  worldEaters,
+  // Xenos
+  aeldari,
+  drukhari,
+  genestealerCults,
+  leaguesOfVotann,
+  necrons,
+  orks,
+  tauEmpire,
+  tyranids,
+
 }
 extension CodexCodeX on CodexCode {
   String get code {
     switch (this) {
-      case CodexCode.ultramarines:
-        return 'ultramarines';
+      case CodexCode.adeptaSororitas:
+        return 'adepta_sororitas';
+      case CodexCode.adeptusCustodes:
+        return 'adeptus_custodes';
+      case CodexCode.adeptusMechanicus:
+        return 'adeptus_mechanicus';
+      case CodexCode.adeptusTitanicus:
+        return 'adeptus_titanicus';
+      case CodexCode.astraMilitarum:
+        return 'astra_militarum';
+      case CodexCode.greyKnights:
+        return 'grey_knights';
+      case CodexCode.imperialAgents:
+        return 'imperial_agents';
+      case CodexCode.imperialKnights:
+        return 'imperial_knights';
+      case CodexCode.blackTemplars:
+        return 'black_templars';
       case CodexCode.bloodAngels:
         return 'blood_angels';
+      case CodexCode.darkAngels:
+        return 'dark_angels';
+      case CodexCode.deathWatch:
+        return 'death_watch';
+      case CodexCode.imperialFists:
+        return 'imperial_fists';
+      case CodexCode.ironHands:
+        return 'iron_hands';
+      case CodexCode.ravenGuard:
+        return 'raven_guard';
+      case CodexCode.salamanders:
+        return 'salamanders';
+      case CodexCode.ultramarines:
+        return 'ultramarines';
+      case CodexCode.whiteScars:
+        return 'white_scars';
+      case CodexCode.spaceWolves:
+        return 'space_wolves';
+      case CodexCode.chaosDaemons:
+        return 'chaos_daemons';
+      case CodexCode.chaosKnights:
+        return 'chaos_knights';
+      case CodexCode.chaosSpaceMarines:
+        return 'chaos_space_marines';
+      case CodexCode.deathGuard:
+        return 'death_guard';
+      case CodexCode.emperorsChildren:
+        return 'emperors_children';
+      case CodexCode.thousandSons:
+        return 'thousand_sons';
+      case CodexCode.worldEaters:
+        return 'world_eaters';
+      case CodexCode.aeldari:
+        return 'aeldari';
+      case CodexCode.drukhari:
+        return 'drukhari';
+      case CodexCode.genestealerCults:
+        return 'genestealer_cults';
+      case CodexCode.leaguesOfVotann:
+        return 'leagues_of_votann';
+      case CodexCode.necrons:
+        return 'necrons';
+      case CodexCode.orks:
+        return 'orks';
+      case CodexCode.tauEmpire:
+        return 'tau_empire';
+      case CodexCode.tyranids:
+        return 'tyranids';
     }
   }
 
   String get title {
     switch (this) {
-      case CodexCode.ultramarines:
-        return 'Ultramarines';
+      case CodexCode.adeptaSororitas:
+        return 'Adepta Sororitas';
+      case CodexCode.adeptusCustodes:
+        return 'Adeptus Custodes';
+      case CodexCode.adeptusMechanicus:
+        return 'Adeptus Mechanicus';
+      case CodexCode.adeptusTitanicus:
+        return 'Adeptus Titanicus';
+      case CodexCode.astraMilitarum:
+        return 'Astra Militarum';
+      case CodexCode.greyKnights:
+        return 'Grey Knights';
+      case CodexCode.imperialAgents:
+        return 'Imperial Agents';
+      case CodexCode.imperialKnights:
+        return 'Imperial Knights';
+      case CodexCode.blackTemplars:
+        return 'Black Templars';
       case CodexCode.bloodAngels:
         return 'Blood Angels';
+      case CodexCode.darkAngels:
+        return 'Dark Angels';
+      case CodexCode.deathWatch:
+        return 'Death Watch';
+      case CodexCode.imperialFists:
+        return 'Imperial Fists';
+      case CodexCode.ironHands:
+        return 'Iron Hands';
+      case CodexCode.ravenGuard:
+        return 'Raven Guard';
+      case CodexCode.salamanders:
+        return 'Salamanders';
+      case CodexCode.ultramarines:
+        return 'Ultramarines';
+      case CodexCode.whiteScars:
+        return 'White Scars';
+      case CodexCode.spaceWolves:
+        return 'Space Wolves';
+      case CodexCode.chaosDaemons:
+        return 'Chaos Daemons';
+      case CodexCode.chaosKnights:
+        return 'Chaos Knights';
+      case CodexCode.chaosSpaceMarines:
+        return 'Chaos Space Marines';
+      case CodexCode.deathGuard:
+        return 'Death Guard';
+      case CodexCode.emperorsChildren:
+        return 'Emperors Children';
+      case CodexCode.thousandSons:
+        return 'Thousand Sons';
+      case CodexCode.worldEaters:
+        return 'World Eaters';
+      case CodexCode.aeldari:
+        return 'Aeldari';
+      case CodexCode.drukhari:
+        return 'Drukhari';
+      case CodexCode.genestealerCults:
+        return 'Genestealer Crowns';
+      case CodexCode.leaguesOfVotann:
+        return 'Leagues of Votann';
+      case CodexCode.necrons:
+        return 'Necrons';
+      case CodexCode.orks:
+        return 'Orks';
+      case CodexCode.tauEmpire:
+        return 'Tau Empire';
+      case CodexCode.tyranids:
+        return 'Tyranids';
     }
   }
 
   ArmyCode get army {
     switch (this) {
-      case CodexCode.ultramarines:
+      case CodexCode.adeptaSororitas:
+        return ArmyCode.adeptaSororitas;
+      case CodexCode.adeptusCustodes:
+        return ArmyCode.adeptusCustodes;
+      case CodexCode.adeptusMechanicus:
+        return ArmyCode.adeptusMechanicus;
+      case CodexCode.adeptusTitanicus:
+        return ArmyCode.adeptusTitanicus;
+      case CodexCode.astraMilitarum:
+        return ArmyCode.astraMilitarum;
+      case CodexCode.greyKnights:
+        return ArmyCode.greyKnights;
+      case CodexCode.imperialAgents:
+        return ArmyCode.imperialAgents;
+      case CodexCode.imperialKnights:
+        return ArmyCode.imperialKnights;
+      case CodexCode.blackTemplars:
+        return ArmyCode.spaceMarines;
       case CodexCode.bloodAngels:
         return ArmyCode.spaceMarines;
+      case CodexCode.darkAngels:
+        return ArmyCode.spaceMarines;
+      case CodexCode.deathWatch:
+        return ArmyCode.spaceMarines;
+      case CodexCode.imperialFists:
+        return ArmyCode.spaceMarines;
+      case CodexCode.ironHands:
+        return ArmyCode.spaceMarines;
+      case CodexCode.ravenGuard:
+        return ArmyCode.spaceMarines;
+      case CodexCode.salamanders:
+        return ArmyCode.spaceMarines;
+      case CodexCode.ultramarines:
+        return ArmyCode.spaceMarines;
+      case CodexCode.whiteScars:
+        return ArmyCode.spaceMarines;
+      case CodexCode.spaceWolves:
+        return ArmyCode.spaceMarines;
+      case CodexCode.chaosDaemons:
+        return ArmyCode.chaosDaemons;
+      case CodexCode.chaosKnights:
+        return ArmyCode.chaosKnights;
+      case CodexCode.chaosSpaceMarines:
+        return ArmyCode.chaosSpaceMarines;
+      case CodexCode.deathGuard:
+        return ArmyCode.deathGuard;
+      case CodexCode.emperorsChildren:
+        return ArmyCode.emperorsChildren;
+      case CodexCode.thousandSons:
+        return ArmyCode.thousandSons;
+      case CodexCode.worldEaters:
+        return ArmyCode.worldEaters;
+      case CodexCode.aeldari:
+        return ArmyCode.aeldari;
+      case CodexCode.drukhari:
+        return ArmyCode.drukhari;
+      case CodexCode.genestealerCults:
+        return ArmyCode.genestealerCults;
+      case CodexCode.leaguesOfVotann:
+        return ArmyCode.leaguesOfVotann;
+      case CodexCode.necrons:
+        return ArmyCode.necrons;
+      case CodexCode.orks:
+        return ArmyCode.orks;
+      case CodexCode.tauEmpire:
+        return ArmyCode.tauEmpire;
+      case CodexCode.tyranids:
+        return ArmyCode.tyranids;
     }
   }
 }
