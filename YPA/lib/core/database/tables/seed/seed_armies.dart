@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
 import 'package:ypa/core/database/tables/seed/seed_objects/armies/army.dart';
+import 'package:ypa/domain/models/faction/faction.dart';
 
 import '../../app_database.dart';
 
@@ -17,10 +18,10 @@ Future<Map<String, int>> seedArmies(
   final result = <String, int>{};
 
   for (final a in data) {
-    final factionCode = a.factionCode.code;
+    final factionCode = FactionCode(a.factionCode.value) ;
     final armyCode = a.armyCode.code;
 
-    if (!factionIds.containsKey(factionCode)) {
+    if (!factionIds.containsKey(factionCode.value)) {
       throw StateError(
         'Seed error: unknown faction "$factionCode" for army "$armyCode"',
       );
@@ -30,7 +31,7 @@ Future<Map<String, int>> seedArmies(
       ArmiesCompanion.insert(
         armyCode: armyCode,
         name: a.armyName,
-        factionId: factionIds[factionCode]!,
+        factionId: factionIds[factionCode.value]!,
       ),
       mode: InsertMode.insertOrIgnore,
     );

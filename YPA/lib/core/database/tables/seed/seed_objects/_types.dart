@@ -1,6 +1,8 @@
 
 import 'package:ypa/domain/models/unit/unit_stats.dart';
 
+import '../../../../../domain/models/faction/faction.dart';
+
 
 // ==========================================
 // ENUM
@@ -23,20 +25,20 @@ enum DamageType {
   mortal,
 }
 
-enum FactionCode {
+enum FactionTypeCode {
   imperium,
   chaos,
   xenos,
 }
-extension FactionCodeX on FactionCode {
+extension FactionTypeCodeX on FactionTypeCode {
   String get code => name; // imperium
   String get title {
     switch (this) {
-      case FactionCode.imperium:
+      case FactionTypeCode.imperium:
         return 'Imperium';
-      case FactionCode.chaos:
+      case FactionTypeCode.chaos:
         return 'Chaos';
-      case FactionCode.xenos:
+      case FactionTypeCode.xenos:
         return 'Xenos';
     }
   }
@@ -180,56 +182,56 @@ extension ArmyCodeX on ArmyCode {
     }
   }
 
-  FactionCode get faction {
+  FactionTypeCode get faction {
     switch (this) {
      case ArmyCode.adeptaSororitas:
-       return FactionCode.imperium;
+       return FactionTypeCode.imperium;
       case ArmyCode.adeptusCustodes:
-        return FactionCode.imperium;
+        return FactionTypeCode.imperium;
       case ArmyCode.adeptusMechanicus:
-        return FactionCode.imperium;
+        return FactionTypeCode.imperium;
       case ArmyCode.adeptusTitanicus:
-        return FactionCode.imperium;
+        return FactionTypeCode.imperium;
       case ArmyCode.astraMilitarum:
-        return FactionCode.imperium;
+        return FactionTypeCode.imperium;
       case ArmyCode.greyKnights:
-        return FactionCode.imperium;
+        return FactionTypeCode.imperium;
       case ArmyCode.imperialAgents:
-        return FactionCode.imperium;
+        return FactionTypeCode.imperium;
       case ArmyCode.imperialKnights:
-        return FactionCode.imperium;
+        return FactionTypeCode.imperium;
       case ArmyCode.spaceMarines:
-        return FactionCode.imperium;
+        return FactionTypeCode.imperium;
       case ArmyCode.chaosDaemons:
-        return FactionCode.chaos;
+        return FactionTypeCode.chaos;
       case ArmyCode.chaosKnights:
-        return FactionCode.chaos;
+        return FactionTypeCode.chaos;
       case ArmyCode.chaosSpaceMarines:
-        return FactionCode.chaos;
+        return FactionTypeCode.chaos;
       case ArmyCode.deathGuard:
-        return FactionCode.chaos;
+        return FactionTypeCode.chaos;
       case ArmyCode.emperorsChildren:
-        return FactionCode.chaos;
+        return FactionTypeCode.chaos;
       case ArmyCode.thousandSons:
-        return FactionCode.chaos;
+        return FactionTypeCode.chaos;
       case ArmyCode.worldEaters:
-        return FactionCode.chaos;
+        return FactionTypeCode.chaos;
       case ArmyCode.aeldari:
-        return FactionCode.xenos;
+        return FactionTypeCode.xenos;
       case ArmyCode.drukhari:
-        return FactionCode.xenos;
+        return FactionTypeCode.xenos;
       case ArmyCode.genestealerCults:
-        return FactionCode.xenos;
+        return FactionTypeCode.xenos;
       case ArmyCode.leaguesOfVotann:
-        return FactionCode.xenos;
+        return FactionTypeCode.xenos;
       case ArmyCode.necrons:
-        return FactionCode.xenos;
+        return FactionTypeCode.xenos;
       case ArmyCode.orks:
-        return FactionCode.xenos;
+        return FactionTypeCode.xenos;
       case ArmyCode.tauEmpire:
-        return FactionCode.xenos;
+        return FactionTypeCode.xenos;
       case ArmyCode.tyranids:
-        return FactionCode.xenos;
+        return FactionTypeCode.xenos;
     }
   }
 }
@@ -469,6 +471,20 @@ extension UnitAbilitiesCodeX on UnitAbilitiesCode {
 // ==========================================
 // OBJECTS CLASS
 // ==========================================
+
+
+class FactionSeed {
+  final FactionTypeCode code;
+  final FactionName name;
+
+  const FactionSeed({
+    required this.code,
+    required this.name,
+  });
+
+  String get title => name.value;
+}
+
 
 class CodexSeed {
   final CodexCode code;

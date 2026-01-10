@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/core/ui/screens/army_lyst/army_list_item_ui.dart';
 import 'package:ypa/core/ui/screens/army_lyst/army_lyst_controller.dart';
+import 'package:ypa/core/ui/screens/army_lyst/widgets/create_army_dialog.dart';
 
 class ArmyListScreen extends ConsumerWidget {
   const ArmyListScreen({super.key});
@@ -46,7 +47,11 @@ class ArmyListScreen extends ConsumerWidget {
                           child: ElevatedButton(
                             onPressed: () {
                               // TODO: Логика добавления новой армии через контроллер
-                              ref.read(armyLystControllerProvider.notifier).loadArmies();
+                              //ref.read(armyLystControllerProvider.notifier).loadArmies();
+                              showDialog(
+                                context: context,
+                                builder: (context) => const CreateArmyDialog(),
+                              );
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color.fromARGB(255, 78, 73, 73),
