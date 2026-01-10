@@ -394,7 +394,7 @@ extension CodexCodeX on CodexCode {
         return 'Chaos Daemons';
       case CodexCode.chaosKnights:
         return 'Chaos Knights';
-      case CodexCode.chaosSpaceMarines
+      case CodexCode.chaosSpaceMarines:
         return 'Chaos Space Marines';
       case CodexCode.deathGuard:
         return 'Death Guard';
