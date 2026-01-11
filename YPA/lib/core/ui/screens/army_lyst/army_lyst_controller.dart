@@ -13,7 +13,7 @@ final armyLystControllerProvider = StateNotifierProvider<ArmyLystController, Arm
   final getUserArmies = ref.watch(getUserArmiesUseCaseProvider);
   final createUserArmy = ref.watch(createUserArmyUseCaseProvider);
   final getCodexById = ref.watch(getCodexByIdUseCaseProvider);
-  final deleArmyById = ref.watch(deletUserArmyByIdUseCaseProvider);
+  final deleArmyById = ref.watch(deleteUserArmyByIdUseCaseProvider);
   return ArmyLystController(getUserArmies, createUserArmy, getCodexById, deleArmyById);
 });
 

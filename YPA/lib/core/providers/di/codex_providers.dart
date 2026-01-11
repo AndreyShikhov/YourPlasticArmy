@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/application/codex/get_all_codexes.dart';
-import 'package:ypa/application/codex/get_codex_by_id.dart'; // Добавлено
+import 'package:ypa/application/codex/get_codex_by_id.dart';
 import 'package:ypa/application/codex/get_codexes_by_army.dart';
 import 'package:ypa/core/database/database_providers.dart';
 import 'package:ypa/data/repositories/drift_codex_repository.dart';

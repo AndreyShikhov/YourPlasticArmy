@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/application/user_army/create_user_army.dart';
 import 'package:ypa/application/user_army/delet_user_army_by_id.dart';
 import 'package:ypa/application/user_army/get_user_armies.dart';
+import 'package:ypa/application/user_army/get_user_army_by_id.dart'; // Добавлен импорт
 import 'package:ypa/core/database/database_providers.dart';
 import 'package:ypa/data/repositories/drift_user_army_repository.dart';
 import 'package:ypa/domain/models/user_army/user_army_repository.dart';
@@ -25,7 +26,12 @@ final createUserArmyUseCaseProvider = Provider<CreateUserArmy>((ref) {
   return CreateUserArmy(repository);
 });
 
-final deletUserArmyByIdUseCaseProvider = Provider<DeletUserArmyById>((ref) {
+final deleteUserArmyByIdUseCaseProvider = Provider<DeletUserArmyById>((ref) {
   final repository = ref.watch(userArmyRepositoryProvider);
   return DeletUserArmyById(repository);
+});
+
+final getUserArmyByIdUseCaseProvider = Provider<GetUserArmyById>((ref) {
+  final repository = ref.watch(userArmyRepositoryProvider);
+  return GetUserArmyById(repository);
 });

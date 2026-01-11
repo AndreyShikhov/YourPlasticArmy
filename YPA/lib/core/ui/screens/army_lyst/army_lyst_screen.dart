@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ypa/core/ui/screens/army_lyst/army_list_item_ui.dart';
 import 'package:ypa/core/ui/screens/army_lyst/army_lyst_controller.dart';
 import 'package:ypa/core/ui/screens/army_lyst/widgets/create_army_dialog.dart';
@@ -99,7 +100,7 @@ class ArmyListScreen extends ConsumerWidget {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 ),
                 onPressed: () {
-                  print('Selected army ID: ${item.id}');
+                  context.push('/game_screen/army_lyst/army_builder/${item.id}');
                 },
                 child: Text(
                   _generateTextButton(item),
@@ -120,11 +121,11 @@ class ArmyListScreen extends ConsumerWidget {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.zero,
-                backgroundColor: const Color.fromARGB(255, 60, 60, 60),
+                backgroundColor: const Color.fromARGB(174, 46, 210, 34),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               ),
               onPressed: () {
-                // TODO: Переход к редактированию
+                context.push('/game_screen/army_lyst/view_army/${item.id}');
               },
               child: const Icon(Icons.visibility, color: Colors.white, size: 20),
             ),
