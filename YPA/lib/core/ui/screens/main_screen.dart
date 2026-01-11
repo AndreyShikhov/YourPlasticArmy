@@ -76,11 +76,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
             children: _buildButtons(),
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.list),
-        onPressed: () => context.go('/factions'),
-      ),
+      )
     );
   }
 
