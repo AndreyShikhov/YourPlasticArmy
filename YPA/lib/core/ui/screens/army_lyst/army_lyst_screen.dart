@@ -4,6 +4,8 @@ import 'package:ypa/core/ui/screens/army_lyst/army_list_item_ui.dart';
 import 'package:ypa/core/ui/screens/army_lyst/army_lyst_controller.dart';
 import 'package:ypa/core/ui/screens/army_lyst/widgets/create_army_dialog.dart';
 
+import '../../widgets/confirm_dialog.dart';
+
 class ArmyListScreen extends ConsumerWidget {
   const ArmyListScreen({super.key});
 
@@ -138,21 +140,11 @@ class ArmyListScreen extends ConsumerWidget {
 
   Future<void> _onDeleteArmyById(BuildContext context, WidgetRef ref, ArmyListItemUi item) async {
     // Показываем подтверждение
-    final confirmed = await showDialog<bool>(
+    final confirmed =  await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Delete Army?'),
-        content: Text('Are you sure you want to delete "${item.title}"?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('CANCEL'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('DELETE', style: TextStyle(color: Colors.red)),
-          ),
-        ],
+      builder: (context) => ConfirmDialog(
+        title: 'Delete Army?',
+        message: 'Are you sure you want to delete "${item.title}"?',
       ),
     );
 
