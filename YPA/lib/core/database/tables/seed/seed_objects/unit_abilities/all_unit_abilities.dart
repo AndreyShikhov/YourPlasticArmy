@@ -39,12 +39,6 @@ List<UnitAbilitySeed> allUnitAbilities() {
       description: 'During deployment, you can set this unit up anywhere on the battlefield that is more than 9" horizontally away from the enemy deployment zone and all enemy models.',
     ),
     UnitAbilitySeed(
-      code: UnitAbilitiesCodeX(UnitAbilitiesCode.leader).SnakeName,
-      name: UnitAbilitiesCodeX(UnitAbilitiesCode.leader).title,
-      shortDescription: 'Attach to Bodyguards',
-      description: 'During the Declare Battle Formations step, for each Leader in your army, you can select one of that Leader’s Attached Units to attach it to.',
-    ),
-    UnitAbilitySeed(
       code: UnitAbilitiesCodeX(UnitAbilitiesCode.loneOperative).SnakeName,
       name: UnitAbilitiesCodeX(UnitAbilitiesCode.loneOperative).title,
       shortDescription: 'Can\'t be shot >12"',

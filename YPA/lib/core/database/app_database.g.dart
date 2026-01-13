@@ -4462,6 +4462,749 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
   }
 }
 
+class $CoreUnitAbilitiesTable extends CoreUnitAbilities
+    with TableInfo<$CoreUnitAbilitiesTable, CoreUnitAbilityRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $CoreUnitAbilitiesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _codeMeta = const VerificationMeta('code');
+  @override
+  late final GeneratedColumn<String> code = GeneratedColumn<String>(
+    'code',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _shortDescriptionMeta = const VerificationMeta(
+    'shortDescription',
+  );
+  @override
+  late final GeneratedColumn<String> shortDescription = GeneratedColumn<String>(
+    'short_description',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _descriptionMeta = const VerificationMeta(
+    'description',
+  );
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+    'description',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    code,
+    name,
+    shortDescription,
+    description,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'core_unit_abilities';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<CoreUnitAbilityRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('code')) {
+      context.handle(
+        _codeMeta,
+        code.isAcceptableOrUnknown(data['code']!, _codeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_codeMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('short_description')) {
+      context.handle(
+        _shortDescriptionMeta,
+        shortDescription.isAcceptableOrUnknown(
+          data['short_description']!,
+          _shortDescriptionMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_shortDescriptionMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+        _descriptionMeta,
+        description.isAcceptableOrUnknown(
+          data['description']!,
+          _descriptionMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_descriptionMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  CoreUnitAbilityRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return CoreUnitAbilityRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      code: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}code'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      shortDescription: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}short_description'],
+      )!,
+      description: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}description'],
+      )!,
+    );
+  }
+
+  @override
+  $CoreUnitAbilitiesTable createAlias(String alias) {
+    return $CoreUnitAbilitiesTable(attachedDatabase, alias);
+  }
+}
+
+class CoreUnitAbilityRow extends DataClass
+    implements Insertable<CoreUnitAbilityRow> {
+  final String id;
+  final String code;
+  final String name;
+  final String shortDescription;
+  final String description;
+  const CoreUnitAbilityRow({
+    required this.id,
+    required this.code,
+    required this.name,
+    required this.shortDescription,
+    required this.description,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['code'] = Variable<String>(code);
+    map['name'] = Variable<String>(name);
+    map['short_description'] = Variable<String>(shortDescription);
+    map['description'] = Variable<String>(description);
+    return map;
+  }
+
+  CoreUnitAbilitiesCompanion toCompanion(bool nullToAbsent) {
+    return CoreUnitAbilitiesCompanion(
+      id: Value(id),
+      code: Value(code),
+      name: Value(name),
+      shortDescription: Value(shortDescription),
+      description: Value(description),
+    );
+  }
+
+  factory CoreUnitAbilityRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return CoreUnitAbilityRow(
+      id: serializer.fromJson<String>(json['id']),
+      code: serializer.fromJson<String>(json['code']),
+      name: serializer.fromJson<String>(json['name']),
+      shortDescription: serializer.fromJson<String>(json['shortDescription']),
+      description: serializer.fromJson<String>(json['description']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'code': serializer.toJson<String>(code),
+      'name': serializer.toJson<String>(name),
+      'shortDescription': serializer.toJson<String>(shortDescription),
+      'description': serializer.toJson<String>(description),
+    };
+  }
+
+  CoreUnitAbilityRow copyWith({
+    String? id,
+    String? code,
+    String? name,
+    String? shortDescription,
+    String? description,
+  }) => CoreUnitAbilityRow(
+    id: id ?? this.id,
+    code: code ?? this.code,
+    name: name ?? this.name,
+    shortDescription: shortDescription ?? this.shortDescription,
+    description: description ?? this.description,
+  );
+  CoreUnitAbilityRow copyWithCompanion(CoreUnitAbilitiesCompanion data) {
+    return CoreUnitAbilityRow(
+      id: data.id.present ? data.id.value : this.id,
+      code: data.code.present ? data.code.value : this.code,
+      name: data.name.present ? data.name.value : this.name,
+      shortDescription: data.shortDescription.present
+          ? data.shortDescription.value
+          : this.shortDescription,
+      description: data.description.present
+          ? data.description.value
+          : this.description,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CoreUnitAbilityRow(')
+          ..write('id: $id, ')
+          ..write('code: $code, ')
+          ..write('name: $name, ')
+          ..write('shortDescription: $shortDescription, ')
+          ..write('description: $description')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, code, name, shortDescription, description);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is CoreUnitAbilityRow &&
+          other.id == this.id &&
+          other.code == this.code &&
+          other.name == this.name &&
+          other.shortDescription == this.shortDescription &&
+          other.description == this.description);
+}
+
+class CoreUnitAbilitiesCompanion extends UpdateCompanion<CoreUnitAbilityRow> {
+  final Value<String> id;
+  final Value<String> code;
+  final Value<String> name;
+  final Value<String> shortDescription;
+  final Value<String> description;
+  final Value<int> rowid;
+  const CoreUnitAbilitiesCompanion({
+    this.id = const Value.absent(),
+    this.code = const Value.absent(),
+    this.name = const Value.absent(),
+    this.shortDescription = const Value.absent(),
+    this.description = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  CoreUnitAbilitiesCompanion.insert({
+    required String id,
+    required String code,
+    required String name,
+    required String shortDescription,
+    required String description,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       code = Value(code),
+       name = Value(name),
+       shortDescription = Value(shortDescription),
+       description = Value(description);
+  static Insertable<CoreUnitAbilityRow> custom({
+    Expression<String>? id,
+    Expression<String>? code,
+    Expression<String>? name,
+    Expression<String>? shortDescription,
+    Expression<String>? description,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (code != null) 'code': code,
+      if (name != null) 'name': name,
+      if (shortDescription != null) 'short_description': shortDescription,
+      if (description != null) 'description': description,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  CoreUnitAbilitiesCompanion copyWith({
+    Value<String>? id,
+    Value<String>? code,
+    Value<String>? name,
+    Value<String>? shortDescription,
+    Value<String>? description,
+    Value<int>? rowid,
+  }) {
+    return CoreUnitAbilitiesCompanion(
+      id: id ?? this.id,
+      code: code ?? this.code,
+      name: name ?? this.name,
+      shortDescription: shortDescription ?? this.shortDescription,
+      description: description ?? this.description,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (code.present) {
+      map['code'] = Variable<String>(code.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (shortDescription.present) {
+      map['short_description'] = Variable<String>(shortDescription.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('CoreUnitAbilitiesCompanion(')
+          ..write('id: $id, ')
+          ..write('code: $code, ')
+          ..write('name: $name, ')
+          ..write('shortDescription: $shortDescription, ')
+          ..write('description: $description, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $FactionUnitAbilitiesTable extends FactionUnitAbilities
+    with TableInfo<$FactionUnitAbilitiesTable, FactionUnitAbilityRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $FactionUnitAbilitiesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _codeMeta = const VerificationMeta('code');
+  @override
+  late final GeneratedColumn<String> code = GeneratedColumn<String>(
+    'code',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _shortDescriptionMeta = const VerificationMeta(
+    'shortDescription',
+  );
+  @override
+  late final GeneratedColumn<String> shortDescription = GeneratedColumn<String>(
+    'short_description',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _descriptionMeta = const VerificationMeta(
+    'description',
+  );
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+    'description',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    code,
+    name,
+    shortDescription,
+    description,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'faction_unit_abilities';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<FactionUnitAbilityRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('code')) {
+      context.handle(
+        _codeMeta,
+        code.isAcceptableOrUnknown(data['code']!, _codeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_codeMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('short_description')) {
+      context.handle(
+        _shortDescriptionMeta,
+        shortDescription.isAcceptableOrUnknown(
+          data['short_description']!,
+          _shortDescriptionMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_shortDescriptionMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+        _descriptionMeta,
+        description.isAcceptableOrUnknown(
+          data['description']!,
+          _descriptionMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_descriptionMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  FactionUnitAbilityRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return FactionUnitAbilityRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      code: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}code'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      shortDescription: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}short_description'],
+      )!,
+      description: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}description'],
+      )!,
+    );
+  }
+
+  @override
+  $FactionUnitAbilitiesTable createAlias(String alias) {
+    return $FactionUnitAbilitiesTable(attachedDatabase, alias);
+  }
+}
+
+class FactionUnitAbilityRow extends DataClass
+    implements Insertable<FactionUnitAbilityRow> {
+  final String id;
+  final String code;
+  final String name;
+  final String shortDescription;
+  final String description;
+  const FactionUnitAbilityRow({
+    required this.id,
+    required this.code,
+    required this.name,
+    required this.shortDescription,
+    required this.description,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['code'] = Variable<String>(code);
+    map['name'] = Variable<String>(name);
+    map['short_description'] = Variable<String>(shortDescription);
+    map['description'] = Variable<String>(description);
+    return map;
+  }
+
+  FactionUnitAbilitiesCompanion toCompanion(bool nullToAbsent) {
+    return FactionUnitAbilitiesCompanion(
+      id: Value(id),
+      code: Value(code),
+      name: Value(name),
+      shortDescription: Value(shortDescription),
+      description: Value(description),
+    );
+  }
+
+  factory FactionUnitAbilityRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return FactionUnitAbilityRow(
+      id: serializer.fromJson<String>(json['id']),
+      code: serializer.fromJson<String>(json['code']),
+      name: serializer.fromJson<String>(json['name']),
+      shortDescription: serializer.fromJson<String>(json['shortDescription']),
+      description: serializer.fromJson<String>(json['description']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'code': serializer.toJson<String>(code),
+      'name': serializer.toJson<String>(name),
+      'shortDescription': serializer.toJson<String>(shortDescription),
+      'description': serializer.toJson<String>(description),
+    };
+  }
+
+  FactionUnitAbilityRow copyWith({
+    String? id,
+    String? code,
+    String? name,
+    String? shortDescription,
+    String? description,
+  }) => FactionUnitAbilityRow(
+    id: id ?? this.id,
+    code: code ?? this.code,
+    name: name ?? this.name,
+    shortDescription: shortDescription ?? this.shortDescription,
+    description: description ?? this.description,
+  );
+  FactionUnitAbilityRow copyWithCompanion(FactionUnitAbilitiesCompanion data) {
+    return FactionUnitAbilityRow(
+      id: data.id.present ? data.id.value : this.id,
+      code: data.code.present ? data.code.value : this.code,
+      name: data.name.present ? data.name.value : this.name,
+      shortDescription: data.shortDescription.present
+          ? data.shortDescription.value
+          : this.shortDescription,
+      description: data.description.present
+          ? data.description.value
+          : this.description,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('FactionUnitAbilityRow(')
+          ..write('id: $id, ')
+          ..write('code: $code, ')
+          ..write('name: $name, ')
+          ..write('shortDescription: $shortDescription, ')
+          ..write('description: $description')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, code, name, shortDescription, description);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is FactionUnitAbilityRow &&
+          other.id == this.id &&
+          other.code == this.code &&
+          other.name == this.name &&
+          other.shortDescription == this.shortDescription &&
+          other.description == this.description);
+}
+
+class FactionUnitAbilitiesCompanion
+    extends UpdateCompanion<FactionUnitAbilityRow> {
+  final Value<String> id;
+  final Value<String> code;
+  final Value<String> name;
+  final Value<String> shortDescription;
+  final Value<String> description;
+  final Value<int> rowid;
+  const FactionUnitAbilitiesCompanion({
+    this.id = const Value.absent(),
+    this.code = const Value.absent(),
+    this.name = const Value.absent(),
+    this.shortDescription = const Value.absent(),
+    this.description = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  FactionUnitAbilitiesCompanion.insert({
+    required String id,
+    required String code,
+    required String name,
+    required String shortDescription,
+    required String description,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       code = Value(code),
+       name = Value(name),
+       shortDescription = Value(shortDescription),
+       description = Value(description);
+  static Insertable<FactionUnitAbilityRow> custom({
+    Expression<String>? id,
+    Expression<String>? code,
+    Expression<String>? name,
+    Expression<String>? shortDescription,
+    Expression<String>? description,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (code != null) 'code': code,
+      if (name != null) 'name': name,
+      if (shortDescription != null) 'short_description': shortDescription,
+      if (description != null) 'description': description,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  FactionUnitAbilitiesCompanion copyWith({
+    Value<String>? id,
+    Value<String>? code,
+    Value<String>? name,
+    Value<String>? shortDescription,
+    Value<String>? description,
+    Value<int>? rowid,
+  }) {
+    return FactionUnitAbilitiesCompanion(
+      id: id ?? this.id,
+      code: code ?? this.code,
+      name: name ?? this.name,
+      shortDescription: shortDescription ?? this.shortDescription,
+      description: description ?? this.description,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (code.present) {
+      map['code'] = Variable<String>(code.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (shortDescription.present) {
+      map['short_description'] = Variable<String>(shortDescription.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('FactionUnitAbilitiesCompanion(')
+          ..write('id: $id, ')
+          ..write('code: $code, ')
+          ..write('name: $name, ')
+          ..write('shortDescription: $shortDescription, ')
+          ..write('description: $description, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -4481,6 +5224,10 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   );
   late final $UnitAbilitiesTable unitAbilities = $UnitAbilitiesTable(this);
   late final $UserArmiesTable userArmies = $UserArmiesTable(this);
+  late final $CoreUnitAbilitiesTable coreUnitAbilities =
+      $CoreUnitAbilitiesTable(this);
+  late final $FactionUnitAbilitiesTable factionUnitAbilities =
+      $FactionUnitAbilitiesTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -4498,6 +5245,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     weaponAbilities,
     unitAbilities,
     userArmies,
+    coreUnitAbilities,
+    factionUnitAbilities,
   ];
 }
 
@@ -9375,6 +10124,443 @@ typedef $$UserArmiesTableProcessedTableManager =
       UserArmyRow,
       PrefetchHooks Function({bool codexId})
     >;
+typedef $$CoreUnitAbilitiesTableCreateCompanionBuilder =
+    CoreUnitAbilitiesCompanion Function({
+      required String id,
+      required String code,
+      required String name,
+      required String shortDescription,
+      required String description,
+      Value<int> rowid,
+    });
+typedef $$CoreUnitAbilitiesTableUpdateCompanionBuilder =
+    CoreUnitAbilitiesCompanion Function({
+      Value<String> id,
+      Value<String> code,
+      Value<String> name,
+      Value<String> shortDescription,
+      Value<String> description,
+      Value<int> rowid,
+    });
+
+class $$CoreUnitAbilitiesTableFilterComposer
+    extends Composer<_$AppDatabase, $CoreUnitAbilitiesTable> {
+  $$CoreUnitAbilitiesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get code => $composableBuilder(
+    column: $table.code,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get shortDescription => $composableBuilder(
+    column: $table.shortDescription,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$CoreUnitAbilitiesTableOrderingComposer
+    extends Composer<_$AppDatabase, $CoreUnitAbilitiesTable> {
+  $$CoreUnitAbilitiesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get code => $composableBuilder(
+    column: $table.code,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get shortDescription => $composableBuilder(
+    column: $table.shortDescription,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$CoreUnitAbilitiesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $CoreUnitAbilitiesTable> {
+  $$CoreUnitAbilitiesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get code =>
+      $composableBuilder(column: $table.code, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get shortDescription => $composableBuilder(
+    column: $table.shortDescription,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => column,
+  );
+}
+
+class $$CoreUnitAbilitiesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $CoreUnitAbilitiesTable,
+          CoreUnitAbilityRow,
+          $$CoreUnitAbilitiesTableFilterComposer,
+          $$CoreUnitAbilitiesTableOrderingComposer,
+          $$CoreUnitAbilitiesTableAnnotationComposer,
+          $$CoreUnitAbilitiesTableCreateCompanionBuilder,
+          $$CoreUnitAbilitiesTableUpdateCompanionBuilder,
+          (
+            CoreUnitAbilityRow,
+            BaseReferences<
+              _$AppDatabase,
+              $CoreUnitAbilitiesTable,
+              CoreUnitAbilityRow
+            >,
+          ),
+          CoreUnitAbilityRow,
+          PrefetchHooks Function()
+        > {
+  $$CoreUnitAbilitiesTableTableManager(
+    _$AppDatabase db,
+    $CoreUnitAbilitiesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$CoreUnitAbilitiesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$CoreUnitAbilitiesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$CoreUnitAbilitiesTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> code = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String> shortDescription = const Value.absent(),
+                Value<String> description = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => CoreUnitAbilitiesCompanion(
+                id: id,
+                code: code,
+                name: name,
+                shortDescription: shortDescription,
+                description: description,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String code,
+                required String name,
+                required String shortDescription,
+                required String description,
+                Value<int> rowid = const Value.absent(),
+              }) => CoreUnitAbilitiesCompanion.insert(
+                id: id,
+                code: code,
+                name: name,
+                shortDescription: shortDescription,
+                description: description,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$CoreUnitAbilitiesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $CoreUnitAbilitiesTable,
+      CoreUnitAbilityRow,
+      $$CoreUnitAbilitiesTableFilterComposer,
+      $$CoreUnitAbilitiesTableOrderingComposer,
+      $$CoreUnitAbilitiesTableAnnotationComposer,
+      $$CoreUnitAbilitiesTableCreateCompanionBuilder,
+      $$CoreUnitAbilitiesTableUpdateCompanionBuilder,
+      (
+        CoreUnitAbilityRow,
+        BaseReferences<
+          _$AppDatabase,
+          $CoreUnitAbilitiesTable,
+          CoreUnitAbilityRow
+        >,
+      ),
+      CoreUnitAbilityRow,
+      PrefetchHooks Function()
+    >;
+typedef $$FactionUnitAbilitiesTableCreateCompanionBuilder =
+    FactionUnitAbilitiesCompanion Function({
+      required String id,
+      required String code,
+      required String name,
+      required String shortDescription,
+      required String description,
+      Value<int> rowid,
+    });
+typedef $$FactionUnitAbilitiesTableUpdateCompanionBuilder =
+    FactionUnitAbilitiesCompanion Function({
+      Value<String> id,
+      Value<String> code,
+      Value<String> name,
+      Value<String> shortDescription,
+      Value<String> description,
+      Value<int> rowid,
+    });
+
+class $$FactionUnitAbilitiesTableFilterComposer
+    extends Composer<_$AppDatabase, $FactionUnitAbilitiesTable> {
+  $$FactionUnitAbilitiesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get code => $composableBuilder(
+    column: $table.code,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get shortDescription => $composableBuilder(
+    column: $table.shortDescription,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$FactionUnitAbilitiesTableOrderingComposer
+    extends Composer<_$AppDatabase, $FactionUnitAbilitiesTable> {
+  $$FactionUnitAbilitiesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get code => $composableBuilder(
+    column: $table.code,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get shortDescription => $composableBuilder(
+    column: $table.shortDescription,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$FactionUnitAbilitiesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $FactionUnitAbilitiesTable> {
+  $$FactionUnitAbilitiesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get code =>
+      $composableBuilder(column: $table.code, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get shortDescription => $composableBuilder(
+    column: $table.shortDescription,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => column,
+  );
+}
+
+class $$FactionUnitAbilitiesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $FactionUnitAbilitiesTable,
+          FactionUnitAbilityRow,
+          $$FactionUnitAbilitiesTableFilterComposer,
+          $$FactionUnitAbilitiesTableOrderingComposer,
+          $$FactionUnitAbilitiesTableAnnotationComposer,
+          $$FactionUnitAbilitiesTableCreateCompanionBuilder,
+          $$FactionUnitAbilitiesTableUpdateCompanionBuilder,
+          (
+            FactionUnitAbilityRow,
+            BaseReferences<
+              _$AppDatabase,
+              $FactionUnitAbilitiesTable,
+              FactionUnitAbilityRow
+            >,
+          ),
+          FactionUnitAbilityRow,
+          PrefetchHooks Function()
+        > {
+  $$FactionUnitAbilitiesTableTableManager(
+    _$AppDatabase db,
+    $FactionUnitAbilitiesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$FactionUnitAbilitiesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$FactionUnitAbilitiesTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$FactionUnitAbilitiesTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> code = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String> shortDescription = const Value.absent(),
+                Value<String> description = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => FactionUnitAbilitiesCompanion(
+                id: id,
+                code: code,
+                name: name,
+                shortDescription: shortDescription,
+                description: description,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String code,
+                required String name,
+                required String shortDescription,
+                required String description,
+                Value<int> rowid = const Value.absent(),
+              }) => FactionUnitAbilitiesCompanion.insert(
+                id: id,
+                code: code,
+                name: name,
+                shortDescription: shortDescription,
+                description: description,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$FactionUnitAbilitiesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $FactionUnitAbilitiesTable,
+      FactionUnitAbilityRow,
+      $$FactionUnitAbilitiesTableFilterComposer,
+      $$FactionUnitAbilitiesTableOrderingComposer,
+      $$FactionUnitAbilitiesTableAnnotationComposer,
+      $$FactionUnitAbilitiesTableCreateCompanionBuilder,
+      $$FactionUnitAbilitiesTableUpdateCompanionBuilder,
+      (
+        FactionUnitAbilityRow,
+        BaseReferences<
+          _$AppDatabase,
+          $FactionUnitAbilitiesTable,
+          FactionUnitAbilityRow
+        >,
+      ),
+      FactionUnitAbilityRow,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -9402,4 +10588,8 @@ class $AppDatabaseManager {
       $$UnitAbilitiesTableTableManager(_db, _db.unitAbilities);
   $$UserArmiesTableTableManager get userArmies =>
       $$UserArmiesTableTableManager(_db, _db.userArmies);
+  $$CoreUnitAbilitiesTableTableManager get coreUnitAbilities =>
+      $$CoreUnitAbilitiesTableTableManager(_db, _db.coreUnitAbilities);
+  $$FactionUnitAbilitiesTableTableManager get factionUnitAbilities =>
+      $$FactionUnitAbilitiesTableTableManager(_db, _db.factionUnitAbilities);
 }

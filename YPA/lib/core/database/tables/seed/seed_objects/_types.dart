@@ -16,6 +16,7 @@ enum GamePhase {
 }
 
 enum WeaponType {
+  none,
   melee,
   ranged,
 }
@@ -541,6 +542,7 @@ extension UnitRoleCodeX on UnitRoleCode {
 }
 
 enum WeaponAbilitiesCode {
+  none,
   assault,
   rapidFire,
   ignoresCover,
@@ -566,6 +568,8 @@ extension WeaponAbilitiesCodeX on WeaponAbilitiesCode {
 
   String get SnakeName {
     switch (this) {
+      case WeaponAbilitiesCode.none:
+        return 'none';
       case WeaponAbilitiesCode.assault:
         return 'assault';
       case WeaponAbilitiesCode.rapidFire:
@@ -607,6 +611,8 @@ extension WeaponAbilitiesCodeX on WeaponAbilitiesCode {
 
   String get title {
     switch (this) {
+      case WeaponAbilitiesCode.none:
+        return 'none';
       case WeaponAbilitiesCode.assault:
         return 'Assault';
       case WeaponAbilitiesCode.rapidFire:
@@ -648,13 +654,13 @@ extension WeaponAbilitiesCodeX on WeaponAbilitiesCode {
 }
 
 enum UnitAbilitiesCode {
+  none,
   deepStrike,
   deadlyDemise,
   fightsFirst,
   firingDeck,
   hover,
   infiltrators,
-  leader,
   loneOperative,
   scouts,
   stealth,
@@ -666,13 +672,13 @@ extension UnitAbilitiesCodeX on UnitAbilitiesCode {
 
   String get SnakeName {
     switch (this) {
+      case UnitAbilitiesCode.none: return 'none';
       case UnitAbilitiesCode.deepStrike: return 'deep_strike';
       case UnitAbilitiesCode.deadlyDemise: return 'deadly_demise';
       case UnitAbilitiesCode.fightsFirst: return 'fights_first';
       case UnitAbilitiesCode.firingDeck: return 'firing_deck';
       case UnitAbilitiesCode.hover: return 'hover';
       case UnitAbilitiesCode.infiltrators: return 'infiltrators';
-      case UnitAbilitiesCode.leader: return 'leader';
       case UnitAbilitiesCode.loneOperative: return 'lone_operative';
       case UnitAbilitiesCode.scouts: return 'scouts';
       case UnitAbilitiesCode.stealth: return 'stealth';
@@ -682,17 +688,105 @@ extension UnitAbilitiesCodeX on UnitAbilitiesCode {
 
   String get title {
     switch (this) {
+      case UnitAbilitiesCode.none: return 'none';
       case UnitAbilitiesCode.deepStrike: return 'Deep Strike';
       case UnitAbilitiesCode.deadlyDemise: return 'Deadly Demise';
       case UnitAbilitiesCode.fightsFirst: return 'Fights First';
       case UnitAbilitiesCode.firingDeck: return 'Firing Deck';
       case UnitAbilitiesCode.hover: return 'Hover';
       case UnitAbilitiesCode.infiltrators: return 'Infiltrators';
-      case UnitAbilitiesCode.leader: return 'Leader';
       case UnitAbilitiesCode.loneOperative: return 'Lone Operative';
       case UnitAbilitiesCode.scouts: return 'Scouts';
       case UnitAbilitiesCode.stealth: return 'Stealth';
       case UnitAbilitiesCode.transport: return 'Transport';
+    }
+  }
+}
+
+enum  FactionUnitAbilityCode {
+  none,
+  oathOfMoment,
+
+}
+
+extension  FactionUnitAbilityCodeX on FactionUnitAbilityCode {
+  String get code => name;
+
+  String get SnakeName {
+    switch (this) {
+      case FactionUnitAbilityCode.none: return 'none';
+      case FactionUnitAbilityCode.oathOfMoment: return 'oath_of_moment';
+
+    }
+  }
+
+  String get title {
+    switch (this) {
+      case FactionUnitAbilityCode.none: return 'none';
+      case FactionUnitAbilityCode.oathOfMoment: return 'Oath of Moment';
+    }
+  }
+}
+
+enum CoreUnitAbilityCode {
+  none,
+  leader,
+  deepStrike,
+  scouts,
+  infiltrators,
+}
+
+extension CoreUnitAbilityCodeX on CoreUnitAbilityCode {
+  String get code => name;
+
+  String get SnakeName {
+    switch (this) {
+      case CoreUnitAbilityCode.none: return 'none';
+      case CoreUnitAbilityCode.leader: return 'leader';
+      case CoreUnitAbilityCode.deepStrike: return 'deep_strike';
+      case CoreUnitAbilityCode.scouts: return 'scouts';
+      case CoreUnitAbilityCode.infiltrators: return 'infiltrators';
+
+    }
+  }
+
+  String get title {
+    switch (this) {
+      case CoreUnitAbilityCode.none: return 'none';
+      case CoreUnitAbilityCode.leader: return 'Leader';
+      case CoreUnitAbilityCode.deepStrike: return 'Deep Strike';
+      case CoreUnitAbilityCode.scouts: return 'Scouts';
+      case CoreUnitAbilityCode.infiltrators: return 'Infiltrators';
+    }
+  }
+}
+
+enum StratagemsCode {
+  none,
+  eitherPlayersTurn,
+  yourTurn,
+  opponentsTurn,
+}
+
+extension StratagemsCodeX on StratagemsCode {
+  String get code => name;
+
+  String get SnakeName {
+    switch (this) {
+      case StratagemsCode.none: return 'none';
+      case StratagemsCode.eitherPlayersTurn: return 'either_players_turn';
+      case StratagemsCode.yourTurn: return 'your_turn';
+      case StratagemsCode.opponentsTurn: return 'opponents_turn';
+
+    }
+  }
+
+  String get title {
+    switch (this) {
+      case StratagemsCode.none: return 'none';
+      case StratagemsCode.eitherPlayersTurn: return 'Either Player\'s Turn';
+      case StratagemsCode.yourTurn: return 'Your Turn';
+      case StratagemsCode.opponentsTurn: return 'Opponent\'s Turn';
     }
   }
 }
@@ -862,6 +956,38 @@ class UnitAbilitySeed {
   final String description;
 
   const UnitAbilitySeed({
+    this.id,
+    required this.code,
+    required this.name,
+    required this.shortDescription,
+    required this.description,
+  });
+}
+
+class CoreUnitAbilitySeed {
+  final String? id;
+  final String code;
+  final String name;
+  final String shortDescription;
+  final String description;
+
+  const CoreUnitAbilitySeed({
+    this.id,
+    required this.code,
+    required this.name,
+    required this.shortDescription,
+    required this.description,
+  });
+}
+
+class FactionUnitAbilitySeed {
+  final String? id;
+  final String code;
+  final String name;
+  final String shortDescription;
+  final String description;
+
+  const FactionUnitAbilitySeed({
     this.id,
     required this.code,
     required this.name,

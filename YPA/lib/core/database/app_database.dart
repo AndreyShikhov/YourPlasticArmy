@@ -4,9 +4,11 @@ import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
+import 'package:ypa/core/database/tables/core_unit_abilities_table.dart';
+import 'package:ypa/core/database/tables/faction_unit_abilities_table.dart';
 import 'package:ypa/core/database/tables/seed/seed_data.dart';
 
-// Импорт модели для конвертера (ВАЖНО!)
+// Импорт модели для конвертера
 import 'package:ypa/domain/models/unit/unit_stats.dart';
 import 'package:ypa/core/database/converters/unit_stats_converter.dart';
 import 'package:ypa/core/database/tables/tables.dart';
@@ -32,7 +34,9 @@ part 'app_database.g.dart';
     Strategems,
     WeaponAbilities,
     UnitAbilities,
-    UserArmies, // Добавлена новая таблица
+    UserArmies,
+    CoreUnitAbilities,
+    FactionUnitAbilities,
   ],
 )
 
@@ -61,7 +65,9 @@ class AppDatabase extends _$AppDatabase {
       await delete(strategems).go();
       await delete(weaponAbilities).go();
       await delete(unitAbilities).go();
-      await delete(userArmies).go(); // Очистка новой таблицы
+      await delete(coreUnitAbilities).go();
+      await delete(factionUnitAbilities).go();
+      await delete(userArmies).go();
 
       // 2. M:N связи
       await delete(codexDetachments).go();

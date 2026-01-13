@@ -11,6 +11,8 @@ import 'seed_stratagems.dart';
 import 'seed_units.dart';
 import 'seed_weapon_abilities.dart';
 import 'seed_unit_abilities.dart';
+import 'seed_core_unit_abilities.dart';
+import 'seed_faction_unit_abilities.dart';
 
 Future<void> seedAllData(AppDatabase db) async {
   // 1. Базовые сущности
@@ -30,8 +32,10 @@ Future<void> seedAllData(AppDatabase db) async {
   // 4. Способности
   await seedAllWeaponAbilities(db);
   await seedAllUnitAbilities(db);
+  await seedAllCoreUnitAbilities(db);
+  await seedAllFactionUnitAbilities(db);
+  
   
   // 5. Юниты
   await seedUnits(db, armyIds, codexIds, roleIds);
-
 }

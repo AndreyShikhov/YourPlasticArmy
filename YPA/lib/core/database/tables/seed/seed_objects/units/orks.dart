@@ -15,39 +15,56 @@ List<UnitSeed> orksUnits() {
         army: ArmyCode.orks,
         role: UnitRoleCode.battleline,
         stats: UnitStats(
-            movement: 6,
-            toughness: 5,
-            save: 5,
-            invulnerableSave: 5, // Waaagh! energy? (обычно 6+ или 0)
-            wounds: 1,
-            leadership: 7,
-            objectiveControl: 2,
-            keywords: const ['Infantry', 'Battleline', 'Mob', 'Orks'],
-            factionKeywords: const ['Waaagh! Tribe'],
-            weapons: [
-               Weapon(
-                  name: 'Slugga',
-                  type: WeaponType.ranged,
-                  abilities:  [WeaponAbility.pistol],
-                  range: 12,
-                  attacks:  const Dice(fix: 1).toString(),
-                  skill: 5,
-                  strength: 4,
-                  ap: 0,
-                  damage: const Dice(fix: 1).toString()
-              ),
-              Weapon(
-                  name: 'Choppa',
-                  type: WeaponType.melee,
-                  abilities: const [],
-                  range: 0,
-                  attacks: const Dice(fix: 3).toString(),
-                  skill: 3,
-                  strength: 4,
-                  ap: -1,
-                  damage: const Dice(fix: 1).toString()
-              ),
-            ]
+          movement: 6,
+          toughness: 5,
+          save: 5,
+          invulnerableSave: 5,
+          // Waaagh! energy? (обычно 6+ или 0)
+          wounds: 1,
+          leadership: 7,
+          objectiveControl: 2,
+          keywords: const ['Infantry', 'Battleline', 'Mob', 'Orks'],
+          factionKeywords: const ['Waaagh! Tribe'],
+          weapons: [
+            Weapon(
+                name: 'Slugga',
+                type: WeaponType.ranged,
+                weaponAbilities: [WeaponAbilitiesCode.pistol],
+                range: 12,
+                attacks: const Dice(fix: 1).toString(),
+                skill: 5,
+                strength: 4,
+                ap: 0,
+                damage: const Dice(fix: 1).toString()
+            ),
+            Weapon(
+                name: 'Choppa',
+                type: WeaponType.melee,
+                weaponAbilities: const [],
+                range: 0,
+                attacks: const Dice(fix: 3).toString(),
+                skill: 3,
+                strength: 4,
+                ap: -1,
+                damage: const Dice(fix: 1).toString()
+            ),
+
+          ],
+          unitComposition: const UnitComposition(
+              compositions: ['1 model'],
+              unitCost: [{1: 120}]
+          ),
+          unitAbility: const [
+            UnitAbilitiesCode.deepStrike,
+          ],
+          coreAbilities: const [
+            CoreUnitAbilityCode.leader,
+          ],
+          factionAbilities: const [
+            FactionUnitAbilityCode.oathOfMoment,
+          ],
+          ledBy: const [],
+          leader: const [],
         )
     ),
 
