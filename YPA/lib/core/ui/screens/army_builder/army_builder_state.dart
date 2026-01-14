@@ -44,4 +44,9 @@ class ArmyBuilderState {
       error: error ?? this.error,
     );
   }
+
+
+  List<ArmyBuilderUnitItemUi> getAllUnitsByRole(String role) {
+    return units.where((u) => u.role == role).toList();
+  }
 }

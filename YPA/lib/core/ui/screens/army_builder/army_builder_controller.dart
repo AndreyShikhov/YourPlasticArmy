@@ -11,13 +11,13 @@ import 'army_builder_state.dart';
 // Провайдер контроллера с параметром armyId
 final armyBuilderControllerProvider = StateNotifierProvider.family<ArmyBuilderController, ArmyBuilderState, String>((ref, armyId) {
   final getUserArmyById = ref.watch(getUserArmyByIdUseCaseProvider);
-  final getCodexById = ref.watch(getCodexByIdUseCaseProvider); // Добавили UseCase
+  final getCodexById = ref.watch(getCodexByIdUseCaseProvider); 
   return ArmyBuilderController(getUserArmyById, getCodexById, armyId);
 });
 
 class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
   final GetUserArmyById _getUserArmyById;
-  final GetCodexById _getCodexById; // Добавили поле
+  final GetCodexById _getCodexById; 
   final String _armyId;
 
   ArmyBuilderController(
@@ -38,7 +38,6 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
         return;
       }
 
-      // ПОЛУЧАЕМ ИМЯ КОДЕКСА ИЗ БАЗЫ
       final codex = await _getCodexById(userArmy.codexId);
 
       // В будущем здесь будет логика восстановления юнитов из JSON
@@ -47,7 +46,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
       state = state.copyWith(
         isLoading: false,
         armyName: userArmy.name,
-        codexName: codex?.name, // Теперь здесь реальный объект CodexName с нормальным именем
+        codexName: codex?.name,
         totalPts: userArmy.totalPoints,
         units: units,
       );
