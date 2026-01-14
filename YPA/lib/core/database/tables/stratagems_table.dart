@@ -11,8 +11,8 @@ class Stratagems extends Table {
   TextColumn get effect => text()();
   IntColumn get cost => integer()();
 
-  /// FK → Codex
-  TextColumn get codexId => text().references(Codexes, #id)();
+  /// FK → Codex (optional for core stratagems)
+  TextColumn get codexId => text().nullable().references(Codexes, #id)();
 
   /// FK → Detachment (optional)
   TextColumn get detachmentId => text().nullable().references(Detachments, #id)();

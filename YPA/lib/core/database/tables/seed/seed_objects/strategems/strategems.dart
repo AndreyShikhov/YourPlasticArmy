@@ -12,6 +12,8 @@ List<StrategemsSeed> strategemsSeed() {
       effect:
           'You re-roll that roll, test or saving throw. If you are using fast dice rolling, select one of those rolls or saving throws to re-roll.',
       cost: 1,
+      codexId: null,
+      detachmentId: null,
 
     ),
   ];
