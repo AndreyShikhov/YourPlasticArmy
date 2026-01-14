@@ -73,6 +73,7 @@ List<UnitSeed> bloodAngelsUnits() {
           ],
           ledBy: const [],
           leader: const [],
+          wargearOptions: WargearOptions.emptyOptions,
         )
     )
 

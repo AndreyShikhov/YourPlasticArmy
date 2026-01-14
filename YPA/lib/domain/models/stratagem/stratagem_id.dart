@@ -1,11 +1,11 @@
 class StratagemId {
-  final int value;
+  final String value;
 
   const StratagemId._(this.value);
 
-  factory StratagemId.fromInt(int value) {
-    if (value <= 0) {
-      throw ArgumentError('StratagemId must be positive');
+  factory StratagemId.fromString(String value) {
+    if (value.isEmpty) {
+      throw ArgumentError('StratagemId cannot be empty');
     }
     return StratagemId._(value);
   }
@@ -19,5 +19,5 @@ class StratagemId {
   int get hashCode => value.hashCode;
 
   @override
-  String toString() => value.toString();
+  String toString() => value;
 }

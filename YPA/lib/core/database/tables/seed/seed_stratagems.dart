@@ -1,66 +1,58 @@
 import 'package:drift/drift.dart';
 import 'package:uuid/uuid.dart';
+import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
 import 'package:ypa/core/database/tables/seed/seed_objects/strategems/strategems.dart';
-
 import '../../app_database.dart';
 
-
-
-Future<Map<String, int>> seedStratagems(
+Future<Map<String, String>> seedStratagems(
     AppDatabase db,
     Map<String, String> codexIds,
     Map<String, String> detachmentIds,
     ) async {
   final data = strategemsSeed();
-  final result = <String, int>{};
+  final result = <String, String>{};
 
   for (final strategem in data) {
     // --- codex validation ---
-    final codexIdSeed = strategem.codexId;
-    if (codexIdSeed == null) {
+    final codexCodeSeed = strategem.codexId?.toLowerCase();
+    if (codexCodeSeed == null || !codexIds.containsKey(codexCodeSeed)) {
       throw StateError(
-        'Seed error: strategem "${strategem.code}" must have a codexId',
+        'Seed error: unknown codex "$codexCodeSeed" for stratagem "${strategem.code.name}"',
       );
     }
-    final codexCode = codexIdSeed.toLowerCase();
-
-    if (!codexIds.containsKey(codexCode)) {
-      throw StateError(
-        'Seed error: unknown codex "$codexCode" for strategem "${strategem.code}"',
-      );
-    }
+    final dbCodexId = codexIds[codexCodeSeed]!;
 
     // --- resolve detachment ---
     Value<String?> detachmentDbId = const Value.absent();
-
     if (strategem.detachmentId != null && strategem.detachmentId != 'NULL') {
       final detachmentCode = strategem.detachmentId!.toLowerCase();
       if (!detachmentIds.containsKey(detachmentCode)) {
         throw StateError(
-          'Seed error: unknown detachment "$detachmentCode" for strategem "${strategem.code}"',
+          'Seed error: unknown detachment "$detachmentCode" for stratagem "${strategem.code.name}"',
         );
       }
-
       detachmentDbId = Value(detachmentIds[detachmentCode]!);
     }
 
+    // Используем ID из сида
+    final String stratagemId = strategem.id;
+
     // --- insert ---
-    final id = await db.into(db.strategems).insert(
-      StrategemsCompanion.insert(
-        code: strategem.code.toLowerCase(),
-        name: strategem.name,
-        description: strategem.description,
-        cpCost: strategem.cpCost,
-        phase: strategem.phase,
-        target: strategem.target,
-        effect: strategem.effect,
-        // Исправлено: передаем строковый UUID, без int.parse
-        codexId: codexIds[codexCode]!,
-        detachmentId: detachmentDbId,
-      ),
+    await db.into(db.stratagems).insert(
+      StratagemsCompanion.insert(
+          id: stratagemId,
+          code: strategem.code.name,
+          name: strategem.name,
+          when: strategem.when,
+          target: strategem.target,
+          effect: strategem.effect,
+          cost: strategem.cost,
+          codexId: dbCodexId, 
+          detachmentId: detachmentDbId,
+        ),
     );
 
-    result[strategem.code] = id;
+    result[strategem.code.name] = stratagemId;
   }
 
   return result;

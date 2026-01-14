@@ -72,6 +72,7 @@ List<UnitSeed> spaceMarinesUnits() {
           ],
           ledBy: const [],
           leader: const [],
+          wargearOptions: WargearOptions.emptyOptions,
         )
     )
     //=============Dedicated Transports============

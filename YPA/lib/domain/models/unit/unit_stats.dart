@@ -140,6 +140,38 @@ class UnitComposition {
   static const UnitComposition emptyComposition = UnitComposition(compositions: [], unitCost: []);
 }
 
+
+// ==========================================
+// WARGEAR OPTIONS
+// ==========================================
+
+class WargearOptions{
+  final List<Map<String,List<String>>> wargearOptions;
+
+  const WargearOptions({
+    required this.wargearOptions,
+  });
+
+  Map<String, dynamic> toJson() => {
+    'wargear_options': wargearOptions,
+  };
+
+  factory WargearOptions.fromJson(Map<String, dynamic> json){
+    final rawOptions = (json['wargear_options'] as List<dynamic>?) ?? [];
+    final List<Map<String, List<String>>> parsedOptions = rawOptions.map((item) {
+      final map = item as Map<String, dynamic>;
+      return map.map((key, value) {
+        return MapEntry(key, (value as List).cast<String>().toList());
+      });
+    }).toList();
+
+    return WargearOptions(wargearOptions: parsedOptions);
+  }
+
+  static const WargearOptions emptyOptions = WargearOptions(wargearOptions: []);
+}
+
+
 // ==========================================
 // UNIT STATS
 // ==========================================
@@ -157,10 +189,11 @@ class UnitStats {
   final List<Weapon> weapons;
   final UnitComposition unitComposition;
   final List<UnitAbilitiesCode> unitAbility;
-  final List<CoreUnitAbilityCode> coreAbilities;
+  final List<CoreUnitAbilityCode> coreAbilities; // завершённый тип его не нужно дописывать в базу данных
   final List<FactionUnitAbilityCode> factionAbilities;
   final List<String> leader;
   final List<String> ledBy;
+  final WargearOptions wargearOptions;
 
   const UnitStats({
     required this.movement,
@@ -179,6 +212,7 @@ class UnitStats {
     required this.factionAbilities,
     required this.leader,
     required this.ledBy,
+    required this.wargearOptions,
   });
 
   Map<String, dynamic> toJson() => {
@@ -229,6 +263,9 @@ class UnitStats {
           ?.map((e) => FactionUnitAbilityCode.values.firstWhere((a) => a.name == e, orElse: () => FactionUnitAbilityCode.none,)).toList() ?? [],
       leader: (json['leader'] as List<dynamic>?)?.cast<String>().toList() ?? [],
       ledBy: (json['ledBy'] as List<dynamic>?)?.cast<String>().toList() ?? [],
+      wargearOptions: json['wargearOptions'] != null
+          ? WargearOptions.fromJson(json['wargearOptions'] as Map<String, dynamic>)
+          : WargearOptions.emptyOptions,
     );
   }
 
@@ -250,6 +287,7 @@ class UnitStats {
       factionAbilities: [],
       leader: [],
       ledBy: [],
+      wargearOptions: WargearOptions.emptyOptions,
     );
   }
 }

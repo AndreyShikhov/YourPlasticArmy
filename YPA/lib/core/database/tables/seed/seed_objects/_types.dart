@@ -900,28 +900,24 @@ class EnhancementSeed {
 }
 
 class StrategemsSeed {
-  final String  code;
-  final String  name;
-  final String  description;
-  final int       cpCost;
-  final String  phase;
-  final String  target;
-  final String  effect;
-  final String? condition;
-  final bool   oncePerBattle;
-  final String? codexId;
-  final String? detachmentId;
+  final String          id;
+  final StratagemsCode  code;
+  final String          name;
+  final String          when;
+  final String          target;
+  final String          effect;
+  final int             cost;
+  final String?         codexId; // codex code
+  final String?         detachmentId;  // detachment code
 
   const StrategemsSeed({
+    required this.id,
     required this.code,
     required this.name,
-    required this.description,
-    this.cpCost = 1,
-    required this.phase,
+    required this.when,
     required this.target,
     required this.effect,
-    this.condition,
-    this.oncePerBattle = false,
+    required this.cost,
     this.codexId,
     this.detachmentId,
   });

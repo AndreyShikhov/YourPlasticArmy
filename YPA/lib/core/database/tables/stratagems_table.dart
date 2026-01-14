@@ -1,27 +1,22 @@
 import 'package:drift/drift.dart';
-
 import 'codexes_table.dart';
 import 'detachments_table.dart';
 
-class Strategems extends Table {
-  IntColumn get id => integer().autoIncrement()();
-
-  TextColumn get code => text().unique()();
+class Stratagems extends Table {
+  TextColumn get id => text()();
+  TextColumn get code => text()();
   TextColumn get name => text()();
-  TextColumn get description => text()();
-
-  IntColumn get cpCost => integer()();
-
-  TextColumn get phase => text()();
+  TextColumn get when => text()();
   TextColumn get target => text()();
   TextColumn get effect => text()();
+  IntColumn get cost => integer()();
 
   /// FK → Codex
-  /// Исправлено: text() так как Codexes.id это UUID строка
-  TextColumn get codexId =>
-      text().references(Codexes, #id)();
+  TextColumn get codexId => text().references(Codexes, #id)();
 
   /// FK → Detachment (optional)
-  TextColumn get detachmentId =>
-      text().nullable().references(Detachments, #id)();
+  TextColumn get detachmentId => text().nullable().references(Detachments, #id)();
+
+  @override
+  Set<Column> get primaryKey => {id};
 }

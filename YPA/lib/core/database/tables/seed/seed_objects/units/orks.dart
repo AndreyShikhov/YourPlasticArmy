@@ -65,6 +65,7 @@ List<UnitSeed> orksUnits() {
           ],
           ledBy: const [],
           leader: const [],
+          wargearOptions: WargearOptions.emptyOptions,
         )
     ),
 

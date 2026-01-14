@@ -5,32 +5,32 @@ import '../../domain/models/detachment/detachment.dart';
 import '../../domain/models/stratagem/strategem.dart';
 
 class StratagemMapper {
-  static StratagemDOM fromRow(Strategem row) {
+  static StratagemDOM fromRow(Stratagem row) {
     return StratagemDOM.restore(
-      id: StratagemId.fromInt(row.id),
+      id: StratagemId.fromString(row.id),
       code: StratagemCode(row.code),
       name: StratagemName(row.name),
-      description: StratagemDescription(row.description),
-      cpCost: row.cpCost,
-      phase: row.phase,
-      target: row.target,
-      effect: row.effect,
+      when: StratagemWhen(row.when),
+      target: StratagemTarget(row.target),
+      effect: StratagemEffect(row.effect),
+      cost: row.cost,
       codexId: CodexId.fromString(row.codexId),
-      detachmentId: row.detachmentId != null ? DetachmentId.fromString(row.detachmentId.toString()) : null,
+      detachmentId: row.detachmentId != null
+          ? DetachmentId.fromString(row.detachmentId!)
+          : null,
     );
   }
 
-  static StrategemsCompanion toCompanion(StratagemDOM stratagem) {
-    return StrategemsCompanion(
-      id: stratagem.id.value == 0 ? const Value.absent() : Value(stratagem.id.value),
-      code: Value(stratagem.code.value),
-      name: Value(stratagem.name.value),
-      description: Value(stratagem.description.value),
-      cpCost: Value(stratagem.cpCost),
-      phase: Value(stratagem.phase),
-      target: Value(stratagem.target),
-      effect: Value(stratagem.effect),
-      codexId: Value(stratagem.codexId.value),
+  static StratagemsCompanion toCompanion(StratagemDOM stratagem) {
+    return StratagemsCompanion.insert(
+      id: stratagem.id.value,
+      code: stratagem.code.value,
+      name: stratagem.name.value,
+      when: stratagem.when.value,
+      target: stratagem.target.value,
+      effect: stratagem.effect.value,
+      cost: stratagem.cost,
+      codexId: stratagem.codexId.value,
       detachmentId: stratagem.detachmentId != null
           ? Value(stratagem.detachmentId!.value)
           : const Value.absent(),

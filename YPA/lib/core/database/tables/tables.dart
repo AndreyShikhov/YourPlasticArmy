@@ -10,3 +10,5 @@ export 'stratagems_table.dart';
 export 'weapon_abilities_table.dart';
 export 'unit_abilities_table.dart';
 export 'user_armies_table.dart';
+export 'core_unit_abilities_table.dart';
+export 'faction_unit_abilities_table.dart';

@@ -4,8 +4,6 @@ import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
-import 'package:ypa/core/database/tables/core_unit_abilities_table.dart';
-import 'package:ypa/core/database/tables/faction_unit_abilities_table.dart';
 import 'package:ypa/core/database/tables/seed/seed_data.dart';
 
 // Импорт модели для конвертера
@@ -31,7 +29,7 @@ part 'app_database.g.dart';
     Detachments,
     CodexDetachments,
     Enhancements,
-    Strategems,
+    Stratagems,
     WeaponAbilities,
     UnitAbilities,
     UserArmies,
@@ -62,7 +60,7 @@ class AppDatabase extends _$AppDatabase {
       // 1. Самые нижние уровни
       await delete(units).go();
       await delete(enhancements).go();
-      await delete(strategems).go();
+      await delete(stratagems).go();
       await delete(weaponAbilities).go();
       await delete(unitAbilities).go();
       await delete(coreUnitAbilities).go();
