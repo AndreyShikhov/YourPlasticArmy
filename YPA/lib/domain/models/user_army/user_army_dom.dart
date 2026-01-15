@@ -3,7 +3,7 @@ import 'package:ypa/domain/models/codex/codex_id.dart';
 class UserArmyDOM {
   final String id;
   final String name;
-  final CodexId codexId; // ИСПРАВЛЕНО: Ссылка на кодекс вместо армии
+  final CodexId codexId; 
   final int totalPoints;
   final String jsonData; 
   final DateTime createdAt;
@@ -16,4 +16,19 @@ class UserArmyDOM {
     required this.jsonData,
     required this.createdAt,
   });
+
+  UserArmyDOM copyWith({
+    String? name,
+    int? totalPoints,
+    String? jsonData,
+  }) {
+    return UserArmyDOM(
+      id: this.id,
+      name: name ?? this.name,
+      codexId: this.codexId,
+      totalPoints: totalPoints ?? this.totalPoints,
+      jsonData: jsonData ?? this.jsonData,
+      createdAt: this.createdAt,
+    );
+  }
 }

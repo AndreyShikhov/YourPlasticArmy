@@ -5,6 +5,8 @@ class ExpandableSection extends StatefulWidget {
   final String? subtitle;
   final Widget child;
   final bool initialExpanded;
+  // Добавляем универсальный виджет для правой части
+  final Widget? trailing;
 
   const ExpandableSection({
     super.key,
@@ -12,6 +14,7 @@ class ExpandableSection extends StatefulWidget {
     required this.child,
     this.subtitle,
     this.initialExpanded = false,
+    this.trailing, // Передаем его в конструктор
   });
 
   @override
@@ -31,7 +34,6 @@ class _ExpandableSectionState extends State<ExpandableSection> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Сама "полоса", на которую кликаем
         GestureDetector(
           onTap: () => setState(() => _isExpanded = !_isExpanded),
           child: Container(
@@ -39,7 +41,7 @@ class _ExpandableSectionState extends State<ExpandableSection> {
             decoration: BoxDecoration(
               color: const Color.fromARGB(255, 45, 45, 45),
               border: Border(
-                bottom: BorderSide(color: Colors.white.withOpacity(0.1)),
+                bottom: BorderSide(color: Colors.white.withValues(alpha:0.1)),
               ),
             ),
             child: Row(
@@ -64,11 +66,18 @@ class _ExpandableSectionState extends State<ExpandableSection> {
                     style: const TextStyle(color: Colors.white38, fontSize: 14),
                   ),
                 ],
+
+                // Если trailing не передан, ставим Spacer, если передан — показываем его
+                if (widget.trailing == null && widget.subtitle == null) const Spacer(),
+
+                if (widget.trailing != null) ...[
+                  const SizedBox(width: 10),
+                  widget.trailing!,
+                ],
               ],
             ),
           ),
         ),
-        // Контейнер, который появляется/скрывается
         if (_isExpanded)
           Container(
             width: double.infinity,

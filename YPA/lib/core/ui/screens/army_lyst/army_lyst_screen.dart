@@ -99,8 +99,10 @@ class ArmyListScreen extends ConsumerWidget {
                   backgroundColor: const Color.fromARGB(255, 60, 60, 60),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 ),
-                onPressed: () {
-                  context.push('/game_screen/army_lyst/army_builder/${item.id}');
+                onPressed: () async {
+                  await context.push('/game_screen/army_lyst/army_builder/${item.id}');
+
+                  ref.read(armyLystControllerProvider.notifier).loadArmies();
                 },
                 child: Text(
                   _generateTextButton(item),

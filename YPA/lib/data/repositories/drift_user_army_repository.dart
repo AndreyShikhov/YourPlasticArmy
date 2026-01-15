@@ -15,6 +15,25 @@ class DriftUserArmyRepository implements UserArmyRepository {
     return rows.map(UserArmyMapper.fromRow).toList();
   }
 
+  // ОПТИМИЗАЦИЯ: Получаем всё одним запросом через JOIN
+  @override
+  Future<List<Map<UserArmyDOM, String>>> findAllWithCodexNames() async {
+    final query = db.select(db.userArmies).join([
+      innerJoin(db.codexes, db.codexes.id.equalsExp(db.userArmies.codexId)),
+    ]);
+
+    final rows = await query.get();
+
+    return rows.map((row) {
+      final armyRow = row.readTable(db.userArmies);
+      final codexName = row.readTable(db.codexes).name;
+      
+      return {
+        UserArmyMapper.fromRow(armyRow): codexName,
+      };
+    }).toList();
+  }
+
   @override
   Future<UserArmyDOM?> findById(String id) async {
     final row = await (db.select(db.userArmies)..where((tbl) => tbl.id.equals(id))).getSingleOrNull();

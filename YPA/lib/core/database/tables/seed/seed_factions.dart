@@ -1,6 +1,3 @@
-import 'dart:ffi';
-
-import 'package:drift/drift.dart';
 import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
 import 'package:ypa/core/database/tables/seed/seed_objects/factions/factions.dart';
 

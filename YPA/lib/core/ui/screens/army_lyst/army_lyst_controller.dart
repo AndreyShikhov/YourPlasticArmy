@@ -35,22 +35,20 @@ class ArmyLystController extends StateNotifier<ArmyLystState> {
   Future<void> loadArmies() async {
     state = state.copyWith(isLoading: true, error: null);
     try {
-      final armies = await _getUserArmies();
+      // ОПТИМИЗАЦИЯ: Используем новый метод с JOIN
+      final armyDataList = await _getUserArmies.repository.findAllWithCodexNames();
       
-      final List<ArmyListItemUi> items = [];
-      
-      for (final a in armies) {
-        // Получаем информацию о кодексе. 
-        // Важно: a.codexId должен существовать в таблице Codexes
-        final codex = await _getCodexById(a.codexId);
+      final List<ArmyListItemUi> items = armyDataList.map((entry) {
+        final army = entry.keys.first;
+        final codexName = entry.values.first;
         
-        items.add(ArmyListItemUi(
-          id: a.id,
-          title: a.name,
-          codexName: codex?.name.value ?? 'Unknown Codex', // Используем .value если name это ValueObject
-          pts: a.totalPoints,
-        ));
-      }
+        return ArmyListItemUi(
+          id: army.id,
+          title: army.name,
+          codexName: codexName, // Название кодекса уже пришло из JOIN
+          pts: army.totalPoints,
+        );
+      }).toList();
 
       state = state.copyWith(isLoading: false, items: items);
     } catch (e) {
@@ -68,7 +66,7 @@ class ArmyLystController extends StateNotifier<ArmyLystState> {
       state = state.copyWith(isLoading: false, error: e.toString());
     }
   }
-
+  
   Future<void> deleteArmy(String armyId) async {
     await _deletUserArmyById(userArmyId: armyId);
   }
