@@ -2,9 +2,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/application/codex/get_codex_by_id.dart';
 import 'package:ypa/application/user_army/get_user_army_by_id.dart';
 import 'package:ypa/application/user_army/update_user_army_name.dart';
-import 'package:ypa/core/providers/di/codex_providers.dart';
-import 'package:ypa/core/providers/di/user_army_providers.dart';
+import 'package:ypa/core/providers/di/di_providers.dart';
 
+
+
+import '../../../../application/detachment/detachments_use_cases.dart';
+import '../../../../domain/models/detachment/detachment.dart';
 import 'army_builder_item_ui.dart';
 import 'army_builder_state.dart';
 
@@ -14,19 +17,23 @@ final armyBuilderControllerProvider = StateNotifierProvider.family<ArmyBuilderCo
   final getUserArmyById = ref.watch(getUserArmyByIdUseCaseProvider);
   final getCodexById = ref.watch(getCodexByIdUseCaseProvider); 
   final updateName = ref.watch(updateUserArmyNameUseCaseProvider);
-  return ArmyBuilderController(getUserArmyById, getCodexById, updateName, armyId);
+  final getAllDetachmentsByCodexId = ref.watch(getAlldetachmentsByCodexIdUseCaseProvider);
+
+  return ArmyBuilderController(getUserArmyById, getCodexById, updateName, getAllDetachmentsByCodexId, armyId);
 });
 
 class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
   final GetUserArmyById _getUserArmyById;
   final GetCodexById _getCodexById; 
   final UpdateUserArmyName _updateName;
+  final GetAllDetachmentsByCodexId _getAllDetachmentsByCodexId;
   final String _armyId;
 
   ArmyBuilderController(
       this._getUserArmyById,
       this._getCodexById,
       this._updateName,
+      this._getAllDetachmentsByCodexId,
       this._armyId,
       ) : super(const ArmyBuilderState()) {
     loadArmy();
@@ -61,6 +68,10 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
       }
 
       final codex = await _getCodexById(userArmy.codexId);
+      List<DetachmentDOM> alldetachments = [];
+      if (codex != null) {
+        alldetachments = await _getAllDetachmentsByCodexId(userArmy.codexId);
+      }
 
       // В будущем здесь будет логика восстановления юнитов из JSON
       final List<ArmyBuilderUnitItemUi> units = [];
@@ -69,8 +80,10 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
         isLoading: false,
         armyName: userArmy.name,
         codex: codex,
+        armyDetachmentName: null,
+        allDetachments: alldetachments,
         totalPts: userArmy.totalPoints,
-        units: units,
+        units: [],
       );
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());

@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ypa/application/detachment/get_all_detachments.dart';
 import 'package:ypa/application/enhancement/get_enhancements_by_detachment.dart';
 import 'package:ypa/application/strategem/get_stratagems_by_detachment.dart';
 import 'package:ypa/core/database/database_providers.dart';
@@ -13,6 +12,8 @@ import 'package:ypa/domain/models/enhancement/enhancement_dom.dart';
 import 'package:ypa/domain/models/enhancement/enhancement_repository.dart';
 import 'package:ypa/domain/models/stratagem/stratagem_dom.dart';
 import 'package:ypa/domain/models/stratagem/stratagem_repository.dart';
+
+import '../../../application/detachment/detachments_use_cases.dart';
 
 // --- REPOSITORIES ---
 
@@ -47,6 +48,12 @@ final getEnhancementsByDetachmentUseCaseProvider = Provider<GetEnhancementsByDet
   final repository = ref.watch(enhancementRepositoryProvider);
   return GetEnhancementsByDetachment(repository);
 });
+
+final getAlldetachmentsByCodexIdUseCaseProvider = Provider<GetAllDetachmentsByCodexId>((ref) {
+  final repository = ref.watch(detachmentRepositoryProvider);
+  return GetAllDetachmentsByCodexId(repository);
+});
+
 
 // --- UI STATE ---
 

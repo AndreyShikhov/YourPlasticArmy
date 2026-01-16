@@ -8,6 +8,8 @@ import 'package:ypa/domain/models/army/army_id.dart';
 import 'package:ypa/domain/models/codex/codex_dom.dart';
 import 'package:ypa/domain/models/codex/codex_repository.dart';
 
+import '../../../application/detachment/detachments_use_cases.dart';
+
 // --- REPOSITORIES ---
 
 final codexRepositoryProvider = Provider<CodexRepository>((ref) {

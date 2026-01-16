@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../domain/models/detachment/detachment.dart';
 import '../../../database/tables/seed/seed_objects/_types.dart';
 import '../../widgets/expandable_section.dart';
 import 'army_builder_controller.dart';
@@ -93,15 +94,17 @@ class ArmyBuilderScreen extends ConsumerWidget {
                   ),
                   SizedBox(height: 20,),
                   DropdownButtonFormField<String>(
-                    value: state.armyDetachmentName?.value, // Текущее значение
+                    value: state.armyDetachmentName?.value,
+                    // Текущее значение
                     dropdownColor: const Color.fromARGB(255, 55, 55, 55),
                     style: const TextStyle(color: Colors.white),
                     decoration: const InputDecoration(
                       labelText: 'Select Detachment',
                       labelStyle: TextStyle(color: Colors.white70),
-                      enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white24)),
+                      enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white24)),
                     ),
-                    items:  _getAlllDetuchments(state),
+                    items: _getAlllDetuchments(state),
                     onChanged: (newValue) {
                       // TODO: вызвать метод контроллера для сохранения детачмента
                       print('Selected detachment: $newValue');
@@ -138,10 +141,11 @@ class ArmyBuilderScreen extends ConsumerWidget {
   }
 
 
-   List<DropdownMenuItem<String>> _getAlllDetuchments(ArmyBuilderState state)
-  {
-
-    const List<DropdownMenuItem<String>> items = [];
-    return items;
+  List<DropdownMenuItem<String>> _getAlllDetuchments(ArmyBuilderState state) {
+    return state.allDetachments.map((detachment) =>
+        DropdownMenuItem<String>(
+          value: detachment.name.value,
+          child: Text(detachment.name.value),
+        )).toList();
   }
 }
