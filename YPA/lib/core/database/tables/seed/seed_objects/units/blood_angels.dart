@@ -19,6 +19,7 @@ List<UnitSeed> bloodAngelsUnits() {
           wounds: 5,
           leadership: 5,
           objectiveControl: 1,
+          repeat: 1,
           keywords: [
             'Infantry',
             'Character',
@@ -90,6 +91,7 @@ List<UnitSeed> bloodAngelsUnits() {
           wounds: 5,
           leadership: 6,
           objectiveControl: 1,
+          repeat: 1,
           keywords: [
             'Infantry',
             'Character',
@@ -161,6 +163,7 @@ List<UnitSeed> bloodAngelsUnits() {
           wounds: 6,
           leadership: 6,
           objectiveControl: 1,
+          repeat: 1,
           keywords: [
             'Infantry',
             'Character',
@@ -232,6 +235,7 @@ List<UnitSeed> bloodAngelsUnits() {
           wounds: 6,
           leadership: 6,
           objectiveControl: 1,
+          repeat: 1,
           keywords: [
             'Infantry',
             'Character',
@@ -300,7 +304,7 @@ List<UnitSeed> bloodAngelsUnits() {
         name: 'Baal Predator',
         army: ArmyCode.spaceMarines,
         codex: CodexCode.bloodAngels,
-        role: UnitRoleCode.characters,
+        role: UnitRoleCode.other,
         stats: UnitStats(
           movement: 12,
           toughness: 10,
@@ -309,6 +313,7 @@ List<UnitSeed> bloodAngelsUnits() {
           wounds: 11,
           leadership: 6,
           objectiveControl: 3,
+          repeat: 3,
           keywords: [
             'Infantry',
             'Character',
@@ -371,7 +376,7 @@ List<UnitSeed> bloodAngelsUnits() {
         name: 'Death Company Dreadnought',
         army: ArmyCode.spaceMarines,
         codex: CodexCode.bloodAngels,
-        role: UnitRoleCode.characters,
+        role: UnitRoleCode.other,
         stats: UnitStats(
           movement: 8,
           toughness: 10,
@@ -380,6 +385,7 @@ List<UnitSeed> bloodAngelsUnits() {
           wounds: 12,
           leadership: 6,
           objectiveControl: 4,
+          repeat: 3,
           keywords: [
             'Infantry',
             'Character',
@@ -442,7 +448,7 @@ List<UnitSeed> bloodAngelsUnits() {
         name: 'Death Company Marines',
         army: ArmyCode.spaceMarines,
         codex: CodexCode.bloodAngels,
-        role: UnitRoleCode.characters,
+        role: UnitRoleCode.other,
         stats: UnitStats(
           movement: 6,
           toughness: 4,
@@ -451,6 +457,7 @@ List<UnitSeed> bloodAngelsUnits() {
           wounds: 2,
           leadership: 6,
           objectiveControl: 1,
+          repeat: 3,
           keywords: [
             'Infantry',
             'Character',
@@ -513,7 +520,7 @@ List<UnitSeed> bloodAngelsUnits() {
         name: 'Death Company Marines with Bolt Rifles',
         army: ArmyCode.spaceMarines,
         codex: CodexCode.bloodAngels,
-        role: UnitRoleCode.characters,
+        role: UnitRoleCode.other,
         stats: UnitStats(
           movement: 6,
           toughness: 4,
@@ -522,6 +529,7 @@ List<UnitSeed> bloodAngelsUnits() {
           wounds: 2,
           leadership: 6,
           objectiveControl: 1,
+          repeat: 3,
           keywords: [
             'Infantry',
             'Character',
@@ -584,7 +592,7 @@ List<UnitSeed> bloodAngelsUnits() {
         name: 'Death Company Marines With Jump Packs',
         army: ArmyCode.spaceMarines,
         codex: CodexCode.bloodAngels,
-        role: UnitRoleCode.characters,
+        role: UnitRoleCode.other,
         stats: UnitStats(
           movement: 12,
           toughness: 4,
@@ -593,6 +601,7 @@ List<UnitSeed> bloodAngelsUnits() {
           wounds: 2,
           leadership: 6,
           objectiveControl: 1,
+          repeat: 3,
           keywords: [
             'Infantry',
             'Character',
@@ -655,7 +664,7 @@ List<UnitSeed> bloodAngelsUnits() {
         name: 'Sanguinary Guard',
         army: ArmyCode.spaceMarines,
         codex: CodexCode.bloodAngels,
-        role: UnitRoleCode.characters,
+        role: UnitRoleCode.other,
         stats: UnitStats(
           movement: 12,
           toughness: 4,
@@ -664,6 +673,7 @@ List<UnitSeed> bloodAngelsUnits() {
           wounds: 3,
           leadership: 6,
           objectiveControl: 1,
+          repeat: 3,
           keywords: [
             'Infantry',
             'Character',

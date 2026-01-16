@@ -11,7 +11,7 @@ List<UnitSeed> spaceMarinesUnits() {
         id: '89e076f9-9c48-4cdc-952f-b069c9d827ad',
         name: 'Ancient',
         army: ArmyCode.spaceMarines,
-        role: UnitRoleCode.battleline,
+        role: UnitRoleCode.characters,
         stats: UnitStats(
           movement: 6,
           toughness: 4,
@@ -20,6 +20,7 @@ List<UnitSeed> spaceMarinesUnits() {
           wounds: 4,
           leadership: 6,
           objectiveControl: 1,
+          repeat: 1,
           keywords: [
             'Infantry',
             'Battleline',
@@ -77,7 +78,7 @@ List<UnitSeed> spaceMarinesUnits() {
         id: 'd12c01ec-e404-41a5-8ad5-d72f3079d34a',
         name: 'Ancient In Terminator Armour',
         army: ArmyCode.spaceMarines,
-        role: UnitRoleCode.battleline,
+        role: UnitRoleCode.characters,
         stats: UnitStats(
           movement: 5,
           toughness: 5,
@@ -86,6 +87,7 @@ List<UnitSeed> spaceMarinesUnits() {
           wounds: 5,
           leadership: 5,
           objectiveControl: 1,
+          repeat: 1,
           keywords: [
             'Infantry',
             'Battleline',
@@ -143,7 +145,7 @@ List<UnitSeed> spaceMarinesUnits() {
         id: '7e580b74-5241-4db5-8948-28d5831f2bf0',
         name: 'Apothecary',
         army: ArmyCode.spaceMarines,
-        role: UnitRoleCode.battleline,
+        role: UnitRoleCode.characters,
         stats: UnitStats(
           movement: 6,
           toughness: 4,
@@ -152,6 +154,7 @@ List<UnitSeed> spaceMarinesUnits() {
           wounds: 4,
           leadership: 6,
           objectiveControl: 1,
+          repeat: 1,
           keywords: [
             'Infantry',
             'Battleline',
@@ -209,7 +212,7 @@ List<UnitSeed> spaceMarinesUnits() {
         id: '8338f4f6-d8ee-452d-a593-84f1dc1b64bb',
         name: 'Apothecary Biologis',
         army: ArmyCode.spaceMarines,
-        role: UnitRoleCode.battleline,
+        role: UnitRoleCode.characters,
         stats: UnitStats(
           movement: 5,
           toughness: 6,
@@ -218,6 +221,7 @@ List<UnitSeed> spaceMarinesUnits() {
           wounds: 5,
           leadership: 6,
           objectiveControl: 3,
+          repeat: 1,
           keywords: [
             'Infantry',
             'Battleline',
@@ -285,6 +289,7 @@ List<UnitSeed> spaceMarinesUnits() {
           wounds: 2,
           leadership: 6,
           objectiveControl: 2,
+          repeat: 6,
           keywords: [
             'Infantry',
             'Battleline',
@@ -351,6 +356,7 @@ List<UnitSeed> spaceMarinesUnits() {
           wounds: 3,
           leadership: 6,
           objectiveControl: 2,
+          repeat: 6,
           keywords: [
             'Infantry',
             'Battleline',
@@ -417,6 +423,7 @@ List<UnitSeed> spaceMarinesUnits() {
           wounds: 2,
           leadership: 6,
           objectiveControl: 2,
+          repeat: 6,
           keywords: [
             'Infantry',
             'Battleline',
@@ -483,6 +490,7 @@ List<UnitSeed> spaceMarinesUnits() {
           wounds: 2,
           leadership: 6,
           objectiveControl: 2,
+          repeat: 6,
           keywords: [
             'Infantry',
             'Battleline',
@@ -543,7 +551,7 @@ List<UnitSeed> spaceMarinesUnits() {
         id: '43b62024-0810-488a-aa74-baa7c774967f',
         name: 'Drop Pod',
         army: ArmyCode.spaceMarines,
-        role: UnitRoleCode.battleline,
+        role: UnitRoleCode.dedicatedTransports,
         stats: UnitStats(
           movement: 0,
           toughness: 7,
@@ -552,6 +560,7 @@ List<UnitSeed> spaceMarinesUnits() {
           wounds: 8,
           leadership: 6,
           objectiveControl: 0,
+          repeat: 6,
           keywords: [
             'Infantry',
             'Battleline',
@@ -609,7 +618,7 @@ List<UnitSeed> spaceMarinesUnits() {
         id: '2f13a097-f22f-4511-9e2d-bb23ae72816a',
         name: 'Impulsor',
         army: ArmyCode.spaceMarines,
-        role: UnitRoleCode.battleline,
+        role: UnitRoleCode.dedicatedTransports,
         stats: UnitStats(
           movement: 12,
           toughness: 9,
@@ -618,6 +627,7 @@ List<UnitSeed> spaceMarinesUnits() {
           wounds: 11,
           leadership: 6,
           objectiveControl: 2,
+          repeat: 6,
           keywords: [
             'Infantry',
             'Battleline',
@@ -675,7 +685,7 @@ List<UnitSeed> spaceMarinesUnits() {
         id: '8cb7df8d-14d7-4fe1-a25b-3cc8990b53c5',
         name: 'Razorback',
         army: ArmyCode.spaceMarines,
-        role: UnitRoleCode.battleline,
+        role: UnitRoleCode.dedicatedTransports,
         stats: UnitStats(
           movement: 12,
           toughness: 9,
@@ -684,6 +694,7 @@ List<UnitSeed> spaceMarinesUnits() {
           wounds: 10,
           leadership: 6,
           objectiveControl: 2,
+          repeat: 6,
           keywords: [
             'Infantry',
             'Battleline',
@@ -741,7 +752,7 @@ List<UnitSeed> spaceMarinesUnits() {
         id: 'c45084e0-b576-494e-ac4c-ab3d26d3f22b',
         name: 'Rhino',
         army: ArmyCode.spaceMarines,
-        role: UnitRoleCode.battleline,
+        role: UnitRoleCode.dedicatedTransports,
         stats: UnitStats(
           movement: 12,
           toughness: 9,
@@ -750,6 +761,7 @@ List<UnitSeed> spaceMarinesUnits() {
           wounds: 10,
           leadership: 6,
           objectiveControl: 2,
+          repeat: 6,
           keywords: [
             'Infantry',
             'Battleline',
@@ -808,7 +820,7 @@ List<UnitSeed> spaceMarinesUnits() {
         id: '71e80c3f-3c16-4d82-ac99-740c10f007a7',
         name: 'Hammerfall Bunker',
         army: ArmyCode.spaceMarines,
-        role: UnitRoleCode.battleline,
+        role: UnitRoleCode.fortifications,
         stats: UnitStats(
           movement: 0,
           toughness: 12,
@@ -817,6 +829,7 @@ List<UnitSeed> spaceMarinesUnits() {
           wounds: 14,
           leadership: 6,
           objectiveControl: 0,
+          repeat: 3,
           keywords: [
             'Infantry',
             'Battleline',
@@ -876,7 +889,7 @@ List<UnitSeed> spaceMarinesUnits() {
         id: 'f766279f-68f8-4217-8a64-c481668f4735',
         name: 'Aggressor Squad',
         army: ArmyCode.spaceMarines,
-        role: UnitRoleCode.battleline,
+        role: UnitRoleCode.other,
         stats: UnitStats(
           movement: 5,
           toughness: 6,
@@ -885,6 +898,7 @@ List<UnitSeed> spaceMarinesUnits() {
           wounds: 3,
           leadership: 6,
           objectiveControl: 1,
+          repeat: 3,
           keywords: [
             'Infantry',
             'Battleline',
@@ -942,7 +956,7 @@ List<UnitSeed> spaceMarinesUnits() {
         id: 'b7318d19-e05a-456a-9abb-13c74c2040d8',
         name: 'Assault Intercessors With Jump Packs',
         army: ArmyCode.spaceMarines,
-        role: UnitRoleCode.battleline,
+        role: UnitRoleCode.other,
         stats: UnitStats(
           movement: 12,
           toughness: 4,
@@ -951,6 +965,7 @@ List<UnitSeed> spaceMarinesUnits() {
           wounds: 2,
           leadership: 6,
           objectiveControl: 1,
+          repeat: 3,
           keywords: [
             'Infantry',
             'Battleline',
@@ -1008,7 +1023,7 @@ List<UnitSeed> spaceMarinesUnits() {
         id: 'e3a23096-322d-4eba-8fef-f6d66d11168a',
         name: 'Ballistus Dreadnought',
         army: ArmyCode.spaceMarines,
-        role: UnitRoleCode.battleline,
+        role: UnitRoleCode.other,
         stats: UnitStats(
           movement: 8,
           toughness: 10,
@@ -1017,6 +1032,7 @@ List<UnitSeed> spaceMarinesUnits() {
           wounds: 12,
           leadership: 6,
           objectiveControl: 4,
+          repeat: 3,
           keywords: [
             'Infantry',
             'Battleline',
@@ -1074,7 +1090,7 @@ List<UnitSeed> spaceMarinesUnits() {
         id: '3066649e-238a-4144-b806-a73c2b20dda8',
         name: 'Bladeguard Veteran Squad',
         army: ArmyCode.spaceMarines,
-        role: UnitRoleCode.battleline,
+        role: UnitRoleCode.other,
         stats: UnitStats(
           movement: 6,
           toughness: 4,
@@ -1083,6 +1099,7 @@ List<UnitSeed> spaceMarinesUnits() {
           wounds: 3,
           leadership: 6,
           objectiveControl: 1,
+          repeat: 3,
           keywords: [
             'Infantry',
             'Battleline',

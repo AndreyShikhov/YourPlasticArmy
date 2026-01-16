@@ -23,6 +23,7 @@ List<UnitSeed> orksUnits() {
           wounds: 1,
           leadership: 7,
           objectiveControl: 2,
+          repeat: 6,
           keywords: const ['Infantry', 'Battleline', 'Mob', 'Orks'],
           factionKeywords: const ['Waaagh! Tribe'],
           weapons: [

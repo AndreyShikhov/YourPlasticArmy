@@ -184,6 +184,7 @@ class UnitStats {
   final int wounds;
   final int leadership;
   final int objectiveControl;
+  final int repeat;
   final List<String> keywords;
   final List<String> factionKeywords;
   final List<Weapon> weapons;
@@ -203,6 +204,7 @@ class UnitStats {
     required this.wounds,
     required this.leadership,
     required this.objectiveControl,
+    required this.repeat,
     required this.keywords,
     required this.factionKeywords,
     required this.weapons,
@@ -223,6 +225,7 @@ class UnitStats {
     'wounds': wounds,
     'leadership': leadership,
     'objectiveControl': objectiveControl,
+    'repeat' :repeat,
     'keywords': keywords,
     'factionKeywords': factionKeywords,
     'weapons': weapons.map((w) => w.toJson()).toList(),
@@ -243,6 +246,7 @@ class UnitStats {
       wounds: json['wounds'] as int? ?? 1,
       leadership: json['leadership'] as int? ?? 6,
       objectiveControl: json['objectiveControl'] as int? ?? 0,
+      repeat: json['repeat'] as int? ?? 0,
       keywords: (json['keywords'] as List<dynamic>?)?.cast<String>().toList() ?? [],
       factionKeywords: (json['factionKeywords'] as List<dynamic>?)?.cast<String>().toList() ?? [],
       weapons: (json['weapons'] as List<dynamic>?)
@@ -278,6 +282,7 @@ class UnitStats {
       wounds: 0,
       leadership: 0,
       objectiveControl: 0,
+      repeat: 1,
       keywords: [],
       factionKeywords: [],
       weapons: [],
