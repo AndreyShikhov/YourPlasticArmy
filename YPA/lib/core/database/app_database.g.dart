@@ -2081,8 +2081,23 @@ class $CodexDetachmentsTable extends CodexDetachments
       'REFERENCES detachments (id)',
     ),
   );
+  static const VerificationMeta _isGeneralMeta = const VerificationMeta(
+    'isGeneral',
+  );
   @override
-  List<GeneratedColumn> get $columns => [codexId, detachmentId];
+  late final GeneratedColumn<bool> isGeneral = GeneratedColumn<bool>(
+    'is_general',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_general" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [codexId, detachmentId, isGeneral];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -2114,6 +2129,12 @@ class $CodexDetachmentsTable extends CodexDetachments
     } else if (isInserting) {
       context.missing(_detachmentIdMeta);
     }
+    if (data.containsKey('is_general')) {
+      context.handle(
+        _isGeneralMeta,
+        isGeneral.isAcceptableOrUnknown(data['is_general']!, _isGeneralMeta),
+      );
+    }
     return context;
   }
 
@@ -2131,6 +2152,10 @@ class $CodexDetachmentsTable extends CodexDetachments
         DriftSqlType.string,
         data['${effectivePrefix}detachment_id'],
       )!,
+      isGeneral: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_general'],
+      )!,
     );
   }
 
@@ -2143,12 +2168,18 @@ class $CodexDetachmentsTable extends CodexDetachments
 class CodexDetachment extends DataClass implements Insertable<CodexDetachment> {
   final String codexId;
   final String detachmentId;
-  const CodexDetachment({required this.codexId, required this.detachmentId});
+  final bool isGeneral;
+  const CodexDetachment({
+    required this.codexId,
+    required this.detachmentId,
+    required this.isGeneral,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['codex_id'] = Variable<String>(codexId);
     map['detachment_id'] = Variable<String>(detachmentId);
+    map['is_general'] = Variable<bool>(isGeneral);
     return map;
   }
 
@@ -2156,6 +2187,7 @@ class CodexDetachment extends DataClass implements Insertable<CodexDetachment> {
     return CodexDetachmentsCompanion(
       codexId: Value(codexId),
       detachmentId: Value(detachmentId),
+      isGeneral: Value(isGeneral),
     );
   }
 
@@ -2167,6 +2199,7 @@ class CodexDetachment extends DataClass implements Insertable<CodexDetachment> {
     return CodexDetachment(
       codexId: serializer.fromJson<String>(json['codexId']),
       detachmentId: serializer.fromJson<String>(json['detachmentId']),
+      isGeneral: serializer.fromJson<bool>(json['isGeneral']),
     );
   }
   @override
@@ -2175,20 +2208,26 @@ class CodexDetachment extends DataClass implements Insertable<CodexDetachment> {
     return <String, dynamic>{
       'codexId': serializer.toJson<String>(codexId),
       'detachmentId': serializer.toJson<String>(detachmentId),
+      'isGeneral': serializer.toJson<bool>(isGeneral),
     };
   }
 
-  CodexDetachment copyWith({String? codexId, String? detachmentId}) =>
-      CodexDetachment(
-        codexId: codexId ?? this.codexId,
-        detachmentId: detachmentId ?? this.detachmentId,
-      );
+  CodexDetachment copyWith({
+    String? codexId,
+    String? detachmentId,
+    bool? isGeneral,
+  }) => CodexDetachment(
+    codexId: codexId ?? this.codexId,
+    detachmentId: detachmentId ?? this.detachmentId,
+    isGeneral: isGeneral ?? this.isGeneral,
+  );
   CodexDetachment copyWithCompanion(CodexDetachmentsCompanion data) {
     return CodexDetachment(
       codexId: data.codexId.present ? data.codexId.value : this.codexId,
       detachmentId: data.detachmentId.present
           ? data.detachmentId.value
           : this.detachmentId,
+      isGeneral: data.isGeneral.present ? data.isGeneral.value : this.isGeneral,
     );
   }
 
@@ -2196,44 +2235,51 @@ class CodexDetachment extends DataClass implements Insertable<CodexDetachment> {
   String toString() {
     return (StringBuffer('CodexDetachment(')
           ..write('codexId: $codexId, ')
-          ..write('detachmentId: $detachmentId')
+          ..write('detachmentId: $detachmentId, ')
+          ..write('isGeneral: $isGeneral')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(codexId, detachmentId);
+  int get hashCode => Object.hash(codexId, detachmentId, isGeneral);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is CodexDetachment &&
           other.codexId == this.codexId &&
-          other.detachmentId == this.detachmentId);
+          other.detachmentId == this.detachmentId &&
+          other.isGeneral == this.isGeneral);
 }
 
 class CodexDetachmentsCompanion extends UpdateCompanion<CodexDetachment> {
   final Value<String> codexId;
   final Value<String> detachmentId;
+  final Value<bool> isGeneral;
   final Value<int> rowid;
   const CodexDetachmentsCompanion({
     this.codexId = const Value.absent(),
     this.detachmentId = const Value.absent(),
+    this.isGeneral = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   CodexDetachmentsCompanion.insert({
     required String codexId,
     required String detachmentId,
+    this.isGeneral = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : codexId = Value(codexId),
        detachmentId = Value(detachmentId);
   static Insertable<CodexDetachment> custom({
     Expression<String>? codexId,
     Expression<String>? detachmentId,
+    Expression<bool>? isGeneral,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (codexId != null) 'codex_id': codexId,
       if (detachmentId != null) 'detachment_id': detachmentId,
+      if (isGeneral != null) 'is_general': isGeneral,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -2241,11 +2287,13 @@ class CodexDetachmentsCompanion extends UpdateCompanion<CodexDetachment> {
   CodexDetachmentsCompanion copyWith({
     Value<String>? codexId,
     Value<String>? detachmentId,
+    Value<bool>? isGeneral,
     Value<int>? rowid,
   }) {
     return CodexDetachmentsCompanion(
       codexId: codexId ?? this.codexId,
       detachmentId: detachmentId ?? this.detachmentId,
+      isGeneral: isGeneral ?? this.isGeneral,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -2259,6 +2307,9 @@ class CodexDetachmentsCompanion extends UpdateCompanion<CodexDetachment> {
     if (detachmentId.present) {
       map['detachment_id'] = Variable<String>(detachmentId.value);
     }
+    if (isGeneral.present) {
+      map['is_general'] = Variable<bool>(isGeneral.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -2270,6 +2321,7 @@ class CodexDetachmentsCompanion extends UpdateCompanion<CodexDetachment> {
     return (StringBuffer('CodexDetachmentsCompanion(')
           ..write('codexId: $codexId, ')
           ..write('detachmentId: $detachmentId, ')
+          ..write('isGeneral: $isGeneral, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -2771,9 +2823,9 @@ class $StratagemsTable extends Stratagems
   late final GeneratedColumn<String> codexId = GeneratedColumn<String>(
     'codex_id',
     aliasedName,
-    false,
+    true,
     type: DriftSqlType.string,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
     defaultConstraints: GeneratedColumn.constraintIsAlways(
       'REFERENCES codexes (id)',
     ),
@@ -2874,8 +2926,6 @@ class $StratagemsTable extends Stratagems
         _codexIdMeta,
         codexId.isAcceptableOrUnknown(data['codex_id']!, _codexIdMeta),
       );
-    } else if (isInserting) {
-      context.missing(_codexIdMeta);
     }
     if (data.containsKey('detachment_id')) {
       context.handle(
@@ -2926,7 +2976,7 @@ class $StratagemsTable extends Stratagems
       codexId: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}codex_id'],
-      )!,
+      ),
       detachmentId: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}detachment_id'],
@@ -2949,8 +2999,8 @@ class Stratagem extends DataClass implements Insertable<Stratagem> {
   final String effect;
   final int cost;
 
-  /// FK → Codex
-  final String codexId;
+  /// FK → Codex (optional for core stratagems)
+  final String? codexId;
 
   /// FK → Detachment (optional)
   final String? detachmentId;
@@ -2962,7 +3012,7 @@ class Stratagem extends DataClass implements Insertable<Stratagem> {
     required this.target,
     required this.effect,
     required this.cost,
-    required this.codexId,
+    this.codexId,
     this.detachmentId,
   });
   @override
@@ -2975,7 +3025,9 @@ class Stratagem extends DataClass implements Insertable<Stratagem> {
     map['target'] = Variable<String>(target);
     map['effect'] = Variable<String>(effect);
     map['cost'] = Variable<int>(cost);
-    map['codex_id'] = Variable<String>(codexId);
+    if (!nullToAbsent || codexId != null) {
+      map['codex_id'] = Variable<String>(codexId);
+    }
     if (!nullToAbsent || detachmentId != null) {
       map['detachment_id'] = Variable<String>(detachmentId);
     }
@@ -2991,7 +3043,9 @@ class Stratagem extends DataClass implements Insertable<Stratagem> {
       target: Value(target),
       effect: Value(effect),
       cost: Value(cost),
-      codexId: Value(codexId),
+      codexId: codexId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(codexId),
       detachmentId: detachmentId == null && nullToAbsent
           ? const Value.absent()
           : Value(detachmentId),
@@ -3011,7 +3065,7 @@ class Stratagem extends DataClass implements Insertable<Stratagem> {
       target: serializer.fromJson<String>(json['target']),
       effect: serializer.fromJson<String>(json['effect']),
       cost: serializer.fromJson<int>(json['cost']),
-      codexId: serializer.fromJson<String>(json['codexId']),
+      codexId: serializer.fromJson<String?>(json['codexId']),
       detachmentId: serializer.fromJson<String?>(json['detachmentId']),
     );
   }
@@ -3026,7 +3080,7 @@ class Stratagem extends DataClass implements Insertable<Stratagem> {
       'target': serializer.toJson<String>(target),
       'effect': serializer.toJson<String>(effect),
       'cost': serializer.toJson<int>(cost),
-      'codexId': serializer.toJson<String>(codexId),
+      'codexId': serializer.toJson<String?>(codexId),
       'detachmentId': serializer.toJson<String?>(detachmentId),
     };
   }
@@ -3039,7 +3093,7 @@ class Stratagem extends DataClass implements Insertable<Stratagem> {
     String? target,
     String? effect,
     int? cost,
-    String? codexId,
+    Value<String?> codexId = const Value.absent(),
     Value<String?> detachmentId = const Value.absent(),
   }) => Stratagem(
     id: id ?? this.id,
@@ -3049,7 +3103,7 @@ class Stratagem extends DataClass implements Insertable<Stratagem> {
     target: target ?? this.target,
     effect: effect ?? this.effect,
     cost: cost ?? this.cost,
-    codexId: codexId ?? this.codexId,
+    codexId: codexId.present ? codexId.value : this.codexId,
     detachmentId: detachmentId.present ? detachmentId.value : this.detachmentId,
   );
   Stratagem copyWithCompanion(StratagemsCompanion data) {
@@ -3119,7 +3173,7 @@ class StratagemsCompanion extends UpdateCompanion<Stratagem> {
   final Value<String> target;
   final Value<String> effect;
   final Value<int> cost;
-  final Value<String> codexId;
+  final Value<String?> codexId;
   final Value<String?> detachmentId;
   final Value<int> rowid;
   const StratagemsCompanion({
@@ -3142,7 +3196,7 @@ class StratagemsCompanion extends UpdateCompanion<Stratagem> {
     required String target,
     required String effect,
     required int cost,
-    required String codexId,
+    this.codexId = const Value.absent(),
     this.detachmentId = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
@@ -3151,8 +3205,7 @@ class StratagemsCompanion extends UpdateCompanion<Stratagem> {
        when = Value(when),
        target = Value(target),
        effect = Value(effect),
-       cost = Value(cost),
-       codexId = Value(codexId);
+       cost = Value(cost);
   static Insertable<Stratagem> custom({
     Expression<String>? id,
     Expression<String>? code,
@@ -3187,7 +3240,7 @@ class StratagemsCompanion extends UpdateCompanion<Stratagem> {
     Value<String>? target,
     Value<String>? effect,
     Value<int>? cost,
-    Value<String>? codexId,
+    Value<String?>? codexId,
     Value<String?>? detachmentId,
     Value<int>? rowid,
   }) {
@@ -8123,12 +8176,14 @@ typedef $$CodexDetachmentsTableCreateCompanionBuilder =
     CodexDetachmentsCompanion Function({
       required String codexId,
       required String detachmentId,
+      Value<bool> isGeneral,
       Value<int> rowid,
     });
 typedef $$CodexDetachmentsTableUpdateCompanionBuilder =
     CodexDetachmentsCompanion Function({
       Value<String> codexId,
       Value<String> detachmentId,
+      Value<bool> isGeneral,
       Value<int> rowid,
     });
 
@@ -8192,6 +8247,11 @@ class $$CodexDetachmentsTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+  ColumnFilters<bool> get isGeneral => $composableBuilder(
+    column: $table.isGeneral,
+    builder: (column) => ColumnFilters(column),
+  );
+
   $$CodexesTableFilterComposer get codexId {
     final $$CodexesTableFilterComposer composer = $composerBuilder(
       composer: this,
@@ -8248,6 +8308,11 @@ class $$CodexDetachmentsTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+  ColumnOrderings<bool> get isGeneral => $composableBuilder(
+    column: $table.isGeneral,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$CodexesTableOrderingComposer get codexId {
     final $$CodexesTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -8304,6 +8369,9 @@ class $$CodexDetachmentsTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
+  GeneratedColumn<bool> get isGeneral =>
+      $composableBuilder(column: $table.isGeneral, builder: (column) => column);
+
   $$CodexesTableAnnotationComposer get codexId {
     final $$CodexesTableAnnotationComposer composer = $composerBuilder(
       composer: this,
@@ -8383,20 +8451,24 @@ class $$CodexDetachmentsTableTableManager
               ({
                 Value<String> codexId = const Value.absent(),
                 Value<String> detachmentId = const Value.absent(),
+                Value<bool> isGeneral = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => CodexDetachmentsCompanion(
                 codexId: codexId,
                 detachmentId: detachmentId,
+                isGeneral: isGeneral,
                 rowid: rowid,
               ),
           createCompanionCallback:
               ({
                 required String codexId,
                 required String detachmentId,
+                Value<bool> isGeneral = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => CodexDetachmentsCompanion.insert(
                 codexId: codexId,
                 detachmentId: detachmentId,
+                isGeneral: isGeneral,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
@@ -8832,7 +8904,7 @@ typedef $$StratagemsTableCreateCompanionBuilder =
       required String target,
       required String effect,
       required int cost,
-      required String codexId,
+      Value<String?> codexId,
       Value<String?> detachmentId,
       Value<int> rowid,
     });
@@ -8845,7 +8917,7 @@ typedef $$StratagemsTableUpdateCompanionBuilder =
       Value<String> target,
       Value<String> effect,
       Value<int> cost,
-      Value<String> codexId,
+      Value<String?> codexId,
       Value<String?> detachmentId,
       Value<int> rowid,
     });
@@ -8857,9 +8929,9 @@ final class $$StratagemsTableReferences
   static $CodexesTable _codexIdTable(_$AppDatabase db) => db.codexes
       .createAlias($_aliasNameGenerator(db.stratagems.codexId, db.codexes.id));
 
-  $$CodexesTableProcessedTableManager get codexId {
-    final $_column = $_itemColumn<String>('codex_id')!;
-
+  $$CodexesTableProcessedTableManager? get codexId {
+    final $_column = $_itemColumn<String>('codex_id');
+    if ($_column == null) return null;
     final manager = $$CodexesTableTableManager(
       $_db,
       $_db.codexes,
@@ -9185,7 +9257,7 @@ class $$StratagemsTableTableManager
                 Value<String> target = const Value.absent(),
                 Value<String> effect = const Value.absent(),
                 Value<int> cost = const Value.absent(),
-                Value<String> codexId = const Value.absent(),
+                Value<String?> codexId = const Value.absent(),
                 Value<String?> detachmentId = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => StratagemsCompanion(
@@ -9209,7 +9281,7 @@ class $$StratagemsTableTableManager
                 required String target,
                 required String effect,
                 required int cost,
-                required String codexId,
+                Value<String?> codexId = const Value.absent(),
                 Value<String?> detachmentId = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => StratagemsCompanion.insert(

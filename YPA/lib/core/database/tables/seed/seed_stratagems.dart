@@ -41,7 +41,7 @@ Future<Map<String, String>> seedStratagems(
           target: strategem.target,
           effect: strategem.effect,
           cost: strategem.cost,
-          codexId: dbCodexId.value.toString(),
+          codexId: dbCodexId,
           detachmentId: detachmentDbId,
         ),
     );

@@ -33,6 +33,7 @@ Future<void> seedCodexDetachments(
       CodexDetachmentsCompanion.insert(
         codexId: codexIds[codexCode]!,
         detachmentId: detachmentIds[detachmentCode]!,
+        isGeneral: Value(link.isGeneral),
       ),
       mode: InsertMode.insertOrIgnore,
     );

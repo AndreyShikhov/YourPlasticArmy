@@ -875,11 +875,13 @@ class DetachmentSeed {
 class DetachmentCodexLinkSeed {
   final String detachmentCode;
   final CodexCode codex;
+  final bool isGeneral;
 
 
   const DetachmentCodexLinkSeed({
     required this.detachmentCode,
     required this.codex,
+    required this.isGeneral,
   });
 }
 

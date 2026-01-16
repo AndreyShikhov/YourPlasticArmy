@@ -5,12 +5,12 @@ List<DetachmentSeed> detachmentsBase() {
 
     //=============Spacemarine============
     DetachmentSeed(
-        code: 'gladius_task_force',
-        name: 'Gladius Task Force',
-        description: 'Gladius Task Force',
-        ruleShort: 'Gladius Task Force',
-        ruleName: 'Gladius Task Force',
-        ruleFull: 'Gladius Task Force',
+      code: 'gladius_task_force',
+      name: 'Gladius Task Force',
+      description: 'Gladius Task Force',
+      ruleShort: 'Gladius Task Force',
+      ruleName: 'Gladius Task Force',
+      ruleFull: 'Gladius Task Force',
     ),
     DetachmentSeed(
       code: 'anvil_siege_force',
@@ -68,5 +68,66 @@ List<DetachmentSeed> detachmentsBase() {
       ruleName: 'Librarius Conclave',
       ruleFull: 'Librarius Conclave',
     ),
+    DetachmentSeed(
+      code: 'bastion_task_force',
+      name: 'Bastion Task Force',
+      description: 'Bastion Task Force',
+      ruleShort: 'Bastion Task Force',
+      ruleName: 'Bastion Task Force',
+      ruleFull: 'Bastion Task Force',
+    ),
+    DetachmentSeed(
+      code: 'orbital_assault_force',
+      name: 'Orbital Assault Force',
+      description: 'Orbital Assault Force',
+      ruleShort: 'Orbital Assault Force',
+      ruleName: 'Orbital Assault Force',
+      ruleFull: 'Orbital Assault Force',
+    ),
+
+    //=============Blood angels============
+    DetachmentSeed(
+      code: 'liberator_assault_group',
+      name: 'Liberator Assault Group',
+      description: 'Liberator Assault Group',
+      ruleShort: 'Liberator Assault Group',
+      ruleName: 'Liberator Assault Group',
+      ruleFull: 'Liberator Assault Group',
+    ),
+    DetachmentSeed(
+      code: 'the_lost_brethren',
+      name: 'The Lost Brethren',
+      description: 'The Lost Brethren',
+      ruleShort: 'The Lost Brethren',
+      ruleName: 'The Lost Brethren',
+      ruleFull: 'The Lost Brethren',
+    ),
+    DetachmentSeed(
+        code: 'the_angelic_host',
+        name: 'The Angelic Host',
+        description: 'The Angelic Host',
+        ruleShort: 'The Angelic Host',
+        ruleName: 'The Angelic Host',
+        ruleFull: 'The Angelic Host'
+    ),
+
+    DetachmentSeed(
+      code: 'angelic_inheritors',
+      name: 'Angelic Inheritors',
+      description: 'Angelic Inheritors',
+      ruleShort: 'Angelic Inheritors',
+      ruleName: 'Angelic Inheritors',
+      ruleFull: 'Angelic Inheritors',
+    ),
+    DetachmentSeed(
+      code: 'rage_cursed_onslaught',
+      name: 'Rage-Cursed Onslaught',
+      description: 'Rage Cursed Onslaught',
+      ruleShort: 'Rage Cursed Onslaught',
+      ruleName: 'Rage Cursed Onslaught',
+      ruleFull: 'Rage Cursed Onslaught',
+    ),
+
+
   ];
 }

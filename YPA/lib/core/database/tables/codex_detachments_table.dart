@@ -9,6 +9,9 @@ class CodexDetachments extends Table {
   TextColumn get detachmentId =>
       text().references(Detachments, #id)();
 
+  BoolColumn get isGeneral => boolean().withDefault(const Constant(false))();
+
+
   @override
   Set<Column> get primaryKey => { codexId, detachmentId };
 }
