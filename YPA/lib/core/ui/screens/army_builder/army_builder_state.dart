@@ -11,7 +11,7 @@ class ArmyBuilderState {
   final String armyName;
   final int totalPts;
   final DetachmentName? armyDetachmentName;
-  final CodexName? codexName;
+  final CodexDOM? codex;
   final List<ArmyBuilderUnitItemUi> units;
   final String? error;
 
@@ -20,7 +20,7 @@ class ArmyBuilderState {
     this.armyName = '',
     this.totalPts = 0,
     this.armyDetachmentName,
-    this.codexName,
+    this.codex,
     this.units = const [],
     this.error,
   });
@@ -30,7 +30,7 @@ class ArmyBuilderState {
     String? armyName,
     int? totalPts,
     DetachmentName? armyDetachmentName,
-    CodexName? codexName,
+    CodexDOM? codex,
     List<ArmyBuilderUnitItemUi>? units,
     String? error,
   }) {
@@ -39,7 +39,7 @@ class ArmyBuilderState {
       armyName: armyName ?? this.armyName,
       totalPts: totalPts ?? this.totalPts,
       armyDetachmentName: armyDetachmentName ?? this.armyDetachmentName,
-      codexName: codexName ?? this.codexName,
+      codex: codex ?? this.codex,
       units: units ?? this.units,
       error: error ?? this.error,
     );

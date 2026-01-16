@@ -28,7 +28,7 @@ class ArmyBuilderScreen extends ConsumerWidget {
             padding: const EdgeInsets.only(left: 10),
             child: Text(state.armyName.isEmpty
                 ? 'Loading...'
-                : '${state.codexName?.value ?? "Unknown"}: ${state.armyName}'),
+                : '${state.codex?.name.value ?? "Unknown"}: ${state.armyName}'),
           ),
           flexibleSpace: SafeArea(
             child: Container(
@@ -62,12 +62,12 @@ class ArmyBuilderScreen extends ConsumerWidget {
       body: state.isLoading
           ? const Center(child: CircularProgressIndicator())
           : ListView(
-              children: _buildSections(state, ref),
-            ),
+        children: _buildSections(state),
+      ),
     );
   }
 
-  List<Widget> _buildSections(ArmyBuilderState state, WidgetRef ref) {
+  List<Widget> _buildSections(ArmyBuilderState state) {
     List<String> titles = [
       'Army Description',
       UnitRoleCode.characters.title,
@@ -82,14 +82,34 @@ class ArmyBuilderScreen extends ConsumerWidget {
     for (String title in titles) {
       if (title == 'Army Description') {
         tempWidgets.add(ExpandableSection(
-          title: title,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: ArmyNameEditor(
-              armyId: armyId,
-              initialName: state.armyName,
-            ),
-          ),
+            title: title,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  ArmyNameEditor(
+                    armyId: armyId,
+                    initialName: state.armyName,
+                  ),
+                  SizedBox(height: 20,),
+                  DropdownButtonFormField<String>(
+                    value: state.armyDetachmentName?.value, // Текущее значение
+                    dropdownColor: const Color.fromARGB(255, 55, 55, 55),
+                    style: const TextStyle(color: Colors.white),
+                    decoration: const InputDecoration(
+                      labelText: 'Select Detachment',
+                      labelStyle: TextStyle(color: Colors.white70),
+                      enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white24)),
+                    ),
+                    items:  _getAlllDetuchments(state),
+                    onChanged: (newValue) {
+                      // TODO: вызвать метод контроллера для сохранения детачмента
+                      print('Selected detachment: $newValue');
+                    },
+                  ),
+                ],
+              ),
+            )
         ));
       } else {
         final roleUnits = state.getAllUnitsByRole(title);
@@ -105,13 +125,23 @@ class ArmyBuilderScreen extends ConsumerWidget {
           subtitle: '${roleUnits.length} pts  ${roleUnits.length} units',
           child: Column(
             children: roleUnits
-                .map((unit) => Text(unit.name, style: const TextStyle(color: Colors.white)))
+                .map((unit) =>
+                Text(unit.name, style: const TextStyle(color: Colors.white)))
                 .toList(),
           ),
         ));
       }
     }
 
-    return tempWidgets;
+    return
+      tempWidgets;
+  }
+
+
+   List<DropdownMenuItem<String>> _getAlllDetuchments(ArmyBuilderState state)
+  {
+
+    const List<DropdownMenuItem<String>> items = [];
+    return items;
   }
 }

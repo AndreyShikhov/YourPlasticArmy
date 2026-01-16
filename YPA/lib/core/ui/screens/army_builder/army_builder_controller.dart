@@ -68,7 +68,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
       state = state.copyWith(
         isLoading: false,
         armyName: userArmy.name,
-        codexName: codex?.name,
+        codex: codex,
         totalPts: userArmy.totalPoints,
         units: units,
       );
