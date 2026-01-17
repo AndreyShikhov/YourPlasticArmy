@@ -63,12 +63,12 @@ class ArmyBuilderScreen extends ConsumerWidget {
       body: state.isLoading
           ? const Center(child: CircularProgressIndicator())
           : ListView(
-        children: _buildSections(state),
+        children: _buildSections(state, ref),
       ),
     );
   }
 
-  List<Widget> _buildSections(ArmyBuilderState state) {
+  List<Widget> _buildSections(ArmyBuilderState state, WidgetRef ref) {
     List<String> titles = [
       'Army Description',
       UnitRoleCode.characters.title,
@@ -106,6 +106,7 @@ class ArmyBuilderScreen extends ConsumerWidget {
                     ),
                     items: _getAlllDetuchments(state),
                     onChanged: (newValue) {
+                      ref.read(armyBuilderControllerProvider(armyId).notifier).updateDetachment(newValue!);
                       // TODO: вызвать метод контроллера для сохранения детачмента
                       print('Selected detachment: $newValue');
                     },

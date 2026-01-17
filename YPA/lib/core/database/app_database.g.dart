@@ -4096,6 +4096,20 @@ class $UserArmiesTable extends UserArmies
       'REFERENCES codexes (id)',
     ),
   );
+  static const VerificationMeta _detachmentIdMeta = const VerificationMeta(
+    'detachmentId',
+  );
+  @override
+  late final GeneratedColumn<String> detachmentId = GeneratedColumn<String>(
+    'detachment_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES detachments (id)',
+    ),
+  );
   static const VerificationMeta _totalPointsMeta = const VerificationMeta(
     'totalPoints',
   );
@@ -4136,6 +4150,7 @@ class $UserArmiesTable extends UserArmies
     id,
     name,
     codexId,
+    detachmentId,
     totalPoints,
     jsonData,
     createdAt,
@@ -4172,6 +4187,17 @@ class $UserArmiesTable extends UserArmies
       );
     } else if (isInserting) {
       context.missing(_codexIdMeta);
+    }
+    if (data.containsKey('detachment_id')) {
+      context.handle(
+        _detachmentIdMeta,
+        detachmentId.isAcceptableOrUnknown(
+          data['detachment_id']!,
+          _detachmentIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_detachmentIdMeta);
     }
     if (data.containsKey('total_points')) {
       context.handle(
@@ -4217,6 +4243,10 @@ class $UserArmiesTable extends UserArmies
         DriftSqlType.string,
         data['${effectivePrefix}codex_id'],
       )!,
+      detachmentId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}detachment_id'],
+      )!,
       totalPoints: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}total_points'],
@@ -4242,6 +4272,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
   final String id;
   final String name;
   final String codexId;
+  final String detachmentId;
   final int totalPoints;
   final String jsonData;
   final DateTime createdAt;
@@ -4249,6 +4280,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
     required this.id,
     required this.name,
     required this.codexId,
+    required this.detachmentId,
     required this.totalPoints,
     required this.jsonData,
     required this.createdAt,
@@ -4259,6 +4291,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
     map['id'] = Variable<String>(id);
     map['name'] = Variable<String>(name);
     map['codex_id'] = Variable<String>(codexId);
+    map['detachment_id'] = Variable<String>(detachmentId);
     map['total_points'] = Variable<int>(totalPoints);
     map['json_data'] = Variable<String>(jsonData);
     map['created_at'] = Variable<DateTime>(createdAt);
@@ -4270,6 +4303,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
       id: Value(id),
       name: Value(name),
       codexId: Value(codexId),
+      detachmentId: Value(detachmentId),
       totalPoints: Value(totalPoints),
       jsonData: Value(jsonData),
       createdAt: Value(createdAt),
@@ -4285,6 +4319,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
       id: serializer.fromJson<String>(json['id']),
       name: serializer.fromJson<String>(json['name']),
       codexId: serializer.fromJson<String>(json['codexId']),
+      detachmentId: serializer.fromJson<String>(json['detachmentId']),
       totalPoints: serializer.fromJson<int>(json['totalPoints']),
       jsonData: serializer.fromJson<String>(json['jsonData']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
@@ -4297,6 +4332,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
       'id': serializer.toJson<String>(id),
       'name': serializer.toJson<String>(name),
       'codexId': serializer.toJson<String>(codexId),
+      'detachmentId': serializer.toJson<String>(detachmentId),
       'totalPoints': serializer.toJson<int>(totalPoints),
       'jsonData': serializer.toJson<String>(jsonData),
       'createdAt': serializer.toJson<DateTime>(createdAt),
@@ -4307,6 +4343,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
     String? id,
     String? name,
     String? codexId,
+    String? detachmentId,
     int? totalPoints,
     String? jsonData,
     DateTime? createdAt,
@@ -4314,6 +4351,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
     id: id ?? this.id,
     name: name ?? this.name,
     codexId: codexId ?? this.codexId,
+    detachmentId: detachmentId ?? this.detachmentId,
     totalPoints: totalPoints ?? this.totalPoints,
     jsonData: jsonData ?? this.jsonData,
     createdAt: createdAt ?? this.createdAt,
@@ -4323,6 +4361,9 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
       id: data.id.present ? data.id.value : this.id,
       name: data.name.present ? data.name.value : this.name,
       codexId: data.codexId.present ? data.codexId.value : this.codexId,
+      detachmentId: data.detachmentId.present
+          ? data.detachmentId.value
+          : this.detachmentId,
       totalPoints: data.totalPoints.present
           ? data.totalPoints.value
           : this.totalPoints,
@@ -4337,6 +4378,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('codexId: $codexId, ')
+          ..write('detachmentId: $detachmentId, ')
           ..write('totalPoints: $totalPoints, ')
           ..write('jsonData: $jsonData, ')
           ..write('createdAt: $createdAt')
@@ -4345,8 +4387,15 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, name, codexId, totalPoints, jsonData, createdAt);
+  int get hashCode => Object.hash(
+    id,
+    name,
+    codexId,
+    detachmentId,
+    totalPoints,
+    jsonData,
+    createdAt,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -4354,6 +4403,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
           other.id == this.id &&
           other.name == this.name &&
           other.codexId == this.codexId &&
+          other.detachmentId == this.detachmentId &&
           other.totalPoints == this.totalPoints &&
           other.jsonData == this.jsonData &&
           other.createdAt == this.createdAt);
@@ -4363,6 +4413,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
   final Value<String> id;
   final Value<String> name;
   final Value<String> codexId;
+  final Value<String> detachmentId;
   final Value<int> totalPoints;
   final Value<String> jsonData;
   final Value<DateTime> createdAt;
@@ -4371,6 +4422,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.codexId = const Value.absent(),
+    this.detachmentId = const Value.absent(),
     this.totalPoints = const Value.absent(),
     this.jsonData = const Value.absent(),
     this.createdAt = const Value.absent(),
@@ -4380,6 +4432,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
     required String id,
     required String name,
     required String codexId,
+    required String detachmentId,
     this.totalPoints = const Value.absent(),
     required String jsonData,
     this.createdAt = const Value.absent(),
@@ -4387,11 +4440,13 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
   }) : id = Value(id),
        name = Value(name),
        codexId = Value(codexId),
+       detachmentId = Value(detachmentId),
        jsonData = Value(jsonData);
   static Insertable<UserArmyRow> custom({
     Expression<String>? id,
     Expression<String>? name,
     Expression<String>? codexId,
+    Expression<String>? detachmentId,
     Expression<int>? totalPoints,
     Expression<String>? jsonData,
     Expression<DateTime>? createdAt,
@@ -4401,6 +4456,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
       if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (codexId != null) 'codex_id': codexId,
+      if (detachmentId != null) 'detachment_id': detachmentId,
       if (totalPoints != null) 'total_points': totalPoints,
       if (jsonData != null) 'json_data': jsonData,
       if (createdAt != null) 'created_at': createdAt,
@@ -4412,6 +4468,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
     Value<String>? id,
     Value<String>? name,
     Value<String>? codexId,
+    Value<String>? detachmentId,
     Value<int>? totalPoints,
     Value<String>? jsonData,
     Value<DateTime>? createdAt,
@@ -4421,6 +4478,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
       id: id ?? this.id,
       name: name ?? this.name,
       codexId: codexId ?? this.codexId,
+      detachmentId: detachmentId ?? this.detachmentId,
       totalPoints: totalPoints ?? this.totalPoints,
       jsonData: jsonData ?? this.jsonData,
       createdAt: createdAt ?? this.createdAt,
@@ -4439,6 +4497,9 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
     }
     if (codexId.present) {
       map['codex_id'] = Variable<String>(codexId.value);
+    }
+    if (detachmentId.present) {
+      map['detachment_id'] = Variable<String>(detachmentId.value);
     }
     if (totalPoints.present) {
       map['total_points'] = Variable<int>(totalPoints.value);
@@ -4461,6 +4522,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('codexId: $codexId, ')
+          ..write('detachmentId: $detachmentId, ')
           ..write('totalPoints: $totalPoints, ')
           ..write('jsonData: $jsonData, ')
           ..write('createdAt: $createdAt, ')
@@ -7605,6 +7667,27 @@ final class $$DetachmentsTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<$UserArmiesTable, List<UserArmyRow>>
+  _userArmiesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.userArmies,
+    aliasName: $_aliasNameGenerator(
+      db.detachments.id,
+      db.userArmies.detachmentId,
+    ),
+  );
+
+  $$UserArmiesTableProcessedTableManager get userArmiesRefs {
+    final manager = $$UserArmiesTableTableManager(
+      $_db,
+      $_db.userArmies,
+    ).filter((f) => f.detachmentId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_userArmiesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$DetachmentsTableFilterComposer
@@ -7740,6 +7823,31 @@ class $$DetachmentsTableFilterComposer
           }) => $$StratagemsTableFilterComposer(
             $db: $db,
             $table: $db.stratagems,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> userArmiesRefs(
+    Expression<bool> Function($$UserArmiesTableFilterComposer f) f,
+  ) {
+    final $$UserArmiesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.userArmies,
+      getReferencedColumn: (t) => t.detachmentId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UserArmiesTableFilterComposer(
+            $db: $db,
+            $table: $db.userArmies,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -7947,6 +8055,31 @@ class $$DetachmentsTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> userArmiesRefs<T extends Object>(
+    Expression<T> Function($$UserArmiesTableAnnotationComposer a) f,
+  ) {
+    final $$UserArmiesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.userArmies,
+      getReferencedColumn: (t) => t.detachmentId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UserArmiesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.userArmies,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$DetachmentsTableTableManager
@@ -7967,6 +8100,7 @@ class $$DetachmentsTableTableManager
             bool codexDetachmentsRefs,
             bool enhancementsRefs,
             bool stratagemsRefs,
+            bool userArmiesRefs,
           })
         > {
   $$DetachmentsTableTableManager(_$AppDatabase db, $DetachmentsTable table)
@@ -8038,6 +8172,7 @@ class $$DetachmentsTableTableManager
                 codexDetachmentsRefs = false,
                 enhancementsRefs = false,
                 stratagemsRefs = false,
+                userArmiesRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -8045,6 +8180,7 @@ class $$DetachmentsTableTableManager
                     if (codexDetachmentsRefs) db.codexDetachments,
                     if (enhancementsRefs) db.enhancements,
                     if (stratagemsRefs) db.stratagems,
+                    if (userArmiesRefs) db.userArmies,
                   ],
                   addJoins:
                       <
@@ -8145,6 +8281,27 @@ class $$DetachmentsTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (userArmiesRefs)
+                        await $_getPrefetchedData<
+                          DetachmentRow,
+                          $DetachmentsTable,
+                          UserArmyRow
+                        >(
+                          currentTable: table,
+                          referencedTable: $$DetachmentsTableReferences
+                              ._userArmiesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$DetachmentsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).userArmiesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.detachmentId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -8170,6 +8327,7 @@ typedef $$DetachmentsTableProcessedTableManager =
         bool codexDetachmentsRefs,
         bool enhancementsRefs,
         bool stratagemsRefs,
+        bool userArmiesRefs,
       })
     >;
 typedef $$CodexDetachmentsTableCreateCompanionBuilder =
@@ -9803,6 +9961,7 @@ typedef $$UserArmiesTableCreateCompanionBuilder =
       required String id,
       required String name,
       required String codexId,
+      required String detachmentId,
       Value<int> totalPoints,
       required String jsonData,
       Value<DateTime> createdAt,
@@ -9813,6 +9972,7 @@ typedef $$UserArmiesTableUpdateCompanionBuilder =
       Value<String> id,
       Value<String> name,
       Value<String> codexId,
+      Value<String> detachmentId,
       Value<int> totalPoints,
       Value<String> jsonData,
       Value<DateTime> createdAt,
@@ -9834,6 +9994,25 @@ final class $$UserArmiesTableReferences
       $_db.codexes,
     ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_codexIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $DetachmentsTable _detachmentIdTable(_$AppDatabase db) =>
+      db.detachments.createAlias(
+        $_aliasNameGenerator(db.userArmies.detachmentId, db.detachments.id),
+      );
+
+  $$DetachmentsTableProcessedTableManager get detachmentId {
+    final $_column = $_itemColumn<String>('detachment_id')!;
+
+    final manager = $$DetachmentsTableTableManager(
+      $_db,
+      $_db.detachments,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_detachmentIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: [item]),
@@ -9889,6 +10068,29 @@ class $$UserArmiesTableFilterComposer
           }) => $$CodexesTableFilterComposer(
             $db: $db,
             $table: $db.codexes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$DetachmentsTableFilterComposer get detachmentId {
+    final $$DetachmentsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.detachmentId,
+      referencedTable: $db.detachments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DetachmentsTableFilterComposer(
+            $db: $db,
+            $table: $db.detachments,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -9955,6 +10157,29 @@ class $$UserArmiesTableOrderingComposer
     );
     return composer;
   }
+
+  $$DetachmentsTableOrderingComposer get detachmentId {
+    final $$DetachmentsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.detachmentId,
+      referencedTable: $db.detachments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DetachmentsTableOrderingComposer(
+            $db: $db,
+            $table: $db.detachments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$UserArmiesTableAnnotationComposer
@@ -10005,6 +10230,29 @@ class $$UserArmiesTableAnnotationComposer
     );
     return composer;
   }
+
+  $$DetachmentsTableAnnotationComposer get detachmentId {
+    final $$DetachmentsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.detachmentId,
+      referencedTable: $db.detachments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DetachmentsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.detachments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$UserArmiesTableTableManager
@@ -10020,7 +10268,7 @@ class $$UserArmiesTableTableManager
           $$UserArmiesTableUpdateCompanionBuilder,
           (UserArmyRow, $$UserArmiesTableReferences),
           UserArmyRow,
-          PrefetchHooks Function({bool codexId})
+          PrefetchHooks Function({bool codexId, bool detachmentId})
         > {
   $$UserArmiesTableTableManager(_$AppDatabase db, $UserArmiesTable table)
     : super(
@@ -10038,6 +10286,7 @@ class $$UserArmiesTableTableManager
                 Value<String> id = const Value.absent(),
                 Value<String> name = const Value.absent(),
                 Value<String> codexId = const Value.absent(),
+                Value<String> detachmentId = const Value.absent(),
                 Value<int> totalPoints = const Value.absent(),
                 Value<String> jsonData = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
@@ -10046,6 +10295,7 @@ class $$UserArmiesTableTableManager
                 id: id,
                 name: name,
                 codexId: codexId,
+                detachmentId: detachmentId,
                 totalPoints: totalPoints,
                 jsonData: jsonData,
                 createdAt: createdAt,
@@ -10056,6 +10306,7 @@ class $$UserArmiesTableTableManager
                 required String id,
                 required String name,
                 required String codexId,
+                required String detachmentId,
                 Value<int> totalPoints = const Value.absent(),
                 required String jsonData,
                 Value<DateTime> createdAt = const Value.absent(),
@@ -10064,6 +10315,7 @@ class $$UserArmiesTableTableManager
                 id: id,
                 name: name,
                 codexId: codexId,
+                detachmentId: detachmentId,
                 totalPoints: totalPoints,
                 jsonData: jsonData,
                 createdAt: createdAt,
@@ -10077,7 +10329,7 @@ class $$UserArmiesTableTableManager
                 ),
               )
               .toList(),
-          prefetchHooksCallback: ({codexId = false}) {
+          prefetchHooksCallback: ({codexId = false, detachmentId = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
@@ -10110,6 +10362,19 @@ class $$UserArmiesTableTableManager
                               )
                               as T;
                     }
+                    if (detachmentId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.detachmentId,
+                                referencedTable: $$UserArmiesTableReferences
+                                    ._detachmentIdTable(db),
+                                referencedColumn: $$UserArmiesTableReferences
+                                    ._detachmentIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
 
                     return state;
                   },
@@ -10134,7 +10399,7 @@ typedef $$UserArmiesTableProcessedTableManager =
       $$UserArmiesTableUpdateCompanionBuilder,
       (UserArmyRow, $$UserArmiesTableReferences),
       UserArmyRow,
-      PrefetchHooks Function({bool codexId})
+      PrefetchHooks Function({bool codexId, bool detachmentId})
     >;
 typedef $$CoreUnitAbilitiesTableCreateCompanionBuilder =
     CoreUnitAbilitiesCompanion Function({

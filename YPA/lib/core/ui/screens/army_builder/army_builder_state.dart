@@ -8,6 +8,7 @@ import '../../../../domain/models/detachment/detachment.dart';
 
 class ArmyBuilderState {
   final bool isLoading;
+  final String? armyId;
   final String armyName;
   final int totalPts;
   final CodexDOM? codex;
@@ -19,6 +20,7 @@ class ArmyBuilderState {
   const ArmyBuilderState({
     this.isLoading = false,
     this.armyName = '',
+    this.armyId,
     this.totalPts = 0,
     this.codex,
     this.detachment,
@@ -30,6 +32,7 @@ class ArmyBuilderState {
   ArmyBuilderState copyWith({
     bool? isLoading,
     String? armyName,
+    String? armyId,
     int? totalPts,
     CodexDOM? codex,
     DetachmentDOM? detachment,
@@ -40,9 +43,10 @@ class ArmyBuilderState {
     return ArmyBuilderState(
       isLoading: isLoading ?? this.isLoading,
       armyName: armyName ?? this.armyName,
+      armyId: armyId?? this.armyId,
       totalPts: totalPts ?? this.totalPts,
       codex: codex ?? this.codex,
-      detachment: this.detachment,
+      detachment: detachment?? this.detachment,
       allDetachments: allDetachments ?? this.allDetachments,
       units: units ?? this.units,
       error: error ?? this.error,
