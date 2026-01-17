@@ -80,7 +80,6 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
         isLoading: false,
         armyName: userArmy.name,
         codex: codex,
-        armyDetachmentName: null,
         allDetachments: alldetachments,
         totalPts: userArmy.totalPoints,
         units: [],

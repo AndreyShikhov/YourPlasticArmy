@@ -10,7 +10,6 @@ class ArmyBuilderState {
   final bool isLoading;
   final String armyName;
   final int totalPts;
-  final DetachmentName? armyDetachmentName;
   final CodexDOM? codex;
   final DetachmentDOM? detachment;
   final List<DetachmentDOM> allDetachments;
@@ -21,7 +20,6 @@ class ArmyBuilderState {
     this.isLoading = false,
     this.armyName = '',
     this.totalPts = 0,
-    this.armyDetachmentName,
     this.codex,
     this.detachment,
     this.allDetachments = const [],
@@ -33,7 +31,6 @@ class ArmyBuilderState {
     bool? isLoading,
     String? armyName,
     int? totalPts,
-    DetachmentName? armyDetachmentName,
     CodexDOM? codex,
     DetachmentDOM? detachment,
     List<DetachmentDOM>? allDetachments,
@@ -44,7 +41,6 @@ class ArmyBuilderState {
       isLoading: isLoading ?? this.isLoading,
       armyName: armyName ?? this.armyName,
       totalPts: totalPts ?? this.totalPts,
-      armyDetachmentName: armyDetachmentName ?? this.armyDetachmentName,
       codex: codex ?? this.codex,
       detachment: this.detachment,
       allDetachments: allDetachments ?? this.allDetachments,

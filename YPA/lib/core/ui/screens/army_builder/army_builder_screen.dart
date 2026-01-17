@@ -40,7 +40,7 @@ class ArmyBuilderScreen extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    state.armyDetachmentName?.value ?? 'No detachment',
+                    state.detachment?.name.value ?? 'No detachment',
                     style: const TextStyle(
                       color: Colors.white70,
                       fontSize: 14,
@@ -94,7 +94,7 @@ class ArmyBuilderScreen extends ConsumerWidget {
                   ),
                   SizedBox(height: 20,),
                   DropdownButtonFormField<String>(
-                    value: state.armyDetachmentName?.value,
+                    value: state.detachment?.name.value,
                     // Текущее значение
                     dropdownColor: const Color.fromARGB(255, 55, 55, 55),
                     style: const TextStyle(color: Colors.white),
