@@ -5,3 +5,4 @@ export 'get_user_army_by_id.dart';
 export 'update_user_army_detachment.dart';
 export 'update_user_army_name.dart';
 export 'update_user_army_roster.dart';
+export 'update_user_army_total_pts.dart';

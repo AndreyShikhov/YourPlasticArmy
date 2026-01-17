@@ -11,6 +11,7 @@ class ArmyBuilderState {
   final String? armyId;
   final String armyName;
   final int totalPts;
+  final int? currentPts;
   final CodexDOM? codex;
   final DetachmentDOM? detachment;
   final List<DetachmentDOM> allDetachments;
@@ -22,6 +23,7 @@ class ArmyBuilderState {
     this.armyName = '',
     this.armyId,
     this.totalPts = 0,
+    this.currentPts,
     this.codex,
     this.detachment,
     this.allDetachments = const [],
@@ -34,6 +36,7 @@ class ArmyBuilderState {
     String? armyName,
     String? armyId,
     int? totalPts,
+    int? currentPts,
     CodexDOM? codex,
     DetachmentDOM? detachment,
     List<DetachmentDOM>? allDetachments,
@@ -45,6 +48,7 @@ class ArmyBuilderState {
       armyName: armyName ?? this.armyName,
       armyId: armyId?? this.armyId,
       totalPts: totalPts ?? this.totalPts,
+      currentPts: currentPts?? this.currentPts,
       codex: codex ?? this.codex,
       detachment: detachment?? this.detachment,
       allDetachments: allDetachments ?? this.allDetachments,

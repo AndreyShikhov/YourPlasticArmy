@@ -1,13 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ypa/application/user_army/create_user_army.dart';
-import 'package:ypa/application/user_army/delet_user_army_by_id.dart';
-import 'package:ypa/application/user_army/get_user_armies.dart';
-import 'package:ypa/application/user_army/get_user_army_by_id.dart';
-import 'package:ypa/application/user_army/update_user_army_detachment.dart';
-import 'package:ypa/application/user_army/update_user_army_name.dart'; // Добавлено
 import 'package:ypa/core/database/database_providers.dart';
 import 'package:ypa/data/repositories/drift_user_army_repository.dart';
 import 'package:ypa/domain/models/user_army/user_army_repository.dart';
+
+import '../../../application/user_army/user_army_use_cases.dart';
 
 // --- REPOSITORIES ---
 
@@ -46,4 +42,9 @@ final updateUserArmyNameUseCaseProvider = Provider<UpdateUserArmyName>((ref) {
 final updateUserArmyDetachmentUseCaseProvider = Provider<UpdateUserArmyDetachment>((ref) {
   final repository = ref.watch(userArmyRepositoryProvider);
   return UpdateUserArmyDetachment(repository);
+});
+
+final updateUserArmyTotalPtsUseCaseProvider = Provider<UpdateUserArmyTotalPts>((ref) {
+  final repository = ref.watch(userArmyRepositoryProvider);
+  return UpdateUserArmyTotalPts(repository);
 });

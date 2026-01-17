@@ -17,9 +17,10 @@ final armyBuilderControllerProvider = StateNotifierProvider.family<ArmyBuilderCo
   final getCodexById = ref.watch(getCodexByIdUseCaseProvider); 
   final updateName = ref.watch(updateUserArmyNameUseCaseProvider);
   final updateDetachment = ref.watch(updateUserArmyDetachmentUseCaseProvider);
+  final updateTotalPts = ref.watch(updateUserArmyTotalPtsUseCaseProvider);
   final getAllDetachmentsByCodexId = ref.watch(getAlldetachmentsByCodexIdUseCaseProvider);
 
-  return ArmyBuilderController(getUserArmyById, getCodexById, updateName, updateDetachment, getAllDetachmentsByCodexId, armyId );
+  return ArmyBuilderController(getUserArmyById, getCodexById, updateName, updateDetachment, updateTotalPts, getAllDetachmentsByCodexId, armyId );
 });
 
 class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
@@ -27,6 +28,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
   final GetCodexById _getCodexById; 
   final UpdateUserArmyName _updateName;
   final UpdateUserArmyDetachment _updateDetachment;
+  final UpdateUserArmyTotalPts _updatetotalPts;
   final GetAllDetachmentsByCodexId _getAllDetachmentsByCodexId;
   final String _armyId;
 
@@ -35,6 +37,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
       this._getCodexById,
       this._updateName,
       this._updateDetachment,
+      this._updatetotalPts,
       this._getAllDetachmentsByCodexId,
       this._armyId,
       ) : super(const ArmyBuilderState()) {
@@ -69,6 +72,19 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
     // 2. Сохраняем в базу данных через UseCase
     try {
       await _updateDetachment(id: _armyId, newDetachment: selectedDetachment);
+    } catch (e) {
+      // Если сохранение упало, можно вернуть старое имя или показать ошибку
+      state = state.copyWith(error: e.toString());
+    }
+  }
+
+  Future<void> updateTotalPoints(int newTotalPts) async{
+
+    state = state.copyWith( totalPts: newTotalPts);
+
+    // 2. Сохраняем в базу данных через UseCase
+    try {
+      await _updatetotalPts(id: _armyId, newTotalPts: newTotalPts);
     } catch (e) {
       // Если сохранение упало, можно вернуть старое имя или показать ошибку
       state = state.copyWith(error: e.toString());

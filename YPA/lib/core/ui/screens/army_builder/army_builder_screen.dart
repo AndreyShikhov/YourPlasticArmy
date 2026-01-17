@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ypa/core/ui/screens/army_builder/widgets/army_points_editor.dart';
 
 import '../../../../domain/models/detachment/detachment.dart';
 import '../../../database/tables/seed/seed_objects/_types.dart';
@@ -48,7 +49,7 @@ class ArmyBuilderScreen extends ConsumerWidget {
                   ),
                   const SizedBox(width: 25),
                   Text(
-                    '${state.totalPts} pts',
+                    _getPtstext(state),
                     style: const TextStyle(
                       color: Colors.white70,
                       fontSize: 14,
@@ -107,10 +108,10 @@ class ArmyBuilderScreen extends ConsumerWidget {
                     items: _getAlllDetuchments(state),
                     onChanged: (newValue) {
                       ref.read(armyBuilderControllerProvider(armyId).notifier).updateDetachment(newValue!);
-                      // TODO: вызвать метод контроллера для сохранения детачмента
-                      print('Selected detachment: $newValue');
                     },
                   ),
+                  SizedBox(height: 20,),
+                  ArmyPointsEditor(armyId: armyId, initialPoints: state.totalPts.toString())
                 ],
               ),
             )
@@ -123,7 +124,7 @@ class ArmyBuilderScreen extends ConsumerWidget {
           trailing: IconButton(
             icon: const Icon(Icons.add, color: Colors.white),
             onPressed: () {
-              print('Add $title unit pressed');
+
             },
           ),
           subtitle: '${roleUnits.length} pts  ${roleUnits.length} units',
@@ -148,5 +149,15 @@ class ArmyBuilderScreen extends ConsumerWidget {
           value: detachment.name.value,
           child: Text(detachment.name.value),
         )).toList();
+  }
+
+  String _getPtstext(ArmyBuilderState state ){
+    if(state.totalPts == 0 )
+    {
+      return '${state.totalPts} pts';
+    }
+    else{
+      return '${state.currentPts ?? 0} / ${state.totalPts} pts';
+    }
   }
 }
