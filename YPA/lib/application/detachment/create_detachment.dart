@@ -15,8 +15,6 @@ class CreateDetachment {
     required String dtRuleName,
     required String dtRuleShort,
     required String dtRuleFull,
-    required
-
   }) async {
     final all = await repository.findAll();
 
@@ -32,7 +30,7 @@ class CreateDetachment {
 
     final detachment = DetachmentDOM.create(
         name: DetachmentName(name),
-        armyId: ArmyId.fromInt(armyId.value),
+        armyId: armyId,
         code: DetachmentCode(dtCode),
         description: DetachmentDescription(dtDescription),
         ruleName: DetachmentRuleName(dtRuleName),

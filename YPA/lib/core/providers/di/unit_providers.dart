@@ -66,7 +66,7 @@ final rolesListProvider = FutureProvider<List<RoleDOM>>((ref) async {
 
 final unitsByArmyProvider = FutureProvider.family<List<UnitDOM>, String>((ref, armyIdRaw) async {
   final useCase = ref.watch(getUnitsByArmyUseCaseProvider);
-  // Исправление: парсим строку и вызываем фабрику fromInt
-  final armyId = ArmyId.fromInt(int.parse(armyIdRaw));
+  // Исправление: armyIdRaw теперь строка UUID, парсинг в int не нужен
+  final armyId = ArmyId.fromString(armyIdRaw);
   return useCase(armyId);
 });

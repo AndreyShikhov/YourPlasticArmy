@@ -11,8 +11,9 @@ class Codexes extends Table {
   TextColumn get name => text().withLength(min: 1)();
 
   /// Codex belongs to Army
-  IntColumn get armyId =>
-      integer().references(Armies, #id)();
+  /// Changed to TextColumn to match Armies.id (UUID)
+  TextColumn get armyId =>
+      text().references(Armies, #id)();
 
   @override
   Set<Column> get primaryKey => {id};

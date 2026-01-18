@@ -10,7 +10,7 @@ import '../../app_database.dart';
 
 Future<void> seedUnits(
     AppDatabase db,
-    Map<String, int> armyIds,
+    Map<String, String> armyIds, // Изменено на String (UUID)
     Map<String, String> codexIds,
     Map<String, int> roleIds,
     ) async {
@@ -19,7 +19,6 @@ Future<void> seedUnits(
     ...bloodAngelsUnits(),
     ...ultramarinesUnits(),
     ...orksUnits(),
-
   ];
 
   for (final u in units) {
@@ -42,7 +41,7 @@ Future<void> seedUnits(
       UnitsCompanion.insert(
         id: unitId, 
         name: u.name,
-        armyId: armyId,
+        armyId: armyId, // Теперь передаем String (UUID)
         codexId: codexIdValue,
         roleId: roleId,
         stats: u.stats,
@@ -54,7 +53,7 @@ Future<void> seedUnits(
 
 void _validateUnitSeed(
     UnitSeed unit,
-    Map<String, int> armyIds,
+    Map<String, String> armyIds, // Изменено на String
     Map<String, String> codexIds,
     Map<String, int> roleIds,
     ) {

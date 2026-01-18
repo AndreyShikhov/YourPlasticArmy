@@ -856,6 +856,7 @@ class UnitSeed {
 class DetachmentSeed {
 
   final String code;
+  final ArmyCode armyCode;
   final String name;
   final String description;
   final String ruleName;
@@ -864,6 +865,7 @@ class DetachmentSeed {
 
   const DetachmentSeed({
     required this.code,
+    required this.armyCode,
     required this.name,
     required this.description,
     required this.ruleName,

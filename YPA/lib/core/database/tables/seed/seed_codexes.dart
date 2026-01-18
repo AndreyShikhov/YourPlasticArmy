@@ -7,7 +7,7 @@ import '../../app_database.dart';
 
 Future<Map<String, String>> seedCodexes(
     AppDatabase db,
-    Map<String, int> armyIds,
+    Map<String, String> armyIds, // Изменено на String
     ) async {
   final codexes = getAllCodexes();
   final result = <String, String>{};
@@ -20,7 +20,7 @@ Future<Map<String, String>> seedCodexes(
         id: codexId,
         code: c.code.code,
         name: c.name,
-        armyId: armyIds[c.army.code]!,
+        armyId: armyIds[c.army.code]!, // Теперь это String (UUID)
       ),
       mode: InsertMode.insertOrIgnore,
     );
@@ -36,4 +36,3 @@ Future<Map<String, String>> seedCodexes(
 
   return result;
 }
-

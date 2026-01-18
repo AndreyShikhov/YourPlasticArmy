@@ -8,7 +8,7 @@ class CodexMapper {
     return CodexDOM.restore(
       id: CodexId.fromString(row.id),
       code: CodexCode(row.code),
-      armyId: ArmyId.fromInt(row.armyId),
+      armyId: ArmyId.fromString(row.armyId),
       name: CodexName(row.name),
     );
   }

@@ -9,7 +9,7 @@ class DetachmentMapper {
     return DetachmentDOM.restore(
       id: DetachmentId.fromString(row.id),
       code: DetachmentCode(row.code),
-      armyId: ArmyId.fromInt(row.armyId),
+      armyId: ArmyId.fromString(row.armyId),
       name: DetachmentName(row.name),
       description: DetachmentDescription(row.description),
       ruleName: DetachmentRuleName(row.ruleName),

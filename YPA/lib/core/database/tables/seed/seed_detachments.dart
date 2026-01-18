@@ -7,19 +7,22 @@ import '../../app_database.dart';
 
 Future<Map<String, String>> seedDetachments(
     AppDatabase db,
-    Map<String, int> armyIds,
+    Map<String, String> armyIds,
     ) async {
   final detachments = detachmentsBase();
   final result = <String, String>{};
 
-  // Для Space Marines
-  final spaceMarinesArmyId = armyIds['space_marines'];
-  if (spaceMarinesArmyId == null) {
-    throw StateError('Seed error: space_marines army not found');
-  }
-
   for (final d in detachments) {
     final detachmentId = const Uuid().v4();
+    
+    // Получаем UUID армии, используя armyCode из DetachmentSeed
+    final currentArmyId = armyIds[d.armyCode.code];
+
+    if (currentArmyId == null) {
+      throw StateError(
+        'Seed error: unknown army code "${d.armyCode.code}" for detachment "${d.name}"',
+      );
+    }
 
     await db.into(db.detachments).insert(
       DetachmentsCompanion.insert(
@@ -30,7 +33,7 @@ Future<Map<String, String>> seedDetachments(
         ruleName: d.ruleName,
         ruleShort: d.ruleShort,
         ruleFull: d.ruleFull,
-        armyId: spaceMarinesArmyId,
+        armyId: currentArmyId, // Теперь привязывается к правильной фракции (в т.ч. Оркам)
       ),
       mode: InsertMode.insertOrIgnore,
     );

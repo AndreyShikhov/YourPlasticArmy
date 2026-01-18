@@ -2,7 +2,7 @@ import 'package:drift/drift.dart';
 import 'factions_table.dart';
 
 class Armies extends Table {
-  IntColumn get id => integer().autoIncrement()();
+  TextColumn get id => text()();
 
   /// space_marines, orks
   TextColumn get armyCode => text().unique().withLength(min: 1)();
@@ -14,5 +14,6 @@ class Armies extends Table {
   IntColumn get factionId =>
       integer().references(Factions, #id)();
 
-
+  @override
+  Set<Column> get primaryKey => {id};
 }

@@ -258,16 +258,12 @@ class $ArmiesTable extends Armies with TableInfo<$ArmiesTable, Army> {
   $ArmiesTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
     'id',
     aliasedName,
     false,
-    hasAutoIncrement: true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'PRIMARY KEY AUTOINCREMENT',
-    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
   );
   static const VerificationMeta _armyCodeMeta = const VerificationMeta(
     'armyCode',
@@ -322,6 +318,8 @@ class $ArmiesTable extends Armies with TableInfo<$ArmiesTable, Army> {
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
     }
     if (data.containsKey('army_code')) {
       context.handle(
@@ -357,7 +355,7 @@ class $ArmiesTable extends Armies with TableInfo<$ArmiesTable, Army> {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return Army(
       id: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
+        DriftSqlType.string,
         data['${effectivePrefix}id'],
       )!,
       armyCode: attachedDatabase.typeMapping.read(
@@ -382,7 +380,7 @@ class $ArmiesTable extends Armies with TableInfo<$ArmiesTable, Army> {
 }
 
 class Army extends DataClass implements Insertable<Army> {
-  final int id;
+  final String id;
 
   /// space_marines, orks
   final String armyCode;
@@ -401,7 +399,7 @@ class Army extends DataClass implements Insertable<Army> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
+    map['id'] = Variable<String>(id);
     map['army_code'] = Variable<String>(armyCode);
     map['name'] = Variable<String>(name);
     map['faction_id'] = Variable<int>(factionId);
@@ -423,7 +421,7 @@ class Army extends DataClass implements Insertable<Army> {
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return Army(
-      id: serializer.fromJson<int>(json['id']),
+      id: serializer.fromJson<String>(json['id']),
       armyCode: serializer.fromJson<String>(json['armyCode']),
       name: serializer.fromJson<String>(json['name']),
       factionId: serializer.fromJson<int>(json['factionId']),
@@ -433,14 +431,14 @@ class Army extends DataClass implements Insertable<Army> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
+      'id': serializer.toJson<String>(id),
       'armyCode': serializer.toJson<String>(armyCode),
       'name': serializer.toJson<String>(name),
       'factionId': serializer.toJson<int>(factionId),
     };
   }
 
-  Army copyWith({int? id, String? armyCode, String? name, int? factionId}) =>
+  Army copyWith({String? id, String? armyCode, String? name, int? factionId}) =>
       Army(
         id: id ?? this.id,
         armyCode: armyCode ?? this.armyCode,
@@ -480,49 +478,57 @@ class Army extends DataClass implements Insertable<Army> {
 }
 
 class ArmiesCompanion extends UpdateCompanion<Army> {
-  final Value<int> id;
+  final Value<String> id;
   final Value<String> armyCode;
   final Value<String> name;
   final Value<int> factionId;
+  final Value<int> rowid;
   const ArmiesCompanion({
     this.id = const Value.absent(),
     this.armyCode = const Value.absent(),
     this.name = const Value.absent(),
     this.factionId = const Value.absent(),
+    this.rowid = const Value.absent(),
   });
   ArmiesCompanion.insert({
-    this.id = const Value.absent(),
+    required String id,
     required String armyCode,
     required String name,
     required int factionId,
-  }) : armyCode = Value(armyCode),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       armyCode = Value(armyCode),
        name = Value(name),
        factionId = Value(factionId);
   static Insertable<Army> custom({
-    Expression<int>? id,
+    Expression<String>? id,
     Expression<String>? armyCode,
     Expression<String>? name,
     Expression<int>? factionId,
+    Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (armyCode != null) 'army_code': armyCode,
       if (name != null) 'name': name,
       if (factionId != null) 'faction_id': factionId,
+      if (rowid != null) 'rowid': rowid,
     });
   }
 
   ArmiesCompanion copyWith({
-    Value<int>? id,
+    Value<String>? id,
     Value<String>? armyCode,
     Value<String>? name,
     Value<int>? factionId,
+    Value<int>? rowid,
   }) {
     return ArmiesCompanion(
       id: id ?? this.id,
       armyCode: armyCode ?? this.armyCode,
       name: name ?? this.name,
       factionId: factionId ?? this.factionId,
+      rowid: rowid ?? this.rowid,
     );
   }
 
@@ -530,7 +536,7 @@ class ArmiesCompanion extends UpdateCompanion<Army> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (id.present) {
-      map['id'] = Variable<int>(id.value);
+      map['id'] = Variable<String>(id.value);
     }
     if (armyCode.present) {
       map['army_code'] = Variable<String>(armyCode.value);
@@ -541,6 +547,9 @@ class ArmiesCompanion extends UpdateCompanion<Army> {
     if (factionId.present) {
       map['faction_id'] = Variable<int>(factionId.value);
     }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
     return map;
   }
 
@@ -550,7 +559,8 @@ class ArmiesCompanion extends UpdateCompanion<Army> {
           ..write('id: $id, ')
           ..write('armyCode: $armyCode, ')
           ..write('name: $name, ')
-          ..write('factionId: $factionId')
+          ..write('factionId: $factionId, ')
+          ..write('rowid: $rowid')
           ..write(')'))
         .toString();
   }
@@ -593,11 +603,11 @@ class $CodexesTable extends Codexes with TableInfo<$CodexesTable, Codexe> {
   );
   static const VerificationMeta _armyIdMeta = const VerificationMeta('armyId');
   @override
-  late final GeneratedColumn<int> armyId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> armyId = GeneratedColumn<String>(
     'army_id',
     aliasedName,
     false,
-    type: DriftSqlType.int,
+    type: DriftSqlType.string,
     requiredDuringInsert: true,
     defaultConstraints: GeneratedColumn.constraintIsAlways(
       'REFERENCES armies (id)',
@@ -668,7 +678,7 @@ class $CodexesTable extends Codexes with TableInfo<$CodexesTable, Codexe> {
         data['${effectivePrefix}name'],
       )!,
       armyId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
+        DriftSqlType.string,
         data['${effectivePrefix}army_id'],
       )!,
     );
@@ -690,7 +700,8 @@ class Codexe extends DataClass implements Insertable<Codexe> {
   final String name;
 
   /// Codex belongs to Army
-  final int armyId;
+  /// Changed to TextColumn to match Armies.id (UUID)
+  final String armyId;
   const Codexe({
     required this.id,
     required this.code,
@@ -703,7 +714,7 @@ class Codexe extends DataClass implements Insertable<Codexe> {
     map['id'] = Variable<String>(id);
     map['code'] = Variable<String>(code);
     map['name'] = Variable<String>(name);
-    map['army_id'] = Variable<int>(armyId);
+    map['army_id'] = Variable<String>(armyId);
     return map;
   }
 
@@ -725,7 +736,7 @@ class Codexe extends DataClass implements Insertable<Codexe> {
       id: serializer.fromJson<String>(json['id']),
       code: serializer.fromJson<String>(json['code']),
       name: serializer.fromJson<String>(json['name']),
-      armyId: serializer.fromJson<int>(json['armyId']),
+      armyId: serializer.fromJson<String>(json['armyId']),
     );
   }
   @override
@@ -735,11 +746,11 @@ class Codexe extends DataClass implements Insertable<Codexe> {
       'id': serializer.toJson<String>(id),
       'code': serializer.toJson<String>(code),
       'name': serializer.toJson<String>(name),
-      'armyId': serializer.toJson<int>(armyId),
+      'armyId': serializer.toJson<String>(armyId),
     };
   }
 
-  Codexe copyWith({String? id, String? code, String? name, int? armyId}) =>
+  Codexe copyWith({String? id, String? code, String? name, String? armyId}) =>
       Codexe(
         id: id ?? this.id,
         code: code ?? this.code,
@@ -782,7 +793,7 @@ class CodexesCompanion extends UpdateCompanion<Codexe> {
   final Value<String> id;
   final Value<String> code;
   final Value<String> name;
-  final Value<int> armyId;
+  final Value<String> armyId;
   final Value<int> rowid;
   const CodexesCompanion({
     this.id = const Value.absent(),
@@ -795,7 +806,7 @@ class CodexesCompanion extends UpdateCompanion<Codexe> {
     required String id,
     required String code,
     required String name,
-    required int armyId,
+    required String armyId,
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        code = Value(code),
@@ -805,7 +816,7 @@ class CodexesCompanion extends UpdateCompanion<Codexe> {
     Expression<String>? id,
     Expression<String>? code,
     Expression<String>? name,
-    Expression<int>? armyId,
+    Expression<String>? armyId,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -821,7 +832,7 @@ class CodexesCompanion extends UpdateCompanion<Codexe> {
     Value<String>? id,
     Value<String>? code,
     Value<String>? name,
-    Value<int>? armyId,
+    Value<String>? armyId,
     Value<int>? rowid,
   }) {
     return CodexesCompanion(
@@ -846,7 +857,7 @@ class CodexesCompanion extends UpdateCompanion<Codexe> {
       map['name'] = Variable<String>(name.value);
     }
     if (armyId.present) {
-      map['army_id'] = Variable<int>(armyId.value);
+      map['army_id'] = Variable<String>(armyId.value);
     }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
@@ -1137,11 +1148,11 @@ class $UnitsTable extends Units with TableInfo<$UnitsTable, UnitRow> {
   );
   static const VerificationMeta _armyIdMeta = const VerificationMeta('armyId');
   @override
-  late final GeneratedColumn<int> armyId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> armyId = GeneratedColumn<String>(
     'army_id',
     aliasedName,
     false,
-    type: DriftSqlType.int,
+    type: DriftSqlType.string,
     requiredDuringInsert: true,
     defaultConstraints: GeneratedColumn.constraintIsAlways(
       'REFERENCES armies (id)',
@@ -1242,7 +1253,7 @@ class $UnitsTable extends Units with TableInfo<$UnitsTable, UnitRow> {
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => const {};
+  Set<GeneratedColumn> get $primaryKey => {id};
   @override
   UnitRow map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
@@ -1256,7 +1267,7 @@ class $UnitsTable extends Units with TableInfo<$UnitsTable, UnitRow> {
         data['${effectivePrefix}name'],
       )!,
       armyId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
+        DriftSqlType.string,
         data['${effectivePrefix}army_id'],
       )!,
       codexId: attachedDatabase.typeMapping.read(
@@ -1290,7 +1301,8 @@ class UnitRow extends DataClass implements Insertable<UnitRow> {
   final String name;
 
   /// Always required
-  final int armyId;
+  /// Changed to TextColumn to match Armies.id (UUID)
+  final String armyId;
 
   /// Nullable (orks, demons, etc.)
   final String? codexId;
@@ -1311,7 +1323,7 @@ class UnitRow extends DataClass implements Insertable<UnitRow> {
     final map = <String, Expression>{};
     map['id'] = Variable<String>(id);
     map['name'] = Variable<String>(name);
-    map['army_id'] = Variable<int>(armyId);
+    map['army_id'] = Variable<String>(armyId);
     if (!nullToAbsent || codexId != null) {
       map['codex_id'] = Variable<String>(codexId);
     }
@@ -1343,7 +1355,7 @@ class UnitRow extends DataClass implements Insertable<UnitRow> {
     return UnitRow(
       id: serializer.fromJson<String>(json['id']),
       name: serializer.fromJson<String>(json['name']),
-      armyId: serializer.fromJson<int>(json['armyId']),
+      armyId: serializer.fromJson<String>(json['armyId']),
       codexId: serializer.fromJson<String?>(json['codexId']),
       roleId: serializer.fromJson<int>(json['roleId']),
       stats: serializer.fromJson<UnitStats>(json['stats']),
@@ -1355,7 +1367,7 @@ class UnitRow extends DataClass implements Insertable<UnitRow> {
     return <String, dynamic>{
       'id': serializer.toJson<String>(id),
       'name': serializer.toJson<String>(name),
-      'armyId': serializer.toJson<int>(armyId),
+      'armyId': serializer.toJson<String>(armyId),
       'codexId': serializer.toJson<String?>(codexId),
       'roleId': serializer.toJson<int>(roleId),
       'stats': serializer.toJson<UnitStats>(stats),
@@ -1365,7 +1377,7 @@ class UnitRow extends DataClass implements Insertable<UnitRow> {
   UnitRow copyWith({
     String? id,
     String? name,
-    int? armyId,
+    String? armyId,
     Value<String?> codexId = const Value.absent(),
     int? roleId,
     UnitStats? stats,
@@ -1418,7 +1430,7 @@ class UnitRow extends DataClass implements Insertable<UnitRow> {
 class UnitsCompanion extends UpdateCompanion<UnitRow> {
   final Value<String> id;
   final Value<String> name;
-  final Value<int> armyId;
+  final Value<String> armyId;
   final Value<String?> codexId;
   final Value<int> roleId;
   final Value<UnitStats> stats;
@@ -1435,7 +1447,7 @@ class UnitsCompanion extends UpdateCompanion<UnitRow> {
   UnitsCompanion.insert({
     required String id,
     required String name,
-    required int armyId,
+    required String armyId,
     this.codexId = const Value.absent(),
     required int roleId,
     required UnitStats stats,
@@ -1448,7 +1460,7 @@ class UnitsCompanion extends UpdateCompanion<UnitRow> {
   static Insertable<UnitRow> custom({
     Expression<String>? id,
     Expression<String>? name,
-    Expression<int>? armyId,
+    Expression<String>? armyId,
     Expression<String>? codexId,
     Expression<int>? roleId,
     Expression<String>? stats,
@@ -1468,7 +1480,7 @@ class UnitsCompanion extends UpdateCompanion<UnitRow> {
   UnitsCompanion copyWith({
     Value<String>? id,
     Value<String>? name,
-    Value<int>? armyId,
+    Value<String>? armyId,
     Value<String?>? codexId,
     Value<int>? roleId,
     Value<UnitStats>? stats,
@@ -1495,7 +1507,7 @@ class UnitsCompanion extends UpdateCompanion<UnitRow> {
       map['name'] = Variable<String>(name.value);
     }
     if (armyId.present) {
-      map['army_id'] = Variable<int>(armyId.value);
+      map['army_id'] = Variable<String>(armyId.value);
     }
     if (codexId.present) {
       map['codex_id'] = Variable<String>(codexId.value);
@@ -1546,11 +1558,11 @@ class $DetachmentsTable extends Detachments
   );
   static const VerificationMeta _armyIdMeta = const VerificationMeta('armyId');
   @override
-  late final GeneratedColumn<int> armyId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> armyId = GeneratedColumn<String>(
     'army_id',
     aliasedName,
     false,
-    type: DriftSqlType.int,
+    type: DriftSqlType.string,
     requiredDuringInsert: true,
     defaultConstraints: GeneratedColumn.constraintIsAlways(
       'REFERENCES armies (id)',
@@ -1723,7 +1735,7 @@ class $DetachmentsTable extends Detachments
         data['${effectivePrefix}id'],
       )!,
       armyId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
+        DriftSqlType.string,
         data['${effectivePrefix}army_id'],
       )!,
       code: attachedDatabase.typeMapping.read(
@@ -1761,7 +1773,7 @@ class $DetachmentsTable extends Detachments
 
 class DetachmentRow extends DataClass implements Insertable<DetachmentRow> {
   final String id;
-  final int armyId;
+  final String armyId;
   final String code;
   final String name;
   final String description;
@@ -1782,7 +1794,7 @@ class DetachmentRow extends DataClass implements Insertable<DetachmentRow> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<String>(id);
-    map['army_id'] = Variable<int>(armyId);
+    map['army_id'] = Variable<String>(armyId);
     map['code'] = Variable<String>(code);
     map['name'] = Variable<String>(name);
     map['description'] = Variable<String>(description);
@@ -1812,7 +1824,7 @@ class DetachmentRow extends DataClass implements Insertable<DetachmentRow> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return DetachmentRow(
       id: serializer.fromJson<String>(json['id']),
-      armyId: serializer.fromJson<int>(json['armyId']),
+      armyId: serializer.fromJson<String>(json['armyId']),
       code: serializer.fromJson<String>(json['code']),
       name: serializer.fromJson<String>(json['name']),
       description: serializer.fromJson<String>(json['description']),
@@ -1826,7 +1838,7 @@ class DetachmentRow extends DataClass implements Insertable<DetachmentRow> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<String>(id),
-      'armyId': serializer.toJson<int>(armyId),
+      'armyId': serializer.toJson<String>(armyId),
       'code': serializer.toJson<String>(code),
       'name': serializer.toJson<String>(name),
       'description': serializer.toJson<String>(description),
@@ -1838,7 +1850,7 @@ class DetachmentRow extends DataClass implements Insertable<DetachmentRow> {
 
   DetachmentRow copyWith({
     String? id,
-    int? armyId,
+    String? armyId,
     String? code,
     String? name,
     String? description,
@@ -1912,7 +1924,7 @@ class DetachmentRow extends DataClass implements Insertable<DetachmentRow> {
 
 class DetachmentsCompanion extends UpdateCompanion<DetachmentRow> {
   final Value<String> id;
-  final Value<int> armyId;
+  final Value<String> armyId;
   final Value<String> code;
   final Value<String> name;
   final Value<String> description;
@@ -1933,7 +1945,7 @@ class DetachmentsCompanion extends UpdateCompanion<DetachmentRow> {
   });
   DetachmentsCompanion.insert({
     required String id,
-    required int armyId,
+    required String armyId,
     required String code,
     required String name,
     required String description,
@@ -1951,7 +1963,7 @@ class DetachmentsCompanion extends UpdateCompanion<DetachmentRow> {
        ruleFull = Value(ruleFull);
   static Insertable<DetachmentRow> custom({
     Expression<String>? id,
-    Expression<int>? armyId,
+    Expression<String>? armyId,
     Expression<String>? code,
     Expression<String>? name,
     Expression<String>? description,
@@ -1975,7 +1987,7 @@ class DetachmentsCompanion extends UpdateCompanion<DetachmentRow> {
 
   DetachmentsCompanion copyWith({
     Value<String>? id,
-    Value<int>? armyId,
+    Value<String>? armyId,
     Value<String>? code,
     Value<String>? name,
     Value<String>? description,
@@ -2004,7 +2016,7 @@ class DetachmentsCompanion extends UpdateCompanion<DetachmentRow> {
       map['id'] = Variable<String>(id.value);
     }
     if (armyId.present) {
-      map['army_id'] = Variable<int>(armyId.value);
+      map['army_id'] = Variable<String>(armyId.value);
     }
     if (code.present) {
       map['code'] = Variable<String>(code.value);
@@ -4084,11 +4096,11 @@ class $UserArmiesTable extends UserArmies
   );
   static const VerificationMeta _armyIdMeta = const VerificationMeta('armyId');
   @override
-  late final GeneratedColumn<int> armyId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> armyId = GeneratedColumn<String>(
     'army_id',
     aliasedName,
     false,
-    type: DriftSqlType.int,
+    type: DriftSqlType.string,
     requiredDuringInsert: true,
     defaultConstraints: GeneratedColumn.constraintIsAlways(
       'REFERENCES armies (id)',
@@ -4261,7 +4273,7 @@ class $UserArmiesTable extends UserArmies
         data['${effectivePrefix}name'],
       )!,
       armyId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
+        DriftSqlType.string,
         data['${effectivePrefix}army_id'],
       )!,
       codexId: attachedDatabase.typeMapping.read(
@@ -4296,7 +4308,7 @@ class $UserArmiesTable extends UserArmies
 class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
   final String id;
   final String name;
-  final int armyId;
+  final String armyId;
   final String codexId;
   final String detachmentId;
   final int totalPoints;
@@ -4317,7 +4329,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
     final map = <String, Expression>{};
     map['id'] = Variable<String>(id);
     map['name'] = Variable<String>(name);
-    map['army_id'] = Variable<int>(armyId);
+    map['army_id'] = Variable<String>(armyId);
     map['codex_id'] = Variable<String>(codexId);
     map['detachment_id'] = Variable<String>(detachmentId);
     map['total_points'] = Variable<int>(totalPoints);
@@ -4347,7 +4359,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
     return UserArmyRow(
       id: serializer.fromJson<String>(json['id']),
       name: serializer.fromJson<String>(json['name']),
-      armyId: serializer.fromJson<int>(json['armyId']),
+      armyId: serializer.fromJson<String>(json['armyId']),
       codexId: serializer.fromJson<String>(json['codexId']),
       detachmentId: serializer.fromJson<String>(json['detachmentId']),
       totalPoints: serializer.fromJson<int>(json['totalPoints']),
@@ -4361,7 +4373,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
     return <String, dynamic>{
       'id': serializer.toJson<String>(id),
       'name': serializer.toJson<String>(name),
-      'armyId': serializer.toJson<int>(armyId),
+      'armyId': serializer.toJson<String>(armyId),
       'codexId': serializer.toJson<String>(codexId),
       'detachmentId': serializer.toJson<String>(detachmentId),
       'totalPoints': serializer.toJson<int>(totalPoints),
@@ -4373,7 +4385,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
   UserArmyRow copyWith({
     String? id,
     String? name,
-    int? armyId,
+    String? armyId,
     String? codexId,
     String? detachmentId,
     int? totalPoints,
@@ -4449,7 +4461,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
 class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
   final Value<String> id;
   final Value<String> name;
-  final Value<int> armyId;
+  final Value<String> armyId;
   final Value<String> codexId;
   final Value<String> detachmentId;
   final Value<int> totalPoints;
@@ -4470,7 +4482,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
   UserArmiesCompanion.insert({
     required String id,
     required String name,
-    required int armyId,
+    required String armyId,
     required String codexId,
     required String detachmentId,
     this.totalPoints = const Value.absent(),
@@ -4486,7 +4498,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
   static Insertable<UserArmyRow> custom({
     Expression<String>? id,
     Expression<String>? name,
-    Expression<int>? armyId,
+    Expression<String>? armyId,
     Expression<String>? codexId,
     Expression<String>? detachmentId,
     Expression<int>? totalPoints,
@@ -4510,7 +4522,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
   UserArmiesCompanion copyWith({
     Value<String>? id,
     Value<String>? name,
-    Value<int>? armyId,
+    Value<String>? armyId,
     Value<String>? codexId,
     Value<String>? detachmentId,
     Value<int>? totalPoints,
@@ -4541,7 +4553,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
       map['name'] = Variable<String>(name.value);
     }
     if (armyId.present) {
-      map['army_id'] = Variable<int>(armyId.value);
+      map['army_id'] = Variable<String>(armyId.value);
     }
     if (codexId.present) {
       map['codex_id'] = Variable<String>(codexId.value);
@@ -5613,17 +5625,19 @@ typedef $$FactionsTableProcessedTableManager =
     >;
 typedef $$ArmiesTableCreateCompanionBuilder =
     ArmiesCompanion Function({
-      Value<int> id,
+      required String id,
       required String armyCode,
       required String name,
       required int factionId,
+      Value<int> rowid,
     });
 typedef $$ArmiesTableUpdateCompanionBuilder =
     ArmiesCompanion Function({
-      Value<int> id,
+      Value<String> id,
       Value<String> armyCode,
       Value<String> name,
       Value<int> factionId,
+      Value<int> rowid,
     });
 
 final class $$ArmiesTableReferences
@@ -5658,7 +5672,7 @@ final class $$ArmiesTableReferences
     final manager = $$CodexesTableTableManager(
       $_db,
       $_db.codexes,
-    ).filter((f) => f.armyId.id.sqlEquals($_itemColumn<int>('id')!));
+    ).filter((f) => f.armyId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_codexesRefsTable($_db));
     return ProcessedTableManager(
@@ -5677,7 +5691,7 @@ final class $$ArmiesTableReferences
     final manager = $$UnitsTableTableManager(
       $_db,
       $_db.units,
-    ).filter((f) => f.armyId.id.sqlEquals($_itemColumn<int>('id')!));
+    ).filter((f) => f.armyId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_unitsRefsTable($_db));
     return ProcessedTableManager(
@@ -5695,7 +5709,7 @@ final class $$ArmiesTableReferences
     final manager = $$DetachmentsTableTableManager(
       $_db,
       $_db.detachments,
-    ).filter((f) => f.armyId.id.sqlEquals($_itemColumn<int>('id')!));
+    ).filter((f) => f.armyId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_detachmentsRefsTable($_db));
     return ProcessedTableManager(
@@ -5713,7 +5727,7 @@ final class $$ArmiesTableReferences
     final manager = $$UserArmiesTableTableManager(
       $_db,
       $_db.userArmies,
-    ).filter((f) => f.armyId.id.sqlEquals($_itemColumn<int>('id')!));
+    ).filter((f) => f.armyId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_userArmiesRefsTable($_db));
     return ProcessedTableManager(
@@ -5731,7 +5745,7 @@ class $$ArmiesTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<int> get id => $composableBuilder(
+  ColumnFilters<String> get id => $composableBuilder(
     column: $table.id,
     builder: (column) => ColumnFilters(column),
   );
@@ -5879,7 +5893,7 @@ class $$ArmiesTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<int> get id => $composableBuilder(
+  ColumnOrderings<String> get id => $composableBuilder(
     column: $table.id,
     builder: (column) => ColumnOrderings(column),
   );
@@ -5927,7 +5941,7 @@ class $$ArmiesTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<int> get id =>
+  GeneratedColumn<String> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
   GeneratedColumn<String> get armyCode =>
@@ -6094,27 +6108,31 @@ class $$ArmiesTableTableManager
               $$ArmiesTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
               ({
-                Value<int> id = const Value.absent(),
+                Value<String> id = const Value.absent(),
                 Value<String> armyCode = const Value.absent(),
                 Value<String> name = const Value.absent(),
                 Value<int> factionId = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
               }) => ArmiesCompanion(
                 id: id,
                 armyCode: armyCode,
                 name: name,
                 factionId: factionId,
+                rowid: rowid,
               ),
           createCompanionCallback:
               ({
-                Value<int> id = const Value.absent(),
+                required String id,
                 required String armyCode,
                 required String name,
                 required int factionId,
+                Value<int> rowid = const Value.absent(),
               }) => ArmiesCompanion.insert(
                 id: id,
                 armyCode: armyCode,
                 name: name,
                 factionId: factionId,
+                rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -6277,7 +6295,7 @@ typedef $$CodexesTableCreateCompanionBuilder =
       required String id,
       required String code,
       required String name,
-      required int armyId,
+      required String armyId,
       Value<int> rowid,
     });
 typedef $$CodexesTableUpdateCompanionBuilder =
@@ -6285,7 +6303,7 @@ typedef $$CodexesTableUpdateCompanionBuilder =
       Value<String> id,
       Value<String> code,
       Value<String> name,
-      Value<int> armyId,
+      Value<String> armyId,
       Value<int> rowid,
     });
 
@@ -6298,7 +6316,7 @@ final class $$CodexesTableReferences
   );
 
   $$ArmiesTableProcessedTableManager get armyId {
-    final $_column = $_itemColumn<int>('army_id')!;
+    final $_column = $_itemColumn<String>('army_id')!;
 
     final manager = $$ArmiesTableTableManager(
       $_db,
@@ -6762,7 +6780,7 @@ class $$CodexesTableTableManager
                 Value<String> id = const Value.absent(),
                 Value<String> code = const Value.absent(),
                 Value<String> name = const Value.absent(),
-                Value<int> armyId = const Value.absent(),
+                Value<String> armyId = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => CodexesCompanion(
                 id: id,
@@ -6776,7 +6794,7 @@ class $$CodexesTableTableManager
                 required String id,
                 required String code,
                 required String name,
-                required int armyId,
+                required String armyId,
                 Value<int> rowid = const Value.absent(),
               }) => CodexesCompanion.insert(
                 id: id,
@@ -7194,7 +7212,7 @@ typedef $$UnitsTableCreateCompanionBuilder =
     UnitsCompanion Function({
       required String id,
       required String name,
-      required int armyId,
+      required String armyId,
       Value<String?> codexId,
       required int roleId,
       required UnitStats stats,
@@ -7204,7 +7222,7 @@ typedef $$UnitsTableUpdateCompanionBuilder =
     UnitsCompanion Function({
       Value<String> id,
       Value<String> name,
-      Value<int> armyId,
+      Value<String> armyId,
       Value<String?> codexId,
       Value<int> roleId,
       Value<UnitStats> stats,
@@ -7220,7 +7238,7 @@ final class $$UnitsTableReferences
   );
 
   $$ArmiesTableProcessedTableManager get armyId {
-    final $_column = $_itemColumn<int>('army_id')!;
+    final $_column = $_itemColumn<String>('army_id')!;
 
     final manager = $$ArmiesTableTableManager(
       $_db,
@@ -7574,7 +7592,7 @@ class $$UnitsTableTableManager
               ({
                 Value<String> id = const Value.absent(),
                 Value<String> name = const Value.absent(),
-                Value<int> armyId = const Value.absent(),
+                Value<String> armyId = const Value.absent(),
                 Value<String?> codexId = const Value.absent(),
                 Value<int> roleId = const Value.absent(),
                 Value<UnitStats> stats = const Value.absent(),
@@ -7592,7 +7610,7 @@ class $$UnitsTableTableManager
               ({
                 required String id,
                 required String name,
-                required int armyId,
+                required String armyId,
                 Value<String?> codexId = const Value.absent(),
                 required int roleId,
                 required UnitStats stats,
@@ -7701,7 +7719,7 @@ typedef $$UnitsTableProcessedTableManager =
 typedef $$DetachmentsTableCreateCompanionBuilder =
     DetachmentsCompanion Function({
       required String id,
-      required int armyId,
+      required String armyId,
       required String code,
       required String name,
       required String description,
@@ -7713,7 +7731,7 @@ typedef $$DetachmentsTableCreateCompanionBuilder =
 typedef $$DetachmentsTableUpdateCompanionBuilder =
     DetachmentsCompanion Function({
       Value<String> id,
-      Value<int> armyId,
+      Value<String> armyId,
       Value<String> code,
       Value<String> name,
       Value<String> description,
@@ -7732,7 +7750,7 @@ final class $$DetachmentsTableReferences
   );
 
   $$ArmiesTableProcessedTableManager get armyId {
-    final $_column = $_itemColumn<int>('army_id')!;
+    final $_column = $_itemColumn<String>('army_id')!;
 
     final manager = $$ArmiesTableTableManager(
       $_db,
@@ -8259,7 +8277,7 @@ class $$DetachmentsTableTableManager
           updateCompanionCallback:
               ({
                 Value<String> id = const Value.absent(),
-                Value<int> armyId = const Value.absent(),
+                Value<String> armyId = const Value.absent(),
                 Value<String> code = const Value.absent(),
                 Value<String> name = const Value.absent(),
                 Value<String> description = const Value.absent(),
@@ -8281,7 +8299,7 @@ class $$DetachmentsTableTableManager
           createCompanionCallback:
               ({
                 required String id,
-                required int armyId,
+                required String armyId,
                 required String code,
                 required String name,
                 required String description,
@@ -10102,7 +10120,7 @@ typedef $$UserArmiesTableCreateCompanionBuilder =
     UserArmiesCompanion Function({
       required String id,
       required String name,
-      required int armyId,
+      required String armyId,
       required String codexId,
       required String detachmentId,
       Value<int> totalPoints,
@@ -10114,7 +10132,7 @@ typedef $$UserArmiesTableUpdateCompanionBuilder =
     UserArmiesCompanion Function({
       Value<String> id,
       Value<String> name,
-      Value<int> armyId,
+      Value<String> armyId,
       Value<String> codexId,
       Value<String> detachmentId,
       Value<int> totalPoints,
@@ -10132,7 +10150,7 @@ final class $$UserArmiesTableReferences
   );
 
   $$ArmiesTableProcessedTableManager get armyId {
-    final $_column = $_itemColumn<int>('army_id')!;
+    final $_column = $_itemColumn<String>('army_id')!;
 
     final manager = $$ArmiesTableTableManager(
       $_db,
@@ -10516,7 +10534,7 @@ class $$UserArmiesTableTableManager
               ({
                 Value<String> id = const Value.absent(),
                 Value<String> name = const Value.absent(),
-                Value<int> armyId = const Value.absent(),
+                Value<String> armyId = const Value.absent(),
                 Value<String> codexId = const Value.absent(),
                 Value<String> detachmentId = const Value.absent(),
                 Value<int> totalPoints = const Value.absent(),
@@ -10538,7 +10556,7 @@ class $$UserArmiesTableTableManager
               ({
                 required String id,
                 required String name,
-                required int armyId,
+                required String armyId,
                 required String codexId,
                 required String detachmentId,
                 Value<int> totalPoints = const Value.absent(),

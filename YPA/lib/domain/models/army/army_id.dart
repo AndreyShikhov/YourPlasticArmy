@@ -1,12 +1,29 @@
+import 'package:uuid/uuid.dart';
+
 class ArmyId {
-  final int value;
+  final String value;
 
   ArmyId._(this.value);
 
-  factory ArmyId.fromInt(int value) {
-    if (value <= 0) {
-      throw ArgumentError('ArmyId must be positive');
+  factory ArmyId.generate() {
+    return ArmyId._(const Uuid().v4());
+  }
+
+  factory ArmyId.fromString(String value) {
+    if (value.isEmpty) {
+      throw ArgumentError('ArmyId cannot be empty');
     }
     return ArmyId._(value);
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ArmyId && runtimeType == other.runtimeType && value == other.value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }

@@ -11,7 +11,7 @@ class UserArmyMapper {
       id: row.id,
       name: row.name,
       codexId: CodexId.fromString(row.codexId),
-      armyId: ArmyId.fromInt(row.armyId),
+      armyId: ArmyId.fromString(row.armyId),
       detachmentId: row.detachmentId,
       totalPoints: row.totalPoints,
       jsonData: row.jsonData,

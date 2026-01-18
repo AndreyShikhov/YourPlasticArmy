@@ -15,27 +15,27 @@ import 'seed_core_unit_abilities.dart';
 import 'seed_faction_unit_abilities.dart';
 
 Future<void> seedAllData(AppDatabase db) async {
-  // 1. Базовые сущности
+ // 1. Базовые сущности
   final factionIds     = await seedFactions(db);
   final armyIds        = await seedArmies(db, factionIds);
   final codexIds       = await seedCodexes(db, armyIds);
   final roleIds        = await seedRole(db);
-  
+
   // 2. Детачменты и связи
   final detachmentIds = await seedDetachments(db, armyIds);
   await seedCodexDetachments(db, detachmentIds, codexIds);
-  
+
   // 3. Дополнения и правила
   await seedEnhancements(db, detachmentIds);
   await seedStratagems(db, codexIds, detachmentIds);
-  
+
   // 4. Способности
   await seedAllWeaponAbilities(db);
   await seedAllUnitAbilities(db);
   await seedAllCoreUnitAbilities(db);
   await seedAllFactionUnitAbilities(db);
-  
-  
+
+
   // 5. Юниты
   await seedUnits(db, armyIds, codexIds, roleIds);
 }

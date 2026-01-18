@@ -13,8 +13,9 @@ class Units extends Table {
   TextColumn get name => text().withLength(min: 1)();
 
   /// Always required
-  IntColumn get armyId =>
-      integer().references(Armies, #id)();
+  /// Changed to TextColumn to match Armies.id (UUID)
+  TextColumn get armyId =>
+      text().references(Armies, #id)();
 
   /// Nullable (orks, demons, etc.)
   TextColumn get codexId =>
@@ -25,4 +26,7 @@ class Units extends Table {
       
   /// Stats stored as JSON
   TextColumn get stats => text().map(const UnitStatsConverter())();
+
+  @override
+  Set<Column> get primaryKey => {id};
 }

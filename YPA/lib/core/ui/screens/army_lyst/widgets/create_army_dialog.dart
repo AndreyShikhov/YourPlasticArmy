@@ -18,7 +18,7 @@ class _CreateArmyDialogState extends ConsumerState<CreateArmyDialog> {
   final TextEditingController nameController = TextEditingController();
   String? selectedFactionId;
   String? selectedArmyName;
-  int      selectedArmyId = 0;
+  String    selectedArmyId = '';
   String? selectedCodexId;
   
   // Генерируем имя один раз при создании стейта

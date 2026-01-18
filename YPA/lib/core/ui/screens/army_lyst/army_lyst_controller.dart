@@ -58,11 +58,11 @@ class ArmyLystController extends StateNotifier<ArmyLystState> {
     }
   }
 
-  Future<void> createArmy({required String name, required int armyId, required String codexIdRaw}) async {
+  Future<void> createArmy({required String name, required String armyId, required String codexIdRaw}) async {
     state = state.copyWith(isLoading: true);
     try {
 
-      await _createUserArmy(name: name, armyId: ArmyId.fromInt(armyId), codexId: CodexId.fromString(codexIdRaw));
+      await _createUserArmy(name: name, armyId: ArmyId.fromString(armyId), codexId: CodexId.fromString(codexIdRaw));
       await loadArmies(); 
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());

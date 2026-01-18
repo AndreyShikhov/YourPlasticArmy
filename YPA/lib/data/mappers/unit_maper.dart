@@ -10,7 +10,7 @@ class UnitMapper {
     return UnitDOM.restore(
       id: UnitId.fromString(row.id.toString()),
       name: UnitName(row.name),
-      armyId: ArmyId.fromInt(row.armyId -1),
+      armyId: ArmyId.fromString(row.armyId),
       codexId: row.codexId != null ? CodexId.fromString(row.codexId!) : null,
       role: UnitRoleCodeDom.fromInt(row.roleId-1),
       stats: row.stats,
@@ -22,7 +22,7 @@ class UnitMapper {
     return UnitsCompanion(
       id: Value(unit.id.value),
       name: Value(unit.name.value),
-      armyId: Value(unit.armyId.value + 1),
+      armyId: Value(unit.armyId.value ),
       codexId: unit.codexId != null ? Value(unit.codexId!.value) : const Value.absent(),
       roleId: Value(unit.role.toInt() + 1),
       stats: Value(unit.stats),

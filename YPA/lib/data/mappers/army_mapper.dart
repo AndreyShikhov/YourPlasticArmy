@@ -8,7 +8,7 @@ import '../../domain/models/faction/faction.dart';
 class ArmyMapper {
   static ArmyDOM fromRow(Army row) {
     return ArmyDOM.restore(
-      id: ArmyId.fromInt(row.id),
+      id: ArmyId.fromString(row.id),
       code: ArmyCode(row.armyCode),
       name: ArmyName(row.name),
       factionId: FactionId.fromInt(row.factionId),
@@ -17,7 +17,7 @@ class ArmyMapper {
 
   static ArmiesCompanion toCompanion(ArmyDOM army) {
     return ArmiesCompanion(
-      id: army.id.value == 0 ? const Value.absent() : Value(army.id.value),
+      id: Value(army.id.value),
       armyCode: Value(army.code.value),
       name: Value(army.name.value),
       factionId: Value(army.factionId.value),
