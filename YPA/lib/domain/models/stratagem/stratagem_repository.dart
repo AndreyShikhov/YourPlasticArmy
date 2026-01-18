@@ -4,10 +4,10 @@ import '../codex/codex_id.dart';
 import '../detachment/detachment_id.dart';
 
 abstract class StratagemRepository {
-  Future<void> save(StratagemDOM stratagem);
-  Future<StratagemDOM?> findById(StratagemId id);
-  Future<List<StratagemDOM>> findAll();
-  Future<List<StratagemDOM>> findByCodex(CodexId codexId);
-  Future<List<StratagemDOM>> findByDetachment(DetachmentId detachmentId);
-  Future<void> delete(StratagemId id);
+  Future<void> saveStratagem(StratagemDOM stratagem);
+  Future<StratagemDOM?> findStratagemsById(StratagemId id);
+  Future<List<StratagemDOM>> findAllStratagem();
+  Future<List<StratagemDOM>> findStratagemsByCodex(CodexId codexId);
+  Future<List<StratagemDOM>> findStratagemsByDetachment(DetachmentId detachmentId);
+  Future<void> deleteStratagem(StratagemId id);
 }

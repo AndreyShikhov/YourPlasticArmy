@@ -11,37 +11,37 @@ class DriftStratagemRepository implements StratagemRepository {
   DriftStratagemRepository(this.db);
 
   @override
-  Future<void> delete(StratagemId id) async {
+  Future<void> deleteStratagem(StratagemId id) async {
     // Использован правильный геттер stratagems
     await (db.delete(db.stratagems)..where((tbl) => tbl.id.equals(id.value))).go();
   }
 
   @override
-  Future<List<StratagemDOM>> findAll() async {
+  Future<List<StratagemDOM>> findAllStratagem() async {
     final rows = await db.select(db.stratagems).get();
     return rows.map(StratagemMapper.fromRow).toList();
   }
 
   @override
-  Future<List<StratagemDOM>> findByCodex(CodexId codexId) async {
+  Future<List<StratagemDOM>> findStratagemsByCodex(CodexId codexId) async {
     final rows = await (db.select(db.stratagems)..where((tbl) => tbl.codexId.equals(codexId.value))).get();
     return rows.map(StratagemMapper.fromRow).toList();
   }
 
   @override
-  Future<List<StratagemDOM>> findByDetachment(DetachmentId detachmentId) async {
+  Future<List<StratagemDOM>> findStratagemsByDetachment(DetachmentId detachmentId) async {
     final rows = await (db.select(db.stratagems)..where((tbl) => tbl.detachmentId.equals(detachmentId.value))).get();
     return rows.map(StratagemMapper.fromRow).toList();
   }
 
   @override
-  Future<StratagemDOM?> findById(StratagemId id) async {
+  Future<StratagemDOM?> findStratagemsById(StratagemId id) async {
     final row = await (db.select(db.stratagems)..where((tbl) => tbl.id.equals(id.value))).getSingleOrNull();
     return row != null ? StratagemMapper.fromRow(row) : null;
   }
 
   @override
-  Future<void> save(StratagemDOM stratagem) async {
+  Future<void> saveStratagem(StratagemDOM stratagem) async {
     // Использован метод insertOnConflictUpdate для сохранения и обновления
     await db.into(db.stratagems).insertOnConflictUpdate(StratagemMapper.toCompanion(stratagem));
   }

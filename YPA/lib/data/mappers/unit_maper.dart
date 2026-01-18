@@ -13,6 +13,7 @@ class UnitMapper {
       armyId: ArmyId.fromInt(row.armyId),
       codexId: row.codexId != null ? CodexId.fromString(row.codexId!) : null,
       role: UnitRoleCodeDom.fromInt(row.roleId),
+      stats: row.stats,
     );
   }
 
@@ -24,6 +25,7 @@ class UnitMapper {
       armyId: Value(unit.armyId.value),
       codexId: unit.codexId != null ? Value(unit.codexId!.value) : const Value.absent(),
       roleId: Value(unit.role.toInt()),
+      stats: Value(unit.stats),
     );
   }
 }

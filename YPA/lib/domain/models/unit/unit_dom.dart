@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:uuid/uuid.dart';
 import 'package:ypa/domain/models/unit/unit.dart';
+import 'package:ypa/domain/models/unit/unit_stats.dart';
 import '../army/army.dart';
 import '../codex/codex.dart';
 
@@ -12,6 +13,7 @@ class UnitDOM {
   final ArmyId armyId;
   final CodexId? codexId;
   final UnitRoleCodeDom role;
+  final UnitStats stats;
 
   const UnitDOM._({
     required this.id,
@@ -19,6 +21,7 @@ class UnitDOM {
     required this.armyId,
     required this.codexId,
     required this.role,
+    required this.stats,
   });
 
   factory UnitDOM.restore({
@@ -27,6 +30,7 @@ class UnitDOM {
     required ArmyId armyId,
     required CodexId? codexId,
     required UnitRoleCodeDom role,
+    required UnitStats stats,
   }) {
     return UnitDOM._(
       id: id,
@@ -34,6 +38,7 @@ class UnitDOM {
       armyId: armyId,
       codexId: codexId,
       role: role,
+      stats: stats,
     );
   }
 
@@ -43,13 +48,16 @@ class UnitDOM {
     required ArmyId armyId,
     required CodexId? codexId,
     required UnitRoleCodeDom role,
+    required UnitStats stats,
   }){
     return UnitDOM._(
         id: UnitId.fromString(Uuid().v4()),
         name: name,
         armyId: armyId,
         codexId: codexId,
-        role: role);
+        role: role,
+        stats: stats,
+    );
   }
 
 
@@ -58,6 +66,7 @@ class UnitDOM {
     ArmyId? armyId,
     Object? codexId = const _Sentinel(),
     UnitRoleCodeDom? role,
+    UnitStats? stats,
   }) {
     return UnitDOM._(
       id: this.id,
@@ -67,6 +76,7 @@ class UnitDOM {
           ? this.codexId
           : (codexId as CodexId?),
       role: role ?? this.role,
+      stats: stats ?? this.stats,
     );
   }
 

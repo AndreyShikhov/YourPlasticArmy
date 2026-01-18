@@ -7,6 +7,6 @@ class GetStratagemsByDetachment {
   GetStratagemsByDetachment(this.repository);
 
   Future<List<StratagemDOM>> call(DetachmentId detachmentId) async {
-    return await repository.findByDetachment(detachmentId);
+    return await repository.findStratagemsByDetachment(detachmentId);
   }
 }

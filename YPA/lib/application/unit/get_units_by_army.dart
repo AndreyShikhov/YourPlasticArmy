@@ -2,9 +2,6 @@ import '../../domain/models/army/army.dart';
 import '../../domain/models/unit/unit.dart';
 
 
-
-
-
 class GetUnitsByArmy {
   final UnitRepository repository;
 

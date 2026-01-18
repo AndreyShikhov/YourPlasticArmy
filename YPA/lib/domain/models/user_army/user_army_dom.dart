@@ -1,9 +1,11 @@
+import 'package:ypa/domain/models/army/army.dart';
 import 'package:ypa/domain/models/codex/codex_id.dart';
 import 'package:ypa/domain/models/detachment/detachment.dart';
 
 class UserArmyDOM {
   final String id;
   final String name;
+  final ArmyId armyId;
   final CodexId codexId;
   final String? detachmentId;
   final DetachmentDOM? detachment;
@@ -14,6 +16,7 @@ class UserArmyDOM {
   const UserArmyDOM({
     required this.id,
     required this.name,
+    required this.armyId,
     required this.codexId,
     this.detachmentId,
     this.detachment,
@@ -25,6 +28,7 @@ class UserArmyDOM {
   UserArmyDOM copyWith({
     String? name,
     int? totalPoints,
+    ArmyId? armyId,
     String? detachmentId,
     DetachmentDOM? detachment,
     String? jsonData,
@@ -32,6 +36,7 @@ class UserArmyDOM {
     return UserArmyDOM(
       id: this.id,
       name: name ?? this.name,
+      armyId: this.armyId,
       codexId: this.codexId,
       detachmentId: detachmentId ?? this.detachmentId,
       detachment: detachment?? this.detachment,

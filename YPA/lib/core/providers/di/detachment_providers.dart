@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/application/enhancement/get_enhancements_by_detachment.dart';
 import 'package:ypa/application/strategem/get_stratagems_by_detachment.dart';
 import 'package:ypa/core/database/database_providers.dart';
+import 'package:ypa/core/providers/di/di_providers.dart';
 import 'package:ypa/data/repositories/drift_detachment_repository.dart';
 import 'package:ypa/data/repositories/drift_enhancement_repository.dart';
 import 'package:ypa/data/repositories/drift_stratagem_repository.dart';
@@ -14,6 +15,7 @@ import 'package:ypa/domain/models/stratagem/stratagem_dom.dart';
 import 'package:ypa/domain/models/stratagem/stratagem_repository.dart';
 
 import '../../../application/detachment/detachments_use_cases.dart';
+import '../../../application/unit/unt_use_case.dart';
 
 // --- REPOSITORIES ---
 

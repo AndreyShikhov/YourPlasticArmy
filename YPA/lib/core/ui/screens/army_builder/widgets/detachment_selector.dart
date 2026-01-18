@@ -29,9 +29,7 @@ class DetachmentSelector extends ConsumerWidget {
       items: _buildDropdownItems(state),
       onChanged: (newValue) {
         if (newValue != null) {
-          ref
-              .read(armyBuilderControllerProvider(armyId).notifier)
-              .updateDetachment(newValue);
+          ref.read(armyBuilderControllerProvider(armyId).notifier).updateDetachment(newValue);
         }
       },
     );

@@ -3,6 +3,7 @@ import 'package:ypa/domain/models/unit/unit.dart';
 
 import '../../domain/models/army/army.dart';
 import '../../domain/models/codex/codex.dart';
+import '../../domain/models/unit/unit_stats.dart';
 
 class CreateUnit {
 
@@ -15,13 +16,15 @@ class CreateUnit {
     required ArmyId armyId,
     required CodexId? codexId,
     required UnitRoleCodeDom role,
+    required UnitStats stats,
   }) async
   {
     final unit = UnitDOM.create(
       name: name,
       armyId: armyId,
       codexId: codexId,
-      role: role
+      role: role,
+      stats: stats,
     );
     await repository.save(unit);
   }

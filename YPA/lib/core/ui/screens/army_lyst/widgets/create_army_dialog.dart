@@ -17,7 +17,8 @@ class CreateArmyDialog extends ConsumerStatefulWidget {
 class _CreateArmyDialogState extends ConsumerState<CreateArmyDialog> {
   final TextEditingController nameController = TextEditingController();
   String? selectedFactionId;
-  String? selectedArmyId;
+  String? selectedArmyName;
+  int      selectedArmyId = 0;
   String? selectedCodexId;
   
   // Генерируем имя один раз при создании стейта
@@ -40,12 +41,9 @@ class _CreateArmyDialogState extends ConsumerState<CreateArmyDialog> {
   @override
   Widget build(BuildContext context) {
     final allFactionsAsync = ref.watch(factionsListProvider);
-    final allArmiesAsync = selectedFactionId != null
-        ? ref.watch(armiesByFactionProvider(selectedFactionId!))
-        : null;
-    final allCodexsAsync = selectedArmyId != null
-        ? ref.watch(codexesByArmyProvider(selectedArmyId!))
-        : null;
+    final allArmiesAsync = selectedFactionId != null ? ref.watch(armiesByFactionProvider(selectedFactionId!)) : null;
+    final allCodexsAsync = selectedArmyName != null ? ref.watch(codexesByArmyProvider(selectedArmyName!)) : null;
+
 
     return AlertDialog(
       title: const Text('Create New Army'),
@@ -72,7 +70,7 @@ class _CreateArmyDialogState extends ConsumerState<CreateArmyDialog> {
                     onChanged: (value) {
                       setState(() {
                         selectedFactionId = value;
-                        selectedArmyId = null;
+                        selectedArmyName = null;
                         selectedCodexId = null;
                         currentCodexes = [];
                       });
@@ -87,13 +85,14 @@ class _CreateArmyDialogState extends ConsumerState<CreateArmyDialog> {
               allArmiesAsync.when(
                 data: (armies) => DropdownButtonFormField<String>(
                     decoration: const InputDecoration(labelText: 'Select Army'),
-                    value: selectedArmyId,
+                    value: selectedArmyName,
                     items: armies.map((a) => DropdownMenuItem(value: a.id.value.toString(), child: Text(a.name.value))).toList(),
                     onChanged: (value) {
                       setState(() {
-                        selectedArmyId = value;
+                        selectedArmyName = value;
                         selectedCodexId = null;
                         currentCodexes = [];
+                        selectedArmyId = allArmiesAsync.value!.where((a) => a.id.value.toString() == value).first.id.value;
                       });
                     }),
                 error: (e, __) => Text('Error: $e'),
@@ -103,7 +102,7 @@ class _CreateArmyDialogState extends ConsumerState<CreateArmyDialog> {
             const SizedBox(height: 10),
 
             // 3. Codex
-            if (selectedArmyId != null && allCodexsAsync != null)
+            if (selectedArmyName != null && allCodexsAsync != null)
               allCodexsAsync.when(
                   data: (codexs) {
                     currentCodexes = codexs;
@@ -133,7 +132,7 @@ class _CreateArmyDialogState extends ConsumerState<CreateArmyDialog> {
 
   bool _canCreate() {
     // Теперь можно создать, если выбрана армия (имя возьмем автогенерируемое, если пусто)
-    return selectedArmyId != null;
+    return selectedArmyName != null;
   }
 
   void _onCreate() async {
@@ -145,11 +144,9 @@ class _CreateArmyDialogState extends ConsumerState<CreateArmyDialog> {
 
     final finalCodexId = selectedCodexId ?? (currentCodexes.length == 1 ? currentCodexes.first.id.value.toString() : null);
 
-    if (finalCodexId != null) {
-      await ref.read(armyLystControllerProvider.notifier).createArmy(
-        name: name,
-        codexIdRaw: finalCodexId,
-      );
+
+    if (finalCodexId != null ) {
+      await ref.read(armyLystControllerProvider.notifier).createArmy(name: name, armyId: selectedArmyId, codexIdRaw: finalCodexId,);
       if (mounted) Navigator.of(context).pop();
     }
   }

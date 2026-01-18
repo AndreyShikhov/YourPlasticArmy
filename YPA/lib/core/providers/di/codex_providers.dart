@@ -3,12 +3,14 @@ import 'package:ypa/application/codex/get_all_codexes.dart';
 import 'package:ypa/application/codex/get_codex_by_id.dart';
 import 'package:ypa/application/codex/get_codexes_by_army.dart';
 import 'package:ypa/core/database/database_providers.dart';
+import 'package:ypa/core/providers/di/di_providers.dart';
 import 'package:ypa/data/repositories/drift_codex_repository.dart';
 import 'package:ypa/domain/models/army/army_id.dart';
 import 'package:ypa/domain/models/codex/codex_dom.dart';
 import 'package:ypa/domain/models/codex/codex_repository.dart';
 
 import '../../../application/detachment/detachments_use_cases.dart';
+import '../../../application/unit/unt_use_case.dart';
 
 // --- REPOSITORIES ---
 
@@ -33,6 +35,14 @@ final getCodexByIdUseCaseProvider = Provider<GetCodexById>((ref) {
   final repository = ref.watch(codexRepositoryProvider);
   return GetCodexById(repository);
 });
+
+final getAllUnitsByCodexIdUseCaseProvider = Provider<GetAllUnitsByCodexId>((ref) {
+  final repository = ref.watch(unitRepositoryProvider);
+  return  GetAllUnitsByCodexId(repository);
+});
+
+
+
 
 // --- UI STATE ---
 

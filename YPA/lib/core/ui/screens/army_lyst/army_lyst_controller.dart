@@ -1,3 +1,4 @@
+import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/application/codex/get_codex_by_id.dart';
 import 'package:ypa/application/user_army/create_user_army.dart';
@@ -7,6 +8,7 @@ import 'package:ypa/core/providers/di/codex_providers.dart';
 import 'package:ypa/core/providers/di/user_army_providers.dart';
 import 'package:ypa/core/ui/screens/army_lyst/army_list_item_ui.dart';
 import 'package:ypa/core/ui/screens/army_lyst/army_lyst_state.dart';
+import 'package:ypa/domain/models/army/army.dart';
 import 'package:ypa/domain/models/codex/codex_id.dart';
 
 final armyLystControllerProvider = StateNotifierProvider<ArmyLystController, ArmyLystState>((ref) {
@@ -56,11 +58,11 @@ class ArmyLystController extends StateNotifier<ArmyLystState> {
     }
   }
 
-  Future<void> createArmy({required String name, required String codexIdRaw}) async {
+  Future<void> createArmy({required String name, required int armyId, required String codexIdRaw}) async {
     state = state.copyWith(isLoading: true);
     try {
-      final codexId = CodexId.fromString(codexIdRaw);
-      await _createUserArmy(name: name, codexId: codexId);
+
+      await _createUserArmy(name: name, armyId: ArmyId.fromInt(armyId), codexId: CodexId.fromString(codexIdRaw));
       await loadArmies(); 
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());

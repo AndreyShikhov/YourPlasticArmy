@@ -7,6 +7,6 @@ class GetStratagemsByCodex {
   GetStratagemsByCodex(this.repository);
 
   Future<List<StratagemDOM>> call(CodexId codexId) async {
-    return await repository.findByCodex(codexId);
+    return await repository.findStratagemsByCodex(codexId);
   }
 }

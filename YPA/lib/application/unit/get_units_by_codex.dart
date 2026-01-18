@@ -1,0 +1,14 @@
+import 'package:ypa/domain/models/codex/codex.dart';
+
+import '../../domain/models/unit/unit.dart';
+
+class GetAllUnitsByCodexId {
+  final UnitRepository repository;
+
+  GetAllUnitsByCodexId(this.repository);
+
+  Future<List<UnitDOM>> call(CodexId codexId) async
+  {
+    return await repository.findByCodex(codexId);
+  }
+}

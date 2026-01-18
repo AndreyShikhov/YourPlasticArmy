@@ -1,5 +1,6 @@
 import 'package:ypa/core/database/app_database.dart';
 import 'package:ypa/domain/models/army/army_id.dart';
+import 'package:ypa/domain/models/codex/codex.dart';
 
 import '../../domain/models/unit/unit.dart';
 import '../mappers/mappers.dart';
@@ -33,6 +34,13 @@ class DriftUnitRepository implements UnitRepository  {
   Future<List<UnitDOM>> findByArmy(ArmyId armyId) async {
     final rows = await (db.select(db.units)..where((tbl) => tbl.armyId.equals(armyId.value))).get();
         
+    return rows.map(UnitMapper.fromRow).toList();
+  }
+
+  @override
+  Future<List<UnitDOM>> findByCodex(CodexId codexId) async {
+    final rows = await (db.select(db.units)..where((tbl) => tbl.codexId.equals(codexId.value))).get();
+
     return rows.map(UnitMapper.fromRow).toList();
   }
 

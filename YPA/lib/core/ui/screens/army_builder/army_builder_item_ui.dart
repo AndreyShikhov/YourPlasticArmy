@@ -1,5 +1,3 @@
-
-
 import 'package:ypa/domain/models/unit/unit_stats.dart';
 
 class ArmyBuilderUnitItemUi {
@@ -16,7 +14,6 @@ class ArmyBuilderUnitItemUi {
   final List<String> factionKeywords;
   final List<Weapon> weapons;
 
-
   ArmyBuilderUnitItemUi({
     required this.name,
     required this.role,
@@ -31,4 +28,40 @@ class ArmyBuilderUnitItemUi {
     required this.factionKeywords,
     required this.weapons,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'role': role,
+      'm': m,
+      't': t,
+      'sv': sv,
+      'isv': isv,
+      'w': w,
+      'ld': ld,
+      'oc': oc,
+      'keywords': keywords,
+      'factionKeywords': factionKeywords,
+      'weapons': weapons.map((x) => x.toJson()).toList(),
+    };
+  }
+
+  factory ArmyBuilderUnitItemUi.fromJson(Map<String, dynamic> json) {
+    return ArmyBuilderUnitItemUi(
+      name: json['name'] ?? '',
+      role: json['role'] ?? '',
+      m: json['m'] ?? '',
+      t: json['t'] ?? '',
+      sv: json['sv'] ?? '',
+      isv: json['isv'] ?? '',
+      w: json['w'] ?? '',
+      ld: json['ld'] ?? '',
+      oc: json['oc'] ?? '',
+      keywords: List<String>.from(json['keywords'] ?? []),
+      factionKeywords: List<String>.from(json['factionKeywords'] ?? []),
+      weapons: (json['weapons'] as List? ?? [])
+          .map((x) => Weapon.fromJson(x as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 }

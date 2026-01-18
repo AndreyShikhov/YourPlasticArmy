@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'armies_table.dart';
 import 'codexes_table.dart';
 import 'detachments_table.dart';
 
@@ -8,6 +9,7 @@ class UserArmies extends Table {
   TextColumn get name => text().withLength(min: 1, max: 100)();
   
   // Codexes.id - это String (UUID), поэтому здесь должен быть text()
+  IntColumn get armyId => integer().references(Armies, #id)();
   TextColumn get codexId => text().references(Codexes, #id)();
   TextColumn get detachmentId => text().references(Detachments, #id)();
   

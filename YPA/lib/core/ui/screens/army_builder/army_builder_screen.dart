@@ -105,7 +105,7 @@ class ArmyBuilderScreen extends ConsumerWidget {
             )
         ));
       } else {
-        final roleUnits = state.getAllUnitsByRole(title);
+        final roleUnits = state.getAllUnitsByRoleFromUserArmy(title);
 
         tempWidgets.add(ExpandableSection(
           title: title,
