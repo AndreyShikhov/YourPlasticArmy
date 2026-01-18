@@ -4,6 +4,7 @@ import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
 import 'package:ypa/core/database/tables/seed/seed_objects/units/blood_angels.dart';
 import 'package:ypa/core/database/tables/seed/seed_objects/units/orks.dart';
 import 'package:ypa/core/database/tables/seed/seed_objects/units/space_marines.dart';
+import 'package:ypa/core/database/tables/seed/seed_objects/units/ultramarines.dart';
 import '../../app_database.dart';
 
 
@@ -15,8 +16,10 @@ Future<void> seedUnits(
     ) async {
   final units = <UnitSeed>[
     ...spaceMarinesUnits(),
-     ...bloodAngelsUnits(),
-     ...orksUnits(),
+    ...bloodAngelsUnits(),
+    ...ultramarinesUnits(),
+    ...orksUnits(),
+
   ];
 
   for (final u in units) {
