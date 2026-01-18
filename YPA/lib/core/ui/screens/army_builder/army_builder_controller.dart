@@ -1,7 +1,6 @@
-import 'dart:convert'; // Добавлен импорт для jsonDecode
+import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/application/codex/get_codex_by_id.dart';
-import 'package:ypa/application/unit/get_units_by_codex.dart';
 import 'package:ypa/core/providers/di/di_providers.dart';
 import 'package:ypa/domain/models/army/army.dart';
 import 'package:ypa/domain/models/codex/codex.dart';

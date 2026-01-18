@@ -14,7 +14,7 @@ class DriftUnitRepository implements UnitRepository  {
   
   @override
   Future<void> saveUnit(UnitDOM unit) async {
-    final companion = UnitMapper().toCompanion(unit);
+    final companion = UnitMapper.toCompanion(unit);
     await db.into(db.units).insertOnConflictUpdate(companion);
   }
 

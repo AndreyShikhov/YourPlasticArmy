@@ -1,11 +1,17 @@
+import 'package:uuid/uuid.dart';
+
 class RoleId {
-  final int value;
+  final String value;
 
   const RoleId._(this.value);
 
-  factory RoleId.fromInt(int value) {
-    if (value <= 0) {
-      throw ArgumentError('RoleId must be positive');
+  factory RoleId.generate() {
+    return RoleId._(const Uuid().v4());
+  }
+
+  factory RoleId.fromString(String value) {
+    if (value.isEmpty) {
+      throw ArgumentError('RoleId cannot be empty');
     }
     return RoleId._(value);
   }
@@ -19,5 +25,5 @@ class RoleId {
   int get hashCode => value.hashCode;
 
   @override
-  String toString() => value.toString();
+  String toString() => value;
 }

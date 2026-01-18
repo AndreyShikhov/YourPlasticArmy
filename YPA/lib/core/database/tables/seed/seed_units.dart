@@ -12,7 +12,7 @@ Future<void> seedUnits(
     AppDatabase db,
     Map<String, String> armyIds, // Изменено на String (UUID)
     Map<String, String> codexIds,
-    Map<String, int> roleIds,
+    Map<String, String> roleIds,
     ) async {
   final units = <UnitSeed>[
     ...spaceMarinesUnits(),
@@ -26,7 +26,7 @@ Future<void> seedUnits(
 
     // Получаем ID, используя строковые коды из Enum
     final armyId = armyIds[u.army.code]!;
-    final roleId = roleIds[u.role.code]!;
+    //final roleId = roleIds[]!;
     
     // Codex ID - это UUID строка
     Value<String> codexIdValue = const Value.absent();
@@ -43,7 +43,7 @@ Future<void> seedUnits(
         name: u.name,
         armyId: armyId, // Теперь передаем String (UUID)
         codexId: codexIdValue,
-        roleId: roleId,
+        roleCode: u.role.code,
         stats: u.stats,
       ),
       mode: InsertMode.insertOrIgnore,
@@ -55,7 +55,7 @@ void _validateUnitSeed(
     UnitSeed unit,
     Map<String, String> armyIds, // Изменено на String
     Map<String, String> codexIds,
-    Map<String, int> roleIds,
+    Map<String, String> roleIds,
     ) {
   if (!armyIds.containsKey(unit.army.code)) {
     throw StateError(

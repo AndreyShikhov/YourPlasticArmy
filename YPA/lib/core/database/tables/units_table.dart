@@ -13,7 +13,6 @@ class Units extends Table {
   TextColumn get name => text().withLength(min: 1)();
 
   /// Always required
-  /// Changed to TextColumn to match Armies.id (UUID)
   TextColumn get armyId =>
       text().references(Armies, #id)();
 
@@ -21,8 +20,8 @@ class Units extends Table {
   TextColumn get codexId =>
       text().nullable().references(Codexes, #id)();
 
-  IntColumn get roleId =>
-      integer().references(Role, #id)();
+  /// Changed to TextColumn to match Role.id (UUID)
+  TextColumn get roleCode => text()();
       
   /// Stats stored as JSON
   TextColumn get stats => text().map(const UnitStatsConverter())();

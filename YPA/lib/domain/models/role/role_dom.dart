@@ -1,5 +1,3 @@
-
-
 import 'package:ypa/domain/models/role/role.dart';
 
 class RoleDOM {
@@ -18,7 +16,7 @@ class RoleDOM {
     required RoleName name,
   }) {
     return RoleDOM._(
-      id: RoleId.fromInt(0), // Будет установлен при сохранении в БД
+      id: RoleId.generate(), // Генерируем UUID при создании роли
       code: code,
       name: name,
     );
