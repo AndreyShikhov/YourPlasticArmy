@@ -11,7 +11,7 @@ class ArmyMapper {
       id: ArmyId.fromString(row.id),
       code: ArmyCode(row.armyCode),
       name: ArmyName(row.name),
-      factionId: FactionId.fromInt(row.factionId),
+      factionId: FactionId.fromString(row.factionId),
     );
   }
 

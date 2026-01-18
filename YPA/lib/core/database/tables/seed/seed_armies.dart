@@ -6,11 +6,10 @@ import 'package:ypa/domain/models/faction/faction.dart';
 
 import '../../app_database.dart';
 
-
 Future<Map<String, String>> seedArmies(
-    AppDatabase db,
-    Map<String, int> factionIds,
-    ) async {
+  AppDatabase db,
+  Map<String, String> factionIds,
+) async {
   final data = getAllArmies();
   final result = <String, String>{};
 
@@ -27,18 +26,18 @@ Future<Map<String, String>> seedArmies(
     final String armyUuid = const Uuid().v4();
 
     await db.into(db.armies).insert(
-      ArmiesCompanion.insert(
-        id: armyUuid,
-        armyCode: armyCode,
-        name: a.armyName,
-        factionId: factionIds[factionCode.value]!,
-      ),
-      mode: InsertMode.insertOrIgnore,
-    );
+          ArmiesCompanion.insert(
+            id: armyUuid,
+            armyCode: armyCode,
+            name: a.armyName,
+            factionId: factionIds[factionCode.value]!,
+          ),
+          mode: InsertMode.insertOrIgnore,
+        );
 
     // Получаем актуальный ID из базы (на случай если insertOrIgnore не сработал)
     final existingArmy = await (db.select(db.armies)
-      ..where((tbl) => tbl.armyCode.equals(armyCode)))
+          ..where((tbl) => tbl.armyCode.equals(armyCode)))
         .getSingle();
 
     result[armyCode] = existingArmy.id;

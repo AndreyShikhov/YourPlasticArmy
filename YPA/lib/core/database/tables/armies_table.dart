@@ -11,8 +11,9 @@ class Armies extends Table {
   TextColumn get name => text().withLength(min: 1)();
 
   /// Imperium / Chaos / Xenos
-  IntColumn get factionId =>
-      integer().references(Factions, #id)();
+  /// Changed to TextColumn to match Factions.id (UUID)
+  TextColumn get factionId =>
+      text().references(Factions, #id)();
 
   @override
   Set<Column> get primaryKey => {id};

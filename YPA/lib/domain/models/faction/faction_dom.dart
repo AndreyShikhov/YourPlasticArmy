@@ -16,7 +16,7 @@ class FactionDOM {
     required FactionName name,
   }) {
     return FactionDOM._(
-      id: FactionId.fromInt(0), // Будет установлен при сохранении в БД
+      id: FactionId.generate(), // Генерируем UUID при создании
       code: code,
       name: name,
     );

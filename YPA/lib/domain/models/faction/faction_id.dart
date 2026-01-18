@@ -1,11 +1,17 @@
+import 'package:uuid/uuid.dart';
+
 class FactionId {
-  final int value;
+  final String value;
 
   const FactionId._(this.value);
 
-  factory FactionId.fromInt(int value) {
-    if (value <= 0) {
-      throw ArgumentError('FactionId must be positive');
+  factory FactionId.generate() {
+    return FactionId._(const Uuid().v4());
+  }
+
+  factory FactionId.fromString(String value) {
+    if (value.isEmpty) {
+      throw ArgumentError('FactionId cannot be empty');
     }
     return FactionId._(value);
   }
@@ -19,5 +25,5 @@ class FactionId {
   int get hashCode => value.hashCode;
 
   @override
-  String toString() => value.toString();
+  String toString() => value;
 }

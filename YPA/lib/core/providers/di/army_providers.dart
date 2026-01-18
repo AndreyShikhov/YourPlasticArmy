@@ -37,6 +37,6 @@ final armiesListProvider = FutureProvider<List<ArmyDOM>>((ref) async {
 final armiesByFactionProvider = FutureProvider.family<List<ArmyDOM>, String>((ref, factionIdRaw) async {
   final useCase = ref.watch(getArmiesByFactionUseCaseProvider);
   // Исправление: парсим строку и вызываем фабрику
-  final factionId = FactionId.fromInt(int.parse(factionIdRaw));
+  final factionId = FactionId.fromString(factionIdRaw);
   return useCase(factionId);
 });

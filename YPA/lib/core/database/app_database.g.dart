@@ -10,16 +10,12 @@ class $FactionsTable extends Factions with TableInfo<$FactionsTable, Faction> {
   $FactionsTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
     'id',
     aliasedName,
     false,
-    hasAutoIncrement: true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'PRIMARY KEY AUTOINCREMENT',
-    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
   );
   static const VerificationMeta _codeMeta = const VerificationMeta('code');
   @override
@@ -58,6 +54,8 @@ class $FactionsTable extends Factions with TableInfo<$FactionsTable, Faction> {
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
     }
     if (data.containsKey('code')) {
       context.handle(
@@ -85,7 +83,7 @@ class $FactionsTable extends Factions with TableInfo<$FactionsTable, Faction> {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return Faction(
       id: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
+        DriftSqlType.string,
         data['${effectivePrefix}id'],
       )!,
       code: attachedDatabase.typeMapping.read(
@@ -106,7 +104,7 @@ class $FactionsTable extends Factions with TableInfo<$FactionsTable, Faction> {
 }
 
 class Faction extends DataClass implements Insertable<Faction> {
-  final int id;
+  final String id;
 
   /// Stable technical identifier for SQL & seeds
   final String code;
@@ -117,7 +115,7 @@ class Faction extends DataClass implements Insertable<Faction> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
+    map['id'] = Variable<String>(id);
     map['code'] = Variable<String>(code);
     map['name'] = Variable<String>(name);
     return map;
@@ -137,7 +135,7 @@ class Faction extends DataClass implements Insertable<Faction> {
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return Faction(
-      id: serializer.fromJson<int>(json['id']),
+      id: serializer.fromJson<String>(json['id']),
       code: serializer.fromJson<String>(json['code']),
       name: serializer.fromJson<String>(json['name']),
     );
@@ -146,13 +144,13 @@ class Faction extends DataClass implements Insertable<Faction> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
+      'id': serializer.toJson<String>(id),
       'code': serializer.toJson<String>(code),
       'name': serializer.toJson<String>(name),
     };
   }
 
-  Faction copyWith({int? id, String? code, String? name}) => Faction(
+  Faction copyWith({String? id, String? code, String? name}) => Faction(
     id: id ?? this.id,
     code: code ?? this.code,
     name: name ?? this.name,
@@ -187,41 +185,49 @@ class Faction extends DataClass implements Insertable<Faction> {
 }
 
 class FactionsCompanion extends UpdateCompanion<Faction> {
-  final Value<int> id;
+  final Value<String> id;
   final Value<String> code;
   final Value<String> name;
+  final Value<int> rowid;
   const FactionsCompanion({
     this.id = const Value.absent(),
     this.code = const Value.absent(),
     this.name = const Value.absent(),
+    this.rowid = const Value.absent(),
   });
   FactionsCompanion.insert({
-    this.id = const Value.absent(),
+    required String id,
     required String code,
     required String name,
-  }) : code = Value(code),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       code = Value(code),
        name = Value(name);
   static Insertable<Faction> custom({
-    Expression<int>? id,
+    Expression<String>? id,
     Expression<String>? code,
     Expression<String>? name,
+    Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (code != null) 'code': code,
       if (name != null) 'name': name,
+      if (rowid != null) 'rowid': rowid,
     });
   }
 
   FactionsCompanion copyWith({
-    Value<int>? id,
+    Value<String>? id,
     Value<String>? code,
     Value<String>? name,
+    Value<int>? rowid,
   }) {
     return FactionsCompanion(
       id: id ?? this.id,
       code: code ?? this.code,
       name: name ?? this.name,
+      rowid: rowid ?? this.rowid,
     );
   }
 
@@ -229,13 +235,16 @@ class FactionsCompanion extends UpdateCompanion<Faction> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (id.present) {
-      map['id'] = Variable<int>(id.value);
+      map['id'] = Variable<String>(id.value);
     }
     if (code.present) {
       map['code'] = Variable<String>(code.value);
     }
     if (name.present) {
       map['name'] = Variable<String>(name.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
     }
     return map;
   }
@@ -245,7 +254,8 @@ class FactionsCompanion extends UpdateCompanion<Faction> {
     return (StringBuffer('FactionsCompanion(')
           ..write('id: $id, ')
           ..write('code: $code, ')
-          ..write('name: $name')
+          ..write('name: $name, ')
+          ..write('rowid: $rowid')
           ..write(')'))
         .toString();
   }
@@ -292,11 +302,11 @@ class $ArmiesTable extends Armies with TableInfo<$ArmiesTable, Army> {
     'factionId',
   );
   @override
-  late final GeneratedColumn<int> factionId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> factionId = GeneratedColumn<String>(
     'faction_id',
     aliasedName,
     false,
-    type: DriftSqlType.int,
+    type: DriftSqlType.string,
     requiredDuringInsert: true,
     defaultConstraints: GeneratedColumn.constraintIsAlways(
       'REFERENCES factions (id)',
@@ -367,7 +377,7 @@ class $ArmiesTable extends Armies with TableInfo<$ArmiesTable, Army> {
         data['${effectivePrefix}name'],
       )!,
       factionId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
+        DriftSqlType.string,
         data['${effectivePrefix}faction_id'],
       )!,
     );
@@ -389,7 +399,8 @@ class Army extends DataClass implements Insertable<Army> {
   final String name;
 
   /// Imperium / Chaos / Xenos
-  final int factionId;
+  /// Changed to TextColumn to match Factions.id (UUID)
+  final String factionId;
   const Army({
     required this.id,
     required this.armyCode,
@@ -402,7 +413,7 @@ class Army extends DataClass implements Insertable<Army> {
     map['id'] = Variable<String>(id);
     map['army_code'] = Variable<String>(armyCode);
     map['name'] = Variable<String>(name);
-    map['faction_id'] = Variable<int>(factionId);
+    map['faction_id'] = Variable<String>(factionId);
     return map;
   }
 
@@ -424,7 +435,7 @@ class Army extends DataClass implements Insertable<Army> {
       id: serializer.fromJson<String>(json['id']),
       armyCode: serializer.fromJson<String>(json['armyCode']),
       name: serializer.fromJson<String>(json['name']),
-      factionId: serializer.fromJson<int>(json['factionId']),
+      factionId: serializer.fromJson<String>(json['factionId']),
     );
   }
   @override
@@ -434,17 +445,21 @@ class Army extends DataClass implements Insertable<Army> {
       'id': serializer.toJson<String>(id),
       'armyCode': serializer.toJson<String>(armyCode),
       'name': serializer.toJson<String>(name),
-      'factionId': serializer.toJson<int>(factionId),
+      'factionId': serializer.toJson<String>(factionId),
     };
   }
 
-  Army copyWith({String? id, String? armyCode, String? name, int? factionId}) =>
-      Army(
-        id: id ?? this.id,
-        armyCode: armyCode ?? this.armyCode,
-        name: name ?? this.name,
-        factionId: factionId ?? this.factionId,
-      );
+  Army copyWith({
+    String? id,
+    String? armyCode,
+    String? name,
+    String? factionId,
+  }) => Army(
+    id: id ?? this.id,
+    armyCode: armyCode ?? this.armyCode,
+    name: name ?? this.name,
+    factionId: factionId ?? this.factionId,
+  );
   Army copyWithCompanion(ArmiesCompanion data) {
     return Army(
       id: data.id.present ? data.id.value : this.id,
@@ -481,7 +496,7 @@ class ArmiesCompanion extends UpdateCompanion<Army> {
   final Value<String> id;
   final Value<String> armyCode;
   final Value<String> name;
-  final Value<int> factionId;
+  final Value<String> factionId;
   final Value<int> rowid;
   const ArmiesCompanion({
     this.id = const Value.absent(),
@@ -494,7 +509,7 @@ class ArmiesCompanion extends UpdateCompanion<Army> {
     required String id,
     required String armyCode,
     required String name,
-    required int factionId,
+    required String factionId,
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        armyCode = Value(armyCode),
@@ -504,7 +519,7 @@ class ArmiesCompanion extends UpdateCompanion<Army> {
     Expression<String>? id,
     Expression<String>? armyCode,
     Expression<String>? name,
-    Expression<int>? factionId,
+    Expression<String>? factionId,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -520,7 +535,7 @@ class ArmiesCompanion extends UpdateCompanion<Army> {
     Value<String>? id,
     Value<String>? armyCode,
     Value<String>? name,
-    Value<int>? factionId,
+    Value<String>? factionId,
     Value<int>? rowid,
   }) {
     return ArmiesCompanion(
@@ -545,7 +560,7 @@ class ArmiesCompanion extends UpdateCompanion<Army> {
       map['name'] = Variable<String>(name.value);
     }
     if (factionId.present) {
-      map['faction_id'] = Variable<int>(factionId.value);
+      map['faction_id'] = Variable<String>(factionId.value);
     }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
@@ -5383,15 +5398,17 @@ abstract class _$AppDatabase extends GeneratedDatabase {
 
 typedef $$FactionsTableCreateCompanionBuilder =
     FactionsCompanion Function({
-      Value<int> id,
+      required String id,
       required String code,
       required String name,
+      Value<int> rowid,
     });
 typedef $$FactionsTableUpdateCompanionBuilder =
     FactionsCompanion Function({
-      Value<int> id,
+      Value<String> id,
       Value<String> code,
       Value<String> name,
+      Value<int> rowid,
     });
 
 final class $$FactionsTableReferences
@@ -5409,7 +5426,7 @@ final class $$FactionsTableReferences
     final manager = $$ArmiesTableTableManager(
       $_db,
       $_db.armies,
-    ).filter((f) => f.factionId.id.sqlEquals($_itemColumn<int>('id')!));
+    ).filter((f) => f.factionId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_armiesRefsTable($_db));
     return ProcessedTableManager(
@@ -5427,7 +5444,7 @@ class $$FactionsTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<int> get id => $composableBuilder(
+  ColumnFilters<String> get id => $composableBuilder(
     column: $table.id,
     builder: (column) => ColumnFilters(column),
   );
@@ -5477,7 +5494,7 @@ class $$FactionsTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<int> get id => $composableBuilder(
+  ColumnOrderings<String> get id => $composableBuilder(
     column: $table.id,
     builder: (column) => ColumnOrderings(column),
   );
@@ -5502,7 +5519,7 @@ class $$FactionsTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<int> get id =>
+  GeneratedColumn<String> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
   GeneratedColumn<String> get code =>
@@ -5565,16 +5582,28 @@ class $$FactionsTableTableManager
               $$FactionsTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
               ({
-                Value<int> id = const Value.absent(),
+                Value<String> id = const Value.absent(),
                 Value<String> code = const Value.absent(),
                 Value<String> name = const Value.absent(),
-              }) => FactionsCompanion(id: id, code: code, name: name),
+                Value<int> rowid = const Value.absent(),
+              }) => FactionsCompanion(
+                id: id,
+                code: code,
+                name: name,
+                rowid: rowid,
+              ),
           createCompanionCallback:
               ({
-                Value<int> id = const Value.absent(),
+                required String id,
                 required String code,
                 required String name,
-              }) => FactionsCompanion.insert(id: id, code: code, name: name),
+                Value<int> rowid = const Value.absent(),
+              }) => FactionsCompanion.insert(
+                id: id,
+                code: code,
+                name: name,
+                rowid: rowid,
+              ),
           withReferenceMapper: (p0) => p0
               .map(
                 (e) => (
@@ -5628,7 +5657,7 @@ typedef $$ArmiesTableCreateCompanionBuilder =
       required String id,
       required String armyCode,
       required String name,
-      required int factionId,
+      required String factionId,
       Value<int> rowid,
     });
 typedef $$ArmiesTableUpdateCompanionBuilder =
@@ -5636,7 +5665,7 @@ typedef $$ArmiesTableUpdateCompanionBuilder =
       Value<String> id,
       Value<String> armyCode,
       Value<String> name,
-      Value<int> factionId,
+      Value<String> factionId,
       Value<int> rowid,
     });
 
@@ -5648,7 +5677,7 @@ final class $$ArmiesTableReferences
       .createAlias($_aliasNameGenerator(db.armies.factionId, db.factions.id));
 
   $$FactionsTableProcessedTableManager get factionId {
-    final $_column = $_itemColumn<int>('faction_id')!;
+    final $_column = $_itemColumn<String>('faction_id')!;
 
     final manager = $$FactionsTableTableManager(
       $_db,
@@ -6111,7 +6140,7 @@ class $$ArmiesTableTableManager
                 Value<String> id = const Value.absent(),
                 Value<String> armyCode = const Value.absent(),
                 Value<String> name = const Value.absent(),
-                Value<int> factionId = const Value.absent(),
+                Value<String> factionId = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => ArmiesCompanion(
                 id: id,
@@ -6125,7 +6154,7 @@ class $$ArmiesTableTableManager
                 required String id,
                 required String armyCode,
                 required String name,
-                required int factionId,
+                required String factionId,
                 Value<int> rowid = const Value.absent(),
               }) => ArmiesCompanion.insert(
                 id: id,

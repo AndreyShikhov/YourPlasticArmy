@@ -1,42 +1,37 @@
+import 'package:uuid/uuid.dart';
 import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
 import 'package:ypa/core/database/tables/seed/seed_objects/factions/factions.dart';
 
 import '../../app_database.dart';
 
 
-
-
-
-
-Future<Map<String, int>> seedFactions(AppDatabase db) async {
+Future<Map<String, String>> seedFactions(AppDatabase db) async {
   final data = getAllFactions();
-  final result = <String, int>{};
+  final result = <String, String>{};
 
   for (final faction in data) {
-    final code = faction.code.code; // Берем строковый код (например, 'imperium')
+    final code = faction.code.code; 
 
-    // 1. Проверяем, существует ли уже такая фракция
     final existing = await (db.select(db.factions)
       ..where((tbl) => tbl.code.equals(code)))
         .getSingleOrNull();
 
-    int id;
+    String id;
     if (existing != null) {
       id = existing.id;
     } else {
-      // 2. Если нет, вставляем новую
-      id = await db.into(db.factions).insert(
+      id = const Uuid().v4();
+      await db.into(db.factions).insert(
         FactionsCompanion.insert(
+          id: id,
           code: code,
-          name: faction.code.title, // Красивое имя из Extension
+          name: faction.code.title,
         ),
       );
     }
 
-    // Сохраняем ID в карту, используя строковый код как ключ
     result[code] = id;
   }
 
   return result;
 }
-
