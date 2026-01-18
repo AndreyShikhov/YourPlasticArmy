@@ -1,7 +1,9 @@
+
+import 'package:drift/drift.dart';
 import 'package:ypa/core/database/app_database.dart';
 import 'package:ypa/domain/models/army/army_id.dart';
-import 'package:ypa/domain/models/codex/codex.dart';
 
+import '../../domain/models/codex/codex.dart';
 import '../../domain/models/unit/unit.dart';
 import '../mappers/mappers.dart';
 
@@ -29,18 +31,27 @@ class DriftUnitRepository implements UnitRepository  {
 
     return rows.map(UnitMapper.fromRow).toList();
   }
-
+  
   @override
-  Future<List<UnitDOM>> findUnitsByArmy(ArmyId armyId) async {
-    final rows = await (db.select(db.units)..where((tbl) => tbl.armyId.equals(armyId.value))).get();
-        
-    return rows.map(UnitMapper.fromRow).toList();
+  Future<List<UnitDOM>> findUnitsByCodex(CodexId codexId) async 
+  {final query = db.select(db.units)
+    ..where((tbl) =>
+    tbl.codexId.equals(codexId.value)
+    );
+
+  final rows = await query.get();
+  return rows.map(UnitMapper.fromRow).toList();
   }
 
   @override
-  Future<List<UnitDOM>> findUnitsByCodex(CodexId codexId) async {
-    final rows = await (db.select(db.units)..where((tbl) => tbl.codexId.equals(codexId.value))).get();
+  Future<List<UnitDOM>> findUnitsByArmy(ArmyId armyId) async {
+    final query = db.select(db.units)
+      ..where((tbl) =>
+      tbl.armyId.equals(armyId.value) &
+      tbl.codexId.isNull()
+      );
 
+    final rows = await query.get();
     return rows.map(UnitMapper.fromRow).toList();
   }
 
