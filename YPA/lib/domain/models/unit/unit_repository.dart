@@ -6,20 +6,20 @@ import '../army/army_id.dart';
 
 abstract class UnitRepository {
   /// Сохранить или обновить Unit
-  Future<void> save(UnitDOM unit);
+  Future<void> saveUnit(UnitDOM unit);
 
   /// Найти Unit по ID
-  Future<UnitDOM?> findById(UnitId id);
+  Future<UnitDOM?> findUnitById(UnitId id);
 
   /// Получить все Unit
-  Future<List<UnitDOM>> findAll();
+  Future<List<UnitDOM>> findAllUnits();
 
   /// Найти Unit по ID армии
-  Future<List<UnitDOM>> findByArmy(ArmyId armyId);
+  Future<List<UnitDOM>> findUnitsByArmy(ArmyId armyId);
 
   /// Найти Unit по ID кодекса
-  Future<List<UnitDOM>> findByCodex(CodexId codexId);
+  Future<List<UnitDOM>> findUnitsByCodex(CodexId codexId);
 
   /// Удалить Unit
-  Future<void> delete(UnitId id);
+  Future<void> deleteUnit(UnitId id);
 }

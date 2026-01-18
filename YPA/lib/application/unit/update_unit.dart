@@ -14,7 +14,7 @@ class UpdateUnit {
     CodexId? codexId,
     UnitRoleCodeDom? role,
   }) async {
-    final oldUnit = await repository.findById(id);
+    final oldUnit = await repository.findUnitById(id);
 
     if (oldUnit == null) {
       throw Exception('Unit with id $id not found');
@@ -28,7 +28,7 @@ class UpdateUnit {
 
     );
 
-    await repository.save(newUnit);
+    await repository.saveUnit(newUnit);
   }
 
 }

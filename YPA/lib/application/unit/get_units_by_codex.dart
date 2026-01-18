@@ -9,6 +9,6 @@ class GetAllUnitsByCodexId {
 
   Future<List<UnitDOM>> call(CodexId codexId) async
   {
-    return await repository.findByCodex(codexId);
+    return await repository.findUnitsByCodex(codexId);
   }
 }

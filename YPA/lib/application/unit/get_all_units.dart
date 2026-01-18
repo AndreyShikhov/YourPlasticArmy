@@ -10,7 +10,7 @@ class GetAllUnits {
 
   Future<List<UnitDOM>> call() async
   {
-    return await repository.findAll();
+    return await repository.findAllUnits();
   }
 
 }

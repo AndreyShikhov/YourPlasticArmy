@@ -9,6 +9,6 @@ class GetUnitsByArmy {
 
   Future<List<UnitDOM>> call(ArmyId armyId) async
   {
-    return await repository.findByArmy(armyId);
+    return await repository.findUnitsByArmy(armyId);
   }
 }

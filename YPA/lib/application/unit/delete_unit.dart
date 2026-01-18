@@ -6,6 +6,6 @@ class DeleteUnit {
   DeleteUnit(this.repository);
 
   Future<void> call(UnitId id) async {
-    await repository.delete(id);
+    await repository.deleteUnit(id);
   }
 }

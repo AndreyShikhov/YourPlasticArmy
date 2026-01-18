@@ -26,7 +26,7 @@ class CreateUnit {
       role: role,
       stats: stats,
     );
-    await repository.save(unit);
+    await repository.saveUnit(unit);
   }
 
 }
