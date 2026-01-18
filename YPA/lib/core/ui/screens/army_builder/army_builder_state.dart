@@ -70,4 +70,15 @@ class ArmyBuilderState {
     // 2. Фильтруем и возвращаем список
     return userArmyUnits!.where((unit) => unit.role == role).toList();
   }
+
+  List<ArmyBuilderUnitItemUi> getAllUnitsByRole(String role) {
+    // 1. Проверяем на null или пустоту
+    if (allUnits.isEmpty) {
+      // Вывод ошибки в консоль (поможет при отладке)
+      debugPrint('Warning: allUnits is null or empty');
+      return [];
+    }
+    // 2. Фильтруем и возвращаем список
+    return allUnits.where((unit) => unit.role == role).toList();
+  }
 }

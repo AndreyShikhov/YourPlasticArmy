@@ -165,7 +165,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
 
       // получение всех возможных юнитов для армии из базы данных
       final List<ArmyBuilderUnitItemUi> allUnits = await getAllUnitsByArmyId(userArmy.armyId); // юниты по армии
-      //allUnits.addAll(await getAllUnitsByCodexId(userArmy.codexId)); // юниты по кодексу
+      allUnits.addAll(await getAllUnitsByCodexId(userArmy.codexId)); // юниты по кодексу
 
       state = state.copyWith(
         isLoading: false,

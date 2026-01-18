@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/core/ui/screens/army_builder/widgets/army_points_editor.dart';
+import 'package:ypa/core/ui/screens/army_builder/widgets/category_container.dart';
 import 'package:ypa/core/ui/screens/army_builder/widgets/detachment_selector.dart';
+import 'package:ypa/domain/models/army/army.dart';
+import 'package:ypa/domain/models/role/role.dart';
 
 import '../../../database/tables/seed/seed_objects/_types.dart';
 import '../../widgets/expandable_section.dart';
@@ -99,13 +102,20 @@ class ArmyBuilderScreen extends ConsumerWidget {
                     state: state,
                   ),
                   const SizedBox(height: 20,),
-                  ArmyPointsEditor(armyId: armyId, initialPoints: state.totalPts.toString())
+                  ArmyPointsEditor(
+                      armyId: armyId, initialPoints: state.totalPts.toString())
                 ],
               ),
             )
         ));
-      } else {
+      }
+      else {
         final roleUnits = state.getAllUnitsByRoleFromUserArmy(title);
+        final roleEnum = UnitRoleCodeX.fromTitle(title);
+
+        if (roleEnum == null) {
+          continue;
+        }
 
         tempWidgets.add(ExpandableSection(
           title: title,
@@ -115,10 +125,12 @@ class ArmyBuilderScreen extends ConsumerWidget {
           ),
           subtitle: '${roleUnits.length} pts  ${roleUnits.length} units',
           child: Column(
-            children: roleUnits
-                .map((unit) =>
-                Text(unit.name, style: const TextStyle(color: Colors.white)))
-                .toList(),
+            children: [
+              CategoryContainer(
+                armyId: state.armyId!,
+                role: roleEnum,
+              ),
+            ],
           ),
         ));
       }
