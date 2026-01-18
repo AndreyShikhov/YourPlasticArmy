@@ -65,11 +65,6 @@ class _ArmyNameEditorState extends ConsumerState<ArmyNameEditor> {
             ),
           ),
         ),
-        const SizedBox(height: 10),
-        const Text(
-          'Edit your army name and details here',
-          style: TextStyle(color: Colors.white38, fontSize: 12),
-        ),
       ],
     );
   }

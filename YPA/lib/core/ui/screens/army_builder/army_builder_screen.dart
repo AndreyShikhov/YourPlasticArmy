@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/core/ui/screens/army_builder/widgets/army_points_editor.dart';
+import 'package:ypa/core/ui/screens/army_builder/widgets/detachment_selector.dart';
 
-import '../../../../domain/models/detachment/detachment.dart';
 import '../../../database/tables/seed/seed_objects/_types.dart';
 import '../../widgets/expandable_section.dart';
 import 'army_builder_controller.dart';
 import 'army_builder_state.dart';
-import 'widgets/army_name_editor.dart'; // Добавлен импорт
+import 'widgets/army_name_editor.dart';
 
 class ArmyBuilderScreen extends ConsumerWidget {
   final String armyId;
@@ -93,24 +93,12 @@ class ArmyBuilderScreen extends ConsumerWidget {
                     armyId: armyId,
                     initialName: state.armyName,
                   ),
-                  SizedBox(height: 20,),
-                  DropdownButtonFormField<String>(
-                    value: state.detachment?.name.value,
-                    // Текущее значение
-                    dropdownColor: const Color.fromARGB(255, 55, 55, 55),
-                    style: const TextStyle(color: Colors.white),
-                    decoration: const InputDecoration(
-                      labelText: 'Select Detachment',
-                      labelStyle: TextStyle(color: Colors.white70),
-                      enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white24)),
-                    ),
-                    items: _getAlllDetuchments(state),
-                    onChanged: (newValue) {
-                      ref.read(armyBuilderControllerProvider(armyId).notifier).updateDetachment(newValue!);
-                    },
+                  const SizedBox(height: 20,),
+                  DetachmentSelector(
+                    armyId: armyId,
+                    state: state,
                   ),
-                  SizedBox(height: 20,),
+                  const SizedBox(height: 20,),
                   ArmyPointsEditor(armyId: armyId, initialPoints: state.totalPts.toString())
                 ],
               ),
@@ -123,9 +111,7 @@ class ArmyBuilderScreen extends ConsumerWidget {
           title: title,
           trailing: IconButton(
             icon: const Icon(Icons.add, color: Colors.white),
-            onPressed: () {
-
-            },
+            onPressed: () {},
           ),
           subtitle: '${roleUnits.length} pts  ${roleUnits.length} units',
           child: Column(
@@ -138,26 +124,15 @@ class ArmyBuilderScreen extends ConsumerWidget {
       }
     }
 
-    return
-      tempWidgets;
+    return tempWidgets;
   }
 
-
-  List<DropdownMenuItem<String>> _getAlllDetuchments(ArmyBuilderState state) {
-    return state.allDetachments.map((detachment) =>
-        DropdownMenuItem<String>(
-          value: detachment.name.value,
-          child: Text(detachment.name.value),
-        )).toList();
-  }
-
-  String _getPtstext(ArmyBuilderState state ){
-    if(state.totalPts == 0 )
-    {
+  String _getPtstext(ArmyBuilderState state) {
+    if (state.totalPts == 0) {
       return '${state.totalPts} pts';
-    }
-    else{
-      return '${state.currentPts ?? 0} / ${state.totalPts} pts';
+    } else {
+      // Использование currentPts из стейта (если оно там есть) или 0
+      return '0 / ${state.totalPts} pts';
     }
   }
 }
