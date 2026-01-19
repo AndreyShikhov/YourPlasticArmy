@@ -10,6 +10,7 @@ class ArmyBuilderUnitItemUi {
   final String w;  // Wounds
   final String ld; // Leadership
   final String oc; // Objective Control
+  final String repeat;
   final List<String> keywords;
   final List<String> factionKeywords;
   final List<Weapon> weapons;
@@ -24,6 +25,7 @@ class ArmyBuilderUnitItemUi {
     required this.w,
     required this.ld,
     required this.oc,
+    required this.repeat,
     required this.keywords,
     required this.factionKeywords,
     required this.weapons,
@@ -41,6 +43,7 @@ class ArmyBuilderUnitItemUi {
       'ld': ld,
       'oc': oc,
       'keywords': keywords,
+      'repeat': repeat,
       'factionKeywords': factionKeywords,
       'weapons': weapons.map((x) => x.toJson()).toList(),
     };
@@ -58,10 +61,29 @@ class ArmyBuilderUnitItemUi {
       ld: json['ld'] ?? '',
       oc: json['oc'] ?? '',
       keywords: List<String>.from(json['keywords'] ?? []),
+      repeat: json['repeat'] ?? '',
       factionKeywords: List<String>.from(json['factionKeywords'] ?? []),
       weapons: (json['weapons'] as List? ?? [])
           .map((x) => Weapon.fromJson(x as Map<String, dynamic>))
           .toList(),
+    );
+  }
+
+  factory ArmyBuilderUnitItemUi.empty() {
+    return ArmyBuilderUnitItemUi(
+      name: '',
+      role: '',
+      m: '',
+      t: '',
+      sv: '',
+      isv: '',
+      w: '',
+      ld: '',
+      oc: '',
+      keywords: [],
+      repeat: '',
+      factionKeywords: [],
+      weapons: [],
     );
   }
 }

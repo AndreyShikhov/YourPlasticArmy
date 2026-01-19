@@ -14,7 +14,7 @@ class ArmyBuilderState {
   final DetachmentDOM? detachment;
   final List<DetachmentDOM> allDetachments;
   final List<ArmyBuilderUnitItemUi>? userArmyUnits;
-  final List<ArmyBuilderUnitItemUi> allUnits;
+  final List<ArmyBuilderUnitItemUi> allUnitsFromDb;
   final String? error;
 
   const ArmyBuilderState({
@@ -27,7 +27,7 @@ class ArmyBuilderState {
     this.detachment,
     this.allDetachments = const [],
     this.userArmyUnits = const[],
-    this.allUnits = const [],
+    this.allUnitsFromDb = const [],
     this.error,
   });
 
@@ -41,7 +41,7 @@ class ArmyBuilderState {
     DetachmentDOM? detachment,
     List<DetachmentDOM>? allDetachments,
     List<ArmyBuilderUnitItemUi>? userArmyUnits,
-    List<ArmyBuilderUnitItemUi>? allUnits,
+    List<ArmyBuilderUnitItemUi>? allUnitsFromDb,
     String? error,
   }) {
     return ArmyBuilderState(
@@ -54,7 +54,7 @@ class ArmyBuilderState {
       detachment: detachment ?? this.detachment,
       allDetachments: allDetachments ?? this.allDetachments,
       userArmyUnits: userArmyUnits ?? this.userArmyUnits,
-      allUnits: allUnits ?? this.allUnits,
+      allUnitsFromDb: allUnitsFromDb ?? this.allUnitsFromDb,
       error: error ?? this.error,
     );
   }
@@ -73,12 +73,19 @@ class ArmyBuilderState {
 
   List<ArmyBuilderUnitItemUi> getAllUnitsByRole(String role) {
     // 1. Проверяем на null или пустоту
-    if (allUnits.isEmpty) {
+    if (allUnitsFromDb.isEmpty) {
       // Вывод ошибки в консоль (поможет при отладке)
       debugPrint('Warning: allUnits is null or empty');
       return [];
     }
     // 2. Фильтруем и возвращаем список
-    return allUnits.where((unit) => unit.role == role).toList();
+    return allUnitsFromDb.where((unit) => unit.role == role).toList();
+  }
+
+  ArmyBuilderUnitItemUi getUnitByIdFromDb(String unitId) {
+    return allUnitsFromDb.firstWhere(
+            (unit) => unit.name == unitId,
+            orElse: () => ArmyBuilderUnitItemUi.empty()
+    );
   }
 }

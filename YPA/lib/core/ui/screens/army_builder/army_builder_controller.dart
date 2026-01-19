@@ -175,7 +175,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
         allDetachments: allDetachments,
         totalPts: userArmy.totalPoints,
         userArmyUnits: units,
-        allUnits: allUnits,
+        allUnitsFromDb: allUnits,
       );
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());
@@ -198,6 +198,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
       ld: unit.stats.leadership.toString(),
       oc: unit.stats.objectiveControl.toString(),
       keywords: unit.stats.keywords,
+      repeat: unit.stats.repeat.toString(),
       factionKeywords: unit.stats.factionKeywords,
       weapons: unit.stats.weapons,
     );
