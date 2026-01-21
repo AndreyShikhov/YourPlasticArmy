@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
 import 'package:ypa/core/ui/screens/army_builder/army_builder_item_ui.dart';
 
 import '../../../../domain/models/codex/codex.dart';
@@ -15,6 +16,7 @@ class ArmyBuilderState {
   final List<DetachmentDOM> allDetachments;
   final List<ArmyBuilderUnitItemUi>? userArmyUnits;
   final List<ArmyBuilderUnitItemUi> allUnitsFromDb;
+  final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>? temDataUnitsByRole;
   final String? error;
 
   const ArmyBuilderState({
@@ -28,6 +30,7 @@ class ArmyBuilderState {
     this.allDetachments = const [],
     this.userArmyUnits = const[],
     this.allUnitsFromDb = const [],
+    this.temDataUnitsByRole = const {},
     this.error,
   });
 
@@ -42,6 +45,7 @@ class ArmyBuilderState {
     List<DetachmentDOM>? allDetachments,
     List<ArmyBuilderUnitItemUi>? userArmyUnits,
     List<ArmyBuilderUnitItemUi>? allUnitsFromDb,
+    Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>? temDataUnitsByRole,
     String? error,
   }) {
     return ArmyBuilderState(
@@ -55,6 +59,7 @@ class ArmyBuilderState {
       allDetachments: allDetachments ?? this.allDetachments,
       userArmyUnits: userArmyUnits ?? this.userArmyUnits,
       allUnitsFromDb: allUnitsFromDb ?? this.allUnitsFromDb,
+      temDataUnitsByRole: temDataUnitsByRole ?? this.temDataUnitsByRole,
       error: error ?? this.error,
     );
   }
@@ -71,7 +76,7 @@ class ArmyBuilderState {
     return userArmyUnits!.where((unit) => unit.role == role).toList();
   }
 
-  List<ArmyBuilderUnitItemUi> getAllUnitsByRole(String role) {
+  List<ArmyBuilderUnitItemUi> getAllUnitsByRoleFromDB(String role) {
     // 1. Проверяем на null или пустоту
     if (allUnitsFromDb.isEmpty) {
       // Вывод ошибки в консоль (поможет при отладке)
@@ -88,4 +93,12 @@ class ArmyBuilderState {
             orElse: () => ArmyBuilderUnitItemUi.empty()
     );
   }
+
+  ArmyBuilderUnitItemUi getUnitByIdFromUserArmy(String unitId) {
+    return userArmyUnits!.firstWhere(
+            (unit) => unit.name == unitId,
+            orElse: () => ArmyBuilderUnitItemUi.empty()
+    );
+  }
+
 }

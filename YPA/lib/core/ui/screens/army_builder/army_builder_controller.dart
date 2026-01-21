@@ -10,6 +10,7 @@ import '../../../../application/unit/unt_use_case.dart';
 import '../../../../application/user_army/user_army_use_cases.dart';
 import '../../../../domain/models/detachment/detachment.dart';
 import '../../../../domain/models/unit/unit.dart';
+import '../../../database/tables/seed/seed_objects/_types.dart';
 import 'army_builder_item_ui.dart';
 import 'army_builder_state.dart';
 
@@ -177,10 +178,27 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
         userArmyUnits: units,
         allUnitsFromDb: allUnits,
       );
+
+      fillTemDataUnitsByRole();
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());
     }
   }
+
+  void fillTemDataUnitsByRole() {
+
+    Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> temDataUnitsByRole = {};
+
+    for (UnitRoleCode role in UnitRoleCode.values) {
+      List<ArmyBuilderUnitItemUi> units = state.getAllUnitsByRoleFromDB(role.title);
+      if(units.isNotEmpty)
+      {
+        temDataUnitsByRole.addEntries([MapEntry(role, units)]);
+      }
+    }
+    state = state.copyWith(temDataUnitsByRole: temDataUnitsByRole);
+  }
+
 
 
   // ==========================================

@@ -32,7 +32,7 @@ class CategoryContainer extends ConsumerWidget {
     final state = ref.watch(armyBuilderControllerProvider(armyId));
 
 
-    final allUnitsFromCodex = state.getAllUnitsByRole(
+    final allUnitsFromCodex = state.getAllUnitsByRoleFromDB(
         role.code); // все юниты (армия/кодекс) из базы данных по роли
 
 
