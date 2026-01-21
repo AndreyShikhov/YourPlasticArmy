@@ -1,0 +1,59 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
+import 'package:ypa/core/ui/screens/army_builder/army_builder_controller.dart';
+import 'package:ypa/core/ui/screens/army_builder/widgets/category_container.dart';
+import 'package:ypa/core/ui/widgets/expandable_section.dart';
+
+import 'button_open_select_units.dart';
+
+class CategoryExpanded extends ConsumerStatefulWidget {
+  final String armyId;
+  final UnitRoleCode role;
+
+  const CategoryExpanded({
+    super.key,
+    required this.armyId,
+    required this.role,
+  });
+
+  @override
+  ConsumerState<CategoryExpanded> createState() => _CategoryExpandedState();
+}
+
+class _CategoryExpandedState extends ConsumerState<CategoryExpanded> {
+  // Единственный источник истины для состояния открытия
+  bool _isExpanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final state = ref.watch(armyBuilderControllerProvider(widget.armyId));
+    final roleUnits = state.getAllUnitsByRoleFromUserArmy(widget.role.title);
+    
+    // В будущем тут будет реальный подсчет очков
+    final subtitle = '${roleUnits.length} pts  ${roleUnits.length} units';
+
+    return ExpandableSection(
+      title: widget.role.title,
+      subtitle: subtitle,
+      isExpanded: _isExpanded, // Передаем состояние "сверху"
+      onExpansionChanged: (expanded) {
+        setState(() {
+          _isExpanded = expanded; // Меняем состояние здесь
+        });
+      },
+      trailing: ButtonOpenSelectUnits(
+        icon: Icons.add,
+        // Кнопка теперь четко знает, развернута ли секция
+        enabled: !state.isLoading && _isExpanded,
+        onTap: () {
+          debugPrint('Open selector for ${widget.role.title}');
+        },
+      ),
+      child: CategoryContainer(
+        armyId: widget.armyId,
+        role: widget.role,
+      ),
+    );
+  }
+}

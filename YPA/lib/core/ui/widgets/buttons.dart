@@ -24,16 +24,15 @@ class MainButton extends FilledButton {
 
   static ButtonStyle mainButtonStyle(BuildContext? context) {
     return FilledButton.styleFrom(
-      backgroundColor: Color.fromARGB(255, 78, 73, 73), // Цвет фона
+      backgroundColor: const Color.fromARGB(255, 78, 73, 73), // Цвет фона
       foregroundColor: texColor, // Цвет текста
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-      fixedSize: Size(160, 80),
-      side: BorderSide(color: Colors.black,width: 2,strokeAlign: BorderSide.strokeAlignOutside),
-      shape:RoundedRectangleBorder(
+      fixedSize: const Size(160, 80),
+      side: const BorderSide(color: Colors.black,width: 2,strokeAlign: BorderSide.strokeAlignOutside),
+      shape:const RoundedRectangleBorder(
         borderRadius: BorderRadius.zero
       ),
     );
   }
 }
-
 

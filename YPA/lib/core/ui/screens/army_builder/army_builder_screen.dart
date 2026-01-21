@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ypa/core/ui/screens/army_builder/widgets/army_points_editor.dart';
-import 'package:ypa/core/ui/screens/army_builder/widgets/category_container.dart';
-import 'package:ypa/core/ui/screens/army_builder/widgets/detachment_selector.dart';
-import 'package:ypa/domain/models/army/army.dart';
-import 'package:ypa/domain/models/role/role.dart';
+import 'package:ypa/core/ui/screens/army_builder/widgets/army_settings/army_points_editor.dart';
+import 'package:ypa/core/ui/screens/army_builder/widgets/expanded/category_expanded.dart';
+import 'package:ypa/core/ui/screens/army_builder/widgets/army_settings/detachment_selector.dart';
 
 import '../../../database/tables/seed/seed_objects/_types.dart';
-import '../../widgets/expandable_section.dart';
+import 'widgets/expanded/expandable_section.dart';
 import 'army_builder_controller.dart';
 import 'army_builder_state.dart';
-import 'widgets/army_name_editor.dart';
+import 'widgets/army_settings/army_name_editor.dart';
 
 class ArmyBuilderScreen extends ConsumerWidget {
   final String armyId;
@@ -73,77 +71,49 @@ class ArmyBuilderScreen extends ConsumerWidget {
   }
 
   List<Widget> _buildSections(ArmyBuilderState state, WidgetRef ref) {
-    List<String> titles = [
-      'Army Description',
-      UnitRoleCode.characters.title,
-      UnitRoleCode.battleline.title,
-      UnitRoleCode.other.title,
-      UnitRoleCode.dedicatedTransports.title,
-      UnitRoleCode.fortifications.title,
-    ];
+    final List<Widget> sections = [];
 
-    List<Widget> tempWidgets = [];
-
-    for (String title in titles) {
-      if (title == 'Army Description') {
-        tempWidgets.add(ExpandableSection(
-            title: title,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  ArmyNameEditor(
-                    armyId: armyId,
-                    initialName: state.armyName,
-                  ),
-                  const SizedBox(height: 20,),
-                  DetachmentSelector(
-                    armyId: armyId,
-                    state: state,
-                  ),
-                  const SizedBox(height: 20,),
-                  ArmyPointsEditor(
-                      armyId: armyId, initialPoints: state.totalPts.toString())
-                ],
-              ),
-            )
-        ));
-      }
-      else {
-        final roleUnits = state.getAllUnitsByRoleFromUserArmy(title);
-        final roleEnum = UnitRoleCodeX.fromTitle(title);
-
-        if (roleEnum == null) {
-          continue;
-        }
-
-        tempWidgets.add(ExpandableSection(
-          title: title,
-          trailing: IconButton(
-            icon: const Icon(Icons.add, color: Colors.white),
-            onPressed: () {},
-          ),
-          subtitle: '${roleUnits.length} pts  ${roleUnits.length} units',
+    // 1. Секция описания армии (настройки)
+    sections.add(ExpandableSection(
+        title: 'Army Description',
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              CategoryContainer(
-                armyId: state.armyId!,
-                role: roleEnum,
+              ArmyNameEditor(
+                armyId: armyId,
+                initialName: state.armyName,
               ),
+              const SizedBox(height: 20,),
+              DetachmentSelector(
+                armyId: armyId,
+                state: state,
+              ),
+              const SizedBox(height: 20,),
+              ArmyPointsEditor(
+                  armyId: armyId, initialPoints: state.totalPts.toString())
             ],
           ),
-        ));
-      }
+        )
+    ));
+
+    // 2. Секции ролей юнитов
+    for (var role in UnitRoleCode.values) {
+      sections.add(
+        CategoryExpanded(
+          armyId: armyId,
+          role: role,
+        ),
+      );
     }
 
-    return tempWidgets;
+    return sections;
   }
 
   String _getPtstext(ArmyBuilderState state) {
     if (state.totalPts == 0) {
       return '${state.totalPts} pts';
     } else {
-      // Использование currentPts из стейта (если оно там есть) или 0
       return '0 / ${state.totalPts} pts';
     }
   }

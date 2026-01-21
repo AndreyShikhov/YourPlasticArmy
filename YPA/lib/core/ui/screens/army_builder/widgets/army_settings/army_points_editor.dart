@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../army_builder_controller.dart';
+import '../../army_builder_controller.dart';
 
 class ArmyPointsEditor extends ConsumerStatefulWidget {
   final String armyId;

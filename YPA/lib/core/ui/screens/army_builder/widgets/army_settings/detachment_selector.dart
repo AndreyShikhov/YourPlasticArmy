@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../army_builder_controller.dart';
-import '../army_builder_state.dart';
+import '../../army_builder_controller.dart';
+import '../../army_builder_state.dart';
 
 class DetachmentSelector extends ConsumerWidget {
   final String armyId;

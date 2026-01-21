@@ -2,7 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/core/ui/screens/army_builder/army_builder_controller.dart';
-import 'package:ypa/core/ui/screens/army_builder/widgets/unit_container.dart';
+import 'package:ypa/core/ui/screens/army_builder/widgets/select_units_dialog.dart';
+import 'package:ypa/core/ui/screens/army_builder/widgets/unit_container_from_army_user.dart';
 import 'package:ypa/domain/models/codex/codex.dart';
 import 'package:ypa/domain/models/role/role.dart';
 
@@ -55,7 +56,7 @@ class CategoryContainer extends ConsumerWidget {
             children: [
               if (allCategoryUnitsFromUserArmy.isNotEmpty) ...[
                 const Text('In Your Army:', style: TextStyle(fontWeight: FontWeight.bold)),
-                ..._getUnitsUserArmyWindowByList(allCategoryUnitsFromUserArmy),
+                //..._getUnitsUserArmyWindowByList(allCategoryUnitsFromUserArmy),
                 const SizedBox(height: 20),
               ],
               const Text('Available Units:', style: TextStyle(fontWeight: FontWeight.bold)),
@@ -77,7 +78,7 @@ class CategoryContainer extends ConsumerWidget {
       return [];
     }
 
-    return  listUnit.map((unit) =>  UnitContainer(armyId: armyId, unitId: unit.name)).toList();//listUnit.map((unit) =>  Text(unit.name)).toList();
+    return  listUnit.map((unit) =>  SelectUnitsDialog(armyId: armyId, role: role)).toList();
   }
 
   List<Widget> _getUnitsUserArmyWindowByList(List<ArmyBuilderUnitItemUi> listUnit){
@@ -86,6 +87,6 @@ class CategoryContainer extends ConsumerWidget {
       return [];
     }
 
-    return listUnit.map((unit) =>  UnitContainer(armyId: armyId, unitId: unit.name)).toList();//listUnit.map((unit) =>  SlideToConfirmUnitButton(unit.name)).toList();
+    return listUnit.map((unit) =>  UnitContainerFromArmyUser(armyId: armyId, unitId: unit.name)).toList();
   }
 }

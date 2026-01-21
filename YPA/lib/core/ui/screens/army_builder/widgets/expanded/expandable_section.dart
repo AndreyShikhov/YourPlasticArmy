@@ -1,32 +1,49 @@
 import 'package:flutter/material.dart';
 
-class ExpandableSection extends StatelessWidget {
+class ExpandableSection extends StatefulWidget {
   final String title;
   final String? subtitle;
   final Widget child;
+  final bool initialExpanded;
   final Widget? trailing;
-  
-  // Теперь это обязательные параметры для управления состоянием извне
-  final bool isExpanded;
-  final ValueChanged<bool> onExpansionChanged;
+  // Добавляем колбэк для отслеживания состояния
+  final ValueChanged<bool>? onExpansionChanged;
 
   const ExpandableSection({
     super.key,
     required this.title,
     required this.child,
-    required this.isExpanded,
-    required this.onExpansionChanged,
     this.subtitle,
+    this.initialExpanded = false,
     this.trailing,
+    this.onExpansionChanged,
   });
+
+  @override
+  State<ExpandableSection> createState() => _ExpandableSectionState();
+}
+
+class _ExpandableSectionState extends State<ExpandableSection> {
+  late bool _isExpanded;
+
+  @override
+  void initState() {
+    super.initState();
+    _isExpanded = widget.initialExpanded;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         GestureDetector(
-          // При нажатии просто сообщаем родителю, что хотим инвертировать состояние
-          onTap: () => onExpansionChanged(!isExpanded),
+          onTap: () {
+            setState(() {
+              _isExpanded = !_isExpanded;
+            });
+            // Вызываем колбэк при изменении состояния
+            widget.onExpansionChanged?.call(_isExpanded);
+          },
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
@@ -38,41 +55,40 @@ class ExpandableSection extends StatelessWidget {
             child: Row(
               children: [
                 Icon(
-                  isExpanded ? Icons.keyboard_arrow_down : Icons.keyboard_arrow_right,
+                  _isExpanded ? Icons.keyboard_arrow_down : Icons.keyboard_arrow_right,
                   color: Colors.white70,
                 ),
                 const SizedBox(width: 10),
                 Text(
-                  title,
+                  widget.title,
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                if (subtitle != null) ...[
+                if (widget.subtitle != null) ...[
                   const Spacer(),
                   Text(
-                    subtitle!,
+                    widget.subtitle!,
                     style: const TextStyle(color: Colors.white38, fontSize: 14),
                   ),
                 ],
-                if (trailing == null && subtitle == null) const Spacer(),
-                if (trailing != null) ...[
+                if (widget.trailing == null && widget.subtitle == null) const Spacer(),
+                if (widget.trailing != null) ...[
                   const SizedBox(width: 10),
-                  trailing!,
+                  widget.trailing!,
                 ],
               ],
             ),
           ),
         ),
-        // Показываем содержимое только если родитель передал isExpanded = true
-        if (isExpanded)
+        if (_isExpanded)
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(8.0),
             color: const Color.fromARGB(255, 35, 35, 35),
-            child: child,
+            child: widget.child,
           ),
       ],
     );

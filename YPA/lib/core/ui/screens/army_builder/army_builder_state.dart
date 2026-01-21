@@ -94,11 +94,16 @@ class ArmyBuilderState {
     );
   }
 
-  ArmyBuilderUnitItemUi getUnitByIdFromUserArmy(String unitId) {
-    return userArmyUnits!.firstWhere(
-            (unit) => unit.name == unitId,
-            orElse: () => ArmyBuilderUnitItemUi.empty()
-    );
+  List<ArmyBuilderUnitItemUi> getallUnitByIdFromUserArmy(String unitName) {
+    // 1. Проверяем на null
+    if (userArmyUnits == null) return [];
+
+    // 2. Фильтруем список и превращаем результат обратно в List
+    return userArmyUnits!.where((unit) => unit.name == unitName).toList();
+  }
+
+  int getCurrentCountUnitFromUserArmy(String unitName) {
+    return getallUnitByIdFromUserArmy(unitName).length;
   }
 
 }

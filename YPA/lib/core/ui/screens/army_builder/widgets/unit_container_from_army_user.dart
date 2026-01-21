@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ypa/core/ui/screens/army_builder/widgets/slide_to_confirm_unit_button.dart';
+import 'package:ypa/core/ui/screens/army_builder/widgets/text_unit_button.dart';
 
 import '../army_builder_controller.dart';
 
 
 
 
-class UnitContainer extends ConsumerWidget {
+class UnitContainerFromArmyUser extends ConsumerWidget {
 
   final String armyId;
   final String unitId;
 
 
-  UnitContainer({
+  UnitContainerFromArmyUser({
     super.key,
     required this.armyId,
     required this.unitId,
@@ -27,12 +27,11 @@ class UnitContainer extends ConsumerWidget {
       key: key,
       child: Column(
         children: [
-          SlideToConfirmUnitButton(
-            unitName: unitId,
-            maxRepeat: state.getUnitByIdFromDb(unitId).repeat,
-            onConfirmed: ()=>{},
+          TextUnitButton(
+            unit: state.getUnitByIdFromDb(unitId),
+            armyId: armyId,
           ),
-          SizedBox(height: 50,)
+          SizedBox(height: 5,)
         ],
       ),
     );
