@@ -7,6 +7,6 @@ class GetUserArmyById {
   GetUserArmyById(this.repository);
 
   Future<UserArmyDOM?> call(String id) {
-    return repository.findById(id);
+    return repository.findUserArmyById(id);
   }
 }

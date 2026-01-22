@@ -35,18 +35,27 @@ class DriftUserArmyRepository implements UserArmyRepository {
   }
 
   @override
-  Future<UserArmyDOM?> findById(String id) async {
+  Future<UserArmyDOM?> findUserArmyById(String id) async {
     final row = await (db.select(db.userArmies)..where((tbl) => tbl.id.equals(id))).getSingleOrNull();
     return row != null ? UserArmyMapper.fromRow(row) : null;
   }
 
   @override
-  Future<void> save(UserArmyDOM userArmy) async {
+  Future<void> saveUserArmy(UserArmyDOM userArmy) async {
     await db.into(db.userArmies).insertOnConflictUpdate(UserArmyMapper.toCompanion(userArmy));
   }
 
   @override
-  Future<void> delete(String id) async {
+  Future<void> deleteUserArmy(String id) async {
     await (db.delete(db.userArmies)..where((tbl) => tbl.id.equals(id))).go();
   }
+
+
+  @override
+  Future<void> addUnitToUserArmy(UserArmyDOM userArmy) async {
+    await db.into(db.userArmies).insertOnConflictUpdate(UserArmyMapper.toCompanion(userArmy));
+  }
 }
+
+
+

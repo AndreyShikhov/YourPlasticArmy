@@ -9,10 +9,10 @@ class UpdateUserArmyTotalPts {
     required String id,
     required int newTotalPts,
   }) async {
-    final army = await repository.findById(id);
+    final army = await repository.findUserArmyById(id);
     if (army != null) {
       final updatedArmy = army.copyWith(totalPoints: newTotalPts);
-      await repository.save(updatedArmy);
+      await repository.saveUserArmy(updatedArmy);
     }
   }
 }

@@ -25,6 +25,6 @@ class CreateUserArmy {
       createdAt: DateTime.now(),
     );
 
-    await repository.save(newUserArmy);
+    await repository.saveUserArmy(newUserArmy);
   }
 }

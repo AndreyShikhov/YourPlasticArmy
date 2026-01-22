@@ -1,6 +1,10 @@
+import 'dart:convert';
+
+import 'package:uuid/uuid.dart';
 import 'package:ypa/domain/models/army/army.dart';
 import 'package:ypa/domain/models/codex/codex_id.dart';
 import 'package:ypa/domain/models/detachment/detachment.dart';
+
 
 class UserArmyDOM {
   final String id;
@@ -10,7 +14,7 @@ class UserArmyDOM {
   final String? detachmentId;
   final DetachmentDOM? detachment;
   final int totalPoints;
-  final String jsonData; 
+  final String jsonData;
   final DateTime createdAt;
 
   const UserArmyDOM({
@@ -44,5 +48,45 @@ class UserArmyDOM {
       jsonData: jsonData ?? this.jsonData,
       createdAt: this.createdAt,
     );
+  }
+
+  /// Добавляет юнит в jsonData, соблюдая структуру категорий.
+  /// [role] — это строковый код роли (например, 'Characters', 'Battleline'), который станет ключом в JSON.
+  Future<UserArmyDOM> addUnitToUserArmy(String unitId, String role) async {
+    // 1. Декодируем текущий JSON или создаем структуру по умолчанию
+    Map<String, dynamic> root;
+    if (jsonData.isEmpty) {
+      root = {
+        "version": 1,
+        "categories": {}
+      };
+    } else {
+      try {
+        root = jsonDecode(jsonData);
+      } catch (e) {
+        root = {"version": 1, "categories": {}};
+      }
+    }
+
+    // 2. Получаем или создаем мапу категорий
+    Map<String, dynamic> categories = root["categories"] ?? {};
+
+    // 3. Получаем список юнитов для конкретной роли
+    List<dynamic> unitList = categories[role] ?? [];
+
+    // 4. Формируем новый объект юнита
+    final newUnitInstance = {
+      "instanceId": const Uuid().v4(), // Уникальный ID отряда в ростере
+      "unitId": unitId,               // Ссылка на ID базового юнита из таблицы Units
+      "wargearOptions": {},           // Пока пустой объект опций
+    };
+
+    // 5. Добавляем юнит в список и обновляем структуру
+    unitList.add(newUnitInstance);
+    categories[role] = unitList;
+    root["categories"] = categories;
+
+    // 6. Возвращаем новый экземпляр UserArmyDOM с обновленной JSON-строкой
+    return copyWith(jsonData: jsonEncode(root));
   }
 }

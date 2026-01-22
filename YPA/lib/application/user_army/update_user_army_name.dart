@@ -9,10 +9,10 @@ class UpdateUserArmyName {
     required String id,
     required String newName,
   }) async {
-    final army = await repository.findById(id);
+    final army = await repository.findUserArmyById(id);
     if (army != null) {
       final updatedArmy = army.copyWith(name: newName);
-      await repository.save(updatedArmy);
+      await repository.saveUserArmy(updatedArmy);
     }
   }
 }

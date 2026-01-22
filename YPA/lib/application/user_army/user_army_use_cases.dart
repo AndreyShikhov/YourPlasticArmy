@@ -6,3 +6,4 @@ export 'update_user_army_detachment.dart';
 export 'update_user_army_name.dart';
 export 'update_user_army_roster.dart';
 export 'update_user_army_total_pts.dart';
+export 'add_unit_to_user_roster.dart';

@@ -10,13 +10,13 @@ class UpdateUserArmyRoster {
     required String jsonRoster,
     required int totalPoints,
   }) async {
-    final army = await repository.findById(id);
+    final army = await repository.findUserArmyById(id);
     if (army != null) {
       final updatedArmy = army.copyWith(
         jsonData: jsonRoster,
         totalPoints: totalPoints,
       );
-      await repository.save(updatedArmy);
+      await repository.saveUserArmy(updatedArmy);
     }
   }
 }

@@ -8,6 +8,6 @@ class DeletUserArmyById {
 
   Future<void> call({required String userArmyId}) async {
 
-    await repository.delete(userArmyId);
+    await repository.deleteUserArmy(userArmyId);
   }
 }

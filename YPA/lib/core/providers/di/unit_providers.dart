@@ -47,10 +47,6 @@ final createUnitUseCaseProvider = Provider<CreateUnit>((ref) {
   return CreateUnit(repository);
 });
 
-final updateUnitUseCaseProvider = Provider<UpdateUnit>((ref) {
-  final repository = ref.watch(unitRepositoryProvider);
-  return UpdateUnit(repository);
-});
 
 final deleteUnitUseCaseProvider = Provider<DeleteUnit>((ref) {
   final repository = ref.watch(unitRepositoryProvider);

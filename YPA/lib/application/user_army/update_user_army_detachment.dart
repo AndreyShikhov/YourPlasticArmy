@@ -11,10 +11,10 @@ class UpdateUserArmyDetachment {
     required String id,
     required DetachmentDOM newDetachment,
   }) async {
-    final army = await repository.findById(id);
+    final army = await repository.findUserArmyById(id);
     if (army != null) {
       final updatedArmy = army.copyWith(detachment: newDetachment, detachmentId: newDetachment.id.value);
-      await repository.save(updatedArmy);
+      await repository.saveUserArmy(updatedArmy);
     }
   }
 }
