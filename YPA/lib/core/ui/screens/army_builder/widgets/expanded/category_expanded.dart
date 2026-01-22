@@ -24,6 +24,7 @@ class CategoryExpanded extends ConsumerStatefulWidget {
 class _CategoryExpandedState extends ConsumerState<CategoryExpanded> {
   // Единственный источник истины для состояния открытия
   bool _isExpanded = false;
+  bool _isSelectionMode = false;
 
   @override
   Widget build(BuildContext context) {
@@ -40,19 +41,23 @@ class _CategoryExpandedState extends ConsumerState<CategoryExpanded> {
       onExpansionChanged: (expanded) {
         setState(() {
           _isExpanded = expanded; // Меняем состояние здесь
+          if (!expanded) _isSelectionMode = false;
         });
       },
       trailing: ButtonOpenSelectUnits(
-        icon: Icons.add,
+        icon: _isSelectionMode ?  Icons.remove : Icons.add,
         // Кнопка теперь четко знает, развернута ли секция
         enabled: !state.isLoading && _isExpanded,
         onTap: () {
-          debugPrint('Open selector for ${widget.role.title}');
+          setState(() {
+            _isSelectionMode = !_isSelectionMode; // Переключаем режим
+          });
         },
       ),
       child: CategoryContainer(
         armyId: widget.armyId,
         role: widget.role,
+        isSelectionModeContainer: _isSelectionMode,
       ),
     );
   }

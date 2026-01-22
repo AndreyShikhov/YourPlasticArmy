@@ -16,12 +16,14 @@ class CategoryContainer extends ConsumerWidget {
 
   final String armyId;
   final UnitRoleCode role;
+  final bool isSelectionModeContainer;
 
   // Конструктор должен выглядеть так:
   const CategoryContainer({
     super.key,
     required this.armyId,
     required this.role,
+    this.isSelectionModeContainer = false,
   });
 
 
@@ -41,9 +43,7 @@ class CategoryContainer extends ConsumerWidget {
     final allCategoryUnitsFromUserArmy = state.getAllUnitsByRoleFromUserArmy(
         role.code); // все юниты (армия/кодекс) из армии пользователя
 
-    // заполнить блок выбранными объектами юзер армии
 
-    // заполнить блок доступных для выбора юнитов
 
 
     // Здесь будет ваша логика и контейнер со скроллом
@@ -54,14 +54,20 @@ class CategoryContainer extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             // load data from user army
             children: [
-              if (allCategoryUnitsFromUserArmy.isNotEmpty) ...[
+              // 1. Список юнитов, которые УЖЕ в армии (показываем всегда)
+              if (allCategoryUnitsFromUserArmy.isNotEmpty) ...
+              [
                 const Text('In Your Army:', style: TextStyle(fontWeight: FontWeight.bold)),
-                //..._getUnitsUserArmyWindowByList(allCategoryUnitsFromUserArmy),
+                ..._getUnitsUserArmyWindowByList(allCategoryUnitsFromUserArmy),
                 const SizedBox(height: 20),
               ],
-              const Text('Available Units:', style: TextStyle(fontWeight: FontWeight.bold)),
-              ..._getUnitsDBWindowByList(allUnitsFromCodex),
-              const SizedBox(height: 20),
+
+              // 2. Список доступных для выбора юнитов (показываем ТОЛЬКО в режиме выбора)
+              if(isSelectionModeContainer)...[
+                _showUnitsSelectionDialog(),
+                const SizedBox(height: 20),
+              ],
+
             ],
             // load data from data base
           ),
@@ -88,5 +94,12 @@ class CategoryContainer extends ConsumerWidget {
     }
 
     return listUnit.map((unit) =>  UnitContainerFromArmyUser(armyId: armyId, unitId: unit.name)).toList();
+  }
+
+  Widget _showUnitsSelectionDialog(){
+    return  SelectUnitsDialog(
+      armyId: armyId,
+      role: role,
+    );
   }
 }
