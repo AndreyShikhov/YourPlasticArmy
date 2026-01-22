@@ -74,7 +74,7 @@ class TextUnitButton extends ConsumerWidget {
                 icon: const Icon(Icons.add_circle_outline, color: Colors.greenAccent),
                 onPressed: () {
                   // Вызываем метод добавления в контроллере
-                  //controller.addUnit(unit);
+                  controller.addUnitToUserArmy(unit);
                 },
               ),
             ],

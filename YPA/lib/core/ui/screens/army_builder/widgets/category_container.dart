@@ -40,8 +40,7 @@ class CategoryContainer extends ConsumerWidget {
 
 
     // получить все юниты определённой роли из юзхер армии
-    final allCategoryUnitsFromUserArmy = state.getAllUnitsByRoleFromUserArmy(
-        role.code); // все юниты (армия/кодекс) из армии пользователя
+    final allCategoryUnitsFromUserArmy = state.getAllUnitsByRoleFromUserArmy(role.title); // все юниты (армия/кодекс) из армии пользователя
 
 
 
@@ -55,7 +54,7 @@ class CategoryContainer extends ConsumerWidget {
             // load data from user army
             children: [
               // 1. Список юнитов, которые УЖЕ в армии (показываем всегда)
-              if (allCategoryUnitsFromUserArmy.isNotEmpty) ...
+              if (allCategoryUnitsFromUserArmy.isNotEmpty && !isSelectionModeContainer) ...
               [
                 const Text('In Your Army:', style: TextStyle(fontWeight: FontWeight.bold)),
                 ..._getUnitsUserArmyWindowByList(allCategoryUnitsFromUserArmy),

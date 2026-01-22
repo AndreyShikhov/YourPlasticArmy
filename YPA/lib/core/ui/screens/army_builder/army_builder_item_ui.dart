@@ -1,6 +1,7 @@
 import 'package:ypa/domain/models/unit/unit_stats.dart';
 
 class ArmyBuilderUnitItemUi {
+  final String dbId;
   final String name;
   final String role;
   final String m;  // Movement
@@ -16,6 +17,7 @@ class ArmyBuilderUnitItemUi {
   final List<Weapon> weapons;
 
   ArmyBuilderUnitItemUi({
+    required this.dbId,
     required this.name,
     required this.role,
     required this.m,
@@ -33,6 +35,7 @@ class ArmyBuilderUnitItemUi {
 
   Map<String, dynamic> toJson() {
     return {
+      'dbId': dbId,
       'name': name,
       'role': role,
       'm': m,
@@ -51,6 +54,7 @@ class ArmyBuilderUnitItemUi {
 
   factory ArmyBuilderUnitItemUi.fromJson(Map<String, dynamic> json) {
     return ArmyBuilderUnitItemUi(
+      dbId: json['dbId'] ?? '',
       name: json['name'] ?? '',
       role: json['role'] ?? '',
       m: json['m'] ?? '',
@@ -71,6 +75,7 @@ class ArmyBuilderUnitItemUi {
 
   factory ArmyBuilderUnitItemUi.empty() {
     return ArmyBuilderUnitItemUi(
+      dbId: '',
       name: '',
       role: '',
       m: '',

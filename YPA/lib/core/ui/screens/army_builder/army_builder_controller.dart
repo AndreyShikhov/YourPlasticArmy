@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/application/codex/get_codex_by_id.dart';
 import 'package:ypa/core/providers/di/di_providers.dart';
@@ -71,7 +72,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
   // ==========================================
 
   // Обновление имени в базе и стейте
-  Future<void> updateName(String newName) async {
+  Future<void> updateNameArmyRoster(String newName) async {
     state = state.copyWith(armyName: newName);
     try {
       await _updateName(id: _armyId, newName: newName);
@@ -80,7 +81,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
     }
   }
 
-  Future<void> updateDetachment(String nameDetachment) async {
+  Future<void> updateDetachmentArmyRoster(String nameDetachment) async {
     if (nameDetachment == '') return;
     final selectedDetachment = state.allDetachments.firstWhere((d) =>
     d.name.value == nameDetachment,
@@ -96,10 +97,19 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
     }
   }
 
-  Future<void> updateTotalPoints(int newTotalPts) async {
+  Future<void> updateTotalPointsArmyRoster(int newTotalPts) async {
     state = state.copyWith(totalPts: newTotalPts);
     try {
       await _updatetotalPts(id: _armyId, newTotalPts: newTotalPts);
+    } catch (e) {
+      state = state.copyWith(error: e.toString());
+    }
+  }
+
+  Future<void> addUnitToUserArmy(ArmyBuilderUnitItemUi unit) async {
+    try {
+      await _addUnitToUserRoster(armyId: _armyId, unitId: unit.dbId);
+      loadArmy();
     } catch (e) {
       state = state.copyWith(error: e.toString());
     }
@@ -160,24 +170,16 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
       }
 
       // get detachment
-      final savedDetachment = userArmy.detachmentId != null
-          ? allDetachments
+      final savedDetachment = userArmy.detachmentId != null ? allDetachments
           .where((d) => d.id.value == userArmy.detachmentId)
-          .firstOrNull
-          : null;
+          .firstOrNull : null;
 
       // Восстановление юнитов из JSON (с ожиданием результата)
-      final Map<UnitRoleCode,
-          List<
-              ArmyBuilderUnitItemUi>> userArmyUnits = await _getAllUserArmyUnitsFromJson(
-          userArmy.jsonData);
+      final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> userArmyUnits = await _getAllUserArmyUnitsFromJson(userArmy.jsonData);
 
       // получение всех возможных юнитов для армии из базы данных
-      final List<
-          ArmyBuilderUnitItemUi> allUnitsFromDb = await getAllUnitsByArmyId(
-          userArmy.armyId); // юниты по армии
-      allUnitsFromDb.addAll(
-          await getAllUnitsByCodexId(userArmy.codexId)); // юниты по кодексу
+      final List<ArmyBuilderUnitItemUi> allUnitsFromDb = await getAllUnitsByArmyId(userArmy.armyId); // юниты по армии
+      allUnitsFromDb.addAll(await getAllUnitsByCodexId(userArmy.codexId)); // юниты по кодексу
 
       state = state.copyWith(
         isLoading: false,
@@ -215,6 +217,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
   // ==========================================
   ArmyBuilderUnitItemUi _convertDomainUnitToUnitItemUi(UnitDOM unit) {
     return ArmyBuilderUnitItemUi(
+      dbId: unit.id.value,
       name: unit.name.value,
       role: unit.role.value.name,
       m: unit.stats.movement.toString(),
@@ -237,38 +240,27 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
     if (jsonData.isEmpty) return {};
 
     try {
-      final decoded = jsonDecode(jsonData);
-      List<dynamic> rawUnits = [];
+      final decoded = jsonDecode(jsonData) as Map<String, dynamic>;
+      final categoriesJson = decoded['categories'] as Map<String, dynamic>? ??
+          {};
 
-      // Определяем, где в JSON лежат данные о юнитах
-      if (decoded is List) {
-        rawUnits = decoded;
-      } else if (decoded is Map<String, dynamic> && decoded['units'] is List) {
-        rawUnits = decoded['units'];
-      }
+      return categoriesJson.entries.fold<
+          Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>>({}, (acc, entry) {
+        final roleCode = UnitRoleCodeX.fromTitle(entry.key);
 
-      final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> groupedUnits = {};
-
-      for (var item in rawUnits) {
-        final unit = ArmyBuilderUnitItemUi.fromJson(
-            item as Map<String, dynamic>);
-
-        // Преобразуем строковую роль из UI модели обратно в Enum UnitRoleCode
-        // Используем UnitRoleCodeX.fromTitle, который вы используете в других местах
-        final roleEnum = UnitRoleCodeX.fromTitle(unit.role);
-
-        if (roleEnum != null) {
-          if (!groupedUnits.containsKey(roleEnum)) {
-            groupedUnits[roleEnum] = [];
-          }
-          groupedUnits[roleEnum]!.add(unit);
+        if (roleCode != null && entry.value is List) {
+          final List<dynamic> unitsJson = entry.value;
+          acc[roleCode] = unitsJson
+              .map((u) =>
+              ArmyBuilderUnitItemUi.fromJson(u as Map<String, dynamic>))
+              .toList();
         }
-      }
-
-      return groupedUnits;
+        return acc;
+      },
+      );
     } catch (e) {
-      print('Error decoding units from JSON: $e');
-      return {}; // Возвращаем пустую карту в случае ошибки
+      debugPrint('Error decoding units from JSON: $e');
+      return {};
     }
   }
 }

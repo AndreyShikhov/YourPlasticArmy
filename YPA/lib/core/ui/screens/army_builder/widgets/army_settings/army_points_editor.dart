@@ -49,7 +49,7 @@ class _ArmyPointsEditorState extends ConsumerState<ArmyPointsEditor> {
           controller: _controller,
           onChanged: (value) {
             // Вызываем метод контроллера для сохранения в базу
-            ref.read(armyBuilderControllerProvider(widget.armyId).notifier).updateTotalPoints(int.parse(value));
+            ref.read(armyBuilderControllerProvider(widget.armyId).notifier).updateTotalPointsArmyRoster(int.parse(value));
           },
           style: const TextStyle(color: Colors.white),
           decoration: const InputDecoration(

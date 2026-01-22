@@ -66,17 +66,23 @@ class ArmyBuilderState {
 
 
   List<ArmyBuilderUnitItemUi> getAllUnitsByRoleFromUserArmy(String role) {
-    // 1. Проверяем на null или пустоту
-    if (userArmyUnits == null || userArmyUnits!.isEmpty) {
 
+    // 1. Проверяем на null или пустоту всей карты
+    if (userArmyUnits == null || userArmyUnits!.isEmpty) {
       debugPrint('Warning: userArmyUnits is null or empty');
       return [];
     }
-    // 2. Разворачиваем все списки из Map в один плоский список и фильтруем по роли
-    return userArmyUnits!.values
-        .expand((units) => units) // Превращаем Map<Key, List> в один общий Iterable
-        .where((unit) => unit.role == role) // Фильтруем
-        .toList();
+
+    // 2. Преобразуем строковый заголовок (например, "Troops") в Enum UnitRoleCode
+    final roleCode = UnitRoleCodeX.fromTitle(role);
+
+    // Если роль не распознана, возвращаем пустой список
+    if (roleCode == null) return [];
+
+    final test = userArmyUnits![roleCode] ?? [];
+    // 3. Возвращаем список юнитов для этой роли из карты (или пустой список, если такой роли в карте нет)
+    return test;
+
   }
 
   List<ArmyBuilderUnitItemUi> getAllUnitsByRoleFromDB(String role) {
