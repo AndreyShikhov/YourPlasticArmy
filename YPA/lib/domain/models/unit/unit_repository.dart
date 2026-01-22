@@ -9,7 +9,7 @@ abstract class UnitRepository {
   Future<void> saveUnit(UnitDOM unit);
 
   /// Найти Unit по ID
-  Future<UnitDOM?> findUnitById(UnitId id);
+  Future<UnitDOM?> findUnitByIdFromDb(UnitId id);
 
   /// Получить все Unit
   Future<List<UnitDOM>> findAllUnits();

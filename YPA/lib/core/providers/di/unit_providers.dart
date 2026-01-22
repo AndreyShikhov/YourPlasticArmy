@@ -53,6 +53,11 @@ final deleteUnitUseCaseProvider = Provider<DeleteUnit>((ref) {
   return DeleteUnit(repository);
 });
 
+final findUnitByIdFromDbUseCaseProvider = Provider<GetUnitByIdFromDb>((ref) {
+  final repository = ref.watch(unitRepositoryProvider);
+  return GetUnitByIdFromDb(repository);
+});
+
 // --- UI STATE ---
 
 final rolesListProvider = FutureProvider<List<RoleDOM>>((ref) async {

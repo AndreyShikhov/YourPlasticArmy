@@ -56,7 +56,7 @@ class DriftUnitRepository implements UnitRepository  {
   }
 
   @override
-  Future<UnitDOM?> findUnitById(UnitId id) async {
+  Future<UnitDOM?> findUnitByIdFromDb(UnitId id) async {
     final row = await (db.select(db.units)..where((tbl) => tbl.id.equals(id.value))).getSingleOrNull();
         
     return row != null ? UnitMapper.fromRow(row) : null;

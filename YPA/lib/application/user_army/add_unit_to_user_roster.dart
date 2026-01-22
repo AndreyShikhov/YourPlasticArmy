@@ -18,7 +18,7 @@ class AddUnitToUserRoster {
     // 1. Получаем армию
     final army = await armyRepository.findUserArmyById(armyId);
     // 2. Получаем юнит (чтобы знать, в какую категорию его положить)
-    final unit = await unitRepository.findUnitById(UnitId.fromString(unitId));
+    final unit = await unitRepository.findUnitByIdFromDb(UnitId.fromString(unitId));
 
     if (army != null && unit != null) {
       // 3. Вызываем доменную логику (она вернет обновленный объект армии)
