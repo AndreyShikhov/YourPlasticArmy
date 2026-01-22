@@ -14,7 +14,7 @@ class ArmyBuilderState {
   final CodexDOM? codex;
   final DetachmentDOM? detachment;
   final List<DetachmentDOM> allDetachments;
-  final List<ArmyBuilderUnitItemUi>? userArmyUnits;
+  final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>? userArmyUnits;
   final List<ArmyBuilderUnitItemUi> allUnitsFromDb;
   final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>? temDataUnitsByRole;
   final String? error;
@@ -28,7 +28,7 @@ class ArmyBuilderState {
     this.codex,
     this.detachment,
     this.allDetachments = const [],
-    this.userArmyUnits = const[],
+    this.userArmyUnits = const{},
     this.allUnitsFromDb = const [],
     this.temDataUnitsByRole = const {},
     this.error,
@@ -43,7 +43,7 @@ class ArmyBuilderState {
     CodexDOM? codex,
     DetachmentDOM? detachment,
     List<DetachmentDOM>? allDetachments,
-    List<ArmyBuilderUnitItemUi>? userArmyUnits,
+    Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>? userArmyUnits,
     List<ArmyBuilderUnitItemUi>? allUnitsFromDb,
     Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>? temDataUnitsByRole,
     String? error,
@@ -68,12 +68,15 @@ class ArmyBuilderState {
   List<ArmyBuilderUnitItemUi> getAllUnitsByRoleFromUserArmy(String role) {
     // 1. Проверяем на null или пустоту
     if (userArmyUnits == null || userArmyUnits!.isEmpty) {
-      // Вывод ошибки в консоль (поможет при отладке)
+
       debugPrint('Warning: userArmyUnits is null or empty');
       return [];
     }
-    // 2. Фильтруем и возвращаем список
-    return userArmyUnits!.where((unit) => unit.role == role).toList();
+    // 2. Разворачиваем все списки из Map в один плоский список и фильтруем по роли
+    return userArmyUnits!.values
+        .expand((units) => units) // Превращаем Map<Key, List> в один общий Iterable
+        .where((unit) => unit.role == role) // Фильтруем
+        .toList();
   }
 
   List<ArmyBuilderUnitItemUi> getAllUnitsByRoleFromDB(String role) {
@@ -94,16 +97,21 @@ class ArmyBuilderState {
     );
   }
 
-  List<ArmyBuilderUnitItemUi> getallUnitByIdFromUserArmy(String unitName) {
+  List<ArmyBuilderUnitItemUi> getallUnitByNameFromUserArmy(String unitName) {
     // 1. Проверяем на null
-    if (userArmyUnits == null) return [];
+    if (userArmyUnits == null) {
+      debugPrint('Warning: userArmyUnits is null or empty');
+      return [];
+    }
 
-    // 2. Фильтруем список и превращаем результат обратно в List
-    return userArmyUnits!.where((unit) => unit.name == unitName).toList();
+    return userArmyUnits!.values
+        .expand((units) => units) // Превращаем Map<Key, List> в один общий Iterable
+        .where((unit) => unit.name == unitName) // Фильтруем
+        .toList();
   }
 
   int getCurrentCountUnitFromUserArmy(String unitName) {
-    return getallUnitByIdFromUserArmy(unitName).length;
+    return getallUnitByNameFromUserArmy(unitName).length;
   }
 
 }
