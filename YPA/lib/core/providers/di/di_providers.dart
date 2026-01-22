@@ -8,3 +8,4 @@ export 'unit_abilities_providers.dart';
 export 'unit_providers.dart';
 export 'user_army_providers.dart';
 export 'weapon_abilities_providers.dart';
+export 'user_roster_unit_provider.dart';

@@ -25,6 +25,7 @@ final armyBuilderControllerProvider = StateNotifierProvider.family<ArmyBuilderCo
   final getAllDetachmentsByCodexId = ref.watch(getAlldetachmentsByCodexIdUseCaseProvider);
   final getAllUnitsByCodexId = ref.watch(getAllUnitsByCodexIdUseCaseProvider);
   final getAllUnitsByArmyId = ref.watch(getUnitsByArmyUseCaseProvider);
+  final addUnitToUserRoster = ref.watch(addUnitToUserRosterUseCaseProvider);
 
   return ArmyBuilderController(
       getUserArmyById,
@@ -35,6 +36,7 @@ final armyBuilderControllerProvider = StateNotifierProvider.family<ArmyBuilderCo
       getAllDetachmentsByCodexId,
       getAllUnitsByCodexId,
       getAllUnitsByArmyId,
+      addUnitToUserRoster,
       armyId );
 });
 
@@ -47,6 +49,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
   final GetAllDetachmentsByCodexId _getAllDetachmentsByCodexId;
   final GetAllUnitsByCodexId _getAllUnitsByCodexid;
   final GetUnitsByArmy _getAllUnitsByArmyId;
+  final AddUnitToUserRoster _addUnitToUserRoster;
   final String _armyId;
 
   ArmyBuilderController(this._getUserArmyById,
@@ -57,6 +60,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
       this._getAllDetachmentsByCodexId,
       this._getAllUnitsByCodexid,
       this._getAllUnitsByArmyId,
+      this._addUnitToUserRoster,
       this._armyId,) : super(const ArmyBuilderState()) {
     loadArmy();
   }
