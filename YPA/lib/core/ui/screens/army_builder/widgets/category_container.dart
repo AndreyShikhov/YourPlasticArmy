@@ -58,7 +58,7 @@ class CategoryContainer extends ConsumerWidget {
               if (allCategoryUnitsFromUserArmy.isNotEmpty && !isSelectionModeContainer) ...
               [
                 const Text('In Your Army:', style: TextStyle(fontWeight: FontWeight.bold)),
-                _getUnitsUserArmyWindowByList(allCategoryUnitsFromUserArmy),
+                ..._getUnitsUserArmyWindowByList(allCategoryUnitsFromUserArmy),
                 const SizedBox(height: 20),
               ],
 
@@ -87,13 +87,26 @@ class CategoryContainer extends ConsumerWidget {
     return  listUnit.map((unit) =>  SelectUnitsDialog(armyId: armyId, role: role)).toList();
   }
 
-  ArmyUnitsBlock _getUnitsUserArmyWindowByList(List<ArmyBuilderUnitItemUi> listUnit){
+  List<ArmyUnitsBlock> _getUnitsUserArmyWindowByList(List<ArmyBuilderUnitItemUi> listUnit){
+    //1. Группируем юниты по имени в один проход через Map
+    final Map<String, List<ArmyBuilderUnitItemUi>> groupedUnits = {};
 
-    return   ArmyUnitsBlock(
-      armyId: armyId,
-      units: listUnit,
-      bgColor: Colors.grey,
-    );
+    for (final unit in listUnit) {
+      groupedUnits.putIfAbsent(unit.name, () => []).add(unit);
+    }
+
+    bool isLight = false;
+    // 2. Преобразуем сгруппированные данные в список виджетов
+    return groupedUnits.values.map((unitsGroup) {
+      isLight = !isLight;
+      return ArmyUnitsBlock(
+        armyId: armyId,
+        units: unitsGroup,
+        bgColor: isLight ? const Color.fromARGB(64, 255, 255, 255) : const Color.fromARGB(
+            64, 30, 30, 30),
+      );
+    }).toList();
+
   }
 
   Widget _showUnitsSelectionDialog(){

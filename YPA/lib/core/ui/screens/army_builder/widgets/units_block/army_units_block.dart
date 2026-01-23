@@ -8,9 +8,9 @@ import 'package:ypa/core/ui/screens/army_builder/widgets/units_block/unit_widget
 
 class ArmyUnitsBlock extends ConsumerWidget {
 
-  String armyId;
-  List<ArmyBuilderUnitItemUi> units;
-  Color bgColor;
+  final String armyId;
+  final List<ArmyBuilderUnitItemUi> units;
+  final Color bgColor;
 
 
 
@@ -24,17 +24,21 @@ class ArmyUnitsBlock extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // TODO: implement build
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 4),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-      decoration: BoxDecoration(
-        color: bgColor,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        children: [
-          ..._getUnitsWidgets(context, ref),
-        ],
+    return Center(
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+        decoration: BoxDecoration(
+          color: bgColor,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child:
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ..._getUnitsWidgets(context, ref),
+          ],
+        ),
       ),
     );
   }
