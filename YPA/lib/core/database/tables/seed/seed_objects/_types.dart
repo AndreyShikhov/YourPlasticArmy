@@ -547,6 +547,14 @@ extension UnitRoleCodeX on UnitRoleCode {
       return null; // Если это не титул, вернет null
     }
   }
+
+  static UnitRoleCode? fromName(String name) {
+    try {
+      return UnitRoleCode.values.firstWhere((e) => e.name == name);
+    } catch (_) {
+      return null;
+    }
+  }
 }
 
 enum WeaponAbilitiesCode {

@@ -48,3 +48,8 @@ final updateUserArmyTotalPtsUseCaseProvider = Provider<UpdateUserArmyTotalPts>((
   final repository = ref.watch(userArmyRepositoryProvider);
   return UpdateUserArmyTotalPts(repository);
 });
+
+final removeLastUnitFromUserRosterUseCaseProvider = Provider<RemoveLastUnitFromUserRoster>((ref) {
+  final repository = ref.watch(userArmyRepositoryProvider);
+  return RemoveLastUnitFromUserRoster(repository);
+});

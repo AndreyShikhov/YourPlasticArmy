@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
 
 import '../army_builder_controller.dart';
 import '../army_builder_item_ui.dart';
@@ -54,7 +55,7 @@ class TextUnitButton extends ConsumerWidget {
                 icon: const Icon(Icons.remove_circle_outline, color: Colors.redAccent),
                 onPressed: () {
                   // Вызываем метод удаления в контроллере
-                  //controller.removeUnit(unit);
+                  controller.removeLastUnitFromUserArmy(unit.dbId, UnitRoleCodeX.fromName(unit.role)!);
                 },
               ),
               const SizedBox(width: 15),
@@ -74,7 +75,7 @@ class TextUnitButton extends ConsumerWidget {
                 icon: const Icon(Icons.add_circle_outline, color: Colors.greenAccent),
                 onPressed: () {
                   // Вызываем метод добавления в контроллере
-                  controller.addUnitToUserArmy(unit);
+                  controller.addUnitToUserArmy(unit.dbId);
                 },
               ),
             ],

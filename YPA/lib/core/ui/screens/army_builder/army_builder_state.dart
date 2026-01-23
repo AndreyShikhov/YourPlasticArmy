@@ -74,14 +74,13 @@ class ArmyBuilderState {
     }
 
     // 2. Преобразуем строковый заголовок (например, "Troops") в Enum UnitRoleCode
-    final roleCode = UnitRoleCodeX.fromTitle(role);
+    final roleCode = UnitRoleCodeX.fromName(role);
 
     // Если роль не распознана, возвращаем пустой список
     if (roleCode == null) return [];
 
-    final test = userArmyUnits![roleCode] ?? [];
     // 3. Возвращаем список юнитов для этой роли из карты (или пустой список, если такой роли в карте нет)
-    return test;
+    return userArmyUnits![roleCode] ?? [];
 
   }
 

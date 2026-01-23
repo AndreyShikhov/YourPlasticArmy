@@ -89,4 +89,42 @@ class UserArmyDOM {
     // 6. Возвращаем новый экземпляр UserArmyDOM с обновленной JSON-строкой
     return copyWith(jsonData: jsonEncode(root));
   }
+
+
+  /// Удаляет ПОСЛЕДНИЙ добавленный экземпляр юнита с указанным [unitId] из конкретной [role].
+  Future<UserArmyDOM> removeLastUnitFromUserArmy(String unitId, String role) async {
+    if (jsonData.isEmpty) return this;
+
+    try {
+      final Map<String, dynamic> root = jsonDecode(jsonData);
+      final Map<String, dynamic> categories = root["categories"] ?? {};
+
+      // Ищем список именно в той категории, которую передали
+      List<dynamic> unitList = categories[role] ?? [];
+
+      if (unitList.isEmpty) return this;
+
+      // Ищем индекс последнего юнита с таким unitId в этой категории
+      int lastIndex = -1;
+      for (int i = unitList.length - 1; i >= 0; i--) {
+        if (unitList[i]['unitId'] == unitId) {
+          lastIndex = i;
+          break;
+        }
+      }
+
+      // Если нашли — удаляем и обновляем JSON
+      if (lastIndex != -1) {
+        unitList.removeAt(lastIndex);
+        categories[role] = unitList;
+        root["categories"] = categories;
+        return copyWith(jsonData: jsonEncode(root));
+      }
+
+      return this; // Если не нашли в этой категории
+    } catch (e) {
+      // Использование print или debugPrint для доменных моделей допустимо для отладки
+      return this;
+    }
+  }
 }

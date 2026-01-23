@@ -28,6 +28,8 @@ final armyBuilderControllerProvider = StateNotifierProvider.family<ArmyBuilderCo
   final getAllUnitsByArmyId = ref.watch(getUnitsByArmyUseCaseProvider);
   final addUnitToUserRoster = ref.watch(addUnitToUserRosterUseCaseProvider);
   final getUnitByIdFromDb = ref.watch(findUnitByIdFromDbUseCaseProvider);
+  final removeLastUnitFromUserRoster = ref.watch(removeLastUnitFromUserRosterUseCaseProvider);
+
 
 
 
@@ -42,6 +44,7 @@ final armyBuilderControllerProvider = StateNotifierProvider.family<ArmyBuilderCo
       getAllUnitsByArmyId,
       addUnitToUserRoster,
       getUnitByIdFromDb,
+      removeLastUnitFromUserRoster,
       armyId );
 });
 
@@ -55,6 +58,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
   final GetAllUnitsByCodexId _getAllUnitsByCodexid;
   final GetUnitsByArmy _getAllUnitsByArmyId;
   final AddUnitToUserRoster _addUnitToUserRoster;
+  final RemoveLastUnitFromUserRoster _removeLastUnitFromUserRoster;
   final GetUnitByIdFromDb _getUnitByIdFromDb;
   final String _armyId;
 
@@ -68,6 +72,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
       this._getAllUnitsByArmyId,
       this._addUnitToUserRoster,
       this._getUnitByIdFromDb,
+      this._removeLastUnitFromUserRoster,
       this._armyId,) : super(const ArmyBuilderState()) {
     loadArmy();
   }
@@ -112,9 +117,18 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
     }
   }
 
-  Future<void> addUnitToUserArmy(ArmyBuilderUnitItemUi unit) async {
+  Future<void> addUnitToUserArmy(String unitId) async {
     try {
-      await _addUnitToUserRoster(armyId: _armyId, unitId: unit.dbId);
+      await _addUnitToUserRoster(armyId: _armyId, unitId: unitId);
+      loadArmy();
+    } catch (e) {
+      state = state.copyWith(error: e.toString());
+    }
+  }
+
+  Future<void> removeLastUnitFromUserArmy(String unitId, UnitRoleCode role) async {
+    try {
+      await _removeLastUnitFromUserRoster(armyId: _armyId, role: role, unitId: unitId);
       loadArmy();
     } catch (e) {
       state = state.copyWith(error: e.toString());
@@ -256,7 +270,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
       final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> result = {};
 
       for (final entry in categoriesJson.entries) {
-        final roleCode = UnitRoleCodeX.fromTitle(entry.key);
+        final roleCode = UnitRoleCodeX.fromName(entry.key);
 
         if (roleCode != null && entry.value is List) {
           final List<dynamic> unitsJson = entry.value;

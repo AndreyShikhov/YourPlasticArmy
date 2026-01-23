@@ -1,3 +1,4 @@
+import '../../../core/database/tables/seed/seed_objects/_types.dart';
 import 'user_army_dom.dart';
 
 abstract class UserArmyRepository {
@@ -13,5 +14,6 @@ abstract class UserArmyRepository {
 
   Future<void> addUnitToUserArmy(UserArmyDOM userArmy);
 
+  Future<void> removeLastUnitFromUserArmy( String armyId, UnitRoleCode role, String unitId);
 
 }

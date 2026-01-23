@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/core/ui/screens/army_builder/army_builder_controller.dart';
-import 'package:ypa/core/ui/screens/army_builder/widgets/search_widget.dart';
+import 'package:ypa/core/ui/screens/army_builder/widgets/unit_search_widget.dart';
 import 'package:ypa/core/ui/screens/army_builder/widgets/text_unit_button.dart';
 
 import '../../../../database/tables/seed/seed_objects/_types.dart';

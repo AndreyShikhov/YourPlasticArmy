@@ -41,7 +41,7 @@ class CategoryContainer extends ConsumerWidget {
 
 
     // получить все юниты определённой роли из юзхер армии
-    final allCategoryUnitsFromUserArmy = state.getAllUnitsByRoleFromUserArmy(role.title); // все юниты (армия/кодекс) из армии пользователя
+    final allCategoryUnitsFromUserArmy = state.getAllUnitsByRoleFromUserArmy(role.name); // все юниты (армия/кодекс) из армии пользователя
 
 
 

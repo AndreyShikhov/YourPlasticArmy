@@ -4,6 +4,8 @@ import 'package:ypa/data/mappers/user_army_mapper.dart';
 import 'package:ypa/domain/models/user_army/user_army_dom.dart';
 import 'package:ypa/domain/models/user_army/user_army_repository.dart';
 
+import '../../core/database/tables/seed/seed_objects/_types.dart';
+
 class DriftUserArmyRepository implements UserArmyRepository {
   final AppDatabase db;
 
@@ -26,8 +28,10 @@ class DriftUserArmyRepository implements UserArmyRepository {
 
     return rows.map((row) {
       final armyRow = row.readTable(db.userArmies);
-      final codexName = row.readTable(db.codexes).name;
-      
+      final codexName = row
+          .readTable(db.codexes)
+          .name;
+
       return {
         UserArmyMapper.fromRow(armyRow): codexName,
       };
@@ -36,24 +40,41 @@ class DriftUserArmyRepository implements UserArmyRepository {
 
   @override
   Future<UserArmyDOM?> findUserArmyById(String id) async {
-    final row = await (db.select(db.userArmies)..where((tbl) => tbl.id.equals(id))).getSingleOrNull();
+    final row = await (db.select(db.userArmies)
+      ..where((tbl) => tbl.id.equals(id))).getSingleOrNull();
     return row != null ? UserArmyMapper.fromRow(row) : null;
   }
 
   @override
   Future<void> saveUserArmy(UserArmyDOM userArmy) async {
-    await db.into(db.userArmies).insertOnConflictUpdate(UserArmyMapper.toCompanion(userArmy));
+    await db.into(db.userArmies).insertOnConflictUpdate(
+        UserArmyMapper.toCompanion(userArmy));
   }
 
   @override
   Future<void> deleteUserArmy(String id) async {
-    await (db.delete(db.userArmies)..where((tbl) => tbl.id.equals(id))).go();
+    await (db.delete(db.userArmies)
+      ..where((tbl) => tbl.id.equals(id))).go();
   }
 
 
   @override
   Future<void> addUnitToUserArmy(UserArmyDOM userArmy) async {
-    await db.into(db.userArmies).insertOnConflictUpdate(UserArmyMapper.toCompanion(userArmy));
+    await db.into(db.userArmies).insertOnConflictUpdate(
+        UserArmyMapper.toCompanion(userArmy));
+  }
+
+  @override
+  Future<void> removeLastUnitFromUserArmy(String armyId, UnitRoleCode role,
+      String unitId) async {
+    final army = await findUserArmyById(armyId);
+
+    if (army != null) {
+      final updatedArmy = await army.removeLastUnitFromUserArmy(
+          unitId, role.name);
+      await saveUserArmy(updatedArmy);
+    }
+    // Метод void ничего не возвращает, ошибка исчезнет
   }
 }
 
