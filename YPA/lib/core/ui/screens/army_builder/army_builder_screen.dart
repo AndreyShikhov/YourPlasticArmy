@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/core/ui/screens/army_builder/widgets/army_settings/army_points_editor.dart';
-import 'package:ypa/core/ui/screens/army_builder/widgets/expanded/category_expanded.dart';
 import 'package:ypa/core/ui/screens/army_builder/widgets/army_settings/detachment_selector.dart';
 
 import '../../../database/tables/seed/seed_objects/_types.dart';
-import 'widgets/expanded/expandable_section.dart';
+import '../../widgets/expanded/expanded.dart';
 import 'army_builder_controller.dart';
 import 'army_builder_state.dart';
 import 'widgets/army_settings/army_name_editor.dart';

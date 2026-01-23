@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/core/ui/screens/army_builder/army_builder_controller.dart';
 import 'package:ypa/core/ui/screens/army_builder/widgets/select_units_dialog.dart';
 import 'package:ypa/core/ui/screens/army_builder/widgets/unit_container_from_army_user.dart';
+import 'package:ypa/core/ui/screens/army_builder/widgets/units_block/army_units_block.dart';
 import 'package:ypa/domain/models/codex/codex.dart';
 import 'package:ypa/domain/models/role/role.dart';
 
@@ -57,7 +58,7 @@ class CategoryContainer extends ConsumerWidget {
               if (allCategoryUnitsFromUserArmy.isNotEmpty && !isSelectionModeContainer) ...
               [
                 const Text('In Your Army:', style: TextStyle(fontWeight: FontWeight.bold)),
-                ..._getUnitsUserArmyWindowByList(allCategoryUnitsFromUserArmy),
+                _getUnitsUserArmyWindowByList(allCategoryUnitsFromUserArmy),
                 const SizedBox(height: 20),
               ],
 
@@ -86,13 +87,13 @@ class CategoryContainer extends ConsumerWidget {
     return  listUnit.map((unit) =>  SelectUnitsDialog(armyId: armyId, role: role)).toList();
   }
 
-  List<Widget> _getUnitsUserArmyWindowByList(List<ArmyBuilderUnitItemUi> listUnit){
-    if (listUnit.isEmpty) {
-      debugPrint('Warning: listUnit is null or empty');
-      return [];
-    }
+  ArmyUnitsBlock _getUnitsUserArmyWindowByList(List<ArmyBuilderUnitItemUi> listUnit){
 
-    return listUnit.map((unit) =>  UnitContainerFromArmyUser(armyId: armyId, unitId: unit.name)).toList();
+    return   ArmyUnitsBlock(
+      armyId: armyId,
+      units: listUnit,
+      bgColor: Colors.grey,
+    );
   }
 
   Widget _showUnitsSelectionDialog(){
