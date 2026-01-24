@@ -14,7 +14,7 @@ class UserArmyMapper {
       codexId: CodexId.fromString(row.codexId),
       armyId: ArmyId.fromString(row.armyId),
       detachmentId: row.detachmentId,
-      selectedBattleSize: BattleSize.selected(BattleSizeCodeX.fromName(row.selectedBattleSize)?? BattleSizeCode.incursion),
+      selectedBattleSize: BattleSize.selected(BattleSizeCodeX.fromName(row.selectedBattleSize)?? BattleSizeCode.strikeForce),
       jsonData: row.jsonData,
       createdAt: row.createdAt,
     );
@@ -27,7 +27,7 @@ class UserArmyMapper {
       armyId: dom.armyId.value,
       codexId: dom.codexId.value,
       detachmentId: dom.detachment == null ? '' : dom.detachmentId.toString(),
-      selectedBattleSize: dom.selectedBattleSize.selected!.name,
+      selectedBattleSize: dom.selectedBattleSize?.selected?.name ?? BattleSizeCode.strikeForce.name,
       jsonData: dom.jsonData,
       createdAt: Value(dom.createdAt),
     );

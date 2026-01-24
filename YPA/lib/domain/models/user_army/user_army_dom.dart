@@ -15,7 +15,7 @@ class UserArmyDOM {
   final CodexId codexId;
   final String? detachmentId;
   final DetachmentDOM? detachment;
-  final BattleSize selectedBattleSize;
+  final BattleSize? selectedBattleSize;
   final String jsonData;
   final DateTime createdAt;
 
@@ -26,7 +26,7 @@ class UserArmyDOM {
     required this.codexId,
     this.detachmentId,
     this.detachment,
-    required this.selectedBattleSize,
+    this.selectedBattleSize,
     required this.jsonData,
     required this.createdAt,
   });

@@ -205,8 +205,12 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
 
 
   // Формируем карту: если выбранный код есть, берем его и значение очков из объекта BattleSize
-      final Map<BattleSizeCode, int> battleSize = userArmy.selectedBattleSize.selected != null
-          ? {userArmy.selectedBattleSize.selected!: userArmy.selectedBattleSize.total} : {};
+      final sb = userArmy.selectedBattleSize;
+      final selectedCode = sb?.selected;
+
+      final Map<BattleSizeCode, int> battleSize = (sb != null && selectedCode != null)
+          ? {selectedCode: sb.total}
+          : {};
 
       state = state.copyWith(
         isLoading: false,

@@ -1070,6 +1070,7 @@ class BattleSize {
         BattleSizeCode.strikeForce: 2000,
         BattleSizeCode.onslaught: 3000,
       },
+      selected: null,
     );
   }
 

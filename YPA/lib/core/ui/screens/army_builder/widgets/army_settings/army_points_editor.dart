@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../../database/tables/seed/seed_objects/_types.dart';
 import '../../army_builder_controller.dart';
 
-class ArmyPointsEditor extends ConsumerStatefulWidget {
+class ArmyPointsEditor extends ConsumerWidget {
   final String armyId;
   final String initialPoints;
 
@@ -13,60 +14,36 @@ class ArmyPointsEditor extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<ArmyPointsEditor> createState() => _ArmyPointsEditorState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(armyBuilderControllerProvider(armyId));
+    
+    // Получаем текущее выбранное значение Enum из стейта
+    final selectedSize = state.battleSize?.keys.firstOrNull;
 
-class _ArmyPointsEditorState extends ConsumerState<ArmyPointsEditor> {
-  late TextEditingController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = TextEditingController(text: widget.initialPoints);
-  }
-
-  @override
-  void didUpdateWidget(ArmyPointsEditor oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    // Если имя изменилось извне (например, при загрузке), обновляем контроллер
-    if (oldWidget.initialPoints != widget.initialPoints && _controller.text != widget.initialPoints) {
-      _controller.text = widget.initialPoints;
-    }
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        TextField(
-          controller: _controller,
-          onChanged: (value) {
-            // Вызываем метод контроллера для сохранения в базу
-            ref.read(armyBuilderControllerProvider(widget.armyId).notifier).updateTotalPointsArmyRoster(int.parse(value));
-          },
-          style: const TextStyle(color: Colors.white),
-          decoration: const InputDecoration(
-            labelText: 'Max points for your army',
-            labelStyle: TextStyle(color: Colors.white70),
-            hintText: '500 1000 2000...',
-            hintStyle: TextStyle(color: Colors.white38),
-            enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.white24),
-            ),
-            focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.white),
-            ),
-          ),
+    return DropdownButtonFormField<BattleSizeCode>(
+      value: selectedSize,
+      dropdownColor: const Color.fromARGB(255, 55, 55, 55),
+      style: const TextStyle(color: Colors.white),
+      decoration: const InputDecoration(
+        labelText: 'Battle Size (Max points)',
+        labelStyle: TextStyle(color: Colors.white70),
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.white24),
         ),
-
-      ],
+      ),
+      items: BattleSizeCode.values.map((size) {
+        return DropdownMenuItem<BattleSizeCode>(
+          value: size,
+          child: Text('${size.title} (${BattleSize.base().battleSize[size]} pts)'),
+        );
+      }).toList(),
+      onChanged: (newValue) {
+        if (newValue != null) {
+          // Вызываем метод контроллера для обновления размера битвы
+          //ref.read(armyBuilderControllerProvider(armyId).notifier)
+            //  .updateBattleSizeArmyRoster(newValue);
+        }
+      },
     );
   }
 }
