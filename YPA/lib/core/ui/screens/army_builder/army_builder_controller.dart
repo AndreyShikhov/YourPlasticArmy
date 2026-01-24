@@ -117,6 +117,11 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
     }
   }
 
+  Future<void> updateCurrentPTSArmyRoster() async {
+    state = state.updateCurrentPts();
+  }
+
+
   Future<void> addUnitToUserArmy(String unitId) async {
     try {
       await _addUnitToUserRoster(armyId: _armyId, unitId: unitId);
@@ -214,6 +219,9 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
       );
 
       fillTemDataUnitsByRole();
+
+      await updateCurrentPTSArmyRoster();
+
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());
     }

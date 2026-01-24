@@ -113,7 +113,7 @@ class ArmyBuilderScreen extends ConsumerWidget {
     if (state.totalPts == 0) {
       return '${state.totalPts} pts';
     } else {
-      return '0 / ${state.totalPts} pts';
+      return '${state.currentPts} / ${state.totalPts} pts';
     }
   }
 }

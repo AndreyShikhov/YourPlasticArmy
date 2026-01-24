@@ -69,15 +69,28 @@ class ArmyBuilderState {
   // Updates
   // ==========================================
 
-  void updateCurrentPts(){
+  ArmyBuilderState updateCurrentPts(){
 
-     int res = 0;
-    // userArmyUnits.forEach((key, value) {
-    //   value.forEach((element) {
-    //     res += element.selectedComposition.values.first;
-    //   });
-    // });
-    ArmyBuilderState(currentPts: res);
+    int total = 0;
+
+    // Если юнитов нет, возвращаем стейт с 0 очков
+    if (userArmyUnits == null || userArmyUnits!.isEmpty) {
+      return copyWith(currentPts: 0);
+    }
+
+    // Проходим по всем категориям и юнитам в них
+    userArmyUnits!.forEach((role, units) {
+      for (var unit in units) {
+        // Проверяем, что в выбранном составе есть очки
+        if (unit.selectedComposition.isNotEmpty) {
+          // Прибавляем стоимость (values.first — это значение очков из Map<int, int>)
+          total += unit.selectedComposition.values.first;
+        }
+      }
+    });
+
+    // Возвращаем новый объект стейта через copyWith
+    return copyWith(currentPts: total);
   }
 
 
