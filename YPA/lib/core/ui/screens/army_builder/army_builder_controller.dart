@@ -22,7 +22,7 @@ final armyBuilderControllerProvider = StateNotifierProvider.family<ArmyBuilderCo
   final getCodexById = ref.watch(getCodexByIdUseCaseProvider); 
   final updateName = ref.watch(updateUserArmyNameUseCaseProvider);
   final updateDetachment = ref.watch(updateUserArmyDetachmentUseCaseProvider);
-  final updateTotalPts = ref.watch(updateUserArmyTotalPtsUseCaseProvider);
+  final updateBattleSize = ref.watch(updateUserArmyBattleSizeUseCaseProvider); // Добавлено
   final getAllDetachmentsByCodexId = ref.watch(getAlldetachmentsByCodexIdUseCaseProvider);
   final getAllUnitsByCodexId = ref.watch(getAllUnitsByCodexIdUseCaseProvider);
   final getAllUnitsByArmyId = ref.watch(getUnitsByArmyUseCaseProvider);
@@ -31,14 +31,12 @@ final armyBuilderControllerProvider = StateNotifierProvider.family<ArmyBuilderCo
   final removeLastUnitFromUserRoster = ref.watch(removeLastUnitFromUserRosterUseCaseProvider);
 
 
-
-
   return ArmyBuilderController(
       getUserArmyById,
       getCodexById,
       updateName,
       updateDetachment,
-      updateTotalPts,
+      updateBattleSize, // Добавлено
       getAllDetachmentsByCodexId,
       getAllUnitsByCodexId,
       getAllUnitsByArmyId,
@@ -53,7 +51,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
   final GetCodexById _getCodexById;
   final UpdateUserArmyName _updateName;
   final UpdateUserArmyDetachment _updateDetachment;
-  final UpdateUserArmyTotalPts _updatetotalPts;
+  final UpdateUserArmyBattleSize _updateBattleSize;
   final GetAllDetachmentsByCodexId _getAllDetachmentsByCodexId;
   final GetAllUnitsByCodexId _getAllUnitsByCodexid;
   final GetUnitsByArmy _getAllUnitsByArmyId;
@@ -66,7 +64,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
       this._getCodexById,
       this._updateName,
       this._updateDetachment,
-      this._updatetotalPts,
+      this._updateBattleSize,
       this._getAllDetachmentsByCodexId,
       this._getAllUnitsByCodexid,
       this._getAllUnitsByArmyId,
@@ -82,7 +80,6 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
   // Updates
   // ==========================================
 
-  // Обновление имени в базе и стейте
   Future<void> updateNameArmyRoster(String newName) async {
     state = state.copyWith(armyName: newName);
     try {
@@ -108,13 +105,14 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
     }
   }
 
-  Future<void> updateTotalPointsArmyRoster(int newTotalPts) async {
-    // state = state.copyWith(totalPts: newTotalPts);
-    // try {
-    //   await _updatetotalPts(id: _armyId, newTotalPts: newTotalPts);
-    // } catch (e) {
-    //   state = state.copyWith(error: e.toString());
-    // }
+  Future<void> updateBattleSizeArmyRoster(BattleSizeCode newSize) async {
+    try {
+      await _updateBattleSize(id: _armyId, newSize: newSize);
+      // После обновления в базе, перезагружаем армию для обновления всех лимитов
+      loadArmy(); 
+    } catch (e) {
+      state = state.copyWith(error: e.toString());
+    }
   }
 
   Future<void> updateCurrentPTSArmyRoster() async {
@@ -145,11 +143,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
   // ==========================================
 
   List<ArmyBuilderUnitItemUi> getUnitsByRoleFromUserArmy(String roleTitle) {
-    if (state.userArmyUnits!.isEmpty) {
-      if (!state.isLoading) {
-        print(
-            'Error: userArmyUnits is empty. No units found for role: $roleTitle');
-      }
+    if (state.userArmyUnits == null || state.userArmyUnits!.isEmpty) {
       return [];
     }
     return state.userArmyUnits!.values
@@ -158,12 +152,9 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
         .toList();
   }
 
-  Future<List<ArmyBuilderUnitItemUi>> getAllUnitsByCodexId(
-      CodexId codexId) async {
+  Future<List<ArmyBuilderUnitItemUi>> getAllUnitsByCodexId(CodexId codexId) async {
     List<UnitDOM> unitDomain = await _getAllUnitsByCodexid(codexId);
-    return unitDomain
-        .map((unit) => _convertDomainUnitToUnitItemUi(unit))
-        .toList();
+    return unitDomain.map((unit) => _convertDomainUnitToUnitItemUi(unit)).toList();
   }
 
   Future<List<ArmyBuilderUnitItemUi>> getAllUnitsByArmyId(ArmyId armyId) async {
@@ -185,30 +176,24 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
         return;
       }
 
-      // get codex from
       final codex = await _getCodexById(userArmy.codexId);
       List<DetachmentDOM> allDetachments = [];
       if (codex != null) {
         allDetachments = await _getAllDetachmentsByCodexId(userArmy.codexId);
       }
 
-      // get detachment
-      final savedDetachment = userArmy.detachmentId != null ? allDetachments.where((d) => d.id.value == userArmy.detachmentId).firstOrNull : null;
+      final savedDetachment = userArmy.detachmentId != null 
+          ? allDetachments.where((d) => d.id.value == userArmy.detachmentId).firstOrNull 
+          : null;
 
-      // Восстановление юнитов из JSON (с ожиданием результата)
       final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> userArmyUnits = await _getAllUserArmyUnitsFromJson(userArmy.jsonData);
 
-      // получение всех возможных юнитов для армии из базы данных
-      final List<ArmyBuilderUnitItemUi> allUnitsFromDb = await getAllUnitsByArmyId(userArmy.armyId); // юниты по армии
-      allUnitsFromDb.addAll(await getAllUnitsByCodexId(userArmy.codexId)); // юниты по кодексу
+      final List<ArmyBuilderUnitItemUi> allUnitsFromDb = await getAllUnitsByArmyId(userArmy.armyId); 
+      allUnitsFromDb.addAll(await getAllUnitsByCodexId(userArmy.codexId)); 
 
-
-
-  // Формируем карту: если выбранный код есть, берем его и значение очков из объекта BattleSize
       final sb = userArmy.selectedBattleSize;
       final selectedCode = sb?.selected;
-
-      final Map<BattleSizeCode, int> battleSize = (sb != null && selectedCode != null)
+      final Map<BattleSizeCode, int> battleSizeMap = (sb != null && selectedCode != null)
           ? {selectedCode: sb.total}
           : {};
 
@@ -218,16 +203,14 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
         codex: codex,
         detachment: savedDetachment,
         allDetachments: allDetachments,
-        battleSize: battleSize,
-
+        battleSize: battleSizeMap,
         armyId: userArmy.armyId.value,
         userArmyUnits: userArmyUnits,
         allUnitsFromDb: allUnitsFromDb,
       );
 
       fillTemDataUnitsByRole();
-
-      await updateCurrentPTSArmyRoster();
+      state = state.updateCurrentPts();
 
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());
@@ -238,8 +221,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
     Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> temDataUnitsByRole = {};
 
     for (UnitRoleCode role in UnitRoleCode.values) {
-      List<ArmyBuilderUnitItemUi> units = state.getAllUnitsByRoleFromDB(
-          role.title);
+      List<ArmyBuilderUnitItemUi> units = state.getAllUnitsByRoleFromDB(role.title);
       if (units.isNotEmpty) {
         temDataUnitsByRole.addEntries([MapEntry(role, units)]);
       }
@@ -248,9 +230,6 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
   }
 
 
-  // ==========================================
-  // tools
-  // ==========================================
   ArmyBuilderUnitItemUi _convertDomainUnitToUnitItemUi(UnitDOM unit) {
     return ArmyBuilderUnitItemUi(
       dbId: unit.id.value,
@@ -276,7 +255,6 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
 
     try {
       final decoded = jsonDecode(jsonData) as Map<String, dynamic>;
-      // Извлекаем категории (структура: {"categories": {"Character": [...], "Battleline": [...]}})
       final categoriesJson = decoded['categories'] as Map<String, dynamic>? ?? {};
       final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> result = {};
 
@@ -286,23 +264,18 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
         if (roleCode != null && entry.value is List) {
           final List<dynamic> unitsJson = entry.value;
 
-          // Подгружаем актуальные характеристики юнитов из БД по их ID
           final loadedUnits = await Future.wait(
             unitsJson.map((u) async {
               final map = u as Map<String, dynamic>;
-
               if (map['unitId'] == null) return null;
 
-              // Запрос к UseCase для получения данных из БД
               final unitDom = await _getUnitByIdFromDb(UnitId.fromString(map['unitId']));
               if (unitDom == null) return null;
 
-              // Конвертируем доменную модель в UI-модель
               return _convertDomainUnitToUnitItemUi(unitDom);
             }),
           );
 
-          // Добавляем в результат только те юниты, которые были найдены в БД
           result[roleCode] = loadedUnits.whereType<ArmyBuilderUnitItemUi>().toList();
         }
       }

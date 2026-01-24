@@ -53,6 +53,13 @@ class UserArmyDOM {
     );
   }
 
+  /// Метод для обновления формата битвы (Battle Size)
+  UserArmyDOM updateBattleSize(BattleSizeCode newSize) {
+    return copyWith(
+      selectedBattleSize: BattleSize.selected(newSize),
+    );
+  }
+
   /// Добавляет юнит в jsonData, соблюдая структуру категорий.
   /// [role] — это строковый код роли (например, 'Characters', 'Battleline'), который станет ключом в JSON.
   Future<UserArmyDOM> addUnitToUserArmy(String unitId, String role) async {

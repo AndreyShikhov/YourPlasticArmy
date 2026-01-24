@@ -44,9 +44,9 @@ final updateUserArmyDetachmentUseCaseProvider = Provider<UpdateUserArmyDetachmen
   return UpdateUserArmyDetachment(repository);
 });
 
-final updateUserArmyTotalPtsUseCaseProvider = Provider<UpdateUserArmyTotalPts>((ref) {
+final updateUserArmyBattleSizeUseCaseProvider = Provider<UpdateUserArmyBattleSize>((ref) {
   final repository = ref.watch(userArmyRepositoryProvider);
-  return UpdateUserArmyTotalPts(repository);
+  return UpdateUserArmyBattleSize(repository);
 });
 
 final removeLastUnitFromUserRosterUseCaseProvider = Provider<RemoveLastUnitFromUserRoster>((ref) {

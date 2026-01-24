@@ -1,10 +1,9 @@
 import 'package:drift/drift.dart';
 import 'package:ypa/core/database/app_database.dart';
-import 'package:ypa/data/mappers/user_army_mapper.dart';
 import 'package:ypa/domain/models/user_army/user_army_dom.dart';
 import 'package:ypa/domain/models/user_army/user_army_repository.dart';
-
-import '../../core/database/tables/seed/seed_objects/_types.dart';
+import 'package:ypa/data/mappers/user_army_mapper.dart';
+import '../../../core/database/tables/seed/seed_objects/_types.dart';
 
 class DriftUserArmyRepository implements UserArmyRepository {
   final AppDatabase db;
@@ -14,10 +13,9 @@ class DriftUserArmyRepository implements UserArmyRepository {
   @override
   Future<List<UserArmyDOM>> findAll() async {
     final rows = await db.select(db.userArmies).get();
-    return rows.map(UserArmyMapper.fromRow).toList();
+    return rows.map((row) => UserArmyMapper.fromRow(row)).toList();
   }
 
-  // ОПТИМИЗАЦИЯ: Получаем всё одним запросом через JOIN
   @override
   Future<List<Map<UserArmyDOM, String>>> findAllWithCodexNames() async {
     final query = db.select(db.userArmies).join([
@@ -25,58 +23,54 @@ class DriftUserArmyRepository implements UserArmyRepository {
     ]);
 
     final rows = await query.get();
-
     return rows.map((row) {
-      final armyRow = row.readTable(db.userArmies);
-      final codexName = row
-          .readTable(db.codexes)
-          .name;
-
+      final userArmyRow = row.readTable(db.userArmies);
+      final codexRow = row.readTable(db.codexes);
       return {
-        UserArmyMapper.fromRow(armyRow): codexName,
+        UserArmyMapper.fromRow(userArmyRow): codexRow.name,
       };
     }).toList();
   }
 
   @override
   Future<UserArmyDOM?> findUserArmyById(String id) async {
-    final row = await (db.select(db.userArmies)
-      ..where((tbl) => tbl.id.equals(id))).getSingleOrNull();
+    final query = db.select(db.userArmies)..where((t) => t.id.equals(id));
+    final row = await query.getSingleOrNull();
     return row != null ? UserArmyMapper.fromRow(row) : null;
   }
 
   @override
   Future<void> saveUserArmy(UserArmyDOM userArmy) async {
     await db.into(db.userArmies).insertOnConflictUpdate(
-        UserArmyMapper.toCompanion(userArmy));
+          UserArmyMapper.toCompanion(userArmy),
+        );
   }
 
   @override
   Future<void> deleteUserArmy(String id) async {
-    await (db.delete(db.userArmies)
-      ..where((tbl) => tbl.id.equals(id))).go();
+    await (db.delete(db.userArmies)..where((t) => t.id.equals(id))).go();
   }
-
 
   @override
   Future<void> addUnitToUserArmy(UserArmyDOM userArmy) async {
-    await db.into(db.userArmies).insertOnConflictUpdate(
-        UserArmyMapper.toCompanion(userArmy));
+    await saveUserArmy(userArmy);
   }
 
   @override
-  Future<void> removeLastUnitFromUserArmy(String armyId, UnitRoleCode role,
-      String unitId) async {
+  Future<void> removeLastUnitFromUserArmy(String armyId, UnitRoleCode role, String unitId) async {
     final army = await findUserArmyById(armyId);
-
     if (army != null) {
-      final updatedArmy = await army.removeLastUnitFromUserArmy(
-          unitId, role.name);
+      final updatedArmy = await army.removeLastUnitFromUserArmy(unitId, role.name);
       await saveUserArmy(updatedArmy);
     }
-    // Метод void ничего не возвращает, ошибка исчезнет
+  }
+
+  @override
+  Future<void> updateBattleSize(String armyId, BattleSizeCode newSize) async {
+    final army = await findUserArmyById(armyId);
+    if (army != null) {
+      final updatedArmy = army.updateBattleSize(newSize);
+      await saveUserArmy(updatedArmy);
+    }
   }
 }
-
-
-

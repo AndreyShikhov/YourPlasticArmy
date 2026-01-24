@@ -40,8 +40,8 @@ class ArmyPointsEditor extends ConsumerWidget {
       onChanged: (newValue) {
         if (newValue != null) {
           // Вызываем метод контроллера для обновления размера битвы
-          //ref.read(armyBuilderControllerProvider(armyId).notifier)
-            //  .updateBattleSizeArmyRoster(newValue);
+          ref.read(armyBuilderControllerProvider(armyId).notifier)
+              .updateBattleSizeArmyRoster(newValue);
         }
       },
     );
