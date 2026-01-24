@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:ypa/core/database/app_database.dart';
+import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
 import 'package:ypa/domain/models/army/army.dart';
 import 'package:ypa/domain/models/codex/codex_id.dart';
 import 'package:ypa/domain/models/detachment/detachment.dart';
@@ -13,7 +14,7 @@ class UserArmyMapper {
       codexId: CodexId.fromString(row.codexId),
       armyId: ArmyId.fromString(row.armyId),
       detachmentId: row.detachmentId,
-      totalPoints: row.totalPoints,
+      selectedBattleSize: BattleSize.selected(BattleSizeCodeX.fromName(row.selectedBattleSize)?? BattleSizeCode.incursion),
       jsonData: row.jsonData,
       createdAt: row.createdAt,
     );
@@ -26,7 +27,7 @@ class UserArmyMapper {
       armyId: dom.armyId.value,
       codexId: dom.codexId.value,
       detachmentId: dom.detachment == null ? '' : dom.detachmentId.toString(),
-      totalPoints: Value(dom.totalPoints),
+      selectedBattleSize: dom.selectedBattleSize.selected!.name,
       jsonData: dom.jsonData,
       createdAt: Value(dom.createdAt),
     );

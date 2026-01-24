@@ -90,7 +90,9 @@ class ArmyBuilderScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 20,),
               ArmyPointsEditor(
-                  armyId: armyId, initialPoints: state.totalPts.toString())
+                  armyId: armyId, 
+                  initialPoints: state.battleSize?.values.firstOrNull?.toString() ?? '0'
+              )
             ],
           ),
         )
@@ -110,10 +112,6 @@ class ArmyBuilderScreen extends ConsumerWidget {
   }
 
   String _getPtstext(ArmyBuilderState state) {
-    if (state.totalPts == 0) {
-      return '${state.totalPts} pts';
-    } else {
-      return '${state.currentPts} / ${state.totalPts} pts';
-    }
+      return '${state.currentPts ?? 0} / ${state.battleSize?.values.firstOrNull.toString()} pts';
   }
 }

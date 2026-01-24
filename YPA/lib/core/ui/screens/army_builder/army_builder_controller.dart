@@ -109,12 +109,12 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
   }
 
   Future<void> updateTotalPointsArmyRoster(int newTotalPts) async {
-    state = state.copyWith(totalPts: newTotalPts);
-    try {
-      await _updatetotalPts(id: _armyId, newTotalPts: newTotalPts);
-    } catch (e) {
-      state = state.copyWith(error: e.toString());
-    }
+    // state = state.copyWith(totalPts: newTotalPts);
+    // try {
+    //   await _updatetotalPts(id: _armyId, newTotalPts: newTotalPts);
+    // } catch (e) {
+    //   state = state.copyWith(error: e.toString());
+    // }
   }
 
   Future<void> updateCurrentPTSArmyRoster() async {
@@ -193,19 +193,20 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
       }
 
       // get detachment
-      final savedDetachment = userArmy.detachmentId != null ? allDetachments
-          .where((d) => d.id.value == userArmy.detachmentId)
-          .firstOrNull : null;
+      final savedDetachment = userArmy.detachmentId != null ? allDetachments.where((d) => d.id.value == userArmy.detachmentId).firstOrNull : null;
 
       // Восстановление юнитов из JSON (с ожиданием результата)
-      final Map<UnitRoleCode,
-          List<
-              ArmyBuilderUnitItemUi>> userArmyUnits = await _getAllUserArmyUnitsFromJson(
-          userArmy.jsonData);
+      final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> userArmyUnits = await _getAllUserArmyUnitsFromJson(userArmy.jsonData);
 
       // получение всех возможных юнитов для армии из базы данных
       final List<ArmyBuilderUnitItemUi> allUnitsFromDb = await getAllUnitsByArmyId(userArmy.armyId); // юниты по армии
       allUnitsFromDb.addAll(await getAllUnitsByCodexId(userArmy.codexId)); // юниты по кодексу
+
+
+
+  // Формируем карту: если выбранный код есть, берем его и значение очков из объекта BattleSize
+      final Map<BattleSizeCode, int> battleSize = userArmy.selectedBattleSize.selected != null
+          ? {userArmy.selectedBattleSize.selected!: userArmy.selectedBattleSize.total} : {};
 
       state = state.copyWith(
         isLoading: false,
@@ -213,7 +214,9 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
         codex: codex,
         detachment: savedDetachment,
         allDetachments: allDetachments,
-        totalPts: userArmy.totalPoints,
+        battleSize: battleSize,
+
+        armyId: userArmy.armyId.value,
         userArmyUnits: userArmyUnits,
         allUnitsFromDb: allUnitsFromDb,
       );

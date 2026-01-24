@@ -3,6 +3,7 @@ import 'package:ypa/domain/models/codex/codex_id.dart';
 import 'package:ypa/domain/models/user_army/user_army_dom.dart';
 import 'package:ypa/domain/models/user_army/user_army_repository.dart';
 
+import '../../core/database/tables/seed/seed_objects/_types.dart';
 import '../../domain/models/army/army_id.dart';
 
 class CreateUserArmy {
@@ -20,7 +21,7 @@ class CreateUserArmy {
       name: name,
       armyId: armyId,
       codexId: codexId,
-      totalPoints: 0,
+      selectedBattleSize: BattleSize.base(),
       jsonData: '{"version": 1, "units": []}',
       createdAt: DateTime.now(),
     );

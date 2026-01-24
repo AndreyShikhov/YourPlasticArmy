@@ -9,7 +9,7 @@ class ArmyBuilderState {
   final bool isLoading;
   final String? armyId;
   final String armyName;
-  final int totalPts;
+  final Map<BattleSizeCode, int>? battleSize;
   final int? currentPts;
   final CodexDOM? codex;
   final DetachmentDOM? detachment;
@@ -23,7 +23,7 @@ class ArmyBuilderState {
     this.isLoading = false,
     this.armyName = '',
     this.armyId,
-    this.totalPts = 0,
+    this.battleSize,
     this.currentPts,
     this.codex,
     this.detachment,
@@ -38,7 +38,7 @@ class ArmyBuilderState {
     bool? isLoading,
     String? armyName,
     String? armyId,
-    int? totalPts,
+    Map<BattleSizeCode, int>? battleSize,
     int? currentPts,
     CodexDOM? codex,
     DetachmentDOM? detachment,
@@ -52,7 +52,7 @@ class ArmyBuilderState {
       isLoading: isLoading ?? this.isLoading,
       armyName: armyName ?? this.armyName,
       armyId: armyId ?? this.armyId,
-      totalPts: totalPts ?? this.totalPts,
+      battleSize: battleSize ?? this.battleSize,
       currentPts: currentPts ?? this.currentPts,
       codex: codex ?? this.codex,
       detachment: detachment ?? this.detachment,

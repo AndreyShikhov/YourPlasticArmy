@@ -48,7 +48,7 @@ class ViewArmyController extends StateNotifier<ViewArmyState> {
         isLoading: false,
         armyName: userArmy.name,
         codexName: codex?.name, // Теперь здесь реальный объект CodexName с нормальным именем
-        totalPts: userArmy.totalPoints,
+        selectedBattleSize: userArmy.selectedBattleSize,
         units: units,
       );
     } catch (e) {

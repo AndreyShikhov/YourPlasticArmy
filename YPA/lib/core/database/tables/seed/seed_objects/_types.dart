@@ -45,7 +45,6 @@ extension FactionTypeCodeX on FactionTypeCode {
   }
 }
 
-
 enum ArmyCode {
   // Imperium
   adeptaSororitas,
@@ -807,10 +806,58 @@ extension StratagemsCodeX on StratagemsCode {
   }
 }
 
+
+enum BattleSizeCode
+{
+  incursion,
+  strikeForce,
+  onslaught,
+}
+
+extension BattleSizeCodeX on BattleSizeCode {
+  String get code => name;
+
+  String get SnakeName {
+    switch (this) {
+      case BattleSizeCode.incursion: return 'incursion';
+      case BattleSizeCode.strikeForce: return 'strike_force';
+      case BattleSizeCode.onslaught: return 'onslaught';
+    }
+  }
+
+
+  String get title {
+    switch (this) {
+      case BattleSizeCode.incursion:
+        return 'Incursion';
+      case BattleSizeCode.strikeForce:
+        return 'Strike Force';
+      case BattleSizeCode.onslaught:
+        return 'Onslaught';
+    }
+  }
+
+  static BattleSizeCode? fromTitle(String title) {
+    try {
+      return BattleSizeCode.values.firstWhere((e) => e.title == title);
+    } catch (_) {
+      return null; // Если это не титул, вернет null
+    }
+  }
+
+  static BattleSizeCode? fromName(String name) {
+    try {
+      return BattleSizeCode.values.firstWhere((e) => e.name == name);
+    } catch (_) {
+      return null; // Если это не титул, вернет null
+    }
+  }
+}
+
+
 // ==========================================
 // OBJECTS CLASS
 // ==========================================
-
 
 class FactionSeed {
   final FactionTypeCode code;
@@ -823,7 +870,6 @@ class FactionSeed {
 
   String get title => name.value;
 }
-
 
 class CodexSeed {
   final CodexCode code;
@@ -943,10 +989,6 @@ class StrategemsSeed {
   });
 }
 
-
-
-
-
 class WeaponAbilitySeed {
 
   final String? id;
@@ -1011,3 +1053,37 @@ class FactionUnitAbilitySeed {
     required this.description,
   });
 }
+
+class BattleSize {
+  final Map<BattleSizeCode, int> battleSize;
+  final BattleSizeCode? selected;
+
+  const BattleSize({
+    required this.battleSize,
+    this.selected,
+  });
+
+  factory BattleSize.base() {
+    return const BattleSize(
+      battleSize: {
+        BattleSizeCode.incursion: 1000,
+        BattleSizeCode.strikeForce: 2000,
+        BattleSizeCode.onslaught: 3000,
+      },
+    );
+  }
+
+  factory BattleSize.selected(BattleSizeCode selected) {
+    return BattleSize(
+        battleSize: {
+          BattleSizeCode.incursion: 1000,
+          BattleSizeCode.strikeForce: 2000,
+          BattleSizeCode.onslaught: 3000,
+        },
+        selected: selected);
+  }
+
+  int get total => battleSize[selected] ?? 0;
+}
+
+

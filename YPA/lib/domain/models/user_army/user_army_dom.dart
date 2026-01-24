@@ -5,6 +5,8 @@ import 'package:ypa/domain/models/army/army.dart';
 import 'package:ypa/domain/models/codex/codex_id.dart';
 import 'package:ypa/domain/models/detachment/detachment.dart';
 
+import '../../../core/database/tables/seed/seed_objects/_types.dart';
+
 
 class UserArmyDOM {
   final String id;
@@ -13,7 +15,7 @@ class UserArmyDOM {
   final CodexId codexId;
   final String? detachmentId;
   final DetachmentDOM? detachment;
-  final int totalPoints;
+  final BattleSize selectedBattleSize;
   final String jsonData;
   final DateTime createdAt;
 
@@ -24,7 +26,7 @@ class UserArmyDOM {
     required this.codexId,
     this.detachmentId,
     this.detachment,
-    required this.totalPoints,
+    required this.selectedBattleSize,
     required this.jsonData,
     required this.createdAt,
   });
@@ -35,6 +37,7 @@ class UserArmyDOM {
     ArmyId? armyId,
     String? detachmentId,
     DetachmentDOM? detachment,
+    BattleSize? selectedBattleSize,
     String? jsonData,
   }) {
     return UserArmyDOM(
@@ -44,7 +47,7 @@ class UserArmyDOM {
       codexId: this.codexId,
       detachmentId: detachmentId ?? this.detachmentId,
       detachment: detachment?? this.detachment,
-      totalPoints: totalPoints ?? this.totalPoints,
+      selectedBattleSize: selectedBattleSize ?? this.selectedBattleSize,
       jsonData: jsonData ?? this.jsonData,
       createdAt: this.createdAt,
     );

@@ -8,6 +8,7 @@ class ArmyDOM {
   final ArmyName name;
   final FactionId factionId;
 
+
   const ArmyDOM._({
     required this.id,
     required this.code,

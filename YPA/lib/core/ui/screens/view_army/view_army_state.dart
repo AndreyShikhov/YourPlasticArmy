@@ -1,3 +1,5 @@
+import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
+
 import '../../../../domain/models/codex/codex.dart';
 import '../../../../domain/models/detachment/detachment.dart';
 import 'view_army_item.dart';
@@ -5,8 +7,8 @@ import 'view_army_item.dart';
 class ViewArmyState {
   final bool isLoading;
   final String armyName;
-  final int totalPts;
   final DetachmentName? armyDetachmentName;
+  final BattleSize? selectedBattleSize;
   final CodexName? codexName;
   final List<ViewArmyUnitItemUi> units;
   final String? error;
@@ -14,8 +16,8 @@ class ViewArmyState {
   const ViewArmyState({
     this.isLoading = false,
     this.armyName = '',
-    this.totalPts = 0,
     this.armyDetachmentName,
+    this.selectedBattleSize,
     this.codexName,
     this.units = const [],
     this.error,
@@ -26,6 +28,7 @@ class ViewArmyState {
     String? armyName,
     int? totalPts,
     DetachmentName? armyDetachmentName,
+    BattleSize? selectedBattleSize,
     CodexName? codexName,
     List<ViewArmyUnitItemUi>? units,
     String? error,
@@ -33,8 +36,8 @@ class ViewArmyState {
     return ViewArmyState(
       isLoading: isLoading ?? this.isLoading,
       armyName: armyName ?? this.armyName,
-      totalPts: totalPts ?? this.totalPts,
       armyDetachmentName: armyDetachmentName ?? this.armyDetachmentName,
+      selectedBattleSize: selectedBattleSize?? this.selectedBattleSize,
       codexName: codexName ?? this.codexName,
       units: units ?? this.units,
       error: error ?? this.error,

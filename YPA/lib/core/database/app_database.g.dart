@@ -4159,18 +4159,17 @@ class $UserArmiesTable extends UserArmies
       'REFERENCES detachments (id)',
     ),
   );
-  static const VerificationMeta _totalPointsMeta = const VerificationMeta(
-    'totalPoints',
-  );
+  static const VerificationMeta _selectedBattleSizeMeta =
+      const VerificationMeta('selectedBattleSize');
   @override
-  late final GeneratedColumn<int> totalPoints = GeneratedColumn<int>(
-    'total_points',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultValue: const Constant(0),
-  );
+  late final GeneratedColumn<String> selectedBattleSize =
+      GeneratedColumn<String>(
+        'selected_battle_size',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      );
   static const VerificationMeta _jsonDataMeta = const VerificationMeta(
     'jsonData',
   );
@@ -4201,7 +4200,7 @@ class $UserArmiesTable extends UserArmies
     armyId,
     codexId,
     detachmentId,
-    totalPoints,
+    selectedBattleSize,
     jsonData,
     createdAt,
   ];
@@ -4257,14 +4256,16 @@ class $UserArmiesTable extends UserArmies
     } else if (isInserting) {
       context.missing(_detachmentIdMeta);
     }
-    if (data.containsKey('total_points')) {
+    if (data.containsKey('selected_battle_size')) {
       context.handle(
-        _totalPointsMeta,
-        totalPoints.isAcceptableOrUnknown(
-          data['total_points']!,
-          _totalPointsMeta,
+        _selectedBattleSizeMeta,
+        selectedBattleSize.isAcceptableOrUnknown(
+          data['selected_battle_size']!,
+          _selectedBattleSizeMeta,
         ),
       );
+    } else if (isInserting) {
+      context.missing(_selectedBattleSizeMeta);
     }
     if (data.containsKey('json_data')) {
       context.handle(
@@ -4309,9 +4310,9 @@ class $UserArmiesTable extends UserArmies
         DriftSqlType.string,
         data['${effectivePrefix}detachment_id'],
       )!,
-      totalPoints: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}total_points'],
+      selectedBattleSize: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}selected_battle_size'],
       )!,
       jsonData: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
@@ -4336,7 +4337,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
   final String armyId;
   final String codexId;
   final String detachmentId;
-  final int totalPoints;
+  final String selectedBattleSize;
   final String jsonData;
   final DateTime createdAt;
   const UserArmyRow({
@@ -4345,7 +4346,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
     required this.armyId,
     required this.codexId,
     required this.detachmentId,
-    required this.totalPoints,
+    required this.selectedBattleSize,
     required this.jsonData,
     required this.createdAt,
   });
@@ -4357,7 +4358,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
     map['army_id'] = Variable<String>(armyId);
     map['codex_id'] = Variable<String>(codexId);
     map['detachment_id'] = Variable<String>(detachmentId);
-    map['total_points'] = Variable<int>(totalPoints);
+    map['selected_battle_size'] = Variable<String>(selectedBattleSize);
     map['json_data'] = Variable<String>(jsonData);
     map['created_at'] = Variable<DateTime>(createdAt);
     return map;
@@ -4370,7 +4371,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
       armyId: Value(armyId),
       codexId: Value(codexId),
       detachmentId: Value(detachmentId),
-      totalPoints: Value(totalPoints),
+      selectedBattleSize: Value(selectedBattleSize),
       jsonData: Value(jsonData),
       createdAt: Value(createdAt),
     );
@@ -4387,7 +4388,9 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
       armyId: serializer.fromJson<String>(json['armyId']),
       codexId: serializer.fromJson<String>(json['codexId']),
       detachmentId: serializer.fromJson<String>(json['detachmentId']),
-      totalPoints: serializer.fromJson<int>(json['totalPoints']),
+      selectedBattleSize: serializer.fromJson<String>(
+        json['selectedBattleSize'],
+      ),
       jsonData: serializer.fromJson<String>(json['jsonData']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
     );
@@ -4401,7 +4404,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
       'armyId': serializer.toJson<String>(armyId),
       'codexId': serializer.toJson<String>(codexId),
       'detachmentId': serializer.toJson<String>(detachmentId),
-      'totalPoints': serializer.toJson<int>(totalPoints),
+      'selectedBattleSize': serializer.toJson<String>(selectedBattleSize),
       'jsonData': serializer.toJson<String>(jsonData),
       'createdAt': serializer.toJson<DateTime>(createdAt),
     };
@@ -4413,7 +4416,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
     String? armyId,
     String? codexId,
     String? detachmentId,
-    int? totalPoints,
+    String? selectedBattleSize,
     String? jsonData,
     DateTime? createdAt,
   }) => UserArmyRow(
@@ -4422,7 +4425,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
     armyId: armyId ?? this.armyId,
     codexId: codexId ?? this.codexId,
     detachmentId: detachmentId ?? this.detachmentId,
-    totalPoints: totalPoints ?? this.totalPoints,
+    selectedBattleSize: selectedBattleSize ?? this.selectedBattleSize,
     jsonData: jsonData ?? this.jsonData,
     createdAt: createdAt ?? this.createdAt,
   );
@@ -4435,9 +4438,9 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
       detachmentId: data.detachmentId.present
           ? data.detachmentId.value
           : this.detachmentId,
-      totalPoints: data.totalPoints.present
-          ? data.totalPoints.value
-          : this.totalPoints,
+      selectedBattleSize: data.selectedBattleSize.present
+          ? data.selectedBattleSize.value
+          : this.selectedBattleSize,
       jsonData: data.jsonData.present ? data.jsonData.value : this.jsonData,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
     );
@@ -4451,7 +4454,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
           ..write('armyId: $armyId, ')
           ..write('codexId: $codexId, ')
           ..write('detachmentId: $detachmentId, ')
-          ..write('totalPoints: $totalPoints, ')
+          ..write('selectedBattleSize: $selectedBattleSize, ')
           ..write('jsonData: $jsonData, ')
           ..write('createdAt: $createdAt')
           ..write(')'))
@@ -4465,7 +4468,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
     armyId,
     codexId,
     detachmentId,
-    totalPoints,
+    selectedBattleSize,
     jsonData,
     createdAt,
   );
@@ -4478,7 +4481,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
           other.armyId == this.armyId &&
           other.codexId == this.codexId &&
           other.detachmentId == this.detachmentId &&
-          other.totalPoints == this.totalPoints &&
+          other.selectedBattleSize == this.selectedBattleSize &&
           other.jsonData == this.jsonData &&
           other.createdAt == this.createdAt);
 }
@@ -4489,7 +4492,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
   final Value<String> armyId;
   final Value<String> codexId;
   final Value<String> detachmentId;
-  final Value<int> totalPoints;
+  final Value<String> selectedBattleSize;
   final Value<String> jsonData;
   final Value<DateTime> createdAt;
   final Value<int> rowid;
@@ -4499,7 +4502,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
     this.armyId = const Value.absent(),
     this.codexId = const Value.absent(),
     this.detachmentId = const Value.absent(),
-    this.totalPoints = const Value.absent(),
+    this.selectedBattleSize = const Value.absent(),
     this.jsonData = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.rowid = const Value.absent(),
@@ -4510,7 +4513,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
     required String armyId,
     required String codexId,
     required String detachmentId,
-    this.totalPoints = const Value.absent(),
+    required String selectedBattleSize,
     required String jsonData,
     this.createdAt = const Value.absent(),
     this.rowid = const Value.absent(),
@@ -4519,6 +4522,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
        armyId = Value(armyId),
        codexId = Value(codexId),
        detachmentId = Value(detachmentId),
+       selectedBattleSize = Value(selectedBattleSize),
        jsonData = Value(jsonData);
   static Insertable<UserArmyRow> custom({
     Expression<String>? id,
@@ -4526,7 +4530,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
     Expression<String>? armyId,
     Expression<String>? codexId,
     Expression<String>? detachmentId,
-    Expression<int>? totalPoints,
+    Expression<String>? selectedBattleSize,
     Expression<String>? jsonData,
     Expression<DateTime>? createdAt,
     Expression<int>? rowid,
@@ -4537,7 +4541,8 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
       if (armyId != null) 'army_id': armyId,
       if (codexId != null) 'codex_id': codexId,
       if (detachmentId != null) 'detachment_id': detachmentId,
-      if (totalPoints != null) 'total_points': totalPoints,
+      if (selectedBattleSize != null)
+        'selected_battle_size': selectedBattleSize,
       if (jsonData != null) 'json_data': jsonData,
       if (createdAt != null) 'created_at': createdAt,
       if (rowid != null) 'rowid': rowid,
@@ -4550,7 +4555,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
     Value<String>? armyId,
     Value<String>? codexId,
     Value<String>? detachmentId,
-    Value<int>? totalPoints,
+    Value<String>? selectedBattleSize,
     Value<String>? jsonData,
     Value<DateTime>? createdAt,
     Value<int>? rowid,
@@ -4561,7 +4566,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
       armyId: armyId ?? this.armyId,
       codexId: codexId ?? this.codexId,
       detachmentId: detachmentId ?? this.detachmentId,
-      totalPoints: totalPoints ?? this.totalPoints,
+      selectedBattleSize: selectedBattleSize ?? this.selectedBattleSize,
       jsonData: jsonData ?? this.jsonData,
       createdAt: createdAt ?? this.createdAt,
       rowid: rowid ?? this.rowid,
@@ -4586,8 +4591,8 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
     if (detachmentId.present) {
       map['detachment_id'] = Variable<String>(detachmentId.value);
     }
-    if (totalPoints.present) {
-      map['total_points'] = Variable<int>(totalPoints.value);
+    if (selectedBattleSize.present) {
+      map['selected_battle_size'] = Variable<String>(selectedBattleSize.value);
     }
     if (jsonData.present) {
       map['json_data'] = Variable<String>(jsonData.value);
@@ -4609,7 +4614,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
           ..write('armyId: $armyId, ')
           ..write('codexId: $codexId, ')
           ..write('detachmentId: $detachmentId, ')
-          ..write('totalPoints: $totalPoints, ')
+          ..write('selectedBattleSize: $selectedBattleSize, ')
           ..write('jsonData: $jsonData, ')
           ..write('createdAt: $createdAt, ')
           ..write('rowid: $rowid')
@@ -9985,7 +9990,7 @@ typedef $$UserArmiesTableCreateCompanionBuilder =
       required String armyId,
       required String codexId,
       required String detachmentId,
-      Value<int> totalPoints,
+      required String selectedBattleSize,
       required String jsonData,
       Value<DateTime> createdAt,
       Value<int> rowid,
@@ -9997,7 +10002,7 @@ typedef $$UserArmiesTableUpdateCompanionBuilder =
       Value<String> armyId,
       Value<String> codexId,
       Value<String> detachmentId,
-      Value<int> totalPoints,
+      Value<String> selectedBattleSize,
       Value<String> jsonData,
       Value<DateTime> createdAt,
       Value<int> rowid,
@@ -10081,8 +10086,8 @@ class $$UserArmiesTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<int> get totalPoints => $composableBuilder(
-    column: $table.totalPoints,
+  ColumnFilters<String> get selectedBattleSize => $composableBuilder(
+    column: $table.selectedBattleSize,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -10185,8 +10190,8 @@ class $$UserArmiesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<int> get totalPoints => $composableBuilder(
-    column: $table.totalPoints,
+  ColumnOrderings<String> get selectedBattleSize => $composableBuilder(
+    column: $table.selectedBattleSize,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -10285,8 +10290,8 @@ class $$UserArmiesTableAnnotationComposer
   GeneratedColumn<String> get name =>
       $composableBuilder(column: $table.name, builder: (column) => column);
 
-  GeneratedColumn<int> get totalPoints => $composableBuilder(
-    column: $table.totalPoints,
+  GeneratedColumn<String> get selectedBattleSize => $composableBuilder(
+    column: $table.selectedBattleSize,
     builder: (column) => column,
   );
 
@@ -10399,7 +10404,7 @@ class $$UserArmiesTableTableManager
                 Value<String> armyId = const Value.absent(),
                 Value<String> codexId = const Value.absent(),
                 Value<String> detachmentId = const Value.absent(),
-                Value<int> totalPoints = const Value.absent(),
+                Value<String> selectedBattleSize = const Value.absent(),
                 Value<String> jsonData = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
@@ -10409,7 +10414,7 @@ class $$UserArmiesTableTableManager
                 armyId: armyId,
                 codexId: codexId,
                 detachmentId: detachmentId,
-                totalPoints: totalPoints,
+                selectedBattleSize: selectedBattleSize,
                 jsonData: jsonData,
                 createdAt: createdAt,
                 rowid: rowid,
@@ -10421,7 +10426,7 @@ class $$UserArmiesTableTableManager
                 required String armyId,
                 required String codexId,
                 required String detachmentId,
-                Value<int> totalPoints = const Value.absent(),
+                required String selectedBattleSize,
                 required String jsonData,
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
@@ -10431,7 +10436,7 @@ class $$UserArmiesTableTableManager
                 armyId: armyId,
                 codexId: codexId,
                 detachmentId: detachmentId,
-                totalPoints: totalPoints,
+                selectedBattleSize: selectedBattleSize,
                 jsonData: jsonData,
                 createdAt: createdAt,
                 rowid: rowid,

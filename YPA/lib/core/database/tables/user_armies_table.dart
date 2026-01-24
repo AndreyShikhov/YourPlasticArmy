@@ -12,8 +12,8 @@ class UserArmies extends Table {
   TextColumn get armyId => text().references(Armies, #id)();
   TextColumn get codexId => text().references(Codexes, #id)();
   TextColumn get detachmentId => text().references(Detachments, #id)();
-  
-  IntColumn get totalPoints => integer().withDefault(const Constant(0))();
+
+  TextColumn get selectedBattleSize => text()();
   TextColumn get jsonData => text()(); // Сама сборка ростера в JSON
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 
