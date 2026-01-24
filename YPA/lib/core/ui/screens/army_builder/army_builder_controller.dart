@@ -163,9 +163,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
 
   Future<List<ArmyBuilderUnitItemUi>> getAllUnitsByArmyId(ArmyId armyId) async {
     List<UnitDOM> unitDomain = await _getAllUnitsByArmyId(armyId);
-    return unitDomain
-        .map((unit) => _convertDomainUnitToUnitItemUi(unit))
-        .toList();
+    return unitDomain.map((unit) => _convertDomainUnitToUnitItemUi(unit)).toList();
   }
 
   // ==========================================
@@ -201,11 +199,8 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
           userArmy.jsonData);
 
       // получение всех возможных юнитов для армии из базы данных
-      final List<
-          ArmyBuilderUnitItemUi> allUnitsFromDb = await getAllUnitsByArmyId(
-          userArmy.armyId); // юниты по армии
-      allUnitsFromDb.addAll(
-          await getAllUnitsByCodexId(userArmy.codexId)); // юниты по кодексу
+      final List<ArmyBuilderUnitItemUi> allUnitsFromDb = await getAllUnitsByArmyId(userArmy.armyId); // юниты по армии
+      allUnitsFromDb.addAll(await getAllUnitsByCodexId(userArmy.codexId)); // юниты по кодексу
 
       state = state.copyWith(
         isLoading: false,
@@ -253,8 +248,9 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
       w: unit.stats.wounds.toString(),
       ld: unit.stats.leadership.toString(),
       oc: unit.stats.objectiveControl.toString(),
-      keywords: unit.stats.keywords,
       repeat: unit.stats.repeat.toString(),
+      selectedComposition: unit.stats.unitComposition.effectiveComposition,
+      keywords: unit.stats.keywords,
       factionKeywords: unit.stats.factionKeywords,
       weapons: unit.stats.weapons,
     );

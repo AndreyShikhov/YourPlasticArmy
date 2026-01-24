@@ -355,7 +355,7 @@ List<UnitSeed> bloodAngelsUnits() {
           ],
           unitComposition: const UnitComposition(
               compositions: ['1 model'],
-              unitCost: [{1: 120}]
+              unitCost: [{1: 120}],
           ),
           unitAbility: const [
             UnitAbilitiesCode.deepStrike,

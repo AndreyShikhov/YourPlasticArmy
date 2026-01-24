@@ -36,3 +36,35 @@ class MainButton extends FilledButton {
   }
 }
 
+class AppIconButton extends StatelessWidget {
+  final IconData icon;
+  final VoidCallback? onTap;
+  final bool enabled;
+  final String? tooltip;
+  final Color? color;
+  final Color? disabledColor;
+
+  const AppIconButton({
+    super.key,
+    required this.icon,
+    required this.onTap,
+    this.enabled = true,
+    this.tooltip,
+    this.color = Colors.white,
+    this.disabledColor = Colors.white24,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      tooltip: tooltip,
+      // Если enabled = false, передаем null в onPressed, что дизейблит кнопку
+      onPressed: enabled ? onTap : null,
+      icon: Icon(icon),
+      color: color,
+      disabledColor: disabledColor,
+      // Делает кнопку компактнее, убирая лишние отступы
+      visualDensity: VisualDensity.compact,
+    );
+  }
+}

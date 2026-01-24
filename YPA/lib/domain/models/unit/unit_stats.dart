@@ -112,16 +112,31 @@ class Weapon {
 
 class UnitComposition {
   final List<String> compositions;
-  final List<Map<int, int>> unitCost;
+  final List<Map<int, int>> unitCost;   // key - amount models / value - pts
+  final Map<int, int>? selectedComposition; // key - amount models / value - pts
 
   const UnitComposition({
     required this.compositions,
     required this.unitCost,
+    this.selectedComposition,
   });
 
+
+  // ==========================================
+  // Getters
+  // ==========================================
+
+  Map<int, int> get effectiveComposition =>
+      (selectedComposition?.isNotEmpty ?? false) ? selectedComposition! : unitCost.first;
+
+
+  // ==========================================
+  // JSON
+  // ==========================================
   Map<String, dynamic> toJson() => {
     'composition': compositions,
     'unitCost': unitCost.map((m) => m.map((key, value) => MapEntry(key.toString(), value))).toList(),
+    'selectedComposition': selectedComposition,
   };
 
   factory UnitComposition.fromJson(Map<String, dynamic> json) {
@@ -134,10 +149,11 @@ class UnitComposition {
     return UnitComposition(
       compositions: List<String>.from(json['composition'] ?? []),
       unitCost: parsedCost,
+      selectedComposition: Map<int, int>.from(json['selectedComposition'] ?? {}),
     );
   }
 
-  static const UnitComposition emptyComposition = UnitComposition(compositions: [], unitCost: []);
+  static const UnitComposition emptyComposition = UnitComposition(compositions: [], unitCost: [], selectedComposition: {});
 }
 
 
@@ -190,7 +206,7 @@ class UnitStats {
   final List<Weapon> weapons;
   final UnitComposition unitComposition;
   final List<UnitAbilitiesCode> unitAbility;
-  final List<CoreUnitAbilityCode> coreAbilities; // завершённый тип его не нужно дописывать в базу данных
+  final List<CoreUnitAbilityCode> coreAbilities;
   final List<FactionUnitAbilityCode> factionAbilities;
   final List<String> leader;
   final List<String> ledBy;

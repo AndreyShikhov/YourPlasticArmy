@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
 
+import '../../../widgets/buttons.dart';
 import '../army_builder_controller.dart';
 import '../army_builder_item_ui.dart';
 
@@ -25,6 +26,10 @@ class TextUnitButton extends ConsumerWidget {
     final state = ref.watch(armyBuilderControllerProvider(armyId));
     // 3. Получаем доступ к методам контроллера через notifier
     final controller = ref.read(armyBuilderControllerProvider(armyId).notifier);
+
+    // Получаем текущие значения для логики блокировки
+    final currentCount = state.getCurrentCountUnitFromUserArmy(unit.name);
+    final maxCount = int.tryParse(unit.repeat); // Лимит из правил
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 4),
@@ -50,13 +55,15 @@ class TextUnitButton extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               // Кнопка МИНУС
-              IconButton(
-                visualDensity: VisualDensity.compact,
-                icon: const Icon(Icons.remove_circle_outline, color: Colors.redAccent),
-                onPressed: () {
-                  // Вызываем метод удаления в контроллере
-                  controller.removeLastUnitFromUserArmy(unit.dbId, UnitRoleCodeX.fromName(unit.role)!);
-                },
+              AppIconButton(
+                icon: Icons.remove_circle_outline,
+                color: Colors.redAccent,
+                // Кнопка активна только если в армии есть хотя бы один такой юнит
+                enabled: currentCount > 0,
+                onTap: () => controller.removeLastUnitFromUserArmy(
+                    unit.dbId,
+                    UnitRoleCodeX.fromName(unit.role)!
+                ),
               ),
               const SizedBox(width: 15),
               // Текст с текущим количеством
@@ -69,15 +76,16 @@ class TextUnitButton extends ConsumerWidget {
                 ),
               ),
               const SizedBox(width: 15),
+
               // Кнопка ПЛЮС
-              IconButton(
-                visualDensity: VisualDensity.compact,
-                icon: const Icon(Icons.add_circle_outline, color: Colors.greenAccent),
-                onPressed: () {
-                  // Вызываем метод добавления в контроллере
-                  controller.addUnitToUserArmy(unit.dbId);
-                },
+              AppIconButton(
+                icon: Icons.add_circle_outline,
+                color: Colors.greenAccent,
+                // Кнопка активна только если не превышен лимит
+                enabled: currentCount < maxCount!,
+                onTap: () => controller.addUnitToUserArmy(unit.dbId),
               ),
+
             ],
           ),
         ],

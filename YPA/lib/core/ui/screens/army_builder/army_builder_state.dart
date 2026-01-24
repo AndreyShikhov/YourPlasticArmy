@@ -14,9 +14,9 @@ class ArmyBuilderState {
   final CodexDOM? codex;
   final DetachmentDOM? detachment;
   final List<DetachmentDOM> allDetachments;
-  final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>? userArmyUnits;
-  final List<ArmyBuilderUnitItemUi> allUnitsFromDb;
-  final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>? temDataUnitsByRole;
+  final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>? userArmyUnits; // уже добавленный в ростер игрока юниты
+  final List<ArmyBuilderUnitItemUi> allUnitsFromDb; // юниты из базы
+  final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>? temDataUnitsByRole;  // отфильтрованные по роли юниты из базы данны
   final String? error;
 
   const ArmyBuilderState({
@@ -64,6 +64,28 @@ class ArmyBuilderState {
     );
   }
 
+
+  // ==========================================
+  // Updates
+  // ==========================================
+
+  void updateCurrentPts(){
+
+     int res = 0;
+    // userArmyUnits.forEach((key, value) {
+    //   value.forEach((element) {
+    //     res += element.selectedComposition.values.first;
+    //   });
+    // });
+    ArmyBuilderState(currentPts: res);
+  }
+
+
+
+
+  // ==========================================
+  // Getters
+  // ==========================================
 
   List<ArmyBuilderUnitItemUi> getAllUnitsByRoleFromUserArmy(String role) {
 

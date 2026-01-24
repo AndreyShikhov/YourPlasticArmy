@@ -12,6 +12,7 @@ class ArmyBuilderUnitItemUi {
   final String ld; // Leadership
   final String oc; // Objective Control
   final String repeat;
+  final Map<int, int> selectedComposition;
   final List<String> keywords;
   final List<String> factionKeywords;
   final List<Weapon> weapons;
@@ -28,6 +29,7 @@ class ArmyBuilderUnitItemUi {
     required this.ld,
     required this.oc,
     required this.repeat,
+    required this.selectedComposition,
     required this.keywords,
     required this.factionKeywords,
     required this.weapons,
@@ -45,8 +47,9 @@ class ArmyBuilderUnitItemUi {
       'w': w,
       'ld': ld,
       'oc': oc,
-      'keywords': keywords,
       'repeat': repeat,
+      'selectedComposition': selectedComposition.map((key, value) => MapEntry(key, value)),
+      'keywords': keywords,
       'factionKeywords': factionKeywords,
       'weapons': weapons.map((x) => x.toJson()).toList(),
     };
@@ -64,8 +67,9 @@ class ArmyBuilderUnitItemUi {
       w: json['w'] ?? '',
       ld: json['ld'] ?? '',
       oc: json['oc'] ?? '',
-      keywords: List<String>.from(json['keywords'] ?? []),
       repeat: json['repeat'] ?? '',
+      selectedComposition: Map<int, int>.from(json['selectedComposition'] ?? {}),
+      keywords: List<String>.from(json['keywords'] ?? []),
       factionKeywords: List<String>.from(json['factionKeywords'] ?? []),
       weapons: (json['weapons'] as List? ?? [])
           .map((x) => Weapon.fromJson(x as Map<String, dynamic>))
@@ -85,8 +89,9 @@ class ArmyBuilderUnitItemUi {
       w: '',
       ld: '',
       oc: '',
-      keywords: [],
       repeat: '',
+      selectedComposition: {},
+      keywords: [],
       factionKeywords: [],
       weapons: [],
     );

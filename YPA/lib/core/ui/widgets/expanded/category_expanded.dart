@@ -5,6 +5,7 @@ import 'package:ypa/core/ui/screens/army_builder/army_builder_controller.dart';
 import 'package:ypa/core/ui/screens/army_builder/widgets/category_container.dart';
 import 'package:ypa/core/ui/widgets/expandable_section.dart';
 
+import '../../screens/army_builder/army_builder_item_ui.dart';
 import 'button_open_select_units.dart';
 
 class CategoryExpanded extends ConsumerStatefulWidget {
@@ -29,10 +30,10 @@ class _CategoryExpandedState extends ConsumerState<CategoryExpanded> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(armyBuilderControllerProvider(widget.armyId));
-    final roleUnits = state.getAllUnitsByRoleFromUserArmy(widget.role.title);
+    final roleUnits = state.getAllUnitsByRoleFromUserArmy(widget.role.name);
     
     // В будущем тут будет реальный подсчет очков
-    final subtitle = '${roleUnits.length} pts  ${roleUnits.length} units';
+    final subtitle = '${_getPTSFromCategory(roleUnits)} pts  ${roleUnits.length} units';
 
     return ExpandableSection(
       title: widget.role.title,
@@ -60,5 +61,14 @@ class _CategoryExpandedState extends ConsumerState<CategoryExpanded> {
         isSelectionModeContainer: _isSelectionMode,
       ),
     );
+  }
+
+
+  int _getPTSFromCategory(List<ArmyBuilderUnitItemUi> units) {
+    return units.fold(0, (sum, unit) {
+      // Берем первое значение из карты очков (стоимость выбранного состава)
+      // Если карта пуста, прибавляем 0
+      return sum + unit.selectedComposition.values.first;
+    });
   }
 }
