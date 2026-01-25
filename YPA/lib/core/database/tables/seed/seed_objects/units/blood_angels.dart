@@ -784,7 +784,6 @@ List<UnitSeed> bloodAngelsUnits()
                     wounds: 3,
                     leadership: 6,
                     objectiveControl: 1,
-
                     weapons:
                     {
                       WeaponType.ranged : [
@@ -818,7 +817,6 @@ List<UnitSeed> bloodAngelsUnits()
                         )
                       ]
                     },
-
                     wargearOptions: WargearOptions.emptyOptions
                 )
             }
