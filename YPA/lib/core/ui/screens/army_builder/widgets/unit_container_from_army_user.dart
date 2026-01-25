@@ -9,26 +9,28 @@ import 'package:ypa/core/ui/screens/army_builder/widgets/text_unit_button.dart';
 
 import '../army_builder_controller.dart';
 
-class UnitContainerFromArmyUser extends ConsumerWidget {
-  final String armyId;
-  final String unitId;
+class UnitContainerFromArmyUser extends ConsumerWidget
+{
+    final String armyId;
+    final String unitId;
 
-  UnitContainerFromArmyUser({super.key, required this.armyId, required this.unitId});
+    UnitContainerFromArmyUser({super.key, required this.armyId, required this.unitId});
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(armyBuilderControllerProvider(armyId));
+    @override
+    Widget build(BuildContext context, WidgetRef ref) 
+    {
+        final state = ref.watch(armyBuilderControllerProvider(armyId));
 
-    return Container(
-      key: key,
-      child: Column(
-        children: [
-          TextUnitButton(unit: state.getUnitByIdFromDb(unitId), armyId: armyId),
-          SizedBox(height: 5),
-        ],
-      ),
-    );
+        return Container(
+            key: key,
+            child: Column(
+                children: [
+                    TextUnitButton(unit: state.getUnitByIdFromDb(unitId), armyId: armyId),
+                    SizedBox(height: 5)
+                ]
+            )
+        );
 
-    throw UnimplementedError();
-  }
+        throw UnimplementedError();
+    }
 }

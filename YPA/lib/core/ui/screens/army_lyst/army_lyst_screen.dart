@@ -11,6 +11,7 @@ import 'package:ypa/core/ui/screens/army_lyst/army_lyst_controller.dart';
 import 'package:ypa/core/ui/screens/army_lyst/widgets/create_army_dialog.dart';
 
 import '../../widgets/confirm_dialog.dart';
+import '../data/style_data.dart';
 
 class ArmyListScreen extends ConsumerWidget {
   const ArmyListScreen({super.key});
@@ -79,7 +80,7 @@ class ArmyListScreen extends ConsumerWidget {
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.zero,
                 backgroundColor: const Color.fromARGB(255, 120, 40, 40),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                shape: RoundedRectangleBorder(borderRadius: YPABorderRadius),
               ),
               onPressed: () => _onDeleteArmyById(context, ref, item),
               child: const Icon(Icons.delete, color: Colors.white, size: 20),
@@ -94,7 +95,7 @@ class ArmyListScreen extends ConsumerWidget {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromARGB(255, 60, 60, 60),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  shape: RoundedRectangleBorder(borderRadius: YPABorderRadius),
                 ),
                 onPressed: () async {
                   await context.push('/game_screen/army_lyst/army_builder/${item.id}');
@@ -121,7 +122,7 @@ class ArmyListScreen extends ConsumerWidget {
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.zero,
                 backgroundColor: const Color.fromARGB(174, 46, 210, 34),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                shape: RoundedRectangleBorder(borderRadius: YPABorderRadius),
               ),
               onPressed: () {
                 context.push('/game_screen/army_lyst/view_army/${item.id}');

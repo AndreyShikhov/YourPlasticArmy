@@ -5,7 +5,18 @@
 
 import 'dart:ui';
 
-// colors
-const Color mainScreenColor = Color.fromARGB(255, 141, 141, 141);
+import 'package:flutter/cupertino.dart';
 
-Color texColor = Color.fromARGB(255, 190, 187, 187);
+// ==========================================
+//  Colors
+// ==========================================
+
+final mainScreenColor = Color.fromARGB(255, 141, 141, 141);
+
+final texColor = Color.fromARGB(255, 190, 187, 187);
+
+// ==========================================
+// Borders
+// ==========================================
+
+final YPABorderRadius = BorderRadius.circular(8);
