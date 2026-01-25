@@ -1,8 +1,9 @@
-
-
+/*******************************************************************************
+ * Copyright (c) 2026 Andrey Shikhov
+ * SPDX-License-Identifier: MIT
+ ******************************************************************************/
 
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 class ConfirmDialog extends StatelessWidget {
@@ -27,10 +28,7 @@ class ConfirmDialog extends StatelessWidget {
       title: Text(title),
       content: Text(message),
       actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context, false),
-          child: Text(cancelLabel),
-        ),
+        TextButton(onPressed: () => Navigator.pop(context, false), child: Text(cancelLabel)),
         TextButton(
           onPressed: () => Navigator.pop(context, true),
           child: Text(confirmLabel, style: TextStyle(color: confirmColor)),

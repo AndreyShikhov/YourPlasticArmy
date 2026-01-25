@@ -1,3 +1,8 @@
+/*******************************************************************************
+ * Copyright (c) 2026 Andrey Shikhov
+ * SPDX-License-Identifier: MIT
+ ******************************************************************************/
+
 import 'package:flutter/cupertino.dart';
 import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
 import 'package:ypa/core/ui/screens/army_builder/army_builder_item_ui.dart';

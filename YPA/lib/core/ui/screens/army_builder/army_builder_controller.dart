@@ -1,3 +1,8 @@
+/*******************************************************************************
+ * Copyright (c) 2026 Andrey Shikhov
+ * SPDX-License-Identifier: MIT
+ ******************************************************************************/
+
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

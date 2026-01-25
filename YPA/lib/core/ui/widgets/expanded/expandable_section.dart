@@ -1,3 +1,8 @@
+/*******************************************************************************
+ * Copyright (c) 2026 Andrey Shikhov
+ * SPDX-License-Identifier: MIT
+ ******************************************************************************/
+
 import 'package:flutter/material.dart';
 
 class ExpandableSection extends StatefulWidget {
@@ -48,37 +53,22 @@ class _ExpandableSectionState extends State<ExpandableSection> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
               color: const Color.fromARGB(255, 45, 45, 45),
-              border: Border(
-                bottom: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
-              ),
+              border: Border(bottom: BorderSide(color: Colors.white.withValues(alpha: 0.1))),
             ),
             child: Row(
               children: [
-                Icon(
-                  _isExpanded ? Icons.keyboard_arrow_down : Icons.keyboard_arrow_right,
-                  color: Colors.white70,
-                ),
+                Icon(_isExpanded ? Icons.keyboard_arrow_down : Icons.keyboard_arrow_right, color: Colors.white70),
                 const SizedBox(width: 10),
                 Text(
                   widget.title,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 if (widget.subtitle != null) ...[
                   const Spacer(),
-                  Text(
-                    widget.subtitle!,
-                    style: const TextStyle(color: Colors.white38, fontSize: 14),
-                  ),
+                  Text(widget.subtitle!, style: const TextStyle(color: Colors.white38, fontSize: 14)),
                 ],
                 if (widget.trailing == null && widget.subtitle == null) const Spacer(),
-                if (widget.trailing != null) ...[
-                  const SizedBox(width: 10),
-                  widget.trailing!,
-                ],
+                if (widget.trailing != null) ...[const SizedBox(width: 10), widget.trailing!],
               ],
             ),
           ),

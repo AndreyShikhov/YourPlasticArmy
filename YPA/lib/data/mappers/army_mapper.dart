@@ -4,7 +4,6 @@ import '../../core/database/app_database.dart';
 import '../../domain/models/army/army.dart';
 import '../../domain/models/faction/faction.dart';
 
-
 class ArmyMapper {
   static ArmyDOM fromRow(Army row) {
     return ArmyDOM.restore(

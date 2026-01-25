@@ -3,7 +3,6 @@ import '../../core/database/app_database.dart';
 import '../../domain/models/army/army.dart';
 import '../../domain/models/detachment/detachment.dart';
 
-
 class DetachmentMapper {
   static DetachmentDOM fromRow(DetachmentRow row) {
     return DetachmentDOM.restore(

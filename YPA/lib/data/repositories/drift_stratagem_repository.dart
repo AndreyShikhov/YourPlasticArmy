@@ -30,7 +30,9 @@ class DriftStratagemRepository implements StratagemRepository {
 
   @override
   Future<List<StratagemDOM>> findStratagemsByDetachment(DetachmentId detachmentId) async {
-    final rows = await (db.select(db.stratagems)..where((tbl) => tbl.detachmentId.equals(detachmentId.value))).get();
+    final rows = await (db.select(
+      db.stratagems,
+    )..where((tbl) => tbl.detachmentId.equals(detachmentId.value))).get();
     return rows.map(StratagemMapper.fromRow).toList();
   }
 

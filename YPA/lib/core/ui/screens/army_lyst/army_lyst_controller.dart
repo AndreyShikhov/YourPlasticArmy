@@ -1,3 +1,8 @@
+/*******************************************************************************
+ * Copyright (c) 2026 Andrey Shikhov
+ * SPDX-License-Identifier: MIT
+ ******************************************************************************/
+
 import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/application/codex/get_codex_by_id.dart';

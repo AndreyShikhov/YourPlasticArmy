@@ -15,9 +15,7 @@ class StratagemMapper {
       effect: StratagemEffect(row.effect),
       cost: row.cost,
       codexId: CodexId.fromString(row.codexId!),
-      detachmentId: row.detachmentId != null
-          ? DetachmentId.fromString(row.detachmentId!)
-          : null,
+      detachmentId: row.detachmentId != null ? DetachmentId.fromString(row.detachmentId!) : null,
     );
   }
 
@@ -31,9 +29,7 @@ class StratagemMapper {
       effect: stratagem.effect.value,
       cost: stratagem.cost,
       codexId: Value(stratagem.codexId.value),
-      detachmentId: stratagem.detachmentId != null
-          ? Value(stratagem.detachmentId!.value)
-          : const Value.absent(),
+      detachmentId: stratagem.detachmentId != null ? Value(stratagem.detachmentId!.value) : const Value.absent(),
     );
   }
 }

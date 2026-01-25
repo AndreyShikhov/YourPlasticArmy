@@ -5,7 +5,6 @@ import '../../domain/models/army/army.dart';
 import '../../domain/models/codex/codex.dart';
 import '../../domain/models/unit/unit.dart';
 
-
 class UnitMapper {
   static UnitDOM fromRow(UnitRow row) {
     return UnitDOM.restore(
@@ -17,7 +16,6 @@ class UnitMapper {
       stats: row.stats,
     );
   }
-
 
   static UnitsCompanion toCompanion(UnitDOM unit) {
     return UnitsCompanion(

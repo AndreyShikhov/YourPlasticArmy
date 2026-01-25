@@ -13,9 +13,7 @@ class ArmyName extends ValueObject<String> {
     }
 
     if (trimmed.length > maxLength) {
-      throw ArgumentError(
-        'ArmyName cannot be longer than $maxLength characters',
-      );
+      throw ArgumentError('ArmyName cannot be longer than $maxLength characters');
     }
 
     return ArmyName._(trimmed);

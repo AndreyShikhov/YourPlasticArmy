@@ -18,15 +18,9 @@ class DriftDetachmentRepository implements DetachmentRepository {
 
   @override
   Future<List<DetachmentDOM>> findByCodex(CodexId codexId) async {
-    final query = db.select(db.detachments).join(
-        [innerJoin(
-          db.codexDetachments,
-          db.codexDetachments.detachmentId.equalsExp(
-          db.detachments.id,
-        ),
-      ),
-    ])
-      ..where(db.codexDetachments.codexId.equals(codexId.value));
+    final query = db.select(db.detachments).join([
+      innerJoin(db.codexDetachments, db.codexDetachments.detachmentId.equalsExp(db.detachments.id)),
+    ])..where(db.codexDetachments.codexId.equals(codexId.value));
 
     final rows = await query.get();
 

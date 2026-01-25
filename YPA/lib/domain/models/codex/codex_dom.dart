@@ -1,7 +1,5 @@
-
 import '../army/army.dart';
 import 'codex.dart';
-
 
 class CodexDOM {
   final CodexId id;
@@ -9,24 +7,10 @@ class CodexDOM {
   final ArmyId armyId;
   final CodexName name;
 
-  CodexDOM._({
-    required this.id,
-    required this.code,
-    required this.armyId,
-    required this.name,
-  });
+  CodexDOM._({required this.id, required this.code, required this.armyId, required this.name});
 
-  factory CodexDOM.create({
-    required CodexCode code,
-    required ArmyId armyId,
-    required CodexName name,
-  }) {
-    return CodexDOM._(
-      id: CodexId.generate(),
-      code: code,
-      armyId: armyId,
-      name: name,
-    );
+  factory CodexDOM.create({required CodexCode code, required ArmyId armyId, required CodexName name}) {
+    return CodexDOM._(id: CodexId.generate(), code: code, armyId: armyId, name: name);
   }
 
   factory CodexDOM.restore({
@@ -35,11 +19,6 @@ class CodexDOM {
     required ArmyId armyId,
     required CodexName name,
   }) {
-    return CodexDOM._(
-      id: id,
-      code: code,
-      armyId: armyId,
-      name: name,
-    );
+    return CodexDOM._(id: id, code: code, armyId: armyId, name: name);
   }
 }

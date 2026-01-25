@@ -13,16 +13,12 @@ class CodexCode extends ValueObject<String> {
     }
 
     if (trimmed.length > maxLength) {
-      throw ArgumentError(
-        'CodexCode cannot be longer than $maxLength characters',
-      );
+      throw ArgumentError('CodexCode cannot be longer than $maxLength characters');
     }
 
     // Проверяем, что код содержит только буквы, цифры и подчёркивания
     if (!RegExp(r'^[a-z0-9_]+$').hasMatch(trimmed)) {
-      throw ArgumentError(
-        'CodexCode can only contain lowercase letters, numbers and underscores',
-      );
+      throw ArgumentError('CodexCode can only contain lowercase letters, numbers and underscores');
     }
 
     return CodexCode._(trimmed);

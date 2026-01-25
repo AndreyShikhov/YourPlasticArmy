@@ -16,7 +16,9 @@ class DriftFactionUnitAbilityRepository implements FactionUnitAbilityRepository 
 
   @override
   Future<FactionUnitAbilityDOM?> findByCode(String code) async {
-    final row = await (db.select(db.factionUnitAbilities)..where((tbl) => tbl.code.equals(code))).getSingleOrNull();
+    final row = await (db.select(
+      db.factionUnitAbilities,
+    )..where((tbl) => tbl.code.equals(code))).getSingleOrNull();
     return row != null ? FactionUnitAbilityMapper.fromRow(row) : null;
   }
 }

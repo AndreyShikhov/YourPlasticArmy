@@ -13,24 +13,20 @@ class DriftCodexDetachmentRepository implements CodexDetachmentRepository {
   @override
   Future<void> add(CodexId codexId, DetachmentId detachmentId) async {
     final dom = CodexDetachmentDOM(codexId: codexId, detachmentId: detachmentId);
-    await db.into(db.codexDetachments).insertOnConflictUpdate(
-        CodexDetachmentMapper.toCompanion(dom)
-    );
+    await db.into(db.codexDetachments).insertOnConflictUpdate(CodexDetachmentMapper.toCompanion(dom));
   }
 
   @override
   Future<List<DetachmentId>> findDetachmentIdsByCodex(CodexId codexId) async {
-    final rows = await (db.select(db.codexDetachments)
-      ..where((tbl) => tbl.codexId.equals(codexId.value)))
-        .get();
-    
+    final rows = await (db.select(db.codexDetachments)..where((tbl) => tbl.codexId.equals(codexId.value))).get();
+
     return rows.map((row) => DetachmentId.fromString(row.detachmentId)).toList();
   }
 
   @override
   Future<void> remove(CodexId codexId, DetachmentId detachmentId) async {
-    await (db.delete(db.codexDetachments)
-      ..where((tbl) => tbl.codexId.equals(codexId.value) & tbl.detachmentId.equals(detachmentId.value)))
-        .go();
+    await (db.delete(
+      db.codexDetachments,
+    )..where((tbl) => tbl.codexId.equals(codexId.value) & tbl.detachmentId.equals(detachmentId.value))).go();
   }
 }

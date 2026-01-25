@@ -14,7 +14,9 @@ class UserArmyMapper {
       codexId: CodexId.fromString(row.codexId),
       armyId: ArmyId.fromString(row.armyId),
       detachmentId: row.detachmentId,
-      selectedBattleSize: BattleSize.selected(BattleSizeCodeX.fromName(row.selectedBattleSize)?? BattleSizeCode.strikeForce),
+      selectedBattleSize: BattleSize.selected(
+        BattleSizeCodeX.fromName(row.selectedBattleSize) ?? BattleSizeCode.strikeForce,
+      ),
       jsonData: row.jsonData,
       createdAt: row.createdAt,
     );

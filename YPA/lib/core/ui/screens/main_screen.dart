@@ -1,3 +1,8 @@
+/*******************************************************************************
+ * Copyright (c) 2026 Andrey Shikhov
+ * SPDX-License-Identifier: MIT
+ ******************************************************************************/
+
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,11 +13,7 @@ import '../../providers/user_notifier.dart';
 import '../widgets/buttons.dart';
 import 'data/style_data.dart';
 
-
-enum ButtonTypemMianScreen {
-  warhammer40k,
-  warhammerAoS,
-}
+enum ButtonTypemMianScreen { warhammer40k, warhammerAoS }
 
 class MainScreen extends ConsumerStatefulWidget {
   const MainScreen({super.key});
@@ -27,10 +28,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     ButtonTypemMianScreen.warhammerAoS: true,
   };
 
-  final List<String> _buttonTitles = [
-    'Warhammer 40K',
-    'Warhammer AoS',
-  ];
+  final List<String> _buttonTitles = ['Warhammer 40K', 'Warhammer AoS'];
 
   @override
   void didChangeDependencies() {
@@ -61,22 +59,17 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         backgroundColor: const Color(0x7160605E),
         elevation: 0,
         leading: Builder(
-          builder: (context) => IconButton(
-            onPressed: () => Scaffold.of(context).openDrawer(),
-            icon: const Icon(Icons.menu),
-          ),
+          builder: (context) =>
+              IconButton(onPressed: () => Scaffold.of(context).openDrawer(), icon: const Icon(Icons.menu)),
         ),
       ),
       drawer: _buildDrawer(context, userState),
       body: Container(
         color: mainScreenColor,
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: _buildButtons(),
-          ),
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: _buildButtons()),
         ),
-      )
+      ),
     );
   }
 
@@ -108,28 +101,16 @@ class _MainScreenState extends ConsumerState<MainScreen> {
               padding: EdgeInsets.zero,
               children: [
                 DrawerHeader(
-                  decoration: const BoxDecoration(
-                    color: Color(0xFF4E4949),
-                  ),
+                  decoration: const BoxDecoration(color: Color(0xFF4E4949)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
                         'YPA',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 8),
-                      Text(
-                        user.userName ?? 'Guest',
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14,
-                        ),
-                      ),
+                      Text(user.userName ?? 'Guest', style: TextStyle(color: Colors.grey, fontSize: 14)),
                     ],
                   ),
                 ),
@@ -169,10 +150,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   }
 
   Widget _drawerItem(IconData icon, String title, BuildContext context) {
-    return ListTile(
-      leading: Icon(icon),
-      title: Text(title),
-      onTap: () => Navigator.pop(context),
-    );
+    return ListTile(leading: Icon(icon), title: Text(title), onTap: () => Navigator.pop(context));
   }
 }

@@ -3,7 +3,6 @@ import 'package:drift/drift.dart';
 import '../../core/database/app_database.dart';
 import '../../domain/models/faction/faction.dart';
 
-
 class FactionMapper {
   static FactionDOM fromRow(Faction row) {
     return FactionDOM.restore(

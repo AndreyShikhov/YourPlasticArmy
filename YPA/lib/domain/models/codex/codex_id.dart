@@ -1,6 +1,3 @@
-
-
-
 import 'package:uuid/uuid.dart';
 
 class CodexId {
@@ -29,16 +26,12 @@ class CodexId {
   }
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-          other is CodexId && other.value == value;
+  bool operator ==(Object other) => identical(this, other) || other is CodexId && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
-  int toInt ()
-  {
-    return  int.parse(value);
+  int toInt() {
+    return int.parse(value);
   }
-
 }

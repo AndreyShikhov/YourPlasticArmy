@@ -1,26 +1,27 @@
+/*******************************************************************************
+ * Copyright (c) 2026 Andrey Shikhov
+ * SPDX-License-Identifier: MIT
+ ******************************************************************************/
+
 import 'package:flutter/material.dart';
 import '../screens/data/style_data.dart';
 
-
 class MainButton extends FilledButton {
-  final String ? textBTN;
+  final String? textBTN;
   final bool isActive;
 
   MainButton({
     super.key,
     required VoidCallback? onPressed,
-    Widget ? child,
+    Widget? child,
     this.textBTN,
     required this.isActive,
     ButtonStyle? style,
-
-  }) : super (
-    onPressed: isActive ? onPressed : null,
-    child: child ?? Text(textBTN ?? ' button'),
-    style: style?? mainButtonStyle(null),
-
-  );
-
+  }) : super(
+         onPressed: isActive ? onPressed : null,
+         child: child ?? Text(textBTN ?? ' button'),
+         style: style ?? mainButtonStyle(null),
+       );
 
   static ButtonStyle mainButtonStyle(BuildContext? context) {
     return FilledButton.styleFrom(
@@ -28,10 +29,8 @@ class MainButton extends FilledButton {
       foregroundColor: texColor, // Цвет текста
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       fixedSize: const Size(160, 80),
-      side: const BorderSide(color: Colors.black,width: 2,strokeAlign: BorderSide.strokeAlignOutside),
-      shape:const RoundedRectangleBorder(
-        borderRadius: BorderRadius.zero
-      ),
+      side: const BorderSide(color: Colors.black, width: 2, strokeAlign: BorderSide.strokeAlignOutside),
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
     );
   }
 }

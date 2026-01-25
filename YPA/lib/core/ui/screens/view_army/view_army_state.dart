@@ -1,3 +1,8 @@
+/*******************************************************************************
+ * Copyright (c) 2026 Andrey Shikhov
+ * SPDX-License-Identifier: MIT
+ ******************************************************************************/
+
 import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
 
 import '../../../../domain/models/codex/codex.dart';
@@ -37,7 +42,7 @@ class ViewArmyState {
       isLoading: isLoading ?? this.isLoading,
       armyName: armyName ?? this.armyName,
       armyDetachmentName: armyDetachmentName ?? this.armyDetachmentName,
-      selectedBattleSize: selectedBattleSize?? this.selectedBattleSize,
+      selectedBattleSize: selectedBattleSize ?? this.selectedBattleSize,
       codexName: codexName ?? this.codexName,
       units: units ?? this.units,
       error: error ?? this.error,

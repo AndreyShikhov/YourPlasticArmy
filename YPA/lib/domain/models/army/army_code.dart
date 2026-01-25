@@ -13,16 +13,12 @@ class ArmyCode extends ValueObject<String> {
     }
 
     if (trimmed.length > maxLength) {
-      throw ArgumentError(
-        'ArmyCode cannot be longer than $maxLength characters',
-      );
+      throw ArgumentError('ArmyCode cannot be longer than $maxLength characters');
     }
 
     // Проверяем, что код содержит только буквы, цифры и подчёркивания
     if (!RegExp(r'^[a-z0-9_]+$').hasMatch(trimmed)) {
-      throw ArgumentError(
-        'ArmyCode can only contain lowercase letters, numbers and underscores',
-      );
+      throw ArgumentError('ArmyCode can only contain lowercase letters, numbers and underscores');
     }
 
     return ArmyCode._(trimmed);

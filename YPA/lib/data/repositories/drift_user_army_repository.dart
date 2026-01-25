@@ -26,9 +26,7 @@ class DriftUserArmyRepository implements UserArmyRepository {
     return rows.map((row) {
       final userArmyRow = row.readTable(db.userArmies);
       final codexRow = row.readTable(db.codexes);
-      return {
-        UserArmyMapper.fromRow(userArmyRow): codexRow.name,
-      };
+      return {UserArmyMapper.fromRow(userArmyRow): codexRow.name};
     }).toList();
   }
 
@@ -41,9 +39,7 @@ class DriftUserArmyRepository implements UserArmyRepository {
 
   @override
   Future<void> saveUserArmy(UserArmyDOM userArmy) async {
-    await db.into(db.userArmies).insertOnConflictUpdate(
-          UserArmyMapper.toCompanion(userArmy),
-        );
+    await db.into(db.userArmies).insertOnConflictUpdate(UserArmyMapper.toCompanion(userArmy));
   }
 
   @override

@@ -1,4 +1,3 @@
-
 import 'package:drift/drift.dart';
 import 'package:ypa/core/database/app_database.dart';
 import 'package:ypa/domain/models/army/army_id.dart';
@@ -7,11 +6,11 @@ import '../../domain/models/codex/codex.dart';
 import '../../domain/models/unit/unit.dart';
 import '../mappers/mappers.dart';
 
-class DriftUnitRepository implements UnitRepository  {
+class DriftUnitRepository implements UnitRepository {
   final AppDatabase db;
-  
+
   DriftUnitRepository(this.db);
-  
+
   @override
   Future<void> saveUnit(UnitDOM unit) async {
     final companion = UnitMapper.toCompanion(unit);
@@ -19,37 +18,28 @@ class DriftUnitRepository implements UnitRepository  {
   }
 
   @override
-  Future<void> deleteUnit(UnitId id) async
-  {
-   await (db.delete(db.units)..where((tbl) => tbl.id.equals(id.value))).go();
+  Future<void> deleteUnit(UnitId id) async {
+    await (db.delete(db.units)..where((tbl) => tbl.id.equals(id.value))).go();
   }
 
   @override
   Future<List<UnitDOM>> findAllUnits() async {
-
     final rows = await db.select(db.units).get();
 
     return rows.map(UnitMapper.fromRow).toList();
   }
-  
-  @override
-  Future<List<UnitDOM>> findUnitsByCodex(CodexId codexId) async 
-  {final query = db.select(db.units)
-    ..where((tbl) =>
-    tbl.codexId.equals(codexId.value)
-    );
 
-  final rows = await query.get();
-  return rows.map(UnitMapper.fromRow).toList();
+  @override
+  Future<List<UnitDOM>> findUnitsByCodex(CodexId codexId) async {
+    final query = db.select(db.units)..where((tbl) => tbl.codexId.equals(codexId.value));
+
+    final rows = await query.get();
+    return rows.map(UnitMapper.fromRow).toList();
   }
 
   @override
   Future<List<UnitDOM>> findUnitsByArmy(ArmyId armyId) async {
-    final query = db.select(db.units)
-      ..where((tbl) =>
-      tbl.armyId.equals(armyId.value) &
-      tbl.codexId.isNull()
-      );
+    final query = db.select(db.units)..where((tbl) => tbl.armyId.equals(armyId.value) & tbl.codexId.isNull());
 
     final rows = await query.get();
     return rows.map(UnitMapper.fromRow).toList();
@@ -58,7 +48,7 @@ class DriftUnitRepository implements UnitRepository  {
   @override
   Future<UnitDOM?> findUnitByIdFromDb(UnitId id) async {
     final row = await (db.select(db.units)..where((tbl) => tbl.id.equals(id.value))).getSingleOrNull();
-        
+
     return row != null ? UnitMapper.fromRow(row) : null;
   }
 }

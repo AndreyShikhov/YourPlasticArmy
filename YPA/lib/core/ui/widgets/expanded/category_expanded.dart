@@ -1,3 +1,8 @@
+/*******************************************************************************
+ * Copyright (c) 2026 Andrey Shikhov
+ * SPDX-License-Identifier: MIT
+ ******************************************************************************/
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
@@ -12,11 +17,7 @@ class CategoryExpanded extends ConsumerStatefulWidget {
   final String armyId;
   final UnitRoleCode role;
 
-  const CategoryExpanded({
-    super.key,
-    required this.armyId,
-    required this.role,
-  });
+  const CategoryExpanded({super.key, required this.armyId, required this.role});
 
   @override
   ConsumerState<CategoryExpanded> createState() => _CategoryExpandedState();
@@ -31,7 +32,7 @@ class _CategoryExpandedState extends ConsumerState<CategoryExpanded> {
   Widget build(BuildContext context) {
     final state = ref.watch(armyBuilderControllerProvider(widget.armyId));
     final roleUnits = state.getAllUnitsByRoleFromUserArmy(widget.role.name);
-    
+
     // В будущем тут будет реальный подсчет очков
     final subtitle = '${_getPTSFromCategory(roleUnits)} pts  ${roleUnits.length} units';
 
@@ -46,7 +47,7 @@ class _CategoryExpandedState extends ConsumerState<CategoryExpanded> {
         });
       },
       trailing: ButtonOpenSelectUnits(
-        icon: _isSelectionMode ?  Icons.remove : Icons.add,
+        icon: _isSelectionMode ? Icons.remove : Icons.add,
         // Кнопка теперь четко знает, развернута ли секция
         enabled: !state.isLoading && _isExpanded,
         onTap: () {
@@ -62,7 +63,6 @@ class _CategoryExpandedState extends ConsumerState<CategoryExpanded> {
       ),
     );
   }
-
 
   int _getPTSFromCategory(List<ArmyBuilderUnitItemUi> units) {
     return units.fold(0, (sum, unit) {

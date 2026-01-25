@@ -1,3 +1,8 @@
+/*******************************************************************************
+ * Copyright (c) 2026 Andrey Shikhov
+ * SPDX-License-Identifier: MIT
+ ******************************************************************************/
+
 import 'package:ypa/core/ui/screens/army_lyst/army_list_item_ui.dart';
 
 class ArmyLystState {

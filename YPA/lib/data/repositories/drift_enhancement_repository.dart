@@ -22,7 +22,9 @@ class DriftEnhancementRepository implements EnhancementRepository {
 
   @override
   Future<List<EnhancementDOM>> findByDetachment(DetachmentId detachmentId) async {
-    final rows = await (db.select(db.enhancements)..where((tbl) => tbl.detachmentId.equals(detachmentId.value))).get();
+    final rows = await (db.select(
+      db.enhancements,
+    )..where((tbl) => tbl.detachmentId.equals(detachmentId.value))).get();
     return rows.map(EnhancementMapper.fromRow).toList();
   }
 

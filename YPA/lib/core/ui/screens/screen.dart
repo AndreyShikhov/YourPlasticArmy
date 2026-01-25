@@ -1,3 +1,8 @@
+/*******************************************************************************
+ * Copyright (c) 2026 Andrey Shikhov
+ * SPDX-License-Identifier: MIT
+ ******************************************************************************/
+
 export 'main_screen.dart';
 export 'game_screen.dart';
 export 'army_lyst/army_lyst_screen.dart';
