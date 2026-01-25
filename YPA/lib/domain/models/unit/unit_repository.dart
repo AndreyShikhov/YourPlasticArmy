@@ -1,8 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2026 Andrey Shikhov
+ * SPDX-License-Identifier: MIT
+ ******************************************************************************/
+
 import 'package:ypa/domain/models/codex/codex.dart';
 
+import '../army/army_id.dart';
 import 'unit_dom.dart';
 import 'unit_id.dart';
-import '../army/army_id.dart';
 
 abstract class UnitRepository {
   /// Сохранить или обновить Unit
@@ -23,3 +28,4 @@ abstract class UnitRepository {
   /// Удалить Unit
   Future<void> deleteUnit(UnitId id);
 }
+

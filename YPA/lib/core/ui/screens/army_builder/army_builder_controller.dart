@@ -270,7 +270,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             dbId: unit.id.value,
             name: unit.name.value,
             role: unit.role.value.name,
-            m: unit.stats.movement.toString(),
+            m: unit.stats.values,
             t: unit.stats.toughness.toString(),
             sv: unit.stats.save.toString(),
             isv: unit.stats.invulnerableSave.toString(),

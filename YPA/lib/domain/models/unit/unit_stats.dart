@@ -211,8 +211,9 @@ class WargearOptions
 // UNIT STATS
 // ==========================================
 
-class UnitStats
+class ModelStats
 {
+    final bool? isNeedShow;
     final int movement;
     final int toughness;
     final int save;
@@ -220,19 +221,11 @@ class UnitStats
     final int wounds;
     final int leadership;
     final int objectiveControl;
-    final int repeat;
-    final List<String> keywords;
-    final List<String> factionKeywords;
     final Map<WeaponType, List<Weapon>> weapons;
-    final UnitComposition unitComposition;
-    final List<UnitAbilitiesCode> unitAbility;
-    final List<CoreUnitAbilityCode> coreAbilities;
-    final List<FactionUnitAbilityCode> factionAbilities;
-    final List<String> leader;
-    final List<String> ledBy;
     final WargearOptions wargearOptions;
 
-    const UnitStats({
+    const ModelStats({
+        this.isNeedShow = false,
         required this.movement,
         required this.toughness,
         required this.save,
@@ -240,21 +233,13 @@ class UnitStats
         required this.wounds,
         required this.leadership,
         required this.objectiveControl,
-        required this.repeat,
-        required this.keywords,
-        required this.factionKeywords,
         required this.weapons,
-        required this.unitComposition,
-        required this.unitAbility,
-        required this.coreAbilities,
-        required this.factionAbilities,
-        required this.leader,
-        required this.ledBy,
         required this.wargearOptions
     });
 
     Map<String, dynamic> toJson() =>
     {
+        'isNeedShow': isNeedShow,
         'movement': movement,
         'toughness': toughness,
         'save': save,
@@ -262,37 +247,30 @@ class UnitStats
         'wounds': wounds,
         'leadership': leadership,
         'objectiveControl': objectiveControl,
-        'repeat' :repeat,
-        'keywords': keywords,
-        'factionKeywords': factionKeywords,
         'weapons': weapons.map((type, list) => MapEntry(
                 type.name,
                 list.map((w) => w.toJson()).toList()
-            )),
-        'unitComposition': unitComposition.toJson(),
-        'unitAbilities': unitAbility.map((a) => a.name).toList(), 
-        'coreAbilities': coreAbilities.map((a) => a.name).toList(),
-        'factionAbilities': factionAbilities.map((a) => a.name).toList(),
-        'leader': leader,
-        'ledBy': ledBy
+            ))
     };
 
-    factory UnitStats.fromJson(Map<String, dynamic> json)
+    factory ModelStats.fromJson(Map<String, dynamic> json)
     {
 
-      final Map<String, dynamic> weaponsRaw = json['weapons'] as Map<String, dynamic>? ?? {};
-      final Map<WeaponType, List<Weapon>> parsedWeapons = weaponsRaw.map((key, value) {
-        final type = WeaponType.values.firstWhere(
-              (e) => e.name == key,
-          orElse: () => WeaponType.none,
-        );
-        final list = (value as List<dynamic>)
-            .map((e) => Weapon.fromJson(e as Map<String, dynamic>))
-            .toList();
-        return MapEntry(type, list);
-      });
+        final Map<String, dynamic> weaponsRaw = json['weapons'] as Map<String, dynamic>? ?? {};
+        final Map<WeaponType, List<Weapon>> parsedWeapons = weaponsRaw.map((key, value)
+            {
+                final type = WeaponType.values.firstWhere(
+                    (e) => e.name == key,
+                    orElse: () => WeaponType.none
+                );
+                final list = (value as List<dynamic>)
+                    .map((e) => Weapon.fromJson(e as Map<String, dynamic>))
+                    .toList();
+                return MapEntry(type, list);
+            });
 
-        return UnitStats(
+        return ModelStats(
+            isNeedShow: json['isNeedShow'] as bool? ?? false,
             movement: json['movement'] as int? ?? 0,
             toughness: json['toughness'] as int? ?? 0,
             save: json['save'] as int? ?? 0,
@@ -300,34 +278,15 @@ class UnitStats
             wounds: json['wounds'] as int? ?? 1,
             leadership: json['leadership'] as int? ?? 6,
             objectiveControl: json['objectiveControl'] as int? ?? 0,
-            repeat: json['repeat'] as int? ?? 0,
-            keywords: (json['keywords'] as List<dynamic>?)?.cast<String>().toList() ?? [],
-            factionKeywords: (json['factionKeywords'] as List<dynamic>?)?.cast<String>().toList() ?? [],
             weapons: parsedWeapons,
-            unitComposition: json['unitComposition'] != null
-                ? UnitComposition.fromJson(json['unitComposition'] as Map<String, dynamic>)
-                : UnitComposition.emptyComposition,
-            unitAbility: (json['unitAbilities'] as List<dynamic>?)
-                ?.map((e) => UnitAbilitiesCode.values.firstWhere(
-                        (a) => a.name == e,
-                        orElse: () => UnitAbilitiesCode.none 
-                    ))
-                .toList() ?? [],
-            coreAbilities: (json['coreAbilities'] as List<dynamic>?)
-                ?.map((e) => CoreUnitAbilityCode.values.firstWhere((a) => a.name == e, orElse: () => CoreUnitAbilityCode.none)).toList() ?? [],
-            factionAbilities: (json['factionAbilities'] as List<dynamic>?)
-                ?.map((e) => FactionUnitAbilityCode.values.firstWhere((a) => a.name == e, orElse: () => FactionUnitAbilityCode.none)).toList() ?? [],
-            leader: (json['leader'] as List<dynamic>?)?.cast<String>().toList() ?? [],
-            ledBy: (json['ledBy'] as List<dynamic>?)?.cast<String>().toList() ?? [],
-            wargearOptions: json['wargearOptions'] != null
-                ? WargearOptions.fromJson(json['wargearOptions'] as Map<String, dynamic>)
-                : WargearOptions.emptyOptions
+            wargearOptions: WargearOptions.fromJson(json)
         );
     }
 
-    factory UnitStats.empty()
+    factory ModelStats.empty()
     {
-        return const UnitStats(
+        return const ModelStats(
+            isNeedShow: false,
             movement: 0,
             toughness: 0,
             save: 0,
@@ -335,16 +294,7 @@ class UnitStats
             wounds: 0,
             leadership: 0,
             objectiveControl: 0,
-            repeat: 1,
-            keywords: [],
-            factionKeywords: [],
             weapons: {},
-            unitComposition: UnitComposition.emptyComposition,
-            unitAbility: [],
-            coreAbilities: [],
-            factionAbilities: [],
-            leader: [],
-            ledBy: [],
             wargearOptions: WargearOptions.emptyOptions
         );
     }

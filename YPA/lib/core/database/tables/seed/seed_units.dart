@@ -1,3 +1,8 @@
+/*******************************************************************************
+ * Copyright (c) 2026 Andrey Shikhov
+ * SPDX-License-Identifier: MIT
+ ******************************************************************************/
+
 import 'package:drift/drift.dart';
 import 'package:uuid/uuid.dart';
 import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
@@ -5,7 +10,9 @@ import 'package:ypa/core/database/tables/seed/seed_objects/units/blood_angels.da
 import 'package:ypa/core/database/tables/seed/seed_objects/units/orks.dart';
 import 'package:ypa/core/database/tables/seed/seed_objects/units/space_marines.dart';
 import 'package:ypa/core/database/tables/seed/seed_objects/units/ultramarines.dart';
+
 import '../../app_database.dart';
+import '../../converters/unit_stats_converter.dart';
 
 
 Future<void> seedUnits(
@@ -41,10 +48,10 @@ Future<void> seedUnits(
       UnitsCompanion.insert(
         id: unitId, 
         name: u.name,
-        armyId: armyId, // Теперь передаем String (UUID)
+        armyId: armyId,
         codexId: codexIdValue,
         roleCode: u.role.code,
-        stats: u.stats,
+        stats: UnitStatsConverter().toSql(u.stats),
       ),
       mode: InsertMode.insertOrIgnore,
     );

@@ -1,4 +1,9 @@
-import 'package:uuid/uuid.dart';
+
+
+/*******************************************************************************
+ * Copyright (c) 2026 Andrey Shikhov
+ * SPDX-License-Identifier: MIT
+ ******************************************************************************/
 
 class UnitId {
   final String value;
@@ -25,3 +30,4 @@ class UnitId {
   @override
   String toString() => value;
 }
+

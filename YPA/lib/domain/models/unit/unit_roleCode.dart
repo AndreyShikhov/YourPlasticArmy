@@ -1,4 +1,7 @@
-
+/*******************************************************************************
+ * Copyright (c) 2026 Andrey Shikhov
+ * SPDX-License-Identifier: MIT
+ ******************************************************************************/
 
 import '../../../core/database/tables/seed/seed_objects/_types.dart';
 
@@ -49,3 +52,4 @@ class UnitRoleCodeDom {
   @override
   String toString() => value.name;
 }
+

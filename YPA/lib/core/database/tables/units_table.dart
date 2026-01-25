@@ -1,8 +1,12 @@
+/*******************************************************************************
+ * Copyright (c) 2026 Andrey Shikhov
+ * SPDX-License-Identifier: MIT
+ ******************************************************************************/
 import 'package:drift/drift.dart';
-import 'package:ypa/core/database/converters/unit_stats_converter.dart';
-import 'codexes_table.dart';
+
+import '../converters/unit_stats_converter.dart';
 import 'armies_table.dart';
-import 'role_table.dart';
+import 'codexes_table.dart';
 
 
 
