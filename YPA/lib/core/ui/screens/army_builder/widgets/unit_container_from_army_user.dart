@@ -5,7 +5,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ypa/core/ui/screens/army_builder/widgets/text_unit_button.dart';
+import 'package:ypa/core/ui/screens/army_builder/widgets/select_unit/text_unit_button.dart';
 
 import '../army_builder_controller.dart';
 

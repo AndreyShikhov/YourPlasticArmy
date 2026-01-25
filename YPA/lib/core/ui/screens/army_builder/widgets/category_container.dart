@@ -6,7 +6,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/core/ui/screens/army_builder/army_builder_controller.dart';
-import 'package:ypa/core/ui/screens/army_builder/widgets/select_units_dialog.dart';
+import 'package:ypa/core/ui/screens/army_builder/widgets/select_unit/select_units_dialog.dart';
 import 'package:ypa/core/ui/screens/army_builder/widgets/units_block/army_units_block.dart';
 
 import '../../../../database/tables/seed/seed_objects/_types.dart';

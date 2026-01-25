@@ -5,6 +5,8 @@
 
 import 'package:ypa/domain/models/unit/unit_stats.dart';
 
+import '../../../database/tables/seed/seed_objects/_types.dart';
+
 class ArmyBuilderUnitItemUi
 {
     final String dbId;
@@ -21,7 +23,7 @@ class ArmyBuilderUnitItemUi
     final Map<int, int> selectedComposition;
     final List<String> keywords;
     final List<String> factionKeywords;
-    final List<Weapon> weapons;
+    final Map<WeaponType, List<Weapon>> weapons;
 
     ArmyBuilderUnitItemUi({
         required this.dbId,
@@ -41,9 +43,9 @@ class ArmyBuilderUnitItemUi
         required this.weapons
     });
 
-    Map<String, dynamic> toJson() 
+    Map<String, dynamic> toJson()
     {
-        return 
+        return
         {
             'dbId': dbId,
             'name': name,
@@ -59,12 +61,27 @@ class ArmyBuilderUnitItemUi
             'selectedComposition': selectedComposition.map((key, value) => MapEntry(key, value)),
             'keywords': keywords,
             'factionKeywords': factionKeywords,
-            'weapons': weapons.map((x) => x.toJson()).toList()
+            'weapons': weapons.map((type, list) => MapEntry(
+                    type.name,
+                    list.map((w) => w.toJson()).toList()
+                ))
         };
     }
 
     factory ArmyBuilderUnitItemUi.fromJson(Map<String, dynamic> json)
     {
+        final Map<String, dynamic> weaponsRaw = json['weapons'] as Map<String, dynamic>? ?? {};
+        final Map<WeaponType, List<Weapon>> parsedWeapons = weaponsRaw.map((key, value)
+            {
+                final type = WeaponType.values.firstWhere(
+                    (e) => e.name == key,
+                    orElse: () => WeaponType.none
+                );
+                final list = (value as List<dynamic>)
+                    .map((e) => Weapon.fromJson(e as Map<String, dynamic>))
+                    .toList();
+                return MapEntry(type, list);
+            });
         return ArmyBuilderUnitItemUi(
             dbId: json['dbId'] ?? '',
             name: json['name'] ?? '',
@@ -80,7 +97,7 @@ class ArmyBuilderUnitItemUi
             selectedComposition: Map<int, int>.from(json['selectedComposition'] ?? {}),
             keywords: List<String>.from(json['keywords'] ?? []),
             factionKeywords: List<String>.from(json['factionKeywords'] ?? []),
-            weapons: (json['weapons'] as List? ?? []).map((x) => Weapon.fromJson(x as Map<String, dynamic>)).toList()
+            weapons: parsedWeapons
         );
     }
 
@@ -101,7 +118,7 @@ class ArmyBuilderUnitItemUi
             selectedComposition: {},
             keywords: [],
             factionKeywords: [],
-            weapons: []
+            weapons: {}
         );
     }
 }

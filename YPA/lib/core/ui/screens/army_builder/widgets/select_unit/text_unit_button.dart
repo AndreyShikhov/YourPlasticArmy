@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
 
-import '../../../widgets/buttons.dart';
-import '../army_builder_controller.dart';
-import '../army_builder_item_ui.dart';
+import '../../../../widgets/buttons.dart';
+import '../../army_builder_controller.dart';
+import '../../army_builder_item_ui.dart';
 
 class TextUnitButton extends ConsumerWidget
 {

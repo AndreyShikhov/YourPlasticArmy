@@ -223,7 +223,7 @@ class UnitStats
     final int repeat;
     final List<String> keywords;
     final List<String> factionKeywords;
-    final List<Weapon> weapons;
+    final Map<WeaponType, List<Weapon>> weapons;
     final UnitComposition unitComposition;
     final List<UnitAbilitiesCode> unitAbility;
     final List<CoreUnitAbilityCode> coreAbilities;
@@ -265,7 +265,10 @@ class UnitStats
         'repeat' :repeat,
         'keywords': keywords,
         'factionKeywords': factionKeywords,
-        'weapons': weapons.map((w) => w.toJson()).toList(),
+        'weapons': weapons.map((type, list) => MapEntry(
+                type.name,
+                list.map((w) => w.toJson()).toList()
+            )),
         'unitComposition': unitComposition.toJson(),
         'unitAbilities': unitAbility.map((a) => a.name).toList(), 
         'coreAbilities': coreAbilities.map((a) => a.name).toList(),
@@ -276,6 +279,19 @@ class UnitStats
 
     factory UnitStats.fromJson(Map<String, dynamic> json)
     {
+
+      final Map<String, dynamic> weaponsRaw = json['weapons'] as Map<String, dynamic>? ?? {};
+      final Map<WeaponType, List<Weapon>> parsedWeapons = weaponsRaw.map((key, value) {
+        final type = WeaponType.values.firstWhere(
+              (e) => e.name == key,
+          orElse: () => WeaponType.none,
+        );
+        final list = (value as List<dynamic>)
+            .map((e) => Weapon.fromJson(e as Map<String, dynamic>))
+            .toList();
+        return MapEntry(type, list);
+      });
+
         return UnitStats(
             movement: json['movement'] as int? ?? 0,
             toughness: json['toughness'] as int? ?? 0,
@@ -287,9 +303,7 @@ class UnitStats
             repeat: json['repeat'] as int? ?? 0,
             keywords: (json['keywords'] as List<dynamic>?)?.cast<String>().toList() ?? [],
             factionKeywords: (json['factionKeywords'] as List<dynamic>?)?.cast<String>().toList() ?? [],
-            weapons: (json['weapons'] as List<dynamic>?)
-                ?.map((w) => Weapon.fromJson(w as Map<String, dynamic>))
-                .toList() ?? [],
+            weapons: parsedWeapons,
             unitComposition: json['unitComposition'] != null
                 ? UnitComposition.fromJson(json['unitComposition'] as Map<String, dynamic>)
                 : UnitComposition.emptyComposition,
@@ -324,7 +338,7 @@ class UnitStats
             repeat: 1,
             keywords: [],
             factionKeywords: [],
-            weapons: [],
+            weapons: {},
             unitComposition: UnitComposition.emptyComposition,
             unitAbility: [],
             coreAbilities: [],

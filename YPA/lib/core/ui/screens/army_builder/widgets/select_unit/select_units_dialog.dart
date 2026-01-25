@@ -6,11 +6,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/core/ui/screens/army_builder/army_builder_controller.dart';
-import 'package:ypa/core/ui/screens/army_builder/widgets/text_unit_button.dart';
-import 'package:ypa/core/ui/screens/army_builder/widgets/unit_search_widget.dart';
+import 'package:ypa/core/ui/screens/army_builder/widgets/select_unit/text_unit_button.dart';
+import 'package:ypa/core/ui/screens/army_builder/widgets/select_unit/unit_search_widget.dart';
 
-import '../../../../database/tables/seed/seed_objects/_types.dart';
-import '../army_builder_item_ui.dart';
+import '../../../../../database/tables/seed/seed_objects/_types.dart';
+import '../../army_builder_item_ui.dart';
 
 class SelectUnitsDialog extends ConsumerStatefulWidget
 {

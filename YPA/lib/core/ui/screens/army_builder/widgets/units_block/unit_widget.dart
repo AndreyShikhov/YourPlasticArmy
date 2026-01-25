@@ -8,6 +8,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/core/ui/screens/army_builder/army_builder_item_ui.dart';
 import 'package:ypa/core/ui/screens/data/style_data.dart';
 
+import '../../../../../database/tables/seed/seed_objects/_types.dart';
+
 class UnitWidget extends ConsumerWidget
 {
     final String armyId;
@@ -98,15 +100,15 @@ class UnitWidget extends ConsumerWidget
     List<Text> _getRangedWeapon(){
 
 
-      //unit.weapons.first
-      List<Text> res = [];
+
+      List<Text> res = unit.weapons[WeaponType.ranged]!.map((w) => Text(w.name)).toList();
       return res;
 
     }
 
     List<Text> _getMeleeWeapon(){
 
-      List<Text> res = [];
+      List<Text> res = unit.weapons[WeaponType.melee]!.map((w) => Text(w.name)).toList();
       return res;
     }
 }
