@@ -269,19 +269,18 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         return ArmyBuilderUnitItemUi(
             dbId: unit.id.value,
             name: unit.name.value,
-            role: unit.role.value.name,
-            m: unit.stats.values,
-            t: unit.stats.toughness.toString(),
-            sv: unit.stats.save.toString(),
-            isv: unit.stats.invulnerableSave.toString(),
-            w: unit.stats.wounds.toString(),
-            ld: unit.stats.leadership.toString(),
-            oc: unit.stats.objectiveControl.toString(),
-            repeat: unit.stats.repeat.toString(),
-            selectedComposition: unit.stats.unitComposition.effectiveComposition,
-            keywords: unit.stats.keywords,
-            factionKeywords: unit.stats.factionKeywords,
-            weapons: unit.stats.weapons
+            role: unit.role.value.title,
+            repeat: unit.repeat.toString(),
+            keywords: unit.keywords,
+            factionKeywords: unit.factionKeywords,
+            unitComposition: unit.unitComposition,
+            unitAbility: unit.unitAbility,
+            coreAbilities: unit.coreAbilities,
+            factionAbilities: unit.factionAbilities,
+            leader: unit.leader,
+            ledBy: unit.ledBy,
+            modelStats: unit.modelStats,
+            selectedComposition: unit.unitComposition.selectedComposition!,
         );
     }
 

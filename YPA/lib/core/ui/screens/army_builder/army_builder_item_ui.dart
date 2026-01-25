@@ -7,118 +7,102 @@ import 'package:ypa/domain/models/unit/unit_stats.dart';
 
 import '../../../database/tables/seed/seed_objects/_types.dart';
 
-class ArmyBuilderUnitItemUi
-{
-    final String dbId;
-    final String name;
-    final String role;
-    final String m; // Movement
-    final String t; // Toughness
-    final String sv; // Save
-    final String isv; // Invulnerable Save
-    final String w; // Wounds
-    final String ld; // Leadership
-    final String oc; // Objective Control
-    final String repeat;
-    final Map<int, int> selectedComposition;
-    final List<String> keywords;
-    final List<String> factionKeywords;
-    final Map<WeaponType, List<Weapon>> weapons;
+class ArmyBuilderUnitItemUi {
+  final String dbId;
+  final String name;
+  final String role;
+  final String repeat;
+  final List<String> keywords;
+  final List<String> factionKeywords;
+  final UnitComposition unitComposition;
+  final List<UnitAbilitiesCode> unitAbility;
+  final List<CoreUnitAbilityCode> coreAbilities;
+  final List<FactionUnitAbilityCode> factionAbilities;
+  final List<String> leader;
+  final List<String> ledBy;
+  final Map<String, ModelStats> modelStats;
+  final Map<int, int> selectedComposition;
 
-    ArmyBuilderUnitItemUi({
-        required this.dbId,
-        required this.name,
-        required this.role,
-        required this.m,
-        required this.t,
-        required this.sv,
-        required this.isv,
-        required this.w,
-        required this.ld,
-        required this.oc,
-        required this.repeat,
-        required this.selectedComposition,
-        required this.keywords,
-        required this.factionKeywords,
-        required this.weapons
-    });
+  ArmyBuilderUnitItemUi({
+    required this.dbId,
+    required this.name,
+    required this.role,
+    required this.repeat,
+    required this.keywords,
+    required this.factionKeywords,
+    required this.unitComposition,
+    required this.unitAbility,
+    required this.coreAbilities,
+    required this.factionAbilities,
+    required this.leader,
+    required this.ledBy,
+    required this.modelStats,
+    required this.selectedComposition,
+  });
 
-    Map<String, dynamic> toJson()
-    {
-        return
-        {
-            'dbId': dbId,
-            'name': name,
-            'role': role,
-            'm': m,
-            't': t,
-            'sv': sv,
-            'isv': isv,
-            'w': w,
-            'ld': ld,
-            'oc': oc,
-            'repeat': repeat,
-            'selectedComposition': selectedComposition.map((key, value) => MapEntry(key, value)),
-            'keywords': keywords,
-            'factionKeywords': factionKeywords,
-            'weapons': weapons.map((type, list) => MapEntry(
-                    type.name,
-                    list.map((w) => w.toJson()).toList()
-                ))
-        };
-    }
+  Map<String, dynamic> toJson() {
+    return {
+      'dbId': dbId,
+      'name': name,
+      'role': role,
+      'repeat': repeat,
+      'keywords': keywords,
+      'factionKeywords': factionKeywords,
+      'unitComposition': unitComposition.toJson(),
+      'unitAbility': unitAbility.map((e) => e.name).toList(),
+      'coreAbilities': coreAbilities.map((e) => e.name).toList(),
+      'factionAbilities': factionAbilities.map((e) => e.name).toList(),
+      'leader': leader,
+      'ledBy': ledBy,
+      'modelStats': modelStats.map((k, v) => MapEntry(k, v.toJson())),
+      'selectedComposition': selectedComposition.map((k, v) => MapEntry(k.toString(), v)),
+    };
+  }
 
-    factory ArmyBuilderUnitItemUi.fromJson(Map<String, dynamic> json)
-    {
-        final Map<String, dynamic> weaponsRaw = json['weapons'] as Map<String, dynamic>? ?? {};
-        final Map<WeaponType, List<Weapon>> parsedWeapons = weaponsRaw.map((key, value)
-            {
-                final type = WeaponType.values.firstWhere(
-                    (e) => e.name == key,
-                    orElse: () => WeaponType.none
-                );
-                final list = (value as List<dynamic>)
-                    .map((e) => Weapon.fromJson(e as Map<String, dynamic>))
-                    .toList();
-                return MapEntry(type, list);
-            });
-        return ArmyBuilderUnitItemUi(
-            dbId: json['dbId'] ?? '',
-            name: json['name'] ?? '',
-            role: json['role'] ?? '',
-            m: json['m'] ?? '',
-            t: json['t'] ?? '',
-            sv: json['sv'] ?? '',
-            isv: json['isv'] ?? '',
-            w: json['w'] ?? '',
-            ld: json['ld'] ?? '',
-            oc: json['oc'] ?? '',
-            repeat: json['repeat'] ?? '',
-            selectedComposition: Map<int, int>.from(json['selectedComposition'] ?? {}),
-            keywords: List<String>.from(json['keywords'] ?? []),
-            factionKeywords: List<String>.from(json['factionKeywords'] ?? []),
-            weapons: parsedWeapons
-        );
-    }
+  factory ArmyBuilderUnitItemUi.fromJson(Map<String, dynamic> json) {
+    final modelStatsRaw = json['modelStats'] as Map<String, dynamic>? ?? {};
+    final selectedCompRaw = json['selectedComposition'] as Map<String, dynamic>? ?? {};
 
-    factory ArmyBuilderUnitItemUi.empty()
-    {
-        return ArmyBuilderUnitItemUi(
-            dbId: '',
-            name: '',
-            role: '',
-            m: '',
-            t: '',
-            sv: '',
-            isv: '',
-            w: '',
-            ld: '',
-            oc: '',
-            repeat: '',
-            selectedComposition: {},
-            keywords: [],
-            factionKeywords: [],
-            weapons: {}
-        );
-    }
+    return ArmyBuilderUnitItemUi(
+      dbId: json['dbId'] ?? '',
+      name: json['name'] ?? '',
+      role: json['role'] ?? '',
+      repeat: json['repeat']?.toString() ?? '1',
+      keywords: List<String>.from(json['keywords'] ?? []),
+      factionKeywords: List<String>.from(json['factionKeywords'] ?? []),
+      unitComposition: UnitComposition.fromJson(json['unitComposition'] ?? {}),
+      unitAbility: (json['unitAbility'] as List? ?? [])
+          .map((e) => UnitAbilitiesCode.values.byName(e))
+          .toList(),
+      coreAbilities: (json['coreAbilities'] as List? ?? [])
+          .map((e) => CoreUnitAbilityCode.values.byName(e))
+          .toList(),
+      factionAbilities: (json['factionAbilities'] as List? ?? [])
+          .map((e) => FactionUnitAbilityCode.values.byName(e))
+          .toList(),
+      leader: List<String>.from(json['leader'] ?? []),
+      ledBy: List<String>.from(json['ledBy'] ?? []),
+      modelStats: modelStatsRaw.map((k, v) => MapEntry(k, ModelStats.fromJson(v))),
+      selectedComposition: selectedCompRaw.map((k, v) => MapEntry(int.parse(k), v as int)),
+    );
+  }
+
+  factory ArmyBuilderUnitItemUi.empty() {
+    return ArmyBuilderUnitItemUi(
+      dbId: '',
+      name: '',
+      role: '',
+      repeat: '1',
+      keywords: [],
+      factionKeywords: [],
+      unitComposition: UnitComposition.emptyComposition,
+      unitAbility: [],
+      coreAbilities: [],
+      factionAbilities: [],
+      leader: [],
+      ledBy: [],
+      modelStats: {},
+      selectedComposition: {},
+    );
+  }
 }
