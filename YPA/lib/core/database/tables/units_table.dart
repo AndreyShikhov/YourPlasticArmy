@@ -8,28 +8,27 @@ import '../converters/unit_stats_converter.dart';
 import 'armies_table.dart';
 import 'codexes_table.dart';
 
-
-
 @DataClassName('UnitRow')
-class Units extends Table {
-  TextColumn get id => text()();
+class Units extends Table
+{
+    TextColumn get id => text()();
 
-  TextColumn get name => text().withLength(min: 1)();
+    TextColumn get name => text().withLength(min: 1)();
 
-  /// Always required
-  TextColumn get armyId =>
-      text().references(Armies, #id)();
+    /// Always required
+    TextColumn get armyId =>
+    text().references(Armies, #id)();
 
-  /// Nullable (orks, demons, etc.)
-  TextColumn get codexId =>
-      text().nullable().references(Codexes, #id)();
+    /// Nullable (orks, demons, etc.)
+    TextColumn get codexId =>
+    text().nullable().references(Codexes, #id)();
 
-  /// Changed to TextColumn to match Role.id (UUID)
-  TextColumn get roleCode => text()();
-      
-  /// Stats stored as JSON
-  TextColumn get unitStats => text().map(const UnitStatsConverter())();
+    /// Changed to TextColumn to match Role.id (UUID)
+    TextColumn get roleCode => text()();
 
-  @override
-  Set<Column> get primaryKey => {id};
+    /// Stats stored as JSON
+    TextColumn get unitStats => text().map(const UnitStatsConverter())();
+
+    @override
+    Set<Column> get primaryKey => {id};
 }

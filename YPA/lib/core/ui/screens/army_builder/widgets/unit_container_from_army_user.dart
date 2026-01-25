@@ -17,7 +17,7 @@ class UnitContainerFromArmyUser extends ConsumerWidget
     UnitContainerFromArmyUser({super.key, required this.armyId, required this.unitId});
 
     @override
-    Widget build(BuildContext context, WidgetRef ref) 
+    Widget build(BuildContext context, WidgetRef ref)
     {
         final state = ref.watch(armyBuilderControllerProvider(armyId));
 

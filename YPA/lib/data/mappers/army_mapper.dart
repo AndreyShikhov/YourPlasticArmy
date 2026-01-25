@@ -9,22 +9,25 @@ import '../../core/database/app_database.dart';
 import '../../domain/models/army/army.dart';
 import '../../domain/models/faction/faction.dart';
 
-class ArmyMapper {
-  static ArmyDOM fromRow(Army row) {
-    return ArmyDOM.restore(
-      id: ArmyId.fromString(row.id),
-      code: ArmyCodeDom(row.armyCode),
-      name: ArmyName(row.name),
-      factionId: FactionId.fromString(row.factionId),
-    );
-  }
+class ArmyMapper
+{
+    static ArmyDOM fromRow(Army row) 
+    {
+        return ArmyDOM.restore(
+            id: ArmyId.fromString(row.id),
+            code: ArmyCodeDom(row.armyCode),
+            name: ArmyName(row.name),
+            factionId: FactionId.fromString(row.factionId)
+        );
+    }
 
-  static ArmiesCompanion toCompanion(ArmyDOM army) {
-    return ArmiesCompanion(
-      id: Value(army.id.value),
-      armyCode: Value(army.code.value),
-      name: Value(army.name.value),
-      factionId: Value(army.factionId.value),
-    );
-  }
+    static ArmiesCompanion toCompanion(ArmyDOM army) 
+    {
+        return ArmiesCompanion(
+            id: Value(army.id.value),
+            armyCode: Value(army.code.value),
+            name: Value(army.name.value),
+            factionId: Value(army.factionId.value)
+        );
+    }
 }

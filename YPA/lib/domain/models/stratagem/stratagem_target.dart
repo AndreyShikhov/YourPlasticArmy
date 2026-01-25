@@ -1,16 +1,22 @@
-class StratagemTarget {
-  final String value;
+/*******************************************************************************
+ * Copyright (c) 2026 Andrey Shikhov
+ * SPDX-License-Identifier: MIT
+ ******************************************************************************/
 
-  const StratagemTarget(this.value);
+class StratagemTarget
+{
+    final String value;
 
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is StratagemTarget && runtimeType == other.runtimeType && value == other.value;
+    const StratagemTarget(this.value);
 
-  @override
-  int get hashCode => value.hashCode;
+    @override
+    bool operator==(Object other) =>
+    identical(this, other) ||
+        other is StratagemTarget && runtimeType == other.runtimeType && value == other.value;
 
-  @override
-  String toString() => value;
+    @override
+    int get hashCode => value.hashCode;
+
+    @override
+    String toString() => value;
 }

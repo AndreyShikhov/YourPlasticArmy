@@ -1,19 +1,24 @@
+/*******************************************************************************
+ * Copyright (c) 2026 Andrey Shikhov
+ * SPDX-License-Identifier: MIT
+ ******************************************************************************/
+
 import 'package:drift/drift.dart';
+
 import 'codexes_table.dart';
 import 'detachments_table.dart';
 
-class CodexDetachments extends Table {
-  TextColumn get codexId =>
-      text().references(Codexes, #id)();
+class CodexDetachments extends Table
+{
+    TextColumn get codexId =>
+    text().references(Codexes, #id)();
 
-  TextColumn get detachmentId =>
-      text().references(Detachments, #id)();
+    TextColumn get detachmentId =>
+    text().references(Detachments, #id)();
 
-  BoolColumn get isGeneral => boolean().withDefault(const Constant(false))();
+    BoolColumn get isGeneral => boolean().withDefault(const Constant(false))();
 
-
-  @override
-  Set<Column> get primaryKey => { codexId, detachmentId };
+    @override
+    Set<Column> get primaryKey => { codexId, detachmentId };
 }
-
 

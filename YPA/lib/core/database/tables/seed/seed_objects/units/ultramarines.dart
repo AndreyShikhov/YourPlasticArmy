@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-
 import '../../../../../../domain/models/unit/unit_stats.dart';
 import '../_types.dart';
 
@@ -21,11 +20,11 @@ List<UnitSeed> ultramarinesUnits()
             codex: CodexCode.ultramarines,
             repeat: 1,
             keywords: [
-              'Infantry',
-              'Battleline',
-              'Grenades',
-              'Imperium',
-              'Tacticus'
+                'Infantry',
+                'Battleline',
+                'Grenades',
+                'Imperium',
+                'Tacticus'
             ],
             factionKeywords: ['Adeptus Astartes'],
             unitComposition: const UnitComposition(
@@ -33,17 +32,18 @@ List<UnitSeed> ultramarinesUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              UnitAbilitiesCode.deepStrike
+                UnitAbilitiesCode.deepStrike
             ],
             coreAbilities: const[
-              CoreUnitAbilityCode.leader
+                CoreUnitAbilityCode.leader
             ],
             factionAbilities: const[
-              FactionUnitAbilityCode.oathOfMoment
+                FactionUnitAbilityCode.oathOfMoment
             ],
             ledBy: const[],
             leader: const[],
-            modelStats: {
+            modelStats: 
+            {
                 'Roboute Guilliman': ModelStats(
                     movement: 8,
                     toughness: 9,
@@ -52,37 +52,38 @@ List<UnitSeed> ultramarinesUnits()
                     wounds: 10,
                     leadership: 5,
                     objectiveControl: 4,
-                    weapons:{
-                      WeaponType.ranged : [
-                        Weapon(
-                            name: 'Perdition Pistol',
-                            type: WeaponType.ranged,
-                            weaponAbilities: const[
-                              WeaponAbilitiesCode.pistol,
-                              WeaponAbilitiesCode.melta
-                            ],
-                            range: 6,
-                            attacks: const Dice(fix: 1).toString(),
-                            skill: 2,
-                            strength: 8,
-                            ap: -4,
-                            damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
-                                .toString()
-                        ),
-                      ],
-                      WeaponType.melee : [
-                        Weapon(
-                            name: 'The Axe Mortalis',
-                            type: WeaponType.melee,
-                            weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
-                            range: 0,
-                            attacks: const Dice(fix: 8).toString(),
-                            skill: 2,
-                            strength: 8,
-                            ap: -3,
-                            damage: const Dice(fix: 2).toString()
-                        )
-                      ],
+                    weapons: 
+                    {
+                        WeaponType.ranged : [
+                            Weapon(
+                                name: 'Perdition Pistol',
+                                type: WeaponType.ranged,
+                                weaponAbilities: const[
+                                    WeaponAbilitiesCode.pistol,
+                                    WeaponAbilitiesCode.melta
+                                ],
+                                range: 6,
+                                attacks: const Dice(fix: 1).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -4,
+                                damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    .toString()
+                            )
+                        ],
+                        WeaponType.melee : [
+                            Weapon(
+                                name: 'The Axe Mortalis',
+                                type: WeaponType.melee,
+                                weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
+                                range: 0,
+                                attacks: const Dice(fix: 8).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -3,
+                                damage: const Dice(fix: 2).toString()
+                            )
+                        ]
                     },
                     wargearOptions: WargearOptions.emptyOptions
                 )

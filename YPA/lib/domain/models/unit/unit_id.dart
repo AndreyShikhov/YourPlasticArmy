@@ -1,33 +1,35 @@
 
-
 /*******************************************************************************
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-class UnitId {
-  final String value;
+class UnitId
+{
+    final String value;
 
-  const UnitId._(this.value);
+    const UnitId._(this.value);
 
-  /// Создать UnitId из строки
-  factory UnitId.fromString(String value) {
-    if (value.isEmpty) {
-      throw Exception('UnitId не может быть пустым');
+    /// Создать UnitId из строки
+    factory UnitId.fromString(String value)
+    {
+        if (value.isEmpty) 
+        {
+            throw Exception('UnitId не может быть пустым');
+        }
+        // Можно добавить проверку на корректный UUID, если нужно
+        return UnitId._(value);
     }
-    // Можно добавить проверку на корректный UUID, если нужно
-    return UnitId._(value);
-  }
 
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-          other is UnitId && runtimeType == other.runtimeType && value == other.value;
+    @override
+    bool operator==(Object other) =>
+    identical(this, other) ||
+        other is UnitId && runtimeType == other.runtimeType && value == other.value;
 
-  @override
-  int get hashCode => value.hashCode;
+    @override
+    int get hashCode => value.hashCode;
 
-  @override
-  String toString() => value;
+    @override
+    String toString() => value;
 }
 

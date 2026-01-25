@@ -211,7 +211,8 @@ class WargearOptions
 // UNIT STATS
 // ==========================================
 
-class ModelStats {
+class ModelStats
+{
     final bool? isNeedShow;
     final int movement;
     final int toughness;
@@ -299,71 +300,74 @@ class ModelStats {
     }
 }
 
-class UnitStats {
-  final int repeat;
-  final List<String> keywords;
-  final List<String> factionKeywords;
-  final UnitComposition unitComposition;
-  final List<UnitAbilitiesCode> unitAbility;
-  final List<CoreUnitAbilityCode> coreAbilities;
-  final List<FactionUnitAbilityCode> factionAbilities;
-  final List<String> leader;
-  final List<String> ledBy;
-  final Map<String, ModelStats> modelStats; // Характеристики моделей юнита
+class UnitStats
+{
+    final int repeat;
+    final List<String> keywords;
+    final List<String> factionKeywords;
+    final UnitComposition unitComposition;
+    final List<UnitAbilitiesCode> unitAbility;
+    final List<CoreUnitAbilityCode> coreAbilities;
+    final List<FactionUnitAbilityCode> factionAbilities;
+    final List<String> leader;
+    final List<String> ledBy;
+    final Map<String, ModelStats> modelStats; // Характеристики моделей юнита
 
-  const UnitStats({
-    required this.repeat,
-    required this.keywords,
-    required this.factionKeywords,
-    required this.unitComposition,
-    required this.unitAbility,
-    required this.coreAbilities,
-    required this.factionAbilities,
-    required this.leader,
-    required this.ledBy,
-    required this.modelStats,
-  });
+    const UnitStats({
+        required this.repeat,
+        required this.keywords,
+        required this.factionKeywords,
+        required this.unitComposition,
+        required this.unitAbility,
+        required this.coreAbilities,
+        required this.factionAbilities,
+        required this.leader,
+        required this.ledBy,
+        required this.modelStats
+    });
 
-  Map<String, dynamic> toJson() => {
-    'repeat': repeat,
-    'keywords': keywords,
-    'factionKeywords': factionKeywords,
-    'unitComposition': unitComposition.toJson(),
-    'unitAbilities': unitAbility.map((a) => a.name).toList(),
-    'coreAbilities': coreAbilities.map((a) => a.name).toList(),
-    'factionAbilities': factionAbilities.map((a) => a.name).toList(),
-    'leader': leader,
-    'ledBy': ledBy,
-    'modelStats': modelStats.map((key, value) => MapEntry(key, value.toJson())),
-  };
+    Map<String, dynamic> toJson() => 
+    {
+        'repeat': repeat,
+        'keywords': keywords,
+        'factionKeywords': factionKeywords,
+        'unitComposition': unitComposition.toJson(),
+        'unitAbilities': unitAbility.map((a) => a.name).toList(),
+        'coreAbilities': coreAbilities.map((a) => a.name).toList(),
+        'factionAbilities': factionAbilities.map((a) => a.name).toList(),
+        'leader': leader,
+        'ledBy': ledBy,
+        'modelStats': modelStats.map((key, value) => MapEntry(key, value.toJson()))
+    };
 
-  factory UnitStats.fromJson(Map<String, dynamic> json) {
-    final Map<String, dynamic> modelsRaw = json['models'] as Map<String, dynamic>? ?? {};
+    factory UnitStats.fromJson(Map<String, dynamic> json)
+    {
+        final Map<String, dynamic> modelsRaw = json['models'] as Map<String, dynamic>? ?? {};
 
-    return UnitStats(
-      repeat: json['repeat'] as int? ?? 1,
-      keywords: List<String>.from(json['keywords'] ?? []),
-      factionKeywords: List<String>.from(json['factionKeywords'] ?? []),
-      unitComposition: UnitComposition.fromJson(json['unitComposition'] ?? {}),
-      unitAbility: (json['unitAbilities'] as List? ?? []).map((e) => UnitAbilitiesCode.values.byName(e)).toList(),
-      coreAbilities: (json['coreAbilities'] as List? ?? []).map((e) => CoreUnitAbilityCode.values.byName(e)).toList(),
-      factionAbilities: (json['factionAbilities'] as List? ?? []).map((e) => FactionUnitAbilityCode.values.byName(e)).toList(),
-      leader: List<String>.from(json['leader'] ?? []),
-      ledBy: List<String>.from(json['ledBy'] ?? []),
-      modelStats: modelsRaw.map((key, value) => MapEntry(key, ModelStats.fromJson(value))),
+        return UnitStats(
+            repeat: json['repeat'] as int? ?? 1,
+            keywords: List<String>.from(json['keywords'] ?? []),
+            factionKeywords: List<String>.from(json['factionKeywords'] ?? []),
+            unitComposition: UnitComposition.fromJson(json['unitComposition'] ?? {}),
+            unitAbility: (json['unitAbilities'] as List? ?? []).map((e) => UnitAbilitiesCode.values.byName(e)).toList(),
+            coreAbilities: (json['coreAbilities'] as List? ?? []).map((e) => CoreUnitAbilityCode.values.byName(e)).toList(),
+            factionAbilities: (json['factionAbilities'] as List? ?? []).map((e) => FactionUnitAbilityCode.values.byName(e)).toList(),
+            leader: List<String>.from(json['leader'] ?? []),
+            ledBy: List<String>.from(json['ledBy'] ?? []),
+            modelStats: modelsRaw.map((key, value) => MapEntry(key, ModelStats.fromJson(value)))
+        );
+    }
+
+    static UnitStats empty() => UnitStats(
+        repeat: 1,
+        keywords: [],
+        factionKeywords: [],
+        unitComposition: UnitComposition.emptyComposition,
+        unitAbility: [],
+        coreAbilities: [],
+        factionAbilities: [],
+        leader: [],
+        ledBy: [],
+        modelStats: {}
     );
-  }
-
-  static UnitStats empty() => UnitStats(
-    repeat: 1,
-    keywords: [],
-    factionKeywords: [],
-    unitComposition: UnitComposition.emptyComposition,
-    unitAbility: [],
-    coreAbilities: [],
-    factionAbilities: [],
-    leader: [],
-    ledBy: [],
-    modelStats: {},
-  );
 }

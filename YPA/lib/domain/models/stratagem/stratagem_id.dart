@@ -1,23 +1,31 @@
-class StratagemId {
-  final String value;
+/*******************************************************************************
+ * Copyright (c) 2026 Andrey Shikhov
+ * SPDX-License-Identifier: MIT
+ ******************************************************************************/
 
-  const StratagemId._(this.value);
+class StratagemId
+{
+    final String value;
 
-  factory StratagemId.fromString(String value) {
-    if (value.isEmpty) {
-      throw ArgumentError('StratagemId cannot be empty');
+    const StratagemId._(this.value);
+
+    factory StratagemId.fromString(String value)
+    {
+        if (value.isEmpty) 
+        {
+            throw ArgumentError('StratagemId cannot be empty');
+        }
+        return StratagemId._(value);
     }
-    return StratagemId._(value);
-  }
 
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is StratagemId && runtimeType == other.runtimeType && value == other.value;
+    @override
+    bool operator==(Object other) =>
+    identical(this, other) ||
+        other is StratagemId && runtimeType == other.runtimeType && value == other.value;
 
-  @override
-  int get hashCode => value.hashCode;
+    @override
+    int get hashCode => value.hashCode;
 
-  @override
-  String toString() => value;
+    @override
+    String toString() => value;
 }

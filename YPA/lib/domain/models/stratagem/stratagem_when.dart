@@ -1,16 +1,22 @@
-class StratagemWhen {
-  final String value;
+/*******************************************************************************
+ * Copyright (c) 2026 Andrey Shikhov
+ * SPDX-License-Identifier: MIT
+ ******************************************************************************/
 
-  const StratagemWhen(this.value);
+class StratagemWhen
+{
+    final String value;
 
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is StratagemWhen && runtimeType == other.runtimeType && value == other.value;
+    const StratagemWhen(this.value);
 
-  @override
-  int get hashCode => value.hashCode;
+    @override
+    bool operator==(Object other) =>
+    identical(this, other) ||
+        other is StratagemWhen && runtimeType == other.runtimeType && value == other.value;
 
-  @override
-  String toString() => value;
+    @override
+    int get hashCode => value.hashCode;
+
+    @override
+    String toString() => value;
 }

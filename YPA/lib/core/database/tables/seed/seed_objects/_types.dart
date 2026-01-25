@@ -40,7 +40,7 @@ enum FactionTypeCode
 extension FactionTypeCodeX on FactionTypeCode
 {
     String get code => name; // imperium
-    String get title 
+    String get title
     {
         switch (this)
         {
@@ -87,7 +87,7 @@ enum ArmyCode
 }
 extension ArmyCodeX on ArmyCode
 {
-    String get code 
+    String get code
     {
         switch (this)
         {
@@ -142,7 +142,7 @@ extension ArmyCodeX on ArmyCode
         }
     }
 
-    String get title 
+    String get title
     {
         switch (this)
         {
@@ -197,7 +197,7 @@ extension ArmyCodeX on ArmyCode
         }
     }
 
-    FactionTypeCode get faction 
+    FactionTypeCode get faction
     {
         switch (this)
         {
@@ -296,7 +296,7 @@ enum CodexCode
 }
 extension CodexCodeX on CodexCode
 {
-    String get code 
+    String get code
     {
         switch (this)
         {
@@ -371,7 +371,7 @@ extension CodexCodeX on CodexCode
         }
     }
 
-    String get title 
+    String get title
     {
         switch (this)
         {
@@ -446,7 +446,7 @@ extension CodexCodeX on CodexCode
         }
     }
 
-    ArmyCode get army 
+    ArmyCode get army
     {
         switch (this)
         {
@@ -551,7 +551,7 @@ extension UnitRoleCodeX on UnitRoleCode
         }
     }
 
-    String get title 
+    String get title
     {
         switch (this)
         {
@@ -568,7 +568,7 @@ extension UnitRoleCodeX on UnitRoleCode
         }
     }
 
-    static UnitRoleCode? fromTitle(String title) 
+    static UnitRoleCode? fromTitle(String title)
     {
         try
         {
@@ -579,7 +579,7 @@ extension UnitRoleCodeX on UnitRoleCode
         }
     }
 
-    static UnitRoleCode? fromName(String name) 
+    static UnitRoleCode? fromName(String name)
     {
         try
         {
@@ -618,7 +618,7 @@ extension WeaponAbilitiesCodeX on WeaponAbilitiesCode
 {
     String get code => name;
 
-    String get SnakeName 
+    String get SnakeName
     {
         switch (this)
         {
@@ -663,7 +663,7 @@ extension WeaponAbilitiesCodeX on WeaponAbilitiesCode
         }
     }
 
-    String get title 
+    String get title
     {
         switch (this)
         {
@@ -728,7 +728,7 @@ extension UnitAbilitiesCodeX on UnitAbilitiesCode
 {
     String get code => name;
 
-    String get SnakeName 
+    String get SnakeName
     {
         switch (this)
         {
@@ -746,7 +746,7 @@ extension UnitAbilitiesCodeX on UnitAbilitiesCode
         }
     }
 
-    String get title 
+    String get title
     {
         switch (this)
         {
@@ -776,7 +776,7 @@ extension  FactionUnitAbilityCodeX on FactionUnitAbilityCode
 {
     String get code => name;
 
-    String get SnakeName 
+    String get SnakeName
     {
         switch (this)
         {
@@ -786,7 +786,7 @@ extension  FactionUnitAbilityCodeX on FactionUnitAbilityCode
         }
     }
 
-    String get title 
+    String get title
     {
         switch (this)
         {
@@ -809,7 +809,7 @@ extension CoreUnitAbilityCodeX on CoreUnitAbilityCode
 {
     String get code => name;
 
-    String get SnakeName 
+    String get SnakeName
     {
         switch (this)
         {
@@ -822,7 +822,7 @@ extension CoreUnitAbilityCodeX on CoreUnitAbilityCode
         }
     }
 
-    String get title 
+    String get title
     {
         switch (this)
         {
@@ -847,7 +847,7 @@ extension StratagemsCodeX on StratagemsCode
 {
     String get code => name;
 
-    String get SnakeName 
+    String get SnakeName
     {
         switch (this)
         {
@@ -859,7 +859,7 @@ extension StratagemsCodeX on StratagemsCode
         }
     }
 
-    String get title 
+    String get title
     {
         switch (this)
         {
@@ -882,7 +882,7 @@ extension BattleSizeCodeX on BattleSizeCode
 {
     String get code => name;
 
-    String get SnakeName 
+    String get SnakeName
     {
         switch (this)
         {
@@ -892,7 +892,7 @@ extension BattleSizeCodeX on BattleSizeCode
         }
     }
 
-    String get title 
+    String get title
     {
         switch (this)
         {
@@ -905,7 +905,7 @@ extension BattleSizeCodeX on BattleSizeCode
         }
     }
 
-    static BattleSizeCode? fromTitle(String title) 
+    static BattleSizeCode? fromTitle(String title)
     {
         try
         {
@@ -916,7 +916,7 @@ extension BattleSizeCodeX on BattleSizeCode
         }
     }
 
-    static BattleSizeCode? fromName(String name) 
+    static BattleSizeCode? fromName(String name)
     {
         try
         {
@@ -1168,7 +1168,7 @@ class BattleSize
     factory BattleSize.base()
     {
         return const BattleSize(
-            battleSize: 
+            battleSize:
             {
                 BattleSizeCode.incursion: 1000,
                 BattleSizeCode.strikeForce: 2000,
@@ -1181,7 +1181,7 @@ class BattleSize
     factory BattleSize.selected(BattleSizeCode selected)
     {
         return BattleSize(
-            battleSize: 
+            battleSize:
             {
                 BattleSizeCode.incursion: 1000,
                 BattleSizeCode.strikeForce: 2000,

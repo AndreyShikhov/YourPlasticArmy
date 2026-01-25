@@ -17,7 +17,7 @@ class ArmyPointsEditor extends ConsumerWidget
     const ArmyPointsEditor({super.key, required this.armyId, required this.initialPoints});
 
     @override
-    Widget build(BuildContext context, WidgetRef ref) 
+    Widget build(BuildContext context, WidgetRef ref)
     {
         final state = ref.watch(armyBuilderControllerProvider(armyId));
 
@@ -42,7 +42,7 @@ class ArmyPointsEditor extends ConsumerWidget
                 }).toList(),
             onChanged: (newValue)
             {
-                if (newValue != null) 
+                if (newValue != null)
                 {
                     // Вызываем метод контроллера для обновления размера битвы
                     ref.read(armyBuilderControllerProvider(armyId).notifier).updateBattleSizeArmyRoster(newValue);

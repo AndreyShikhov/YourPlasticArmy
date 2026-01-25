@@ -39,13 +39,13 @@ class ArmyUnitsBlock extends ConsumerWidget
 
     List<UnitWidget> _getUnitsWidgets(BuildContext context, WidgetRef ref)
     {
-      return List.generate(
-        units.length,
+        return List.generate(
+            units.length,
             (index) => UnitWidget(
-          armyId: armyId,
-          unit: units[index],
-          numberUnit: index + 1,
-        ),
-      );
+                armyId: armyId,
+                unit: units[index],
+                numberUnit: index + 1
+            )
+        );
     }
 }

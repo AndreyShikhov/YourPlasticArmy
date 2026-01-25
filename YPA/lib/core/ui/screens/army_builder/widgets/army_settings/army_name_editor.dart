@@ -24,32 +24,32 @@ class _ArmyNameEditorState extends ConsumerState<ArmyNameEditor>
     late TextEditingController _controller;
 
     @override
-    void initState() 
+    void initState()
     {
         super.initState();
         _controller = TextEditingController(text: widget.initialName);
     }
 
     @override
-    void didUpdateWidget(ArmyNameEditor oldWidget) 
+    void didUpdateWidget(ArmyNameEditor oldWidget)
     {
         super.didUpdateWidget(oldWidget);
         // Если имя изменилось извне (например, при загрузке), обновляем контроллер
-        if (oldWidget.initialName != widget.initialName && _controller.text != widget.initialName) 
+        if (oldWidget.initialName != widget.initialName && _controller.text != widget.initialName)
         {
             _controller.text = widget.initialName;
         }
     }
 
     @override
-    void dispose() 
+    void dispose()
     {
         _controller.dispose();
         super.dispose();
     }
 
     @override
-    Widget build(BuildContext context) 
+    Widget build(BuildContext context)
     {
         return Column(
             crossAxisAlignment: CrossAxisAlignment.start,

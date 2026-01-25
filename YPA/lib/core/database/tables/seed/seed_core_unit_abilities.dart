@@ -1,22 +1,30 @@
+/*******************************************************************************
+ * Copyright (c) 2026 Andrey Shikhov
+ * SPDX-License-Identifier: MIT
+ ******************************************************************************/
+
 import 'package:drift/drift.dart';
 import 'package:uuid/uuid.dart';
 import 'package:ypa/core/database/tables/seed/seed_objects/core_unit_abilities/all_core_unit_abilities.dart';
+
 import '../../app_database.dart';
 
-Future<void> seedAllCoreUnitAbilities(AppDatabase db) async {
-  final data = allCoreUnitAbilities();
+Future<void> seedAllCoreUnitAbilities(AppDatabase db) async
+{
+    final data = allCoreUnitAbilities();
 
-  for (final item in data) {
-    final id = item.id ?? const Uuid().v4();
-    await db.into(db.coreUnitAbilities).insert(
-      CoreUnitAbilitiesCompanion.insert(
-        id: id,
-        code: item.code,
-        name: item.name,
-        shortDescription: item.shortDescription,
-        description: item.description,
-      ),
-      mode: InsertMode.insertOrIgnore,
-    );
-  }
+    for (final item in data)
+    {
+        final id = item.id ?? const Uuid().v4();
+        await db.into(db.coreUnitAbilities).insert(
+            CoreUnitAbilitiesCompanion.insert(
+                id: id,
+                code: item.code,
+                name: item.name,
+                shortDescription: item.shortDescription,
+                description: item.description
+            ),
+            mode: InsertMode.insertOrIgnore
+        );
+    }
 }

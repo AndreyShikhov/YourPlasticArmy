@@ -1,15 +1,21 @@
-abstract class Entity<ID> {
-  final ID id;
+/*******************************************************************************
+ * Copyright (c) 2026 Andrey Shikhov
+ * SPDX-License-Identifier: MIT
+ ******************************************************************************/
 
-  const Entity(this.id);
+abstract class Entity<ID>
+{
+    final ID id;
 
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-          other is Entity<ID> &&
-              runtimeType == other.runtimeType &&
-              id == other.id;
+    const Entity(this.id);
 
-  @override
-  int get hashCode => id.hashCode;
+    @override
+    bool operator==(Object other) =>
+    identical(this, other) ||
+        other is Entity<ID> &&
+            runtimeType == other.runtimeType &&
+            id == other.id;
+
+    @override
+    int get hashCode => id.hashCode;
 }

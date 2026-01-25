@@ -28,13 +28,13 @@ List<UnitSeed> orksUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              UnitAbilitiesCode.deepStrike
+                UnitAbilitiesCode.deepStrike
             ],
             coreAbilities: const[
-              CoreUnitAbilityCode.leader
+                CoreUnitAbilityCode.leader
             ],
             factionAbilities: const[
-              FactionUnitAbilityCode.oathOfMoment
+                FactionUnitAbilityCode.oathOfMoment
             ],
             ledBy: const[],
             leader: const[],

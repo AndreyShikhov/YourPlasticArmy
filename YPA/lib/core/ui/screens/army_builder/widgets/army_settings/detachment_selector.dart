@@ -17,7 +17,7 @@ class DetachmentSelector extends ConsumerWidget
     const DetachmentSelector({super.key, required this.armyId, required this.state});
 
     @override
-    Widget build(BuildContext context, WidgetRef ref) 
+    Widget build(BuildContext context, WidgetRef ref)
     {
         return DropdownButtonFormField<String>(
             value: state.detachment?.name.value,
@@ -31,7 +31,7 @@ class DetachmentSelector extends ConsumerWidget
             items: _buildDropdownItems(state),
             onChanged: (newValue)
             {
-                if (newValue != null) 
+                if (newValue != null)
                 {
                     ref.read(armyBuilderControllerProvider(armyId).notifier).updateDetachmentArmyRoster(newValue);
                 }
@@ -39,7 +39,7 @@ class DetachmentSelector extends ConsumerWidget
         );
     }
 
-    List<DropdownMenuItem<String>> _buildDropdownItems(ArmyBuilderState state) 
+    List<DropdownMenuItem<String>> _buildDropdownItems(ArmyBuilderState state)
     {
         return state.allDetachments.map((detachment)
             {

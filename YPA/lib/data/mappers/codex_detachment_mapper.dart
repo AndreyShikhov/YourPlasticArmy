@@ -1,17 +1,25 @@
+/*******************************************************************************
+ * Copyright (c) 2026 Andrey Shikhov
+ * SPDX-License-Identifier: MIT
+ ******************************************************************************/
+
 import '../../core/database/app_database.dart';
 import '../../domain/models/codex/codex.dart';
 import '../../domain/models/detachment/detachment.dart';
 import '../../domain/models/relation/codex_detachment_dom.dart';
 
-class CodexDetachmentMapper {
-  static CodexDetachmentDOM fromRow(CodexDetachment row) {
-    return CodexDetachmentDOM(
-      codexId: CodexId.fromString(row.codexId),
-      detachmentId: DetachmentId.fromString(row.detachmentId),
-    );
-  }
+class CodexDetachmentMapper
+{
+    static CodexDetachmentDOM fromRow(CodexDetachment row) 
+    {
+        return CodexDetachmentDOM(
+            codexId: CodexId.fromString(row.codexId),
+            detachmentId: DetachmentId.fromString(row.detachmentId)
+        );
+    }
 
-  static CodexDetachmentsCompanion toCompanion(CodexDetachmentDOM rel) {
-    return CodexDetachmentsCompanion.insert(codexId: rel.codexId.value, detachmentId: rel.detachmentId.value);
-  }
+    static CodexDetachmentsCompanion toCompanion(CodexDetachmentDOM rel) 
+    {
+        return CodexDetachmentsCompanion.insert(codexId: rel.codexId.value, detachmentId: rel.detachmentId.value);
+    }
 }

@@ -1,46 +1,52 @@
 
+/*******************************************************************************
+ * Copyright (c) 2026 Andrey Shikhov
+ * SPDX-License-Identifier: MIT
+ ******************************************************************************/
+
 import '../../domain/models/army/army.dart';
 import '../../domain/models/detachment/detachment.dart';
 
+class UpdateDetachment
+{
+    final DetachmentRepository repository;
 
+    UpdateDetachment(this.repository);
 
-class UpdateDetachment {
-  final DetachmentRepository repository;
+    Future<DetachmentDOM> call({
+        required String id,
+        required String name,
+        required ArmyId armyId,
+        required String dtCode,
+        required String dtDescription,
+        required String dtRuleName,
+        required String dtRuleShort,
+        required String dtRuleFull
+    }) async
+    {
+        final detachmentId = DetachmentId.fromString(id);
 
-  UpdateDetachment(this.repository);
+        final existing =
+            await repository.findById(detachmentId);
 
-  Future<DetachmentDOM> call({
-    required String id,
-    required String name,
-    required ArmyId armyId,
-    required String dtCode,
-    required String dtDescription,
-    required String dtRuleName,
-    required String dtRuleShort,
-    required String dtRuleFull,
-  }) async {
-    final detachmentId = DetachmentId.fromString(id);
+        if (existing == null) 
+        {
+            throw StateError('Detachment not found');
+        }
 
-    final existing =
-    await repository.findById(detachmentId);
+        final updated = DetachmentDOM.restore(
+            id: existing.id,
+            armyId: armyId,
+            name: DetachmentName(name),
+            code: DetachmentCode(dtCode),
+            description: DetachmentDescription(dtDescription),
+            ruleName: DetachmentRuleName(dtRuleName),
+            ruleShort: DetachmentRuleShort(dtRuleShort),
+            ruleFull: DetachmentRuleFull(dtRuleFull)
+        );
 
-    if (existing == null) {
-      throw StateError('Detachment not found');
+        await repository.save(updated);
+
+        return updated;
     }
-
-    final updated = DetachmentDOM.restore(
-      id: existing.id,
-      armyId: armyId,
-      name: DetachmentName(name),
-      code: DetachmentCode(dtCode),
-      description: DetachmentDescription(dtDescription),
-      ruleName: DetachmentRuleName(dtRuleName),
-      ruleShort: DetachmentRuleShort(dtRuleShort),
-      ruleFull: DetachmentRuleFull(dtRuleFull)
-    );
-
-    await repository.save(updated);
-
-    return updated;
-  }
 }

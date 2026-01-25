@@ -27,7 +27,7 @@ class TextUnitButton extends ConsumerWidget
     });
 
     @override
-    Widget build(BuildContext context, WidgetRef ref) 
+    Widget build(BuildContext context, WidgetRef ref)
     {
         // 2. Подписываемся на состояние контроллера
         final state = ref.watch(armyBuilderControllerProvider(armyId));

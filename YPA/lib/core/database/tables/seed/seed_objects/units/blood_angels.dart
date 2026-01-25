@@ -20,14 +20,14 @@ List<UnitSeed> bloodAngelsUnits()
             role: UnitRoleCode.characters,
             repeat: 1,
             keywords: [
-              'Infantry',
-              'Character',
-              'Epic Hero',
-              'Fly',
-              'Jump Pack',
-              'Imperium',
-              'Chapter Master',
-              'Commander Dante'
+                'Infantry',
+                'Character',
+                'Epic Hero',
+                'Fly',
+                'Jump Pack',
+                'Imperium',
+                'Chapter Master',
+                'Commander Dante'
             ],
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
             unitComposition: const UnitComposition(
@@ -35,13 +35,13 @@ List<UnitSeed> bloodAngelsUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              UnitAbilitiesCode.deepStrike
+                UnitAbilitiesCode.deepStrike
             ],
             coreAbilities: const[
-              CoreUnitAbilityCode.leader
+                CoreUnitAbilityCode.leader
             ],
             factionAbilities: const[
-              FactionUnitAbilityCode.oathOfMoment
+                FactionUnitAbilityCode.oathOfMoment
             ],
             ledBy: const[],
             leader: const[],
@@ -88,7 +88,7 @@ List<UnitSeed> bloodAngelsUnits()
                             )
                         ]
                     },
-                   
+
                     wargearOptions: WargearOptions.emptyOptions
                 )
             }
@@ -101,14 +101,14 @@ List<UnitSeed> bloodAngelsUnits()
             role: UnitRoleCode.characters,
             repeat: 1,
             keywords: [
-              'Infantry',
-              'Character',
-              'Epic Hero',
-              'Fly',
-              'Jump Pack',
-              'Imperium',
-              'Chapter Master',
-              'Commander Dante'
+                'Infantry',
+                'Character',
+                'Epic Hero',
+                'Fly',
+                'Jump Pack',
+                'Imperium',
+                'Chapter Master',
+                'Commander Dante'
             ],
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
             unitComposition: const UnitComposition(
@@ -116,13 +116,13 @@ List<UnitSeed> bloodAngelsUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              UnitAbilitiesCode.deepStrike
+                UnitAbilitiesCode.deepStrike
             ],
             coreAbilities: const[
-              CoreUnitAbilityCode.leader
+                CoreUnitAbilityCode.leader
             ],
             factionAbilities: const[
-              FactionUnitAbilityCode.oathOfMoment
+                FactionUnitAbilityCode.oathOfMoment
             ],
             ledBy: const[],
             leader: const[],
@@ -183,14 +183,14 @@ List<UnitSeed> bloodAngelsUnits()
             role: UnitRoleCode.characters,
             repeat: 1,
             keywords: [
-              'Infantry',
-              'Character',
-              'Epic Hero',
-              'Fly',
-              'Jump Pack',
-              'Imperium',
-              'Chapter Master',
-              'Commander Dante'
+                'Infantry',
+                'Character',
+                'Epic Hero',
+                'Fly',
+                'Jump Pack',
+                'Imperium',
+                'Chapter Master',
+                'Commander Dante'
             ],
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
             unitComposition: const UnitComposition(
@@ -198,13 +198,13 @@ List<UnitSeed> bloodAngelsUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              UnitAbilitiesCode.deepStrike
+                UnitAbilitiesCode.deepStrike
             ],
             coreAbilities: const[
-              CoreUnitAbilityCode.leader
+                CoreUnitAbilityCode.leader
             ],
             factionAbilities: const[
-              FactionUnitAbilityCode.oathOfMoment
+                FactionUnitAbilityCode.oathOfMoment
             ],
             ledBy: const[],
             leader: const[],
@@ -265,14 +265,14 @@ List<UnitSeed> bloodAngelsUnits()
             role: UnitRoleCode.characters,
             repeat: 1,
             keywords: [
-              'Infantry',
-              'Character',
-              'Epic Hero',
-              'Fly',
-              'Jump Pack',
-              'Imperium',
-              'Chapter Master',
-              'Commander Dante'
+                'Infantry',
+                'Character',
+                'Epic Hero',
+                'Fly',
+                'Jump Pack',
+                'Imperium',
+                'Chapter Master',
+                'Commander Dante'
             ],
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
             unitComposition: const UnitComposition(
@@ -280,62 +280,63 @@ List<UnitSeed> bloodAngelsUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              UnitAbilitiesCode.deepStrike
+                UnitAbilitiesCode.deepStrike
             ],
             coreAbilities: const[
-              CoreUnitAbilityCode.leader
+                CoreUnitAbilityCode.leader
             ],
             factionAbilities: const[
-              FactionUnitAbilityCode.oathOfMoment
+                FactionUnitAbilityCode.oathOfMoment
             ],
             ledBy: const[],
             leader: const[],
-            modelStats: {
-              'Commander Dante': ModelStats(
-                  movement: 12,
-                  toughness: 4,
-                  save: 2,
-                  invulnerableSave: 4,
-                  wounds: 6,
-                  leadership: 6,
-                  objectiveControl: 1,
+            modelStats: 
+            {
+                'Commander Dante': ModelStats(
+                    movement: 12,
+                    toughness: 4,
+                    save: 2,
+                    invulnerableSave: 4,
+                    wounds: 6,
+                    leadership: 6,
+                    objectiveControl: 1,
 
-                  weapons:
-                  {
-                    WeaponType.ranged : [
-                      Weapon(
-                          name: 'Perdition Pistol',
-                          type: WeaponType.ranged,
-                          weaponAbilities: const[
-                            WeaponAbilitiesCode.pistol,
-                            WeaponAbilitiesCode.melta
-                          ],
-                          range: 6,
-                          attacks: const Dice(fix: 1).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -4,
-                          damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
-                              .toString()
-                      )
-                    ],
-                    WeaponType.melee : [
-                      Weapon(
-                          name: 'The Axe Mortalis',
-                          type: WeaponType.melee,
-                          weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
-                          range: 0,
-                          attacks: const Dice(fix: 8).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -3,
-                          damage: const Dice(fix: 2).toString()
-                      )
-                    ]
-                  },
+                    weapons:
+                    {
+                        WeaponType.ranged : [
+                            Weapon(
+                                name: 'Perdition Pistol',
+                                type: WeaponType.ranged,
+                                weaponAbilities: const[
+                                    WeaponAbilitiesCode.pistol,
+                                    WeaponAbilitiesCode.melta
+                                ],
+                                range: 6,
+                                attacks: const Dice(fix: 1).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -4,
+                                damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    .toString()
+                            )
+                        ],
+                        WeaponType.melee : [
+                            Weapon(
+                                name: 'The Axe Mortalis',
+                                type: WeaponType.melee,
+                                weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
+                                range: 0,
+                                attacks: const Dice(fix: 8).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -3,
+                                damage: const Dice(fix: 2).toString()
+                            )
+                        ]
+                    },
 
-                  wargearOptions: WargearOptions.emptyOptions
-              )
+                    wargearOptions: WargearOptions.emptyOptions
+                )
             }
         ),
 
@@ -352,14 +353,14 @@ List<UnitSeed> bloodAngelsUnits()
             role: UnitRoleCode.other,
             repeat: 3,
             keywords: [
-              'Infantry',
-              'Character',
-              'Epic Hero',
-              'Fly',
-              'Jump Pack',
-              'Imperium',
-              'Chapter Master',
-              'Commander Dante'
+                'Infantry',
+                'Character',
+                'Epic Hero',
+                'Fly',
+                'Jump Pack',
+                'Imperium',
+                'Chapter Master',
+                'Commander Dante'
             ],
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
             unitComposition: const UnitComposition(
@@ -367,60 +368,61 @@ List<UnitSeed> bloodAngelsUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              UnitAbilitiesCode.deepStrike
+                UnitAbilitiesCode.deepStrike
             ],
             coreAbilities: const[
-              CoreUnitAbilityCode.leader
+                CoreUnitAbilityCode.leader
             ],
             factionAbilities: const[
-              FactionUnitAbilityCode.oathOfMoment
+                FactionUnitAbilityCode.oathOfMoment
             ],
             ledBy: const[],
             leader: const[],
-            modelStats: {
-              'Baal Predator': ModelStats(
-                  movement: 12,
-                  toughness: 10,
-                  save: 3,
-                  invulnerableSave: 0,
-                  wounds: 11,
-                  leadership: 6,
-                  objectiveControl: 3,
-                  weapons:
-                  {
-                    WeaponType.ranged : [
-                      Weapon(
-                          name: 'Perdition Pistol',
-                          type: WeaponType.ranged,
-                          weaponAbilities: const[
-                            WeaponAbilitiesCode.pistol,
-                            WeaponAbilitiesCode.melta
-                          ],
-                          range: 6,
-                          attacks: const Dice(fix: 1).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -4,
-                          damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
-                              .toString()
-                      )
-                    ],
-                    WeaponType.melee : [
-                      Weapon(
-                          name: 'The Axe Mortalis',
-                          type: WeaponType.melee,
-                          weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
-                          range: 0,
-                          attacks: const Dice(fix: 8).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -3,
-                          damage: const Dice(fix: 2).toString()
-                      )
-                    ]
-                  },
-                  wargearOptions: WargearOptions.emptyOptions
-              )
+            modelStats: 
+            {
+                'Baal Predator': ModelStats(
+                    movement: 12,
+                    toughness: 10,
+                    save: 3,
+                    invulnerableSave: 0,
+                    wounds: 11,
+                    leadership: 6,
+                    objectiveControl: 3,
+                    weapons:
+                    {
+                        WeaponType.ranged : [
+                            Weapon(
+                                name: 'Perdition Pistol',
+                                type: WeaponType.ranged,
+                                weaponAbilities: const[
+                                    WeaponAbilitiesCode.pistol,
+                                    WeaponAbilitiesCode.melta
+                                ],
+                                range: 6,
+                                attacks: const Dice(fix: 1).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -4,
+                                damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    .toString()
+                            )
+                        ],
+                        WeaponType.melee : [
+                            Weapon(
+                                name: 'The Axe Mortalis',
+                                type: WeaponType.melee,
+                                weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
+                                range: 0,
+                                attacks: const Dice(fix: 8).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -3,
+                                damage: const Dice(fix: 2).toString()
+                            )
+                        ]
+                    },
+                    wargearOptions: WargearOptions.emptyOptions
+                )
             }
         ),
         UnitSeed(
@@ -431,14 +433,14 @@ List<UnitSeed> bloodAngelsUnits()
             role: UnitRoleCode.other,
             repeat: 3,
             keywords: [
-              'Infantry',
-              'Character',
-              'Epic Hero',
-              'Fly',
-              'Jump Pack',
-              'Imperium',
-              'Chapter Master',
-              'Commander Dante'
+                'Infantry',
+                'Character',
+                'Epic Hero',
+                'Fly',
+                'Jump Pack',
+                'Imperium',
+                'Chapter Master',
+                'Commander Dante'
             ],
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
             unitComposition: const UnitComposition(
@@ -446,61 +448,62 @@ List<UnitSeed> bloodAngelsUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              UnitAbilitiesCode.deepStrike
+                UnitAbilitiesCode.deepStrike
             ],
             coreAbilities: const[
-              CoreUnitAbilityCode.leader
+                CoreUnitAbilityCode.leader
             ],
             factionAbilities: const[
-              FactionUnitAbilityCode.oathOfMoment
+                FactionUnitAbilityCode.oathOfMoment
             ],
             ledBy: const[],
             leader: const[],
-            modelStats: {
-              'Death Company Dreadnought': ModelStats(
-                  movement: 8,
-                  toughness: 10,
-                  save: 2,
-                  invulnerableSave: 0,
-                  wounds: 12,
-                  leadership: 6,
-                  objectiveControl: 4,
-                  weapons:
-                  {
-                    WeaponType.ranged : [
-                      Weapon(
-                          name: 'Perdition Pistol',
-                          type: WeaponType.ranged,
-                          weaponAbilities: const[
-                            WeaponAbilitiesCode.pistol,
-                            WeaponAbilitiesCode.melta
-                          ],
-                          range: 6,
-                          attacks: const Dice(fix: 1).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -4,
-                          damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
-                              .toString()
-                      )
-                    ],
-                    WeaponType.melee : [
-                      Weapon(
-                          name: 'The Axe Mortalis',
-                          type: WeaponType.melee,
-                          weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
-                          range: 0,
-                          attacks: const Dice(fix: 8).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -3,
-                          damage: const Dice(fix: 2).toString()
-                      )
-                    ]
-                  },
+            modelStats: 
+            {
+                'Death Company Dreadnought': ModelStats(
+                    movement: 8,
+                    toughness: 10,
+                    save: 2,
+                    invulnerableSave: 0,
+                    wounds: 12,
+                    leadership: 6,
+                    objectiveControl: 4,
+                    weapons:
+                    {
+                        WeaponType.ranged : [
+                            Weapon(
+                                name: 'Perdition Pistol',
+                                type: WeaponType.ranged,
+                                weaponAbilities: const[
+                                    WeaponAbilitiesCode.pistol,
+                                    WeaponAbilitiesCode.melta
+                                ],
+                                range: 6,
+                                attacks: const Dice(fix: 1).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -4,
+                                damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    .toString()
+                            )
+                        ],
+                        WeaponType.melee : [
+                            Weapon(
+                                name: 'The Axe Mortalis',
+                                type: WeaponType.melee,
+                                weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
+                                range: 0,
+                                attacks: const Dice(fix: 8).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -3,
+                                damage: const Dice(fix: 2).toString()
+                            )
+                        ]
+                    },
 
-                  wargearOptions: WargearOptions.emptyOptions
-              )
+                    wargearOptions: WargearOptions.emptyOptions
+                )
             }
         ),
         UnitSeed(
@@ -511,14 +514,14 @@ List<UnitSeed> bloodAngelsUnits()
             role: UnitRoleCode.other,
             repeat: 3,
             keywords: [
-              'Infantry',
-              'Character',
-              'Epic Hero',
-              'Fly',
-              'Jump Pack',
-              'Imperium',
-              'Chapter Master',
-              'Commander Dante'
+                'Infantry',
+                'Character',
+                'Epic Hero',
+                'Fly',
+                'Jump Pack',
+                'Imperium',
+                'Chapter Master',
+                'Commander Dante'
             ],
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
             unitComposition: const UnitComposition(
@@ -526,61 +529,62 @@ List<UnitSeed> bloodAngelsUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              UnitAbilitiesCode.deepStrike
+                UnitAbilitiesCode.deepStrike
             ],
             coreAbilities: const[
-              CoreUnitAbilityCode.leader
+                CoreUnitAbilityCode.leader
             ],
             factionAbilities: const[
-              FactionUnitAbilityCode.oathOfMoment
+                FactionUnitAbilityCode.oathOfMoment
             ],
             ledBy: const[],
             leader: const[],
-            modelStats: {
-              'Death Company Marines': ModelStats(
-                  movement: 6,
-                  toughness: 4,
-                  save: 3,
-                  invulnerableSave: 0,
-                  wounds: 2,
-                  leadership: 6,
-                  objectiveControl: 1,
+            modelStats: 
+            {
+                'Death Company Marines': ModelStats(
+                    movement: 6,
+                    toughness: 4,
+                    save: 3,
+                    invulnerableSave: 0,
+                    wounds: 2,
+                    leadership: 6,
+                    objectiveControl: 1,
 
-                  weapons:
-                  {
-                    WeaponType.ranged : [
-                      Weapon(
-                          name: 'Perdition Pistol',
-                          type: WeaponType.ranged,
-                          weaponAbilities: const[
-                            WeaponAbilitiesCode.pistol,
-                            WeaponAbilitiesCode.melta
-                          ],
-                          range: 6,
-                          attacks: const Dice(fix: 1).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -4,
-                          damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
-                              .toString()
-                      )
-                    ],
-                    WeaponType.melee : [
-                      Weapon(
-                          name: 'The Axe Mortalis',
-                          type: WeaponType.melee,
-                          weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
-                          range: 0,
-                          attacks: const Dice(fix: 8).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -3,
-                          damage: const Dice(fix: 2).toString()
-                      )
-                    ]
-                  },
-                  wargearOptions: WargearOptions.emptyOptions
-              )
+                    weapons:
+                    {
+                        WeaponType.ranged : [
+                            Weapon(
+                                name: 'Perdition Pistol',
+                                type: WeaponType.ranged,
+                                weaponAbilities: const[
+                                    WeaponAbilitiesCode.pistol,
+                                    WeaponAbilitiesCode.melta
+                                ],
+                                range: 6,
+                                attacks: const Dice(fix: 1).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -4,
+                                damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    .toString()
+                            )
+                        ],
+                        WeaponType.melee : [
+                            Weapon(
+                                name: 'The Axe Mortalis',
+                                type: WeaponType.melee,
+                                weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
+                                range: 0,
+                                attacks: const Dice(fix: 8).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -3,
+                                damage: const Dice(fix: 2).toString()
+                            )
+                        ]
+                    },
+                    wargearOptions: WargearOptions.emptyOptions
+                )
             }
         ),
         UnitSeed(
@@ -591,14 +595,14 @@ List<UnitSeed> bloodAngelsUnits()
             role: UnitRoleCode.other,
             repeat: 3,
             keywords: [
-              'Infantry',
-              'Character',
-              'Epic Hero',
-              'Fly',
-              'Jump Pack',
-              'Imperium',
-              'Chapter Master',
-              'Commander Dante'
+                'Infantry',
+                'Character',
+                'Epic Hero',
+                'Fly',
+                'Jump Pack',
+                'Imperium',
+                'Chapter Master',
+                'Commander Dante'
             ],
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
             unitComposition: const UnitComposition(
@@ -606,60 +610,61 @@ List<UnitSeed> bloodAngelsUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              UnitAbilitiesCode.deepStrike
+                UnitAbilitiesCode.deepStrike
             ],
             coreAbilities: const[
-              CoreUnitAbilityCode.leader
+                CoreUnitAbilityCode.leader
             ],
             factionAbilities: const[
-              FactionUnitAbilityCode.oathOfMoment
+                FactionUnitAbilityCode.oathOfMoment
             ],
             ledBy: const[],
             leader: const[],
-            modelStats: {
-              'Death Company Marines with Bolt Rifles': ModelStats(
-                  movement: 6,
-                  toughness: 4,
-                  save: 3,
-                  invulnerableSave: 0,
-                  wounds: 2,
-                  leadership: 6,
-                  objectiveControl: 1,
-                  weapons:
-                  {
-                    WeaponType.ranged : [
-                      Weapon(
-                          name: 'Perdition Pistol',
-                          type: WeaponType.ranged,
-                          weaponAbilities: const[
-                            WeaponAbilitiesCode.pistol,
-                            WeaponAbilitiesCode.melta
-                          ],
-                          range: 6,
-                          attacks: const Dice(fix: 1).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -4,
-                          damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
-                              .toString()
-                      )
-                    ],
-                    WeaponType.melee : [
-                      Weapon(
-                          name: 'The Axe Mortalis',
-                          type: WeaponType.melee,
-                          weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
-                          range: 0,
-                          attacks: const Dice(fix: 8).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -3,
-                          damage: const Dice(fix: 2).toString()
-                      )
-                    ]
-                  },
-                  wargearOptions: WargearOptions.emptyOptions
-              )
+            modelStats: 
+            {
+                'Death Company Marines with Bolt Rifles': ModelStats(
+                    movement: 6,
+                    toughness: 4,
+                    save: 3,
+                    invulnerableSave: 0,
+                    wounds: 2,
+                    leadership: 6,
+                    objectiveControl: 1,
+                    weapons:
+                    {
+                        WeaponType.ranged : [
+                            Weapon(
+                                name: 'Perdition Pistol',
+                                type: WeaponType.ranged,
+                                weaponAbilities: const[
+                                    WeaponAbilitiesCode.pistol,
+                                    WeaponAbilitiesCode.melta
+                                ],
+                                range: 6,
+                                attacks: const Dice(fix: 1).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -4,
+                                damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    .toString()
+                            )
+                        ],
+                        WeaponType.melee : [
+                            Weapon(
+                                name: 'The Axe Mortalis',
+                                type: WeaponType.melee,
+                                weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
+                                range: 0,
+                                attacks: const Dice(fix: 8).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -3,
+                                damage: const Dice(fix: 2).toString()
+                            )
+                        ]
+                    },
+                    wargearOptions: WargearOptions.emptyOptions
+                )
             }
         ),
         UnitSeed(
@@ -670,14 +675,14 @@ List<UnitSeed> bloodAngelsUnits()
             role: UnitRoleCode.other,
             repeat: 3,
             keywords: [
-              'Infantry',
-              'Character',
-              'Epic Hero',
-              'Fly',
-              'Jump Pack',
-              'Imperium',
-              'Chapter Master',
-              'Commander Dante'
+                'Infantry',
+                'Character',
+                'Epic Hero',
+                'Fly',
+                'Jump Pack',
+                'Imperium',
+                'Chapter Master',
+                'Commander Dante'
             ],
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
             unitComposition: const UnitComposition(
@@ -685,61 +690,62 @@ List<UnitSeed> bloodAngelsUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              UnitAbilitiesCode.deepStrike
+                UnitAbilitiesCode.deepStrike
             ],
             coreAbilities: const[
-              CoreUnitAbilityCode.leader
+                CoreUnitAbilityCode.leader
             ],
             factionAbilities: const[
-              FactionUnitAbilityCode.oathOfMoment
+                FactionUnitAbilityCode.oathOfMoment
             ],
             ledBy: const[],
             leader: const[],
-            modelStats: {
-              'Death Company Marines With Jump Packs':ModelStats(
-                  movement: 12,
-                  toughness: 4,
-                  save: 3,
-                  invulnerableSave: 0,
-                  wounds: 2,
-                  leadership: 6,
-                  objectiveControl: 1,
-                  weapons:
-                  {
-                    WeaponType.ranged : [
-                      Weapon(
-                          name: 'Perdition Pistol',
-                          type: WeaponType.ranged,
-                          weaponAbilities: const[
-                            WeaponAbilitiesCode.pistol,
-                            WeaponAbilitiesCode.melta
-                          ],
-                          range: 6,
-                          attacks: const Dice(fix: 1).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -4,
-                          damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
-                              .toString()
-                      )
-                    ],
-                    WeaponType.melee : [
-                      Weapon(
-                          name: 'The Axe Mortalis',
-                          type: WeaponType.melee,
-                          weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
-                          range: 0,
-                          attacks: const Dice(fix: 8).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -3,
-                          damage: const Dice(fix: 2).toString()
-                      )
-                    ]
-                  },
+            modelStats: 
+            {
+                'Death Company Marines With Jump Packs':ModelStats(
+                    movement: 12,
+                    toughness: 4,
+                    save: 3,
+                    invulnerableSave: 0,
+                    wounds: 2,
+                    leadership: 6,
+                    objectiveControl: 1,
+                    weapons:
+                    {
+                        WeaponType.ranged : [
+                            Weapon(
+                                name: 'Perdition Pistol',
+                                type: WeaponType.ranged,
+                                weaponAbilities: const[
+                                    WeaponAbilitiesCode.pistol,
+                                    WeaponAbilitiesCode.melta
+                                ],
+                                range: 6,
+                                attacks: const Dice(fix: 1).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -4,
+                                damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    .toString()
+                            )
+                        ],
+                        WeaponType.melee : [
+                            Weapon(
+                                name: 'The Axe Mortalis',
+                                type: WeaponType.melee,
+                                weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
+                                range: 0,
+                                attacks: const Dice(fix: 8).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -3,
+                                damage: const Dice(fix: 2).toString()
+                            )
+                        ]
+                    },
 
-                  wargearOptions: WargearOptions.emptyOptions
-              )
+                    wargearOptions: WargearOptions.emptyOptions
+                )
             }
         ),
         UnitSeed(
@@ -750,14 +756,14 @@ List<UnitSeed> bloodAngelsUnits()
             role: UnitRoleCode.other,
             repeat: 3,
             keywords: [
-              'Infantry',
-              'Character',
-              'Epic Hero',
-              'Fly',
-              'Jump Pack',
-              'Imperium',
-              'Chapter Master',
-              'Commander Dante'
+                'Infantry',
+                'Character',
+                'Epic Hero',
+                'Fly',
+                'Jump Pack',
+                'Imperium',
+                'Chapter Master',
+                'Commander Dante'
             ],
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
             unitComposition: const UnitComposition(
@@ -765,17 +771,18 @@ List<UnitSeed> bloodAngelsUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              UnitAbilitiesCode.deepStrike
+                UnitAbilitiesCode.deepStrike
             ],
             coreAbilities: const[
-              CoreUnitAbilityCode.leader
+                CoreUnitAbilityCode.leader
             ],
             factionAbilities: const[
-              FactionUnitAbilityCode.oathOfMoment
+                FactionUnitAbilityCode.oathOfMoment
             ],
             ledBy: const[],
             leader: const[],
-            modelStats: {
+            modelStats: 
+            {
                 'Sanguinary Guard': ModelStats(
                     movement: 12,
                     toughness: 4,
@@ -786,36 +793,36 @@ List<UnitSeed> bloodAngelsUnits()
                     objectiveControl: 1,
                     weapons:
                     {
-                      WeaponType.ranged : [
-                        Weapon(
-                            name: 'Perdition Pistol',
-                            type: WeaponType.ranged,
-                            weaponAbilities: const[
-                              WeaponAbilitiesCode.pistol,
-                              WeaponAbilitiesCode.melta
-                            ],
-                            range: 6,
-                            attacks: const Dice(fix: 1).toString(),
-                            skill: 2,
-                            strength: 8,
-                            ap: -4,
-                            damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
-                                .toString()
-                        )
-                      ],
-                      WeaponType.melee : [
-                        Weapon(
-                            name: 'The Axe Mortalis',
-                            type: WeaponType.melee,
-                            weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
-                            range: 0,
-                            attacks: const Dice(fix: 8).toString(),
-                            skill: 2,
-                            strength: 8,
-                            ap: -3,
-                            damage: const Dice(fix: 2).toString()
-                        )
-                      ]
+                        WeaponType.ranged : [
+                            Weapon(
+                                name: 'Perdition Pistol',
+                                type: WeaponType.ranged,
+                                weaponAbilities: const[
+                                    WeaponAbilitiesCode.pistol,
+                                    WeaponAbilitiesCode.melta
+                                ],
+                                range: 6,
+                                attacks: const Dice(fix: 1).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -4,
+                                damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    .toString()
+                            )
+                        ],
+                        WeaponType.melee : [
+                            Weapon(
+                                name: 'The Axe Mortalis',
+                                type: WeaponType.melee,
+                                weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
+                                range: 0,
+                                attacks: const Dice(fix: 8).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -3,
+                                damage: const Dice(fix: 2).toString()
+                            )
+                        ]
                     },
                     wargearOptions: WargearOptions.emptyOptions
                 )

@@ -1,23 +1,32 @@
+/*******************************************************************************
+ * Copyright (c) 2026 Andrey Shikhov
+ * SPDX-License-Identifier: MIT
+ ******************************************************************************/
+
 import '../../shared/value_object.dart';
 
-class RoleName extends ValueObject<String> {
-  static const int maxLength = 100;
+class RoleName extends ValueObject<String>
+{
+    static const int maxLength = 100;
 
-  const RoleName._(super.value);
+    const RoleName._(super.value);
 
-  factory RoleName(String name) {
-    final trimmed = name.trim();
+    factory RoleName(String name)
+    {
+        final trimmed = name.trim();
 
-    if (trimmed.isEmpty) {
-      throw ArgumentError('RoleName cannot be empty');
+        if (trimmed.isEmpty) 
+        {
+            throw ArgumentError('RoleName cannot be empty');
+        }
+
+        if (trimmed.length > maxLength) 
+        {
+            throw ArgumentError(
+                'RoleName cannot be longer than $maxLength characters'
+            );
+        }
+
+        return RoleName._(trimmed);
     }
-
-    if (trimmed.length > maxLength) {
-      throw ArgumentError(
-        'RoleName cannot be longer than $maxLength characters',
-      );
-    }
-
-    return RoleName._(trimmed);
-  }
 }

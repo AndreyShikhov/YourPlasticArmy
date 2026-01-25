@@ -28,7 +28,7 @@ class _SelectUnitsDialogState extends ConsumerState<SelectUnitsDialog>
     String _searchQuery = ''; // Состояние поискового запроса
 
     @override
-    Widget build(BuildContext context) 
+    Widget build(BuildContext context)
     {
         final state = ref.watch(armyBuilderControllerProvider(widget.armyId));
 
@@ -79,7 +79,7 @@ class _SelectUnitsDialogState extends ConsumerState<SelectUnitsDialog>
         );
     }
 
-    List<TextUnitButton> _getUnitButtons(List<ArmyBuilderUnitItemUi> units) 
+    List<TextUnitButton> _getUnitButtons(List<ArmyBuilderUnitItemUi> units)
     {
         return List.generate(
             units.length,

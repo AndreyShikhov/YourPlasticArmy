@@ -22,21 +22,21 @@ class _UnitSearchWidgetState extends ConsumerState<UnitSearchWidget>
     late TextEditingController _controller;
 
     @override
-    void initState() 
+    void initState()
     {
         super.initState();
         _controller = TextEditingController();
     }
 
     @override
-    void dispose() 
+    void dispose()
     {
         _controller.dispose(); // Обязательно освобождаем ресурсы
         super.dispose();
     }
 
     @override
-    Widget build(BuildContext context) 
+    Widget build(BuildContext context)
     {
         return Padding(
             padding: const EdgeInsets.all(8.0),

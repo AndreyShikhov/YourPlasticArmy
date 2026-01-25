@@ -280,7 +280,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             leader: unit.leader,
             ledBy: unit.ledBy,
             modelStats: unit.modelStats,
-            selectedComposition: unit.unitComposition.effectiveComposition,
+            selectedComposition: unit.unitComposition.effectiveComposition
         );
     }
 

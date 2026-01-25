@@ -35,7 +35,7 @@ Future<void> seedUnits(
         final armyId = armyIds[u.army.code]!;
 
         Value<String> codexIdValue = const Value.absent();
-        if (u.codex != null) 
+        if (u.codex != null)
         {
             codexIdValue = Value(codexIds[u.codex!.code]!);
         }
@@ -56,13 +56,13 @@ Future<void> seedUnits(
             modelStats: u.modelStats);
 
         await db.into(db.units).insert(
-          UnitsCompanion.insert(
-              id: unitId,
-              name: u.name,
-              armyId: armyId,
-              codexId: codexIdValue,
-              roleCode: u.role.name,
-              unitStats: statsToSave),
+            UnitsCompanion.insert(
+                id: unitId,
+                name: u.name,
+                armyId: armyId,
+                codexId: codexIdValue,
+                roleCode: u.role.name,
+                unitStats: statsToSave),
             mode: InsertMode.insertOrIgnore
         );
     }
@@ -75,21 +75,21 @@ void _validateUnitSeed(
     Map<String, String> roleIds
 )
 {
-    if (!armyIds.containsKey(unit.army.code)) 
+    if (!armyIds.containsKey(unit.army.code))
     {
         throw StateError(
             'Seed error: unknown army "${unit.army.code}" for unit "${unit.name}"'
         );
     }
 
-    if (!roleIds.containsKey(unit.role.code)) 
+    if (!roleIds.containsKey(unit.role.code))
     {
         throw StateError(
             'Seed error: unknown role "${unit.role.code}" for unit "${unit.name}"'
         );
     }
 
-    if (unit.codex != null && !codexIds.containsKey(unit.codex!.code)) 
+    if (unit.codex != null && !codexIds.containsKey(unit.codex!.code))
     {
         throw StateError(
             'Seed error: unknown codex "${unit.codex!.code}" for unit "${unit.name}"'

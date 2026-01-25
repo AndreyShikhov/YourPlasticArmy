@@ -1,18 +1,24 @@
-abstract class ValueObject<T> {
-  final T value;
+/*******************************************************************************
+ * Copyright (c) 2026 Andrey Shikhov
+ * SPDX-License-Identifier: MIT
+ ******************************************************************************/
 
-  const ValueObject(this.value);
+abstract class ValueObject<T>
+{
+    final T value;
 
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-          other is ValueObject<T> &&
-              runtimeType == other.runtimeType &&
-              value == other.value;
+    const ValueObject(this.value);
 
-  @override
-  int get hashCode => value.hashCode;
+    @override
+    bool operator==(Object other) =>
+    identical(this, other) ||
+        other is ValueObject<T> &&
+            runtimeType == other.runtimeType &&
+            value == other.value;
 
-  @override
-  String toString() => value.toString();
+    @override
+    int get hashCode => value.hashCode;
+
+    @override
+    String toString() => value.toString();
 }

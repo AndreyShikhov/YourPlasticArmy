@@ -45,20 +45,20 @@ class UnitWidget extends ConsumerWidget
                                 Text('${unit.selectedComposition.values.first}')
                             ]
                         ),
-                      Row( // выбранное оружие
-                        children: [
-                          Column(  // оуржие дальнего боя
+                        Row( // выбранное оружие
                             children: [
-                              ..._getRangedWeapon()
-                            ],
-                          ),
-                          Column(// оружие ближнего боя
-                            children: [
-                              ..._getMeleeWeapon()
-                            ],
-                          ),
-                        ],
-                      )
+                                Column(  // оуржие дальнего боя
+                                    children: [
+                                        ..._getRangedWeapon()
+                                    ]
+                                ),
+                                Column(// оружие ближнего боя
+                                    children: [
+                                        ..._getMeleeWeapon()
+                                    ]
+                                )
+                            ]
+                        )
 
                     ]
                 )
@@ -95,18 +95,18 @@ class UnitWidget extends ConsumerWidget
         }
     }
 
-    List<Text> _getRangedWeapon(){
+    List<Text> _getRangedWeapon() 
+    {
 
-
-
-      List<Text> res = [];//unit.weapons[WeaponType.ranged]!.map((w) => Text(w.name)).toList();
-      return res;
+        List<Text> res = [];//unit.weapons[WeaponType.ranged]!.map((w) => Text(w.name)).toList();
+        return res;
 
     }
 
-    List<Text> _getMeleeWeapon(){
+    List<Text> _getMeleeWeapon() 
+    {
 
-      List<Text> res = [];//unit.weapons[WeaponType.melee]!.map((w) => Text(w.name)).toList();
-      return res;
+        List<Text> res = [];//unit.weapons[WeaponType.melee]!.map((w) => Text(w.name)).toList();
+        return res;
     }
 }

@@ -1,18 +1,26 @@
+/*******************************************************************************
+ * Copyright (c) 2026 Andrey Shikhov
+ * SPDX-License-Identifier: MIT
+ ******************************************************************************/
+
 import 'package:ypa/domain/models/user_army/user_army_repository.dart';
 
-class UpdateUserArmyName {
-  final UserArmyRepository repository;
+class UpdateUserArmyName
+{
+    final UserArmyRepository repository;
 
-  UpdateUserArmyName(this.repository);
+    UpdateUserArmyName(this.repository);
 
-  Future<void> call({
-    required String id,
-    required String newName,
-  }) async {
-    final army = await repository.findUserArmyById(id);
-    if (army != null) {
-      final updatedArmy = army.copyWith(name: newName);
-      await repository.saveUserArmy(updatedArmy);
+    Future<void> call({
+        required String id,
+        required String newName
+    }) async
+    {
+        final army = await repository.findUserArmyById(id);
+        if (army != null) 
+        {
+            final updatedArmy = army.copyWith(name: newName);
+            await repository.saveUserArmy(updatedArmy);
+        }
     }
-  }
 }

@@ -21,7 +21,7 @@ class ArmyBuilderScreen extends ConsumerWidget
     const ArmyBuilderScreen({super.key, required this.armyId});
 
     @override
-    Widget build(BuildContext context, WidgetRef ref) 
+    Widget build(BuildContext context, WidgetRef ref)
     {
         final state = ref.watch(armyBuilderControllerProvider(armyId));
 
@@ -62,7 +62,7 @@ class ArmyBuilderScreen extends ConsumerWidget
         );
     }
 
-    List<Widget> _buildSections(ArmyBuilderState state, WidgetRef ref) 
+    List<Widget> _buildSections(ArmyBuilderState state, WidgetRef ref)
     {
         final List<Widget> sections = [];
 
@@ -97,7 +97,7 @@ class ArmyBuilderScreen extends ConsumerWidget
         return sections;
     }
 
-    String _getPtstext(ArmyBuilderState state) 
+    String _getPtstext(ArmyBuilderState state)
     {
         return '${state.currentPts ?? 0} / ${state.battleSize?.values.firstOrNull.toString()} pts';
     }

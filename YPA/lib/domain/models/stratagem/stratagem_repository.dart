@@ -1,13 +1,19 @@
-import 'stratagem_dom.dart';
-import 'stratagem_id.dart';
+/*******************************************************************************
+ * Copyright (c) 2026 Andrey Shikhov
+ * SPDX-License-Identifier: MIT
+ ******************************************************************************/
+
 import '../codex/codex_id.dart';
 import '../detachment/detachment_id.dart';
+import 'stratagem_dom.dart';
+import 'stratagem_id.dart';
 
-abstract class StratagemRepository {
-  Future<void> saveStratagem(StratagemDOM stratagem);
-  Future<StratagemDOM?> findStratagemsById(StratagemId id);
-  Future<List<StratagemDOM>> findAllStratagem();
-  Future<List<StratagemDOM>> findStratagemsByCodex(CodexId codexId);
-  Future<List<StratagemDOM>> findStratagemsByDetachment(DetachmentId detachmentId);
-  Future<void> deleteStratagem(StratagemId id);
+abstract class StratagemRepository
+{
+    Future<void> saveStratagem(StratagemDOM stratagem);
+    Future<StratagemDOM?> findStratagemsById(StratagemId id);
+    Future<List<StratagemDOM>> findAllStratagem();
+    Future<List<StratagemDOM>> findStratagemsByCodex(CodexId codexId);
+    Future<List<StratagemDOM>> findStratagemsByDetachment(DetachmentId detachmentId);
+    Future<void> deleteStratagem(StratagemId id);
 }

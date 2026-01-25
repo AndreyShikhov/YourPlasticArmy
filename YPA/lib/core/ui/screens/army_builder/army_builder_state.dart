@@ -54,7 +54,7 @@ class ArmyBuilderState
         List<ArmyBuilderUnitItemUi>? allUnitsFromDb,
         Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>? temDataUnitsByRole,
         String? error
-    }) 
+    })
     {
         return ArmyBuilderState(
             isLoading: isLoading ?? this.isLoading,
@@ -76,12 +76,12 @@ class ArmyBuilderState
     // Updates
     // ==========================================
 
-    ArmyBuilderState updateCurrentPts() 
+    ArmyBuilderState updateCurrentPts()
     {
         int total = 0;
 
         // Если юнитов нет, возвращаем стейт с 0 очков
-        if (userArmyUnits == null || userArmyUnits!.isEmpty) 
+        if (userArmyUnits == null || userArmyUnits!.isEmpty)
         {
             return copyWith(currentPts: 0);
         }
@@ -92,7 +92,7 @@ class ArmyBuilderState
                 for (var unit in units)
                 {
                     // Проверяем, что в выбранном составе есть очки
-                    if (unit.selectedComposition.isNotEmpty) 
+                    if (unit.selectedComposition.isNotEmpty)
                     {
                         // Прибавляем стоимость (values.first — это значение очков из Map<int, int>)
                         total += unit.selectedComposition.values.first;
@@ -108,10 +108,10 @@ class ArmyBuilderState
     // Getters
     // ==========================================
 
-    List<ArmyBuilderUnitItemUi> getAllUnitsByRoleFromUserArmy(String role) 
+    List<ArmyBuilderUnitItemUi> getAllUnitsByRoleFromUserArmy(String role)
     {
         // 1. Проверяем на null или пустоту всей карты
-        if (userArmyUnits == null || userArmyUnits!.isEmpty) 
+        if (userArmyUnits == null || userArmyUnits!.isEmpty)
         {
             debugPrint('Warning: userArmyUnits is null or empty');
             return [];
@@ -127,10 +127,10 @@ class ArmyBuilderState
         return userArmyUnits![roleCode] ?? [];
     }
 
-    List<ArmyBuilderUnitItemUi> getAllUnitsByRoleFromDB(String role) 
+    List<ArmyBuilderUnitItemUi> getAllUnitsByRoleFromDB(String role)
     {
         // 1. Проверяем на null или пустоту
-        if (allUnitsFromDb.isEmpty) 
+        if (allUnitsFromDb.isEmpty)
         {
             // Вывод ошибки в консоль (поможет при отладке)
             debugPrint('Warning: allUnits is null or empty');
@@ -140,15 +140,15 @@ class ArmyBuilderState
         return allUnitsFromDb.where((unit) => unit.role == role).toList();
     }
 
-    ArmyBuilderUnitItemUi getUnitByIdFromDb(String unitId) 
+    ArmyBuilderUnitItemUi getUnitByIdFromDb(String unitId)
     {
         return allUnitsFromDb.firstWhere((unit) => unit.name == unitId, orElse: () => ArmyBuilderUnitItemUi.empty());
     }
 
-    List<ArmyBuilderUnitItemUi> getallUnitByNameFromUserArmy(String unitName) 
+    List<ArmyBuilderUnitItemUi> getallUnitByNameFromUserArmy(String unitName)
     {
         // 1. Проверяем на null
-        if (userArmyUnits == null) 
+        if (userArmyUnits == null)
         {
             debugPrint('Warning: userArmyUnits is null or empty');
             return [];
@@ -160,7 +160,7 @@ class ArmyBuilderState
             .toList();
     }
 
-    int getCurrentCountUnitFromUserArmy(String unitName) 
+    int getCurrentCountUnitFromUserArmy(String unitName)
     {
         return getallUnitByNameFromUserArmy(unitName).length;
     }

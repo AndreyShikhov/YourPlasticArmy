@@ -20,11 +20,11 @@ List<UnitSeed> spaceMarinesUnits()
             role: UnitRoleCode.characters,
             repeat: 1,
             keywords: [
-              'Infantry',
-              'Battleline',
-              'Grenades',
-              'Imperium',
-              'Tacticus'
+                'Infantry',
+                'Battleline',
+                'Grenades',
+                'Imperium',
+                'Tacticus'
             ],
             factionKeywords: ['Adeptus Astartes'],
             unitComposition: const UnitComposition(
@@ -32,60 +32,61 @@ List<UnitSeed> spaceMarinesUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              UnitAbilitiesCode.deepStrike
+                UnitAbilitiesCode.deepStrike
             ],
             coreAbilities: const[
-              CoreUnitAbilityCode.leader
+                CoreUnitAbilityCode.leader
             ],
             factionAbilities: const[
-              FactionUnitAbilityCode.oathOfMoment
+                FactionUnitAbilityCode.oathOfMoment
             ],
             ledBy: const[],
             leader: const[],
-            modelStats: {
-              'Ancient': ModelStats(
-                  movement: 6,
-                  toughness: 4,
-                  save: 3,
-                  invulnerableSave: 0,
-                  wounds: 4,
-                  leadership: 6,
-                  objectiveControl: 1,
-                  weapons:
-                  {
-                    WeaponType.ranged : [
-                      Weapon(
-                          name: 'Perdition Pistol',
-                          type: WeaponType.ranged,
-                          weaponAbilities: const[
-                            WeaponAbilitiesCode.pistol,
-                            WeaponAbilitiesCode.melta
-                          ],
-                          range: 6,
-                          attacks: const Dice(fix: 1).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -4,
-                          damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
-                              .toString()
-                      )
-                    ],
-                    WeaponType.melee : [
-                      Weapon(
-                          name: 'The Axe Mortalis',
-                          type: WeaponType.melee,
-                          weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
-                          range: 0,
-                          attacks: const Dice(fix: 8).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -3,
-                          damage: const Dice(fix: 2).toString()
-                      )
-                    ]
-                  },
-                  wargearOptions: WargearOptions.emptyOptions
-              )
+            modelStats: 
+            {
+                'Ancient': ModelStats(
+                    movement: 6,
+                    toughness: 4,
+                    save: 3,
+                    invulnerableSave: 0,
+                    wounds: 4,
+                    leadership: 6,
+                    objectiveControl: 1,
+                    weapons:
+                    {
+                        WeaponType.ranged : [
+                            Weapon(
+                                name: 'Perdition Pistol',
+                                type: WeaponType.ranged,
+                                weaponAbilities: const[
+                                    WeaponAbilitiesCode.pistol,
+                                    WeaponAbilitiesCode.melta
+                                ],
+                                range: 6,
+                                attacks: const Dice(fix: 1).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -4,
+                                damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    .toString()
+                            )
+                        ],
+                        WeaponType.melee : [
+                            Weapon(
+                                name: 'The Axe Mortalis',
+                                type: WeaponType.melee,
+                                weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
+                                range: 0,
+                                attacks: const Dice(fix: 8).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -3,
+                                damage: const Dice(fix: 2).toString()
+                            )
+                        ]
+                    },
+                    wargearOptions: WargearOptions.emptyOptions
+                )
             }
         ),
         UnitSeed(
@@ -95,11 +96,11 @@ List<UnitSeed> spaceMarinesUnits()
             role: UnitRoleCode.characters,
             repeat: 1,
             keywords: [
-              'Infantry',
-              'Battleline',
-              'Grenades',
-              'Imperium',
-              'Tacticus'
+                'Infantry',
+                'Battleline',
+                'Grenades',
+                'Imperium',
+                'Tacticus'
             ],
             factionKeywords: ['Adeptus Astartes'],
             unitComposition: const UnitComposition(
@@ -107,61 +108,62 @@ List<UnitSeed> spaceMarinesUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              UnitAbilitiesCode.deepStrike
+                UnitAbilitiesCode.deepStrike
             ],
             coreAbilities: const[
-              CoreUnitAbilityCode.leader
+                CoreUnitAbilityCode.leader
             ],
             factionAbilities: const[
-              FactionUnitAbilityCode.oathOfMoment
+                FactionUnitAbilityCode.oathOfMoment
             ],
             ledBy: const[],
             leader: const[],
-            modelStats:{
-              'Ancient In Terminator Armour' : ModelStats(
-                  movement: 5,
-                  toughness: 5,
-                  save: 2,
-                  invulnerableSave: 4,
-                  wounds: 5,
-                  leadership: 5,
-                  objectiveControl: 1,
-                  weapons:
-                  {
-                    WeaponType.ranged : [
-                      Weapon(
-                          name: 'Perdition Pistol',
-                          type: WeaponType.ranged,
-                          weaponAbilities: const[
-                            WeaponAbilitiesCode.pistol,
-                            WeaponAbilitiesCode.melta
-                          ],
-                          range: 6,
-                          attacks: const Dice(fix: 1).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -4,
-                          damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
-                              .toString()
-                      )
-                    ],
-                    WeaponType.melee : [
-                      Weapon(
-                          name: 'The Axe Mortalis',
-                          type: WeaponType.melee,
-                          weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
-                          range: 0,
-                          attacks: const Dice(fix: 8).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -3,
-                          damage: const Dice(fix: 2).toString()
-                      )
-                    ]
-                  },
+            modelStats: 
+            {
+                'Ancient In Terminator Armour' : ModelStats(
+                    movement: 5,
+                    toughness: 5,
+                    save: 2,
+                    invulnerableSave: 4,
+                    wounds: 5,
+                    leadership: 5,
+                    objectiveControl: 1,
+                    weapons:
+                    {
+                        WeaponType.ranged : [
+                            Weapon(
+                                name: 'Perdition Pistol',
+                                type: WeaponType.ranged,
+                                weaponAbilities: const[
+                                    WeaponAbilitiesCode.pistol,
+                                    WeaponAbilitiesCode.melta
+                                ],
+                                range: 6,
+                                attacks: const Dice(fix: 1).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -4,
+                                damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    .toString()
+                            )
+                        ],
+                        WeaponType.melee : [
+                            Weapon(
+                                name: 'The Axe Mortalis',
+                                type: WeaponType.melee,
+                                weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
+                                range: 0,
+                                attacks: const Dice(fix: 8).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -3,
+                                damage: const Dice(fix: 2).toString()
+                            )
+                        ]
+                    },
 
-                  wargearOptions: WargearOptions.emptyOptions
-              )
+                    wargearOptions: WargearOptions.emptyOptions
+                )
             }
         ),
         UnitSeed(
@@ -171,11 +173,11 @@ List<UnitSeed> spaceMarinesUnits()
             role: UnitRoleCode.characters,
             repeat: 1,
             keywords: [
-              'Infantry',
-              'Battleline',
-              'Grenades',
-              'Imperium',
-              'Tacticus'
+                'Infantry',
+                'Battleline',
+                'Grenades',
+                'Imperium',
+                'Tacticus'
             ],
             factionKeywords: ['Adeptus Astartes'],
             unitComposition: const UnitComposition(
@@ -183,60 +185,61 @@ List<UnitSeed> spaceMarinesUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              UnitAbilitiesCode.deepStrike
+                UnitAbilitiesCode.deepStrike
             ],
             coreAbilities: const[
-              CoreUnitAbilityCode.leader
+                CoreUnitAbilityCode.leader
             ],
             factionAbilities: const[
-              FactionUnitAbilityCode.oathOfMoment
+                FactionUnitAbilityCode.oathOfMoment
             ],
             ledBy: const[],
             leader: const[],
-            modelStats:{
-              'Apothecary' :  ModelStats(
-                  movement: 6,
-                  toughness: 4,
-                  save: 3,
-                  invulnerableSave: 0,
-                  wounds: 4,
-                  leadership: 6,
-                  objectiveControl: 1,
-                  weapons:
-                  {
-                    WeaponType.ranged : [
-                      Weapon(
-                          name: 'Perdition Pistol',
-                          type: WeaponType.ranged,
-                          weaponAbilities: const[
-                            WeaponAbilitiesCode.pistol,
-                            WeaponAbilitiesCode.melta
-                          ],
-                          range: 6,
-                          attacks: const Dice(fix: 1).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -4,
-                          damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
-                              .toString()
-                      )
-                    ],
-                    WeaponType.melee : [
-                      Weapon(
-                          name: 'The Axe Mortalis',
-                          type: WeaponType.melee,
-                          weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
-                          range: 0,
-                          attacks: const Dice(fix: 8).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -3,
-                          damage: const Dice(fix: 2).toString()
-                      )
-                    ]
-                  },
-                  wargearOptions: WargearOptions.emptyOptions
-              )
+            modelStats: 
+            {
+                'Apothecary' :  ModelStats(
+                    movement: 6,
+                    toughness: 4,
+                    save: 3,
+                    invulnerableSave: 0,
+                    wounds: 4,
+                    leadership: 6,
+                    objectiveControl: 1,
+                    weapons:
+                    {
+                        WeaponType.ranged : [
+                            Weapon(
+                                name: 'Perdition Pistol',
+                                type: WeaponType.ranged,
+                                weaponAbilities: const[
+                                    WeaponAbilitiesCode.pistol,
+                                    WeaponAbilitiesCode.melta
+                                ],
+                                range: 6,
+                                attacks: const Dice(fix: 1).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -4,
+                                damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    .toString()
+                            )
+                        ],
+                        WeaponType.melee : [
+                            Weapon(
+                                name: 'The Axe Mortalis',
+                                type: WeaponType.melee,
+                                weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
+                                range: 0,
+                                attacks: const Dice(fix: 8).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -3,
+                                damage: const Dice(fix: 2).toString()
+                            )
+                        ]
+                    },
+                    wargearOptions: WargearOptions.emptyOptions
+                )
             }
 
         ),
@@ -247,11 +250,11 @@ List<UnitSeed> spaceMarinesUnits()
             role: UnitRoleCode.characters,
             repeat: 1,
             keywords: [
-              'Infantry',
-              'Battleline',
-              'Grenades',
-              'Imperium',
-              'Tacticus'
+                'Infantry',
+                'Battleline',
+                'Grenades',
+                'Imperium',
+                'Tacticus'
             ],
             factionKeywords: ['Adeptus Astartes'],
             unitComposition: const UnitComposition(
@@ -259,62 +262,63 @@ List<UnitSeed> spaceMarinesUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              UnitAbilitiesCode.deepStrike
+                UnitAbilitiesCode.deepStrike
             ],
             coreAbilities: const[
-              CoreUnitAbilityCode.leader
+                CoreUnitAbilityCode.leader
             ],
             factionAbilities: const[
-              FactionUnitAbilityCode.oathOfMoment
+                FactionUnitAbilityCode.oathOfMoment
             ],
             ledBy: const[],
             leader: const[],
-            modelStats: {
-              'Apothecary Biologis':ModelStats(
-                  movement: 5,
-                  toughness: 6,
-                  save: 3,
-                  invulnerableSave: 0,
-                  wounds: 5,
-                  leadership: 6,
-                  objectiveControl: 3,
-                  weapons:
-                  {
-                    WeaponType.ranged : [
-                      Weapon(
-                          name: 'Perdition Pistol',
-                          type: WeaponType.ranged,
-                          weaponAbilities: const[
-                            WeaponAbilitiesCode.pistol,
-                            WeaponAbilitiesCode.melta
-                          ],
-                          range: 6,
-                          attacks: const Dice(fix: 1).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -4,
-                          damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
-                              .toString()
-                      )
-                    ],
-                    WeaponType.melee : [
-                      Weapon(
-                          name: 'The Axe Mortalis',
-                          type: WeaponType.melee,
-                          weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
-                          range: 0,
-                          attacks: const Dice(fix: 8).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -3,
-                          damage: const Dice(fix: 2).toString()
-                      )
-                    ]
-                  },
-                  wargearOptions: WargearOptions.emptyOptions
-              )
+            modelStats: 
+            {
+                'Apothecary Biologis':ModelStats(
+                    movement: 5,
+                    toughness: 6,
+                    save: 3,
+                    invulnerableSave: 0,
+                    wounds: 5,
+                    leadership: 6,
+                    objectiveControl: 3,
+                    weapons:
+                    {
+                        WeaponType.ranged : [
+                            Weapon(
+                                name: 'Perdition Pistol',
+                                type: WeaponType.ranged,
+                                weaponAbilities: const[
+                                    WeaponAbilitiesCode.pistol,
+                                    WeaponAbilitiesCode.melta
+                                ],
+                                range: 6,
+                                attacks: const Dice(fix: 1).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -4,
+                                damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    .toString()
+                            )
+                        ],
+                        WeaponType.melee : [
+                            Weapon(
+                                name: 'The Axe Mortalis',
+                                type: WeaponType.melee,
+                                weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
+                                range: 0,
+                                attacks: const Dice(fix: 8).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -3,
+                                damage: const Dice(fix: 2).toString()
+                            )
+                        ]
+                    },
+                    wargearOptions: WargearOptions.emptyOptions
+                )
             }
-            ),
+        ),
         //=============Battleline============
         UnitSeed(
             id: '6b80f27a-438b-40b4-bfe3-0aff444a47f6',
@@ -323,11 +327,11 @@ List<UnitSeed> spaceMarinesUnits()
             role: UnitRoleCode.battleline,
             repeat: 6,
             keywords: [
-              'Infantry',
-              'Battleline',
-              'Grenades',
-              'Imperium',
-              'Tacticus'
+                'Infantry',
+                'Battleline',
+                'Grenades',
+                'Imperium',
+                'Tacticus'
             ],
             factionKeywords: ['Adeptus Astartes'],
             unitComposition: const UnitComposition(
@@ -335,13 +339,13 @@ List<UnitSeed> spaceMarinesUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              UnitAbilitiesCode.deepStrike
+                UnitAbilitiesCode.deepStrike
             ],
             coreAbilities: const[
-              CoreUnitAbilityCode.leader
+                CoreUnitAbilityCode.leader
             ],
             factionAbilities: const[
-              FactionUnitAbilityCode.oathOfMoment
+                FactionUnitAbilityCode.oathOfMoment
             ],
             ledBy: const[],
             leader: const[],
@@ -399,11 +403,11 @@ List<UnitSeed> spaceMarinesUnits()
             role: UnitRoleCode.battleline,
             repeat: 6,
             keywords: [
-              'Infantry',
-              'Battleline',
-              'Grenades',
-              'Imperium',
-              'Tacticus'
+                'Infantry',
+                'Battleline',
+                'Grenades',
+                'Imperium',
+                'Tacticus'
             ],
             factionKeywords: ['Adeptus Astartes'],
             unitComposition: const UnitComposition(
@@ -411,60 +415,61 @@ List<UnitSeed> spaceMarinesUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              UnitAbilitiesCode.deepStrike
+                UnitAbilitiesCode.deepStrike
             ],
             coreAbilities: const[
-              CoreUnitAbilityCode.leader
+                CoreUnitAbilityCode.leader
             ],
             factionAbilities: const[
-              FactionUnitAbilityCode.oathOfMoment
+                FactionUnitAbilityCode.oathOfMoment
             ],
             ledBy: const[],
             leader: const[],
-            modelStats: {
-              'Heavy Intercessor' : ModelStats(
-                  movement: 5,
-                  toughness: 6,
-                  save: 3,
-                  invulnerableSave: 0,
-                  wounds: 3,
-                  leadership: 6,
-                  objectiveControl: 2,
-                  weapons:
-                  {
-                    WeaponType.ranged : [
-                      Weapon(
-                          name: 'Perdition Pistol',
-                          type: WeaponType.ranged,
-                          weaponAbilities: const[
-                            WeaponAbilitiesCode.pistol,
-                            WeaponAbilitiesCode.melta
-                          ],
-                          range: 6,
-                          attacks: const Dice(fix: 1).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -4,
-                          damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
-                              .toString()
-                      )
-                    ],
-                    WeaponType.melee : [
-                      Weapon(
-                          name: 'The Axe Mortalis',
-                          type: WeaponType.melee,
-                          weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
-                          range: 0,
-                          attacks: const Dice(fix: 8).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -3,
-                          damage: const Dice(fix: 2).toString()
-                      )
-                    ]
-                  },
-                  wargearOptions: WargearOptions.emptyOptions
-              )
+            modelStats: 
+            {
+                'Heavy Intercessor' : ModelStats(
+                    movement: 5,
+                    toughness: 6,
+                    save: 3,
+                    invulnerableSave: 0,
+                    wounds: 3,
+                    leadership: 6,
+                    objectiveControl: 2,
+                    weapons:
+                    {
+                        WeaponType.ranged : [
+                            Weapon(
+                                name: 'Perdition Pistol',
+                                type: WeaponType.ranged,
+                                weaponAbilities: const[
+                                    WeaponAbilitiesCode.pistol,
+                                    WeaponAbilitiesCode.melta
+                                ],
+                                range: 6,
+                                attacks: const Dice(fix: 1).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -4,
+                                damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    .toString()
+                            )
+                        ],
+                        WeaponType.melee : [
+                            Weapon(
+                                name: 'The Axe Mortalis',
+                                type: WeaponType.melee,
+                                weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
+                                range: 0,
+                                attacks: const Dice(fix: 8).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -3,
+                                damage: const Dice(fix: 2).toString()
+                            )
+                        ]
+                    },
+                    wargearOptions: WargearOptions.emptyOptions
+                )
             }
         ),
         UnitSeed(
@@ -474,11 +479,11 @@ List<UnitSeed> spaceMarinesUnits()
             role: UnitRoleCode.battleline,
             repeat: 6,
             keywords: [
-              'Infantry',
-              'Battleline',
-              'Grenades',
-              'Imperium',
-              'Tacticus'
+                'Infantry',
+                'Battleline',
+                'Grenades',
+                'Imperium',
+                'Tacticus'
             ],
             factionKeywords: ['Adeptus Astartes'],
             unitComposition: const UnitComposition(
@@ -486,60 +491,61 @@ List<UnitSeed> spaceMarinesUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              UnitAbilitiesCode.deepStrike
+                UnitAbilitiesCode.deepStrike
             ],
             coreAbilities: const[
-              CoreUnitAbilityCode.leader
+                CoreUnitAbilityCode.leader
             ],
             factionAbilities: const[
-              FactionUnitAbilityCode.oathOfMoment
+                FactionUnitAbilityCode.oathOfMoment
             ],
             ledBy: const[],
             leader: const[],
-            modelStats: {
-              'Intercessor' : ModelStats(
-                  movement: 6,
-                  toughness: 4,
-                  save: 3,
-                  invulnerableSave: 0,
-                  wounds: 2,
-                  leadership: 6,
-                  objectiveControl: 2,
-                  weapons:
-                  {
-                    WeaponType.ranged : [
-                      Weapon(
-                          name: 'Perdition Pistol',
-                          type: WeaponType.ranged,
-                          weaponAbilities: const[
-                            WeaponAbilitiesCode.pistol,
-                            WeaponAbilitiesCode.melta
-                          ],
-                          range: 6,
-                          attacks: const Dice(fix: 1).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -4,
-                          damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
-                              .toString()
-                      )
-                    ],
-                    WeaponType.melee : [
-                      Weapon(
-                          name: 'The Axe Mortalis',
-                          type: WeaponType.melee,
-                          weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
-                          range: 0,
-                          attacks: const Dice(fix: 8).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -3,
-                          damage: const Dice(fix: 2).toString()
-                      )
-                    ]
-                  },
-                  wargearOptions: WargearOptions.emptyOptions
-              )
+            modelStats: 
+            {
+                'Intercessor' : ModelStats(
+                    movement: 6,
+                    toughness: 4,
+                    save: 3,
+                    invulnerableSave: 0,
+                    wounds: 2,
+                    leadership: 6,
+                    objectiveControl: 2,
+                    weapons:
+                    {
+                        WeaponType.ranged : [
+                            Weapon(
+                                name: 'Perdition Pistol',
+                                type: WeaponType.ranged,
+                                weaponAbilities: const[
+                                    WeaponAbilitiesCode.pistol,
+                                    WeaponAbilitiesCode.melta
+                                ],
+                                range: 6,
+                                attacks: const Dice(fix: 1).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -4,
+                                damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    .toString()
+                            )
+                        ],
+                        WeaponType.melee : [
+                            Weapon(
+                                name: 'The Axe Mortalis',
+                                type: WeaponType.melee,
+                                weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
+                                range: 0,
+                                attacks: const Dice(fix: 8).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -3,
+                                damage: const Dice(fix: 2).toString()
+                            )
+                        ]
+                    },
+                    wargearOptions: WargearOptions.emptyOptions
+                )
             }
         ),
         UnitSeed(
@@ -549,11 +555,11 @@ List<UnitSeed> spaceMarinesUnits()
             role: UnitRoleCode.battleline,
             repeat: 6,
             keywords: [
-              'Infantry',
-              'Battleline',
-              'Grenades',
-              'Imperium',
-              'Tacticus'
+                'Infantry',
+                'Battleline',
+                'Grenades',
+                'Imperium',
+                'Tacticus'
             ],
             factionKeywords: ['Adeptus Astartes'],
             unitComposition: const UnitComposition(
@@ -561,60 +567,61 @@ List<UnitSeed> spaceMarinesUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              UnitAbilitiesCode.deepStrike
+                UnitAbilitiesCode.deepStrike
             ],
             coreAbilities: const[
-              CoreUnitAbilityCode.leader
+                CoreUnitAbilityCode.leader
             ],
             factionAbilities: const[
-              FactionUnitAbilityCode.oathOfMoment
+                FactionUnitAbilityCode.oathOfMoment
             ],
             ledBy: const[],
             leader: const[],
-            modelStats: {
-              'Tactical' : ModelStats(
-                  movement: 6,
-                  toughness: 4,
-                  save: 3,
-                  invulnerableSave: 0,
-                  wounds: 2,
-                  leadership: 6,
-                  objectiveControl: 2,
-                  weapons:
-                  {
-                    WeaponType.ranged : [
-                      Weapon(
-                          name: 'Perdition Pistol',
-                          type: WeaponType.ranged,
-                          weaponAbilities: const[
-                            WeaponAbilitiesCode.pistol,
-                            WeaponAbilitiesCode.melta
-                          ],
-                          range: 6,
-                          attacks: const Dice(fix: 1).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -4,
-                          damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
-                              .toString()
-                      )
-                    ],
-                    WeaponType.melee : [
-                      Weapon(
-                          name: 'The Axe Mortalis',
-                          type: WeaponType.melee,
-                          weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
-                          range: 0,
-                          attacks: const Dice(fix: 8).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -3,
-                          damage: const Dice(fix: 2).toString()
-                      )
-                    ]
-                  },
-                  wargearOptions: WargearOptions.emptyOptions
-              )
+            modelStats: 
+            {
+                'Tactical' : ModelStats(
+                    movement: 6,
+                    toughness: 4,
+                    save: 3,
+                    invulnerableSave: 0,
+                    wounds: 2,
+                    leadership: 6,
+                    objectiveControl: 2,
+                    weapons:
+                    {
+                        WeaponType.ranged : [
+                            Weapon(
+                                name: 'Perdition Pistol',
+                                type: WeaponType.ranged,
+                                weaponAbilities: const[
+                                    WeaponAbilitiesCode.pistol,
+                                    WeaponAbilitiesCode.melta
+                                ],
+                                range: 6,
+                                attacks: const Dice(fix: 1).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -4,
+                                damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    .toString()
+                            )
+                        ],
+                        WeaponType.melee : [
+                            Weapon(
+                                name: 'The Axe Mortalis',
+                                type: WeaponType.melee,
+                                weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
+                                range: 0,
+                                attacks: const Dice(fix: 8).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -3,
+                                damage: const Dice(fix: 2).toString()
+                            )
+                        ]
+                    },
+                    wargearOptions: WargearOptions.emptyOptions
+                )
             }
         ),
 
@@ -627,11 +634,11 @@ List<UnitSeed> spaceMarinesUnits()
             role: UnitRoleCode.dedicatedTransports,
             repeat: 6,
             keywords: [
-              'Infantry',
-              'Battleline',
-              'Grenades',
-              'Imperium',
-              'Tacticus'
+                'Infantry',
+                'Battleline',
+                'Grenades',
+                'Imperium',
+                'Tacticus'
             ],
             factionKeywords: ['Adeptus Astartes'],
             unitComposition: const UnitComposition(
@@ -639,61 +646,62 @@ List<UnitSeed> spaceMarinesUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              UnitAbilitiesCode.deepStrike
+                UnitAbilitiesCode.deepStrike
             ],
             coreAbilities: const[
-              CoreUnitAbilityCode.leader
+                CoreUnitAbilityCode.leader
             ],
             factionAbilities: const[
-              FactionUnitAbilityCode.oathOfMoment
+                FactionUnitAbilityCode.oathOfMoment
             ],
             ledBy: const[],
             leader: const[],
-            modelStats: {
-              'Drop Pod' :  ModelStats(
-                  movement: 0,
-                  toughness: 7,
-                  save: 3,
-                  invulnerableSave: 0,
-                  wounds: 8,
-                  leadership: 6,
-                  objectiveControl: 0,
-                  weapons:
-                  {
-                    WeaponType.ranged : [
-                      Weapon(
-                          name: 'Perdition Pistol',
-                          type: WeaponType.ranged,
-                          weaponAbilities: const[
-                            WeaponAbilitiesCode.pistol,
-                            WeaponAbilitiesCode.melta
-                          ],
-                          range: 6,
-                          attacks: const Dice(fix: 1).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -4,
-                          damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
-                              .toString()
-                      )
-                    ],
-                    WeaponType.melee : [
-                      Weapon(
-                          name: 'The Axe Mortalis',
-                          type: WeaponType.melee,
-                          weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
-                          range: 0,
-                          attacks: const Dice(fix: 8).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -3,
-                          damage: const Dice(fix: 2).toString()
-                      )
-                    ]
-                  },
+            modelStats: 
+            {
+                'Drop Pod' :  ModelStats(
+                    movement: 0,
+                    toughness: 7,
+                    save: 3,
+                    invulnerableSave: 0,
+                    wounds: 8,
+                    leadership: 6,
+                    objectiveControl: 0,
+                    weapons:
+                    {
+                        WeaponType.ranged : [
+                            Weapon(
+                                name: 'Perdition Pistol',
+                                type: WeaponType.ranged,
+                                weaponAbilities: const[
+                                    WeaponAbilitiesCode.pistol,
+                                    WeaponAbilitiesCode.melta
+                                ],
+                                range: 6,
+                                attacks: const Dice(fix: 1).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -4,
+                                damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    .toString()
+                            )
+                        ],
+                        WeaponType.melee : [
+                            Weapon(
+                                name: 'The Axe Mortalis',
+                                type: WeaponType.melee,
+                                weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
+                                range: 0,
+                                attacks: const Dice(fix: 8).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -3,
+                                damage: const Dice(fix: 2).toString()
+                            )
+                        ]
+                    },
 
-                  wargearOptions: WargearOptions.emptyOptions
-              )
+                    wargearOptions: WargearOptions.emptyOptions
+                )
             }
         ),
         UnitSeed(
@@ -703,11 +711,11 @@ List<UnitSeed> spaceMarinesUnits()
             role: UnitRoleCode.dedicatedTransports,
             repeat: 6,
             keywords: [
-              'Infantry',
-              'Battleline',
-              'Grenades',
-              'Imperium',
-              'Tacticus'
+                'Infantry',
+                'Battleline',
+                'Grenades',
+                'Imperium',
+                'Tacticus'
             ],
             factionKeywords: ['Adeptus Astartes'],
             unitComposition: const UnitComposition(
@@ -715,60 +723,61 @@ List<UnitSeed> spaceMarinesUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              UnitAbilitiesCode.deepStrike
+                UnitAbilitiesCode.deepStrike
             ],
             coreAbilities: const[
-              CoreUnitAbilityCode.leader
+                CoreUnitAbilityCode.leader
             ],
             factionAbilities: const[
-              FactionUnitAbilityCode.oathOfMoment
+                FactionUnitAbilityCode.oathOfMoment
             ],
             ledBy: const[],
             leader: const[],
-            modelStats: {
-              'Impulsor' : ModelStats(
-                  movement: 12,
-                  toughness: 9,
-                  save: 3,
-                  invulnerableSave: 0,
-                  wounds: 11,
-                  leadership: 6,
-                  objectiveControl: 2,
-                  weapons:
-                  {
-                    WeaponType.ranged : [
-                      Weapon(
-                          name: 'Perdition Pistol',
-                          type: WeaponType.ranged,
-                          weaponAbilities: const[
-                            WeaponAbilitiesCode.pistol,
-                            WeaponAbilitiesCode.melta
-                          ],
-                          range: 6,
-                          attacks: const Dice(fix: 1).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -4,
-                          damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
-                              .toString()
-                      )
-                    ],
-                    WeaponType.melee : [
-                      Weapon(
-                          name: 'The Axe Mortalis',
-                          type: WeaponType.melee,
-                          weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
-                          range: 0,
-                          attacks: const Dice(fix: 8).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -3,
-                          damage: const Dice(fix: 2).toString()
-                      )
-                    ]
-                  },
-                  wargearOptions: WargearOptions.emptyOptions
-              )
+            modelStats: 
+            {
+                'Impulsor' : ModelStats(
+                    movement: 12,
+                    toughness: 9,
+                    save: 3,
+                    invulnerableSave: 0,
+                    wounds: 11,
+                    leadership: 6,
+                    objectiveControl: 2,
+                    weapons:
+                    {
+                        WeaponType.ranged : [
+                            Weapon(
+                                name: 'Perdition Pistol',
+                                type: WeaponType.ranged,
+                                weaponAbilities: const[
+                                    WeaponAbilitiesCode.pistol,
+                                    WeaponAbilitiesCode.melta
+                                ],
+                                range: 6,
+                                attacks: const Dice(fix: 1).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -4,
+                                damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    .toString()
+                            )
+                        ],
+                        WeaponType.melee : [
+                            Weapon(
+                                name: 'The Axe Mortalis',
+                                type: WeaponType.melee,
+                                weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
+                                range: 0,
+                                attacks: const Dice(fix: 8).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -3,
+                                damage: const Dice(fix: 2).toString()
+                            )
+                        ]
+                    },
+                    wargearOptions: WargearOptions.emptyOptions
+                )
             }
         ),
         UnitSeed(
@@ -778,11 +787,11 @@ List<UnitSeed> spaceMarinesUnits()
             role: UnitRoleCode.dedicatedTransports,
             repeat: 6,
             keywords: [
-              'Infantry',
-              'Battleline',
-              'Grenades',
-              'Imperium',
-              'Tacticus'
+                'Infantry',
+                'Battleline',
+                'Grenades',
+                'Imperium',
+                'Tacticus'
             ],
             factionKeywords: ['Adeptus Astartes'],
             unitComposition: const UnitComposition(
@@ -790,60 +799,61 @@ List<UnitSeed> spaceMarinesUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              UnitAbilitiesCode.deepStrike
+                UnitAbilitiesCode.deepStrike
             ],
             coreAbilities: const[
-              CoreUnitAbilityCode.leader
+                CoreUnitAbilityCode.leader
             ],
             factionAbilities: const[
-              FactionUnitAbilityCode.oathOfMoment
+                FactionUnitAbilityCode.oathOfMoment
             ],
             ledBy: const[],
             leader: const[],
-            modelStats: {
-              'Razorback' : ModelStats(
-                  movement: 12,
-                  toughness: 9,
-                  save: 3,
-                  invulnerableSave: 0,
-                  wounds: 10,
-                  leadership: 6,
-                  objectiveControl: 2,
-                  weapons:
-                  {
-                    WeaponType.ranged : [
-                      Weapon(
-                          name: 'Perdition Pistol',
-                          type: WeaponType.ranged,
-                          weaponAbilities: const[
-                            WeaponAbilitiesCode.pistol,
-                            WeaponAbilitiesCode.melta
-                          ],
-                          range: 6,
-                          attacks: const Dice(fix: 1).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -4,
-                          damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
-                              .toString()
-                      )
-                    ],
-                    WeaponType.melee : [
-                      Weapon(
-                          name: 'The Axe Mortalis',
-                          type: WeaponType.melee,
-                          weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
-                          range: 0,
-                          attacks: const Dice(fix: 8).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -3,
-                          damage: const Dice(fix: 2).toString()
-                      )
-                    ]
-                  },
-                  wargearOptions: WargearOptions.emptyOptions
-              )
+            modelStats: 
+            {
+                'Razorback' : ModelStats(
+                    movement: 12,
+                    toughness: 9,
+                    save: 3,
+                    invulnerableSave: 0,
+                    wounds: 10,
+                    leadership: 6,
+                    objectiveControl: 2,
+                    weapons:
+                    {
+                        WeaponType.ranged : [
+                            Weapon(
+                                name: 'Perdition Pistol',
+                                type: WeaponType.ranged,
+                                weaponAbilities: const[
+                                    WeaponAbilitiesCode.pistol,
+                                    WeaponAbilitiesCode.melta
+                                ],
+                                range: 6,
+                                attacks: const Dice(fix: 1).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -4,
+                                damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    .toString()
+                            )
+                        ],
+                        WeaponType.melee : [
+                            Weapon(
+                                name: 'The Axe Mortalis',
+                                type: WeaponType.melee,
+                                weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
+                                range: 0,
+                                attacks: const Dice(fix: 8).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -3,
+                                damage: const Dice(fix: 2).toString()
+                            )
+                        ]
+                    },
+                    wargearOptions: WargearOptions.emptyOptions
+                )
             }
         ),
         UnitSeed(
@@ -853,11 +863,11 @@ List<UnitSeed> spaceMarinesUnits()
             role: UnitRoleCode.dedicatedTransports,
             repeat: 6,
             keywords: [
-              'Infantry',
-              'Battleline',
-              'Grenades',
-              'Imperium',
-              'Tacticus'
+                'Infantry',
+                'Battleline',
+                'Grenades',
+                'Imperium',
+                'Tacticus'
             ],
             factionKeywords: ['Adeptus Astartes'],
             unitComposition: const UnitComposition(
@@ -865,60 +875,61 @@ List<UnitSeed> spaceMarinesUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              UnitAbilitiesCode.deepStrike
+                UnitAbilitiesCode.deepStrike
             ],
             coreAbilities: const[
-              CoreUnitAbilityCode.leader
+                CoreUnitAbilityCode.leader
             ],
             factionAbilities: const[
-              FactionUnitAbilityCode.oathOfMoment
+                FactionUnitAbilityCode.oathOfMoment
             ],
             ledBy: const[],
             leader: const[],
-            modelStats: {
-              'Rhino' : ModelStats(
-                  movement: 12,
-                  toughness: 9,
-                  save: 3,
-                  invulnerableSave: 0,
-                  wounds: 10,
-                  leadership: 6,
-                  objectiveControl: 2,
-                  weapons:
-                  {
-                    WeaponType.ranged : [
-                      Weapon(
-                          name: 'Perdition Pistol',
-                          type: WeaponType.ranged,
-                          weaponAbilities: const[
-                            WeaponAbilitiesCode.pistol,
-                            WeaponAbilitiesCode.melta
-                          ],
-                          range: 6,
-                          attacks: const Dice(fix: 1).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -4,
-                          damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
-                              .toString()
-                      )
-                    ],
-                    WeaponType.melee : [
-                      Weapon(
-                          name: 'The Axe Mortalis',
-                          type: WeaponType.melee,
-                          weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
-                          range: 0,
-                          attacks: const Dice(fix: 8).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -3,
-                          damage: const Dice(fix: 2).toString()
-                      )
-                    ]
-                  },
-                  wargearOptions: WargearOptions.emptyOptions
-              )
+            modelStats: 
+            {
+                'Rhino' : ModelStats(
+                    movement: 12,
+                    toughness: 9,
+                    save: 3,
+                    invulnerableSave: 0,
+                    wounds: 10,
+                    leadership: 6,
+                    objectiveControl: 2,
+                    weapons:
+                    {
+                        WeaponType.ranged : [
+                            Weapon(
+                                name: 'Perdition Pistol',
+                                type: WeaponType.ranged,
+                                weaponAbilities: const[
+                                    WeaponAbilitiesCode.pistol,
+                                    WeaponAbilitiesCode.melta
+                                ],
+                                range: 6,
+                                attacks: const Dice(fix: 1).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -4,
+                                damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    .toString()
+                            )
+                        ],
+                        WeaponType.melee : [
+                            Weapon(
+                                name: 'The Axe Mortalis',
+                                type: WeaponType.melee,
+                                weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
+                                range: 0,
+                                attacks: const Dice(fix: 8).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -3,
+                                damage: const Dice(fix: 2).toString()
+                            )
+                        ]
+                    },
+                    wargearOptions: WargearOptions.emptyOptions
+                )
             }
         ),
         //=============Fortifications============
@@ -929,11 +940,11 @@ List<UnitSeed> spaceMarinesUnits()
             role: UnitRoleCode.fortifications,
             repeat: 3,
             keywords: [
-              'Infantry',
-              'Battleline',
-              'Grenades',
-              'Imperium',
-              'Tacticus'
+                'Infantry',
+                'Battleline',
+                'Grenades',
+                'Imperium',
+                'Tacticus'
             ],
             factionKeywords: ['Adeptus Astartes'],
             unitComposition: const UnitComposition(
@@ -941,60 +952,61 @@ List<UnitSeed> spaceMarinesUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              UnitAbilitiesCode.deepStrike
+                UnitAbilitiesCode.deepStrike
             ],
             coreAbilities: const[
-              CoreUnitAbilityCode.leader
+                CoreUnitAbilityCode.leader
             ],
             factionAbilities: const[
-              FactionUnitAbilityCode.oathOfMoment
+                FactionUnitAbilityCode.oathOfMoment
             ],
             ledBy: const[],
             leader: const[],
-            modelStats: {
-              'Hammerfall Bunker' : ModelStats(
-                  movement: 0,
-                  toughness: 12,
-                  save: 2,
-                  invulnerableSave: 0,
-                  wounds: 14,
-                  leadership: 6,
-                  objectiveControl: 0,
-                  weapons:
-                  {
-                    WeaponType.ranged : [
-                      Weapon(
-                          name: 'Perdition Pistol',
-                          type: WeaponType.ranged,
-                          weaponAbilities: const[
-                            WeaponAbilitiesCode.pistol,
-                            WeaponAbilitiesCode.melta
-                          ],
-                          range: 6,
-                          attacks: const Dice(fix: 1).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -4,
-                          damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
-                              .toString()
-                      )
-                    ],
-                    WeaponType.melee : [
-                      Weapon(
-                          name: 'The Axe Mortalis',
-                          type: WeaponType.melee,
-                          weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
-                          range: 0,
-                          attacks: const Dice(fix: 8).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -3,
-                          damage: const Dice(fix: 2).toString()
-                      )
-                    ]
-                  },
-                  wargearOptions: WargearOptions.emptyOptions
-              )
+            modelStats: 
+            {
+                'Hammerfall Bunker' : ModelStats(
+                    movement: 0,
+                    toughness: 12,
+                    save: 2,
+                    invulnerableSave: 0,
+                    wounds: 14,
+                    leadership: 6,
+                    objectiveControl: 0,
+                    weapons:
+                    {
+                        WeaponType.ranged : [
+                            Weapon(
+                                name: 'Perdition Pistol',
+                                type: WeaponType.ranged,
+                                weaponAbilities: const[
+                                    WeaponAbilitiesCode.pistol,
+                                    WeaponAbilitiesCode.melta
+                                ],
+                                range: 6,
+                                attacks: const Dice(fix: 1).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -4,
+                                damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    .toString()
+                            )
+                        ],
+                        WeaponType.melee : [
+                            Weapon(
+                                name: 'The Axe Mortalis',
+                                type: WeaponType.melee,
+                                weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
+                                range: 0,
+                                attacks: const Dice(fix: 8).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -3,
+                                damage: const Dice(fix: 2).toString()
+                            )
+                        ]
+                    },
+                    wargearOptions: WargearOptions.emptyOptions
+                )
             }
         ),
 
@@ -1006,11 +1018,11 @@ List<UnitSeed> spaceMarinesUnits()
             role: UnitRoleCode.other,
             repeat: 3,
             keywords: [
-              'Infantry',
-              'Battleline',
-              'Grenades',
-              'Imperium',
-              'Tacticus'
+                'Infantry',
+                'Battleline',
+                'Grenades',
+                'Imperium',
+                'Tacticus'
             ],
             factionKeywords: ['Adeptus Astartes'],
             unitComposition: const UnitComposition(
@@ -1018,60 +1030,61 @@ List<UnitSeed> spaceMarinesUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              UnitAbilitiesCode.deepStrike
+                UnitAbilitiesCode.deepStrike
             ],
             coreAbilities: const[
-              CoreUnitAbilityCode.leader
+                CoreUnitAbilityCode.leader
             ],
             factionAbilities: const[
-              FactionUnitAbilityCode.oathOfMoment
+                FactionUnitAbilityCode.oathOfMoment
             ],
             ledBy: const[],
             leader: const[],
-            modelStats: {
-              'Aggressor' : ModelStats(
-                  movement: 5,
-                  toughness: 6,
-                  save: 3,
-                  invulnerableSave: 0,
-                  wounds: 3,
-                  leadership: 6,
-                  objectiveControl: 1,
-                  weapons:
-                  {
-                    WeaponType.ranged : [
-                      Weapon(
-                          name: 'Perdition Pistol',
-                          type: WeaponType.ranged,
-                          weaponAbilities: const[
-                            WeaponAbilitiesCode.pistol,
-                            WeaponAbilitiesCode.melta
-                          ],
-                          range: 6,
-                          attacks: const Dice(fix: 1).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -4,
-                          damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
-                              .toString()
-                      )
-                    ],
-                    WeaponType.melee : [
-                      Weapon(
-                          name: 'The Axe Mortalis',
-                          type: WeaponType.melee,
-                          weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
-                          range: 0,
-                          attacks: const Dice(fix: 8).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -3,
-                          damage: const Dice(fix: 2).toString()
-                      )
-                    ]
-                  },
-                  wargearOptions: WargearOptions.emptyOptions
-              )
+            modelStats: 
+            {
+                'Aggressor' : ModelStats(
+                    movement: 5,
+                    toughness: 6,
+                    save: 3,
+                    invulnerableSave: 0,
+                    wounds: 3,
+                    leadership: 6,
+                    objectiveControl: 1,
+                    weapons:
+                    {
+                        WeaponType.ranged : [
+                            Weapon(
+                                name: 'Perdition Pistol',
+                                type: WeaponType.ranged,
+                                weaponAbilities: const[
+                                    WeaponAbilitiesCode.pistol,
+                                    WeaponAbilitiesCode.melta
+                                ],
+                                range: 6,
+                                attacks: const Dice(fix: 1).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -4,
+                                damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    .toString()
+                            )
+                        ],
+                        WeaponType.melee : [
+                            Weapon(
+                                name: 'The Axe Mortalis',
+                                type: WeaponType.melee,
+                                weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
+                                range: 0,
+                                attacks: const Dice(fix: 8).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -3,
+                                damage: const Dice(fix: 2).toString()
+                            )
+                        ]
+                    },
+                    wargearOptions: WargearOptions.emptyOptions
+                )
             }
         ),
         UnitSeed(
@@ -1081,11 +1094,11 @@ List<UnitSeed> spaceMarinesUnits()
             role: UnitRoleCode.other,
             repeat: 3,
             keywords: [
-              'Infantry',
-              'Battleline',
-              'Grenades',
-              'Imperium',
-              'Tacticus'
+                'Infantry',
+                'Battleline',
+                'Grenades',
+                'Imperium',
+                'Tacticus'
             ],
             factionKeywords: ['Adeptus Astartes'],
             unitComposition: const UnitComposition(
@@ -1093,60 +1106,61 @@ List<UnitSeed> spaceMarinesUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              UnitAbilitiesCode.deepStrike
+                UnitAbilitiesCode.deepStrike
             ],
             coreAbilities: const[
-              CoreUnitAbilityCode.leader
+                CoreUnitAbilityCode.leader
             ],
             factionAbilities: const[
-              FactionUnitAbilityCode.oathOfMoment
+                FactionUnitAbilityCode.oathOfMoment
             ],
             ledBy: const[],
             leader: const[],
-            modelStats: {
-              'Assault Intercessors With Jump Packs' :  ModelStats(
-                  movement: 12,
-                  toughness: 4,
-                  save: 3,
-                  invulnerableSave: 0,
-                  wounds: 2,
-                  leadership: 6,
-                  objectiveControl: 1,
-                  weapons:
-                  {
-                    WeaponType.ranged : [
-                      Weapon(
-                          name: 'Perdition Pistol',
-                          type: WeaponType.ranged,
-                          weaponAbilities: const[
-                            WeaponAbilitiesCode.pistol,
-                            WeaponAbilitiesCode.melta
-                          ],
-                          range: 6,
-                          attacks: const Dice(fix: 1).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -4,
-                          damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
-                              .toString()
-                      )
-                    ],
-                    WeaponType.melee : [
-                      Weapon(
-                          name: 'The Axe Mortalis',
-                          type: WeaponType.melee,
-                          weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
-                          range: 0,
-                          attacks: const Dice(fix: 8).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -3,
-                          damage: const Dice(fix: 2).toString()
-                      )
-                    ]
-                  },
-                  wargearOptions: WargearOptions.emptyOptions
-              )
+            modelStats: 
+            {
+                'Assault Intercessors With Jump Packs' :  ModelStats(
+                    movement: 12,
+                    toughness: 4,
+                    save: 3,
+                    invulnerableSave: 0,
+                    wounds: 2,
+                    leadership: 6,
+                    objectiveControl: 1,
+                    weapons:
+                    {
+                        WeaponType.ranged : [
+                            Weapon(
+                                name: 'Perdition Pistol',
+                                type: WeaponType.ranged,
+                                weaponAbilities: const[
+                                    WeaponAbilitiesCode.pistol,
+                                    WeaponAbilitiesCode.melta
+                                ],
+                                range: 6,
+                                attacks: const Dice(fix: 1).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -4,
+                                damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    .toString()
+                            )
+                        ],
+                        WeaponType.melee : [
+                            Weapon(
+                                name: 'The Axe Mortalis',
+                                type: WeaponType.melee,
+                                weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
+                                range: 0,
+                                attacks: const Dice(fix: 8).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -3,
+                                damage: const Dice(fix: 2).toString()
+                            )
+                        ]
+                    },
+                    wargearOptions: WargearOptions.emptyOptions
+                )
             }
         ),
         UnitSeed(
@@ -1156,11 +1170,11 @@ List<UnitSeed> spaceMarinesUnits()
             role: UnitRoleCode.other,
             repeat: 3,
             keywords: [
-              'Infantry',
-              'Battleline',
-              'Grenades',
-              'Imperium',
-              'Tacticus'
+                'Infantry',
+                'Battleline',
+                'Grenades',
+                'Imperium',
+                'Tacticus'
             ],
             factionKeywords: ['Adeptus Astartes'],
             unitComposition: const UnitComposition(
@@ -1168,60 +1182,61 @@ List<UnitSeed> spaceMarinesUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              UnitAbilitiesCode.deepStrike
+                UnitAbilitiesCode.deepStrike
             ],
             coreAbilities: const[
-              CoreUnitAbilityCode.leader
+                CoreUnitAbilityCode.leader
             ],
             factionAbilities: const[
-              FactionUnitAbilityCode.oathOfMoment
+                FactionUnitAbilityCode.oathOfMoment
             ],
             ledBy: const[],
             leader: const[],
-            modelStats: {
-              'Ballistus Dreadnought' :ModelStats(
-                  movement: 8,
-                  toughness: 10,
-                  save: 2,
-                  invulnerableSave: 0,
-                  wounds: 12,
-                  leadership: 6,
-                  objectiveControl: 4,
-                  weapons:
-                  {
-                    WeaponType.ranged : [
-                      Weapon(
-                          name: 'Perdition Pistol',
-                          type: WeaponType.ranged,
-                          weaponAbilities: const[
-                            WeaponAbilitiesCode.pistol,
-                            WeaponAbilitiesCode.melta
-                          ],
-                          range: 6,
-                          attacks: const Dice(fix: 1).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -4,
-                          damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
-                              .toString()
-                      )
-                    ],
-                    WeaponType.melee : [
-                      Weapon(
-                          name: 'The Axe Mortalis',
-                          type: WeaponType.melee,
-                          weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
-                          range: 0,
-                          attacks: const Dice(fix: 8).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -3,
-                          damage: const Dice(fix: 2).toString()
-                      )
-                    ]
-                  },
-                  wargearOptions: WargearOptions.emptyOptions
-              )
+            modelStats: 
+            {
+                'Ballistus Dreadnought' :ModelStats(
+                    movement: 8,
+                    toughness: 10,
+                    save: 2,
+                    invulnerableSave: 0,
+                    wounds: 12,
+                    leadership: 6,
+                    objectiveControl: 4,
+                    weapons:
+                    {
+                        WeaponType.ranged : [
+                            Weapon(
+                                name: 'Perdition Pistol',
+                                type: WeaponType.ranged,
+                                weaponAbilities: const[
+                                    WeaponAbilitiesCode.pistol,
+                                    WeaponAbilitiesCode.melta
+                                ],
+                                range: 6,
+                                attacks: const Dice(fix: 1).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -4,
+                                damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    .toString()
+                            )
+                        ],
+                        WeaponType.melee : [
+                            Weapon(
+                                name: 'The Axe Mortalis',
+                                type: WeaponType.melee,
+                                weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
+                                range: 0,
+                                attacks: const Dice(fix: 8).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -3,
+                                damage: const Dice(fix: 2).toString()
+                            )
+                        ]
+                    },
+                    wargearOptions: WargearOptions.emptyOptions
+                )
             }
         ),
         UnitSeed(
@@ -1231,11 +1246,11 @@ List<UnitSeed> spaceMarinesUnits()
             role: UnitRoleCode.other,
             repeat: 3,
             keywords: [
-              'Infantry',
-              'Battleline',
-              'Grenades',
-              'Imperium',
-              'Tacticus'
+                'Infantry',
+                'Battleline',
+                'Grenades',
+                'Imperium',
+                'Tacticus'
             ],
             factionKeywords: ['Adeptus Astartes'],
             unitComposition: const UnitComposition(
@@ -1243,60 +1258,61 @@ List<UnitSeed> spaceMarinesUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              UnitAbilitiesCode.deepStrike
+                UnitAbilitiesCode.deepStrike
             ],
             coreAbilities: const[
-              CoreUnitAbilityCode.leader
+                CoreUnitAbilityCode.leader
             ],
             factionAbilities: const[
-              FactionUnitAbilityCode.oathOfMoment
+                FactionUnitAbilityCode.oathOfMoment
             ],
             ledBy: const[],
             leader: const[],
-            modelStats: {
-              'Bladeguard Veteran': ModelStats(
-                  movement: 6,
-                  toughness: 4,
-                  save: 3,
-                  invulnerableSave: 4,
-                  wounds: 3,
-                  leadership: 6,
-                  objectiveControl: 1,
-                  weapons:
-                  {
-                    WeaponType.ranged: [
-                      Weapon(
-                          name: 'Perdition Pistol',
-                          type: WeaponType.ranged,
-                          weaponAbilities: const[
-                            WeaponAbilitiesCode.pistol,
-                            WeaponAbilitiesCode.melta
-                          ],
-                          range: 6,
-                          attacks: const Dice(fix: 1).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -4,
-                          damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
-                              .toString()
-                      )
-                    ],
-                    WeaponType.melee: [
-                      Weapon(
-                          name: 'The Axe Mortalis',
-                          type: WeaponType.melee,
-                          weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
-                          range: 0,
-                          attacks: const Dice(fix: 8).toString(),
-                          skill: 2,
-                          strength: 8,
-                          ap: -3,
-                          damage: const Dice(fix: 2).toString()
-                      )
-                    ]
-                  },
-                  wargearOptions: WargearOptions.emptyOptions
-              ),
+            modelStats: 
+            {
+                'Bladeguard Veteran': ModelStats(
+                    movement: 6,
+                    toughness: 4,
+                    save: 3,
+                    invulnerableSave: 4,
+                    wounds: 3,
+                    leadership: 6,
+                    objectiveControl: 1,
+                    weapons:
+                    {
+                        WeaponType.ranged: [
+                            Weapon(
+                                name: 'Perdition Pistol',
+                                type: WeaponType.ranged,
+                                weaponAbilities: const[
+                                    WeaponAbilitiesCode.pistol,
+                                    WeaponAbilitiesCode.melta
+                                ],
+                                range: 6,
+                                attacks: const Dice(fix: 1).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -4,
+                                damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    .toString()
+                            )
+                        ],
+                        WeaponType.melee: [
+                            Weapon(
+                                name: 'The Axe Mortalis',
+                                type: WeaponType.melee,
+                                weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
+                                range: 0,
+                                attacks: const Dice(fix: 8).toString(),
+                                skill: 2,
+                                strength: 8,
+                                ap: -3,
+                                damage: const Dice(fix: 2).toString()
+                            )
+                        ]
+                    },
+                    wargearOptions: WargearOptions.emptyOptions
+                )
             }
         )
     ];

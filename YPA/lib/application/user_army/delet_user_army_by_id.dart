@@ -1,13 +1,19 @@
+/*******************************************************************************
+ * Copyright (c) 2026 Andrey Shikhov
+ * SPDX-License-Identifier: MIT
+ ******************************************************************************/
+
 import 'package:ypa/domain/models/user_army/user_army_repository.dart';
 
+class DeletUserArmyById
+{
+    final UserArmyRepository repository;
 
-class DeletUserArmyById {
-  final UserArmyRepository repository;
+    DeletUserArmyById(this.repository);
 
-  DeletUserArmyById(this.repository);
+    Future<void> call({required String userArmyId}) async
+    {
 
-  Future<void> call({required String userArmyId}) async {
-
-    await repository.deleteUserArmy(userArmyId);
-  }
+        await repository.deleteUserArmy(userArmyId);
+    }
 }

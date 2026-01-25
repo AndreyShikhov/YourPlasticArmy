@@ -9,22 +9,25 @@ import 'package:ypa/core/database/app_database.dart';
 import '../../domain/models/army/army.dart';
 import '../../domain/models/codex/codex.dart';
 
-class CodexMapper {
-  static CodexDOM fromRow(Codexe row) {
-    return CodexDOM.restore(
-      id: CodexId.fromString(row.id),
-      code: CodexCodeDom(row.code),
-      armyId: ArmyId.fromString(row.armyId),
-      name: CodexName(row.name),
-    );
-  }
+class CodexMapper
+{
+    static CodexDOM fromRow(Codexe row) 
+    {
+        return CodexDOM.restore(
+            id: CodexId.fromString(row.id),
+            code: CodexCodeDom(row.code),
+            armyId: ArmyId.fromString(row.armyId),
+            name: CodexName(row.name)
+        );
+    }
 
-  static CodexesCompanion toCompanion(CodexDOM codex) {
-    return CodexesCompanion(
-      id: Value(codex.id.value),
-      code: Value(codex.code.value),
-      name: Value(codex.name.value),
-      armyId: Value(codex.armyId.value),
-    );
-  }
+    static CodexesCompanion toCompanion(CodexDOM codex) 
+    {
+        return CodexesCompanion(
+            id: Value(codex.id.value),
+            code: Value(codex.code.value),
+            name: Value(codex.name.value),
+            armyId: Value(codex.armyId.value)
+        );
+    }
 }

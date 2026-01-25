@@ -1,3 +1,8 @@
+/*******************************************************************************
+ * Copyright (c) 2026 Andrey Shikhov
+ * SPDX-License-Identifier: MIT
+ ******************************************************************************/
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/application/codex/get_all_codexes.dart';
 import 'package:ypa/application/codex/get_codex_by_id.dart';
@@ -9,45 +14,47 @@ import 'package:ypa/domain/models/army/army_id.dart';
 import 'package:ypa/domain/models/codex/codex_dom.dart';
 import 'package:ypa/domain/models/codex/codex_repository.dart';
 
-import '../../../application/detachment/detachments_use_cases.dart';
 import '../../../application/unit/unt_use_case.dart';
 
 // --- REPOSITORIES ---
 
-final codexRepositoryProvider = Provider<CodexRepository>((ref) {
-  final db = ref.watch(databaseProvider).requireValue;
-  return DriftCodexRepository(db);
-});
+final codexRepositoryProvider = Provider<CodexRepository>((ref)
+    {
+        final db = ref.watch(databaseProvider).requireValue;
+        return DriftCodexRepository(db);
+    });
 
 // --- USE CASES ---
 
-final getAllCodexesUseCaseProvider = Provider<GetAllCodexes>((ref) {
-  final repository = ref.watch(codexRepositoryProvider);
-  return GetAllCodexes(repository);
-});
+final getAllCodexesUseCaseProvider = Provider<GetAllCodexes>((ref)
+    {
+        final repository = ref.watch(codexRepositoryProvider);
+        return GetAllCodexes(repository);
+    });
 
-final getCodexesByArmyUseCaseProvider = Provider<GetCodexesByArmy>((ref) {
-  final repository = ref.watch(codexRepositoryProvider);
-  return GetCodexesByArmy(repository);
-});
+final getCodexesByArmyUseCaseProvider = Provider<GetCodexesByArmy>((ref)
+    {
+        final repository = ref.watch(codexRepositoryProvider);
+        return GetCodexesByArmy(repository);
+    });
 
-final getCodexByIdUseCaseProvider = Provider<GetCodexById>((ref) {
-  final repository = ref.watch(codexRepositoryProvider);
-  return GetCodexById(repository);
-});
+final getCodexByIdUseCaseProvider = Provider<GetCodexById>((ref)
+    {
+        final repository = ref.watch(codexRepositoryProvider);
+        return GetCodexById(repository);
+    });
 
-final getAllUnitsByCodexIdUseCaseProvider = Provider<GetAllUnitsByCodexId>((ref) {
-  final repository = ref.watch(unitRepositoryProvider);
-  return  GetAllUnitsByCodexId(repository);
-});
-
-
-
+final getAllUnitsByCodexIdUseCaseProvider = Provider<GetAllUnitsByCodexId>((ref)
+    {
+        final repository = ref.watch(unitRepositoryProvider);
+        return GetAllUnitsByCodexId(repository);
+    });
 
 // --- UI STATE ---
 
-final codexesByArmyProvider = FutureProvider.family<List<CodexDOM>, String>((ref, armyIdRaw) async {
-  final useCase = ref.watch(getCodexesByArmyUseCaseProvider);
-  final armyId = ArmyId.fromString(armyIdRaw);
-  return useCase(armyId);
-});
+final codexesByArmyProvider = FutureProvider.family<List<CodexDOM>, String>((ref, armyIdRaw) async
+    {
+        final useCase = ref.watch(getCodexesByArmyUseCaseProvider);
+        final armyId = ArmyId.fromString(armyIdRaw);
+        return useCase(armyId);
+    });
