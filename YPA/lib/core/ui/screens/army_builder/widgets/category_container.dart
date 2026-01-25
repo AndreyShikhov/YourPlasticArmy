@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/core/ui/screens/army_builder/army_builder_controller.dart';
 import 'package:ypa/core/ui/screens/army_builder/widgets/select_units_dialog.dart';
-import 'package:ypa/core/ui/screens/army_builder/widgets/unit_container_from_army_user.dart';
 import 'package:ypa/core/ui/screens/army_builder/widgets/units_block/army_units_block.dart';
-import 'package:ypa/domain/models/codex/codex.dart';
-import 'package:ypa/domain/models/role/role.dart';
 
 import '../../../../database/tables/seed/seed_objects/_types.dart';
 import '../army_builder_item_ui.dart';
