@@ -1,5 +1,11 @@
+/*******************************************************************************
+ * Copyright (c) 2026 Andrey Shikhov
+ * SPDX-License-Identifier: MIT
+ ******************************************************************************/
+
 import 'package:drift/drift.dart';
 import 'package:ypa/core/database/app_database.dart';
+
 import '../../domain/models/army/army.dart';
 import '../../domain/models/codex/codex.dart';
 
@@ -7,7 +13,7 @@ class CodexMapper {
   static CodexDOM fromRow(Codexe row) {
     return CodexDOM.restore(
       id: CodexId.fromString(row.id),
-      code: CodexCode(row.code),
+      code: CodexCodeDom(row.code),
       armyId: ArmyId.fromString(row.armyId),
       name: CodexName(row.name),
     );

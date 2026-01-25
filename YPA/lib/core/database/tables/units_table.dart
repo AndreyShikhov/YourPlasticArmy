@@ -28,7 +28,7 @@ class Units extends Table {
   TextColumn get roleCode => text()();
       
   /// Stats stored as JSON
-  TextColumn get stats => text().map(const UnitStatsConverter())();
+  TextColumn get unitStats => text().map(const UnitStatsConverter())();
 
   @override
   Set<Column> get primaryKey => {id};

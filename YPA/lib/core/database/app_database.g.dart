@@ -954,15 +954,15 @@ class $UnitsTable extends Units with TableInfo<$UnitsTable, UnitRow> {
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _statsMeta = const VerificationMeta('stats');
   @override
-  late final GeneratedColumn<String> stats = GeneratedColumn<String>(
-    'stats',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
+  late final GeneratedColumnWithTypeConverter<UnitStats, String> unitStats =
+      GeneratedColumn<String>(
+        'unit_stats',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      ).withConverter<UnitStats>($UnitsTable.$converterunitStats);
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -970,7 +970,7 @@ class $UnitsTable extends Units with TableInfo<$UnitsTable, UnitRow> {
     armyId,
     codexId,
     roleCode,
-    stats,
+    unitStats,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -1019,14 +1019,6 @@ class $UnitsTable extends Units with TableInfo<$UnitsTable, UnitRow> {
     } else if (isInserting) {
       context.missing(_roleCodeMeta);
     }
-    if (data.containsKey('stats')) {
-      context.handle(
-        _statsMeta,
-        stats.isAcceptableOrUnknown(data['stats']!, _statsMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_statsMeta);
-    }
     return context;
   }
 
@@ -1056,10 +1048,12 @@ class $UnitsTable extends Units with TableInfo<$UnitsTable, UnitRow> {
         DriftSqlType.string,
         data['${effectivePrefix}role_code'],
       )!,
-      stats: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}stats'],
-      )!,
+      unitStats: $UnitsTable.$converterunitStats.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}unit_stats'],
+        )!,
+      ),
     );
   }
 
@@ -1067,6 +1061,9 @@ class $UnitsTable extends Units with TableInfo<$UnitsTable, UnitRow> {
   $UnitsTable createAlias(String alias) {
     return $UnitsTable(attachedDatabase, alias);
   }
+
+  static TypeConverter<UnitStats, String> $converterunitStats =
+      const UnitStatsConverter();
 }
 
 class UnitRow extends DataClass implements Insertable<UnitRow> {
@@ -1083,14 +1080,14 @@ class UnitRow extends DataClass implements Insertable<UnitRow> {
   final String roleCode;
 
   /// Stats stored as JSON
-  final String stats;
+  final UnitStats unitStats;
   const UnitRow({
     required this.id,
     required this.name,
     required this.armyId,
     this.codexId,
     required this.roleCode,
-    required this.stats,
+    required this.unitStats,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1102,7 +1099,11 @@ class UnitRow extends DataClass implements Insertable<UnitRow> {
       map['codex_id'] = Variable<String>(codexId);
     }
     map['role_code'] = Variable<String>(roleCode);
-    map['stats'] = Variable<String>(stats);
+    {
+      map['unit_stats'] = Variable<String>(
+        $UnitsTable.$converterunitStats.toSql(unitStats),
+      );
+    }
     return map;
   }
 
@@ -1115,7 +1116,7 @@ class UnitRow extends DataClass implements Insertable<UnitRow> {
           ? const Value.absent()
           : Value(codexId),
       roleCode: Value(roleCode),
-      stats: Value(stats),
+      unitStats: Value(unitStats),
     );
   }
 
@@ -1130,7 +1131,7 @@ class UnitRow extends DataClass implements Insertable<UnitRow> {
       armyId: serializer.fromJson<String>(json['armyId']),
       codexId: serializer.fromJson<String?>(json['codexId']),
       roleCode: serializer.fromJson<String>(json['roleCode']),
-      stats: serializer.fromJson<String>(json['stats']),
+      unitStats: serializer.fromJson<UnitStats>(json['unitStats']),
     );
   }
   @override
@@ -1142,7 +1143,7 @@ class UnitRow extends DataClass implements Insertable<UnitRow> {
       'armyId': serializer.toJson<String>(armyId),
       'codexId': serializer.toJson<String?>(codexId),
       'roleCode': serializer.toJson<String>(roleCode),
-      'stats': serializer.toJson<String>(stats),
+      'unitStats': serializer.toJson<UnitStats>(unitStats),
     };
   }
 
@@ -1152,14 +1153,14 @@ class UnitRow extends DataClass implements Insertable<UnitRow> {
     String? armyId,
     Value<String?> codexId = const Value.absent(),
     String? roleCode,
-    String? stats,
+    UnitStats? unitStats,
   }) => UnitRow(
     id: id ?? this.id,
     name: name ?? this.name,
     armyId: armyId ?? this.armyId,
     codexId: codexId.present ? codexId.value : this.codexId,
     roleCode: roleCode ?? this.roleCode,
-    stats: stats ?? this.stats,
+    unitStats: unitStats ?? this.unitStats,
   );
   UnitRow copyWithCompanion(UnitsCompanion data) {
     return UnitRow(
@@ -1168,7 +1169,7 @@ class UnitRow extends DataClass implements Insertable<UnitRow> {
       armyId: data.armyId.present ? data.armyId.value : this.armyId,
       codexId: data.codexId.present ? data.codexId.value : this.codexId,
       roleCode: data.roleCode.present ? data.roleCode.value : this.roleCode,
-      stats: data.stats.present ? data.stats.value : this.stats,
+      unitStats: data.unitStats.present ? data.unitStats.value : this.unitStats,
     );
   }
 
@@ -1180,13 +1181,14 @@ class UnitRow extends DataClass implements Insertable<UnitRow> {
           ..write('armyId: $armyId, ')
           ..write('codexId: $codexId, ')
           ..write('roleCode: $roleCode, ')
-          ..write('stats: $stats')
+          ..write('unitStats: $unitStats')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, name, armyId, codexId, roleCode, stats);
+  int get hashCode =>
+      Object.hash(id, name, armyId, codexId, roleCode, unitStats);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1196,7 +1198,7 @@ class UnitRow extends DataClass implements Insertable<UnitRow> {
           other.armyId == this.armyId &&
           other.codexId == this.codexId &&
           other.roleCode == this.roleCode &&
-          other.stats == this.stats);
+          other.unitStats == this.unitStats);
 }
 
 class UnitsCompanion extends UpdateCompanion<UnitRow> {
@@ -1205,7 +1207,7 @@ class UnitsCompanion extends UpdateCompanion<UnitRow> {
   final Value<String> armyId;
   final Value<String?> codexId;
   final Value<String> roleCode;
-  final Value<String> stats;
+  final Value<UnitStats> unitStats;
   final Value<int> rowid;
   const UnitsCompanion({
     this.id = const Value.absent(),
@@ -1213,7 +1215,7 @@ class UnitsCompanion extends UpdateCompanion<UnitRow> {
     this.armyId = const Value.absent(),
     this.codexId = const Value.absent(),
     this.roleCode = const Value.absent(),
-    this.stats = const Value.absent(),
+    this.unitStats = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   UnitsCompanion.insert({
@@ -1222,20 +1224,20 @@ class UnitsCompanion extends UpdateCompanion<UnitRow> {
     required String armyId,
     this.codexId = const Value.absent(),
     required String roleCode,
-    required String stats,
+    required UnitStats unitStats,
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        name = Value(name),
        armyId = Value(armyId),
        roleCode = Value(roleCode),
-       stats = Value(stats);
+       unitStats = Value(unitStats);
   static Insertable<UnitRow> custom({
     Expression<String>? id,
     Expression<String>? name,
     Expression<String>? armyId,
     Expression<String>? codexId,
     Expression<String>? roleCode,
-    Expression<String>? stats,
+    Expression<String>? unitStats,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -1244,7 +1246,7 @@ class UnitsCompanion extends UpdateCompanion<UnitRow> {
       if (armyId != null) 'army_id': armyId,
       if (codexId != null) 'codex_id': codexId,
       if (roleCode != null) 'role_code': roleCode,
-      if (stats != null) 'stats': stats,
+      if (unitStats != null) 'unit_stats': unitStats,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -1255,7 +1257,7 @@ class UnitsCompanion extends UpdateCompanion<UnitRow> {
     Value<String>? armyId,
     Value<String?>? codexId,
     Value<String>? roleCode,
-    Value<String>? stats,
+    Value<UnitStats>? unitStats,
     Value<int>? rowid,
   }) {
     return UnitsCompanion(
@@ -1264,7 +1266,7 @@ class UnitsCompanion extends UpdateCompanion<UnitRow> {
       armyId: armyId ?? this.armyId,
       codexId: codexId ?? this.codexId,
       roleCode: roleCode ?? this.roleCode,
-      stats: stats ?? this.stats,
+      unitStats: unitStats ?? this.unitStats,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -1287,8 +1289,10 @@ class UnitsCompanion extends UpdateCompanion<UnitRow> {
     if (roleCode.present) {
       map['role_code'] = Variable<String>(roleCode.value);
     }
-    if (stats.present) {
-      map['stats'] = Variable<String>(stats.value);
+    if (unitStats.present) {
+      map['unit_stats'] = Variable<String>(
+        $UnitsTable.$converterunitStats.toSql(unitStats.value),
+      );
     }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
@@ -1304,7 +1308,7 @@ class UnitsCompanion extends UpdateCompanion<UnitRow> {
           ..write('armyId: $armyId, ')
           ..write('codexId: $codexId, ')
           ..write('roleCode: $roleCode, ')
-          ..write('stats: $stats, ')
+          ..write('unitStats: $unitStats, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -7019,7 +7023,7 @@ typedef $$UnitsTableCreateCompanionBuilder =
       required String armyId,
       Value<String?> codexId,
       required String roleCode,
-      required String stats,
+      required UnitStats unitStats,
       Value<int> rowid,
     });
 typedef $$UnitsTableUpdateCompanionBuilder =
@@ -7029,7 +7033,7 @@ typedef $$UnitsTableUpdateCompanionBuilder =
       Value<String> armyId,
       Value<String?> codexId,
       Value<String> roleCode,
-      Value<String> stats,
+      Value<UnitStats> unitStats,
       Value<int> rowid,
     });
 
@@ -7096,10 +7100,11 @@ class $$UnitsTableFilterComposer extends Composer<_$AppDatabase, $UnitsTable> {
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<String> get stats => $composableBuilder(
-    column: $table.stats,
-    builder: (column) => ColumnFilters(column),
-  );
+  ColumnWithTypeConverterFilters<UnitStats, UnitStats, String> get unitStats =>
+      $composableBuilder(
+        column: $table.unitStats,
+        builder: (column) => ColumnWithTypeConverterFilters(column),
+      );
 
   $$ArmiesTableFilterComposer get armyId {
     final $$ArmiesTableFilterComposer composer = $composerBuilder(
@@ -7172,8 +7177,8 @@ class $$UnitsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<String> get stats => $composableBuilder(
-    column: $table.stats,
+  ColumnOrderings<String> get unitStats => $composableBuilder(
+    column: $table.unitStats,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -7242,8 +7247,8 @@ class $$UnitsTableAnnotationComposer
   GeneratedColumn<String> get roleCode =>
       $composableBuilder(column: $table.roleCode, builder: (column) => column);
 
-  GeneratedColumn<String> get stats =>
-      $composableBuilder(column: $table.stats, builder: (column) => column);
+  GeneratedColumnWithTypeConverter<UnitStats, String> get unitStats =>
+      $composableBuilder(column: $table.unitStats, builder: (column) => column);
 
   $$ArmiesTableAnnotationComposer get armyId {
     final $$ArmiesTableAnnotationComposer composer = $composerBuilder(
@@ -7325,7 +7330,7 @@ class $$UnitsTableTableManager
                 Value<String> armyId = const Value.absent(),
                 Value<String?> codexId = const Value.absent(),
                 Value<String> roleCode = const Value.absent(),
-                Value<String> stats = const Value.absent(),
+                Value<UnitStats> unitStats = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => UnitsCompanion(
                 id: id,
@@ -7333,7 +7338,7 @@ class $$UnitsTableTableManager
                 armyId: armyId,
                 codexId: codexId,
                 roleCode: roleCode,
-                stats: stats,
+                unitStats: unitStats,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -7343,7 +7348,7 @@ class $$UnitsTableTableManager
                 required String armyId,
                 Value<String?> codexId = const Value.absent(),
                 required String roleCode,
-                required String stats,
+                required UnitStats unitStats,
                 Value<int> rowid = const Value.absent(),
               }) => UnitsCompanion.insert(
                 id: id,
@@ -7351,7 +7356,7 @@ class $$UnitsTableTableManager
                 armyId: armyId,
                 codexId: codexId,
                 roleCode: roleCode,
-                stats: stats,
+                unitStats: unitStats,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0

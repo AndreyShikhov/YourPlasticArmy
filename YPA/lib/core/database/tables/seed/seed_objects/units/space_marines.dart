@@ -18,8 +18,32 @@ List<UnitSeed> spaceMarinesUnits()
             name: 'Ancient',
             army: ArmyCode.spaceMarines,
             role: UnitRoleCode.characters,
-            stats: {
-              'Ancient': UnitStats(
+            repeat: 1,
+            keywords: [
+              'Infantry',
+              'Battleline',
+              'Grenades',
+              'Imperium',
+              'Tacticus'
+            ],
+            factionKeywords: ['Adeptus Astartes'],
+            unitComposition: const UnitComposition(
+                compositions: ['1 model'],
+                unitCost: [{1: 120}]
+            ),
+            unitAbility: const[
+              UnitAbilitiesCode.deepStrike
+            ],
+            coreAbilities: const[
+              CoreUnitAbilityCode.leader
+            ],
+            factionAbilities: const[
+              FactionUnitAbilityCode.oathOfMoment
+            ],
+            ledBy: const[],
+            leader: const[],
+            modelStats: {
+              'Ancient': ModelStats(
                   movement: 6,
                   toughness: 4,
                   save: 3,
@@ -27,15 +51,6 @@ List<UnitSeed> spaceMarinesUnits()
                   wounds: 4,
                   leadership: 6,
                   objectiveControl: 1,
-                  repeat: 1,
-                  keywords: [
-                    'Infantry',
-                    'Battleline',
-                    'Grenades',
-                    'Imperium',
-                    'Tacticus'
-                  ],
-                  factionKeywords: ['Adeptus Astartes'],
                   weapons:
                   {
                     WeaponType.ranged : [
@@ -69,21 +84,6 @@ List<UnitSeed> spaceMarinesUnits()
                       )
                     ]
                   },
-                  unitComposition: const UnitComposition(
-                      compositions: ['1 model'],
-                      unitCost: [{1: 120}]
-                  ),
-                  unitAbility: const[
-                    UnitAbilitiesCode.deepStrike
-                  ],
-                  coreAbilities: const[
-                    CoreUnitAbilityCode.leader
-                  ],
-                  factionAbilities: const[
-                    FactionUnitAbilityCode.oathOfMoment
-                  ],
-                  ledBy: const[],
-                  leader: const[],
                   wargearOptions: WargearOptions.emptyOptions
               )
             }
@@ -93,8 +93,32 @@ List<UnitSeed> spaceMarinesUnits()
             name: 'Ancient In Terminator Armour',
             army: ArmyCode.spaceMarines,
             role: UnitRoleCode.characters,
-            stats:{
-              'Ancient In Terminator Armour' : UnitStats(
+            repeat: 1,
+            keywords: [
+              'Infantry',
+              'Battleline',
+              'Grenades',
+              'Imperium',
+              'Tacticus'
+            ],
+            factionKeywords: ['Adeptus Astartes'],
+            unitComposition: const UnitComposition(
+                compositions: ['1 model'],
+                unitCost: [{1: 120}]
+            ),
+            unitAbility: const[
+              UnitAbilitiesCode.deepStrike
+            ],
+            coreAbilities: const[
+              CoreUnitAbilityCode.leader
+            ],
+            factionAbilities: const[
+              FactionUnitAbilityCode.oathOfMoment
+            ],
+            ledBy: const[],
+            leader: const[],
+            modelStats:{
+              'Ancient In Terminator Armour' : ModelStats(
                   movement: 5,
                   toughness: 5,
                   save: 2,
@@ -102,15 +126,6 @@ List<UnitSeed> spaceMarinesUnits()
                   wounds: 5,
                   leadership: 5,
                   objectiveControl: 1,
-                  repeat: 1,
-                  keywords: [
-                    'Infantry',
-                    'Battleline',
-                    'Grenades',
-                    'Imperium',
-                    'Tacticus'
-                  ],
-                  factionKeywords: ['Adeptus Astartes'],
                   weapons:
                   {
                     WeaponType.ranged : [
@@ -144,21 +159,7 @@ List<UnitSeed> spaceMarinesUnits()
                       )
                     ]
                   },
-                  unitComposition: const UnitComposition(
-                      compositions: ['1 model'],
-                      unitCost: [{1: 120}]
-                  ),
-                  unitAbility: const[
-                    UnitAbilitiesCode.deepStrike
-                  ],
-                  coreAbilities: const[
-                    CoreUnitAbilityCode.leader
-                  ],
-                  factionAbilities: const[
-                    FactionUnitAbilityCode.oathOfMoment
-                  ],
-                  ledBy: const[],
-                  leader: const[],
+
                   wargearOptions: WargearOptions.emptyOptions
               )
             }
@@ -168,8 +169,32 @@ List<UnitSeed> spaceMarinesUnits()
             name: 'Apothecary',
             army: ArmyCode.spaceMarines,
             role: UnitRoleCode.characters,
-            stats:{
-              'Apothecary' :  UnitStats(
+            repeat: 1,
+            keywords: [
+              'Infantry',
+              'Battleline',
+              'Grenades',
+              'Imperium',
+              'Tacticus'
+            ],
+            factionKeywords: ['Adeptus Astartes'],
+            unitComposition: const UnitComposition(
+                compositions: ['1 model'],
+                unitCost: [{1: 120}]
+            ),
+            unitAbility: const[
+              UnitAbilitiesCode.deepStrike
+            ],
+            coreAbilities: const[
+              CoreUnitAbilityCode.leader
+            ],
+            factionAbilities: const[
+              FactionUnitAbilityCode.oathOfMoment
+            ],
+            ledBy: const[],
+            leader: const[],
+            modelStats:{
+              'Apothecary' :  ModelStats(
                   movement: 6,
                   toughness: 4,
                   save: 3,
@@ -177,15 +202,6 @@ List<UnitSeed> spaceMarinesUnits()
                   wounds: 4,
                   leadership: 6,
                   objectiveControl: 1,
-                  repeat: 1,
-                  keywords: [
-                    'Infantry',
-                    'Battleline',
-                    'Grenades',
-                    'Imperium',
-                    'Tacticus'
-                  ],
-                  factionKeywords: ['Adeptus Astartes'],
                   weapons:
                   {
                     WeaponType.ranged : [
@@ -219,21 +235,6 @@ List<UnitSeed> spaceMarinesUnits()
                       )
                     ]
                   },
-                  unitComposition: const UnitComposition(
-                      compositions: ['1 model'],
-                      unitCost: [{1: 120}]
-                  ),
-                  unitAbility: const[
-                    UnitAbilitiesCode.deepStrike
-                  ],
-                  coreAbilities: const[
-                    CoreUnitAbilityCode.leader
-                  ],
-                  factionAbilities: const[
-                    FactionUnitAbilityCode.oathOfMoment
-                  ],
-                  ledBy: const[],
-                  leader: const[],
                   wargearOptions: WargearOptions.emptyOptions
               )
             }
@@ -244,8 +245,32 @@ List<UnitSeed> spaceMarinesUnits()
             name: 'Apothecary Biologis',
             army: ArmyCode.spaceMarines,
             role: UnitRoleCode.characters,
-            stats: {
-              'Apothecary Biologis':UnitStats(
+            repeat: 1,
+            keywords: [
+              'Infantry',
+              'Battleline',
+              'Grenades',
+              'Imperium',
+              'Tacticus'
+            ],
+            factionKeywords: ['Adeptus Astartes'],
+            unitComposition: const UnitComposition(
+                compositions: ['1 model'],
+                unitCost: [{1: 120}]
+            ),
+            unitAbility: const[
+              UnitAbilitiesCode.deepStrike
+            ],
+            coreAbilities: const[
+              CoreUnitAbilityCode.leader
+            ],
+            factionAbilities: const[
+              FactionUnitAbilityCode.oathOfMoment
+            ],
+            ledBy: const[],
+            leader: const[],
+            modelStats: {
+              'Apothecary Biologis':ModelStats(
                   movement: 5,
                   toughness: 6,
                   save: 3,
@@ -253,15 +278,6 @@ List<UnitSeed> spaceMarinesUnits()
                   wounds: 5,
                   leadership: 6,
                   objectiveControl: 3,
-                  repeat: 1,
-                  keywords: [
-                    'Infantry',
-                    'Battleline',
-                    'Grenades',
-                    'Imperium',
-                    'Tacticus'
-                  ],
-                  factionKeywords: ['Adeptus Astartes'],
                   weapons:
                   {
                     WeaponType.ranged : [
@@ -295,21 +311,6 @@ List<UnitSeed> spaceMarinesUnits()
                       )
                     ]
                   },
-                  unitComposition: const UnitComposition(
-                      compositions: ['1 model'],
-                      unitCost: [{1: 120}]
-                  ),
-                  unitAbility: const[
-                    UnitAbilitiesCode.deepStrike
-                  ],
-                  coreAbilities: const[
-                    CoreUnitAbilityCode.leader
-                  ],
-                  factionAbilities: const[
-                    FactionUnitAbilityCode.oathOfMoment
-                  ],
-                  ledBy: const[],
-                  leader: const[],
                   wargearOptions: WargearOptions.emptyOptions
               )
             }
@@ -320,9 +321,33 @@ List<UnitSeed> spaceMarinesUnits()
             name: 'Assault Intercessor Squad',
             army: ArmyCode.spaceMarines,
             role: UnitRoleCode.battleline,
-            stats: 
+            repeat: 6,
+            keywords: [
+              'Infantry',
+              'Battleline',
+              'Grenades',
+              'Imperium',
+              'Tacticus'
+            ],
+            factionKeywords: ['Adeptus Astartes'],
+            unitComposition: const UnitComposition(
+                compositions: ['1 model'],
+                unitCost: [{1: 120}]
+            ),
+            unitAbility: const[
+              UnitAbilitiesCode.deepStrike
+            ],
+            coreAbilities: const[
+              CoreUnitAbilityCode.leader
+            ],
+            factionAbilities: const[
+              FactionUnitAbilityCode.oathOfMoment
+            ],
+            ledBy: const[],
+            leader: const[],
+            modelStats:
             {
-                'Assault Intercessor':UnitStats(
+                'Assault Intercessor':ModelStats(
                     movement: 6,
                     toughness: 4,
                     save: 3,
@@ -330,15 +355,6 @@ List<UnitSeed> spaceMarinesUnits()
                     wounds: 2,
                     leadership: 6,
                     objectiveControl: 2,
-                    repeat: 6,
-                    keywords: [
-                        'Infantry',
-                        'Battleline',
-                        'Grenades',
-                        'Imperium',
-                        'Tacticus'
-                    ],
-                    factionKeywords: ['Adeptus Astartes'],
                     weapons:
                     {
                         WeaponType.ranged : [
@@ -372,21 +388,6 @@ List<UnitSeed> spaceMarinesUnits()
                             )
                         ]
                     },
-                    unitComposition: const UnitComposition(
-                        compositions: ['1 model'],
-                        unitCost: [{1: 120}]
-                    ),
-                    unitAbility: const[
-                        UnitAbilitiesCode.deepStrike
-                    ],
-                    coreAbilities: const[
-                        CoreUnitAbilityCode.leader
-                    ],
-                    factionAbilities: const[
-                        FactionUnitAbilityCode.oathOfMoment
-                    ],
-                    ledBy: const[],
-                    leader: const[],
                     wargearOptions: WargearOptions.emptyOptions
                 )
             }
@@ -396,8 +397,32 @@ List<UnitSeed> spaceMarinesUnits()
             name: 'Heavy Intercessor Squad',
             army: ArmyCode.spaceMarines,
             role: UnitRoleCode.battleline,
-            stats: {
-              'Heavy Intercessor' : UnitStats(
+            repeat: 6,
+            keywords: [
+              'Infantry',
+              'Battleline',
+              'Grenades',
+              'Imperium',
+              'Tacticus'
+            ],
+            factionKeywords: ['Adeptus Astartes'],
+            unitComposition: const UnitComposition(
+                compositions: ['1 model'],
+                unitCost: [{1: 120}]
+            ),
+            unitAbility: const[
+              UnitAbilitiesCode.deepStrike
+            ],
+            coreAbilities: const[
+              CoreUnitAbilityCode.leader
+            ],
+            factionAbilities: const[
+              FactionUnitAbilityCode.oathOfMoment
+            ],
+            ledBy: const[],
+            leader: const[],
+            modelStats: {
+              'Heavy Intercessor' : ModelStats(
                   movement: 5,
                   toughness: 6,
                   save: 3,
@@ -405,15 +430,6 @@ List<UnitSeed> spaceMarinesUnits()
                   wounds: 3,
                   leadership: 6,
                   objectiveControl: 2,
-                  repeat: 6,
-                  keywords: [
-                    'Infantry',
-                    'Battleline',
-                    'Grenades',
-                    'Imperium',
-                    'Tacticus'
-                  ],
-                  factionKeywords: ['Adeptus Astartes'],
                   weapons:
                   {
                     WeaponType.ranged : [
@@ -447,21 +463,6 @@ List<UnitSeed> spaceMarinesUnits()
                       )
                     ]
                   },
-                  unitComposition: const UnitComposition(
-                      compositions: ['1 model'],
-                      unitCost: [{1: 120}]
-                  ),
-                  unitAbility: const[
-                    UnitAbilitiesCode.deepStrike
-                  ],
-                  coreAbilities: const[
-                    CoreUnitAbilityCode.leader
-                  ],
-                  factionAbilities: const[
-                    FactionUnitAbilityCode.oathOfMoment
-                  ],
-                  ledBy: const[],
-                  leader: const[],
                   wargearOptions: WargearOptions.emptyOptions
               )
             }
@@ -471,8 +472,32 @@ List<UnitSeed> spaceMarinesUnits()
             name: 'Intercessor Squad',
             army: ArmyCode.spaceMarines,
             role: UnitRoleCode.battleline,
-            stats: {
-              'Intercessor' : UnitStats(
+            repeat: 6,
+            keywords: [
+              'Infantry',
+              'Battleline',
+              'Grenades',
+              'Imperium',
+              'Tacticus'
+            ],
+            factionKeywords: ['Adeptus Astartes'],
+            unitComposition: const UnitComposition(
+                compositions: ['1 model'],
+                unitCost: [{1: 120}]
+            ),
+            unitAbility: const[
+              UnitAbilitiesCode.deepStrike
+            ],
+            coreAbilities: const[
+              CoreUnitAbilityCode.leader
+            ],
+            factionAbilities: const[
+              FactionUnitAbilityCode.oathOfMoment
+            ],
+            ledBy: const[],
+            leader: const[],
+            modelStats: {
+              'Intercessor' : ModelStats(
                   movement: 6,
                   toughness: 4,
                   save: 3,
@@ -480,15 +505,6 @@ List<UnitSeed> spaceMarinesUnits()
                   wounds: 2,
                   leadership: 6,
                   objectiveControl: 2,
-                  repeat: 6,
-                  keywords: [
-                    'Infantry',
-                    'Battleline',
-                    'Grenades',
-                    'Imperium',
-                    'Tacticus'
-                  ],
-                  factionKeywords: ['Adeptus Astartes'],
                   weapons:
                   {
                     WeaponType.ranged : [
@@ -522,21 +538,6 @@ List<UnitSeed> spaceMarinesUnits()
                       )
                     ]
                   },
-                  unitComposition: const UnitComposition(
-                      compositions: ['1 model'],
-                      unitCost: [{1: 120}]
-                  ),
-                  unitAbility: const[
-                    UnitAbilitiesCode.deepStrike
-                  ],
-                  coreAbilities: const[
-                    CoreUnitAbilityCode.leader
-                  ],
-                  factionAbilities: const[
-                    FactionUnitAbilityCode.oathOfMoment
-                  ],
-                  ledBy: const[],
-                  leader: const[],
                   wargearOptions: WargearOptions.emptyOptions
               )
             }
@@ -546,8 +547,32 @@ List<UnitSeed> spaceMarinesUnits()
             name: 'Tactical Squad',
             army: ArmyCode.spaceMarines,
             role: UnitRoleCode.battleline,
-            stats: {
-              'Tactical' : UnitStats(
+            repeat: 6,
+            keywords: [
+              'Infantry',
+              'Battleline',
+              'Grenades',
+              'Imperium',
+              'Tacticus'
+            ],
+            factionKeywords: ['Adeptus Astartes'],
+            unitComposition: const UnitComposition(
+                compositions: ['1 model'],
+                unitCost: [{1: 120}]
+            ),
+            unitAbility: const[
+              UnitAbilitiesCode.deepStrike
+            ],
+            coreAbilities: const[
+              CoreUnitAbilityCode.leader
+            ],
+            factionAbilities: const[
+              FactionUnitAbilityCode.oathOfMoment
+            ],
+            ledBy: const[],
+            leader: const[],
+            modelStats: {
+              'Tactical' : ModelStats(
                   movement: 6,
                   toughness: 4,
                   save: 3,
@@ -555,15 +580,6 @@ List<UnitSeed> spaceMarinesUnits()
                   wounds: 2,
                   leadership: 6,
                   objectiveControl: 2,
-                  repeat: 6,
-                  keywords: [
-                    'Infantry',
-                    'Battleline',
-                    'Grenades',
-                    'Imperium',
-                    'Tacticus'
-                  ],
-                  factionKeywords: ['Adeptus Astartes'],
                   weapons:
                   {
                     WeaponType.ranged : [
@@ -597,21 +613,6 @@ List<UnitSeed> spaceMarinesUnits()
                       )
                     ]
                   },
-                  unitComposition: const UnitComposition(
-                      compositions: ['1 model'],
-                      unitCost: [{1: 120}]
-                  ),
-                  unitAbility: const[
-                    UnitAbilitiesCode.deepStrike
-                  ],
-                  coreAbilities: const[
-                    CoreUnitAbilityCode.leader
-                  ],
-                  factionAbilities: const[
-                    FactionUnitAbilityCode.oathOfMoment
-                  ],
-                  ledBy: const[],
-                  leader: const[],
                   wargearOptions: WargearOptions.emptyOptions
               )
             }
@@ -624,8 +625,32 @@ List<UnitSeed> spaceMarinesUnits()
             name: 'Drop Pod',
             army: ArmyCode.spaceMarines,
             role: UnitRoleCode.dedicatedTransports,
-            stats: {
-              'Drop Pod' :  UnitStats(
+            repeat: 6,
+            keywords: [
+              'Infantry',
+              'Battleline',
+              'Grenades',
+              'Imperium',
+              'Tacticus'
+            ],
+            factionKeywords: ['Adeptus Astartes'],
+            unitComposition: const UnitComposition(
+                compositions: ['1 model'],
+                unitCost: [{1: 120}]
+            ),
+            unitAbility: const[
+              UnitAbilitiesCode.deepStrike
+            ],
+            coreAbilities: const[
+              CoreUnitAbilityCode.leader
+            ],
+            factionAbilities: const[
+              FactionUnitAbilityCode.oathOfMoment
+            ],
+            ledBy: const[],
+            leader: const[],
+            modelStats: {
+              'Drop Pod' :  ModelStats(
                   movement: 0,
                   toughness: 7,
                   save: 3,
@@ -633,15 +658,6 @@ List<UnitSeed> spaceMarinesUnits()
                   wounds: 8,
                   leadership: 6,
                   objectiveControl: 0,
-                  repeat: 6,
-                  keywords: [
-                    'Infantry',
-                    'Battleline',
-                    'Grenades',
-                    'Imperium',
-                    'Tacticus'
-                  ],
-                  factionKeywords: ['Adeptus Astartes'],
                   weapons:
                   {
                     WeaponType.ranged : [
@@ -675,21 +691,7 @@ List<UnitSeed> spaceMarinesUnits()
                       )
                     ]
                   },
-                  unitComposition: const UnitComposition(
-                      compositions: ['1 model'],
-                      unitCost: [{1: 120}]
-                  ),
-                  unitAbility: const[
-                    UnitAbilitiesCode.deepStrike
-                  ],
-                  coreAbilities: const[
-                    CoreUnitAbilityCode.leader
-                  ],
-                  factionAbilities: const[
-                    FactionUnitAbilityCode.oathOfMoment
-                  ],
-                  ledBy: const[],
-                  leader: const[],
+
                   wargearOptions: WargearOptions.emptyOptions
               )
             }
@@ -699,8 +701,32 @@ List<UnitSeed> spaceMarinesUnits()
             name: 'Impulsor',
             army: ArmyCode.spaceMarines,
             role: UnitRoleCode.dedicatedTransports,
-            stats: {
-              'Impulsor' : UnitStats(
+            repeat: 6,
+            keywords: [
+              'Infantry',
+              'Battleline',
+              'Grenades',
+              'Imperium',
+              'Tacticus'
+            ],
+            factionKeywords: ['Adeptus Astartes'],
+            unitComposition: const UnitComposition(
+                compositions: ['1 model'],
+                unitCost: [{1: 120}]
+            ),
+            unitAbility: const[
+              UnitAbilitiesCode.deepStrike
+            ],
+            coreAbilities: const[
+              CoreUnitAbilityCode.leader
+            ],
+            factionAbilities: const[
+              FactionUnitAbilityCode.oathOfMoment
+            ],
+            ledBy: const[],
+            leader: const[],
+            modelStats: {
+              'Impulsor' : ModelStats(
                   movement: 12,
                   toughness: 9,
                   save: 3,
@@ -708,15 +734,6 @@ List<UnitSeed> spaceMarinesUnits()
                   wounds: 11,
                   leadership: 6,
                   objectiveControl: 2,
-                  repeat: 6,
-                  keywords: [
-                    'Infantry',
-                    'Battleline',
-                    'Grenades',
-                    'Imperium',
-                    'Tacticus'
-                  ],
-                  factionKeywords: ['Adeptus Astartes'],
                   weapons:
                   {
                     WeaponType.ranged : [
@@ -750,21 +767,6 @@ List<UnitSeed> spaceMarinesUnits()
                       )
                     ]
                   },
-                  unitComposition: const UnitComposition(
-                      compositions: ['1 model'],
-                      unitCost: [{1: 120}]
-                  ),
-                  unitAbility: const[
-                    UnitAbilitiesCode.deepStrike
-                  ],
-                  coreAbilities: const[
-                    CoreUnitAbilityCode.leader
-                  ],
-                  factionAbilities: const[
-                    FactionUnitAbilityCode.oathOfMoment
-                  ],
-                  ledBy: const[],
-                  leader: const[],
                   wargearOptions: WargearOptions.emptyOptions
               )
             }
@@ -774,8 +776,32 @@ List<UnitSeed> spaceMarinesUnits()
             name: 'Razorback',
             army: ArmyCode.spaceMarines,
             role: UnitRoleCode.dedicatedTransports,
-            stats: {
-              'Razorback' : UnitStats(
+            repeat: 6,
+            keywords: [
+              'Infantry',
+              'Battleline',
+              'Grenades',
+              'Imperium',
+              'Tacticus'
+            ],
+            factionKeywords: ['Adeptus Astartes'],
+            unitComposition: const UnitComposition(
+                compositions: ['1 model'],
+                unitCost: [{1: 120}]
+            ),
+            unitAbility: const[
+              UnitAbilitiesCode.deepStrike
+            ],
+            coreAbilities: const[
+              CoreUnitAbilityCode.leader
+            ],
+            factionAbilities: const[
+              FactionUnitAbilityCode.oathOfMoment
+            ],
+            ledBy: const[],
+            leader: const[],
+            modelStats: {
+              'Razorback' : ModelStats(
                   movement: 12,
                   toughness: 9,
                   save: 3,
@@ -783,15 +809,6 @@ List<UnitSeed> spaceMarinesUnits()
                   wounds: 10,
                   leadership: 6,
                   objectiveControl: 2,
-                  repeat: 6,
-                  keywords: [
-                    'Infantry',
-                    'Battleline',
-                    'Grenades',
-                    'Imperium',
-                    'Tacticus'
-                  ],
-                  factionKeywords: ['Adeptus Astartes'],
                   weapons:
                   {
                     WeaponType.ranged : [
@@ -825,21 +842,6 @@ List<UnitSeed> spaceMarinesUnits()
                       )
                     ]
                   },
-                  unitComposition: const UnitComposition(
-                      compositions: ['1 model'],
-                      unitCost: [{1: 120}]
-                  ),
-                  unitAbility: const[
-                    UnitAbilitiesCode.deepStrike
-                  ],
-                  coreAbilities: const[
-                    CoreUnitAbilityCode.leader
-                  ],
-                  factionAbilities: const[
-                    FactionUnitAbilityCode.oathOfMoment
-                  ],
-                  ledBy: const[],
-                  leader: const[],
                   wargearOptions: WargearOptions.emptyOptions
               )
             }
@@ -849,8 +851,32 @@ List<UnitSeed> spaceMarinesUnits()
             name: 'Rhino',
             army: ArmyCode.spaceMarines,
             role: UnitRoleCode.dedicatedTransports,
-            stats: {
-              'Rhino' : UnitStats(
+            repeat: 6,
+            keywords: [
+              'Infantry',
+              'Battleline',
+              'Grenades',
+              'Imperium',
+              'Tacticus'
+            ],
+            factionKeywords: ['Adeptus Astartes'],
+            unitComposition: const UnitComposition(
+                compositions: ['1 model'],
+                unitCost: [{1: 120}]
+            ),
+            unitAbility: const[
+              UnitAbilitiesCode.deepStrike
+            ],
+            coreAbilities: const[
+              CoreUnitAbilityCode.leader
+            ],
+            factionAbilities: const[
+              FactionUnitAbilityCode.oathOfMoment
+            ],
+            ledBy: const[],
+            leader: const[],
+            modelStats: {
+              'Rhino' : ModelStats(
                   movement: 12,
                   toughness: 9,
                   save: 3,
@@ -858,15 +884,6 @@ List<UnitSeed> spaceMarinesUnits()
                   wounds: 10,
                   leadership: 6,
                   objectiveControl: 2,
-                  repeat: 6,
-                  keywords: [
-                    'Infantry',
-                    'Battleline',
-                    'Grenades',
-                    'Imperium',
-                    'Tacticus'
-                  ],
-                  factionKeywords: ['Adeptus Astartes'],
                   weapons:
                   {
                     WeaponType.ranged : [
@@ -900,21 +917,6 @@ List<UnitSeed> spaceMarinesUnits()
                       )
                     ]
                   },
-                  unitComposition: const UnitComposition(
-                      compositions: ['1 model'],
-                      unitCost: [{1: 120}]
-                  ),
-                  unitAbility: const[
-                    UnitAbilitiesCode.deepStrike
-                  ],
-                  coreAbilities: const[
-                    CoreUnitAbilityCode.leader
-                  ],
-                  factionAbilities: const[
-                    FactionUnitAbilityCode.oathOfMoment
-                  ],
-                  ledBy: const[],
-                  leader: const[],
                   wargearOptions: WargearOptions.emptyOptions
               )
             }
@@ -925,8 +927,32 @@ List<UnitSeed> spaceMarinesUnits()
             name: 'Hammerfall Bunker',
             army: ArmyCode.spaceMarines,
             role: UnitRoleCode.fortifications,
-            stats: {
-              'Hammerfall Bunker' : UnitStats(
+            repeat: 3,
+            keywords: [
+              'Infantry',
+              'Battleline',
+              'Grenades',
+              'Imperium',
+              'Tacticus'
+            ],
+            factionKeywords: ['Adeptus Astartes'],
+            unitComposition: const UnitComposition(
+                compositions: ['1 model'],
+                unitCost: [{1: 120}]
+            ),
+            unitAbility: const[
+              UnitAbilitiesCode.deepStrike
+            ],
+            coreAbilities: const[
+              CoreUnitAbilityCode.leader
+            ],
+            factionAbilities: const[
+              FactionUnitAbilityCode.oathOfMoment
+            ],
+            ledBy: const[],
+            leader: const[],
+            modelStats: {
+              'Hammerfall Bunker' : ModelStats(
                   movement: 0,
                   toughness: 12,
                   save: 2,
@@ -934,15 +960,6 @@ List<UnitSeed> spaceMarinesUnits()
                   wounds: 14,
                   leadership: 6,
                   objectiveControl: 0,
-                  repeat: 3,
-                  keywords: [
-                    'Infantry',
-                    'Battleline',
-                    'Grenades',
-                    'Imperium',
-                    'Tacticus'
-                  ],
-                  factionKeywords: ['Adeptus Astartes'],
                   weapons:
                   {
                     WeaponType.ranged : [
@@ -976,21 +993,6 @@ List<UnitSeed> spaceMarinesUnits()
                       )
                     ]
                   },
-                  unitComposition: const UnitComposition(
-                      compositions: ['1 model'],
-                      unitCost: [{1: 120}]
-                  ),
-                  unitAbility: const[
-                    UnitAbilitiesCode.deepStrike
-                  ],
-                  coreAbilities: const[
-                    CoreUnitAbilityCode.leader
-                  ],
-                  factionAbilities: const[
-                    FactionUnitAbilityCode.oathOfMoment
-                  ],
-                  ledBy: const[],
-                  leader: const[],
                   wargearOptions: WargearOptions.emptyOptions
               )
             }
@@ -1002,8 +1004,32 @@ List<UnitSeed> spaceMarinesUnits()
             name: 'Aggressor Squad',
             army: ArmyCode.spaceMarines,
             role: UnitRoleCode.other,
-            stats: {
-              'Aggressor' : UnitStats(
+            repeat: 3,
+            keywords: [
+              'Infantry',
+              'Battleline',
+              'Grenades',
+              'Imperium',
+              'Tacticus'
+            ],
+            factionKeywords: ['Adeptus Astartes'],
+            unitComposition: const UnitComposition(
+                compositions: ['1 model'],
+                unitCost: [{1: 120}]
+            ),
+            unitAbility: const[
+              UnitAbilitiesCode.deepStrike
+            ],
+            coreAbilities: const[
+              CoreUnitAbilityCode.leader
+            ],
+            factionAbilities: const[
+              FactionUnitAbilityCode.oathOfMoment
+            ],
+            ledBy: const[],
+            leader: const[],
+            modelStats: {
+              'Aggressor' : ModelStats(
                   movement: 5,
                   toughness: 6,
                   save: 3,
@@ -1011,15 +1037,6 @@ List<UnitSeed> spaceMarinesUnits()
                   wounds: 3,
                   leadership: 6,
                   objectiveControl: 1,
-                  repeat: 3,
-                  keywords: [
-                    'Infantry',
-                    'Battleline',
-                    'Grenades',
-                    'Imperium',
-                    'Tacticus'
-                  ],
-                  factionKeywords: ['Adeptus Astartes'],
                   weapons:
                   {
                     WeaponType.ranged : [
@@ -1053,21 +1070,6 @@ List<UnitSeed> spaceMarinesUnits()
                       )
                     ]
                   },
-                  unitComposition: const UnitComposition(
-                      compositions: ['1 model'],
-                      unitCost: [{1: 120}]
-                  ),
-                  unitAbility: const[
-                    UnitAbilitiesCode.deepStrike
-                  ],
-                  coreAbilities: const[
-                    CoreUnitAbilityCode.leader
-                  ],
-                  factionAbilities: const[
-                    FactionUnitAbilityCode.oathOfMoment
-                  ],
-                  ledBy: const[],
-                  leader: const[],
                   wargearOptions: WargearOptions.emptyOptions
               )
             }
@@ -1077,8 +1079,32 @@ List<UnitSeed> spaceMarinesUnits()
             name: 'Assault Intercessors With Jump Packs',
             army: ArmyCode.spaceMarines,
             role: UnitRoleCode.other,
-            stats: {
-              'Assault Intercessors With Jump Packs' :  UnitStats(
+            repeat: 3,
+            keywords: [
+              'Infantry',
+              'Battleline',
+              'Grenades',
+              'Imperium',
+              'Tacticus'
+            ],
+            factionKeywords: ['Adeptus Astartes'],
+            unitComposition: const UnitComposition(
+                compositions: ['1 model'],
+                unitCost: [{1: 120}]
+            ),
+            unitAbility: const[
+              UnitAbilitiesCode.deepStrike
+            ],
+            coreAbilities: const[
+              CoreUnitAbilityCode.leader
+            ],
+            factionAbilities: const[
+              FactionUnitAbilityCode.oathOfMoment
+            ],
+            ledBy: const[],
+            leader: const[],
+            modelStats: {
+              'Assault Intercessors With Jump Packs' :  ModelStats(
                   movement: 12,
                   toughness: 4,
                   save: 3,
@@ -1086,15 +1112,6 @@ List<UnitSeed> spaceMarinesUnits()
                   wounds: 2,
                   leadership: 6,
                   objectiveControl: 1,
-                  repeat: 3,
-                  keywords: [
-                    'Infantry',
-                    'Battleline',
-                    'Grenades',
-                    'Imperium',
-                    'Tacticus'
-                  ],
-                  factionKeywords: ['Adeptus Astartes'],
                   weapons:
                   {
                     WeaponType.ranged : [
@@ -1128,21 +1145,6 @@ List<UnitSeed> spaceMarinesUnits()
                       )
                     ]
                   },
-                  unitComposition: const UnitComposition(
-                      compositions: ['1 model'],
-                      unitCost: [{1: 120}]
-                  ),
-                  unitAbility: const[
-                    UnitAbilitiesCode.deepStrike
-                  ],
-                  coreAbilities: const[
-                    CoreUnitAbilityCode.leader
-                  ],
-                  factionAbilities: const[
-                    FactionUnitAbilityCode.oathOfMoment
-                  ],
-                  ledBy: const[],
-                  leader: const[],
                   wargearOptions: WargearOptions.emptyOptions
               )
             }
@@ -1152,8 +1154,32 @@ List<UnitSeed> spaceMarinesUnits()
             name: 'Ballistus Dreadnought',
             army: ArmyCode.spaceMarines,
             role: UnitRoleCode.other,
-            stats: {
-              'Ballistus Dreadnought' :UnitStats(
+            repeat: 3,
+            keywords: [
+              'Infantry',
+              'Battleline',
+              'Grenades',
+              'Imperium',
+              'Tacticus'
+            ],
+            factionKeywords: ['Adeptus Astartes'],
+            unitComposition: const UnitComposition(
+                compositions: ['1 model'],
+                unitCost: [{1: 120}]
+            ),
+            unitAbility: const[
+              UnitAbilitiesCode.deepStrike
+            ],
+            coreAbilities: const[
+              CoreUnitAbilityCode.leader
+            ],
+            factionAbilities: const[
+              FactionUnitAbilityCode.oathOfMoment
+            ],
+            ledBy: const[],
+            leader: const[],
+            modelStats: {
+              'Ballistus Dreadnought' :ModelStats(
                   movement: 8,
                   toughness: 10,
                   save: 2,
@@ -1161,15 +1187,6 @@ List<UnitSeed> spaceMarinesUnits()
                   wounds: 12,
                   leadership: 6,
                   objectiveControl: 4,
-                  repeat: 3,
-                  keywords: [
-                    'Infantry',
-                    'Battleline',
-                    'Grenades',
-                    'Imperium',
-                    'Tacticus'
-                  ],
-                  factionKeywords: ['Adeptus Astartes'],
                   weapons:
                   {
                     WeaponType.ranged : [
@@ -1203,21 +1220,6 @@ List<UnitSeed> spaceMarinesUnits()
                       )
                     ]
                   },
-                  unitComposition: const UnitComposition(
-                      compositions: ['1 model'],
-                      unitCost: [{1: 120}]
-                  ),
-                  unitAbility: const[
-                    UnitAbilitiesCode.deepStrike
-                  ],
-                  coreAbilities: const[
-                    CoreUnitAbilityCode.leader
-                  ],
-                  factionAbilities: const[
-                    FactionUnitAbilityCode.oathOfMoment
-                  ],
-                  ledBy: const[],
-                  leader: const[],
                   wargearOptions: WargearOptions.emptyOptions
               )
             }
@@ -1227,8 +1229,32 @@ List<UnitSeed> spaceMarinesUnits()
             name: 'Bladeguard Veteran Squad',
             army: ArmyCode.spaceMarines,
             role: UnitRoleCode.other,
-            stats: {
-              'Bladeguard Veteran': UnitStats(
+            repeat: 3,
+            keywords: [
+              'Infantry',
+              'Battleline',
+              'Grenades',
+              'Imperium',
+              'Tacticus'
+            ],
+            factionKeywords: ['Adeptus Astartes'],
+            unitComposition: const UnitComposition(
+                compositions: ['1 model'],
+                unitCost: [{1: 120}]
+            ),
+            unitAbility: const[
+              UnitAbilitiesCode.deepStrike
+            ],
+            coreAbilities: const[
+              CoreUnitAbilityCode.leader
+            ],
+            factionAbilities: const[
+              FactionUnitAbilityCode.oathOfMoment
+            ],
+            ledBy: const[],
+            leader: const[],
+            modelStats: {
+              'Bladeguard Veteran': ModelStats(
                   movement: 6,
                   toughness: 4,
                   save: 3,
@@ -1236,15 +1262,6 @@ List<UnitSeed> spaceMarinesUnits()
                   wounds: 3,
                   leadership: 6,
                   objectiveControl: 1,
-                  repeat: 3,
-                  keywords: [
-                    'Infantry',
-                    'Battleline',
-                    'Grenades',
-                    'Imperium',
-                    'Tacticus'
-                  ],
-                  factionKeywords: ['Adeptus Astartes'],
                   weapons:
                   {
                     WeaponType.ranged: [
@@ -1278,21 +1295,6 @@ List<UnitSeed> spaceMarinesUnits()
                       )
                     ]
                   },
-                  unitComposition: const UnitComposition(
-                      compositions: ['1 model'],
-                      unitCost: [{1: 120}]
-                  ),
-                  unitAbility: const[
-                    UnitAbilitiesCode.deepStrike
-                  ],
-                  coreAbilities: const[
-                    CoreUnitAbilityCode.leader
-                  ],
-                  factionAbilities: const[
-                    FactionUnitAbilityCode.oathOfMoment
-                  ],
-                  ledBy: const[],
-                  leader: const[],
                   wargearOptions: WargearOptions.emptyOptions
               ),
             }

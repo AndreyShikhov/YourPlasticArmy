@@ -1,3 +1,8 @@
+/*******************************************************************************
+ * Copyright (c) 2026 Andrey Shikhov
+ * SPDX-License-Identifier: MIT
+ ******************************************************************************/
+
 import 'package:drift/drift.dart';
 
 import '../../core/database/app_database.dart';
@@ -8,7 +13,7 @@ class ArmyMapper {
   static ArmyDOM fromRow(Army row) {
     return ArmyDOM.restore(
       id: ArmyId.fromString(row.id),
-      code: ArmyCode(row.armyCode),
+      code: ArmyCodeDom(row.armyCode),
       name: ArmyName(row.name),
       factionId: FactionId.fromString(row.factionId),
     );

@@ -1,11 +1,16 @@
+/*******************************************************************************
+ * Copyright (c) 2026 Andrey Shikhov
+ * SPDX-License-Identifier: MIT
+ ******************************************************************************/
+
 import '../../shared/value_object.dart';
 
-class ArmyCode extends ValueObject<String> {
+class ArmyCodeDom extends ValueObject<String> {
   static const int maxLength = 50;
 
-  const ArmyCode._(super.value);
+  const ArmyCodeDom._(super.value);
 
-  factory ArmyCode(String code) {
+  factory ArmyCodeDom(String code) {
     final trimmed = code.trim().toLowerCase();
 
     if (trimmed.isEmpty) {
@@ -21,6 +26,9 @@ class ArmyCode extends ValueObject<String> {
       throw ArgumentError('ArmyCode can only contain lowercase letters, numbers and underscores');
     }
 
-    return ArmyCode._(trimmed);
+    return ArmyCodeDom._(trimmed);
   }
+
+  /// Фабричный конструктор для удобства (например, при восстановлении из БД)
+  factory ArmyCodeDom.fromString(String code) => ArmyCodeDom(code);
 }

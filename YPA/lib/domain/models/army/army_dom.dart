@@ -1,9 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2026 Andrey Shikhov
+ * SPDX-License-Identifier: MIT
+ ******************************************************************************/
+
 import '../faction/faction.dart';
 import 'army.dart';
 
 class ArmyDOM {
   final ArmyId id;
-  final ArmyCode code;
+  final ArmyCodeDom code;
   final ArmyName name;
   final FactionId factionId;
 
@@ -11,7 +16,7 @@ class ArmyDOM {
 
   factory ArmyDOM.create({
     required ArmyId id,
-    required ArmyCode code,
+    required ArmyCodeDom code,
     required ArmyName name,
     required FactionId factionId,
   }) {
@@ -20,7 +25,7 @@ class ArmyDOM {
 
   factory ArmyDOM.restore({
     required ArmyId id,
-    required ArmyCode code,
+    required ArmyCodeDom code,
     required ArmyName name,
     required FactionId factionId,
   }) {

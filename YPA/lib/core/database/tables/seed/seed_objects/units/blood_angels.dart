@@ -18,9 +18,36 @@ List<UnitSeed> bloodAngelsUnits()
             army: ArmyCode.spaceMarines,
             codex: CodexCode.bloodAngels,
             role: UnitRoleCode.characters,
-            stats: 
+            repeat: 1,
+            keywords: [
+              'Infantry',
+              'Character',
+              'Epic Hero',
+              'Fly',
+              'Jump Pack',
+              'Imperium',
+              'Chapter Master',
+              'Commander Dante'
+            ],
+            factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
+            unitComposition: const UnitComposition(
+                compositions: ['1 model'],
+                unitCost: [{1: 120}]
+            ),
+            unitAbility: const[
+              UnitAbilitiesCode.deepStrike
+            ],
+            coreAbilities: const[
+              CoreUnitAbilityCode.leader
+            ],
+            factionAbilities: const[
+              FactionUnitAbilityCode.oathOfMoment
+            ],
+            ledBy: const[],
+            leader: const[],
+            modelStats:
             {
-                'Astorath' : UnitStats(
+                'Astorath' : ModelStats(
                     movement: 12,
                     toughness: 4,
                     save: 2,
@@ -28,18 +55,6 @@ List<UnitSeed> bloodAngelsUnits()
                     wounds: 5,
                     leadership: 5,
                     objectiveControl: 1,
-                    repeat: 1,
-                    keywords: [
-                        'Infantry',
-                        'Character',
-                        'Epic Hero',
-                        'Fly',
-                        'Jump Pack',
-                        'Imperium',
-                        'Chapter Master',
-                        'Commander Dante'
-                    ],
-                    factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
                     weapons:
                     {
                         WeaponType.ranged : [
@@ -73,21 +88,7 @@ List<UnitSeed> bloodAngelsUnits()
                             )
                         ]
                     },
-                    unitComposition: const UnitComposition(
-                        compositions: ['1 model'],
-                        unitCost: [{1: 120}]
-                    ),
-                    unitAbility: const[
-                        UnitAbilitiesCode.deepStrike
-                    ],
-                    coreAbilities: const[
-                        CoreUnitAbilityCode.leader
-                    ],
-                    factionAbilities: const[
-                        FactionUnitAbilityCode.oathOfMoment
-                    ],
-                    ledBy: const[],
-                    leader: const[],
+                   
                     wargearOptions: WargearOptions.emptyOptions
                 )
             }
@@ -98,9 +99,36 @@ List<UnitSeed> bloodAngelsUnits()
             army: ArmyCode.spaceMarines,
             codex: CodexCode.bloodAngels,
             role: UnitRoleCode.characters,
-            stats: 
+            repeat: 1,
+            keywords: [
+              'Infantry',
+              'Character',
+              'Epic Hero',
+              'Fly',
+              'Jump Pack',
+              'Imperium',
+              'Chapter Master',
+              'Commander Dante'
+            ],
+            factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
+            unitComposition: const UnitComposition(
+                compositions: ['1 model'],
+                unitCost: [{1: 120}]
+            ),
+            unitAbility: const[
+              UnitAbilitiesCode.deepStrike
+            ],
+            coreAbilities: const[
+              CoreUnitAbilityCode.leader
+            ],
+            factionAbilities: const[
+              FactionUnitAbilityCode.oathOfMoment
+            ],
+            ledBy: const[],
+            leader: const[],
+            modelStats:
             {
-                'Blood Angels Captain' : UnitStats(
+                'Blood Angels Captain' : ModelStats(
                     movement: 6,
                     toughness: 4,
                     save: 3,
@@ -108,18 +136,7 @@ List<UnitSeed> bloodAngelsUnits()
                     wounds: 5,
                     leadership: 6,
                     objectiveControl: 1,
-                    repeat: 1,
-                    keywords: [
-                        'Infantry',
-                        'Character',
-                        'Epic Hero',
-                        'Fly',
-                        'Jump Pack',
-                        'Imperium',
-                        'Chapter Master',
-                        'Commander Dante'
-                    ],
-                    factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
+
                     weapons:
                     {
                         WeaponType.ranged : [
@@ -153,21 +170,7 @@ List<UnitSeed> bloodAngelsUnits()
                             )
                         ]
                     },
-                    unitComposition: const UnitComposition(
-                        compositions: ['1 model'],
-                        unitCost: [{1: 120}]
-                    ),
-                    unitAbility: const[
-                        UnitAbilitiesCode.deepStrike
-                    ],
-                    coreAbilities: const[
-                        CoreUnitAbilityCode.leader
-                    ],
-                    factionAbilities: const[
-                        FactionUnitAbilityCode.oathOfMoment
-                    ],
-                    ledBy: const[],
-                    leader: const[],
+
                     wargearOptions: WargearOptions.emptyOptions
                 )
             }
@@ -178,9 +181,36 @@ List<UnitSeed> bloodAngelsUnits()
             army: ArmyCode.spaceMarines,
             codex: CodexCode.bloodAngels,
             role: UnitRoleCode.characters,
-            stats: 
+            repeat: 1,
+            keywords: [
+              'Infantry',
+              'Character',
+              'Epic Hero',
+              'Fly',
+              'Jump Pack',
+              'Imperium',
+              'Chapter Master',
+              'Commander Dante'
+            ],
+            factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
+            unitComposition: const UnitComposition(
+                compositions: ['1 model'],
+                unitCost: [{1: 120}]
+            ),
+            unitAbility: const[
+              UnitAbilitiesCode.deepStrike
+            ],
+            coreAbilities: const[
+              CoreUnitAbilityCode.leader
+            ],
+            factionAbilities: const[
+              FactionUnitAbilityCode.oathOfMoment
+            ],
+            ledBy: const[],
+            leader: const[],
+            modelStats:
             {
-                'Chief Librarian Mephiston':UnitStats(
+                'Chief Librarian Mephiston':ModelStats(
                     movement: 7,
                     toughness: 5,
                     save: 2,
@@ -188,18 +218,7 @@ List<UnitSeed> bloodAngelsUnits()
                     wounds: 6,
                     leadership: 6,
                     objectiveControl: 1,
-                    repeat: 1,
-                    keywords: [
-                        'Infantry',
-                        'Character',
-                        'Epic Hero',
-                        'Fly',
-                        'Jump Pack',
-                        'Imperium',
-                        'Chapter Master',
-                        'Commander Dante'
-                    ],
-                    factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
+
                     weapons:
                     {
                         WeaponType.ranged : [
@@ -233,21 +252,7 @@ List<UnitSeed> bloodAngelsUnits()
                             )
                         ]
                     },
-                    unitComposition: const UnitComposition(
-                        compositions: ['1 model'],
-                        unitCost: [{1: 120}]
-                    ),
-                    unitAbility: const[
-                        UnitAbilitiesCode.deepStrike
-                    ],
-                    coreAbilities: const[
-                        CoreUnitAbilityCode.leader
-                    ],
-                    factionAbilities: const[
-                        FactionUnitAbilityCode.oathOfMoment
-                    ],
-                    ledBy: const[],
-                    leader: const[],
+
                     wargearOptions: WargearOptions.emptyOptions
                 )
             }
@@ -258,8 +263,35 @@ List<UnitSeed> bloodAngelsUnits()
             army: ArmyCode.spaceMarines,
             codex: CodexCode.bloodAngels,
             role: UnitRoleCode.characters,
-            stats: {
-              'Commander Dante': UnitStats(
+            repeat: 1,
+            keywords: [
+              'Infantry',
+              'Character',
+              'Epic Hero',
+              'Fly',
+              'Jump Pack',
+              'Imperium',
+              'Chapter Master',
+              'Commander Dante'
+            ],
+            factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
+            unitComposition: const UnitComposition(
+                compositions: ['1 model'],
+                unitCost: [{1: 120}]
+            ),
+            unitAbility: const[
+              UnitAbilitiesCode.deepStrike
+            ],
+            coreAbilities: const[
+              CoreUnitAbilityCode.leader
+            ],
+            factionAbilities: const[
+              FactionUnitAbilityCode.oathOfMoment
+            ],
+            ledBy: const[],
+            leader: const[],
+            modelStats: {
+              'Commander Dante': ModelStats(
                   movement: 12,
                   toughness: 4,
                   save: 2,
@@ -267,18 +299,7 @@ List<UnitSeed> bloodAngelsUnits()
                   wounds: 6,
                   leadership: 6,
                   objectiveControl: 1,
-                  repeat: 1,
-                  keywords: [
-                    'Infantry',
-                    'Character',
-                    'Epic Hero',
-                    'Fly',
-                    'Jump Pack',
-                    'Imperium',
-                    'Chapter Master',
-                    'Commander Dante'
-                  ],
-                  factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
+
                   weapons:
                   {
                     WeaponType.ranged : [
@@ -312,21 +333,7 @@ List<UnitSeed> bloodAngelsUnits()
                       )
                     ]
                   },
-                  unitComposition: const UnitComposition(
-                      compositions: ['1 model'],
-                      unitCost: [{1: 120}]
-                  ),
-                  unitAbility: const[
-                    UnitAbilitiesCode.deepStrike
-                  ],
-                  coreAbilities: const[
-                    CoreUnitAbilityCode.leader
-                  ],
-                  factionAbilities: const[
-                    FactionUnitAbilityCode.oathOfMoment
-                  ],
-                  ledBy: const[],
-                  leader: const[],
+
                   wargearOptions: WargearOptions.emptyOptions
               )
             }
@@ -343,8 +350,35 @@ List<UnitSeed> bloodAngelsUnits()
             army: ArmyCode.spaceMarines,
             codex: CodexCode.bloodAngels,
             role: UnitRoleCode.other,
-            stats: {
-              'Baal Predator': UnitStats(
+            repeat: 3,
+            keywords: [
+              'Infantry',
+              'Character',
+              'Epic Hero',
+              'Fly',
+              'Jump Pack',
+              'Imperium',
+              'Chapter Master',
+              'Commander Dante'
+            ],
+            factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
+            unitComposition: const UnitComposition(
+                compositions: ['1 model'],
+                unitCost: [{1: 120}]
+            ),
+            unitAbility: const[
+              UnitAbilitiesCode.deepStrike
+            ],
+            coreAbilities: const[
+              CoreUnitAbilityCode.leader
+            ],
+            factionAbilities: const[
+              FactionUnitAbilityCode.oathOfMoment
+            ],
+            ledBy: const[],
+            leader: const[],
+            modelStats: {
+              'Baal Predator': ModelStats(
                   movement: 12,
                   toughness: 10,
                   save: 3,
@@ -352,18 +386,6 @@ List<UnitSeed> bloodAngelsUnits()
                   wounds: 11,
                   leadership: 6,
                   objectiveControl: 3,
-                  repeat: 3,
-                  keywords: [
-                    'Infantry',
-                    'Character',
-                    'Epic Hero',
-                    'Fly',
-                    'Jump Pack',
-                    'Imperium',
-                    'Chapter Master',
-                    'Commander Dante'
-                  ],
-                  factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
                   weapons:
                   {
                     WeaponType.ranged : [
@@ -397,21 +419,6 @@ List<UnitSeed> bloodAngelsUnits()
                       )
                     ]
                   },
-                  unitComposition: const UnitComposition(
-                      compositions: ['1 model'],
-                      unitCost: [{1: 120}]
-                  ),
-                  unitAbility: const[
-                    UnitAbilitiesCode.deepStrike
-                  ],
-                  coreAbilities: const[
-                    CoreUnitAbilityCode.leader
-                  ],
-                  factionAbilities: const[
-                    FactionUnitAbilityCode.oathOfMoment
-                  ],
-                  ledBy: const[],
-                  leader: const[],
                   wargearOptions: WargearOptions.emptyOptions
               )
             }
@@ -422,8 +429,35 @@ List<UnitSeed> bloodAngelsUnits()
             army: ArmyCode.spaceMarines,
             codex: CodexCode.bloodAngels,
             role: UnitRoleCode.other,
-            stats: {
-              'Death Company Dreadnought': UnitStats(
+            repeat: 3,
+            keywords: [
+              'Infantry',
+              'Character',
+              'Epic Hero',
+              'Fly',
+              'Jump Pack',
+              'Imperium',
+              'Chapter Master',
+              'Commander Dante'
+            ],
+            factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
+            unitComposition: const UnitComposition(
+                compositions: ['1 model'],
+                unitCost: [{1: 120}]
+            ),
+            unitAbility: const[
+              UnitAbilitiesCode.deepStrike
+            ],
+            coreAbilities: const[
+              CoreUnitAbilityCode.leader
+            ],
+            factionAbilities: const[
+              FactionUnitAbilityCode.oathOfMoment
+            ],
+            ledBy: const[],
+            leader: const[],
+            modelStats: {
+              'Death Company Dreadnought': ModelStats(
                   movement: 8,
                   toughness: 10,
                   save: 2,
@@ -431,18 +465,6 @@ List<UnitSeed> bloodAngelsUnits()
                   wounds: 12,
                   leadership: 6,
                   objectiveControl: 4,
-                  repeat: 3,
-                  keywords: [
-                    'Infantry',
-                    'Character',
-                    'Epic Hero',
-                    'Fly',
-                    'Jump Pack',
-                    'Imperium',
-                    'Chapter Master',
-                    'Commander Dante'
-                  ],
-                  factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
                   weapons:
                   {
                     WeaponType.ranged : [
@@ -476,21 +498,7 @@ List<UnitSeed> bloodAngelsUnits()
                       )
                     ]
                   },
-                  unitComposition: const UnitComposition(
-                      compositions: ['1 model'],
-                      unitCost: [{1: 120}]
-                  ),
-                  unitAbility: const[
-                    UnitAbilitiesCode.deepStrike
-                  ],
-                  coreAbilities: const[
-                    CoreUnitAbilityCode.leader
-                  ],
-                  factionAbilities: const[
-                    FactionUnitAbilityCode.oathOfMoment
-                  ],
-                  ledBy: const[],
-                  leader: const[],
+
                   wargearOptions: WargearOptions.emptyOptions
               )
             }
@@ -501,8 +509,35 @@ List<UnitSeed> bloodAngelsUnits()
             army: ArmyCode.spaceMarines,
             codex: CodexCode.bloodAngels,
             role: UnitRoleCode.other,
-            stats: {
-              'Death Company Marines': UnitStats(
+            repeat: 3,
+            keywords: [
+              'Infantry',
+              'Character',
+              'Epic Hero',
+              'Fly',
+              'Jump Pack',
+              'Imperium',
+              'Chapter Master',
+              'Commander Dante'
+            ],
+            factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
+            unitComposition: const UnitComposition(
+                compositions: ['1 model'],
+                unitCost: [{1: 120}]
+            ),
+            unitAbility: const[
+              UnitAbilitiesCode.deepStrike
+            ],
+            coreAbilities: const[
+              CoreUnitAbilityCode.leader
+            ],
+            factionAbilities: const[
+              FactionUnitAbilityCode.oathOfMoment
+            ],
+            ledBy: const[],
+            leader: const[],
+            modelStats: {
+              'Death Company Marines': ModelStats(
                   movement: 6,
                   toughness: 4,
                   save: 3,
@@ -510,18 +545,7 @@ List<UnitSeed> bloodAngelsUnits()
                   wounds: 2,
                   leadership: 6,
                   objectiveControl: 1,
-                  repeat: 3,
-                  keywords: [
-                    'Infantry',
-                    'Character',
-                    'Epic Hero',
-                    'Fly',
-                    'Jump Pack',
-                    'Imperium',
-                    'Chapter Master',
-                    'Commander Dante'
-                  ],
-                  factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
+
                   weapons:
                   {
                     WeaponType.ranged : [
@@ -555,21 +579,6 @@ List<UnitSeed> bloodAngelsUnits()
                       )
                     ]
                   },
-                  unitComposition: const UnitComposition(
-                      compositions: ['1 model'],
-                      unitCost: [{1: 120}]
-                  ),
-                  unitAbility: const[
-                    UnitAbilitiesCode.deepStrike
-                  ],
-                  coreAbilities: const[
-                    CoreUnitAbilityCode.leader
-                  ],
-                  factionAbilities: const[
-                    FactionUnitAbilityCode.oathOfMoment
-                  ],
-                  ledBy: const[],
-                  leader: const[],
                   wargearOptions: WargearOptions.emptyOptions
               )
             }
@@ -580,8 +589,35 @@ List<UnitSeed> bloodAngelsUnits()
             army: ArmyCode.spaceMarines,
             codex: CodexCode.bloodAngels,
             role: UnitRoleCode.other,
-            stats: {
-              'Death Company Marines with Bolt Rifles': UnitStats(
+            repeat: 3,
+            keywords: [
+              'Infantry',
+              'Character',
+              'Epic Hero',
+              'Fly',
+              'Jump Pack',
+              'Imperium',
+              'Chapter Master',
+              'Commander Dante'
+            ],
+            factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
+            unitComposition: const UnitComposition(
+                compositions: ['1 model'],
+                unitCost: [{1: 120}]
+            ),
+            unitAbility: const[
+              UnitAbilitiesCode.deepStrike
+            ],
+            coreAbilities: const[
+              CoreUnitAbilityCode.leader
+            ],
+            factionAbilities: const[
+              FactionUnitAbilityCode.oathOfMoment
+            ],
+            ledBy: const[],
+            leader: const[],
+            modelStats: {
+              'Death Company Marines with Bolt Rifles': ModelStats(
                   movement: 6,
                   toughness: 4,
                   save: 3,
@@ -589,18 +625,6 @@ List<UnitSeed> bloodAngelsUnits()
                   wounds: 2,
                   leadership: 6,
                   objectiveControl: 1,
-                  repeat: 3,
-                  keywords: [
-                    'Infantry',
-                    'Character',
-                    'Epic Hero',
-                    'Fly',
-                    'Jump Pack',
-                    'Imperium',
-                    'Chapter Master',
-                    'Commander Dante'
-                  ],
-                  factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
                   weapons:
                   {
                     WeaponType.ranged : [
@@ -634,21 +658,6 @@ List<UnitSeed> bloodAngelsUnits()
                       )
                     ]
                   },
-                  unitComposition: const UnitComposition(
-                      compositions: ['1 model'],
-                      unitCost: [{1: 120}]
-                  ),
-                  unitAbility: const[
-                    UnitAbilitiesCode.deepStrike
-                  ],
-                  coreAbilities: const[
-                    CoreUnitAbilityCode.leader
-                  ],
-                  factionAbilities: const[
-                    FactionUnitAbilityCode.oathOfMoment
-                  ],
-                  ledBy: const[],
-                  leader: const[],
                   wargearOptions: WargearOptions.emptyOptions
               )
             }
@@ -659,8 +668,35 @@ List<UnitSeed> bloodAngelsUnits()
             army: ArmyCode.spaceMarines,
             codex: CodexCode.bloodAngels,
             role: UnitRoleCode.other,
-            stats: {
-              'Death Company Marines With Jump Packs':UnitStats(
+            repeat: 3,
+            keywords: [
+              'Infantry',
+              'Character',
+              'Epic Hero',
+              'Fly',
+              'Jump Pack',
+              'Imperium',
+              'Chapter Master',
+              'Commander Dante'
+            ],
+            factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
+            unitComposition: const UnitComposition(
+                compositions: ['1 model'],
+                unitCost: [{1: 120}]
+            ),
+            unitAbility: const[
+              UnitAbilitiesCode.deepStrike
+            ],
+            coreAbilities: const[
+              CoreUnitAbilityCode.leader
+            ],
+            factionAbilities: const[
+              FactionUnitAbilityCode.oathOfMoment
+            ],
+            ledBy: const[],
+            leader: const[],
+            modelStats: {
+              'Death Company Marines With Jump Packs':ModelStats(
                   movement: 12,
                   toughness: 4,
                   save: 3,
@@ -668,18 +704,6 @@ List<UnitSeed> bloodAngelsUnits()
                   wounds: 2,
                   leadership: 6,
                   objectiveControl: 1,
-                  repeat: 3,
-                  keywords: [
-                    'Infantry',
-                    'Character',
-                    'Epic Hero',
-                    'Fly',
-                    'Jump Pack',
-                    'Imperium',
-                    'Chapter Master',
-                    'Commander Dante'
-                  ],
-                  factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
                   weapons:
                   {
                     WeaponType.ranged : [
@@ -713,21 +737,7 @@ List<UnitSeed> bloodAngelsUnits()
                       )
                     ]
                   },
-                  unitComposition: const UnitComposition(
-                      compositions: ['1 model'],
-                      unitCost: [{1: 120}]
-                  ),
-                  unitAbility: const[
-                    UnitAbilitiesCode.deepStrike
-                  ],
-                  coreAbilities: const[
-                    CoreUnitAbilityCode.leader
-                  ],
-                  factionAbilities: const[
-                    FactionUnitAbilityCode.oathOfMoment
-                  ],
-                  ledBy: const[],
-                  leader: const[],
+
                   wargearOptions: WargearOptions.emptyOptions
               )
             }
@@ -738,8 +748,35 @@ List<UnitSeed> bloodAngelsUnits()
             army: ArmyCode.spaceMarines,
             codex: CodexCode.bloodAngels,
             role: UnitRoleCode.other,
-            stats: {
-                'Sanguinary Guard': UnitStats(
+            repeat: 3,
+            keywords: [
+              'Infantry',
+              'Character',
+              'Epic Hero',
+              'Fly',
+              'Jump Pack',
+              'Imperium',
+              'Chapter Master',
+              'Commander Dante'
+            ],
+            factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
+            unitComposition: const UnitComposition(
+                compositions: ['1 model'],
+                unitCost: [{1: 120}]
+            ),
+            unitAbility: const[
+              UnitAbilitiesCode.deepStrike
+            ],
+            coreAbilities: const[
+              CoreUnitAbilityCode.leader
+            ],
+            factionAbilities: const[
+              FactionUnitAbilityCode.oathOfMoment
+            ],
+            ledBy: const[],
+            leader: const[],
+            modelStats: {
+                'Sanguinary Guard': ModelStats(
                     movement: 12,
                     toughness: 4,
                     save: 2,
@@ -747,18 +784,7 @@ List<UnitSeed> bloodAngelsUnits()
                     wounds: 3,
                     leadership: 6,
                     objectiveControl: 1,
-                    repeat: 3,
-                    keywords: [
-                      'Infantry',
-                      'Character',
-                      'Epic Hero',
-                      'Fly',
-                      'Jump Pack',
-                      'Imperium',
-                      'Chapter Master',
-                      'Commander Dante'
-                    ],
-                    factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
+
                     weapons:
                     {
                       WeaponType.ranged : [
@@ -792,21 +818,7 @@ List<UnitSeed> bloodAngelsUnits()
                         )
                       ]
                     },
-                    unitComposition: const UnitComposition(
-                        compositions: ['1 model'],
-                        unitCost: [{1: 120}]
-                    ),
-                    unitAbility: const[
-                      UnitAbilitiesCode.deepStrike
-                    ],
-                    coreAbilities: const[
-                      CoreUnitAbilityCode.leader
-                    ],
-                    factionAbilities: const[
-                      FactionUnitAbilityCode.oathOfMoment
-                    ],
-                    ledBy: const[],
-                    leader: const[],
+
                     wargearOptions: WargearOptions.emptyOptions
                 )
             }

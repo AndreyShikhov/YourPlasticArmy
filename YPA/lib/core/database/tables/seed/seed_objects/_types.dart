@@ -988,7 +988,7 @@ class UnitSeed
     final List<FactionUnitAbilityCode> factionAbilities;
     final List<String> leader;
     final List<String> ledBy;
-    final Map<String, ModelStats> stats;
+    final Map<String, ModelStats> modelStats;
 
     const UnitSeed({
         this.id,
@@ -1005,7 +1005,7 @@ class UnitSeed
         required this.factionAbilities,
         required this.leader,
         required this.ledBy,
-        required this.stats
+        required this.modelStats
     });
 }
 

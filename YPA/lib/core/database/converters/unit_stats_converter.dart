@@ -4,33 +4,24 @@
  ******************************************************************************/
 
 import 'dart:convert';
-
 import 'package:drift/drift.dart';
 import 'package:ypa/domain/models/unit/unit_stats.dart';
 
-class UnitStatsConverter extends TypeConverter<Map<String, UnitStats>, String> {
+class UnitStatsConverter extends TypeConverter<UnitStats, String> {
   const UnitStatsConverter();
 
   @override
-  Map<String, UnitStats> fromSql(String fromDb) {
+  UnitStats fromSql(String fromDb) {
     try {
-      final Map<String, dynamic> decoded = json.decode(fromDb);
-      // Превращаем Map<String, dynamic> обратно в Map<String, UnitStats>
-      return decoded.map((key, value) => MapEntry(
-        key,
-        UnitStats.fromJson(value as Map<String, dynamic>),
-      ));
+      if (fromDb.isEmpty) return UnitStats.empty();
+      return UnitStats.fromJson(json.decode(fromDb) as Map<String, dynamic>);
     } catch (e) {
-      return {}; // Возвращаем пустую карту в случае ошибки
+      return UnitStats.empty();
     }
   }
 
   @override
-  String toSql(Map<String, UnitStats> value) {
-    // Сериализуем карту в JSON-строку
-    return json.encode(value.map((key, stats) => MapEntry(
-      key,
-      stats.toJson(),
-    )));
+  String toSql(UnitStats value) {
+    return json.encode(value.toJson());
   }
 }

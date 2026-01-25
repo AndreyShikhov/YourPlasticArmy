@@ -1,11 +1,16 @@
+/*******************************************************************************
+ * Copyright (c) 2026 Andrey Shikhov
+ * SPDX-License-Identifier: MIT
+ ******************************************************************************/
+
 import '../../shared/value_object.dart';
 
-class CodexCode extends ValueObject<String> {
+class CodexCodeDom extends ValueObject<String> {
   static const int maxLength = 50;
 
-  const CodexCode._(super.value);
+  const CodexCodeDom._(super.value);
 
-  factory CodexCode(String code) {
+  factory CodexCodeDom(String code) {
     final trimmed = code.trim().toLowerCase();
 
     if (trimmed.isEmpty) {
@@ -21,6 +26,9 @@ class CodexCode extends ValueObject<String> {
       throw ArgumentError('CodexCode can only contain lowercase letters, numbers and underscores');
     }
 
-    return CodexCode._(trimmed);
+    return CodexCodeDom._(trimmed);
   }
+
+  /// Фабричный конструктор для удобства (например, при восстановлении из БД)
+  factory CodexCodeDom.fromString(String code) => CodexCodeDom(code);
 }

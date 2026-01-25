@@ -19,8 +19,32 @@ List<UnitSeed> ultramarinesUnits()
             army: ArmyCode.spaceMarines,
             role: UnitRoleCode.characters,
             codex: CodexCode.ultramarines,
-            stats: {
-                'Roboute Guilliman': UnitStats(
+            repeat: 1,
+            keywords: [
+              'Infantry',
+              'Battleline',
+              'Grenades',
+              'Imperium',
+              'Tacticus'
+            ],
+            factionKeywords: ['Adeptus Astartes'],
+            unitComposition: const UnitComposition(
+                compositions: ['1 model'],
+                unitCost: [{1: 120}]
+            ),
+            unitAbility: const[
+              UnitAbilitiesCode.deepStrike
+            ],
+            coreAbilities: const[
+              CoreUnitAbilityCode.leader
+            ],
+            factionAbilities: const[
+              FactionUnitAbilityCode.oathOfMoment
+            ],
+            ledBy: const[],
+            leader: const[],
+            modelStats: {
+                'Roboute Guilliman': ModelStats(
                     movement: 8,
                     toughness: 9,
                     save: 2,
@@ -28,15 +52,6 @@ List<UnitSeed> ultramarinesUnits()
                     wounds: 10,
                     leadership: 5,
                     objectiveControl: 4,
-                    repeat: 1,
-                    keywords: [
-                      'Infantry',
-                      'Battleline',
-                      'Grenades',
-                      'Imperium',
-                      'Tacticus'
-                    ],
-                    factionKeywords: ['Adeptus Astartes'],
                     weapons:{
                       WeaponType.ranged : [
                         Weapon(
@@ -69,21 +84,6 @@ List<UnitSeed> ultramarinesUnits()
                         )
                       ],
                     },
-                    unitComposition: const UnitComposition(
-                        compositions: ['1 model'],
-                        unitCost: [{1: 120}]
-                    ),
-                    unitAbility: const[
-                      UnitAbilitiesCode.deepStrike
-                    ],
-                    coreAbilities: const[
-                      CoreUnitAbilityCode.leader
-                    ],
-                    factionAbilities: const[
-                      FactionUnitAbilityCode.oathOfMoment
-                    ],
-                    ledBy: const[],
-                    leader: const[],
                     wargearOptions: WargearOptions.emptyOptions
                 )
             }
