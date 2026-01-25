@@ -25,12 +25,8 @@ class ArmyLystController extends StateNotifier<ArmyLystState> {
   final GetCodexById _getCodexById;
   final DeletUserArmyById _deletUserArmyById;
 
-  ArmyLystController(
-    this._getUserArmies, 
-    this._createUserArmy, 
-    this._getCodexById,
-    this._deletUserArmyById,
-  ) : super(const ArmyLystState()) {
+  ArmyLystController(this._getUserArmies, this._createUserArmy, this._getCodexById, this._deletUserArmyById)
+    : super(const ArmyLystState()) {
     loadArmies();
   }
 
@@ -39,16 +35,16 @@ class ArmyLystController extends StateNotifier<ArmyLystState> {
     try {
       // ОПТИМИЗАЦИЯ: Используем новый метод с JOIN
       final armyDataList = await _getUserArmies.repository.findAllWithCodexNames();
-      
+
       final List<ArmyListItemUi> items = armyDataList.map((entry) {
         final army = entry.keys.first;
         final codexName = entry.values.first;
-        
+
         return ArmyListItemUi(
           id: army.id,
           title: army.name,
           codexName: codexName, // Название кодекса уже пришло из JOIN
-          pts:  0,
+          pts: 0,
         );
       }).toList();
 
@@ -61,14 +57,17 @@ class ArmyLystController extends StateNotifier<ArmyLystState> {
   Future<void> createArmy({required String name, required String armyId, required String codexIdRaw}) async {
     state = state.copyWith(isLoading: true);
     try {
-
-      await _createUserArmy(name: name, armyId: ArmyId.fromString(armyId), codexId: CodexId.fromString(codexIdRaw));
-      await loadArmies(); 
+      await _createUserArmy(
+        name: name,
+        armyId: ArmyId.fromString(armyId),
+        codexId: CodexId.fromString(codexIdRaw),
+      );
+      await loadArmies();
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());
     }
   }
-  
+
   Future<void> deleteArmy(String armyId) async {
     await _deletUserArmyById(userArmyId: armyId);
   }

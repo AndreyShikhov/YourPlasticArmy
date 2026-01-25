@@ -7,11 +7,7 @@ class DetachmentSelector extends ConsumerWidget {
   final String armyId;
   final ArmyBuilderState state;
 
-  const DetachmentSelector({
-    super.key,
-    required this.armyId,
-    required this.state,
-  });
+  const DetachmentSelector({super.key, required this.armyId, required this.state});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -22,9 +18,7 @@ class DetachmentSelector extends ConsumerWidget {
       decoration: const InputDecoration(
         labelText: 'Select Detachment',
         labelStyle: TextStyle(color: Colors.white70),
-        enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.white24),
-        ),
+        enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white24)),
       ),
       items: _buildDropdownItems(state),
       onChanged: (newValue) {
@@ -37,10 +31,7 @@ class DetachmentSelector extends ConsumerWidget {
 
   List<DropdownMenuItem<String>> _buildDropdownItems(ArmyBuilderState state) {
     return state.allDetachments.map((detachment) {
-      return DropdownMenuItem<String>(
-        value: detachment.name.value,
-        child: Text(detachment.name.value),
-      );
+      return DropdownMenuItem<String>(value: detachment.name.value, child: Text(detachment.name.value));
     }).toList();
   }
 }

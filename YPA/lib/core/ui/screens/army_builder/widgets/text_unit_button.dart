@@ -32,23 +32,19 @@ class TextUnitButton extends ConsumerWidget {
     final maxCount = int.tryParse(unit.repeat); // Лимит из правил
 
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 4),
+      //margin: const EdgeInsets.symmetric(vertical: 4),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       decoration: BoxDecoration(
         color: baseColor.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: baseColor.withOpacity(0.3)),
+        borderRadius: BorderRadius.circular(5),
+        border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3), width: 2.0)),
       ),
       child: Row(
         children: [
           Expanded(
             child: Text(
               unit.name,
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-              ),
+              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
             ),
           ),
           Row(
@@ -60,20 +56,13 @@ class TextUnitButton extends ConsumerWidget {
                 color: Colors.redAccent,
                 // Кнопка активна только если в армии есть хотя бы один такой юнит
                 enabled: currentCount > 0,
-                onTap: () => controller.removeLastUnitFromUserArmy(
-                    unit.dbId,
-                    UnitRoleCodeX.fromName(unit.role)!
-                ),
+                onTap: () => controller.removeLastUnitFromUserArmy(unit.dbId, UnitRoleCodeX.fromName(unit.role)!),
               ),
               const SizedBox(width: 15),
               // Текст с текущим количеством
               Text(
                 '${state.getCurrentCountUnitFromUserArmy(unit.name)} / ${unit.repeat}',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                ),
+                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
               ),
               const SizedBox(width: 15),
 
@@ -85,7 +74,6 @@ class TextUnitButton extends ConsumerWidget {
                 enabled: currentCount < maxCount!,
                 onTap: () => controller.addUnitToUserArmy(unit.dbId),
               ),
-
             ],
           ),
         ],

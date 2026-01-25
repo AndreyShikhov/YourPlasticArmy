@@ -15,36 +15,36 @@ import '../../../database/tables/seed/seed_objects/_types.dart';
 import 'army_builder_item_ui.dart';
 import 'army_builder_state.dart';
 
-
 // Провайдер контроллера с параметром armyId
-final armyBuilderControllerProvider = StateNotifierProvider.family<ArmyBuilderController, ArmyBuilderState, String>((ref, armyId) {
-  final getUserArmyById = ref.watch(getUserArmyByIdUseCaseProvider);
-  final getCodexById = ref.watch(getCodexByIdUseCaseProvider); 
-  final updateName = ref.watch(updateUserArmyNameUseCaseProvider);
-  final updateDetachment = ref.watch(updateUserArmyDetachmentUseCaseProvider);
-  final updateBattleSize = ref.watch(updateUserArmyBattleSizeUseCaseProvider); // Добавлено
-  final getAllDetachmentsByCodexId = ref.watch(getAlldetachmentsByCodexIdUseCaseProvider);
-  final getAllUnitsByCodexId = ref.watch(getAllUnitsByCodexIdUseCaseProvider);
-  final getAllUnitsByArmyId = ref.watch(getUnitsByArmyUseCaseProvider);
-  final addUnitToUserRoster = ref.watch(addUnitToUserRosterUseCaseProvider);
-  final getUnitByIdFromDb = ref.watch(findUnitByIdFromDbUseCaseProvider);
-  final removeLastUnitFromUserRoster = ref.watch(removeLastUnitFromUserRosterUseCaseProvider);
+final armyBuilderControllerProvider =
+    StateNotifierProvider.family<ArmyBuilderController, ArmyBuilderState, String>((ref, armyId) {
+      final getUserArmyById = ref.watch(getUserArmyByIdUseCaseProvider);
+      final getCodexById = ref.watch(getCodexByIdUseCaseProvider);
+      final updateName = ref.watch(updateUserArmyNameUseCaseProvider);
+      final updateDetachment = ref.watch(updateUserArmyDetachmentUseCaseProvider);
+      final updateBattleSize = ref.watch(updateUserArmyBattleSizeUseCaseProvider); // Добавлено
+      final getAllDetachmentsByCodexId = ref.watch(getAlldetachmentsByCodexIdUseCaseProvider);
+      final getAllUnitsByCodexId = ref.watch(getAllUnitsByCodexIdUseCaseProvider);
+      final getAllUnitsByArmyId = ref.watch(getUnitsByArmyUseCaseProvider);
+      final addUnitToUserRoster = ref.watch(addUnitToUserRosterUseCaseProvider);
+      final getUnitByIdFromDb = ref.watch(findUnitByIdFromDbUseCaseProvider);
+      final removeLastUnitFromUserRoster = ref.watch(removeLastUnitFromUserRosterUseCaseProvider);
 
-
-  return ArmyBuilderController(
-      getUserArmyById,
-      getCodexById,
-      updateName,
-      updateDetachment,
-      updateBattleSize, // Добавлено
-      getAllDetachmentsByCodexId,
-      getAllUnitsByCodexId,
-      getAllUnitsByArmyId,
-      addUnitToUserRoster,
-      getUnitByIdFromDb,
-      removeLastUnitFromUserRoster,
-      armyId );
-});
+      return ArmyBuilderController(
+        getUserArmyById,
+        getCodexById,
+        updateName,
+        updateDetachment,
+        updateBattleSize, // Добавлено
+        getAllDetachmentsByCodexId,
+        getAllUnitsByCodexId,
+        getAllUnitsByArmyId,
+        addUnitToUserRoster,
+        getUnitByIdFromDb,
+        removeLastUnitFromUserRoster,
+        armyId,
+      );
+    });
 
 class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
   final GetUserArmyById _getUserArmyById;
@@ -60,21 +60,22 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
   final GetUnitByIdFromDb _getUnitByIdFromDb;
   final String _armyId;
 
-  ArmyBuilderController(this._getUserArmyById,
-      this._getCodexById,
-      this._updateName,
-      this._updateDetachment,
-      this._updateBattleSize,
-      this._getAllDetachmentsByCodexId,
-      this._getAllUnitsByCodexid,
-      this._getAllUnitsByArmyId,
-      this._addUnitToUserRoster,
-      this._getUnitByIdFromDb,
-      this._removeLastUnitFromUserRoster,
-      this._armyId,) : super(const ArmyBuilderState()) {
+  ArmyBuilderController(
+    this._getUserArmyById,
+    this._getCodexById,
+    this._updateName,
+    this._updateDetachment,
+    this._updateBattleSize,
+    this._getAllDetachmentsByCodexId,
+    this._getAllUnitsByCodexid,
+    this._getAllUnitsByArmyId,
+    this._addUnitToUserRoster,
+    this._getUnitByIdFromDb,
+    this._removeLastUnitFromUserRoster,
+    this._armyId,
+  ) : super(const ArmyBuilderState()) {
     loadArmy();
   }
-
 
   // ==========================================
   // Updates
@@ -91,8 +92,8 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
 
   Future<void> updateDetachmentArmyRoster(String nameDetachment) async {
     if (nameDetachment == '') return;
-    final selectedDetachment = state.allDetachments.firstWhere((d) =>
-    d.name.value == nameDetachment,
+    final selectedDetachment = state.allDetachments.firstWhere(
+      (d) => d.name.value == nameDetachment,
       orElse: () => state.allDetachments.first,
     );
 
@@ -109,7 +110,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
     try {
       await _updateBattleSize(id: _armyId, newSize: newSize);
       // После обновления в базе, перезагружаем армию для обновления всех лимитов
-      loadArmy(); 
+      loadArmy();
     } catch (e) {
       state = state.copyWith(error: e.toString());
     }
@@ -118,7 +119,6 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
   Future<void> updateCurrentPTSArmyRoster() async {
     state = state.updateCurrentPts();
   }
-
 
   Future<void> addUnitToUserArmy(String unitId) async {
     try {
@@ -146,10 +146,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
     if (state.userArmyUnits == null || state.userArmyUnits!.isEmpty) {
       return [];
     }
-    return state.userArmyUnits!.values
-        .expand((units) => units)
-        .where((unit) => unit.role == roleTitle)
-        .toList();
+    return state.userArmyUnits!.values.expand((units) => units).where((unit) => unit.role == roleTitle).toList();
   }
 
   Future<List<ArmyBuilderUnitItemUi>> getAllUnitsByCodexId(CodexId codexId) async {
@@ -182,14 +179,16 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
         allDetachments = await _getAllDetachmentsByCodexId(userArmy.codexId);
       }
 
-      final savedDetachment = userArmy.detachmentId != null 
-          ? allDetachments.where((d) => d.id.value == userArmy.detachmentId).firstOrNull 
+      final savedDetachment = userArmy.detachmentId != null
+          ? allDetachments.where((d) => d.id.value == userArmy.detachmentId).firstOrNull
           : null;
 
-      final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> userArmyUnits = await _getAllUserArmyUnitsFromJson(userArmy.jsonData);
+      final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> userArmyUnits = await _getAllUserArmyUnitsFromJson(
+        userArmy.jsonData,
+      );
 
-      final List<ArmyBuilderUnitItemUi> allUnitsFromDb = await getAllUnitsByArmyId(userArmy.armyId); 
-      allUnitsFromDb.addAll(await getAllUnitsByCodexId(userArmy.codexId)); 
+      final List<ArmyBuilderUnitItemUi> allUnitsFromDb = await getAllUnitsByArmyId(userArmy.armyId);
+      allUnitsFromDb.addAll(await getAllUnitsByCodexId(userArmy.codexId));
 
       final sb = userArmy.selectedBattleSize;
       final selectedCode = sb?.selected;
@@ -211,7 +210,6 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
 
       fillTemDataUnitsByRole();
       state = state.updateCurrentPts();
-
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());
     }
@@ -228,7 +226,6 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState> {
     }
     state = state.copyWith(temDataUnitsByRole: temDataUnitsByRole);
   }
-
 
   ArmyBuilderUnitItemUi _convertDomainUnitToUnitItemUi(UnitDOM unit) {
     return ArmyBuilderUnitItemUi(

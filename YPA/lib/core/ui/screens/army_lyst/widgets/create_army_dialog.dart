@@ -18,9 +18,9 @@ class _CreateArmyDialogState extends ConsumerState<CreateArmyDialog> {
   final TextEditingController nameController = TextEditingController();
   String? selectedFactionId;
   String? selectedArmyName;
-  String    selectedArmyId = '';
+  String selectedArmyId = '';
   String? selectedCodexId;
-  
+
   // Генерируем имя один раз при создании стейта
   late final String generatedName;
   List<CodexDOM> currentCodexes = [];
@@ -41,9 +41,10 @@ class _CreateArmyDialogState extends ConsumerState<CreateArmyDialog> {
   @override
   Widget build(BuildContext context) {
     final allFactionsAsync = ref.watch(factionsListProvider);
-    final allArmiesAsync = selectedFactionId != null ? ref.watch(armiesByFactionProvider(selectedFactionId!)) : null;
+    final allArmiesAsync = selectedFactionId != null
+        ? ref.watch(armiesByFactionProvider(selectedFactionId!))
+        : null;
     final allCodexsAsync = selectedArmyName != null ? ref.watch(codexesByArmyProvider(selectedArmyName!)) : null;
-
 
     return AlertDialog(
       title: const Text('Create New Army'),
@@ -60,23 +61,27 @@ class _CreateArmyDialogState extends ConsumerState<CreateArmyDialog> {
               onChanged: (_) => setState(() {}),
             ),
             const SizedBox(height: 10),
-            
+
             // 1. Faction
             allFactionsAsync.when(
-                data: (factions) => DropdownButtonFormField<String>(
-                    decoration: const InputDecoration(labelText: 'Select Faction'),
-                    value: selectedFactionId,
-                    items: factions.map((f) => DropdownMenuItem(value: f.id.value.toString(), child: Text(f.name.value))).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        selectedFactionId = value;
-                        selectedArmyName = null;
-                        selectedCodexId = null;
-                        currentCodexes = [];
-                      });
-                    }),
-                error: (e, __) => Text('Error: $e'),
-                loading: () => const CircularProgressIndicator()),
+              data: (factions) => DropdownButtonFormField<String>(
+                decoration: const InputDecoration(labelText: 'Select Faction'),
+                value: selectedFactionId,
+                items: factions
+                    .map((f) => DropdownMenuItem(value: f.id.value.toString(), child: Text(f.name.value)))
+                    .toList(),
+                onChanged: (value) {
+                  setState(() {
+                    selectedFactionId = value;
+                    selectedArmyName = null;
+                    selectedCodexId = null;
+                    currentCodexes = [];
+                  });
+                },
+              ),
+              error: (e, __) => Text('Error: $e'),
+              loading: () => const CircularProgressIndicator(),
+            ),
 
             const SizedBox(height: 10),
 
@@ -84,17 +89,24 @@ class _CreateArmyDialogState extends ConsumerState<CreateArmyDialog> {
             if (selectedFactionId != null && allArmiesAsync != null)
               allArmiesAsync.when(
                 data: (armies) => DropdownButtonFormField<String>(
-                    decoration: const InputDecoration(labelText: 'Select Army'),
-                    value: selectedArmyName,
-                    items: armies.map((a) => DropdownMenuItem(value: a.id.value.toString(), child: Text(a.name.value))).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        selectedArmyName = value;
-                        selectedCodexId = null;
-                        currentCodexes = [];
-                        selectedArmyId = allArmiesAsync.value!.where((a) => a.id.value.toString() == value).first.id.value;
-                      });
-                    }),
+                  decoration: const InputDecoration(labelText: 'Select Army'),
+                  value: selectedArmyName,
+                  items: armies
+                      .map((a) => DropdownMenuItem(value: a.id.value.toString(), child: Text(a.name.value)))
+                      .toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      selectedArmyName = value;
+                      selectedCodexId = null;
+                      currentCodexes = [];
+                      selectedArmyId = allArmiesAsync.value!
+                          .where((a) => a.id.value.toString() == value)
+                          .first
+                          .id
+                          .value;
+                    });
+                  },
+                ),
                 error: (e, __) => Text('Error: $e'),
                 loading: () => const LinearProgressIndicator(),
               ),
@@ -104,28 +116,29 @@ class _CreateArmyDialogState extends ConsumerState<CreateArmyDialog> {
             // 3. Codex
             if (selectedArmyName != null && allCodexsAsync != null)
               allCodexsAsync.when(
-                  data: (codexs) {
-                    currentCodexes = codexs;
-                    if (codexs.length <= 1) return const SizedBox.shrink();
-                    return DropdownButtonFormField<String>(
-                        decoration: const InputDecoration(labelText: 'Select Codex'),
-                        value: selectedCodexId,
-                        items: codexs.map((c) => DropdownMenuItem(value: c.id.value.toString(), child: Text(c.name.value))).toList(),
-                        onChanged: (value) {
-                          setState(() => selectedCodexId = value);
-                        });
-                  },
-                  error: (e, __) => Text('Error: $e'),
-                  loading: () => const LinearProgressIndicator())
+                data: (codexs) {
+                  currentCodexes = codexs;
+                  if (codexs.length <= 1) return const SizedBox.shrink();
+                  return DropdownButtonFormField<String>(
+                    decoration: const InputDecoration(labelText: 'Select Codex'),
+                    value: selectedCodexId,
+                    items: codexs
+                        .map((c) => DropdownMenuItem(value: c.id.value.toString(), child: Text(c.name.value)))
+                        .toList(),
+                    onChanged: (value) {
+                      setState(() => selectedCodexId = value);
+                    },
+                  );
+                },
+                error: (e, __) => Text('Error: $e'),
+                loading: () => const LinearProgressIndicator(),
+              ),
           ],
         ),
       ),
       actions: [
         TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('CANCEL')),
-        ElevatedButton(
-          onPressed: _canCreate() ? () => _onCreate() : null,
-          child: const Text('CREATE'),
-        ),
+        ElevatedButton(onPressed: _canCreate() ? () => _onCreate() : null, child: const Text('CREATE')),
       ],
     );
   }
@@ -142,11 +155,13 @@ class _CreateArmyDialogState extends ConsumerState<CreateArmyDialog> {
       name = generatedName;
     }
 
-    final finalCodexId = selectedCodexId ?? (currentCodexes.length == 1 ? currentCodexes.first.id.value.toString() : null);
+    final finalCodexId =
+        selectedCodexId ?? (currentCodexes.length == 1 ? currentCodexes.first.id.value.toString() : null);
 
-
-    if (finalCodexId != null ) {
-      await ref.read(armyLystControllerProvider.notifier).createArmy(name: name, armyId: selectedArmyId, codexIdRaw: finalCodexId,);
+    if (finalCodexId != null) {
+      await ref
+          .read(armyLystControllerProvider.notifier)
+          .createArmy(name: name, armyId: selectedArmyId, codexIdRaw: finalCodexId);
       if (mounted) Navigator.of(context).pop();
     }
   }

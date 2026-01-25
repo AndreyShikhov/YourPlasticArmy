@@ -5,16 +5,13 @@ import 'package:ypa/core/ui/screens/army_builder/widgets/unit_search_widget.dart
 import 'package:ypa/core/ui/screens/army_builder/widgets/text_unit_button.dart';
 
 import '../../../../database/tables/seed/seed_objects/_types.dart';
+import '../army_builder_item_ui.dart';
 
 class SelectUnitsDialog extends ConsumerStatefulWidget {
   final String armyId;
   final UnitRoleCode role;
 
-  const SelectUnitsDialog({
-    super.key,
-    required this.armyId,
-    required this.role,
-  });
+  const SelectUnitsDialog({super.key, required this.armyId, required this.role});
 
   @override
   ConsumerState<SelectUnitsDialog> createState() => _SelectUnitsDialogState();
@@ -26,7 +23,7 @@ class _SelectUnitsDialogState extends ConsumerState<SelectUnitsDialog> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(armyBuilderControllerProvider(widget.armyId));
-    
+
     // 1. Получаем все юниты для данной роли из БД
     final allUnits = state.getAllUnitsByRoleFromDB(widget.role.name);
 
@@ -34,10 +31,10 @@ class _SelectUnitsDialogState extends ConsumerState<SelectUnitsDialog> {
     final filteredUnits = _searchQuery.isEmpty
         ? allUnits // Если поиск пустой — показываем ВСЕХ юнитов
         : allUnits.where((unit) {
-      final name = unit.name.toLowerCase();
-      final query = _searchQuery.toLowerCase();
-      return name.contains(query);
-    }).toList();
+            final name = unit.name.toLowerCase();
+            final query = _searchQuery.toLowerCase();
+            return name.contains(query);
+          }).toList();
 
     return Container(
       padding: const EdgeInsets.all(16.0),
@@ -50,31 +47,34 @@ class _SelectUnitsDialogState extends ConsumerState<SelectUnitsDialog> {
             armyId: widget.armyId,
             onSearch: (text) {
               setState(() {
-                _searchQuery = text; // Обновляем запрос при вводе
+                _searchQuery = text;
               });
             },
           ),
           const SizedBox(height: 10),
-          
+
           // Список ОТФИЛЬТРОВАННЫХ юнитов
           if (filteredUnits.isNotEmpty)
-            ...filteredUnits.map((unit) {
-              return TextUnitButton(
-                unit: unit,
-                armyId: widget.armyId,
-              );
-            }).toList()
+            ..._getUnitButtons(filteredUnits)
           else if (_searchQuery.isNotEmpty)
             const Center(
               child: Padding(
                 padding: EdgeInsets.all(20.0),
-                child: Text(
-                  'Ничего не найдено',
-                  style: TextStyle(color: Colors.white38),
-                ),
+                child: Text('Ничего не найдено', style: TextStyle(color: Colors.white38)),
               ),
             ),
         ],
+      ),
+    );
+  }
+
+  List<TextUnitButton> _getUnitButtons(List<ArmyBuilderUnitItemUi> units) {
+    return List.generate(
+      units.length,
+      (i) => TextUnitButton(
+        unit: units[i],
+        armyId: widget.armyId,
+        baseColor: i.isEven ? const Color.fromARGB(128, 227, 222, 222) : const Color.fromARGB(50, 55, 55, 55),
       ),
     );
   }

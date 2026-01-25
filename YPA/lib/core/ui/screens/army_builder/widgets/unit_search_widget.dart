@@ -5,11 +5,7 @@ class UnitSearchWidget extends ConsumerStatefulWidget {
   final String armyId;
   final ValueChanged<String> onSearch; // Коллбэк для передачи текста наверх
 
-  const UnitSearchWidget({
-    super.key,
-    required this.armyId,
-    required this.onSearch,
-  });
+  const UnitSearchWidget({super.key, required this.armyId, required this.onSearch});
 
   @override
   ConsumerState<UnitSearchWidget> createState() => _UnitSearchWidgetState();
@@ -51,10 +47,7 @@ class _UnitSearchWidgetState extends ConsumerState<UnitSearchWidget> {
           ),
           filled: true,
           fillColor: const Color.fromARGB(255, 45, 45, 45),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none,
-          ),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
         ),
       ),
     );

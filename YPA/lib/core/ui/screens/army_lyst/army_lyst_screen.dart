@@ -22,51 +22,43 @@ class ArmyListScreen extends ConsumerWidget {
           : state.error != null
           ? Center(child: Text('Error: ${state.error}'))
           : Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: 400,
-              width: 350,
-              child: Scrollbar(
-                controller: scrollController,
-                thumbVisibility: true,
-                child: ListView.builder(
-                  controller: scrollController,
-                  itemCount: state.items.length,
-                  padding: const EdgeInsets.only(right: 15),
-                  itemBuilder: (context, index) {
-                    return _buildArmyButton(context, ref, state.items[index]);
-                  },
-                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 400,
+                    width: 350,
+                    child: Scrollbar(
+                      controller: scrollController,
+                      thumbVisibility: true,
+                      child: ListView.builder(
+                        controller: scrollController,
+                        itemCount: state.items.length,
+                        padding: const EdgeInsets.only(right: 15),
+                        itemBuilder: (context, index) {
+                          return _buildArmyButton(context, ref, state.items[index]);
+                        },
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: SizedBox(
+                      width: 300,
+                      height: 80,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          showDialog(context: context, builder: (context) => const CreateArmyDialog());
+                        },
+                        style: ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 78, 73, 73)),
+                        child: const Text('Add new army', style: TextStyle(color: Colors.white)),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: SizedBox(
-                width: 300,
-                height: 80,
-                child: ElevatedButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => const CreateArmyDialog(),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 78, 73, 73),
-                  ),
-                  child: const Text(
-                    'Add new army',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 
@@ -143,12 +135,10 @@ class ArmyListScreen extends ConsumerWidget {
 
   Future<void> _onDeleteArmyById(BuildContext context, WidgetRef ref, ArmyListItemUi item) async {
     // Показываем подтверждение
-    final confirmed =  await showDialog<bool>(
+    final confirmed = await showDialog<bool>(
       context: context,
-      builder: (context) => ConfirmDialog(
-        title: 'Delete Army?',
-        message: 'Are you sure you want to delete "${item.title}"?',
-      ),
+      builder: (context) =>
+          ConfirmDialog(title: 'Delete Army?', message: 'Are you sure you want to delete "${item.title}"?'),
     );
 
     if (confirmed == true) {

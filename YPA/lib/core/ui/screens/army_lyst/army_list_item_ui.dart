@@ -4,10 +4,5 @@ class ArmyListItemUi {
   final String title;
   final int pts;
 
-  ArmyListItemUi({
-    required this.id,
-    required this.codexName,
-    required this.title,
-    required this.pts,
-  });
+  ArmyListItemUi({required this.id, required this.codexName, required this.title, required this.pts});
 }

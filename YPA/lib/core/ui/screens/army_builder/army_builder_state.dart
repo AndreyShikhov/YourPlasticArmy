@@ -16,7 +16,8 @@ class ArmyBuilderState {
   final List<DetachmentDOM> allDetachments;
   final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>? userArmyUnits; // уже добавленный в ростер игрока юниты
   final List<ArmyBuilderUnitItemUi> allUnitsFromDb; // юниты из базы
-  final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>? temDataUnitsByRole;  // отфильтрованные по роли юниты из базы данны
+  final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>?
+  temDataUnitsByRole; // отфильтрованные по роли юниты из базы данны
   final String? error;
 
   const ArmyBuilderState({
@@ -28,7 +29,7 @@ class ArmyBuilderState {
     this.codex,
     this.detachment,
     this.allDetachments = const [],
-    this.userArmyUnits = const{},
+    this.userArmyUnits = const {},
     this.allUnitsFromDb = const [],
     this.temDataUnitsByRole = const {},
     this.error,
@@ -64,13 +65,11 @@ class ArmyBuilderState {
     );
   }
 
-
   // ==========================================
   // Updates
   // ==========================================
 
-  ArmyBuilderState updateCurrentPts(){
-
+  ArmyBuilderState updateCurrentPts() {
     int total = 0;
 
     // Если юнитов нет, возвращаем стейт с 0 очков
@@ -93,15 +92,11 @@ class ArmyBuilderState {
     return copyWith(currentPts: total);
   }
 
-
-
-
   // ==========================================
   // Getters
   // ==========================================
 
   List<ArmyBuilderUnitItemUi> getAllUnitsByRoleFromUserArmy(String role) {
-
     // 1. Проверяем на null или пустоту всей карты
     if (userArmyUnits == null || userArmyUnits!.isEmpty) {
       debugPrint('Warning: userArmyUnits is null or empty');
@@ -116,7 +111,6 @@ class ArmyBuilderState {
 
     // 3. Возвращаем список юнитов для этой роли из карты (или пустой список, если такой роли в карте нет)
     return userArmyUnits![roleCode] ?? [];
-
   }
 
   List<ArmyBuilderUnitItemUi> getAllUnitsByRoleFromDB(String role) {
@@ -131,10 +125,7 @@ class ArmyBuilderState {
   }
 
   ArmyBuilderUnitItemUi getUnitByIdFromDb(String unitId) {
-    return allUnitsFromDb.firstWhere(
-            (unit) => unit.name == unitId,
-            orElse: () => ArmyBuilderUnitItemUi.empty()
-    );
+    return allUnitsFromDb.firstWhere((unit) => unit.name == unitId, orElse: () => ArmyBuilderUnitItemUi.empty());
   }
 
   List<ArmyBuilderUnitItemUi> getallUnitByNameFromUserArmy(String unitName) {
@@ -153,5 +144,4 @@ class ArmyBuilderState {
   int getCurrentCountUnitFromUserArmy(String unitName) {
     return getallUnitByNameFromUserArmy(unitName).length;
   }
-
 }

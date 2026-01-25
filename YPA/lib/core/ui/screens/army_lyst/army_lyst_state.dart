@@ -6,19 +6,9 @@ class ArmyLystState {
   final List<ArmyListItemUi> items;
   final String? error;
 
-  const ArmyLystState({
-    this.isLoading = false,
-    this.isDeleting = false,
-    this.items = const [],
-    this.error,
-  });
+  const ArmyLystState({this.isLoading = false, this.isDeleting = false, this.items = const [], this.error});
 
-  ArmyLystState copyWith({
-    bool? isLoading,
-    bool? isDeleting,
-    List<ArmyListItemUi>? items,
-    String? error,
-  }) {
+  ArmyLystState copyWith({bool? isLoading, bool? isDeleting, List<ArmyListItemUi>? items, String? error}) {
     return ArmyLystState(
       isLoading: isLoading ?? this.isLoading,
       isDeleting: isDeleting ?? this.isDeleting,

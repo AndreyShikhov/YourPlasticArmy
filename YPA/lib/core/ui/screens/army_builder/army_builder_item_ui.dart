@@ -4,11 +4,11 @@ class ArmyBuilderUnitItemUi {
   final String dbId;
   final String name;
   final String role;
-  final String m;  // Movement
-  final String t;  // Toughness
+  final String m; // Movement
+  final String t; // Toughness
   final String sv; // Save
   final String isv; // Invulnerable Save
-  final String w;  // Wounds
+  final String w; // Wounds
   final String ld; // Leadership
   final String oc; // Objective Control
   final String repeat;
@@ -71,9 +71,7 @@ class ArmyBuilderUnitItemUi {
       selectedComposition: Map<int, int>.from(json['selectedComposition'] ?? {}),
       keywords: List<String>.from(json['keywords'] ?? []),
       factionKeywords: List<String>.from(json['factionKeywords'] ?? []),
-      weapons: (json['weapons'] as List? ?? [])
-          .map((x) => Weapon.fromJson(x as Map<String, dynamic>))
-          .toList(),
+      weapons: (json['weapons'] as List? ?? []).map((x) => Weapon.fromJson(x as Map<String, dynamic>)).toList(),
     );
   }
 

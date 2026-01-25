@@ -6,11 +6,7 @@ class ArmyNameEditor extends ConsumerStatefulWidget {
   final String armyId;
   final String initialName;
 
-  const ArmyNameEditor({
-    super.key,
-    required this.armyId,
-    required this.initialName,
-  });
+  const ArmyNameEditor({super.key, required this.armyId, required this.initialName});
 
   @override
   ConsumerState<ArmyNameEditor> createState() => _ArmyNameEditorState();
@@ -57,12 +53,8 @@ class _ArmyNameEditorState extends ConsumerState<ArmyNameEditor> {
             labelStyle: TextStyle(color: Colors.white70),
             hintText: 'Enter name...',
             hintStyle: TextStyle(color: Colors.white38),
-            enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.white24),
-            ),
-            focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.white),
-            ),
+            enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white24)),
+            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white)),
           ),
         ),
       ],
