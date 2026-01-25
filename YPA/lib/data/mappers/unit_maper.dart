@@ -6,19 +6,20 @@
 import 'package:drift/drift.dart';
 
 import '../../core/database/app_database.dart';
-import '../../domain/models/army/army_id.dart'; // Добавлен импорт
-import '../../domain/models/codex/codex_code.dart';
+import '../../domain/models/army/army_id.dart';
+import '../../domain/models/codex/codex_id.dart';
 import '../../domain/models/unit/unit.dart';
 
 class UnitMapper {
   static UnitDOM fromRow(UnitRow row) {
+
     final stats = row.unitStats;
 
     return UnitDOM.restore(
       id: UnitId.fromString(row.id),
       name: UnitName(row.name),
       armyId: ArmyId.fromString(row.armyId),
-      codexCode: row.codexId != null ? CodexCodeDom.fromString(row.codexId!) : null,
+      codexId: row.codexId != null ? CodexId.fromString(row.codexId!) : null,
       role: UnitRoleCodeDom.fromString(row.roleCode).toEnum(),
       repeat: stats.repeat,
       keywords: stats.keywords,
@@ -29,11 +30,12 @@ class UnitMapper {
       factionAbilities: stats.factionAbilities,
       leader: stats.leader,
       ledBy: stats.ledBy,
-      modelStats: stats.modelStats,
+      modelStats: stats.modelStats, // Здесь Map<String, ModelStats>
     );
   }
 
   static UnitsCompanion toCompanion(UnitDOM unit) {
+    // Упаковываем все поля UnitDOM обратно в контейнер UnitStats
     final statsWrapper = UnitStats(
       repeat: unit.repeat,
       keywords: unit.keywords,
@@ -50,10 +52,9 @@ class UnitMapper {
     return UnitsCompanion(
       id: Value(unit.id.value),
       name: Value(unit.name.value),
-      // Сохраняем значение ID армии
       armyId: Value(unit.armyId.value),
-      codexId: unit.codexCode != null 
-          ? Value(unit.codexCode!.value)
+      codexId: unit.codexId != null 
+          ? Value(unit.codexId!.value)
           : const Value.absent(),
       roleCode: Value(unit.role.value.name),
       unitStats: Value(statsWrapper),

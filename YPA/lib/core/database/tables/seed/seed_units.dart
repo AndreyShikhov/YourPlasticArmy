@@ -60,6 +60,7 @@ Future<void> seedUnits(
               id: unitId,
               name: u.name,
               armyId: armyId,
+              codexId: codexIdValue,
               roleCode: u.role.name,
               unitStats: statsToSave),
             mode: InsertMode.insertOrIgnore

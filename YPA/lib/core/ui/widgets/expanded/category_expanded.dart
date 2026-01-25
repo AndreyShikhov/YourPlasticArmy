@@ -13,62 +13,65 @@ import 'package:ypa/core/ui/widgets/expandable_section.dart';
 import '../../screens/army_builder/army_builder_item_ui.dart';
 import 'button_open_select_units.dart';
 
-class CategoryExpanded extends ConsumerStatefulWidget {
-  final String armyId;
-  final UnitRoleCode role;
+class CategoryExpanded extends ConsumerStatefulWidget
+{
+    final String armyId;
+    final UnitRoleCode role;
 
-  const CategoryExpanded({super.key, required this.armyId, required this.role});
+    const CategoryExpanded({super.key, required this.armyId, required this.role});
 
-  @override
-  ConsumerState<CategoryExpanded> createState() => _CategoryExpandedState();
+    @override
+    ConsumerState<CategoryExpanded> createState() => _CategoryExpandedState();
 }
 
-class _CategoryExpandedState extends ConsumerState<CategoryExpanded> {
-  // Единственный источник истины для состояния открытия
-  bool _isExpanded = false;
-  bool _isSelectionMode = false;
+class _CategoryExpandedState extends ConsumerState<CategoryExpanded>
+{
+    // Единственный источник истины для состояния открытия
+    bool _isExpanded = false;
+    bool _isSelectionMode = false;
 
-  @override
-  Widget build(BuildContext context) {
-    final state = ref.watch(armyBuilderControllerProvider(widget.armyId));
-    final roleUnits = state.getAllUnitsByRoleFromUserArmy(widget.role.name);
+    @override
+    Widget build(BuildContext context)
+    {
+        final state = ref.watch(armyBuilderControllerProvider(widget.armyId));
+        final roleUnits = state.getAllUnitsByRoleFromUserArmy(widget.role.name);
 
-    // В будущем тут будет реальный подсчет очков
-    final subtitle = '${_getPTSFromCategory(roleUnits)} pts  ${roleUnits.length} units';
+        // В будущем тут будет реальный подсчет очков
+        final subtitle = '${_getPTSFromCategory(roleUnits)} pts  ${roleUnits.length} units';
 
-    return ExpandableSection(
-      title: widget.role.title,
-      subtitle: subtitle,
-      isExpanded: _isExpanded, // Передаем состояние "сверху"
-      onExpansionChanged: (expanded) {
-        setState(() {
-          _isExpanded = expanded; // Меняем состояние здесь
-          if (!expanded) _isSelectionMode = false;
-        });
-      },
-      trailing: ButtonOpenSelectUnits(
-        icon: _isSelectionMode ? Icons.remove : Icons.add,
-        // Кнопка теперь четко знает, развернута ли секция
-        enabled: !state.isLoading && _isExpanded,
-        onTap: () {
-          setState(() {
-            _isSelectionMode = !_isSelectionMode; // Переключаем режим
-          });
-        },
-      ),
-      child: CategoryContainer(
-        armyId: widget.armyId,
-        role: widget.role,
-        isSelectionModeContainer: _isSelectionMode,
-      ),
-    );
-  }
+        return ExpandableSection(
+            title: widget.role.title,
+            subtitle: subtitle,
+            isExpanded: _isExpanded, // Передаем состояние "сверху"
+            onExpansionChanged: (expanded)
+            {
+                setState(()
+                    {
+                        _isExpanded = expanded; // Меняем состояние здесь
+                        if (!expanded) _isSelectionMode = false;
+                    });
+            },
+            trailing: ButtonOpenSelectUnits(
+                icon: _isSelectionMode ? Icons.remove : Icons.add,
+                // Кнопка теперь четко знает, развернута ли секция
+                enabled: !state.isLoading && _isExpanded,
+                onTap: ()
+                {
+                    setState(()
+                        {
+                            _isSelectionMode = !_isSelectionMode; // Переключаем режим
+                        });
+                }
+            ),
+            child: CategoryContainer(
+                armyId: widget.armyId,
+                role: widget.role,
+                isSelectionModeContainer: _isSelectionMode
+            )
+        );
+    }
 
-  int _getPTSFromCategory(List<ArmyBuilderUnitItemUi> units) {
-    return units.fold(0, (sum, unit) {
-      // Берем первое значение из карты очков (стоимость выбранного состава)
-      // Если карта пуста, прибавляем 0
-      return sum + unit.selectedComposition.values.first;
-    });
-  }
+    int _getPTSFromCategory(List<ArmyBuilderUnitItemUi> units) =>
+    units.fold(0, (sum, u) =>
+        sum + (u.selectedComposition.isNotEmpty ? u.selectedComposition.values.first : 0));
 }

@@ -19,7 +19,7 @@ class CreateUnit {
   Future<void> call({
     required UnitName name,
     required ArmyId armyId,
-    required CodexCodeDom? codexCode,
+    required CodexId? codexId,
     required UnitRoleCodeDom role,
     required int repeat,
     required List<String> keywords,
@@ -35,7 +35,7 @@ class CreateUnit {
     final unit = UnitDOM.create(
       name: name,
       armyId: armyId,
-      codexCode: codexCode,
+      codexId: codexId,
       role: role,
       repeat: repeat,
       keywords: keywords,

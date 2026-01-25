@@ -8,7 +8,7 @@ import 'package:ypa/domain/models/unit/unit_stats.dart';
 
 import '../../../core/database/tables/seed/seed_objects/_types.dart';
 import '../army/army_id.dart';
-import '../codex/codex_code.dart';
+import '../codex/codex_id.dart'; // ДОБАВЛЕНО
 import 'unit_id.dart';
 import 'unit_name.dart';
 import 'unit_roleCode.dart';
@@ -18,7 +18,7 @@ class UnitDOM
     final UnitId id;
     final UnitName name;
     final ArmyId armyId;
-    final CodexCodeDom? codexCode;
+    final CodexId? codexId; // ИЗМЕНЕНО: теперь это CodexId (UUID)
     final UnitRoleCodeDom role;
     final int repeat;
     final List<String> keywords;
@@ -35,7 +35,7 @@ class UnitDOM
         required this.id,
         required this.name,
         required this.armyId,
-        required this.codexCode,
+        required this.codexId,
         required this.role,
         required this.repeat,
         required this.keywords,
@@ -53,7 +53,7 @@ class UnitDOM
         required UnitId id,
         required UnitName name,
         required ArmyId armyId,
-        required CodexCodeDom? codexCode,
+        required CodexId? codexId, // ИЗМЕНЕНО
         required UnitRoleCode role,
         required int repeat,
         required List<String> keywords,
@@ -72,7 +72,7 @@ class UnitDOM
             id: id,
             name: name,
             armyId: armyId,
-            codexCode: codexCode,
+            codexId: codexId,
             role: UnitRoleCodeDom(role),
             repeat: repeat,
             keywords: keywords,
@@ -90,7 +90,7 @@ class UnitDOM
     factory UnitDOM.create({
         required UnitName name,
         required ArmyId armyId,
-        required CodexCodeDom? codexCode,
+        required CodexId? codexId, // ИЗМЕНЕНО
         required UnitRoleCodeDom role,
         required int repeat,
         required List<String> keywords,
@@ -109,7 +109,7 @@ class UnitDOM
             id: UnitId.fromString(const Uuid().v4()),
             name: name,
             armyId: armyId,
-            codexCode: codexCode,
+            codexId: codexId,
             role: role,
             repeat: repeat,
             keywords: keywords,
@@ -145,8 +145,8 @@ class UnitDOM
             id: this.id,
             name: name ?? this.name,
             armyId: armyId ?? this.armyId,
-            codexCode: codexId == const _Sentinel()
-                ? this.codexCode : (codexId as CodexCodeDom?),
+            codexId: codexId == const _Sentinel()
+                ? this.codexId : (codexId as CodexId?),
             role: role ?? this.role,
             repeat: repeat ?? this.repeat,
             keywords: keywords ?? this.keywords,

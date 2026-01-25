@@ -41,10 +41,31 @@ class DriftUnitRepository implements UnitRepository
     @override
     Future<List<UnitDOM>> findUnitsByCodex(CodexId codexId) async
     {
+        //print('DEBUG: Requesting units for codexId.value: "${codexId.value}"');
+
         final query = db.select(db.units)..where((tbl) => tbl.codexId.equals(codexId.value));
 
         final rows = await query.get();
-        return rows.map(UnitMapper.fromRow).toList();
+        //print('DEBUG: Found ${rows.length} rows in DB for codex. Starting mapping...');
+
+        final List<UnitDOM> units = [];
+
+        for (var row in rows)
+        {
+            try
+            {
+                units.add(UnitMapper.fromRow(row));
+            } catch (e)
+            {
+                print('ERROR mapping unit "${row.name}" from codex: $e');
+                // print('   - armyId: ${row.armyId}');
+                // print('   - codexId: ${row.codexId}');
+                // print('   - roleCode: ${row.roleCode}');
+            }
+        }
+
+        //print('DEBUG: Successfully mapped ${units.length} / ${rows.length} units from codex');
+        return units;
     }
 
     @override
@@ -55,7 +76,7 @@ class DriftUnitRepository implements UnitRepository
 
         final query = db.select(db.units)..where((tbl)
             {
-                return tbl.armyId.equals(armyId.value) & (tbl.codexId.isNull() | tbl.codexId.equals(''));
+                return tbl.armyId.equals(armyId.value) & tbl.codexId.isNull();
             }
         );
 
@@ -73,7 +94,7 @@ class DriftUnitRepository implements UnitRepository
             } catch (e)
             {
                 // Если здесь произойдет ошибка, мы увидим на каком юните и почему
-                // print('ERROR mapping unit "${row.name}": $e');
+                print('ERROR mapping unit "${row.name}": $e');
                 // print('   - armyId: ${row.armyId}');
                 // print('   - codexId: ${row.codexId}');
                 // print('   - roleCode: ${row.roleCode}');

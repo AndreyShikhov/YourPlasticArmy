@@ -167,9 +167,9 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
     // Getters
     // ==========================================
 
-    List<ArmyBuilderUnitItemUi> getUnitsByRoleFromUserArmy(String roleTitle) 
+    List<ArmyBuilderUnitItemUi> getUnitsByRoleFromUserArmy(String roleTitle)
     {
-        if (state.userArmyUnits == null || state.userArmyUnits!.isEmpty) 
+        if (state.userArmyUnits == null || state.userArmyUnits!.isEmpty)
         {
             return [];
         }
@@ -199,7 +199,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         {
             final userArmy = await _getUserArmyById(_armyId);
 
-            if (userArmy == null) 
+            if (userArmy == null)
             {
                 state = state.copyWith(isLoading: false, error: 'Army not found');
                 return;
@@ -207,7 +207,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
 
             final codex = await _getCodexById(userArmy.codexId);
             List<DetachmentDOM> allDetachments = [];
-            if (codex != null) 
+            if (codex != null)
             {
                 allDetachments = await _getAllDetachmentsByCodexId(userArmy.codexId);
             }
@@ -249,14 +249,14 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         }
     }
 
-    void fillTemDataUnitsByRole() 
+    void fillTemDataUnitsByRole()
     {
         Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> temDataUnitsByRole = {};
 
         for (UnitRoleCode role in UnitRoleCode.values)
         {
-            List<ArmyBuilderUnitItemUi> units = state.getAllUnitsByRoleFromDB(role.title);
-            if (units.isNotEmpty) 
+            List<ArmyBuilderUnitItemUi> units = state.getAllUnitsByRoleFromDB(role.name);
+            if (units.isNotEmpty)
             {
                 temDataUnitsByRole.addEntries([MapEntry(role, units)]);
             }
@@ -264,12 +264,12 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         state = state.copyWith(temDataUnitsByRole: temDataUnitsByRole);
     }
 
-    ArmyBuilderUnitItemUi _convertDomainUnitToUnitItemUi(UnitDOM unit) 
+    ArmyBuilderUnitItemUi _convertDomainUnitToUnitItemUi(UnitDOM unit)
     {
         return ArmyBuilderUnitItemUi(
             dbId: unit.id.value,
             name: unit.name.value,
-            role: unit.role.value.title,
+            role: unit.role.value.name,
             repeat: unit.repeat.toString(),
             keywords: unit.keywords,
             factionKeywords: unit.factionKeywords,
@@ -280,7 +280,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             leader: unit.leader,
             ledBy: unit.ledBy,
             modelStats: unit.modelStats,
-            selectedComposition: unit.unitComposition.selectedComposition!,
+            selectedComposition: unit.unitComposition.selectedComposition?? unit.unitComposition.unitCost.first,
         );
     }
 
@@ -298,7 +298,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             {
                 final roleCode = UnitRoleCodeX.fromName(entry.key);
 
-                if (roleCode != null && entry.value is List) 
+                if (roleCode != null && entry.value is List)
                 {
                     final List<dynamic> unitsJson = entry.value;
 
