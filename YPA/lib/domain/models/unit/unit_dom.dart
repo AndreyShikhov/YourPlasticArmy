@@ -7,8 +7,8 @@ import 'package:uuid/uuid.dart';
 import 'package:ypa/domain/models/unit/unit_stats.dart';
 
 import '../../../core/database/tables/seed/seed_objects/_types.dart';
-import '../army/army_code.dart';
-import '../codex/codex.dart';
+import '../army/army_id.dart';
+import '../codex/codex_code.dart';
 import 'unit_id.dart';
 import 'unit_name.dart';
 import 'unit_roleCode.dart';
@@ -17,7 +17,7 @@ class UnitDOM
 {
     final UnitId id;
     final UnitName name;
-    final ArmyCodeDom armyCode;
+    final ArmyId armyId;
     final CodexCodeDom? codexCode;
     final UnitRoleCodeDom role;
     final int repeat;
@@ -34,7 +34,7 @@ class UnitDOM
     const UnitDOM._({
         required this.id,
         required this.name,
-        required this.armyCode,
+        required this.armyId,
         required this.codexCode,
         required this.role,
         required this.repeat,
@@ -52,9 +52,9 @@ class UnitDOM
     factory UnitDOM.restore({
         required UnitId id,
         required UnitName name,
-        required ArmyCodeDom armyCode,
+        required ArmyId armyId,
         required CodexCodeDom? codexCode,
-        required UnitRoleCodeDom role,
+        required UnitRoleCode role,
         required int repeat,
         required List<String> keywords,
         required List<String> factionKeywords,
@@ -71,9 +71,9 @@ class UnitDOM
         return UnitDOM._(
             id: id,
             name: name,
-            armyCode: armyCode,
+            armyId: armyId,
             codexCode: codexCode,
-            role: role,
+            role: UnitRoleCodeDom(role),
             repeat: repeat,
             keywords: keywords,
             factionKeywords: factionKeywords,
@@ -89,7 +89,7 @@ class UnitDOM
 
     factory UnitDOM.create({
         required UnitName name,
-        required ArmyCodeDom armyCode,
+        required ArmyId armyId,
         required CodexCodeDom? codexCode,
         required UnitRoleCodeDom role,
         required int repeat,
@@ -108,7 +108,7 @@ class UnitDOM
         return UnitDOM._(
             id: UnitId.fromString(const Uuid().v4()),
             name: name,
-            armyCode: armyCode,
+            armyId: armyId,
             codexCode: codexCode,
             role: role,
             repeat: repeat,
@@ -121,13 +121,12 @@ class UnitDOM
             leader: leader,
             ledBy: ledBy,
             modelStats: modelStats
-
         );
     }
 
     UnitDOM copyWith({
         UnitName? name,
-        ArmyCodeDom? armyCode,
+        ArmyId? armyId,
         Object? codexId = const _Sentinel(),
         UnitRoleCodeDom? role,
         int? repeat,
@@ -145,9 +144,9 @@ class UnitDOM
         return UnitDOM._(
             id: this.id,
             name: name ?? this.name,
-            armyCode: armyCode ?? this.armyCode,
-            codexCode: codexCode == const _Sentinel()
-                ? this.codexCode : codexCode,
+            armyId: armyId ?? this.armyId,
+            codexCode: codexId == const _Sentinel()
+                ? this.codexCode : (codexId as CodexCodeDom?),
             role: role ?? this.role,
             repeat: repeat ?? this.repeat,
             keywords: keywords ?? this.keywords,

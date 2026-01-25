@@ -6,38 +6,34 @@
 import 'package:drift/drift.dart';
 
 import '../../core/database/app_database.dart';
-import '../../domain/models/army/army_code.dart';
+import '../../domain/models/army/army_id.dart'; // Добавлен импорт
 import '../../domain/models/codex/codex_code.dart';
 import '../../domain/models/unit/unit.dart';
 
 class UnitMapper {
   static UnitDOM fromRow(UnitRow row) {
-    // row.stats теперь имеет тип UnitStats благодаря UnitStatsConverter
     final stats = row.unitStats;
 
     return UnitDOM.restore(
-        id: UnitId.fromString(row.id),
-        name: UnitName(row.name),
-        armyCode: ArmyCodeDom.fromString(row.armyId),
-        codexCode: row.codexId != null ? CodexCodeDom.fromString(row.codexId!) : null,
-        role: UnitRoleCodeDom.fromString(row.roleCode),
-        repeat: stats.repeat,
-        keywords: stats.keywords,
-        factionKeywords: stats.factionKeywords,
-        unitComposition: stats.unitComposition,
-        unitAbility: stats.unitAbility,
-        coreAbilities: stats.coreAbilities,
-        factionAbilities: stats.factionAbilities,
-        leader: stats.leader,
-        ledBy: stats.ledBy,
-        modelStats: stats.modelStats
+      id: UnitId.fromString(row.id),
+      name: UnitName(row.name),
+      armyId: ArmyId.fromString(row.armyId),
+      codexCode: row.codexId != null ? CodexCodeDom.fromString(row.codexId!) : null,
+      role: UnitRoleCodeDom.fromString(row.roleCode).toEnum(),
+      repeat: stats.repeat,
+      keywords: stats.keywords,
+      factionKeywords: stats.factionKeywords,
+      unitComposition: stats.unitComposition,
+      unitAbility: stats.unitAbility,
+      coreAbilities: stats.coreAbilities,
+      factionAbilities: stats.factionAbilities,
+      leader: stats.leader,
+      ledBy: stats.ledBy,
+      modelStats: stats.modelStats,
     );
-
-
   }
 
   static UnitsCompanion toCompanion(UnitDOM unit) {
-    // Упаковываем все поля UnitDOM обратно в объект UnitStats для сохранения в одну колонку
     final statsWrapper = UnitStats(
       repeat: unit.repeat,
       keywords: unit.keywords,
@@ -54,7 +50,8 @@ class UnitMapper {
     return UnitsCompanion(
       id: Value(unit.id.value),
       name: Value(unit.name.value),
-      armyId: Value(unit.armyCode.value),
+      // Сохраняем значение ID армии
+      armyId: Value(unit.armyId.value),
       codexId: unit.codexCode != null 
           ? Value(unit.codexCode!.value)
           : const Value.absent(),

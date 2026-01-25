@@ -18,7 +18,7 @@ class CreateUnit {
 
   Future<void> call({
     required UnitName name,
-    required ArmyCodeDom armyCode,
+    required ArmyId armyId,
     required CodexCodeDom? codexCode,
     required UnitRoleCodeDom role,
     required int repeat,
@@ -34,7 +34,7 @@ class CreateUnit {
   }) async {
     final unit = UnitDOM.create(
       name: name,
-      armyCode: armyCode,
+      armyId: armyId,
       codexCode: codexCode,
       role: role,
       repeat: repeat,
