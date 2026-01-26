@@ -214,7 +214,7 @@ class UnitStatsDom
 
     factory UnitStatsDom.fromJson(Map<String, dynamic> json)
     {
-        final Map<String, dynamic> modelsRaw = json['models'] as Map<String, dynamic>? ?? {};
+        final Map<String, dynamic> modelsRaw = json['modelStats'] as Map<String, dynamic>? ?? {};
 
         return UnitStatsDom(
             repeat: json['repeat'] as int? ?? 1,

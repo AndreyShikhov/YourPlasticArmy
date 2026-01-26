@@ -6,6 +6,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/core/ui/screens/army_builder/army_builder_item_ui.dart';
+import 'package:ypa/core/ui/screens/army_builder/widgets/units_block/model_from_unit.dart';
 import 'package:ypa/core/ui/screens/data/style_data.dart';
 
 class UnitWidget extends ConsumerWidget
@@ -20,6 +21,14 @@ class UnitWidget extends ConsumerWidget
         required this.unit,
         required this.numberUnit
     });
+
+    List<ModelFromUnit> _getModelsWidgets()
+    {
+      return unit.modelStats.entries.map((entry)
+      {
+        return ModelFromUnit(modelStats: {entry.key: entry.value});
+      }).toList();
+    }
 
     @override
     Widget build(BuildContext context, WidgetRef ref)
@@ -42,24 +51,14 @@ class UnitWidget extends ConsumerWidget
                             children: [
                                 Text('${unit.name} ${_getRomeNumber(numberUnit)}', style: const TextStyle(color: Colors.white)),
                                 const Spacer(),
-                                Text('${unit.selectedComposition.values.first}')
+                                Text(' ${unit.selectedComposition.keys.first} models/ ${unit.selectedComposition.values.first} pts')
                             ]
                         ),
-                        Row( // выбранное оружие
-                            children: [
-                                Column(  // оуржие дальнего боя
-                                    children: [
-                                        ..._getRangedWeapon()
-                                    ]
-                                ),
-                                Column(// оружие ближнего боя
-                                    children: [
-                                        ..._getMeleeWeapon()
-                                    ]
-                                )
-                            ]
+                        Column( // все модели в юните
+                          children: [
+                           ..._getModelsWidgets(),
+                          ],
                         )
-
                     ]
                 )
             )
@@ -93,20 +92,5 @@ class UnitWidget extends ConsumerWidget
             default:
             return '';
         }
-    }
-
-    List<Text> _getRangedWeapon() 
-    {
-
-        List<Text> res = [];//unit.weapons[WeaponType.ranged]!.map((w) => Text(w.name)).toList();
-        return res;
-
-    }
-
-    List<Text> _getMeleeWeapon() 
-    {
-
-        List<Text> res = [];//unit.weapons[WeaponType.melee]!.map((w) => Text(w.name)).toList();
-        return res;
     }
 }
