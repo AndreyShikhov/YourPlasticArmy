@@ -3,8 +3,7 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-import 'package:ypa/domain/models/unit/unit_stats.dart';
-
+import '../../../../../../domain/models/unit/unit.dart';
 import '../_types.dart';
 
 List<UnitSeed> bloodAngelsUnits()
@@ -47,7 +46,7 @@ List<UnitSeed> bloodAngelsUnits()
             leader: const[],
             modelStats:
             {
-                'Astorath' : ModelStats(
+                'Astorath' : ModelStatsDom(
                     movement: 12,
                     toughness: 4,
                     save: 2,
@@ -55,40 +54,44 @@ List<UnitSeed> bloodAngelsUnits()
                     wounds: 5,
                     leadership: 5,
                     objectiveControl: 1,
-                    weapons:
-                    {
+                    modelWeapons: ModelWeaponsDom(
+                      weapons: {
                         WeaponType.ranged : [
-                            Weapon(
-                                name: 'Perdition Pistol',
-                                type: WeaponType.ranged,
-                                weaponAbilities: const[
-                                    WeaponAbilitiesCode.pistol,
-                                    WeaponAbilitiesCode.melta
-                                ],
-                                range: 6,
-                                attacks: const Dice(fix: 1).toString(),
-                                skill: 2,
-                                strength: 8,
-                                ap: -4,
-                                damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
-                                    .toString()
-                            )
+                          WeaponDom(
+                              name: 'Perdition Pistol',
+                              type: WeaponType.ranged,
+                              weaponAbilities: const[
+                                WeaponAbilitiesCode.pistol,
+                                WeaponAbilitiesCode.melta
+                              ],
+                              range: 6,
+                              attacks: const Dice(fix: 1).toString(),
+                              skill: 2,
+                              strength: 8,
+                              ap: -4,
+                              damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                  .toString()
+                          )
                         ],
                         WeaponType.melee : [
-                            Weapon(
-                                name: 'The Axe Mortalis',
-                                type: WeaponType.melee,
-                                weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
-                                range: 0,
-                                attacks: const Dice(fix: 8).toString(),
-                                skill: 2,
-                                strength: 8,
-                                ap: -3,
-                                damage: const Dice(fix: 2).toString()
-                            )
+                          WeaponDom(
+                              name: 'The Axe Mortalis',
+                              type: WeaponType.melee,
+                              weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
+                              range: 0,
+                              attacks: const Dice(fix: 8).toString(),
+                              skill: 2,
+                              strength: 8,
+                              ap: -3,
+                              damage: const Dice(fix: 2).toString()
+                          )
                         ]
-                    },
-
+                      },
+                      selectedWeapons: {
+                        WeaponType.ranged : ['Perdition Pistol'],
+                        WeaponType.melee : ['The Axe Mortalis']
+                      }
+                    ),
                     wargearOptions: WargearOptions.emptyOptions
                 )
             }
@@ -128,7 +131,7 @@ List<UnitSeed> bloodAngelsUnits()
             leader: const[],
             modelStats:
             {
-                'Blood Angels Captain' : ModelStats(
+                'Blood Angels Captain' : ModelStatsDom(
                     movement: 6,
                     toughness: 4,
                     save: 3,
@@ -136,16 +139,15 @@ List<UnitSeed> bloodAngelsUnits()
                     wounds: 5,
                     leadership: 6,
                     objectiveControl: 1,
-
-                    weapons:
-                    {
-                        WeaponType.ranged : [
-                            Weapon(
+                    modelWeapons: ModelWeaponsDom(
+                        weapons: {
+                          WeaponType.ranged : [
+                            WeaponDom(
                                 name: 'Perdition Pistol',
                                 type: WeaponType.ranged,
                                 weaponAbilities: const[
-                                    WeaponAbilitiesCode.pistol,
-                                    WeaponAbilitiesCode.melta
+                                  WeaponAbilitiesCode.pistol,
+                                  WeaponAbilitiesCode.melta
                                 ],
                                 range: 6,
                                 attacks: const Dice(fix: 1).toString(),
@@ -155,9 +157,9 @@ List<UnitSeed> bloodAngelsUnits()
                                 damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
                                     .toString()
                             )
-                        ],
-                        WeaponType.melee : [
-                            Weapon(
+                          ],
+                          WeaponType.melee : [
+                            WeaponDom(
                                 name: 'The Axe Mortalis',
                                 type: WeaponType.melee,
                                 weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
@@ -168,9 +170,13 @@ List<UnitSeed> bloodAngelsUnits()
                                 ap: -3,
                                 damage: const Dice(fix: 2).toString()
                             )
-                        ]
-                    },
-
+                          ]
+                        },
+                        selectedWeapons: {
+                          WeaponType.ranged : ['Perdition Pistol'],
+                          WeaponType.melee : ['The Axe Mortalis']
+                        }
+                    ),
                     wargearOptions: WargearOptions.emptyOptions
                 )
             }
@@ -210,7 +216,7 @@ List<UnitSeed> bloodAngelsUnits()
             leader: const[],
             modelStats:
             {
-                'Chief Librarian Mephiston':ModelStats(
+                'Chief Librarian Mephiston':ModelStatsDom(
                     movement: 7,
                     toughness: 5,
                     save: 2,
@@ -218,16 +224,15 @@ List<UnitSeed> bloodAngelsUnits()
                     wounds: 6,
                     leadership: 6,
                     objectiveControl: 1,
-
-                    weapons:
-                    {
-                        WeaponType.ranged : [
-                            Weapon(
+                    modelWeapons: ModelWeaponsDom(
+                        weapons: {
+                          WeaponType.ranged : [
+                            WeaponDom(
                                 name: 'Perdition Pistol',
                                 type: WeaponType.ranged,
                                 weaponAbilities: const[
-                                    WeaponAbilitiesCode.pistol,
-                                    WeaponAbilitiesCode.melta
+                                  WeaponAbilitiesCode.pistol,
+                                  WeaponAbilitiesCode.melta
                                 ],
                                 range: 6,
                                 attacks: const Dice(fix: 1).toString(),
@@ -237,9 +242,9 @@ List<UnitSeed> bloodAngelsUnits()
                                 damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
                                     .toString()
                             )
-                        ],
-                        WeaponType.melee : [
-                            Weapon(
+                          ],
+                          WeaponType.melee : [
+                            WeaponDom(
                                 name: 'The Axe Mortalis',
                                 type: WeaponType.melee,
                                 weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
@@ -250,9 +255,13 @@ List<UnitSeed> bloodAngelsUnits()
                                 ap: -3,
                                 damage: const Dice(fix: 2).toString()
                             )
-                        ]
-                    },
-
+                          ]
+                        },
+                        selectedWeapons: {
+                          WeaponType.ranged : ['Perdition Pistol'],
+                          WeaponType.melee : ['The Axe Mortalis']
+                        }
+                    ),
                     wargearOptions: WargearOptions.emptyOptions
                 )
             }
@@ -292,7 +301,7 @@ List<UnitSeed> bloodAngelsUnits()
             leader: const[],
             modelStats: 
             {
-                'Commander Dante': ModelStats(
+                'Commander Dante': ModelStatsDom(
                     movement: 12,
                     toughness: 4,
                     save: 2,
@@ -300,16 +309,15 @@ List<UnitSeed> bloodAngelsUnits()
                     wounds: 6,
                     leadership: 6,
                     objectiveControl: 1,
-
-                    weapons:
-                    {
-                        WeaponType.ranged : [
-                            Weapon(
+                    modelWeapons: ModelWeaponsDom(
+                        weapons: {
+                          WeaponType.ranged : [
+                            WeaponDom(
                                 name: 'Perdition Pistol',
                                 type: WeaponType.ranged,
                                 weaponAbilities: const[
-                                    WeaponAbilitiesCode.pistol,
-                                    WeaponAbilitiesCode.melta
+                                  WeaponAbilitiesCode.pistol,
+                                  WeaponAbilitiesCode.melta
                                 ],
                                 range: 6,
                                 attacks: const Dice(fix: 1).toString(),
@@ -319,9 +327,9 @@ List<UnitSeed> bloodAngelsUnits()
                                 damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
                                     .toString()
                             )
-                        ],
-                        WeaponType.melee : [
-                            Weapon(
+                          ],
+                          WeaponType.melee : [
+                            WeaponDom(
                                 name: 'The Axe Mortalis',
                                 type: WeaponType.melee,
                                 weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
@@ -332,9 +340,13 @@ List<UnitSeed> bloodAngelsUnits()
                                 ap: -3,
                                 damage: const Dice(fix: 2).toString()
                             )
-                        ]
-                    },
-
+                          ]
+                        },
+                        selectedWeapons: {
+                          WeaponType.ranged : ['Perdition Pistol'],
+                          WeaponType.melee : ['The Axe Mortalis']
+                        }
+                    ),
                     wargearOptions: WargearOptions.emptyOptions
                 )
             }
@@ -380,7 +392,7 @@ List<UnitSeed> bloodAngelsUnits()
             leader: const[],
             modelStats: 
             {
-                'Baal Predator': ModelStats(
+                'Baal Predator': ModelStatsDom(
                     movement: 12,
                     toughness: 10,
                     save: 3,
@@ -388,15 +400,15 @@ List<UnitSeed> bloodAngelsUnits()
                     wounds: 11,
                     leadership: 6,
                     objectiveControl: 3,
-                    weapons:
-                    {
-                        WeaponType.ranged : [
-                            Weapon(
+                    modelWeapons: ModelWeaponsDom(
+                        weapons: {
+                          WeaponType.ranged : [
+                            WeaponDom(
                                 name: 'Perdition Pistol',
                                 type: WeaponType.ranged,
                                 weaponAbilities: const[
-                                    WeaponAbilitiesCode.pistol,
-                                    WeaponAbilitiesCode.melta
+                                  WeaponAbilitiesCode.pistol,
+                                  WeaponAbilitiesCode.melta
                                 ],
                                 range: 6,
                                 attacks: const Dice(fix: 1).toString(),
@@ -406,9 +418,9 @@ List<UnitSeed> bloodAngelsUnits()
                                 damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
                                     .toString()
                             )
-                        ],
-                        WeaponType.melee : [
-                            Weapon(
+                          ],
+                          WeaponType.melee : [
+                            WeaponDom(
                                 name: 'The Axe Mortalis',
                                 type: WeaponType.melee,
                                 weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
@@ -419,8 +431,13 @@ List<UnitSeed> bloodAngelsUnits()
                                 ap: -3,
                                 damage: const Dice(fix: 2).toString()
                             )
-                        ]
-                    },
+                          ]
+                        },
+                        selectedWeapons: {
+                          WeaponType.ranged : ['Perdition Pistol'],
+                          WeaponType.melee : ['The Axe Mortalis']
+                        }
+                    ),
                     wargearOptions: WargearOptions.emptyOptions
                 )
             }
@@ -460,7 +477,7 @@ List<UnitSeed> bloodAngelsUnits()
             leader: const[],
             modelStats: 
             {
-                'Death Company Dreadnought': ModelStats(
+                'Death Company Dreadnought': ModelStatsDom(
                     movement: 8,
                     toughness: 10,
                     save: 2,
@@ -468,15 +485,15 @@ List<UnitSeed> bloodAngelsUnits()
                     wounds: 12,
                     leadership: 6,
                     objectiveControl: 4,
-                    weapons:
-                    {
-                        WeaponType.ranged : [
-                            Weapon(
+                    modelWeapons: ModelWeaponsDom(
+                        weapons: {
+                          WeaponType.ranged : [
+                            WeaponDom(
                                 name: 'Perdition Pistol',
                                 type: WeaponType.ranged,
                                 weaponAbilities: const[
-                                    WeaponAbilitiesCode.pistol,
-                                    WeaponAbilitiesCode.melta
+                                  WeaponAbilitiesCode.pistol,
+                                  WeaponAbilitiesCode.melta
                                 ],
                                 range: 6,
                                 attacks: const Dice(fix: 1).toString(),
@@ -486,9 +503,9 @@ List<UnitSeed> bloodAngelsUnits()
                                 damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
                                     .toString()
                             )
-                        ],
-                        WeaponType.melee : [
-                            Weapon(
+                          ],
+                          WeaponType.melee : [
+                            WeaponDom(
                                 name: 'The Axe Mortalis',
                                 type: WeaponType.melee,
                                 weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
@@ -499,9 +516,13 @@ List<UnitSeed> bloodAngelsUnits()
                                 ap: -3,
                                 damage: const Dice(fix: 2).toString()
                             )
-                        ]
-                    },
-
+                          ]
+                        },
+                        selectedWeapons: {
+                          WeaponType.ranged : ['Perdition Pistol'],
+                          WeaponType.melee : ['The Axe Mortalis']
+                        }
+                    ),
                     wargearOptions: WargearOptions.emptyOptions
                 )
             }
@@ -541,7 +562,7 @@ List<UnitSeed> bloodAngelsUnits()
             leader: const[],
             modelStats: 
             {
-                'Death Company Marines': ModelStats(
+                'Death Company Marines': ModelStatsDom(
                     movement: 6,
                     toughness: 4,
                     save: 3,
@@ -549,16 +570,15 @@ List<UnitSeed> bloodAngelsUnits()
                     wounds: 2,
                     leadership: 6,
                     objectiveControl: 1,
-
-                    weapons:
-                    {
-                        WeaponType.ranged : [
-                            Weapon(
+                    modelWeapons: ModelWeaponsDom(
+                        weapons: {
+                          WeaponType.ranged : [
+                            WeaponDom(
                                 name: 'Perdition Pistol',
                                 type: WeaponType.ranged,
                                 weaponAbilities: const[
-                                    WeaponAbilitiesCode.pistol,
-                                    WeaponAbilitiesCode.melta
+                                  WeaponAbilitiesCode.pistol,
+                                  WeaponAbilitiesCode.melta
                                 ],
                                 range: 6,
                                 attacks: const Dice(fix: 1).toString(),
@@ -568,9 +588,9 @@ List<UnitSeed> bloodAngelsUnits()
                                 damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
                                     .toString()
                             )
-                        ],
-                        WeaponType.melee : [
-                            Weapon(
+                          ],
+                          WeaponType.melee : [
+                            WeaponDom(
                                 name: 'The Axe Mortalis',
                                 type: WeaponType.melee,
                                 weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
@@ -581,8 +601,13 @@ List<UnitSeed> bloodAngelsUnits()
                                 ap: -3,
                                 damage: const Dice(fix: 2).toString()
                             )
-                        ]
-                    },
+                          ]
+                        },
+                        selectedWeapons: {
+                          WeaponType.ranged : ['Perdition Pistol'],
+                          WeaponType.melee : ['The Axe Mortalis']
+                        }
+                    ),
                     wargearOptions: WargearOptions.emptyOptions
                 )
             }
@@ -622,7 +647,7 @@ List<UnitSeed> bloodAngelsUnits()
             leader: const[],
             modelStats: 
             {
-                'Death Company Marines with Bolt Rifles': ModelStats(
+                'Death Company Marines with Bolt Rifles': ModelStatsDom(
                     movement: 6,
                     toughness: 4,
                     save: 3,
@@ -630,15 +655,15 @@ List<UnitSeed> bloodAngelsUnits()
                     wounds: 2,
                     leadership: 6,
                     objectiveControl: 1,
-                    weapons:
-                    {
-                        WeaponType.ranged : [
-                            Weapon(
+                    modelWeapons: ModelWeaponsDom(
+                        weapons: {
+                          WeaponType.ranged : [
+                            WeaponDom(
                                 name: 'Perdition Pistol',
                                 type: WeaponType.ranged,
                                 weaponAbilities: const[
-                                    WeaponAbilitiesCode.pistol,
-                                    WeaponAbilitiesCode.melta
+                                  WeaponAbilitiesCode.pistol,
+                                  WeaponAbilitiesCode.melta
                                 ],
                                 range: 6,
                                 attacks: const Dice(fix: 1).toString(),
@@ -648,9 +673,9 @@ List<UnitSeed> bloodAngelsUnits()
                                 damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
                                     .toString()
                             )
-                        ],
-                        WeaponType.melee : [
-                            Weapon(
+                          ],
+                          WeaponType.melee : [
+                            WeaponDom(
                                 name: 'The Axe Mortalis',
                                 type: WeaponType.melee,
                                 weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
@@ -661,8 +686,13 @@ List<UnitSeed> bloodAngelsUnits()
                                 ap: -3,
                                 damage: const Dice(fix: 2).toString()
                             )
-                        ]
-                    },
+                          ]
+                        },
+                        selectedWeapons: {
+                          WeaponType.ranged : ['Perdition Pistol'],
+                          WeaponType.melee : ['The Axe Mortalis']
+                        }
+                    ),
                     wargearOptions: WargearOptions.emptyOptions
                 )
             }
@@ -702,7 +732,7 @@ List<UnitSeed> bloodAngelsUnits()
             leader: const[],
             modelStats: 
             {
-                'Death Company Marines With Jump Packs':ModelStats(
+                'Death Company Marines With Jump Packs':ModelStatsDom(
                     movement: 12,
                     toughness: 4,
                     save: 3,
@@ -710,15 +740,15 @@ List<UnitSeed> bloodAngelsUnits()
                     wounds: 2,
                     leadership: 6,
                     objectiveControl: 1,
-                    weapons:
-                    {
-                        WeaponType.ranged : [
-                            Weapon(
+                    modelWeapons: ModelWeaponsDom(
+                        weapons: {
+                          WeaponType.ranged : [
+                            WeaponDom(
                                 name: 'Perdition Pistol',
                                 type: WeaponType.ranged,
                                 weaponAbilities: const[
-                                    WeaponAbilitiesCode.pistol,
-                                    WeaponAbilitiesCode.melta
+                                  WeaponAbilitiesCode.pistol,
+                                  WeaponAbilitiesCode.melta
                                 ],
                                 range: 6,
                                 attacks: const Dice(fix: 1).toString(),
@@ -728,9 +758,9 @@ List<UnitSeed> bloodAngelsUnits()
                                 damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
                                     .toString()
                             )
-                        ],
-                        WeaponType.melee : [
-                            Weapon(
+                          ],
+                          WeaponType.melee : [
+                            WeaponDom(
                                 name: 'The Axe Mortalis',
                                 type: WeaponType.melee,
                                 weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
@@ -741,9 +771,13 @@ List<UnitSeed> bloodAngelsUnits()
                                 ap: -3,
                                 damage: const Dice(fix: 2).toString()
                             )
-                        ]
-                    },
-
+                          ]
+                        },
+                        selectedWeapons: {
+                          WeaponType.ranged : ['Perdition Pistol'],
+                          WeaponType.melee : ['The Axe Mortalis']
+                        }
+                    ),
                     wargearOptions: WargearOptions.emptyOptions
                 )
             }
@@ -783,7 +817,7 @@ List<UnitSeed> bloodAngelsUnits()
             leader: const[],
             modelStats: 
             {
-                'Sanguinary Guard': ModelStats(
+                'Sanguinary Guard': ModelStatsDom(
                     movement: 12,
                     toughness: 4,
                     save: 2,
@@ -791,15 +825,15 @@ List<UnitSeed> bloodAngelsUnits()
                     wounds: 3,
                     leadership: 6,
                     objectiveControl: 1,
-                    weapons:
-                    {
-                        WeaponType.ranged : [
-                            Weapon(
+                    modelWeapons: ModelWeaponsDom(
+                        weapons: {
+                          WeaponType.ranged : [
+                            WeaponDom(
                                 name: 'Perdition Pistol',
                                 type: WeaponType.ranged,
                                 weaponAbilities: const[
-                                    WeaponAbilitiesCode.pistol,
-                                    WeaponAbilitiesCode.melta
+                                  WeaponAbilitiesCode.pistol,
+                                  WeaponAbilitiesCode.melta
                                 ],
                                 range: 6,
                                 attacks: const Dice(fix: 1).toString(),
@@ -809,9 +843,9 @@ List<UnitSeed> bloodAngelsUnits()
                                 damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
                                     .toString()
                             )
-                        ],
-                        WeaponType.melee : [
-                            Weapon(
+                          ],
+                          WeaponType.melee : [
+                            WeaponDom(
                                 name: 'The Axe Mortalis',
                                 type: WeaponType.melee,
                                 weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
@@ -822,8 +856,13 @@ List<UnitSeed> bloodAngelsUnits()
                                 ap: -3,
                                 damage: const Dice(fix: 2).toString()
                             )
-                        ]
-                    },
+                          ]
+                        },
+                        selectedWeapons: {
+                          WeaponType.ranged : ['Perdition Pistol'],
+                          WeaponType.melee : ['The Axe Mortalis']
+                        }
+                    ),
                     wargearOptions: WargearOptions.emptyOptions
                 )
             }

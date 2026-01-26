@@ -4,27 +4,27 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-class UnitId
+class UnitIdDom
 {
     final String value;
 
-    const UnitId._(this.value);
+    const UnitIdDom._(this.value);
 
     /// Создать UnitId из строки
-    factory UnitId.fromString(String value)
+    factory UnitIdDom.fromString(String value)
     {
         if (value.isEmpty) 
         {
             throw Exception('UnitId не может быть пустым');
         }
         // Можно добавить проверку на корректный UUID, если нужно
-        return UnitId._(value);
+        return UnitIdDom._(value);
     }
 
     @override
     bool operator==(Object other) =>
     identical(this, other) ||
-        other is UnitId && runtimeType == other.runtimeType && value == other.value;
+        other is UnitIdDom && runtimeType == other.runtimeType && value == other.value;
 
     @override
     int get hashCode => value.hashCode;

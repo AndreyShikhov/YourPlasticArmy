@@ -13,7 +13,7 @@ import 'package:ypa/core/database/converters/unit_stats_converter.dart';
 import 'package:ypa/core/database/tables/seed/seed_data.dart';
 import 'package:ypa/core/database/tables/tables.dart';
 // Импорт модели для конвертера
-import 'package:ypa/domain/models/unit/unit_stats.dart';
+import 'package:ypa/domain/models/unit/model_stats.dart';
 
 part 'app_database.g.dart';
 

@@ -4,121 +4,7 @@
  ******************************************************************************/
 
 import '../../../core/database/tables/seed/seed_objects/_types.dart';
-
-// ==========================================
-// ENUMS
-// ==========================================
-
-enum DiceSides
-{
-    D6,
-    D3,
-    none
-}
-
-extension DiceSidesX on DiceSides
-{
-    String get text
-    {
-        switch (this)
-        {
-            case DiceSides.D6: return 'D6';
-            case DiceSides.D3: return 'D3';
-            case DiceSides.none: return '';
-        }
-    }
-}
-
-// ==========================================
-// DICE
-// ==========================================
-
-class Dice
-{
-    final int fix;      
-    final DiceSides side;
-    final int amount;   
-    final int modifier; 
-
-    const Dice({
-        required this.fix,
-        this.side = DiceSides.none,
-        this.amount = 0,
-        this.modifier = 0
-    });
-
-    @override
-    String toString()
-    {
-        if (fix > 0) return '$fix';
-        return (amount > 0 ? '$amount' : '') + side.name + (modifier > 0 ? ' + $modifier' : '');
-    }
-}
-
-// ==========================================
-// WEAPON
-// ==========================================
-
-class Weapon
-{
-    final String name;
-    final WeaponType type;
-    final List<WeaponAbilitiesCode> weaponAbilities;
-    final int range;
-    final String attacks;
-    final int skill;
-    final int strength;
-    final int ap;
-    final String damage;
-
-    const Weapon({
-        required this.name,
-        required this.type,
-        required this.weaponAbilities,
-        required this.range,
-        required this.attacks,
-        required this.skill,
-        required this.strength,
-        required this.ap,
-        required this.damage
-    });
-
-    Map<String, dynamic> toJson() =>
-    {
-        'name': name,
-        'type': type.name,
-        'weaponAbilities': weaponAbilities.map((a) => a.name).toList(),
-        'range': range,
-        'attacks': attacks,
-        'skill': skill,
-        'strength': strength,
-        'ap': ap,
-        'damage': damage
-    };
-
-    factory Weapon.fromJson(Map<String, dynamic> json)
-    {
-        return Weapon(
-            name: json['name'] as String? ?? '',
-            type: WeaponType.values.firstWhere(
-                (t) => t.name == json['type'],
-                orElse: () => WeaponType.none
-            ),
-            weaponAbilities: (json['weaponAbilities'] as List<dynamic>?)
-                ?.map((e) => WeaponAbilitiesCode.values.firstWhere(
-                        (a) => a.name == e,
-                        orElse: () => WeaponAbilitiesCode.none 
-                    ))
-                .toList() ?? [],
-            range: json['range'] as int? ?? 0,
-            attacks: json['attacks'] as String? ?? '0',
-            skill: json['skill'] as int? ?? 0,
-            strength: json['strength'] as int? ?? 0,
-            ap: json['ap'] as int? ?? 0,
-            damage: json['damage'] as String? ?? '0'
-        );
-    }
-}
+import 'model_weapons.dart';
 
 // ==========================================
 // UNIT COMPOSITION
@@ -207,11 +93,12 @@ class WargearOptions
     static const WargearOptions emptyOptions = WargearOptions(wargearOptions: []);
 }
 
+
 // ==========================================
-// UNIT STATS
+// Model STATS
 // ==========================================
 
-class ModelStats
+class ModelStatsDom
 {
     final bool? isNeedShow;
     final int movement;
@@ -221,10 +108,10 @@ class ModelStats
     final int wounds;
     final int leadership;
     final int objectiveControl;
-    final Map<WeaponType, List<Weapon>> weapons;
+    final ModelWeaponsDom modelWeapons;
     final WargearOptions wargearOptions;
 
-    const ModelStats({
+    const ModelStatsDom({
         this.isNeedShow = false,
         required this.movement,
         required this.toughness,
@@ -233,7 +120,7 @@ class ModelStats
         required this.wounds,
         required this.leadership,
         required this.objectiveControl,
-        required this.weapons,
+        required this.modelWeapons,
         required this.wargearOptions
     });
 
@@ -247,29 +134,14 @@ class ModelStats
         'wounds': wounds,
         'leadership': leadership,
         'objectiveControl': objectiveControl,
-        'weapons': weapons.map((type, list) => MapEntry(
-                type.name,
-                list.map((w) => w.toJson()).toList()
-            ))
+        'modelWeapons': modelWeapons.toJson(),
+        'wargearOptions': wargearOptions.toJson()
     };
 
-    factory ModelStats.fromJson(Map<String, dynamic> json)
+    factory ModelStatsDom.fromJson(Map<String, dynamic> json)
     {
 
-        final Map<String, dynamic> weaponsRaw = json['weapons'] as Map<String, dynamic>? ?? {};
-        final Map<WeaponType, List<Weapon>> parsedWeapons = weaponsRaw.map((key, value)
-            {
-                final type = WeaponType.values.firstWhere(
-                    (e) => e.name == key,
-                    orElse: () => WeaponType.none
-                );
-                final list = (value as List<dynamic>)
-                    .map((e) => Weapon.fromJson(e as Map<String, dynamic>))
-                    .toList();
-                return MapEntry(type, list);
-            });
-
-        return ModelStats(
+        return ModelStatsDom(
             isNeedShow: json['isNeedShow'] as bool? ?? false,
             movement: json['movement'] as int? ?? 0,
             toughness: json['toughness'] as int? ?? 0,
@@ -278,14 +150,14 @@ class ModelStats
             wounds: json['wounds'] as int? ?? 1,
             leadership: json['leadership'] as int? ?? 6,
             objectiveControl: json['objectiveControl'] as int? ?? 0,
-            weapons: parsedWeapons,
-            wargearOptions: WargearOptions.fromJson(json)
+            modelWeapons: ModelWeaponsDom.fromJson(json['modelWeapons'] as Map<String, dynamic>? ?? {}),
+            wargearOptions: WargearOptions.fromJson(json['wargearOptions'] as Map<String, dynamic>? ?? {})
         );
     }
 
-    factory ModelStats.empty()
+    factory ModelStatsDom.empty()
     {
-        return const ModelStats(
+        return const ModelStatsDom(
             isNeedShow: false,
             movement: 0,
             toughness: 0,
@@ -294,13 +166,13 @@ class ModelStats
             wounds: 0,
             leadership: 0,
             objectiveControl: 0,
-            weapons: {},
+            modelWeapons: ModelWeaponsDom.emptyOptions,
             wargearOptions: WargearOptions.emptyOptions
         );
     }
 }
 
-class UnitStats
+class UnitStatsDom
 {
     final int repeat;
     final List<String> keywords;
@@ -311,9 +183,9 @@ class UnitStats
     final List<FactionUnitAbilityCode> factionAbilities;
     final List<String> leader;
     final List<String> ledBy;
-    final Map<String, ModelStats> modelStats; // Характеристики моделей юнита
+    final Map<String, ModelStatsDom> modelStats; // Характеристики моделей юнита
 
-    const UnitStats({
+    const UnitStatsDom({
         required this.repeat,
         required this.keywords,
         required this.factionKeywords,
@@ -326,7 +198,7 @@ class UnitStats
         required this.modelStats
     });
 
-    Map<String, dynamic> toJson() => 
+    Map<String, dynamic> toJson() =>
     {
         'repeat': repeat,
         'keywords': keywords,
@@ -340,11 +212,11 @@ class UnitStats
         'modelStats': modelStats.map((key, value) => MapEntry(key, value.toJson()))
     };
 
-    factory UnitStats.fromJson(Map<String, dynamic> json)
+    factory UnitStatsDom.fromJson(Map<String, dynamic> json)
     {
         final Map<String, dynamic> modelsRaw = json['models'] as Map<String, dynamic>? ?? {};
 
-        return UnitStats(
+        return UnitStatsDom(
             repeat: json['repeat'] as int? ?? 1,
             keywords: List<String>.from(json['keywords'] ?? []),
             factionKeywords: List<String>.from(json['factionKeywords'] ?? []),
@@ -354,11 +226,11 @@ class UnitStats
             factionAbilities: (json['factionAbilities'] as List? ?? []).map((e) => FactionUnitAbilityCode.values.byName(e)).toList(),
             leader: List<String>.from(json['leader'] ?? []),
             ledBy: List<String>.from(json['ledBy'] ?? []),
-            modelStats: modelsRaw.map((key, value) => MapEntry(key, ModelStats.fromJson(value)))
+            modelStats: modelsRaw.map((key, value) => MapEntry(key, ModelStatsDom.fromJson(value)))
         );
     }
 
-    static UnitStats empty() => UnitStats(
+    static UnitStatsDom empty() => UnitStatsDom(
         repeat: 1,
         keywords: [],
         factionKeywords: [],

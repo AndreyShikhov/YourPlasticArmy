@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-import '../../../../../../domain/models/unit/unit_stats.dart';
+import '../../../../../../domain/models/unit/unit.dart';
 import '../_types.dart';
 
 List<UnitSeed> ultramarinesUnits()
@@ -44,7 +44,7 @@ List<UnitSeed> ultramarinesUnits()
             leader: const[],
             modelStats: 
             {
-                'Roboute Guilliman': ModelStats(
+                'Roboute Guilliman': ModelStatsDom(
                     movement: 8,
                     toughness: 9,
                     save: 2,
@@ -52,15 +52,15 @@ List<UnitSeed> ultramarinesUnits()
                     wounds: 10,
                     leadership: 5,
                     objectiveControl: 4,
-                    weapons: 
-                    {
-                        WeaponType.ranged : [
-                            Weapon(
+                    modelWeapons: ModelWeaponsDom(
+                        weapons:  {
+                          WeaponType.ranged : [
+                            WeaponDom(
                                 name: 'Perdition Pistol',
                                 type: WeaponType.ranged,
                                 weaponAbilities: const[
-                                    WeaponAbilitiesCode.pistol,
-                                    WeaponAbilitiesCode.melta
+                                  WeaponAbilitiesCode.pistol,
+                                  WeaponAbilitiesCode.melta
                                 ],
                                 range: 6,
                                 attacks: const Dice(fix: 1).toString(),
@@ -70,9 +70,9 @@ List<UnitSeed> ultramarinesUnits()
                                 damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
                                     .toString()
                             )
-                        ],
-                        WeaponType.melee : [
-                            Weapon(
+                          ],
+                          WeaponType.melee : [
+                            WeaponDom(
                                 name: 'The Axe Mortalis',
                                 type: WeaponType.melee,
                                 weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
@@ -83,8 +83,13 @@ List<UnitSeed> ultramarinesUnits()
                                 ap: -3,
                                 damage: const Dice(fix: 2).toString()
                             )
-                        ]
-                    },
+                          ]
+                        },
+                        selectedWeapons: {
+                          WeaponType.ranged : ['Perdition Pistol'],
+                          WeaponType.melee : ['The Axe Mortalis']
+                        }),
+
                     wargearOptions: WargearOptions.emptyOptions
                 )
             }

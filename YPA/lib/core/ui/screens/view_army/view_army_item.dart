@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-import 'package:ypa/domain/models/unit/unit_stats.dart';
+
 
 class ViewArmyUnitItemUi
 {
@@ -18,7 +18,7 @@ class ViewArmyUnitItemUi
     final String oc; // Objective Control
     final List<String> keywords;
     final List<String> factionKeywords;
-    final List<Weapon> weapons;
+    //final List<Weapon> weapons;
 
     ViewArmyUnitItemUi({
         required this.name,
@@ -32,6 +32,6 @@ class ViewArmyUnitItemUi
         required this.oc,
         required this.keywords,
         required this.factionKeywords,
-        required this.weapons
+//required this.weapons
     });
 }

@@ -43,7 +43,7 @@ Future<void> seedUnits(
         final unitId = u.id ?? const Uuid().v4();
 
         // 1. Извлекаем объект UnitStats из седа (теперь это контейнер для JSON колонки)
-        final UnitStats statsToSave = UnitStats(
+        final UnitStatsDom statsToSave = UnitStatsDom(
             repeat: u.repeat, 
             keywords: u.keywords, 
             factionKeywords: u.factionKeywords, 

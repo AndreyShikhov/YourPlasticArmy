@@ -3,8 +3,7 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-import 'package:ypa/domain/models/unit/unit_stats.dart';
-
+import '../../../../../../domain/models/unit/unit.dart';
 import '../_types.dart';
 
 List<UnitSeed> orksUnits()
@@ -40,44 +39,50 @@ List<UnitSeed> orksUnits()
             leader: const[],
             modelStats:
             {
-                'Boyz' : ModelStats(
+                'Boyz' : ModelStatsDom(
                     movement: 6,
                     toughness: 5,
                     save: 5,
                     invulnerableSave: 5,
-                    // Waaagh! energy? (обычно 6+ или 0)
                     wounds: 1,
                     leadership: 7,
                     objectiveControl: 2,
-                    weapons:
-                    {
-                        WeaponType.ranged : [
-                            Weapon(
-                                name: 'Slugga',
-                                type: WeaponType.ranged,
-                                weaponAbilities: [WeaponAbilitiesCode.pistol],
-                                range: 12,
-                                attacks: const Dice(fix: 1).toString(),
-                                skill: 5,
-                                strength: 4,
-                                ap: 0,
-                                damage: const Dice(fix: 1).toString()
-                            )
-                        ],
-                        WeaponType.melee : [
-                            Weapon(
-                                name: 'Choppa',
-                                type: WeaponType.melee,
-                                weaponAbilities: const[],
-                                range: 0,
-                                attacks: const Dice(fix: 3).toString(),
-                                skill: 3,
-                                strength: 4,
-                                ap: -1,
-                                damage: const Dice(fix: 1).toString()
-                            )
-                        ]
-                    },
+                    modelWeapons: ModelWeaponsDom(
+                        weapons: 
+                        {
+                            WeaponType.ranged : [
+                                WeaponDom(
+                                    name: 'Slugga',
+                                    type: WeaponType.ranged,
+                                    weaponAbilities: [WeaponAbilitiesCode.pistol],
+                                    range: 12,
+                                    attacks: const Dice(fix: 1).toString(),
+                                    skill: 5,
+                                    strength: 4,
+                                    ap: 0,
+                                    damage: const Dice(fix: 1).toString()
+                                )
+                            ],
+                            WeaponType.melee : [
+                                WeaponDom(
+                                    name: 'Choppa',
+                                    type: WeaponType.melee,
+                                    weaponAbilities: const[],
+                                    range: 0,
+                                    attacks: const Dice(fix: 3).toString(),
+                                    skill: 3,
+                                    strength: 4,
+                                    ap: -1,
+                                    damage: const Dice(fix: 1).toString()
+                                )
+                            ]
+                        },
+                        selectedWeapons: 
+                        {
+                            WeaponType.ranged : ['Slugga'],
+                            WeaponType.melee : ['Choppa']
+                        }
+                    ),
                     wargearOptions: WargearOptions.emptyOptions
                 )
             }

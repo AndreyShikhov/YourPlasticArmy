@@ -13,12 +13,12 @@ import '../../domain/models/codex/codex.dart';
 
 class CreateUnit
 {
-    final UnitRepository repository;
+    final UnitRepositoryDom repository;
 
     CreateUnit(this.repository);
 
     Future<void> call({
-        required UnitName name,
+        required UnitNameDom name,
         required ArmyId armyId,
         required CodexId? codexId,
         required UnitRoleCodeDom role,
@@ -31,7 +31,7 @@ class CreateUnit
         required List<FactionUnitAbilityCode> factionAbilities,
         required List<String> leader,
         required List<String> ledBy,
-        required Map<String, ModelStats> modelStats
+        required Map<String, ModelStatsDom> modelStats
     }) async
     {
         final unit = UnitDOM.create(

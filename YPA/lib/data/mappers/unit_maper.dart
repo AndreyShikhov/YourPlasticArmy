@@ -18,8 +18,8 @@ class UnitMapper
         final stats = row.unitStats;
 
         return UnitDOM.restore(
-            id: UnitId.fromString(row.id),
-            name: UnitName(row.name),
+            id: UnitIdDom.fromString(row.id),
+            name: UnitNameDom(row.name),
             armyId: ArmyId.fromString(row.armyId),
             codexId: row.codexId != null ? CodexId.fromString(row.codexId!) : null,
             role: UnitRoleCodeDom.fromString(row.roleCode).toEnum(),
@@ -39,7 +39,7 @@ class UnitMapper
     static UnitsCompanion toCompanion(UnitDOM unit) 
     {
         // Упаковываем все поля UnitDOM обратно в контейнер UnitStats
-        final statsWrapper = UnitStats(
+        final statsWrapper = UnitStatsDom(
             repeat: unit.repeat,
             keywords: unit.keywords,
             factionKeywords: unit.factionKeywords,

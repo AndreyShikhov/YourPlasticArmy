@@ -22,7 +22,7 @@ final roleRepositoryProvider = Provider<RoleRepository>((ref)
         return DriftRoleRepository(db);
     });
 
-final unitRepositoryProvider = Provider<UnitRepository>((ref)
+final unitRepositoryProvider = Provider<UnitRepositoryDom>((ref)
     {
         final db = ref.watch(databaseProvider).requireValue;
         return DriftUnitRepository(db);

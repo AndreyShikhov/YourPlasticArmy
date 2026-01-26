@@ -2,7 +2,7 @@
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
-import 'package:ypa/domain/models/unit/unit_stats.dart';
+import 'package:ypa/domain/models/unit/model_stats.dart';
 
 import '../../../../../domain/models/faction/faction.dart';
 
@@ -988,7 +988,7 @@ class UnitSeed
     final List<FactionUnitAbilityCode> factionAbilities;
     final List<String> leader;
     final List<String> ledBy;
-    final Map<String, ModelStats> modelStats;
+    final Map<String, ModelStatsDom> modelStats;
 
     const UnitSeed({
         this.id,

@@ -7,11 +7,11 @@ import 'package:ypa/domain/models/unit/unit.dart';
 
 class DeleteUnit
 {
-    final UnitRepository repository;
+    final UnitRepositoryDom repository;
 
     DeleteUnit(this.repository);
 
-    Future<void> call(UnitId id) async
+    Future<void> call(UnitIdDom id) async
     {
         await repository.deleteUnit(id);
     }

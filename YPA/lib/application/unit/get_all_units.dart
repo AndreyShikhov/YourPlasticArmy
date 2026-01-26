@@ -7,7 +7,7 @@ import '../../domain/models/unit/unit.dart';
 
 class GetAllUnits
 {
-    final UnitRepository repository;
+    final UnitRepositoryDom repository;
 
     GetAllUnits(this.repository);
 

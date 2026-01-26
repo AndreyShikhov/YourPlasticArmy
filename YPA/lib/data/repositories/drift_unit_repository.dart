@@ -11,7 +11,7 @@ import '../../domain/models/codex/codex.dart';
 import '../../domain/models/unit/unit.dart';
 import '../mappers/mappers.dart';
 
-class DriftUnitRepository implements UnitRepository
+class DriftUnitRepository implements UnitRepositoryDom
 {
     final AppDatabase db;
 
@@ -25,7 +25,7 @@ class DriftUnitRepository implements UnitRepository
     }
 
     @override
-    Future<void> deleteUnit(UnitId id) async
+    Future<void> deleteUnit(UnitIdDom id) async
     {
         await (db.delete(db.units)..where((tbl) => tbl.id.equals(id.value))).go();
     }
@@ -107,7 +107,7 @@ class DriftUnitRepository implements UnitRepository
     }
 
     @override
-    Future<UnitDOM?> findUnitByIdFromDb(UnitId id) async
+    Future<UnitDOM?> findUnitByIdFromDb(UnitIdDom id) async
     {
         final row = await (db.select(db.units)..where((tbl) => tbl.id.equals(id.value))).getSingleOrNull();
 

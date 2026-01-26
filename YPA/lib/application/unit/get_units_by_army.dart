@@ -8,7 +8,7 @@ import '../../domain/models/unit/unit.dart';
 
 class GetUnitsByArmy
 {
-    final UnitRepository repository;
+    final UnitRepositoryDom repository;
 
     GetUnitsByArmy(this.repository);
 

@@ -3,25 +3,25 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-class UnitName
+class UnitNameDom
 {
     final String value;
 
-    const UnitName._(this.value);
+    const UnitNameDom._(this.value);
 
-    factory UnitName(String value)
+    factory UnitNameDom(String value)
     {
         if (value.isEmpty) 
         {
             throw Exception('UnitName не может быть пустым');
         }
-        return UnitName._(value);
+        return UnitNameDom._(value);
     }
 
     @override
     bool operator==(Object other) =>
     identical(this, other) ||
-        other is UnitName && runtimeType == other.runtimeType && value == other.value;
+        other is UnitNameDom && runtimeType == other.runtimeType && value == other.value;
 
     @override
     int get hashCode => value.hashCode;

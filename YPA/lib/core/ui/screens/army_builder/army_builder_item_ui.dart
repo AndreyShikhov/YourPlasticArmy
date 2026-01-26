@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-import 'package:ypa/domain/models/unit/unit_stats.dart';
+import 'package:ypa/domain/models/unit/model_stats.dart';
 
 import '../../../database/tables/seed/seed_objects/_types.dart';
 
@@ -21,7 +21,7 @@ class ArmyBuilderUnitItemUi
     final List<FactionUnitAbilityCode> factionAbilities;
     final List<String> leader;
     final List<String> ledBy;
-    final Map<String, ModelStats> modelStats;
+    final Map<String, ModelStatsDom> modelStats;
     final Map<int, int> selectedComposition;
 
     ArmyBuilderUnitItemUi({
@@ -86,7 +86,7 @@ class ArmyBuilderUnitItemUi
                 .toList(),
             leader: List<String>.from(json['leader'] ?? []),
             ledBy: List<String>.from(json['ledBy'] ?? []),
-            modelStats: modelStatsRaw.map((k, v) => MapEntry(k, ModelStats.fromJson(v))),
+            modelStats: modelStatsRaw.map((k, v) => MapEntry(k, ModelStatsDom.fromJson(v))),
             selectedComposition: selectedCompRaw.map((k, v) => MapEntry(int.parse(k), v as int))
         );
     }

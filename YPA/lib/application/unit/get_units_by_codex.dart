@@ -9,7 +9,7 @@ import '../../domain/models/unit/unit.dart';
 
 class GetAllUnitsByCodexId
 {
-    final UnitRepository repository;
+    final UnitRepositoryDom repository;
 
     GetAllUnitsByCodexId(this.repository);
 

@@ -9,7 +9,7 @@ import '../../domain/models/user_army/user_army_repository.dart';
 class AddUnitToUserRoster
 {
     final UserArmyRepository armyRepository;
-    final UnitRepository unitRepository; // Понадобится, чтобы узнать роль юнита
+    final UnitRepositoryDom unitRepository; // Понадобится, чтобы узнать роль юнита
 
     AddUnitToUserRoster(this.armyRepository, this.unitRepository);
 
@@ -21,7 +21,7 @@ class AddUnitToUserRoster
         // 1. Получаем армию
         final army = await armyRepository.findUserArmyById(armyId);
         // 2. Получаем юнит (чтобы знать, в какую категорию его положить)
-        final unit = await unitRepository.findUnitByIdFromDb(UnitId.fromString(unitId));
+        final unit = await unitRepository.findUnitByIdFromDb(UnitIdDom.fromString(unitId));
 
         if (army != null && unit != null) 
         {

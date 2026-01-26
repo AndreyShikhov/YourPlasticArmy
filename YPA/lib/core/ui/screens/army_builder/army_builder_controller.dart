@@ -308,7 +308,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                                 final map = u as Map<String, dynamic>;
                                 if (map['unitId'] == null) return null;
 
-                                final unitDom = await _getUnitByIdFromDb(UnitId.fromString(map['unitId']));
+                                final unitDom = await _getUnitByIdFromDb(UnitIdDom.fromString(map['unitId']));
                                 if (unitDom == null) return null;
 
                                 return _convertDomainUnitToUnitItemUi(unitDom);

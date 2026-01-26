@@ -9,13 +9,13 @@ import '../army/army_id.dart';
 import 'unit_dom.dart';
 import 'unit_id.dart';
 
-abstract class UnitRepository
+abstract class UnitRepositoryDom
 {
     /// Сохранить или обновить Unit
     Future<void> saveUnit(UnitDOM unit);
 
     /// Найти Unit по ID
-    Future<UnitDOM?> findUnitByIdFromDb(UnitId id);
+    Future<UnitDOM?> findUnitByIdFromDb(UnitIdDom id);
 
     /// Получить все Unit
     Future<List<UnitDOM>> findAllUnits();
@@ -27,6 +27,6 @@ abstract class UnitRepository
     Future<List<UnitDOM>> findUnitsByCodex(CodexId codexId);
 
     /// Удалить Unit
-    Future<void> deleteUnit(UnitId id);
+    Future<void> deleteUnit(UnitIdDom id);
 }
 

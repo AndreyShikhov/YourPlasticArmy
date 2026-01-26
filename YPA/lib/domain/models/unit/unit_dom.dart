@@ -4,19 +4,19 @@
  ******************************************************************************/
 
 import 'package:uuid/uuid.dart';
-import 'package:ypa/domain/models/unit/unit_stats.dart';
+import 'package:ypa/domain/models/unit/model_stats.dart';
 
 import '../../../core/database/tables/seed/seed_objects/_types.dart';
 import '../army/army_id.dart';
-import '../codex/codex_id.dart'; // ДОБАВЛЕНО
+import '../codex/codex_id.dart';
 import 'unit_id.dart';
 import 'unit_name.dart';
 import 'unit_roleCode.dart';
 
 class UnitDOM
 {
-    final UnitId id;
-    final UnitName name;
+    final UnitIdDom id;
+    final UnitNameDom name;
     final ArmyId armyId;
     final CodexId? codexId; // ИЗМЕНЕНО: теперь это CodexId (UUID)
     final UnitRoleCodeDom role;
@@ -29,7 +29,7 @@ class UnitDOM
     final List<FactionUnitAbilityCode> factionAbilities;
     final List<String> leader;
     final List<String> ledBy;
-    final Map<String, ModelStats> modelStats;
+    final Map<String, ModelStatsDom> modelStats;
 
     const UnitDOM._({
         required this.id,
@@ -50,8 +50,8 @@ class UnitDOM
     });
 
     factory UnitDOM.restore({
-        required UnitId id,
-        required UnitName name,
+        required UnitIdDom id,
+        required UnitNameDom name,
         required ArmyId armyId,
         required CodexId? codexId, // ИЗМЕНЕНО
         required UnitRoleCode role,
@@ -64,7 +64,7 @@ class UnitDOM
         required List<FactionUnitAbilityCode> factionAbilities,
         required List<String> leader,
         required List<String> ledBy,
-        required Map<String, ModelStats> modelStats
+        required Map<String, ModelStatsDom> modelStats
 
     })
     {
@@ -88,9 +88,9 @@ class UnitDOM
     }
 
     factory UnitDOM.create({
-        required UnitName name,
+        required UnitNameDom name,
         required ArmyId armyId,
-        required CodexId? codexId, // ИЗМЕНЕНО
+        required CodexId? codexId,
         required UnitRoleCodeDom role,
         required int repeat,
         required List<String> keywords,
@@ -101,12 +101,12 @@ class UnitDOM
         required List<FactionUnitAbilityCode> factionAbilities,
         required List<String> leader,
         required List<String> ledBy,
-        required Map<String, ModelStats> modelStats
+        required Map<String, ModelStatsDom> modelStats
 
     })
     {
         return UnitDOM._(
-            id: UnitId.fromString(const Uuid().v4()),
+            id: UnitIdDom.fromString(const Uuid().v4()),
             name: name,
             armyId: armyId,
             codexId: codexId,
@@ -125,7 +125,7 @@ class UnitDOM
     }
 
     UnitDOM copyWith({
-        UnitName? name,
+        UnitNameDom? name,
         ArmyId? armyId,
         Object? codexId = const _Sentinel(),
         UnitRoleCodeDom? role,
@@ -138,7 +138,7 @@ class UnitDOM
         List<FactionUnitAbilityCode>? factionAbilities,
         List<String>? leader,
         List<String>? ledBy,
-        Map<String, ModelStats>? modelStats
+        Map<String, ModelStatsDom>? modelStats
     })
     {
         return UnitDOM._(
