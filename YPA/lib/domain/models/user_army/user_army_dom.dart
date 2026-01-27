@@ -114,6 +114,29 @@ class UserArmyDOM
         return copyWith(jsonData: jsonEncode(root));
     }
 
+    Future<UserArmyDOM> duplicateUnitInstance(String instanceId, String role) async {
+      if (jsonData.isEmpty) return this;
+      final root = jsonDecode(jsonData);
+      final categories = root["categories"] ?? {};
+      final List<dynamic> unitList = categories[role] ?? [];
+
+      // Находим инстанс, который хотим скопировать
+      final originalIndex = unitList.indexWhere((u) => u['instanceId'] == instanceId);
+      if (originalIndex == -1) return this;
+
+      // Создаем глубокую копию объекта
+      final original = unitList[originalIndex];
+      final duplicate = {
+        ...original,
+        "instanceId": const Uuid().v4(), // ОБЯЗАТЕЛЬНО новый уникальный ID
+      };
+
+      // Вставляем копию сразу после оригинала
+      unitList.insert(originalIndex + 1, duplicate);
+
+      return copyWith(jsonData: jsonEncode(root));
+    }
+
     /// Удаляет ПОСЛЕДНИЙ добавленный экземпляр юнита с указанным [unitId] из конкретной [role].
     Future<UserArmyDOM> removeLastUnitFromUserArmy(String unitId, String role) async
     {

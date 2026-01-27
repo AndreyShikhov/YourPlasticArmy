@@ -14,6 +14,7 @@ abstract class UserArmyRepository
     Future<void> saveUserArmy(UserArmyDOM userArmy);
     Future<void> deleteUserArmy(String id);
     Future<void> addUnitToUserArmy(UserArmyDOM userArmy);
+    Future<void> dublecateUnitToUserArmy(String armyId, String instanceId, UnitRoleCode role);
     Future<void> removeLastUnitFromUserArmy(String armyId, UnitRoleCode role, String unitId);
 
     Future<void> updateBattleSize(String armyId, BattleSizeCode newSize);

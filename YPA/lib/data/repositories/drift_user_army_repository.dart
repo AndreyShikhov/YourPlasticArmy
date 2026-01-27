@@ -6,10 +6,9 @@
 import 'package:drift/drift.dart';
 import 'package:ypa/core/database/app_database.dart';
 import 'package:ypa/data/mappers/user_army_mapper.dart';
-import 'package:ypa/domain/models/user_army/user_army_dom.dart';
-import 'package:ypa/domain/models/user_army/user_army_repository.dart';
 
 import '../../../core/database/tables/seed/seed_objects/_types.dart';
+import '../../domain/models/user_army/user_army.dart';
 
 class DriftUserArmyRepository implements UserArmyRepository
 {
@@ -86,5 +85,17 @@ class DriftUserArmyRepository implements UserArmyRepository
             final updatedArmy = army.updateBattleSize(newSize);
             await saveUserArmy(updatedArmy);
         }
+    }
+
+    @override
+    Future<void> dublecateUnitToUserArmy(String armyId, String instanceId, UnitRoleCode role) async
+    {
+      final army = await findUserArmyById(armyId);
+      if (army != null) {
+        // Вызываем логику домена
+        final updatedArmy = await army.duplicateUnitInstance(instanceId, role.name);
+        // Сохраняем результат
+        await saveUserArmy(updatedArmy);
+      }
     }
 }

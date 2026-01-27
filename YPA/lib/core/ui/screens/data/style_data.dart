@@ -3,8 +3,6 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 
 // ==========================================
@@ -20,3 +18,5 @@ final texColor = Color.fromARGB(255, 190, 187, 187);
 // ==========================================
 
 final YPABorderRadius = BorderRadius.circular(8);
+
+final YPARadius = Radius.circular(3);

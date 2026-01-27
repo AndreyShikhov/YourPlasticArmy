@@ -5,9 +5,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
 import 'package:ypa/core/ui/screens/army_builder/army_builder_item_ui.dart';
 import 'package:ypa/core/ui/screens/army_builder/widgets/units_block/model_from_unit.dart';
 import 'package:ypa/core/ui/screens/data/style_data.dart';
+
+import '../../army_builder_controller.dart';
+import 'btn_action_unit.dart';
 
 class UnitWidget extends ConsumerWidget
 {
@@ -24,10 +28,10 @@ class UnitWidget extends ConsumerWidget
 
     List<ModelFromUnit> _getModelsWidgets()
     {
-      return unit.modelStats.entries.map((entry)
-      {
-        return ModelFromUnit(modelStats: {entry.key: entry.value});
-      }).toList();
+        return unit.modelStats.entries.map((entry)
+            {
+                return ModelFromUnit(modelStats: {entry.key: entry.value});
+            }).toList();
     }
 
     @override
@@ -58,10 +62,43 @@ class UnitWidget extends ConsumerWidget
                             ]
                         ),
                         Column( // все модели в юните
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                           ..._getModelsWidgets(),
-                          ],
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                                Row(
+                                    children: [
+                                        Column(
+                                            children: [
+                                                ..._getModelsWidgets()
+                                            ]
+                                        ),
+                                        Row(
+                                            children: [
+                                                BTNActionUnit(
+                                                    bgColor: Colors.black26,
+                                                    actionType: BTNunitActionType.dublicate,
+                                                    onAction: ()
+                                                    {
+                                                        // Вызываем метод контроллера напрямую
+                                                        ref.read(armyBuilderControllerProvider(armyId).notifier)
+                                                            .addUnitToUserArmy(unit.dbId);
+                                                    }
+                                                ),
+                                                SizedBox(width: 10),
+                                                BTNActionUnit(
+                                                    bgColor: Colors.black26,
+                                                    actionType: BTNunitActionType.remove,
+                                                    onAction: ()
+                                                    {
+                                                        final roleEnum = UnitRoleCodeX.fromName(unit.role)!;
+                                                        // Вызываем метод контроллера напрямую
+                                                        ref.read(armyBuilderControllerProvider(armyId).notifier)
+                                                            .removeLastUnitFromUserArmy(unit.dbId, roleEnum);
+                                                    }
+                                                )
+                                            ]
+                                        )
+                                    ]
+                                )]
                         )
                     ]
                 )
