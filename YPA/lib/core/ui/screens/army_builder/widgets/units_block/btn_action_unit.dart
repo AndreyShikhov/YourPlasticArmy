@@ -54,12 +54,13 @@ class BTNActionUnit extends ConsumerWidget
           color: isDublicate ? Colors.blueAccent : Colors.redAccent);
 
         return Container(
+
             decoration: BoxDecoration(
                 color: bgColor,
                 borderRadius: YPABorderRadius,
             ),
             child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                     IconButton(
                         icon: icnBTN,

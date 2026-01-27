@@ -164,4 +164,20 @@ class ArmyBuilderState
     {
         return getallUnitByNameFromUserArmy(unitName).length;
     }
+
+    int getAmountUnitsFromUserArmy(String role, String unitName){
+      final roleCode = UnitRoleCodeX.fromName(role);
+
+      // 2. Если роль не валидна или список юнитов пуст — возвращаем 0
+      if (roleCode == null || userArmyUnits == null || userArmyUnits!.isEmpty)
+      {
+        return 0;
+      }
+
+      // 3. Получаем список юнитов для этой роли
+      final unitsInRole = userArmyUnits![roleCode] ?? [];
+
+      // 4. Считаем количество юнитов с нужным именем
+      return unitsInRole.where((unit) => unit.name == unitName).length;
+    }
 }

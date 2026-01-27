@@ -37,6 +37,10 @@ class UnitWidget extends ConsumerWidget
     @override
     Widget build(BuildContext context, WidgetRef ref)
     {
+      final state = ref.watch(armyBuilderControllerProvider(armyId));
+
+      bool isMaxUnitFromArmy = unit.repeat != state.getAmountUnitsFromUserArmy(unit.role, unit.name);
+
         return Container(
             width: double.infinity,
             margin: const EdgeInsets.symmetric(vertical: 4),
@@ -71,8 +75,11 @@ class UnitWidget extends ConsumerWidget
                                                 ..._getModelsWidgets()
                                             ]
                                         ),
+                                        const Spacer(),
                                         Row(
+                                            crossAxisAlignment: CrossAxisAlignment.end,
                                             children: [
+                                              if(isMaxUnitFromArmy)
                                                 BTNActionUnit(
                                                     bgColor: Colors.black26,
                                                     actionType: BTNunitActionType.dublicate,
@@ -83,7 +90,7 @@ class UnitWidget extends ConsumerWidget
                                                             .addUnitToUserArmy(unit.dbId);
                                                     }
                                                 ),
-                                                SizedBox(width: 10),
+                                                SizedBox(width: 30),
                                                 BTNActionUnit(
                                                     bgColor: Colors.black26,
                                                     actionType: BTNunitActionType.remove,

@@ -11,6 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
+import '../../database/database_actions_provider.dart';
 import '../../providers/user_notifier.dart';
 import '../widgets/buttons.dart';
 import 'data/style_data.dart';
@@ -132,6 +133,12 @@ class _MainScreenState extends ConsumerState<MainScreen>
                                     )
                                 ),
                                 _drawerItem(Icons.settings, 'Настройки', context),
+                              // НОВАЯ КНОПКА: ПЕРЕСОБРАТЬ БАЗУ
+                              ListTile(
+                                leading: const Icon(Icons.refresh, color: Colors.orangeAccent),
+                                title: const Text('Пересобрать БД', style: TextStyle(color: Colors.orangeAccent)),
+                                onTap: () => _showResetDbDialog(context),
+                              ),
                                 _drawerItem(Icons.help, 'Помощь', context),
                                 _drawerItem(Icons.info, 'О приложении', context),
                                 const Divider(),
@@ -172,5 +179,45 @@ class _MainScreenState extends ConsumerState<MainScreen>
     Widget _drawerItem(IconData icon, String title, BuildContext context) 
     {
         return ListTile(leading: Icon(icon), title: Text(title), onTap: () => Navigator.pop(context));
+    }
+
+
+    // Вспомогательный метод для диалога подтверждения
+    void _showResetDbDialog(BuildContext context) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          backgroundColor: const Color(0xFF323232),
+          title: const Text('Сброс базы данных', style: TextStyle(color: Colors.white)),
+          content: const Text(
+            'Это удалит все ваши армии и заново создаст стандартных юнитов. Вы уверены?',
+            style: TextStyle(color: Colors.white70),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Отмена'),
+            ),
+            TextButton(
+              onPressed: () async {
+                Navigator.pop(context); // Закрыть диалог
+
+                // Показываем индикатор загрузки
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Пересборка базы данных...'), duration: Duration(seconds: 2)),
+                );
+
+                // Вызываем действие через провайдер
+                await ref.read(databaseActionsProvider).resetDatabase();
+
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('База данных успешно обновлена!')),
+                );
+              },
+              child: const Text('Да, сбросить', style: TextStyle(color: Colors.redAccent)),
+            ),
+          ],
+        ),
+      );
     }
 }

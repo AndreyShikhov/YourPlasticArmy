@@ -270,7 +270,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             dbId: unit.id.value,
             name: unit.name.value,
             role: unit.role.value.name,
-            repeat: unit.repeat.toString(),
+            repeat: unit.repeat,
             keywords: unit.keywords,
             factionKeywords: unit.factionKeywords,
             unitComposition: unit.unitComposition,

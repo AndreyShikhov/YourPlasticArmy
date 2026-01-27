@@ -36,7 +36,7 @@ class TextUnitButton extends ConsumerWidget
 
         // Получаем текущие значения для логики блокировки
         final currentCount = state.getCurrentCountUnitFromUserArmy(unit.name);
-        final maxCount = int.tryParse(unit.repeat); // Лимит из правил
+        final maxCount = unit.repeat; // Лимит из правил
 
         return Container(
             //margin: const EdgeInsets.symmetric(vertical: 4),

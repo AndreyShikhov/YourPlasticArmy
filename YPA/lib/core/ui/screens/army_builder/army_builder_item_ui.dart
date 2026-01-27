@@ -12,7 +12,7 @@ class ArmyBuilderUnitItemUi
     final String dbId;
     final String name;
     final String role;
-    final String repeat;
+    final int repeat;
     final List<String> keywords;
     final List<String> factionKeywords;
     final UnitComposition unitComposition;
@@ -71,7 +71,7 @@ class ArmyBuilderUnitItemUi
             dbId: json['dbId'] ?? '',
             name: json['name'] ?? '',
             role: json['role'] ?? '',
-            repeat: json['repeat']?.toString() ?? '1',
+            repeat: json['repeat']?? '1',
             keywords: List<String>.from(json['keywords'] ?? []),
             factionKeywords: List<String>.from(json['factionKeywords'] ?? []),
             unitComposition: UnitComposition.fromJson(json['unitComposition'] ?? {}),
@@ -97,7 +97,7 @@ class ArmyBuilderUnitItemUi
             dbId: '',
             name: '',
             role: '',
-            repeat: '1',
+            repeat: 1,
             keywords: [],
             factionKeywords: [],
             unitComposition: UnitComposition.emptyComposition,
