@@ -19,28 +19,34 @@ class ModelFromUnit extends StatelessWidget
     @override
     Widget build(BuildContext context)
     {
-        return Column(
-            children: [
-                Row(
-                    children: [
+        return Padding(
+            padding: const EdgeInsets.only(left: 4.0),
+            child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                      children: [
                         Text(modelStats.keys.first, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold))
-                    ]
-                ),
-                SizedBox(height: 2),
-                Column(
-                    children: [
+                      ]
+                  ),
+                  SizedBox(height: 2),
+                  Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                         if (_hasRanged()) ...[
-                            const Text('Ranged:', style: TextStyle(color: Colors.white38, fontSize: 10)),
-                            ..._getRangedWeaponsThisModel(),
-                            const SizedBox(height: 4)
+                          const Text('Ranged:', style: TextStyle(color: Colors.white38, fontSize: 10)),
+                          ..._getRangedWeaponsThisModel(),
+                          const SizedBox(height: 4)
                         ],
                         if (_hasMelee()) ...[
-                            const Text('Melee:', style: TextStyle(color: Colors.white38, fontSize: 10)),
-                            ..._getMeleeWeaponsThisModel()
+                          const Text('Melee:', style: TextStyle(color: Colors.white38, fontSize: 10)),
+                          ..._getMeleeWeaponsThisModel()
                         ]
-                    ]
-                )
-            ]
+                      ]
+                  )
+                ]
+            ),
         );
     }
 
@@ -50,26 +56,38 @@ class ModelFromUnit extends StatelessWidget
     bool _hasMelee() =>
     modelStats.values.first.modelWeapons.selectedWeapons[WeaponType.melee]?.isNotEmpty ?? false;
 
-    List<Text> _getRangedWeaponsThisModel()
+    List<Widget> _getRangedWeaponsThisModel()
     {
         final List<String> ranged = modelStats.values.first.modelWeapons.selectedWeapons[WeaponType.ranged] ?? [];
 
-        return ranged.map((name) => Text(
-                name,
-                style: const TextStyle(color: Colors.white70, fontSize: 12)
-            )).toList();
+        return [Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: Column(
+                    children: [
+                        ...ranged.map((name) => Text(
+                                name,
+                                style: const TextStyle(color: Colors.white70, fontSize: 12)
+                            )).toList()
+                    ]
+                )
+            )];
     }
 
-    List<Text> _getMeleeWeaponsThisModel()
+    List<Widget> _getMeleeWeaponsThisModel()
     {
         final List<String> melee =
             modelStats.values.first.modelWeapons.selectedWeapons[WeaponType.melee] ?? [];
 
-        return melee
-            .map((name) => Text(
-                    name,
-                    style: const TextStyle(color: Colors.white70, fontSize: 12)
-                ))
-            .toList();
+        return [Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: Column(
+                    children: [
+                        ...melee.map((name) => Text(
+                                name,
+                                style: const TextStyle(color: Colors.white70, fontSize: 12)
+                            )).toList()
+                    ]
+                )
+            )];
     }
 }

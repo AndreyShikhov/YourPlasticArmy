@@ -27,6 +27,7 @@ class ArmyUnitsBlock extends ConsumerWidget
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                 decoration: BoxDecoration(color: bgColor, borderRadius: YPABorderRadius),
                 child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min, 
                     children: 
                     [

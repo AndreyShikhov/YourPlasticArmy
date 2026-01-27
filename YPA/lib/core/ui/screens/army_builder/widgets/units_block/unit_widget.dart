@@ -34,7 +34,9 @@ class UnitWidget extends ConsumerWidget
     Widget build(BuildContext context, WidgetRef ref)
     {
         return Container(
+            width: double.infinity,
             margin: const EdgeInsets.symmetric(vertical: 4),
+
             decoration: BoxDecoration(
                 borderRadius: YPABorderRadius,
                 border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3), width: 2.0))
@@ -46,15 +48,17 @@ class UnitWidget extends ConsumerWidget
                     debugPrint('Open editor for: ${unit.name}');
                 },
                 child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                         Row( // название юнита и стоимость
                             children: [
                                 Text('${unit.name} ${_getRomeNumber(numberUnit)}', style: const TextStyle(color: Colors.white)),
                                 const Spacer(),
-                                Text(' ${unit.selectedComposition.keys.first} models/ ${unit.selectedComposition.values.first} pts')
+                                Text(' ${unit.selectedComposition.keys.first} models / ${unit.selectedComposition.values.first} pts')
                             ]
                         ),
                         Column( // все модели в юните
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                            ..._getModelsWidgets(),
                           ],
