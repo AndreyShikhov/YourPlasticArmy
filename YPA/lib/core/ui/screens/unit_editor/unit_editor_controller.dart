@@ -56,7 +56,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
             final  unit = await armyState.getUnitByInstanceIdFromUserArmy(_instanceUnitId,  getUnitRoleCode()!);
 
             state = state.copyWith(isLoading: false,  unit: UnitEditorItemUi(
-                inctanceId: unit.instanceId,
+                instanceId: unit.instanceId,
                 name: unit.name,
                 role: unit.role,
                 repeat: unit.repeat,

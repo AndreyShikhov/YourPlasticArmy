@@ -38,12 +38,13 @@ final GoRouter router = GoRouter(
                                     },
                                     routes: [
                                         GoRoute(
-                                            path: 'unit_editor/:instanceId/:roleCode',
+                                            path: 'unit_editor/:roleCode/:instanceId',
                                             builder: (context, state)
                                             {
                                                 final armyId = state.pathParameters['armyId']!;
-                                                final unitInstanceId = state.pathParameters['instanceId']!;
                                                 final roleCode = state.pathParameters['roleCode']!;
+                                                final unitInstanceId = state.pathParameters['instanceId']!;
+
                                                 return BaseWindow(
                                                     bgColor: mainScreenColor,
                                                     child: UnitEditorScreen(

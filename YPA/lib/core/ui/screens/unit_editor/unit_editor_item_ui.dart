@@ -10,7 +10,7 @@ import '../../../../domain/models/unit/unit.dart';
 class UnitEditorItemUi
 {
 
-    final String inctanceId;
+    final String instanceId;
     final String name;
     final String role;
     final int repeat;
@@ -26,7 +26,7 @@ class UnitEditorItemUi
     final Map<int, int> selectedComposition;
 
     UnitEditorItemUi({
-        required this.inctanceId,
+        required this.instanceId,
         required this.name,
         required this.role,
         required this.repeat,
