@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ypa/core/ui/screens/screen.dart';
 
 import '../screens/data/style_data.dart';
+import '../screens/unit_editor/unit_editor_screen.dart';
 import '../widgets/base_window.dart';
 
 final GoRouter router = GoRouter(
@@ -34,7 +35,26 @@ final GoRouter router = GoRouter(
                                             bgColor: mainScreenColor,
                                             child: ArmyBuilderScreen(armyId: armyId)
                                         );
-                                    }
+                                    },
+                                    routes: [
+                                        GoRoute(
+                                            path: 'unit_editor/:instanceId/:roleCode',
+                                            builder: (context, state)
+                                            {
+                                                final armyId = state.pathParameters['armyId']!;
+                                                final unitInstanceId = state.pathParameters['instanceId']!;
+                                                final roleCode = state.pathParameters['roleCode']!;
+                                                return BaseWindow(
+                                                    bgColor: mainScreenColor,
+                                                    child: UnitEditorScreen(
+                                                        armyId: armyId,
+                                                        instanceId: unitInstanceId, 
+                                                        roleCode: roleCode
+                                                    )
+                                                );
+                                            }
+                                        )
+                                    ]
                                 ),
                                 // Просмотр армии (принимает ID)
                                 GoRoute(

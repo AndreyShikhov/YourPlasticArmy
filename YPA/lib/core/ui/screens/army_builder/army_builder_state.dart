@@ -22,8 +22,7 @@ class ArmyBuilderState
     final List<DetachmentDOM> allDetachments;
     final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>? userArmyUnits; // уже добавленный в ростер игрока юниты
     final List<ArmyBuilderUnitItemUi> allUnitsFromDb; // юниты из базы
-    final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>?
-        temDataUnitsByRole; // отфильтрованные по роли юниты из базы данны
+    final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>? temDataUnitsByRoleFromdb; // отфильтрованные по роли юниты из базы данны
     final String? error;
 
     const ArmyBuilderState({
@@ -37,7 +36,7 @@ class ArmyBuilderState
         this.allDetachments = const[],
         this.userArmyUnits = const {},
         this.allUnitsFromDb = const[],
-        this.temDataUnitsByRole = const {},
+        this.temDataUnitsByRoleFromdb = const {},
         this.error
     });
 
@@ -52,7 +51,7 @@ class ArmyBuilderState
         List<DetachmentDOM>? allDetachments,
         Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>? userArmyUnits,
         List<ArmyBuilderUnitItemUi>? allUnitsFromDb,
-        Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>? temDataUnitsByRole,
+        Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>? temDataUnitsByRoleFromdb,
         String? error
     })
     {
@@ -67,7 +66,7 @@ class ArmyBuilderState
             allDetachments: allDetachments ?? this.allDetachments,
             userArmyUnits: userArmyUnits ?? this.userArmyUnits,
             allUnitsFromDb: allUnitsFromDb ?? this.allUnitsFromDb,
-            temDataUnitsByRole: temDataUnitsByRole ?? this.temDataUnitsByRole,
+            temDataUnitsByRoleFromdb: temDataUnitsByRoleFromdb ?? this.temDataUnitsByRoleFromdb,
             error: error ?? this.error
         );
     }
@@ -179,5 +178,28 @@ class ArmyBuilderState
 
       // 4. Считаем количество юнитов с нужным именем
       return unitsInRole.where((unit) => unit.name == unitName).length;
+    }
+
+    Future<ArmyBuilderUnitItemUi> getUnitByInstanceIdFromUserArmy(String unitInstanceId, UnitRoleCode role) async
+    {
+      final findedUnit = userArmyUnits![role]?.firstWhere((u) => u.instanceId == unitInstanceId);
+
+      return ArmyBuilderUnitItemUi(
+         instanceId:  findedUnit!.instanceId,
+         dbId: findedUnit.dbId,
+         name: findedUnit.name,
+         role:  findedUnit.role,
+         repeat: findedUnit.repeat,
+         keywords: findedUnit.keywords,
+         factionKeywords: findedUnit.factionKeywords,
+         unitComposition:findedUnit.unitComposition,
+         unitAbility: findedUnit.unitAbility,
+         coreAbilities: findedUnit.coreAbilities,
+         factionAbilities: findedUnit.factionAbilities,
+         leader: findedUnit.leader,
+         ledBy: findedUnit.ledBy,
+         modelStats: findedUnit.modelStats,
+         selectedComposition: findedUnit.selectedComposition,
+      );
     }
 }

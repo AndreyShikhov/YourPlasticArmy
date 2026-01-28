@@ -29,7 +29,7 @@ final armyBuilderControllerProvider =
             final getCodexById = ref.watch(getCodexByIdUseCaseProvider);
             final updateName = ref.watch(updateUserArmyNameUseCaseProvider);
             final updateDetachment = ref.watch(updateUserArmyDetachmentUseCaseProvider);
-            final updateBattleSize = ref.watch(updateUserArmyBattleSizeUseCaseProvider); // Добавлено
+            final updateBattleSize = ref.watch(updateUserArmyBattleSizeUseCaseProvider);
             final getAllDetachmentsByCodexId = ref.watch(getAlldetachmentsByCodexIdUseCaseProvider);
             final getAllUnitsByCodexId = ref.watch(getAllUnitsByCodexIdUseCaseProvider);
             final getAllUnitsByArmyId = ref.watch(getUnitsByArmyUseCaseProvider);
@@ -42,7 +42,7 @@ final armyBuilderControllerProvider =
                 getCodexById,
                 updateName,
                 updateDetachment,
-                updateBattleSize, // Добавлено
+                updateBattleSize,
                 getAllDetachmentsByCodexId,
                 getAllUnitsByCodexId,
                 getAllUnitsByArmyId,
@@ -188,6 +188,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         return unitDomain.map((unit) => _convertDomainUnitToUnitItemUi(unit)).toList();
     }
 
+
     // ==========================================
     //  Load Army
     // ==========================================
@@ -261,12 +262,13 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                 temDataUnitsByRole.addEntries([MapEntry(role, units)]);
             }
         }
-        state = state.copyWith(temDataUnitsByRole: temDataUnitsByRole);
+        state = state.copyWith(temDataUnitsByRoleFromdb: temDataUnitsByRole);
     }
 
     ArmyBuilderUnitItemUi _convertDomainUnitToUnitItemUi(UnitDOM unit)
     {
         return ArmyBuilderUnitItemUi(
+            instanceId: unit.id.value,
             dbId: unit.id.value,
             name: unit.name.value,
             role: unit.role.value.name,

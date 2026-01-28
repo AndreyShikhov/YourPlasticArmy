@@ -9,6 +9,7 @@ import '../../../database/tables/seed/seed_objects/_types.dart';
 
 class ArmyBuilderUnitItemUi
 {
+    final String instanceId;
     final String dbId;
     final String name;
     final String role;
@@ -25,6 +26,7 @@ class ArmyBuilderUnitItemUi
     final Map<int, int> selectedComposition;
 
     ArmyBuilderUnitItemUi({
+        required this.instanceId,
         required this.dbId,
         required this.name,
         required this.role,
@@ -41,10 +43,11 @@ class ArmyBuilderUnitItemUi
         required this.selectedComposition
     });
 
-    Map<String, dynamic> toJson() 
+    Map<String, dynamic> toJson()
     {
-        return 
+        return
         {
+            'instanceId': instanceId,
             'dbId': dbId,
             'name': name,
             'role': role,
@@ -68,10 +71,11 @@ class ArmyBuilderUnitItemUi
         final selectedCompRaw = json['selectedComposition'] as Map<String, dynamic>? ?? {};
 
         return ArmyBuilderUnitItemUi(
+            instanceId: json['instanceId'] ?? '',
             dbId: json['dbId'] ?? '',
             name: json['name'] ?? '',
             role: json['role'] ?? '',
-            repeat: json['repeat']?? '1',
+            repeat: json['repeat'] ?? '1',
             keywords: List<String>.from(json['keywords'] ?? []),
             factionKeywords: List<String>.from(json['factionKeywords'] ?? []),
             unitComposition: UnitComposition.fromJson(json['unitComposition'] ?? {}),
@@ -94,6 +98,7 @@ class ArmyBuilderUnitItemUi
     factory ArmyBuilderUnitItemUi.empty()
     {
         return ArmyBuilderUnitItemUi(
+            instanceId: '',
             dbId: '',
             name: '',
             role: '',
