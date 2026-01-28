@@ -134,11 +134,6 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         }
     }
 
-    Future<void> updateCurrentPTSArmyRoster() async
-    {
-        state = state.updateCurrentPts();
-    }
-
     Future<void> addUnitToUserArmy(String unitId) async
     {
         try
@@ -161,6 +156,34 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         {
             state = state.copyWith(error: e.toString());
         }
+    }
+
+     updateCurrentPts()
+    {
+      int total = 0;
+
+      // Если юнитов нет, возвращаем стейт с 0 очков
+      if (state.userArmyUnits == null || state.userArmyUnits!.isEmpty)
+      {
+        state = state.copyWith(currentPts: total);
+      }
+
+      // Проходим по всем категориям и юнитам в них
+      state.userArmyUnits!.forEach((role, units)
+      {
+        for (var unit in units)
+        {
+          // Проверяем, что в выбранном составе есть очки
+          if (unit.selectedComposition.isNotEmpty)
+          {
+            // Прибавляем стоимость (values.first — это значение очков из Map<int, int>)
+            total += unit.selectedComposition.values.first;
+          }
+        }
+      });
+
+      // Возвращаем новый объект стейта через copyWith
+      state = state.copyWith(currentPts: total);
     }
 
     // ==========================================
@@ -243,7 +266,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             );
 
             fillTemDataUnitsByRole();
-            state = state.updateCurrentPts();
+            updateCurrentPts();
         } catch (e)
         {
             state = state.copyWith(isLoading: false, error: e.toString());
