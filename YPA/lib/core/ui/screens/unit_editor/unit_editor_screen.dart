@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/core/ui/screens/unit_editor/unit_editor_controller.dart';
 import 'package:ypa/core/ui/screens/unit_editor/unit_editor_item_ui.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/basic_stats.dart';
+import 'package:ypa/core/ui/screens/unit_editor/widgets/keywords_bloc.dart';
 
 import '../../widgets/expanded/expandable_section.dart';
 
@@ -95,7 +96,7 @@ class UnitEditorScreen extends ConsumerWidget
           categories['Led By'] = const Text('Присоединяется к');
         }
 
-        categories['Keywords'] = const Text('Ключевые слова');
+        categories['Keywords'] = KeywordsBloc(keywords: unit.keywords, factionKeywords: unit.factionKeywords);
 
 
         List<Widget> sections = [];

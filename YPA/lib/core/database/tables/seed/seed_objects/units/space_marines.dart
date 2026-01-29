@@ -25,7 +25,7 @@ List<UnitSeed> spaceMarinesUnits()
                 'Imperium',
                 'Tacticus'
             ],
-            factionKeywords: ['Adeptus Astartes'],
+            factionKeywords: ['ADEPTUS ASTARTES'],
             unitComposition: const UnitComposition(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
@@ -108,7 +108,7 @@ List<UnitSeed> spaceMarinesUnits()
                 'Imperium',
                 'Tacticus'
             ],
-            factionKeywords: ['Adeptus Astartes'],
+            factionKeywords: ['ADEPTUS ASTARTES'],
             unitComposition: const UnitComposition(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
@@ -191,7 +191,7 @@ List<UnitSeed> spaceMarinesUnits()
                 'Imperium',
                 'Tacticus'
             ],
-            factionKeywords: ['Adeptus Astartes'],
+            factionKeywords: ['ADEPTUS ASTARTES'],
             unitComposition: const UnitComposition(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
@@ -275,7 +275,7 @@ List<UnitSeed> spaceMarinesUnits()
                 'Imperium',
                 'Tacticus'
             ],
-            factionKeywords: ['Adeptus Astartes'],
+            factionKeywords: ['ADEPTUS ASTARTES'],
             unitComposition: const UnitComposition(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
@@ -353,13 +353,14 @@ List<UnitSeed> spaceMarinesUnits()
             role: UnitRoleCode.battleline,
             repeat: 6,
             keywords: [
-                'Infantry',
-                'Battleline',
-                'Grenades',
-                'Imperium',
-                'Tacticus'
+                'INFANTRY', 
+                'BATTLELINE', 
+                'GRENADES', 
+                'IMPERIUM', 
+                'TACTICUS', 
+                'ASSAULT INTERCESSOR SQUAD'
             ],
-            factionKeywords: ['Adeptus Astartes'],
+            factionKeywords: ['ADEPTUS ASTARTES'],
             unitComposition: const UnitComposition(
                 compositions: ['1 model'],
                 unitCost: [{5: 75}]
@@ -488,13 +489,14 @@ List<UnitSeed> spaceMarinesUnits()
             role: UnitRoleCode.battleline,
             repeat: 6,
             keywords: [
-                'Infantry',
-                'Battleline',
-                'Grenades',
-                'Imperium',
-                'Tacticus'
+                'INFANTRY', 
+                'BATTLELINE', 
+                'GRENADES', 
+                'IMPERIUM', 
+                'GRAVIS', 
+                'HEAVY INTERCESSOR SQUAD'
             ],
-            factionKeywords: ['Adeptus Astartes'],
+            factionKeywords: ['ADEPTUS ASTARTES'],
             unitComposition: const UnitComposition(
                 compositions: ['1 model'],
                 unitCost: [{5: 100}]
@@ -622,13 +624,14 @@ List<UnitSeed> spaceMarinesUnits()
             role: UnitRoleCode.battleline,
             repeat: 6,
             keywords: [
-                'Infantry',
-                'Battleline',
-                'Grenades',
-                'Imperium',
-                'Tacticus'
+                'INFANTRY',
+                'BATTLELINE', 
+                'GRENADES', 
+                'IMPERIUM',
+                'TACTICUS',
+                'INTERCESSOR SQUAD'
             ],
-            factionKeywords: ['Adeptus Astartes'],
+            factionKeywords: ['ADEPTUS ASTARTES'],
             unitComposition: const UnitComposition(
                 compositions: ['1 model'],
                 unitCost: [{5: 80}]
@@ -756,13 +759,13 @@ List<UnitSeed> spaceMarinesUnits()
             role: UnitRoleCode.battleline,
             repeat: 6,
             keywords: [
-                'Infantry',
-                'Battleline',
-                'Grenades',
-                'Imperium',
-                'Tacticus'
+                'INFANTRY', 
+                'BATTLELINE',
+                'GRENADES',
+                'IMPERIUM', 
+                'TACTICAL SQUAD'
             ],
-            factionKeywords: ['Adeptus Astartes'],
+            factionKeywords: ['ADEPTUS ASTARTES'],
             unitComposition: const UnitComposition(
                 compositions: ['1 model'],
                 unitCost: [{5: 90}]
@@ -848,7 +851,7 @@ List<UnitSeed> spaceMarinesUnits()
                 'Imperium',
                 'Tacticus'
             ],
-            factionKeywords: ['Adeptus Astartes'],
+            factionKeywords: ['ADEPTUS ASTARTES'],
             unitComposition: const UnitComposition(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
@@ -932,7 +935,7 @@ List<UnitSeed> spaceMarinesUnits()
                 'Imperium',
                 'Tacticus'
             ],
-            factionKeywords: ['Adeptus Astartes'],
+            factionKeywords: ['ADEPTUS ASTARTES'],
             unitComposition: const UnitComposition(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
@@ -1015,7 +1018,7 @@ List<UnitSeed> spaceMarinesUnits()
                 'Imperium',
                 'Tacticus'
             ],
-            factionKeywords: ['Adeptus Astartes'],
+            factionKeywords: ['ADEPTUS ASTARTES'],
             unitComposition: const UnitComposition(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
@@ -1098,7 +1101,7 @@ List<UnitSeed> spaceMarinesUnits()
                 'Imperium',
                 'Tacticus'
             ],
-            factionKeywords: ['Adeptus Astartes'],
+            factionKeywords: ['ADEPTUS ASTARTES'],
             unitComposition: const UnitComposition(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
@@ -1182,7 +1185,7 @@ List<UnitSeed> spaceMarinesUnits()
                 'Imperium',
                 'Tacticus'
             ],
-            factionKeywords: ['Adeptus Astartes'],
+            factionKeywords: ['ADEPTUS ASTARTES'],
             unitComposition: const UnitComposition(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
@@ -1267,7 +1270,7 @@ List<UnitSeed> spaceMarinesUnits()
                 'Imperium',
                 'Tacticus'
             ],
-            factionKeywords: ['Adeptus Astartes'],
+            factionKeywords: ['ADEPTUS ASTARTES'],
             unitComposition: const UnitComposition(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
@@ -1350,7 +1353,7 @@ List<UnitSeed> spaceMarinesUnits()
                 'Imperium',
                 'Tacticus'
             ],
-            factionKeywords: ['Adeptus Astartes'],
+            factionKeywords: ['ADEPTUS ASTARTES'],
             unitComposition: const UnitComposition(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
@@ -1433,7 +1436,7 @@ List<UnitSeed> spaceMarinesUnits()
                 'Imperium',
                 'Tacticus'
             ],
-            factionKeywords: ['Adeptus Astartes'],
+            factionKeywords: ['ADEPTUS ASTARTES'],
             unitComposition: const UnitComposition(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
@@ -1516,7 +1519,7 @@ List<UnitSeed> spaceMarinesUnits()
                 'Imperium',
                 'Tacticus'
             ],
-            factionKeywords: ['Adeptus Astartes'],
+            factionKeywords: ['ADEPTUS ASTARTES'],
             unitComposition: const UnitComposition(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
