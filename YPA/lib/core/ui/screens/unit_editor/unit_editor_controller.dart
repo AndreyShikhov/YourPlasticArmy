@@ -85,6 +85,6 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
 
     UnitRoleCode? getUnitRoleCode()
     {
-        return UnitRoleCodeX.fromTitle(_role);
+        return UnitRoleCodeX.fromName(_role);
     }
 }

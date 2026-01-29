@@ -112,7 +112,7 @@ class ModelStatsDom
     final WargearOptions wargearOptions;
 
     const ModelStatsDom({
-        this.isNeedShow = false,
+        this.isNeedShow = true,
         required this.movement,
         required this.toughness,
         required this.save,

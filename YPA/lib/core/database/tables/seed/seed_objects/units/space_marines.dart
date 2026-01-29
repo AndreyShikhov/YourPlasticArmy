@@ -378,6 +378,7 @@ List<UnitSeed> spaceMarinesUnits()
             modelStats:
             {
                 'Assault Intercessor Sergeant':ModelStatsDom(
+                    isNeedShow: false,
                     movement: 6,
                     toughness: 4,
                     save: 3,
@@ -428,6 +429,7 @@ List<UnitSeed> spaceMarinesUnits()
                     wargearOptions: WargearOptions.emptyOptions
                 ),
                 'Assault Intercessor':ModelStatsDom(
+                    isNeedShow: true,
                     movement: 6,
                     toughness: 4,
                     save: 3,
@@ -511,6 +513,7 @@ List<UnitSeed> spaceMarinesUnits()
             modelStats:
             {
                 'Heavy Intercessor Sergeant' : ModelStatsDom(
+                    isNeedShow: false,
                     movement: 5,
                     toughness: 6,
                     save: 3,
@@ -644,6 +647,7 @@ List<UnitSeed> spaceMarinesUnits()
             modelStats:
             {
                 'Intercessor Sergeant' : ModelStatsDom(
+                    isNeedShow: false,
                     movement: 6,
                     toughness: 4,
                     save: 3,

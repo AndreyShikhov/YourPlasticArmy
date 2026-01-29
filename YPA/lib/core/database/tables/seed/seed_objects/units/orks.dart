@@ -40,6 +40,7 @@ List<UnitSeed> orksUnits()
             modelStats:
             {
                 'Boyz' : ModelStatsDom(
+                    isNeedShow: true,
                     movement: 6,
                     toughness: 5,
                     save: 5,
