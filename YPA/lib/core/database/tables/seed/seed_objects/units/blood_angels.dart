@@ -34,7 +34,7 @@ List<UnitSeed> bloodAngelsUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                UnitAbilitiesCode.deepStrike
+              'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -119,7 +119,7 @@ List<UnitSeed> bloodAngelsUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                UnitAbilitiesCode.deepStrike
+              'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -204,7 +204,7 @@ List<UnitSeed> bloodAngelsUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                UnitAbilitiesCode.deepStrike
+              'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -289,7 +289,7 @@ List<UnitSeed> bloodAngelsUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                UnitAbilitiesCode.deepStrike
+              'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -380,7 +380,7 @@ List<UnitSeed> bloodAngelsUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                UnitAbilitiesCode.deepStrike
+              'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -465,7 +465,7 @@ List<UnitSeed> bloodAngelsUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                UnitAbilitiesCode.deepStrike
+              'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -550,7 +550,7 @@ List<UnitSeed> bloodAngelsUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                UnitAbilitiesCode.deepStrike
+              'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -635,7 +635,7 @@ List<UnitSeed> bloodAngelsUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                UnitAbilitiesCode.deepStrike
+              'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -720,7 +720,7 @@ List<UnitSeed> bloodAngelsUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                UnitAbilitiesCode.deepStrike
+              'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -805,7 +805,7 @@ List<UnitSeed> bloodAngelsUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                UnitAbilitiesCode.deepStrike
+              'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader

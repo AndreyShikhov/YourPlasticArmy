@@ -26,7 +26,7 @@ class CreateUnit
         required List<String> keywords,
         required List<String> factionKeywords,
         required UnitComposition unitComposition,
-        required List<UnitAbilitiesCode> unitAbility,
+        required List<String> unitAbility,
         required List<CoreUnitAbilityCode> coreAbilities,
         required List<FactionUnitAbilityCode> factionAbilities,
         required List<String> leader,

@@ -17,7 +17,7 @@ class ArmyBuilderUnitItemUi
     final List<String> keywords;
     final List<String> factionKeywords;
     final UnitComposition unitComposition;
-    final List<UnitAbilitiesCode> unitAbility;
+    final List<String> unitAbility;
     final List<CoreUnitAbilityCode> coreAbilities;
     final List<FactionUnitAbilityCode> factionAbilities;
     final List<String> leader;
@@ -55,7 +55,7 @@ class ArmyBuilderUnitItemUi
             'keywords': keywords,
             'factionKeywords': factionKeywords,
             'unitComposition': unitComposition.toJson(),
-            'unitAbility': unitAbility.map((e) => e.name).toList(),
+            'unitAbility': unitAbility,
             'coreAbilities': coreAbilities.map((e) => e.name).toList(),
             'factionAbilities': factionAbilities.map((e) => e.name).toList(),
             'leader': leader,
@@ -79,9 +79,7 @@ class ArmyBuilderUnitItemUi
             keywords: List<String>.from(json['keywords'] ?? []),
             factionKeywords: List<String>.from(json['factionKeywords'] ?? []),
             unitComposition: UnitComposition.fromJson(json['unitComposition'] ?? {}),
-            unitAbility: (json['unitAbility'] as List? ?? [])
-                .map((e) => UnitAbilitiesCode.values.byName(e))
-                .toList(),
+            unitAbility: List<String>.from(json['unitAbility'] ?? []),
             coreAbilities: (json['coreAbilities'] as List? ?? [])
                 .map((e) => CoreUnitAbilityCode.values.byName(e))
                 .toList(),

@@ -24,7 +24,7 @@ class UnitDOM
     final List<String> keywords;
     final List<String> factionKeywords;
     final UnitComposition unitComposition;
-    final List<UnitAbilitiesCode> unitAbility;
+    final List<String> unitAbility;
     final List<CoreUnitAbilityCode> coreAbilities;
     final List<FactionUnitAbilityCode> factionAbilities;
     final List<String> leader;
@@ -59,7 +59,7 @@ class UnitDOM
         required List<String> keywords,
         required List<String> factionKeywords,
         required UnitComposition unitComposition,
-        required List<UnitAbilitiesCode> unitAbility,
+        required List<String> unitAbility,
         required List<CoreUnitAbilityCode> coreAbilities,
         required List<FactionUnitAbilityCode> factionAbilities,
         required List<String> leader,
@@ -96,7 +96,7 @@ class UnitDOM
         required List<String> keywords,
         required List<String> factionKeywords,
         required UnitComposition unitComposition,
-        required List<UnitAbilitiesCode> unitAbility,
+        required List<String> unitAbility,
         required List<CoreUnitAbilityCode> coreAbilities,
         required List<FactionUnitAbilityCode> factionAbilities,
         required List<String> leader,
@@ -133,7 +133,7 @@ class UnitDOM
         List<String>? keywords,
         List<String>? factionKeywords,
         UnitComposition? unitComposition,
-        List<UnitAbilitiesCode>? unitAbility,
+        List<String>? unitAbility,
         List<CoreUnitAbilityCode>? coreAbilities,
         List<FactionUnitAbilityCode>? factionAbilities,
         List<String>? leader,

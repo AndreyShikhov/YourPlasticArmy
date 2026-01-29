@@ -27,7 +27,7 @@ List<UnitSeed> orksUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                UnitAbilitiesCode.deepStrike
+                'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader

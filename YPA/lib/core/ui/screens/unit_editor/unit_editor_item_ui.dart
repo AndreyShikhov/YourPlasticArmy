@@ -17,7 +17,7 @@ class UnitEditorItemUi
     final List<String> keywords;
     final List<String> factionKeywords;
     final UnitComposition unitComposition;
-    final List<UnitAbilitiesCode> unitAbility;
+    final List<String> unitAbility;
     final List<CoreUnitAbilityCode> coreAbilities;
     final List<FactionUnitAbilityCode> factionAbilities;
     final List<String> leader;

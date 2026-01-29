@@ -712,6 +712,7 @@ extension WeaponAbilitiesCodeX on WeaponAbilitiesCode
 enum UnitAbilitiesCode
 {
     none,
+    shockAssault,
     deepStrike,
     deadlyDemise,
     fightsFirst,
@@ -733,6 +734,7 @@ extension UnitAbilitiesCodeX on UnitAbilitiesCode
         switch (this)
         {
             case UnitAbilitiesCode.none: return 'none';
+            case UnitAbilitiesCode.shockAssault: return 'shock_assault';
             case UnitAbilitiesCode.deepStrike: return 'deep_strike';
             case UnitAbilitiesCode.deadlyDemise: return 'deadly_demise';
             case UnitAbilitiesCode.fightsFirst: return 'fights_first';
@@ -751,6 +753,7 @@ extension UnitAbilitiesCodeX on UnitAbilitiesCode
         switch (this)
         {
             case UnitAbilitiesCode.none: return 'none';
+            case UnitAbilitiesCode.shockAssault: return 'Shock Assault';
             case UnitAbilitiesCode.deepStrike: return 'Deep Strike';
             case UnitAbilitiesCode.deadlyDemise: return 'Deadly Demise';
             case UnitAbilitiesCode.fightsFirst: return 'Fights First';
@@ -983,7 +986,7 @@ class UnitSeed
     final List<String> keywords;
     final List<String> factionKeywords;
     final UnitComposition unitComposition;
-    final List<UnitAbilitiesCode> unitAbility;
+    final List<String> unitAbility;
     final List<CoreUnitAbilityCode> coreAbilities;
     final List<FactionUnitAbilityCode> factionAbilities;
     final List<String> leader;

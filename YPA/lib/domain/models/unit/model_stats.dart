@@ -178,7 +178,7 @@ class UnitStatsDom
     final List<String> keywords;
     final List<String> factionKeywords;
     final UnitComposition unitComposition;
-    final List<UnitAbilitiesCode> unitAbility;
+    final List<String> unitAbility;
     final List<CoreUnitAbilityCode> coreAbilities;
     final List<FactionUnitAbilityCode> factionAbilities;
     final List<String> leader;
@@ -204,7 +204,7 @@ class UnitStatsDom
         'keywords': keywords,
         'factionKeywords': factionKeywords,
         'unitComposition': unitComposition.toJson(),
-        'unitAbilities': unitAbility.map((a) => a.name).toList(),
+        'unitAbilities': unitAbility,
         'coreAbilities': coreAbilities.map((a) => a.name).toList(),
         'factionAbilities': factionAbilities.map((a) => a.name).toList(),
         'leader': leader,
@@ -221,7 +221,7 @@ class UnitStatsDom
             keywords: List<String>.from(json['keywords'] ?? []),
             factionKeywords: List<String>.from(json['factionKeywords'] ?? []),
             unitComposition: UnitComposition.fromJson(json['unitComposition'] ?? {}),
-            unitAbility: (json['unitAbilities'] as List? ?? []).map((e) => UnitAbilitiesCode.values.byName(e)).toList(),
+            unitAbility: List<String>.from(json['unitAbilities'] ?? []),
             coreAbilities: (json['coreAbilities'] as List? ?? []).map((e) => CoreUnitAbilityCode.values.byName(e)).toList(),
             factionAbilities: (json['factionAbilities'] as List? ?? []).map((e) => FactionUnitAbilityCode.values.byName(e)).toList(),
             leader: List<String>.from(json['leader'] ?? []),

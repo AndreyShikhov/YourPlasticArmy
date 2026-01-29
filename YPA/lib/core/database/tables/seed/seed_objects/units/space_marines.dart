@@ -31,7 +31,7 @@ List<UnitSeed> spaceMarinesUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                UnitAbilitiesCode.deepStrike
+                'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -114,7 +114,7 @@ List<UnitSeed> spaceMarinesUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                UnitAbilitiesCode.deepStrike
+                'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -197,7 +197,7 @@ List<UnitSeed> spaceMarinesUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                UnitAbilitiesCode.deepStrike
+                'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -281,7 +281,7 @@ List<UnitSeed> spaceMarinesUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                UnitAbilitiesCode.deepStrike
+                'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -366,7 +366,7 @@ List<UnitSeed> spaceMarinesUnits()
                 unitCost: [{5: 75}]
             ),
             unitAbility: const[
-                UnitAbilitiesCode.deepStrike
+                'shock_assault'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -502,7 +502,7 @@ List<UnitSeed> spaceMarinesUnits()
                 unitCost: [{5: 100}]
             ),
             unitAbility: const[
-                UnitAbilitiesCode.deepStrike
+                'unyielding_in_the_face_of_the_foe'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -637,7 +637,8 @@ List<UnitSeed> spaceMarinesUnits()
                 unitCost: [{5: 80}]
             ),
             unitAbility: const[
-                UnitAbilitiesCode.deepStrike
+                'objective_secured',
+                'target_elimination'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -771,7 +772,7 @@ List<UnitSeed> spaceMarinesUnits()
                 unitCost: [{5: 90}]
             ),
             unitAbility: const[
-                UnitAbilitiesCode.deepStrike
+                'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -857,7 +858,7 @@ List<UnitSeed> spaceMarinesUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                UnitAbilitiesCode.deepStrike
+                'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -941,7 +942,7 @@ List<UnitSeed> spaceMarinesUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                UnitAbilitiesCode.deepStrike
+                'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -1024,7 +1025,7 @@ List<UnitSeed> spaceMarinesUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                UnitAbilitiesCode.deepStrike
+                'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -1107,7 +1108,7 @@ List<UnitSeed> spaceMarinesUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                UnitAbilitiesCode.deepStrike
+                'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -1191,7 +1192,7 @@ List<UnitSeed> spaceMarinesUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                UnitAbilitiesCode.deepStrike
+                'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -1276,7 +1277,7 @@ List<UnitSeed> spaceMarinesUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                UnitAbilitiesCode.deepStrike
+                'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -1359,7 +1360,7 @@ List<UnitSeed> spaceMarinesUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                UnitAbilitiesCode.deepStrike
+                'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -1442,7 +1443,7 @@ List<UnitSeed> spaceMarinesUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                UnitAbilitiesCode.deepStrike
+                'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -1525,7 +1526,7 @@ List<UnitSeed> spaceMarinesUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                UnitAbilitiesCode.deepStrike
+                'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
