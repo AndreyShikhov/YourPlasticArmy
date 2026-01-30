@@ -14,6 +14,6 @@ class GetAllUnitAbilities
 
     Future<List<UnitAbilityDOM>> call() 
     {
-        return repository.findAll();
+        return repository.getAllUnitAbility();
     }
 }

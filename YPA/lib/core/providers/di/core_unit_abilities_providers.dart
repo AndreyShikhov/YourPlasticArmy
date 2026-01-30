@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/application/unit_abilities/get_all_core_unit_abilities.dart';
 import 'package:ypa/core/database/database_providers.dart';
 
+import '../../../application/unit_abilities/get_core_unit_ability_by_code.dart';
 import '../../../data/repositories/drift_core_unit_ability_repository.dart';
 import '../../../domain/models/core_unit_ability/core_unit_ability.dart';
 
@@ -23,6 +24,13 @@ final getAllCoreUnitAbilitiesUseCaseProvider = Provider<GetAllCoreUnitAbilities>
         final repository = ref.watch(coreUnitAbilityRepositoryProvider);
         return GetAllCoreUnitAbilities(repository);
     });
+
+final getCoreUnitAbilityByCodeUseCaseProvider = Provider<GetCoreUnitAbilityByCode>((ref)
+    {
+        final repository = ref.watch(coreUnitAbilityRepositoryProvider);
+        return GetCoreUnitAbilityByCode(repository);
+    });
+
 
 final coreUnitAbilitiesListProvider = FutureProvider<List<CoreUnitAbilityDOM>>((ref) async
     {

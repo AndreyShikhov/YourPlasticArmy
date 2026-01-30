@@ -15,14 +15,14 @@ class DriftUnitAbilityRepository implements UnitAbilityRepository
     DriftUnitAbilityRepository(this.db);
 
     @override
-    Future<List<UnitAbilityDOM>> findAll() async
+    Future<List<UnitAbilityDOM>> getAllUnitAbility() async
     {
         final rows = await db.select(db.unitAbilities).get();
         return rows.map(UnitAbilityMapper.fromRow).toList();
     }
 
     @override
-    Future<UnitAbilityDOM?> findByCode(String code) async
+    Future<UnitAbilityDOM?> getUnitAbilityByCode(String code) async
     {
         final row = await (db.select(db.unitAbilities)..where((tbl) => tbl.code.equals(code))).getSingleOrNull();
         return row != null ? UnitAbilityMapper.fromRow(row) : null;

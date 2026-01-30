@@ -15,14 +15,14 @@ class DriftFactionUnitAbilityRepository implements FactionUnitAbilityRepository
     DriftFactionUnitAbilityRepository(this.db);
 
     @override
-    Future<List<FactionUnitAbilityDOM>> findAll() async
+    Future<List<FactionUnitAbilityDOM>> getAllFactionUnitAbilities() async
     {
         final rows = await db.select(db.factionUnitAbilities).get();
         return rows.map(FactionUnitAbilityMapper.fromRow).toList();
     }
 
     @override
-    Future<FactionUnitAbilityDOM?> findByCode(String code) async
+    Future<FactionUnitAbilityDOM?> getFactionUnitAbilityByCode(String code) async
     {
         final row = await (db.select(
             db.factionUnitAbilities

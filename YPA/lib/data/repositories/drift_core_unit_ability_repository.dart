@@ -15,14 +15,14 @@ class DriftCoreUnitAbilityRepository implements CoreUnitAbilityRepository
     DriftCoreUnitAbilityRepository(this.db);
 
     @override
-    Future<List<CoreUnitAbilityDOM>> findAll() async
+    Future<List<CoreUnitAbilityDOM>> getAllCoreUnitAbilities() async
     {
         final rows = await db.select(db.coreUnitAbilities).get();
         return rows.map(CoreUnitAbilityMapper.fromRow).toList();
     }
 
     @override
-    Future<CoreUnitAbilityDOM?> findByCode(String code) async
+    Future<CoreUnitAbilityDOM?> getCoreUnitAbilityByCode(String code) async
     {
         final row = await (db.select(db.coreUnitAbilities)..where((tbl) => tbl.code.equals(code))).getSingleOrNull();
         return row != null ? CoreUnitAbilityMapper.fromRow(row) : null;

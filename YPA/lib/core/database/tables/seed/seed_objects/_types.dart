@@ -709,64 +709,7 @@ extension WeaponAbilitiesCodeX on WeaponAbilitiesCode
     }
 }
 
-enum UnitAbilitiesCode
-{
-    none,
-    shockAssault,
-    deepStrike,
-    deadlyDemise,
-    fightsFirst,
-    firingDeck,
-    hover,
-    infiltrators,
-    loneOperative,
-    scouts,
-    stealth,
-    transport
-}
 
-extension UnitAbilitiesCodeX on UnitAbilitiesCode
-{
-    String get code => name;
-
-    String get SnakeName
-    {
-        switch (this)
-        {
-            case UnitAbilitiesCode.none: return 'none';
-            case UnitAbilitiesCode.shockAssault: return 'shock_assault';
-            case UnitAbilitiesCode.deepStrike: return 'deep_strike';
-            case UnitAbilitiesCode.deadlyDemise: return 'deadly_demise';
-            case UnitAbilitiesCode.fightsFirst: return 'fights_first';
-            case UnitAbilitiesCode.firingDeck: return 'firing_deck';
-            case UnitAbilitiesCode.hover: return 'hover';
-            case UnitAbilitiesCode.infiltrators: return 'infiltrators';
-            case UnitAbilitiesCode.loneOperative: return 'lone_operative';
-            case UnitAbilitiesCode.scouts: return 'scouts';
-            case UnitAbilitiesCode.stealth: return 'stealth';
-            case UnitAbilitiesCode.transport: return 'transport';
-        }
-    }
-
-    String get title
-    {
-        switch (this)
-        {
-            case UnitAbilitiesCode.none: return 'none';
-            case UnitAbilitiesCode.shockAssault: return 'Shock Assault';
-            case UnitAbilitiesCode.deepStrike: return 'Deep Strike';
-            case UnitAbilitiesCode.deadlyDemise: return 'Deadly Demise';
-            case UnitAbilitiesCode.fightsFirst: return 'Fights First';
-            case UnitAbilitiesCode.firingDeck: return 'Firing Deck';
-            case UnitAbilitiesCode.hover: return 'Hover';
-            case UnitAbilitiesCode.infiltrators: return 'Infiltrators';
-            case UnitAbilitiesCode.loneOperative: return 'Lone Operative';
-            case UnitAbilitiesCode.scouts: return 'Scouts';
-            case UnitAbilitiesCode.stealth: return 'Stealth';
-            case UnitAbilitiesCode.transport: return 'Transport';
-        }
-    }
-}
 
 enum  FactionUnitAbilityCode
 {

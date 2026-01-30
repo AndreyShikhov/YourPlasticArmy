@@ -9,6 +9,8 @@ import 'package:ypa/core/database/database_providers.dart';
 import 'package:ypa/data/repositories/drift_unit_ability_repository.dart';
 import 'package:ypa/domain/models/unit_ability/unit_ability.dart';
 
+import '../../../application/unit_abilities/get_unit_bility_by_code.dart';
+
 // --- REPOSITORIES ---
 
 final unitAbilityRepositoryProvider = Provider<UnitAbilityRepository>((ref)
@@ -24,6 +26,13 @@ final getAllUnitAbilitiesUseCaseProvider = Provider<GetAllUnitAbilities>((ref)
         final repository = ref.watch(unitAbilityRepositoryProvider);
         return GetAllUnitAbilities(repository);
     });
+
+final getunitAbilityByCodeUseCaseProvider = Provider<GetUnitAbilityByCode>((ref)
+    {
+        final repository = ref.watch(unitAbilityRepositoryProvider);
+        return GetUnitAbilityByCode(repository);
+    });
+
 
 // --- UI STATE ---
 

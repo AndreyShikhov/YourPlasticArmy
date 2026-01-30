@@ -18,4 +18,16 @@ class UnitAbilityDOM
         required this.shortDescription,
         required this.description
     });
+
+    factory UnitAbilityDOM.empty({
+        String id = '',
+        String code = '',
+        String name = '',
+        String shortDescription = '',
+        String description = ''
+    })
+    {
+        // TODO: implement UnitAbilityDOM.empty
+        throw UnimplementedError();
+    }
 }

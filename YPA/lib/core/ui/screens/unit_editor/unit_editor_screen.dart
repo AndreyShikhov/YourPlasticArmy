@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/core/ui/screens/unit_editor/unit_editor_controller.dart';
 import 'package:ypa/core/ui/screens/unit_editor/unit_editor_item_ui.dart';
+import 'package:ypa/core/ui/screens/unit_editor/widgets/base_ability_bloc.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/basic_stats.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/keywords_bloc.dart';
 
@@ -84,9 +85,10 @@ class UnitEditorScreen extends ConsumerWidget
     {
         Map<String, Widget> categories = {};
         categories['Wargear Options'] = const Text('Настройки снаряжения');
-        categories['Unit Ability'] = const Text('Способности юнита');
-        categories['Faction Abilities'] = const Text('Способности фракции');
-        categories['Core Abilities'] = const Text('Базовые способности');
+        categories['Unit Ability'] = const UnitAbilityBloc(description: 'dasd', shortDescription: 'dasdasd');
+        categories['Core Abilities'] = const CoreAbilityBloc(description: 'description', shortDescription: 'shortDescription');
+        categories['Faction Abilities'] = const FactionAbilityBloc(description: 'asdasdasdadsas', shortDescription: 'asdasdadsadasDad',);
+
 
         if (unit.leader.isNotEmpty) {
           categories['Leader'] = const Text('Лидер');

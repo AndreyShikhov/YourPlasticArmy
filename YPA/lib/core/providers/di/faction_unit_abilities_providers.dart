@@ -8,6 +8,7 @@ import 'package:ypa/application/unit_abilities/get_all_faction_unit_abilities.da
 import 'package:ypa/core/database/database_providers.dart';
 import 'package:ypa/data/repositories/drift_faction_unit_ability_repository.dart';
 
+import '../../../application/unit_abilities/get_factions_unit_ability_by_code.dart';
 import '../../../domain/models/faction_unit_ability/faction_unit_ability.dart';
 
 // --- FACTION ABILITIES ---
@@ -23,6 +24,13 @@ final getAllFactionUnitAbilitiesUseCaseProvider = Provider<GetAllFactionUnitAbil
         final repository = ref.watch(factionUnitAbilityRepositoryProvider);
         return GetAllFactionUnitAbilities(repository);
     });
+
+final getFactionUnitAbilityByCodeUseCaseProvider = Provider<GetFactionsUnitAbilityByCode>((ref)
+    {
+        final repository = ref.watch(factionUnitAbilityRepositoryProvider);
+        return GetFactionsUnitAbilityByCode(repository);
+    });
+
 
 final factionUnitAbilitiesListProvider = FutureProvider<List<FactionUnitAbilityDOM>>((ref) async
     {
