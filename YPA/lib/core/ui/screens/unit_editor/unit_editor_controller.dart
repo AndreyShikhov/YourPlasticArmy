@@ -10,10 +10,10 @@ import 'package:ypa/application/unit_abilities/get_unit_bility_by_code.dart';
 import 'package:ypa/core/providers/di/di_providers.dart';
 import 'package:ypa/core/ui/screens/unit_editor/unit_editor_item_ui.dart';
 import 'package:ypa/core/ui/screens/unit_editor/unit_editor_state.dart';
-import 'package:ypa/domain/models/core_unit_ability/core_unit_ability.dart';
-import 'package:ypa/domain/models/faction_unit_ability/faction_unit_ability.dart';
-import 'package:ypa/domain/models/unit_ability/unit_ability.dart';
 
+import '../../../../domain/models/abilities/core_unit_ability/core_unit_ability.dart';
+import '../../../../domain/models/abilities/faction_unit_ability/faction_unit_ability.dart';
+import '../../../../domain/models/abilities/unit_ability/unit_ability.dart';
 import '../../../database/tables/seed/seed_objects/_types.dart';
 import '../army_builder/army_builder_controller.dart';
 
@@ -84,7 +84,8 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
         {
             final  unit = await armyState.getUnitByInstanceIdFromUserArmy(_instanceUnitId,  getUnitRoleCode()!);
 
-            state = state.copyWith(isLoading: false,  unit: UnitEditorItemUi(
+            // 1. Создаем UI модель юнита
+            final editorUnit = UnitEditorItemUi(
                 instanceId: unit.instanceId,
                 name: unit.name,
                 role: unit.role,
@@ -99,7 +100,25 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                 ledBy: unit.ledBy,
                 modelStats: unit.modelStats,
                 selectedComposition: unit.selectedComposition
-            ));
+            );
+
+            // Сначала сохраняем юнита, чтобы функции get... могли его использовать
+            state = state.copyWith(unit: editorUnit);
+
+            // 2. ЗАГРУЖАЕМ ВСЕ СПОСОБНОСТИ ПАРАЛЛЕЛЬНО
+            final abilitiesResults = await Future.wait([
+              getUnitAbility(),
+              getCoreUnitAbility(),
+              getFactionUnitAbility(),
+            ]);
+
+            // 3. ОБНОВЛЯЕМ СТЕЙТ ФИНАЛЬНО
+            state = state.copyWith(
+                unitAbilities: abilitiesResults[0] as List<UnitAbilityDOM>,
+                coreAbilities: abilitiesResults[1] as List<CoreUnitAbilityDOM>,
+                factionAbilities: abilitiesResults[2] as List<FactionUnitAbilityDOM>,
+                isLoading: false
+            );
         }catch (e)
         {
             state = state.copyWith(isLoading: false, error: e.toString());
@@ -147,8 +166,9 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
 
       final  coreAbilities = await _getAllCoreUnitAbilities();
 
+
       return coreAbilities.where((ability) {
-        return state.unit!.coreAbilities.contains(ability.code);
+        return state.unit!.coreAbilities.contains(CoreUnitAbilityCodeX.fromName(ability.code));
       }).toList();
     }
 
@@ -162,8 +182,8 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
 
       // 2. Создаем список Future-запросов для всех кодов способностей
 
-      final List<Future<FactionUnitAbilityDOM?>> futures = state.unit!.unitAbility
-          .map((abilityCode) => _getFactionsUnitAbilityByCode(abilityCode))
+      final List<Future<FactionUnitAbilityDOM?>> futures = state.unit!.factionAbilities
+          .map((abilityCode) => _getFactionsUnitAbilityByCode(FactionUnitAbilityCodeX.fromName(abilityCode.name)!.SnakeName))
           .toList();
 
       // 3. Дожидаемся завершения всех запросов одновременно

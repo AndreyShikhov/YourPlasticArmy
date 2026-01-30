@@ -1,11 +1,10 @@
-
-
 /*******************************************************************************
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-import '../../domain/models/core_unit_ability/core_unit_ability.dart';
+import '../../domain/models/abilities/core_unit_ability/core_unit_ability.dart';
+
 
 
 

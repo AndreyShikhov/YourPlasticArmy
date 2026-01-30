@@ -5,8 +5,8 @@
 
 import 'package:ypa/core/database/app_database.dart';
 import 'package:ypa/data/mappers/core_unit_ability_mapper.dart';
-import 'package:ypa/domain/models/core_unit_ability/core_unit_ability_dom.dart';
-import 'package:ypa/domain/models/core_unit_ability/core_unit_ability_repository.dart';
+
+import '../../domain/models/abilities/core_unit_ability/core_unit_ability.dart';
 
 class DriftCoreUnitAbilityRepository implements CoreUnitAbilityRepository
 {

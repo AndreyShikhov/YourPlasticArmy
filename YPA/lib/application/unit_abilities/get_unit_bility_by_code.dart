@@ -4,7 +4,8 @@
  ******************************************************************************/
 
 
-import '../../domain/models/unit_ability/unit_ability.dart';
+import '../../domain/models/abilities/unit_ability/unit_ability.dart';
+
 
 
 

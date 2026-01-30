@@ -4,17 +4,17 @@
  ******************************************************************************/
 
 import 'package:flutter/material.dart';
+import 'package:ypa/domain/models/abilities/base_ability.dart';
 
 class BaseAbilityBloc extends StatelessWidget
 {
 
-    final String description;
-    final String shortDescription;
+    final List<BaseAbilityDom> abilities;
+
 
     const BaseAbilityBloc({
         super.key,
-        required this.description,
-        required this.shortDescription
+        required this.abilities,
     });
 
     @override
@@ -23,9 +23,9 @@ class BaseAbilityBloc extends StatelessWidget
 
         return Column(
           children: [
-            Text(description),
+            Text(abilities.first.description),
             SizedBox(height: 55,),
-            Text(shortDescription),
+            Text(abilities.first.shortDescription),
           ],
         );
     }
@@ -36,8 +36,7 @@ class UnitAbilityBloc extends BaseAbilityBloc
 {
     const UnitAbilityBloc({
         super.key, 
-        required super.description, 
-        required super.shortDescription
+        required super.abilities
     });
 
     @override
@@ -52,9 +51,8 @@ class CoreAbilityBloc extends BaseAbilityBloc
 {
 
     const CoreAbilityBloc({
-        super.key, 
-        required super.description, 
-        required super.shortDescription
+        super.key,
+      required super.abilities
     });
 
     @override
@@ -70,8 +68,7 @@ class FactionAbilityBloc extends BaseAbilityBloc
 
     const FactionAbilityBloc({
         super.key,
-        required super.description,
-        required super.shortDescription
+      required super.abilities
     });
 
     @override

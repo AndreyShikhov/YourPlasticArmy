@@ -1,10 +1,11 @@
+
 /*******************************************************************************
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-import 'package:ypa/domain/models/core_unit_ability/core_unit_ability_dom.dart';
-import 'package:ypa/domain/models/core_unit_ability/core_unit_ability_repository.dart';
+import '../../domain/models/abilities/core_unit_ability/core_unit_ability.dart';
+
 
 class GetAllCoreUnitAbilities
 {

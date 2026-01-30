@@ -3,8 +3,7 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-import 'package:ypa/domain/models/unit_ability/unit_ability_dom.dart';
-import 'package:ypa/domain/models/unit_ability/unit_ability_repository.dart';
+import '../../domain/models/abilities/unit_ability/unit_ability.dart';
 
 class GetAllUnitAbilities
 {

@@ -4,7 +4,8 @@
  ******************************************************************************/
 
 import 'package:ypa/core/database/app_database.dart';
-import 'package:ypa/domain/models/unit_ability/unit_ability_dom.dart';
+
+import '../../domain/models/abilities/unit_ability/unit_ability.dart';
 
 class UnitAbilityMapper
 {

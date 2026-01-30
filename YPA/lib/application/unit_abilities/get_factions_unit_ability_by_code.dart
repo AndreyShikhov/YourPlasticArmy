@@ -3,7 +3,8 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-import '../../domain/models/faction_unit_ability/faction_unit_ability.dart';
+import '../../domain/models/abilities/faction_unit_ability/faction_unit_ability.dart';
+
 
 class GetFactionsUnitAbilityByCode
 {

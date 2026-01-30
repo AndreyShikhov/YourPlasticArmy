@@ -9,7 +9,7 @@ import 'package:ypa/core/database/database_providers.dart';
 
 import '../../../application/unit_abilities/get_core_unit_ability_by_code.dart';
 import '../../../data/repositories/drift_core_unit_ability_repository.dart';
-import '../../../domain/models/core_unit_ability/core_unit_ability.dart';
+import '../../../domain/models/abilities/core_unit_ability/core_unit_ability.dart';
 
 // --- CORE ABILITIES ---
 

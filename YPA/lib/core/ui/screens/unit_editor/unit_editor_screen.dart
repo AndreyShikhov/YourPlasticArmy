@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/core/ui/screens/unit_editor/unit_editor_controller.dart';
 import 'package:ypa/core/ui/screens/unit_editor/unit_editor_item_ui.dart';
+import 'package:ypa/core/ui/screens/unit_editor/unit_editor_state.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/base_ability_bloc.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/basic_stats.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/keywords_bloc.dart';
@@ -30,8 +31,11 @@ class UnitEditorScreen extends ConsumerWidget
     @override
     Widget build(BuildContext context, WidgetRef ref)
     {
-        final state = ref.watch(unitEditorControllerProvider((armyId, instanceId,roleCode)));
+      // 1. Получаем состояние (для отрисовки)
+      final state = ref.watch(unitEditorControllerProvider((armyId, instanceId, roleCode)));
 
+      // 2. Получаем контроллер (для вызова методов)
+      final notifier = ref.read(unitEditorControllerProvider((armyId, instanceId, roleCode)).notifier);
         // TODO: implement build
         return
         Scaffold(
@@ -65,7 +69,7 @@ class UnitEditorScreen extends ConsumerWidget
             body: state.isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : Container(
-                    child: ListView(children: _buildSections(state.unit!)
+                    child: ListView(children: _buildSections(state)
                     )
                 )
         );
@@ -81,28 +85,29 @@ class UnitEditorScreen extends ConsumerWidget
         );
     }
 
-    List<Widget> _buildSections(UnitEditorItemUi unit)
+    List<Widget> _buildSections(UnitEditorState state)
     {
         Map<String, Widget> categories = {};
         categories['Wargear Options'] = const Text('Настройки снаряжения');
-        categories['Unit Ability'] = const UnitAbilityBloc(description: 'dasd', shortDescription: 'dasdasd');
-        categories['Core Abilities'] = const CoreAbilityBloc(description: 'description', shortDescription: 'shortDescription');
-        categories['Faction Abilities'] = const FactionAbilityBloc(description: 'asdasdasdadsas', shortDescription: 'asdasdadsadasDad',);
+
+        categories['Unit Ability'] = UnitAbilityBloc(abilities: state.unitAbilities);
+        categories['Core Abilities'] =  CoreAbilityBloc(abilities: state.coreAbilities);
+        categories['Faction Abilities'] =  FactionAbilityBloc(abilities: state.factionAbilities);
 
 
-        if (unit.leader.isNotEmpty) {
+        if (state.unit!.leader.isNotEmpty) {
           categories['Leader'] = const Text('Лидер');
         }
 
-        if (unit.ledBy.isNotEmpty) {
+        if (state.unit!.ledBy.isNotEmpty) {
           categories['Led By'] = const Text('Присоединяется к');
         }
 
-        categories['Keywords'] = KeywordsBloc(keywords: unit.keywords, factionKeywords: unit.factionKeywords);
+        categories['Keywords'] = KeywordsBloc(keywords: state.unit!.keywords, factionKeywords: state.unit!.factionKeywords);
 
 
         List<Widget> sections = [];
-        sections.add(_getStatsWidget(unit));
+        sections.add(_getStatsWidget(state.unit!));
 
         categories.forEach((title, content) =>
             sections.add(ExpandableSection(title: title, child: content))

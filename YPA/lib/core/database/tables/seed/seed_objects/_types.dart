@@ -740,6 +740,17 @@ extension  FactionUnitAbilityCodeX on FactionUnitAbilityCode
             case FactionUnitAbilityCode.oathOfMoment: return 'Oath of Moment';
         }
     }
+
+    static FactionUnitAbilityCode? fromName(String name)
+    {
+      try
+      {
+        return FactionUnitAbilityCode.values.firstWhere((e) => e.name == name);
+      } catch (_)
+      {
+        return null; // Если это не титул, вернет null
+      }
+    }
 }
 
 enum CoreUnitAbilityCode
@@ -778,6 +789,17 @@ extension CoreUnitAbilityCodeX on CoreUnitAbilityCode
             case CoreUnitAbilityCode.scouts: return 'Scouts';
             case CoreUnitAbilityCode.infiltrators: return 'Infiltrators';
         }
+    }
+
+    static CoreUnitAbilityCode? fromName(String name)
+    {
+      try
+      {
+        return CoreUnitAbilityCode.values.firstWhere((e) => e.name == name);
+      } catch (_)
+      {
+        return null; // Если это не титул, вернет null
+      }
     }
 }
 
