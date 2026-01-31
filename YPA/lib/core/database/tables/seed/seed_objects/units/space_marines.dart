@@ -578,7 +578,8 @@ List<UnitSeed> spaceMarinesUnits()
             ledBy: const[
                 LeaderFilter(
                     faction: FactionTypeCode.imperium, 
-                    army: ArmyTypeCode.spaceMarines, 
+                    army: ArmyTypeCode.spaceMarines,
+
                     names: [
                       'Apothecary Biologis',
                       'Captain In Gravis Armour',

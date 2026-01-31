@@ -36,7 +36,7 @@ class UnitComposition
     {
         'composition': compositions,
         'unitCost': unitCost.map((m) => m.map((key, value) => MapEntry(key.toString(), value))).toList(),
-        'selectedComposition': selectedComposition
+        'selectedComposition': selectedComposition?.map((key, value) => MapEntry(key.toString(), value))
     };
 
     factory UnitComposition.fromJson(Map<String, dynamic> json)
@@ -48,10 +48,13 @@ class UnitComposition
                 return m.map((key, value) => MapEntry(int.parse(key), value as int));
             }).toList();
 
+        final rawSelected = json['selectedComposition'] as Map<String, dynamic>?;
+        final Map<int, int>? parsedSelected = rawSelected?.map((key, value) => MapEntry(int.parse(key), value as int));
+
         return UnitComposition(
             compositions: List<String>.from(json['composition'] ?? []),
             unitCost: parsedCost,
-            selectedComposition: Map<int, int>.from(json['selectedComposition'] ?? {})
+            selectedComposition: parsedSelected
         );
     }
 
@@ -108,8 +111,8 @@ class LeaderFilter
     const LeaderFilter({
         required this.faction,
         required this.army,
-        this.codex,
-        this.detachmentCode,
+       this.codex,
+       this.detachmentCode,
         required this.names
     });
 
@@ -119,9 +122,9 @@ class LeaderFilter
 
     Map<String, dynamic> toJson() =>
     {
-        'faction': faction.code,
-        'army': army.code,
-        'codex': codex?.code?? CodexTypeCode.none,
+        'faction': faction.name,
+        'army': army.name, // ИСПРАВЛЕНО: сохраняем как строку (имя Enum)
+        'codex': codex?.name, // ИСПРАВЛЕНО: сохраняем как строку
         'detachment': detachmentCode,
         'names': names
     };
@@ -129,7 +132,7 @@ class LeaderFilter
     factory LeaderFilter.fromJson(Map<String, dynamic> json)
     {
         return LeaderFilter(
-            faction: FactionTypeCode.values.byName(json['faction'] as String? ?? FactionTypeCode.none.name),
+            faction: FactionTypeCode.values.byName(json['faction'] as String? ?? FactionTypeCode.none.name) ,
             army: ArmyTypeCode.values.byName(json['army'] as String? ?? ArmyTypeCode.none.name),
             codex: CodexTypeCode.values.byName(json['codex'] as String? ?? CodexTypeCode.none.name),
             detachmentCode: json['detachment'] as String? ?? '',
