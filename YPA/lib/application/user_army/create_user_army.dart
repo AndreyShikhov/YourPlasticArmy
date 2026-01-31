@@ -19,7 +19,7 @@ class CreateUserArmy
     CreateUserArmy(this.repository);
 
     Future<void> call({
-        required String name,
+        required String userArmyName,
         required FactionId factionId,
         required ArmyId armyId,
         required CodexId codexId
@@ -27,7 +27,7 @@ class CreateUserArmy
     {
         final newUserArmy = UserArmyDOM(
             id: const Uuid().v4(),
-            name: name,
+            userArmyName: userArmyName,
             factionId: factionId,
             armyId: armyId,
             codexId: codexId,

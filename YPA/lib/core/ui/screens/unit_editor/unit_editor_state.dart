@@ -17,7 +17,6 @@ class UnitEditorState
     final bool isLoading;
     final String unitInstanceId;
     final UnitEditorItemUi? unit;
-    // ДОБАВЛЯЕМ ЭТИ ПОЛЯ
     final List<UnitAbilityDOM> unitAbilities;
     final List<CoreUnitAbilityDOM> coreAbilities;
     final List<FactionUnitAbilityDOM> factionAbilities;

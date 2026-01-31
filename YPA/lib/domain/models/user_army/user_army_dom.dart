@@ -16,7 +16,7 @@ import '../faction/faction.dart';
 class UserArmyDOM
 {
     final String id;
-    final String name;
+    final String userArmyName;
     final FactionId factionId;
     final ArmyId armyId;
     final CodexId codexId;
@@ -28,7 +28,7 @@ class UserArmyDOM
 
     const UserArmyDOM({
         required this.id,
-        required this.name,
+        required this.userArmyName,
         required this.factionId,
         required this.armyId,
         required this.codexId,
@@ -40,7 +40,7 @@ class UserArmyDOM
     });
 
     UserArmyDOM copyWith({
-        String? name,
+        String? userArmyName,
         int? totalPoints,
         FactionId? factionId,
         ArmyId? armyId,
@@ -52,7 +52,7 @@ class UserArmyDOM
     {
         return UserArmyDOM(
             id: this.id,
-            name: name ?? this.name,
+            userArmyName: userArmyName ?? this.userArmyName,
             factionId: factionId?? this.factionId,
             armyId: this.armyId,
             codexId: this.codexId,

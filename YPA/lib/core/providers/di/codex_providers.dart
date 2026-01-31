@@ -52,7 +52,7 @@ final getAllUnitsByCodexIdUseCaseProvider = Provider<GetAllUnitsByCodexId>((ref)
 
 // --- UI STATE ---
 
-final codexesByArmyProvider = FutureProvider.family<List<CodexDOM>, String>((ref, armyIdRaw) async
+final codexesByArmyProvider = FutureProvider.family<List<CodexDom>, String>((ref, armyIdRaw) async
     {
         final useCase = ref.watch(getCodexesByArmyUseCaseProvider);
         final armyId = ArmyId.fromString(armyIdRaw);

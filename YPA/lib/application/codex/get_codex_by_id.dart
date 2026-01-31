@@ -13,7 +13,7 @@ class GetCodexById
 
     GetCodexById(this.repository);
 
-    Future<CodexDOM?> call(CodexId id) 
+    Future<CodexDom?> call(CodexId id)
     {
         return repository.findById(id);
     }

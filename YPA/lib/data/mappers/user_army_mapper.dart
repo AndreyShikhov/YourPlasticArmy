@@ -18,7 +18,7 @@ class UserArmyMapper
     {
         return UserArmyDOM(
             id: row.id,
-            name: row.name,
+            userArmyName: row.name,
             factionId: FactionId.fromString(row.factionId),
             armyId: ArmyId.fromString(row.armyId),
             codexId: CodexId.fromString(row.codexId),
@@ -35,7 +35,7 @@ class UserArmyMapper
     {
         return UserArmiesCompanion.insert(
             id: dom.id,
-            name: dom.name,
+            name: dom.userArmyName,
             factionId: dom.factionId.value,
             armyId: dom.armyId.value,
             codexId: dom.codexId.value,

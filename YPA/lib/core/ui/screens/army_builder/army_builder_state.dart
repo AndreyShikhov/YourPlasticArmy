@@ -14,10 +14,10 @@ class ArmyBuilderState
 {
     final bool isLoading;
     final String? armyId;
-    final String armyName;
+    final String userArmyName;
     final Map<BattleSizeCode, int>? battleSize;
     final int? currentPts;
-    final CodexDOM? codex;
+    final CodexDom? codex;
     final DetachmentDOM? detachment;
     final List<DetachmentDOM> allDetachments;
     final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>? userArmyUnits; // уже добавленный в ростер игрока юниты
@@ -27,7 +27,7 @@ class ArmyBuilderState
 
     const ArmyBuilderState({
         this.isLoading = false,
-        this.armyName = '',
+        this.userArmyName = '',
         this.armyId,
         this.battleSize,
         this.currentPts,
@@ -42,11 +42,11 @@ class ArmyBuilderState
 
     ArmyBuilderState copyWith({
         bool? isLoading,
-        String? armyName,
+        String? userArmyName,
         String? armyId,
         Map<BattleSizeCode, int>? battleSize,
         int? currentPts,
-        CodexDOM? codex,
+        CodexDom? codex,
         DetachmentDOM? detachment,
         List<DetachmentDOM>? allDetachments,
         Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>? userArmyUnits,
@@ -57,7 +57,7 @@ class ArmyBuilderState
     {
         return ArmyBuilderState(
             isLoading: isLoading ?? this.isLoading,
-            armyName: armyName ?? this.armyName,
+            userArmyName: userArmyName ?? this.userArmyName,
             armyId: armyId ?? this.armyId,
             battleSize: battleSize ?? this.battleSize,
             currentPts: currentPts ?? this.currentPts,
@@ -74,8 +74,6 @@ class ArmyBuilderState
     // ==========================================
     // Updates
     // ==========================================
-
-
 
     // ==========================================
     // Getters
@@ -138,42 +136,43 @@ class ArmyBuilderState
         return getallUnitByNameFromUserArmy(unitName).length;
     }
 
-    int getAmountUnitsFromUserArmy(String role, String unitName){
-      final roleCode = UnitRoleCodeX.fromName(role);
+    int getAmountUnitsFromUserArmy(String role, String unitName) 
+    {
+        final roleCode = UnitRoleCodeX.fromName(role);
 
-      // 2. Если роль не валидна или список юнитов пуст — возвращаем 0
-      if (roleCode == null || userArmyUnits == null || userArmyUnits!.isEmpty)
-      {
-        return 0;
-      }
+        // 2. Если роль не валидна или список юнитов пуст — возвращаем 0
+        if (roleCode == null || userArmyUnits == null || userArmyUnits!.isEmpty)
+        {
+            return 0;
+        }
 
-      // 3. Получаем список юнитов для этой роли
-      final unitsInRole = userArmyUnits![roleCode] ?? [];
+        // 3. Получаем список юнитов для этой роли
+        final unitsInRole = userArmyUnits![roleCode] ?? [];
 
-      // 4. Считаем количество юнитов с нужным именем
-      return unitsInRole.where((unit) => unit.name == unitName).length;
+        // 4. Считаем количество юнитов с нужным именем
+        return unitsInRole.where((unit) => unit.name == unitName).length;
     }
 
     Future<ArmyBuilderUnitItemUi> getUnitByInstanceIdFromUserArmy(String unitInstanceId, UnitRoleCode role) async
     {
-      final findedUnit = userArmyUnits![role]?.firstWhere((u) => u.instanceId == unitInstanceId);
+        final findedUnit = userArmyUnits![role]?.firstWhere((u) => u.instanceId == unitInstanceId);
 
-      return ArmyBuilderUnitItemUi(
-         instanceId:  findedUnit!.instanceId,
-         dbId: findedUnit.dbId,
-         name: findedUnit.name,
-         role:  findedUnit.role,
-         repeat: findedUnit.repeat,
-         keywords: findedUnit.keywords,
-         factionKeywords: findedUnit.factionKeywords,
-         unitComposition:findedUnit.unitComposition,
-         unitAbility: findedUnit.unitAbility,
-         coreAbilities: findedUnit.coreAbilities,
-         factionAbilities: findedUnit.factionAbilities,
-         leader: findedUnit.leader,
-         ledBy: findedUnit.ledBy,
-         modelStats: findedUnit.modelStats,
-         selectedComposition: findedUnit.selectedComposition,
-      );
+        return ArmyBuilderUnitItemUi(
+            instanceId: findedUnit!.instanceId,
+            dbId: findedUnit.dbId,
+            name: findedUnit.name,
+            role: findedUnit.role,
+            repeat: findedUnit.repeat,
+            keywords: findedUnit.keywords,
+            factionKeywords: findedUnit.factionKeywords,
+            unitComposition: findedUnit.unitComposition,
+            unitAbility: findedUnit.unitAbility,
+            coreAbilities: findedUnit.coreAbilities,
+            factionAbilities: findedUnit.factionAbilities,
+            leader: findedUnit.leader,
+            ledBy: findedUnit.ledBy,
+            modelStats: findedUnit.modelStats,
+            selectedComposition: findedUnit.selectedComposition
+        );
     }
 }

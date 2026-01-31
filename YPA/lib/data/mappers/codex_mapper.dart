@@ -11,9 +11,9 @@ import '../../domain/models/codex/codex.dart';
 
 class CodexMapper
 {
-    static CodexDOM fromRow(Codexe row) 
+    static CodexDom fromRow(Codexe row)
     {
-        return CodexDOM.restore(
+        return CodexDom.restore(
             id: CodexId.fromString(row.id),
             code: CodexCodeDom(row.code),
             armyId: ArmyId.fromString(row.armyId),
@@ -21,7 +21,7 @@ class CodexMapper
         );
     }
 
-    static CodexesCompanion toCompanion(CodexDOM codex) 
+    static CodexesCompanion toCompanion(CodexDom codex)
     {
         return CodexesCompanion(
             id: Value(codex.id.value),

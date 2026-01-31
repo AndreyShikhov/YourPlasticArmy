@@ -12,6 +12,7 @@ import 'package:ypa/core/ui/screens/unit_editor/unit_editor_state.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/base_ability_bloc.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/basic_stats.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/keywords_bloc.dart';
+import 'package:ypa/core/ui/screens/unit_editor/widgets/leader_bloc.dart';
 
 import '../../widgets/expanded/expandable_section.dart';
 
@@ -90,17 +91,26 @@ class UnitEditorScreen extends ConsumerWidget
         Map<String, Widget> categories = {};
         categories['Wargear Options'] = const Text('Настройки снаряжения');
 
-        categories['Unit Ability'] = UnitAbilityBloc(abilities: state.unitAbilities);
-        categories['Core Abilities'] =  CoreAbilityBloc(abilities: state.coreAbilities);
-        categories['Faction Abilities'] =  FactionAbilityBloc(abilities: state.factionAbilities);
+        if(state.unit!.unitAbility.isNotEmpty){
+          categories['Unit Ability'] = UnitAbilityBloc(abilities: state.unitAbilities);
+        }
+
+        if(state.unit!.coreAbilities.isNotEmpty){
+          categories['Core Abilities'] =  CoreAbilityBloc(abilities: state.coreAbilities);
+        }
+
+        if(state.unit!.factionAbilities.isNotEmpty){
+          categories['Faction Abilities'] =  FactionAbilityBloc(abilities: state.factionAbilities);
+        }
+
 
 
         if (state.unit!.leader.isNotEmpty) {
-          categories['Leader'] = const Text('Лидер');
+          categories['Leader'] =  LeaderBloc(armyId: armyId, filters: state.unit!.leader);
         }
 
         if (state.unit!.ledBy.isNotEmpty) {
-          categories['Led By'] = const Text('Присоединяется к');
+          categories['Led By'] = LeaderBloc(armyId: armyId, filters: state.unit!.ledBy);
         }
 
         categories['Keywords'] = KeywordsBloc(keywords: state.unit!.keywords, factionKeywords: state.unit!.factionKeywords);

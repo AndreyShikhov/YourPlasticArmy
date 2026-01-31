@@ -53,7 +53,7 @@ class ArmyLystController extends StateNotifier<ArmyLystState>
 
                     return ArmyListItemUi(
                         id: army.id,
-                        title: army.name,
+                        title: army.userArmyName,
                         codexName: codexName, // Название кодекса уже пришло из JOIN
                         pts: 0
                     );
@@ -66,13 +66,13 @@ class ArmyLystController extends StateNotifier<ArmyLystState>
         }
     }
 
-    Future<void> createArmy({required String name, required String factionId, required String armyId, required String codexIdRaw}) async
+    Future<void> createArmy({required String userArmyName, required String factionId, required String armyId, required String codexIdRaw}) async
     {
         state = state.copyWith(isLoading: true);
         try
         {
             await _createUserArmy(
-                name: name,
+                userArmyName: userArmyName,
                 factionId: FactionId.fromString(factionId),
                 armyId: ArmyId.fromString(armyId),
                 codexId: CodexId.fromString(codexIdRaw)

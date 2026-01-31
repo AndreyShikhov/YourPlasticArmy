@@ -90,7 +90,7 @@ enum ArmyTypeCode
     tyranids
 
 }
-extension ArmyCodeX on ArmyTypeCode
+extension ArmyTypeCodeX on ArmyTypeCode
 {
     String get code
     {

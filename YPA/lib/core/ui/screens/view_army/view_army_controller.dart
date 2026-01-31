@@ -54,7 +54,7 @@ class ViewArmyController extends StateNotifier<ViewArmyState>
 
             state = state.copyWith(
                 isLoading: false,
-                armyName: userArmy.name,
+                armyName: userArmy.userArmyName,
                 codexName: codex?.name, // Теперь здесь реальный объект CodexName с нормальным именем
                 selectedBattleSize: userArmy.selectedBattleSize,
                 units: units

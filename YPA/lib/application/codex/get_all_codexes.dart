@@ -11,7 +11,7 @@ class GetAllCodexes
 
     GetAllCodexes(this.repository);
 
-    Future<List<CodexDOM>> call() async
+    Future<List<CodexDom>> call() async
     {
         return await repository.findAll();
     }

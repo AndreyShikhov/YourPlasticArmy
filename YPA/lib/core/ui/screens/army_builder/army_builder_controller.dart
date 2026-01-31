@@ -92,10 +92,10 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
 
     Future<void> updateNameArmyRoster(String newName) async
     {
-        state = state.copyWith(armyName: newName);
+        state = state.copyWith(userArmyName: newName);
         try
         {
-            await _updateName(id: _armyId, newName: newName);
+            await _updateName(id: _armyId, newUserArmyName: newName);
         } catch (e)
         {
             state = state.copyWith(error: e.toString());
@@ -255,7 +255,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
 
             state = state.copyWith(
                 isLoading: false,
-                armyName: userArmy.name,
+                userArmyName: userArmy.userArmyName,
                 codex: codex,
                 detachment: savedDetachment,
                 allDetachments: allDetachments,

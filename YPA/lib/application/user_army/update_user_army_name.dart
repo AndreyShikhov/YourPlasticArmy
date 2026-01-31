@@ -13,13 +13,13 @@ class UpdateUserArmyName
 
     Future<void> call({
         required String id,
-        required String newName
+        required String newUserArmyName
     }) async
     {
         final army = await repository.findUserArmyById(id);
         if (army != null) 
         {
-            final updatedArmy = army.copyWith(name: newName);
+            final updatedArmy = army.copyWith(userArmyName: newUserArmyName);
             await repository.saveUserArmy(updatedArmy);
         }
     }

@@ -33,7 +33,7 @@ class ArmyBuilderScreen extends ConsumerWidget
                     title: Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: Text(
-                            state.armyName.isEmpty ? 'Loading...' : '${state.codex?.name.value ?? "Unknown"}: ${state.armyName}'
+                            state.userArmyName.isEmpty ? 'Loading...' : '${state.codex?.name.value ?? "Unknown"}: ${state.userArmyName}'
                         )
                     ),
                     flexibleSpace: SafeArea(
@@ -74,7 +74,7 @@ class ArmyBuilderScreen extends ConsumerWidget
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
                         children: [
-                            ArmyNameEditor(armyId: armyId, initialName: state.armyName),
+                            ArmyNameEditor(armyId: armyId, initialName: state.userArmyName),
                             const SizedBox(height: 20),
                             DetachmentSelector(armyId: armyId, state: state),
                             const SizedBox(height: 20),

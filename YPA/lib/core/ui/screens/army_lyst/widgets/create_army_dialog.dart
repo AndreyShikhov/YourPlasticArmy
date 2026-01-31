@@ -31,7 +31,7 @@ class _CreateArmyDialogState extends ConsumerState<CreateArmyDialog>
 
     // Генерируем имя один раз при создании стейта
     late final String generatedName;
-    List<CodexDOM> currentCodexes = [];
+    List<CodexDom> currentCodexes = [];
 
     @override
     void initState() 
@@ -184,7 +184,7 @@ class _CreateArmyDialogState extends ConsumerState<CreateArmyDialog>
         {
             await ref
                 .read(armyLystControllerProvider.notifier)
-                .createArmy(name: name, factionId: selectedFactionId!, armyId: selectedArmyId, codexIdRaw: finalCodexId);
+                .createArmy(userArmyName: name, factionId: selectedFactionId!, armyId: selectedArmyId, codexIdRaw: finalCodexId);
             if (mounted) Navigator.of(context).pop();
         }
     }

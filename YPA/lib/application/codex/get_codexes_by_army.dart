@@ -12,7 +12,7 @@ class GetCodexesByArmy
 
     GetCodexesByArmy(this.repository);
 
-    Future<List<CodexDOM>> call(ArmyId armyId) async
+    Future<List<CodexDom>> call(ArmyId armyId) async
     {
         return await repository.findByArmy(armyId);
     }

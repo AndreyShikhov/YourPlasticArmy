@@ -21,28 +21,28 @@ class DriftCodexRepository implements CodexRepository
     }
 
     @override
-    Future<List<CodexDOM>> findAll() async
+    Future<List<CodexDom>> findAll() async
     {
         final rows = await db.select(db.codexes).get();
         return rows.map(CodexMapper.fromRow).toList();
     }
 
     @override
-    Future<List<CodexDOM>> findByArmy(ArmyId armyId) async
+    Future<List<CodexDom>> findByArmy(ArmyId armyId) async
     {
         final rows = await (db.select(db.codexes)..where((tbl) => tbl.armyId.equals(armyId.value))).get();
         return rows.map(CodexMapper.fromRow).toList();
     }
 
     @override
-    Future<CodexDOM?> findById(CodexId id) async
+    Future<CodexDom?> findById(CodexId id) async
     {
         final row = await (db.select(db.codexes)..where((tbl) => tbl.id.equals(id.value))).getSingleOrNull();
         return row != null ? CodexMapper.fromRow(row) : null;
     }
 
     @override
-    Future<void> save(CodexDOM codex) async
+    Future<void> save(CodexDom codex) async
     {
         await db.into(db.codexes).insertOnConflictUpdate(CodexMapper.toCompanion(codex));
     }
