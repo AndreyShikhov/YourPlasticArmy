@@ -29,8 +29,8 @@ class CreateUnit
         required List<String> unitAbility,
         required List<CoreUnitAbilityCode> coreAbilities,
         required List<FactionUnitAbilityCode> factionAbilities,
-        required List<String> leader,
-        required List<String> ledBy,
+        required List<LeaderFilter> leader,
+        required List<LeaderFilter> ledBy,
         required Map<String, ModelStatsDom> modelStats
     }) async
     {

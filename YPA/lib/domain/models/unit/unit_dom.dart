@@ -27,8 +27,8 @@ class UnitDOM
     final List<String> unitAbility;
     final List<CoreUnitAbilityCode> coreAbilities;
     final List<FactionUnitAbilityCode> factionAbilities;
-    final List<String> leader;
-    final List<String> ledBy;
+    final List<LeaderFilter> leader;
+    final List<LeaderFilter> ledBy;
     final Map<String, ModelStatsDom> modelStats;
 
     const UnitDOM._({
@@ -62,8 +62,8 @@ class UnitDOM
         required List<String> unitAbility,
         required List<CoreUnitAbilityCode> coreAbilities,
         required List<FactionUnitAbilityCode> factionAbilities,
-        required List<String> leader,
-        required List<String> ledBy,
+        required List<LeaderFilter> leader,
+        required List<LeaderFilter> ledBy,
         required Map<String, ModelStatsDom> modelStats
 
     })
@@ -99,8 +99,8 @@ class UnitDOM
         required List<String> unitAbility,
         required List<CoreUnitAbilityCode> coreAbilities,
         required List<FactionUnitAbilityCode> factionAbilities,
-        required List<String> leader,
-        required List<String> ledBy,
+        required List<LeaderFilter> leader,
+        required List<LeaderFilter> ledBy,
         required Map<String, ModelStatsDom> modelStats
 
     })
@@ -136,8 +136,8 @@ class UnitDOM
         List<String>? unitAbility,
         List<CoreUnitAbilityCode>? coreAbilities,
         List<FactionUnitAbilityCode>? factionAbilities,
-        List<String>? leader,
-        List<String>? ledBy,
+        List<LeaderFilter>? leader,
+        List<LeaderFilter>? ledBy,
         Map<String, ModelStatsDom>? modelStats
     })
     {

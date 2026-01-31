@@ -14,6 +14,7 @@ import 'package:ypa/core/ui/screens/army_lyst/army_list_item_ui.dart';
 import 'package:ypa/core/ui/screens/army_lyst/army_lyst_state.dart';
 import 'package:ypa/domain/models/army/army.dart';
 import 'package:ypa/domain/models/codex/codex_id.dart';
+import 'package:ypa/domain/models/faction/faction.dart';
 
 final armyLystControllerProvider = StateNotifierProvider<ArmyLystController, ArmyLystState>((ref)
     {
@@ -65,13 +66,14 @@ class ArmyLystController extends StateNotifier<ArmyLystState>
         }
     }
 
-    Future<void> createArmy({required String name, required String armyId, required String codexIdRaw}) async
+    Future<void> createArmy({required String name, required String factionId, required String armyId, required String codexIdRaw}) async
     {
         state = state.copyWith(isLoading: true);
         try
         {
             await _createUserArmy(
                 name: name,
+                factionId: FactionId.fromString(factionId),
                 armyId: ArmyId.fromString(armyId),
                 codexId: CodexId.fromString(codexIdRaw)
             );

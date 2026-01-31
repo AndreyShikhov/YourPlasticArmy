@@ -10,6 +10,7 @@ import 'package:ypa/domain/models/user_army/user_army_repository.dart';
 
 import '../../core/database/tables/seed/seed_objects/_types.dart';
 import '../../domain/models/army/army_id.dart';
+import '../../domain/models/faction/faction.dart';
 
 class CreateUserArmy
 {
@@ -19,6 +20,7 @@ class CreateUserArmy
 
     Future<void> call({
         required String name,
+        required FactionId factionId,
         required ArmyId armyId,
         required CodexId codexId
     }) async
@@ -26,6 +28,7 @@ class CreateUserArmy
         final newUserArmy = UserArmyDOM(
             id: const Uuid().v4(),
             name: name,
+            factionId: factionId,
             armyId: armyId,
             codexId: codexId,
             selectedBattleSize: BattleSize.base(),

@@ -20,8 +20,8 @@ class ArmyBuilderUnitItemUi
     final List<String> unitAbility;
     final List<CoreUnitAbilityCode> coreAbilities;
     final List<FactionUnitAbilityCode> factionAbilities;
-    final List<String> leader;
-    final List<String> ledBy;
+    final List<LeaderFilter> leader;
+    final List<LeaderFilter> ledBy;
     final Map<String, ModelStatsDom> modelStats;
     final Map<int, int> selectedComposition;
 
@@ -86,8 +86,8 @@ class ArmyBuilderUnitItemUi
             factionAbilities: (json['factionAbilities'] as List? ?? [])
                 .map((e) => FactionUnitAbilityCode.values.byName(e))
                 .toList(),
-            leader: List<String>.from(json['leader'] ?? []),
-            ledBy: List<String>.from(json['ledBy'] ?? []),
+            leader:   (json['leader'] as List ?? []).map((l) => LeaderFilter.fromJson(l as Map<String, dynamic>)).toList(),
+            ledBy: (json['ledBy'] as List ?? []).map((l) => LeaderFilter.fromJson(l as Map<String, dynamic>)).toList(),
             modelStats: modelStatsRaw.map((k, v) => MapEntry(k, ModelStatsDom.fromJson(v))),
             selectedComposition: selectedCompRaw.map((k, v) => MapEntry(int.parse(k), v as int))
         );

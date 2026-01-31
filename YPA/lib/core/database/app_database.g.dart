@@ -4122,6 +4122,20 @@ class $UserArmiesTable extends UserArmies
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _factionIdMeta = const VerificationMeta(
+    'factionId',
+  );
+  @override
+  late final GeneratedColumn<String> factionId = GeneratedColumn<String>(
+    'faction_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES factions (id)',
+    ),
+  );
   static const VerificationMeta _armyIdMeta = const VerificationMeta('armyId');
   @override
   late final GeneratedColumn<String> armyId = GeneratedColumn<String>(
@@ -4200,6 +4214,7 @@ class $UserArmiesTable extends UserArmies
   List<GeneratedColumn> get $columns => [
     id,
     name,
+    factionId,
     armyId,
     codexId,
     detachmentId,
@@ -4231,6 +4246,14 @@ class $UserArmiesTable extends UserArmies
       );
     } else if (isInserting) {
       context.missing(_nameMeta);
+    }
+    if (data.containsKey('faction_id')) {
+      context.handle(
+        _factionIdMeta,
+        factionId.isAcceptableOrUnknown(data['faction_id']!, _factionIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_factionIdMeta);
     }
     if (data.containsKey('army_id')) {
       context.handle(
@@ -4301,6 +4324,10 @@ class $UserArmiesTable extends UserArmies
         DriftSqlType.string,
         data['${effectivePrefix}name'],
       )!,
+      factionId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}faction_id'],
+      )!,
       armyId: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}army_id'],
@@ -4337,6 +4364,7 @@ class $UserArmiesTable extends UserArmies
 class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
   final String id;
   final String name;
+  final String factionId;
   final String armyId;
   final String codexId;
   final String detachmentId;
@@ -4346,6 +4374,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
   const UserArmyRow({
     required this.id,
     required this.name,
+    required this.factionId,
     required this.armyId,
     required this.codexId,
     required this.detachmentId,
@@ -4358,6 +4387,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
     final map = <String, Expression>{};
     map['id'] = Variable<String>(id);
     map['name'] = Variable<String>(name);
+    map['faction_id'] = Variable<String>(factionId);
     map['army_id'] = Variable<String>(armyId);
     map['codex_id'] = Variable<String>(codexId);
     map['detachment_id'] = Variable<String>(detachmentId);
@@ -4371,6 +4401,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
     return UserArmiesCompanion(
       id: Value(id),
       name: Value(name),
+      factionId: Value(factionId),
       armyId: Value(armyId),
       codexId: Value(codexId),
       detachmentId: Value(detachmentId),
@@ -4388,6 +4419,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
     return UserArmyRow(
       id: serializer.fromJson<String>(json['id']),
       name: serializer.fromJson<String>(json['name']),
+      factionId: serializer.fromJson<String>(json['factionId']),
       armyId: serializer.fromJson<String>(json['armyId']),
       codexId: serializer.fromJson<String>(json['codexId']),
       detachmentId: serializer.fromJson<String>(json['detachmentId']),
@@ -4404,6 +4436,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
     return <String, dynamic>{
       'id': serializer.toJson<String>(id),
       'name': serializer.toJson<String>(name),
+      'factionId': serializer.toJson<String>(factionId),
       'armyId': serializer.toJson<String>(armyId),
       'codexId': serializer.toJson<String>(codexId),
       'detachmentId': serializer.toJson<String>(detachmentId),
@@ -4416,6 +4449,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
   UserArmyRow copyWith({
     String? id,
     String? name,
+    String? factionId,
     String? armyId,
     String? codexId,
     String? detachmentId,
@@ -4425,6 +4459,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
   }) => UserArmyRow(
     id: id ?? this.id,
     name: name ?? this.name,
+    factionId: factionId ?? this.factionId,
     armyId: armyId ?? this.armyId,
     codexId: codexId ?? this.codexId,
     detachmentId: detachmentId ?? this.detachmentId,
@@ -4436,6 +4471,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
     return UserArmyRow(
       id: data.id.present ? data.id.value : this.id,
       name: data.name.present ? data.name.value : this.name,
+      factionId: data.factionId.present ? data.factionId.value : this.factionId,
       armyId: data.armyId.present ? data.armyId.value : this.armyId,
       codexId: data.codexId.present ? data.codexId.value : this.codexId,
       detachmentId: data.detachmentId.present
@@ -4454,6 +4490,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
     return (StringBuffer('UserArmyRow(')
           ..write('id: $id, ')
           ..write('name: $name, ')
+          ..write('factionId: $factionId, ')
           ..write('armyId: $armyId, ')
           ..write('codexId: $codexId, ')
           ..write('detachmentId: $detachmentId, ')
@@ -4468,6 +4505,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
   int get hashCode => Object.hash(
     id,
     name,
+    factionId,
     armyId,
     codexId,
     detachmentId,
@@ -4481,6 +4519,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
       (other is UserArmyRow &&
           other.id == this.id &&
           other.name == this.name &&
+          other.factionId == this.factionId &&
           other.armyId == this.armyId &&
           other.codexId == this.codexId &&
           other.detachmentId == this.detachmentId &&
@@ -4492,6 +4531,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
 class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
   final Value<String> id;
   final Value<String> name;
+  final Value<String> factionId;
   final Value<String> armyId;
   final Value<String> codexId;
   final Value<String> detachmentId;
@@ -4502,6 +4542,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
   const UserArmiesCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
+    this.factionId = const Value.absent(),
     this.armyId = const Value.absent(),
     this.codexId = const Value.absent(),
     this.detachmentId = const Value.absent(),
@@ -4513,6 +4554,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
   UserArmiesCompanion.insert({
     required String id,
     required String name,
+    required String factionId,
     required String armyId,
     required String codexId,
     required String detachmentId,
@@ -4522,6 +4564,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        name = Value(name),
+       factionId = Value(factionId),
        armyId = Value(armyId),
        codexId = Value(codexId),
        detachmentId = Value(detachmentId),
@@ -4530,6 +4573,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
   static Insertable<UserArmyRow> custom({
     Expression<String>? id,
     Expression<String>? name,
+    Expression<String>? factionId,
     Expression<String>? armyId,
     Expression<String>? codexId,
     Expression<String>? detachmentId,
@@ -4541,6 +4585,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (name != null) 'name': name,
+      if (factionId != null) 'faction_id': factionId,
       if (armyId != null) 'army_id': armyId,
       if (codexId != null) 'codex_id': codexId,
       if (detachmentId != null) 'detachment_id': detachmentId,
@@ -4555,6 +4600,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
   UserArmiesCompanion copyWith({
     Value<String>? id,
     Value<String>? name,
+    Value<String>? factionId,
     Value<String>? armyId,
     Value<String>? codexId,
     Value<String>? detachmentId,
@@ -4566,6 +4612,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
     return UserArmiesCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
+      factionId: factionId ?? this.factionId,
       armyId: armyId ?? this.armyId,
       codexId: codexId ?? this.codexId,
       detachmentId: detachmentId ?? this.detachmentId,
@@ -4584,6 +4631,9 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
     }
     if (name.present) {
       map['name'] = Variable<String>(name.value);
+    }
+    if (factionId.present) {
+      map['faction_id'] = Variable<String>(factionId.value);
     }
     if (armyId.present) {
       map['army_id'] = Variable<String>(armyId.value);
@@ -4614,6 +4664,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
     return (StringBuffer('UserArmiesCompanion(')
           ..write('id: $id, ')
           ..write('name: $name, ')
+          ..write('factionId: $factionId, ')
           ..write('armyId: $armyId, ')
           ..write('codexId: $codexId, ')
           ..write('detachmentId: $detachmentId, ')
@@ -5451,6 +5502,24 @@ final class $$FactionsTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<$UserArmiesTable, List<UserArmyRow>>
+  _userArmiesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.userArmies,
+    aliasName: $_aliasNameGenerator(db.factions.id, db.userArmies.factionId),
+  );
+
+  $$UserArmiesTableProcessedTableManager get userArmiesRefs {
+    final manager = $$UserArmiesTableTableManager(
+      $_db,
+      $_db.userArmies,
+    ).filter((f) => f.factionId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_userArmiesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$FactionsTableFilterComposer
@@ -5493,6 +5562,31 @@ class $$FactionsTableFilterComposer
           }) => $$ArmiesTableFilterComposer(
             $db: $db,
             $table: $db.armies,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> userArmiesRefs(
+    Expression<bool> Function($$UserArmiesTableFilterComposer f) f,
+  ) {
+    final $$UserArmiesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.userArmies,
+      getReferencedColumn: (t) => t.factionId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UserArmiesTableFilterComposer(
+            $db: $db,
+            $table: $db.userArmies,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -5570,6 +5664,31 @@ class $$FactionsTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> userArmiesRefs<T extends Object>(
+    Expression<T> Function($$UserArmiesTableAnnotationComposer a) f,
+  ) {
+    final $$UserArmiesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.userArmies,
+      getReferencedColumn: (t) => t.factionId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UserArmiesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.userArmies,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$FactionsTableTableManager
@@ -5585,7 +5704,7 @@ class $$FactionsTableTableManager
           $$FactionsTableUpdateCompanionBuilder,
           (Faction, $$FactionsTableReferences),
           Faction,
-          PrefetchHooks Function({bool armiesRefs})
+          PrefetchHooks Function({bool armiesRefs, bool userArmiesRefs})
         > {
   $$FactionsTableTableManager(_$AppDatabase db, $FactionsTable table)
     : super(
@@ -5630,28 +5749,63 @@ class $$FactionsTableTableManager
                 ),
               )
               .toList(),
-          prefetchHooksCallback: ({armiesRefs = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [if (armiesRefs) db.armies],
-              addJoins: null,
-              getPrefetchedDataCallback: (items) async {
-                return [
-                  if (armiesRefs)
-                    await $_getPrefetchedData<Faction, $FactionsTable, Army>(
-                      currentTable: table,
-                      referencedTable: $$FactionsTableReferences
-                          ._armiesRefsTable(db),
-                      managerFromTypedResult: (p0) =>
-                          $$FactionsTableReferences(db, table, p0).armiesRefs,
-                      referencedItemsForCurrentItem: (item, referencedItems) =>
-                          referencedItems.where((e) => e.factionId == item.id),
-                      typedResults: items,
-                    ),
-                ];
+          prefetchHooksCallback:
+              ({armiesRefs = false, userArmiesRefs = false}) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (armiesRefs) db.armies,
+                    if (userArmiesRefs) db.userArmies,
+                  ],
+                  addJoins: null,
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (armiesRefs)
+                        await $_getPrefetchedData<
+                          Faction,
+                          $FactionsTable,
+                          Army
+                        >(
+                          currentTable: table,
+                          referencedTable: $$FactionsTableReferences
+                              ._armiesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$FactionsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).armiesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.factionId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (userArmiesRefs)
+                        await $_getPrefetchedData<
+                          Faction,
+                          $FactionsTable,
+                          UserArmyRow
+                        >(
+                          currentTable: table,
+                          referencedTable: $$FactionsTableReferences
+                              ._userArmiesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$FactionsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).userArmiesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.factionId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
               },
-            );
-          },
         ),
       );
 }
@@ -5668,7 +5822,7 @@ typedef $$FactionsTableProcessedTableManager =
       $$FactionsTableUpdateCompanionBuilder,
       (Faction, $$FactionsTableReferences),
       Faction,
-      PrefetchHooks Function({bool armiesRefs})
+      PrefetchHooks Function({bool armiesRefs, bool userArmiesRefs})
     >;
 typedef $$ArmiesTableCreateCompanionBuilder =
     ArmiesCompanion Function({
@@ -9990,6 +10144,7 @@ typedef $$UserArmiesTableCreateCompanionBuilder =
     UserArmiesCompanion Function({
       required String id,
       required String name,
+      required String factionId,
       required String armyId,
       required String codexId,
       required String detachmentId,
@@ -10002,6 +10157,7 @@ typedef $$UserArmiesTableUpdateCompanionBuilder =
     UserArmiesCompanion Function({
       Value<String> id,
       Value<String> name,
+      Value<String> factionId,
       Value<String> armyId,
       Value<String> codexId,
       Value<String> detachmentId,
@@ -10014,6 +10170,25 @@ typedef $$UserArmiesTableUpdateCompanionBuilder =
 final class $$UserArmiesTableReferences
     extends BaseReferences<_$AppDatabase, $UserArmiesTable, UserArmyRow> {
   $$UserArmiesTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $FactionsTable _factionIdTable(_$AppDatabase db) =>
+      db.factions.createAlias(
+        $_aliasNameGenerator(db.userArmies.factionId, db.factions.id),
+      );
+
+  $$FactionsTableProcessedTableManager get factionId {
+    final $_column = $_itemColumn<String>('faction_id')!;
+
+    final manager = $$FactionsTableTableManager(
+      $_db,
+      $_db.factions,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_factionIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
 
   static $ArmiesTable _armyIdTable(_$AppDatabase db) => db.armies.createAlias(
     $_aliasNameGenerator(db.userArmies.armyId, db.armies.id),
@@ -10103,6 +10278,29 @@ class $$UserArmiesTableFilterComposer
     column: $table.createdAt,
     builder: (column) => ColumnFilters(column),
   );
+
+  $$FactionsTableFilterComposer get factionId {
+    final $$FactionsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.factionId,
+      referencedTable: $db.factions,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$FactionsTableFilterComposer(
+            $db: $db,
+            $table: $db.factions,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 
   $$ArmiesTableFilterComposer get armyId {
     final $$ArmiesTableFilterComposer composer = $composerBuilder(
@@ -10208,6 +10406,29 @@ class $$UserArmiesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  $$FactionsTableOrderingComposer get factionId {
+    final $$FactionsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.factionId,
+      referencedTable: $db.factions,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$FactionsTableOrderingComposer(
+            $db: $db,
+            $table: $db.factions,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
   $$ArmiesTableOrderingComposer get armyId {
     final $$ArmiesTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -10304,6 +10525,29 @@ class $$UserArmiesTableAnnotationComposer
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
 
+  $$FactionsTableAnnotationComposer get factionId {
+    final $$FactionsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.factionId,
+      referencedTable: $db.factions,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$FactionsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.factions,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
   $$ArmiesTableAnnotationComposer get armyId {
     final $$ArmiesTableAnnotationComposer composer = $composerBuilder(
       composer: this,
@@ -10387,7 +10631,12 @@ class $$UserArmiesTableTableManager
           $$UserArmiesTableUpdateCompanionBuilder,
           (UserArmyRow, $$UserArmiesTableReferences),
           UserArmyRow,
-          PrefetchHooks Function({bool armyId, bool codexId, bool detachmentId})
+          PrefetchHooks Function({
+            bool factionId,
+            bool armyId,
+            bool codexId,
+            bool detachmentId,
+          })
         > {
   $$UserArmiesTableTableManager(_$AppDatabase db, $UserArmiesTable table)
     : super(
@@ -10404,6 +10653,7 @@ class $$UserArmiesTableTableManager
               ({
                 Value<String> id = const Value.absent(),
                 Value<String> name = const Value.absent(),
+                Value<String> factionId = const Value.absent(),
                 Value<String> armyId = const Value.absent(),
                 Value<String> codexId = const Value.absent(),
                 Value<String> detachmentId = const Value.absent(),
@@ -10414,6 +10664,7 @@ class $$UserArmiesTableTableManager
               }) => UserArmiesCompanion(
                 id: id,
                 name: name,
+                factionId: factionId,
                 armyId: armyId,
                 codexId: codexId,
                 detachmentId: detachmentId,
@@ -10426,6 +10677,7 @@ class $$UserArmiesTableTableManager
               ({
                 required String id,
                 required String name,
+                required String factionId,
                 required String armyId,
                 required String codexId,
                 required String detachmentId,
@@ -10436,6 +10688,7 @@ class $$UserArmiesTableTableManager
               }) => UserArmiesCompanion.insert(
                 id: id,
                 name: name,
+                factionId: factionId,
                 armyId: armyId,
                 codexId: codexId,
                 detachmentId: detachmentId,
@@ -10453,7 +10706,12 @@ class $$UserArmiesTableTableManager
               )
               .toList(),
           prefetchHooksCallback:
-              ({armyId = false, codexId = false, detachmentId = false}) {
+              ({
+                factionId = false,
+                armyId = false,
+                codexId = false,
+                detachmentId = false,
+              }) {
                 return PrefetchHooks(
                   db: db,
                   explicitlyWatchedTables: [],
@@ -10473,6 +10731,20 @@ class $$UserArmiesTableTableManager
                           dynamic
                         >
                       >(state) {
+                        if (factionId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.factionId,
+                                    referencedTable: $$UserArmiesTableReferences
+                                        ._factionIdTable(db),
+                                    referencedColumn:
+                                        $$UserArmiesTableReferences
+                                            ._factionIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
                         if (armyId) {
                           state =
                               state.withJoin(
@@ -10539,7 +10811,12 @@ typedef $$UserArmiesTableProcessedTableManager =
       $$UserArmiesTableUpdateCompanionBuilder,
       (UserArmyRow, $$UserArmiesTableReferences),
       UserArmyRow,
-      PrefetchHooks Function({bool armyId, bool codexId, bool detachmentId})
+      PrefetchHooks Function({
+        bool factionId,
+        bool armyId,
+        bool codexId,
+        bool detachmentId,
+      })
     >;
 typedef $$CoreUnitAbilitiesTableCreateCompanionBuilder =
     CoreUnitAbilitiesCompanion Function({

@@ -10,6 +10,8 @@ import 'package:ypa/domain/models/army/army.dart';
 import 'package:ypa/domain/models/codex/codex_id.dart';
 import 'package:ypa/domain/models/user_army/user_army_dom.dart';
 
+import '../../domain/models/faction/faction.dart';
+
 class UserArmyMapper
 {
     static UserArmyDOM fromRow(UserArmyRow row) 
@@ -17,8 +19,9 @@ class UserArmyMapper
         return UserArmyDOM(
             id: row.id,
             name: row.name,
-            codexId: CodexId.fromString(row.codexId),
+            factionId: FactionId.fromString(row.factionId),
             armyId: ArmyId.fromString(row.armyId),
+            codexId: CodexId.fromString(row.codexId),
             detachmentId: row.detachmentId,
             selectedBattleSize: BattleSize.selected(
                 BattleSizeCodeX.fromName(row.selectedBattleSize) ?? BattleSizeCode.strikeForce
@@ -33,6 +36,7 @@ class UserArmyMapper
         return UserArmiesCompanion.insert(
             id: dom.id,
             name: dom.name,
+            factionId: dom.factionId.value,
             armyId: dom.armyId.value,
             codexId: dom.codexId.value,
             detachmentId: dom.detachment == null ? '' : dom.detachmentId.toString(),

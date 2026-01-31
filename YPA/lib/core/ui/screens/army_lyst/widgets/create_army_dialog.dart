@@ -184,7 +184,7 @@ class _CreateArmyDialogState extends ConsumerState<CreateArmyDialog>
         {
             await ref
                 .read(armyLystControllerProvider.notifier)
-                .createArmy(name: name, armyId: selectedArmyId, codexIdRaw: finalCodexId);
+                .createArmy(name: name, factionId: selectedFactionId!, armyId: selectedArmyId, codexIdRaw: finalCodexId);
             if (mounted) Navigator.of(context).pop();
         }
     }

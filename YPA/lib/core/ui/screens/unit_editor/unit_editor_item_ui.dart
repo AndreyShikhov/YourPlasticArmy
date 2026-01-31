@@ -20,8 +20,8 @@ class UnitEditorItemUi
     final List<String> unitAbility;
     final List<CoreUnitAbilityCode> coreAbilities;
     final List<FactionUnitAbilityCode> factionAbilities;
-    final List<String> leader;
-    final List<String> ledBy;
+    final List<LeaderFilter> leader;
+    final List<LeaderFilter> ledBy;
     final Map<String, ModelStatsDom> modelStats;
     final Map<int, int> selectedComposition;
 

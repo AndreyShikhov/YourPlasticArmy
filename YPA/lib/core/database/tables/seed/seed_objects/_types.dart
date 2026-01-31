@@ -33,6 +33,7 @@ enum DamageType
 
 enum FactionTypeCode
 {
+    none,
     imperium,
     chaos,
     xenos
@@ -44,6 +45,8 @@ extension FactionTypeCodeX on FactionTypeCode
     {
         switch (this)
         {
+            case FactionTypeCode.none:
+                return 'none';
             case FactionTypeCode.imperium:
                 return 'Imperium';
             case FactionTypeCode.chaos:
@@ -56,6 +59,8 @@ extension FactionTypeCodeX on FactionTypeCode
 
 enum ArmyCode
 {
+
+    none,
     // Imperium
     adeptaSororitas,
     adeptusCustodes,
@@ -91,6 +96,8 @@ extension ArmyCodeX on ArmyCode
     {
         switch (this)
         {
+            case ArmyCode.none:
+                return 'none';
             case ArmyCode.adeptaSororitas:
                 return 'adepta_sororitas';
             case ArmyCode.adeptusCustodes:
@@ -146,6 +153,8 @@ extension ArmyCodeX on ArmyCode
     {
         switch (this)
         {
+            case ArmyCode.none:
+                return 'none';
             case ArmyCode.adeptaSororitas:
                 return 'Adepta Sororitas';
             case ArmyCode.adeptusCustodes:
@@ -201,6 +210,8 @@ extension ArmyCodeX on ArmyCode
     {
         switch (this)
         {
+            case ArmyCode.none:
+                return FactionTypeCode.none;
             case ArmyCode.adeptaSororitas:
                 return FactionTypeCode.imperium;
             case ArmyCode.adeptusCustodes:
@@ -255,6 +266,8 @@ extension ArmyCodeX on ArmyCode
 
 enum CodexCode
 {
+    none,
+
     adeptaSororitas,
     adeptusCustodes,
     adeptusMechanicus,
@@ -300,6 +313,8 @@ extension CodexCodeX on CodexCode
     {
         switch (this)
         {
+            case CodexCode.none:
+                return 'none';
             case CodexCode.adeptaSororitas:
                 return 'adepta_sororitas';
             case CodexCode.adeptusCustodes:
@@ -375,6 +390,8 @@ extension CodexCodeX on CodexCode
     {
         switch (this)
         {
+            case CodexCode.none:
+                return 'none';
             case CodexCode.adeptaSororitas:
                 return 'Adepta Sororitas';
             case CodexCode.adeptusCustodes:
@@ -450,6 +467,8 @@ extension CodexCodeX on CodexCode
     {
         switch (this)
         {
+            case CodexCode.none:
+                return ArmyCode.none;
             case CodexCode.adeptaSororitas:
                 return ArmyCode.adeptaSororitas;
             case CodexCode.adeptusCustodes:
@@ -709,8 +728,6 @@ extension WeaponAbilitiesCodeX on WeaponAbilitiesCode
     }
 }
 
-
-
 enum  FactionUnitAbilityCode
 {
     none,
@@ -743,13 +760,13 @@ extension  FactionUnitAbilityCodeX on FactionUnitAbilityCode
 
     static FactionUnitAbilityCode? fromName(String name)
     {
-      try
-      {
-        return FactionUnitAbilityCode.values.firstWhere((e) => e.name == name);
-      } catch (_)
-      {
-        return null; // Если это не титул, вернет null
-      }
+        try
+        {
+            return FactionUnitAbilityCode.values.firstWhere((e) => e.name == name);
+        } catch (_)
+        {
+            return null; // Если это не титул, вернет null
+        }
     }
 }
 
@@ -793,13 +810,13 @@ extension CoreUnitAbilityCodeX on CoreUnitAbilityCode
 
     static CoreUnitAbilityCode? fromName(String name)
     {
-      try
-      {
-        return CoreUnitAbilityCode.values.firstWhere((e) => e.name == name);
-      } catch (_)
-      {
-        return null; // Если это не титул, вернет null
-      }
+        try
+        {
+            return CoreUnitAbilityCode.values.firstWhere((e) => e.name == name);
+        } catch (_)
+        {
+            return null; // Если это не титул, вернет null
+        }
     }
 }
 
@@ -954,8 +971,8 @@ class UnitSeed
     final List<String> unitAbility;
     final List<CoreUnitAbilityCode> coreAbilities;
     final List<FactionUnitAbilityCode> factionAbilities;
-    final List<String> leader;
-    final List<String> ledBy;
+    final List<LeaderFilter> leader;
+    final List<LeaderFilter> ledBy;
     final Map<String, ModelStatsDom> modelStats;
 
     const UnitSeed({

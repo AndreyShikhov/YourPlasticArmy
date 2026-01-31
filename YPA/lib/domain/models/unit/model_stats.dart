@@ -4,6 +4,7 @@
  ******************************************************************************/
 
 import '../../../core/database/tables/seed/seed_objects/_types.dart';
+import '../faction/faction_code.dart';
 import 'model_weapons.dart';
 
 // ==========================================
@@ -93,6 +94,51 @@ class WargearOptions
     static const WargearOptions emptyOptions = WargearOptions(wargearOptions: []);
 }
 
+// ==========================================
+// Leader
+// ==========================================
+
+class LeaderFilter
+{
+    final FactionCode faction;
+    final ArmyCode army;
+    final CodexCode codex;
+    final String detachmentCode;
+    final List<String> names;
+
+    const LeaderFilter({
+        required this.faction,
+        required this.army,
+        required this.codex,
+        required this.detachmentCode,
+        required this.names
+    });
+
+    // ==========================================
+    // Json
+    // ==========================================
+
+    Map<String, dynamic> toJson() =>
+    {
+        'faction': faction.value,
+        'army': army.code,
+        'codex': codex.code,
+        'detachment': detachmentCode,
+        'names': names
+    };
+
+    factory LeaderFilter.fromJson(Map<String, dynamic> json)
+    {
+        return LeaderFilter(
+            faction: FactionCode(json['faction'] as String? ?? 'none'),
+            army: ArmyCode.values.byName(json['army'] as String? ?? ArmyCode.none.name),
+            codex: CodexCode.values.byName(json['codex'] as String? ?? CodexCode.none.name),
+            detachmentCode: json['detachment'] as String? ?? '',
+            names: List<String>.from(json['names'] ?? [])
+        );
+    }
+
+}
 
 // ==========================================
 // Model STATS
@@ -181,8 +227,8 @@ class UnitStatsDom
     final List<String> unitAbility;
     final List<CoreUnitAbilityCode> coreAbilities;
     final List<FactionUnitAbilityCode> factionAbilities;
-    final List<String> leader;
-    final List<String> ledBy;
+    final List<LeaderFilter> leader;
+    final List<LeaderFilter> ledBy;
     final Map<String, ModelStatsDom> modelStats; // Характеристики моделей юнита
 
     const UnitStatsDom({
@@ -207,8 +253,8 @@ class UnitStatsDom
         'unitAbilities': unitAbility,
         'coreAbilities': coreAbilities.map((a) => a.name).toList(),
         'factionAbilities': factionAbilities.map((a) => a.name).toList(),
-        'leader': leader,
-        'ledBy': ledBy,
+        'leader': leader.map((l) => l.toJson()).toList(),
+        'ledBy': ledBy.map((l) => l.toJson()).toList(),
         'modelStats': modelStats.map((key, value) => MapEntry(key, value.toJson()))
     };
 
@@ -224,8 +270,8 @@ class UnitStatsDom
             unitAbility: List<String>.from(json['unitAbilities'] ?? []),
             coreAbilities: (json['coreAbilities'] as List? ?? []).map((e) => CoreUnitAbilityCode.values.byName(e)).toList(),
             factionAbilities: (json['factionAbilities'] as List? ?? []).map((e) => FactionUnitAbilityCode.values.byName(e)).toList(),
-            leader: List<String>.from(json['leader'] ?? []),
-            ledBy: List<String>.from(json['ledBy'] ?? []),
+            leader: (json['leader'] as List? ?? []).map((l) => LeaderFilter.fromJson(l as Map<String, dynamic>)).toList(),
+            ledBy: (json['ledBy'] as List? ?? []).map((l) => LeaderFilter.fromJson(l as Map<String, dynamic>)).toList(),
             modelStats: modelsRaw.map((key, value) => MapEntry(key, ModelStatsDom.fromJson(value)))
         );
     }

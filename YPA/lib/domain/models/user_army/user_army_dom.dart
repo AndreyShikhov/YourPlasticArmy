@@ -11,11 +11,13 @@ import 'package:ypa/domain/models/codex/codex_id.dart';
 import 'package:ypa/domain/models/detachment/detachment.dart';
 
 import '../../../core/database/tables/seed/seed_objects/_types.dart';
+import '../faction/faction.dart';
 
 class UserArmyDOM
 {
     final String id;
     final String name;
+    final FactionId factionId;
     final ArmyId armyId;
     final CodexId codexId;
     final String? detachmentId;
@@ -27,6 +29,7 @@ class UserArmyDOM
     const UserArmyDOM({
         required this.id,
         required this.name,
+        required this.factionId,
         required this.armyId,
         required this.codexId,
         this.detachmentId,
@@ -39,16 +42,18 @@ class UserArmyDOM
     UserArmyDOM copyWith({
         String? name,
         int? totalPoints,
+        FactionId? factionId,
         ArmyId? armyId,
         String? detachmentId,
         DetachmentDOM? detachment,
         BattleSize? selectedBattleSize,
         String? jsonData
-    }) 
+    })
     {
         return UserArmyDOM(
             id: this.id,
             name: name ?? this.name,
+            factionId: factionId?? this.factionId,
             armyId: this.armyId,
             codexId: this.codexId,
             detachmentId: detachmentId ?? this.detachmentId,
@@ -60,7 +65,7 @@ class UserArmyDOM
     }
 
     /// Метод для обновления формата битвы (Battle Size)
-    UserArmyDOM updateBattleSize(BattleSizeCode newSize) 
+    UserArmyDOM updateBattleSize(BattleSizeCode newSize)
     {
         return copyWith(
             selectedBattleSize: BattleSize.selected(newSize)
@@ -73,14 +78,14 @@ class UserArmyDOM
     {
         // 1. Декодируем текущий JSON или создаем структуру по умолчанию
         Map<String, dynamic> root;
-        if (jsonData.isEmpty) 
+        if (jsonData.isEmpty)
         {
-            root = 
+            root =
             {
                 "version": 1,
                 "categories": {}
             };
-        } else 
+        } else
         {
             try
             {
@@ -98,12 +103,12 @@ class UserArmyDOM
         List<dynamic> unitList = categories[role] ?? [];
 
         // 4. Формируем новый объект юнита
-        final newUnitInstance = 
-        {
-            "instanceId": const Uuid().v4(), // Уникальный ID отряда в ростере
-            "unitId": unitId,               // Ссылка на ID базового юнита из таблицы Units
-            "wargearOptions": {}           // Пока пустой объект опций
-        };
+        final newUnitInstance =
+            {
+                "instanceId": const Uuid().v4(), // Уникальный ID отряда в ростере
+                "unitId": unitId,               // Ссылка на ID базового юнита из таблицы Units
+                "wargearOptions": {}           // Пока пустой объект опций
+            };
 
         // 5. Добавляем юнит в список и обновляем структуру
         unitList.add(newUnitInstance);
@@ -114,27 +119,29 @@ class UserArmyDOM
         return copyWith(jsonData: jsonEncode(root));
     }
 
-    Future<UserArmyDOM> duplicateUnitInstance(String instanceId, String role) async {
-      if (jsonData.isEmpty) return this;
-      final root = jsonDecode(jsonData);
-      final categories = root["categories"] ?? {};
-      final List<dynamic> unitList = categories[role] ?? [];
+    Future<UserArmyDOM> duplicateUnitInstance(String instanceId, String role) async
+    {
+        if (jsonData.isEmpty) return this;
+        final root = jsonDecode(jsonData);
+        final categories = root["categories"] ?? {};
+        final List<dynamic> unitList = categories[role] ?? [];
 
-      // Находим инстанс, который хотим скопировать
-      final originalIndex = unitList.indexWhere((u) => u['instanceId'] == instanceId);
-      if (originalIndex == -1) return this;
+        // Находим инстанс, который хотим скопировать
+        final originalIndex = unitList.indexWhere((u) => u['instanceId'] == instanceId);
+        if (originalIndex == -1) return this;
 
-      // Создаем глубокую копию объекта
-      final original = unitList[originalIndex];
-      final duplicate = {
-        ...original,
-        "instanceId": const Uuid().v4(), // ОБЯЗАТЕЛЬНО новый уникальный ID
-      };
+        // Создаем глубокую копию объекта
+        final original = unitList[originalIndex];
+        final duplicate =
+            {
+                ...original,
+                "instanceId": const Uuid().v4() // ОБЯЗАТЕЛЬНО новый уникальный ID
+            };
 
-      // Вставляем копию сразу после оригинала
-      unitList.insert(originalIndex + 1, duplicate);
+        // Вставляем копию сразу после оригинала
+        unitList.insert(originalIndex + 1, duplicate);
 
-      return copyWith(jsonData: jsonEncode(root));
+        return copyWith(jsonData: jsonEncode(root));
     }
 
     /// Удаляет ПОСЛЕДНИЙ добавленный экземпляр юнита с указанным [unitId] из конкретной [role].
@@ -156,7 +163,7 @@ class UserArmyDOM
             int lastIndex = -1;
             for (int i = unitList.length - 1; i >= 0; i--)
             {
-                if (unitList[i]['unitId'] == unitId) 
+                if (unitList[i]['unitId'] == unitId)
                 {
                     lastIndex = i;
                     break;
@@ -164,7 +171,7 @@ class UserArmyDOM
             }
 
             // Если нашли — удаляем и обновляем JSON
-            if (lastIndex != -1) 
+            if (lastIndex != -1)
             {
                 unitList.removeAt(lastIndex);
                 categories[role] = unitList;
