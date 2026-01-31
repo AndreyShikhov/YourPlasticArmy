@@ -17,7 +17,7 @@ List<UnitSeed> orksUnits()
         UnitSeed(
             id: '20c025c8-5282-4467-91f7-e7f093f1559c',
             name: 'Boyz',
-            army: ArmyCode.orks,
+            army: ArmyTypeCode.orks,
             role: UnitRoleCode.battleline,
             repeat: 6,
             keywords: const['Infantry', 'Battleline', 'Mob', 'Orks'],

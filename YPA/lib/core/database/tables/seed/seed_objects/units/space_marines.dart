@@ -15,7 +15,7 @@ List<UnitSeed> spaceMarinesUnits()
         UnitSeed(
             id: '89e076f9-9c48-4cdc-952f-b069c9d827ad',
             name: 'Ancient',
-            army: ArmyCode.spaceMarines,
+            army: ArmyTypeCode.spaceMarines,
             role: UnitRoleCode.characters,
             repeat: 1,
             keywords: [
@@ -40,7 +40,37 @@ List<UnitSeed> spaceMarinesUnits()
                 FactionUnitAbilityCode.oathOfMoment
             ],
             ledBy: const[],
-            leader: const[],
+            leader: [
+                LeaderFilter(
+                    faction: FactionTypeCode.imperium,
+                    army: ArmyTypeCode.spaceMarines,
+                    names: [
+                        'Assault Intercessor Squad',
+                        'Desolation Squad',
+                        'Devastator Squad',
+                        'Hellblaster Squad',
+                        'Infernus Squad',
+                        'Intercessor Squad',
+                        'Sternguard Veteran Squad',
+                        'Tactical Squad'
+                    ]),
+                LeaderFilter(
+                    faction: FactionTypeCode.imperium,
+                    army: ArmyTypeCode.spaceMarines,
+                    codex: CodexTypeCode.darkAngels,
+                    names: [
+                        'Inner Circle Companions'
+                    ]),
+                LeaderFilter(
+                    faction: FactionTypeCode.imperium,
+                    army: ArmyTypeCode.spaceMarines,
+                    codex: CodexTypeCode.deathWatch,
+                    names: [
+                        'Crusader Squad',
+                        'Sternguard Veteran Squad',
+                        'Sword Brethren Squad'
+                    ])
+            ],
             modelStats:
             {
                 'Ancient': ModelStatsDom(
@@ -98,7 +128,7 @@ List<UnitSeed> spaceMarinesUnits()
         UnitSeed(
             id: 'd12c01ec-e404-41a5-8ad5-d72f3079d34a',
             name: 'Ancient In Terminator Armour',
-            army: ArmyCode.spaceMarines,
+            army: ArmyTypeCode.spaceMarines,
             role: UnitRoleCode.characters,
             repeat: 1,
             keywords: [
@@ -181,7 +211,7 @@ List<UnitSeed> spaceMarinesUnits()
         UnitSeed(
             id: '7e580b74-5241-4db5-8948-28d5831f2bf0',
             name: 'Apothecary',
-            army: ArmyCode.spaceMarines,
+            army: ArmyTypeCode.spaceMarines,
             role: UnitRoleCode.characters,
             repeat: 1,
             keywords: [
@@ -265,7 +295,7 @@ List<UnitSeed> spaceMarinesUnits()
         UnitSeed(
             id: '8338f4f6-d8ee-452d-a593-84f1dc1b64bb',
             name: 'Apothecary Biologis',
-            army: ArmyCode.spaceMarines,
+            army: ArmyTypeCode.spaceMarines,
             role: UnitRoleCode.characters,
             repeat: 1,
             keywords: [
@@ -349,7 +379,7 @@ List<UnitSeed> spaceMarinesUnits()
         UnitSeed(
             id: '6b80f27a-438b-40b4-bfe3-0aff444a47f6',
             name: 'Assault Intercessor Squad',
-            army: ArmyCode.spaceMarines,
+            army: ArmyTypeCode.spaceMarines,
             role: UnitRoleCode.battleline,
             repeat: 6,
             keywords: [
@@ -374,7 +404,42 @@ List<UnitSeed> spaceMarinesUnits()
             factionAbilities: const[
                 FactionUnitAbilityCode.oathOfMoment
             ],
-            ledBy: const[],
+            ledBy: const[
+                LeaderFilter(
+                    faction: FactionTypeCode.imperium,
+                    army: ArmyTypeCode.spaceMarines,
+                    names: [
+                        'Adrax Agatone',
+                        'Ancient',
+                        'Apothecary',
+                        'Captain',
+                        'Captain Sicarius',
+                        'Captain Titus',
+                        'Chaplain',
+                        'Chief Librarian Tigurius',
+                        'Judiciar',
+                        'Kor’sarro Khan',
+                        'Librarian',
+                        'Lieutenant',
+                        'Marneus Calgar',
+                        'Marneus Calgar in Armour of Antilochus',
+                        'Techmarine',
+                        'Uriel Ventris',
+                        'Vulkan He’stan'
+                    ]
+                ),
+                LeaderFilter(
+                    faction: FactionTypeCode.imperium,
+                    army: ArmyTypeCode.spaceMarines,
+                    codex: CodexTypeCode.darkAngels,
+                    names: [
+                        'Asmodai',
+                        'Azrael',
+                        'Ezekiel',
+                        'Lazarus'
+                    ]
+                )
+            ],
             leader: const[],
             modelStats:
             {
@@ -485,7 +550,7 @@ List<UnitSeed> spaceMarinesUnits()
         UnitSeed(
             id: 'e47ccf5a-c490-41ad-a417-ac7124333243',
             name: 'Heavy Intercessor Squad',
-            army: ArmyCode.spaceMarines,
+            army: ArmyTypeCode.spaceMarines,
             role: UnitRoleCode.battleline,
             repeat: 6,
             keywords: [
@@ -510,7 +575,30 @@ List<UnitSeed> spaceMarinesUnits()
             factionAbilities: const[
                 FactionUnitAbilityCode.oathOfMoment
             ],
-            ledBy: const[],
+            ledBy: const[
+                LeaderFilter(
+                    faction: FactionTypeCode.imperium, 
+                    army: ArmyTypeCode.spaceMarines, 
+                    names: [
+                      'Apothecary Biologis',
+                      'Captain In Gravis Armour',
+                      'Iron Father Feirros',
+                      'Marneus Calgar',
+                      'Marneus Calgar in Armour of Antilochus',
+                      'Tor Garadon',
+                    ]
+                ),
+              LeaderFilter(
+                  faction: FactionTypeCode.imperium,
+                  army: ArmyTypeCode.imperialAgents,
+                  names: [
+                    'Inquisitor',
+                    'Inquisitor Coteaz',
+                    'Inquisitor Draxus',
+                    'Inquisitor Greyfax',
+                  ]
+              ),
+            ],
             leader: const[],
             modelStats:
             {
@@ -620,7 +708,7 @@ List<UnitSeed> spaceMarinesUnits()
         UnitSeed(
             id: '1f215c1e-d037-4a94-897b-955e4abfb53a',
             name: 'Intercessor Squad',
-            army: ArmyCode.spaceMarines,
+            army: ArmyTypeCode.spaceMarines,
             role: UnitRoleCode.battleline,
             repeat: 6,
             keywords: [
@@ -756,7 +844,7 @@ List<UnitSeed> spaceMarinesUnits()
         UnitSeed(
             id: '722e5c10-9b8e-4c68-a1e1-f699a2d24d46',
             name: 'Tactical Squad',
-            army: ArmyCode.spaceMarines,
+            army: ArmyTypeCode.spaceMarines,
             role: UnitRoleCode.battleline,
             repeat: 6,
             keywords: [
@@ -842,7 +930,7 @@ List<UnitSeed> spaceMarinesUnits()
         UnitSeed(
             id: '43b62024-0810-488a-aa74-baa7c774967f',
             name: 'Drop Pod',
-            army: ArmyCode.spaceMarines,
+            army: ArmyTypeCode.spaceMarines,
             role: UnitRoleCode.dedicatedTransports,
             repeat: 6,
             keywords: [
@@ -926,7 +1014,7 @@ List<UnitSeed> spaceMarinesUnits()
         UnitSeed(
             id: '2f13a097-f22f-4511-9e2d-bb23ae72816a',
             name: 'Impulsor',
-            army: ArmyCode.spaceMarines,
+            army: ArmyTypeCode.spaceMarines,
             role: UnitRoleCode.dedicatedTransports,
             repeat: 6,
             keywords: [
@@ -1009,7 +1097,7 @@ List<UnitSeed> spaceMarinesUnits()
         UnitSeed(
             id: '8cb7df8d-14d7-4fe1-a25b-3cc8990b53c5',
             name: 'Razorback',
-            army: ArmyCode.spaceMarines,
+            army: ArmyTypeCode.spaceMarines,
             role: UnitRoleCode.dedicatedTransports,
             repeat: 6,
             keywords: [
@@ -1092,7 +1180,7 @@ List<UnitSeed> spaceMarinesUnits()
         UnitSeed(
             id: 'c45084e0-b576-494e-ac4c-ab3d26d3f22b',
             name: 'Rhino',
-            army: ArmyCode.spaceMarines,
+            army: ArmyTypeCode.spaceMarines,
             role: UnitRoleCode.dedicatedTransports,
             repeat: 6,
             keywords: [
@@ -1176,7 +1264,7 @@ List<UnitSeed> spaceMarinesUnits()
         UnitSeed(
             id: '71e80c3f-3c16-4d82-ac99-740c10f007a7',
             name: 'Hammerfall Bunker',
-            army: ArmyCode.spaceMarines,
+            army: ArmyTypeCode.spaceMarines,
             role: UnitRoleCode.fortifications,
             repeat: 3,
             keywords: [
@@ -1261,7 +1349,7 @@ List<UnitSeed> spaceMarinesUnits()
         UnitSeed(
             id: 'f766279f-68f8-4217-8a64-c481668f4735',
             name: 'Aggressor Squad',
-            army: ArmyCode.spaceMarines,
+            army: ArmyTypeCode.spaceMarines,
             role: UnitRoleCode.other,
             repeat: 3,
             keywords: [
@@ -1344,7 +1432,7 @@ List<UnitSeed> spaceMarinesUnits()
         UnitSeed(
             id: 'b7318d19-e05a-456a-9abb-13c74c2040d8',
             name: 'Assault Intercessors With Jump Packs',
-            army: ArmyCode.spaceMarines,
+            army: ArmyTypeCode.spaceMarines,
             role: UnitRoleCode.other,
             repeat: 3,
             keywords: [
@@ -1427,7 +1515,7 @@ List<UnitSeed> spaceMarinesUnits()
         UnitSeed(
             id: 'e3a23096-322d-4eba-8fef-f6d66d11168a',
             name: 'Ballistus Dreadnought',
-            army: ArmyCode.spaceMarines,
+            army: ArmyTypeCode.spaceMarines,
             role: UnitRoleCode.other,
             repeat: 3,
             keywords: [
@@ -1510,7 +1598,7 @@ List<UnitSeed> spaceMarinesUnits()
         UnitSeed(
             id: '3066649e-238a-4144-b806-a73c2b20dda8',
             name: 'Bladeguard Veteran Squad',
-            army: ArmyCode.spaceMarines,
+            army: ArmyTypeCode.spaceMarines,
             role: UnitRoleCode.other,
             repeat: 3,
             keywords: [

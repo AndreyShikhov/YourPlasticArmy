@@ -12,7 +12,7 @@ List<DetachmentSeed> detachmentsBase()
         //=============Spacemarine============
         DetachmentSeed(
             code: 'gladius_task_force',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: 'Gladius Task Force',
             description: 'Gladius Task Force',
             ruleShort: 'Gladius Task Force',
@@ -21,7 +21,7 @@ List<DetachmentSeed> detachmentsBase()
         ),
         DetachmentSeed(
             code: 'anvil_siege_force',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: 'Anvil Siege Force',
             description: 'Anvil Siege Force',
             ruleShort: 'Anvil Siege Force',
@@ -30,7 +30,7 @@ List<DetachmentSeed> detachmentsBase()
         ),
         DetachmentSeed(
             code: 'ironstorm_spearhead',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: 'Ironstorm Spearhead',
             description: 'Ironstorm Spearhead',
             ruleShort: 'Ironstorm Spearhead',
@@ -39,7 +39,7 @@ List<DetachmentSeed> detachmentsBase()
         ),
         DetachmentSeed(
             code: 'firestorm_assault',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: 'Firestorm Assault Force',
             description: 'Firestorm Assault Force',
             ruleShort: 'Firestorm Assault Force',
@@ -48,7 +48,7 @@ List<DetachmentSeed> detachmentsBase()
         ),
         DetachmentSeed(
             code: 'stormlance_task_force',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: 'Stormlance Task Force',
             description: 'stormlance_task_force',
             ruleShort: 'stormlance_task_force',
@@ -57,7 +57,7 @@ List<DetachmentSeed> detachmentsBase()
         ),
         DetachmentSeed(
             code: 'vanguard_spearhead',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: 'Vanguard Spearhead',
             description: 'Vanguard Spearhead',
             ruleShort: 'Vanguard Spearhead',
@@ -66,7 +66,7 @@ List<DetachmentSeed> detachmentsBase()
         ),
         DetachmentSeed(
             code: 'first_company',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: '1st Company Task Force',
             description: '1st Company Task Force',
             ruleShort: '1st Company Task Force',
@@ -75,7 +75,7 @@ List<DetachmentSeed> detachmentsBase()
         ),
         DetachmentSeed(
             code: 'librarius_conclave',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: 'Librarius Conclave',
             description: 'Librarius Conclave',
             ruleShort: 'Librarius Conclave',
@@ -84,7 +84,7 @@ List<DetachmentSeed> detachmentsBase()
         ),
         DetachmentSeed(
             code: 'bastion_task_force',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: 'Bastion Task Force',
             description: 'Bastion Task Force',
             ruleShort: 'Bastion Task Force',
@@ -93,7 +93,7 @@ List<DetachmentSeed> detachmentsBase()
         ),
         DetachmentSeed(
             code: 'orbital_assault_force',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: 'Orbital Assault Force',
             description: 'Orbital Assault Force',
             ruleShort: 'Orbital Assault Force',
@@ -104,7 +104,7 @@ List<DetachmentSeed> detachmentsBase()
         //=============Blood angels============
         DetachmentSeed(
             code: 'liberator_assault_group',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: 'Liberator Assault Group',
             description: 'Liberator Assault Group',
             ruleShort: 'Liberator Assault Group',
@@ -113,7 +113,7 @@ List<DetachmentSeed> detachmentsBase()
         ),
         DetachmentSeed(
             code: 'the_lost_brethren',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: 'The Lost Brethren',
             description: 'The Lost Brethren',
             ruleShort: 'The Lost Brethren',
@@ -122,7 +122,7 @@ List<DetachmentSeed> detachmentsBase()
         ),
         DetachmentSeed(
             code: 'the_angelic_host',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: 'The Angelic Host',
             description: 'The Angelic Host',
             ruleShort: 'The Angelic Host',
@@ -132,7 +132,7 @@ List<DetachmentSeed> detachmentsBase()
 
         DetachmentSeed(
             code: 'angelic_inheritors',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: 'Angelic Inheritors',
             description: 'Angelic Inheritors',
             ruleShort: 'Angelic Inheritors',
@@ -141,7 +141,7 @@ List<DetachmentSeed> detachmentsBase()
         ),
         DetachmentSeed(
             code: 'rage_cursed_onslaught',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: 'Rage-Cursed Onslaught',
             description: 'Rage Cursed Onslaught',
             ruleShort: 'Rage Cursed Onslaught',
@@ -152,7 +152,7 @@ List<DetachmentSeed> detachmentsBase()
         //=============Dark angels============
         DetachmentSeed(
             code: 'unforgiven_task_force',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: 'Unforgiven Task Force',
             description: 'Unforgiven Task Force',
             ruleShort: 'Unforgiven Task Force',
@@ -162,7 +162,7 @@ List<DetachmentSeed> detachmentsBase()
 
         DetachmentSeed(
             code: 'inner_circle_task_force',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: 'Inner Circle Task Force',
             description: 'Inner Circle Task Force',
             ruleShort: 'Inner Circle Task Force',
@@ -171,7 +171,7 @@ List<DetachmentSeed> detachmentsBase()
         ),
         DetachmentSeed(
             code: 'company_of_hunters',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: 'Company of Hunters',
             description: 'Company of Hunters',
             ruleShort: 'Company of Hunters',
@@ -180,7 +180,7 @@ List<DetachmentSeed> detachmentsBase()
         ),
         DetachmentSeed(
             code: 'wrath_of_the_rock',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: 'Wrath of the Rock',
             description: 'Wrath of the Rock',
             ruleShort: 'Wrath of the Rock',
@@ -189,7 +189,7 @@ List<DetachmentSeed> detachmentsBase()
         ),
         DetachmentSeed(
             code: 'lions_blade_task_force',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: 'Lion’s Blade Task Force',
             description: 'Lion’s Blade Task Force',
             ruleShort: 'Lion’s Blade Task Force',
@@ -199,7 +199,7 @@ List<DetachmentSeed> detachmentsBase()
         //=============Black templars============
         DetachmentSeed(
             code: 'companions_of_vehemence',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: 'Companions of Vehemence',
             description: 'Companions of Vehemence',
             ruleShort: 'Companions of Vehemence',
@@ -208,7 +208,7 @@ List<DetachmentSeed> detachmentsBase()
         ),
         DetachmentSeed(
             code: 'vindication_task_force',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: 'Vindication Task Force',
             description: 'Vindication Task Force',
             ruleShort: 'Vindication Task Force',
@@ -217,7 +217,7 @@ List<DetachmentSeed> detachmentsBase()
         ),
         DetachmentSeed(
             code: 'godhammer_assault_force',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: 'Godhammer Assault Force',
             description: 'Godhammer Assault Force',
             ruleShort: 'Godhammer Assault Force',
@@ -226,7 +226,7 @@ List<DetachmentSeed> detachmentsBase()
         ),
         DetachmentSeed(
             code: 'wrathful_procession',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: 'Wrathful Procession',
             description: 'Wrathful Procession',
             ruleShort: 'Wrathful Procession',
@@ -236,7 +236,7 @@ List<DetachmentSeed> detachmentsBase()
         //=============Space wolfs============
         DetachmentSeed(
             code: 'saga_of_the_hunter',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: 'Saga of the Hunter',
             description: 'Saga of the Hunter',
             ruleShort: 'Saga of the Hunter',
@@ -245,7 +245,7 @@ List<DetachmentSeed> detachmentsBase()
         ),
         DetachmentSeed(
             code: 'saga_of_the_bold',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: 'Saga of the Bold',
             description: 'Saga of the Bold',
             ruleShort: 'Saga of the Bold',
@@ -254,7 +254,7 @@ List<DetachmentSeed> detachmentsBase()
         ),
         DetachmentSeed(
             code: 'saga_of_the_beastslayer',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: 'Saga of the Beastslayer',
             description: 'Saga of the Beastslayer',
             ruleShort: 'Saga of the Beastslayer',
@@ -263,7 +263,7 @@ List<DetachmentSeed> detachmentsBase()
         ),
         DetachmentSeed(
             code: 'champions_of_fenris',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: 'Champions of Fenris',
             description: 'Champions of Fenris',
             ruleShort: 'Champions of Fenris',
@@ -272,7 +272,7 @@ List<DetachmentSeed> detachmentsBase()
         ),
         DetachmentSeed(
             code: 'saga_of_the_great_wolf',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: 'Saga of the Great Wolf',
             description: 'Saga of the Great Wolf',
             ruleShort: 'Saga of the Great Wolf',
@@ -282,7 +282,7 @@ List<DetachmentSeed> detachmentsBase()
         //=============Deathwatch============
         DetachmentSeed(
             code: 'black_spear_task_force',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: 'Black Spear Task Force',
             description: 'Black Spear Task Force',
             ruleShort: 'Black Spear Task Force',
@@ -292,7 +292,7 @@ List<DetachmentSeed> detachmentsBase()
         //=============Imperial fists============
         DetachmentSeed(
             code: 'emperors_shield',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: 'Emperor’s Shield',
             description: 'Emperor’s Shield',
             ruleShort: 'Emperor’s Shield',
@@ -302,7 +302,7 @@ List<DetachmentSeed> detachmentsBase()
         //=============Iron Hands===========
         DetachmentSeed(
             code: 'hammer_of_avernii',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: 'Hammer of Avernii',
             description: 'Hammer of Avernii',
             ruleShort: 'Hammer of Avernii',
@@ -312,7 +312,7 @@ List<DetachmentSeed> detachmentsBase()
         //=============Raven guard===========
         DetachmentSeed(
             code: 'shadowmark_talon',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: 'Shadowmark Talon',
             description: 'Shadowmark Talon',
             ruleShort: 'Shadowmark Talon',
@@ -322,7 +322,7 @@ List<DetachmentSeed> detachmentsBase()
         //=============Salamanders===========
         DetachmentSeed(
             code: 'forgefatherss_seekers',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: 'Forgefather’s Seekers',
             description: 'Forgefather’s Seekers',
             ruleShort: 'Forgefather’s Seekers',
@@ -332,7 +332,7 @@ List<DetachmentSeed> detachmentsBase()
         //=============Ultramarines===========
         DetachmentSeed(
             code: 'blade_of_ultramar',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: 'Blade of Ultramar',
             description: 'Blade of Ultramar',
             ruleShort: 'Blade of Ultramar',
@@ -342,7 +342,7 @@ List<DetachmentSeed> detachmentsBase()
         //=============White scars===========
         DetachmentSeed(
             code: 'spearpoint_task_force',
-            armyCode: ArmyCode.spaceMarines,
+            armyCode: ArmyTypeCode.spaceMarines,
             name: 'Spearpoint Task Force',
             description: 'Spearpoint Task Force',
             ruleShort: 'Spearpoint Task Force',

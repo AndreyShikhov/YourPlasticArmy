@@ -15,9 +15,9 @@ List<UnitSeed> ultramarinesUnits()
         UnitSeed(
             id: 'd69f0c77-7322-437a-921c-4999bed0285b',
             name: 'Roboute Guilliman',
-            army: ArmyCode.spaceMarines,
+            army: ArmyTypeCode.spaceMarines,
             role: UnitRoleCode.characters,
-            codex: CodexCode.ultramarines,
+            codex: CodexTypeCode.ultramarines,
             repeat: 1,
             keywords: [
                 'Infantry',

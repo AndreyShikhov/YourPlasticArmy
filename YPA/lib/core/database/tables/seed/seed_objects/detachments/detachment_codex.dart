@@ -11,692 +11,692 @@ List<DetachmentCodexLinkSeed> detachmentsCodex()
         //=============Spacemarines - Blood angels============
         DetachmentCodexLinkSeed(
             detachmentCode: 'liberator_assault_group',
-            codex: CodexCode.bloodAngels,
+            codex: CodexTypeCode.bloodAngels,
             isGeneral: false
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'the_lost_brethren',
-            codex: CodexCode.bloodAngels,
+            codex: CodexTypeCode.bloodAngels,
             isGeneral: false
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'the_angelic_host',
-            codex: CodexCode.bloodAngels,
+            codex: CodexTypeCode.bloodAngels,
             isGeneral: false
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'angelic_inheritors',
-            codex: CodexCode.bloodAngels,
+            codex: CodexTypeCode.bloodAngels,
             isGeneral: false
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'rage_cursed_onslaught',
-            codex: CodexCode.bloodAngels,
+            codex: CodexTypeCode.bloodAngels,
             isGeneral: false
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'gladius_task_force',
-            codex: CodexCode.bloodAngels,
+            codex: CodexTypeCode.bloodAngels,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'anvil_siege_force',
-            codex: CodexCode.bloodAngels,
+            codex: CodexTypeCode.bloodAngels,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'ironstorm_spearhead',
-            codex: CodexCode.bloodAngels,
+            codex: CodexTypeCode.bloodAngels,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'firestorm_assault',
-            codex: CodexCode.bloodAngels,
+            codex: CodexTypeCode.bloodAngels,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'stormlance_task_force',
-            codex: CodexCode.bloodAngels,
+            codex: CodexTypeCode.bloodAngels,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'vanguard_spearhead',
-            codex: CodexCode.bloodAngels,
+            codex: CodexTypeCode.bloodAngels,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'first_company',
-            codex: CodexCode.bloodAngels,
+            codex: CodexTypeCode.bloodAngels,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'librarius_conclave',
-            codex: CodexCode.bloodAngels,
+            codex: CodexTypeCode.bloodAngels,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'bastion_task_force',
-            codex: CodexCode.bloodAngels,
+            codex: CodexTypeCode.bloodAngels,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'orbital_assault_force',
-            codex: CodexCode.bloodAngels,
+            codex: CodexTypeCode.bloodAngels,
             isGeneral: true
         ),
         //=============Spacemarines - Dark angels============
         DetachmentCodexLinkSeed(
             detachmentCode: 'unforgiven_task_force',
-            codex: CodexCode.darkAngels,
+            codex: CodexTypeCode.darkAngels,
             isGeneral: false
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'inner_circle_task_force',
-            codex: CodexCode.darkAngels,
+            codex: CodexTypeCode.darkAngels,
             isGeneral: false
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'company_of_hunters',
-            codex: CodexCode.darkAngels,
+            codex: CodexTypeCode.darkAngels,
             isGeneral: false
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'wrath_of_the_rock',
-            codex: CodexCode.darkAngels,
+            codex: CodexTypeCode.darkAngels,
             isGeneral: false
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'lions_blade_task_force',
-            codex: CodexCode.darkAngels,
+            codex: CodexTypeCode.darkAngels,
             isGeneral: false
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'gladius_task_force',
-            codex: CodexCode.darkAngels,
+            codex: CodexTypeCode.darkAngels,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'anvil_siege_force',
-            codex: CodexCode.darkAngels,
+            codex: CodexTypeCode.darkAngels,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'ironstorm_spearhead',
-            codex: CodexCode.darkAngels,
+            codex: CodexTypeCode.darkAngels,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'firestorm_assault',
-            codex: CodexCode.darkAngels,
+            codex: CodexTypeCode.darkAngels,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'stormlance_task_force',
-            codex: CodexCode.darkAngels,
+            codex: CodexTypeCode.darkAngels,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'vanguard_spearhead',
-            codex: CodexCode.darkAngels,
+            codex: CodexTypeCode.darkAngels,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'first_company',
-            codex: CodexCode.darkAngels,
+            codex: CodexTypeCode.darkAngels,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'librarius_conclave',
-            codex: CodexCode.darkAngels,
+            codex: CodexTypeCode.darkAngels,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'bastion_task_force',
-            codex: CodexCode.darkAngels,
+            codex: CodexTypeCode.darkAngels,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'orbital_assault_force',
-            codex: CodexCode.darkAngels,
+            codex: CodexTypeCode.darkAngels,
             isGeneral: true
         ),
         //=============Spacemarines - Black templars============
         DetachmentCodexLinkSeed(
             detachmentCode: 'companions_of_vehemence',
-            codex: CodexCode.blackTemplars,
+            codex: CodexTypeCode.blackTemplars,
             isGeneral: false
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'vindication_task_force',
-            codex: CodexCode.blackTemplars,
+            codex: CodexTypeCode.blackTemplars,
             isGeneral: false
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'godhammer_assault_force',
-            codex: CodexCode.blackTemplars,
+            codex: CodexTypeCode.blackTemplars,
             isGeneral: false
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'wrathful_procession',
-            codex: CodexCode.blackTemplars,
+            codex: CodexTypeCode.blackTemplars,
             isGeneral: false
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'gladius_task_force',
-            codex: CodexCode.blackTemplars,
+            codex: CodexTypeCode.blackTemplars,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'anvil_siege_force',
-            codex: CodexCode.blackTemplars,
+            codex: CodexTypeCode.blackTemplars,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'ironstorm_spearhead',
-            codex: CodexCode.blackTemplars,
+            codex: CodexTypeCode.blackTemplars,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'firestorm_assault',
-            codex: CodexCode.blackTemplars,
+            codex: CodexTypeCode.blackTemplars,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'stormlance_task_force',
-            codex: CodexCode.blackTemplars,
+            codex: CodexTypeCode.blackTemplars,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'vanguard_spearhead',
-            codex: CodexCode.blackTemplars,
+            codex: CodexTypeCode.blackTemplars,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'first_company',
-            codex: CodexCode.blackTemplars,
+            codex: CodexTypeCode.blackTemplars,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'librarius_conclave',
-            codex: CodexCode.blackTemplars,
+            codex: CodexTypeCode.blackTemplars,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'bastion_task_force',
-            codex: CodexCode.blackTemplars,
+            codex: CodexTypeCode.blackTemplars,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'orbital_assault_force',
-            codex: CodexCode.blackTemplars,
+            codex: CodexTypeCode.blackTemplars,
             isGeneral: true
         ),
         //=============Spacemarines - Space wolfs============
         DetachmentCodexLinkSeed(
             detachmentCode: 'saga_of_the_hunter',
-            codex: CodexCode.spaceWolves,
+            codex: CodexTypeCode.spaceWolves,
             isGeneral: false
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'saga_of_the_bold',
-            codex: CodexCode.spaceWolves,
+            codex: CodexTypeCode.spaceWolves,
             isGeneral: false
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'saga_of_the_beastslayer',
-            codex: CodexCode.spaceWolves,
+            codex: CodexTypeCode.spaceWolves,
             isGeneral: false
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'champions_of_fenris',
-            codex: CodexCode.spaceWolves,
+            codex: CodexTypeCode.spaceWolves,
             isGeneral: false
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'saga_of_the_great_wolf',
-            codex: CodexCode.spaceWolves,
+            codex: CodexTypeCode.spaceWolves,
             isGeneral: false
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'gladius_task_force',
-            codex: CodexCode.spaceWolves,
+            codex: CodexTypeCode.spaceWolves,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'anvil_siege_force',
-            codex: CodexCode.spaceWolves,
+            codex: CodexTypeCode.spaceWolves,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'ironstorm_spearhead',
-            codex: CodexCode.spaceWolves,
+            codex: CodexTypeCode.spaceWolves,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'firestorm_assault',
-            codex: CodexCode.spaceWolves,
+            codex: CodexTypeCode.spaceWolves,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'stormlance_task_force',
-            codex: CodexCode.spaceWolves,
+            codex: CodexTypeCode.spaceWolves,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'vanguard_spearhead',
-            codex: CodexCode.spaceWolves,
+            codex: CodexTypeCode.spaceWolves,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'first_company',
-            codex: CodexCode.spaceWolves,
+            codex: CodexTypeCode.spaceWolves,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'librarius_conclave',
-            codex: CodexCode.spaceWolves,
+            codex: CodexTypeCode.spaceWolves,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'bastion_task_force',
-            codex: CodexCode.spaceWolves,
+            codex: CodexTypeCode.spaceWolves,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'orbital_assault_force',
-            codex: CodexCode.spaceWolves,
+            codex: CodexTypeCode.spaceWolves,
             isGeneral: true
         ),
         //=============Spacemarines - Deathwatch============
         DetachmentCodexLinkSeed(
             detachmentCode: 'black_spear_task_force',
-            codex: CodexCode.deathWatch,
+            codex: CodexTypeCode.deathWatch,
             isGeneral: false
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'gladius_task_force',
-            codex: CodexCode.deathWatch,
+            codex: CodexTypeCode.deathWatch,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'anvil_siege_force',
-            codex: CodexCode.deathWatch,
+            codex: CodexTypeCode.deathWatch,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'ironstorm_spearhead',
-            codex: CodexCode.deathWatch,
+            codex: CodexTypeCode.deathWatch,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'firestorm_assault',
-            codex: CodexCode.deathWatch,
+            codex: CodexTypeCode.deathWatch,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'stormlance_task_force',
-            codex: CodexCode.deathWatch,
+            codex: CodexTypeCode.deathWatch,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'vanguard_spearhead',
-            codex: CodexCode.deathWatch,
+            codex: CodexTypeCode.deathWatch,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'first_company',
-            codex: CodexCode.deathWatch,
+            codex: CodexTypeCode.deathWatch,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'librarius_conclave',
-            codex: CodexCode.deathWatch,
+            codex: CodexTypeCode.deathWatch,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'bastion_task_force',
-            codex: CodexCode.deathWatch,
+            codex: CodexTypeCode.deathWatch,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'orbital_assault_force',
-            codex: CodexCode.deathWatch,
+            codex: CodexTypeCode.deathWatch,
             isGeneral: true
         ),
         //=============Spacemarines - Imrepial fists============
         DetachmentCodexLinkSeed(
             detachmentCode: 'emperors_shield',
-            codex: CodexCode.imperialFists,
+            codex: CodexTypeCode.imperialFists,
             isGeneral: false
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'gladius_task_force',
-            codex: CodexCode.imperialFists,
+            codex: CodexTypeCode.imperialFists,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'anvil_siege_force',
-            codex: CodexCode.imperialFists,
+            codex: CodexTypeCode.imperialFists,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'ironstorm_spearhead',
-            codex: CodexCode.imperialFists,
+            codex: CodexTypeCode.imperialFists,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'firestorm_assault',
-            codex: CodexCode.imperialFists,
+            codex: CodexTypeCode.imperialFists,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'stormlance_task_force',
-            codex: CodexCode.imperialFists,
+            codex: CodexTypeCode.imperialFists,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'vanguard_spearhead',
-            codex: CodexCode.imperialFists,
+            codex: CodexTypeCode.imperialFists,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'first_company',
-            codex: CodexCode.imperialFists,
+            codex: CodexTypeCode.imperialFists,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'librarius_conclave',
-            codex: CodexCode.imperialFists,
+            codex: CodexTypeCode.imperialFists,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'bastion_task_force',
-            codex: CodexCode.imperialFists,
+            codex: CodexTypeCode.imperialFists,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'orbital_assault_force',
-            codex: CodexCode.imperialFists,
+            codex: CodexTypeCode.imperialFists,
             isGeneral: true
         ),
         //=============Spacemarines - Iron hands============
         DetachmentCodexLinkSeed(
             detachmentCode: 'hammer_of_avernii',
-            codex: CodexCode.ironHands,
+            codex: CodexTypeCode.ironHands,
             isGeneral: false
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'gladius_task_force',
-            codex: CodexCode.ironHands,
+            codex: CodexTypeCode.ironHands,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'anvil_siege_force',
-            codex: CodexCode.ironHands,
+            codex: CodexTypeCode.ironHands,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'ironstorm_spearhead',
-            codex: CodexCode.ironHands,
+            codex: CodexTypeCode.ironHands,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'firestorm_assault',
-            codex: CodexCode.ironHands,
+            codex: CodexTypeCode.ironHands,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'stormlance_task_force',
-            codex: CodexCode.ironHands,
+            codex: CodexTypeCode.ironHands,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'vanguard_spearhead',
-            codex: CodexCode.ironHands,
+            codex: CodexTypeCode.ironHands,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'first_company',
-            codex: CodexCode.ironHands,
+            codex: CodexTypeCode.ironHands,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'librarius_conclave',
-            codex: CodexCode.ironHands,
+            codex: CodexTypeCode.ironHands,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'bastion_task_force',
-            codex: CodexCode.ironHands,
+            codex: CodexTypeCode.ironHands,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'orbital_assault_force',
-            codex: CodexCode.ironHands,
+            codex: CodexTypeCode.ironHands,
             isGeneral: true
         ),
         //=============Spacemarines - Raven guard============
         DetachmentCodexLinkSeed(
             detachmentCode: 'shadowmark_talon',
-            codex: CodexCode.ravenGuard,
+            codex: CodexTypeCode.ravenGuard,
             isGeneral: false
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'gladius_task_force',
-            codex: CodexCode.ravenGuard,
+            codex: CodexTypeCode.ravenGuard,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'anvil_siege_force',
-            codex: CodexCode.ravenGuard,
+            codex: CodexTypeCode.ravenGuard,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'ironstorm_spearhead',
-            codex: CodexCode.ravenGuard,
+            codex: CodexTypeCode.ravenGuard,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'firestorm_assault',
-            codex: CodexCode.ravenGuard,
+            codex: CodexTypeCode.ravenGuard,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'stormlance_task_force',
-            codex: CodexCode.ravenGuard,
+            codex: CodexTypeCode.ravenGuard,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'vanguard_spearhead',
-            codex: CodexCode.ravenGuard,
+            codex: CodexTypeCode.ravenGuard,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'first_company',
-            codex: CodexCode.ravenGuard,
+            codex: CodexTypeCode.ravenGuard,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'librarius_conclave',
-            codex: CodexCode.ravenGuard,
+            codex: CodexTypeCode.ravenGuard,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'bastion_task_force',
-            codex: CodexCode.ravenGuard,
+            codex: CodexTypeCode.ravenGuard,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'orbital_assault_force',
-            codex: CodexCode.ravenGuard,
+            codex: CodexTypeCode.ravenGuard,
             isGeneral: true
         ),
         //=============Spacemarines - Salamanders============
         DetachmentCodexLinkSeed(
             detachmentCode: 'forgefatherss_seekers',
-            codex: CodexCode.salamanders,
+            codex: CodexTypeCode.salamanders,
             isGeneral: false
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'gladius_task_force',
-            codex: CodexCode.salamanders,
+            codex: CodexTypeCode.salamanders,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'anvil_siege_force',
-            codex: CodexCode.salamanders,
+            codex: CodexTypeCode.salamanders,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'ironstorm_spearhead',
-            codex: CodexCode.salamanders,
+            codex: CodexTypeCode.salamanders,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'firestorm_assault',
-            codex: CodexCode.salamanders,
+            codex: CodexTypeCode.salamanders,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'stormlance_task_force',
-            codex: CodexCode.salamanders,
+            codex: CodexTypeCode.salamanders,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'vanguard_spearhead',
-            codex: CodexCode.salamanders,
+            codex: CodexTypeCode.salamanders,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'first_company',
-            codex: CodexCode.salamanders,
+            codex: CodexTypeCode.salamanders,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'librarius_conclave',
-            codex: CodexCode.salamanders,
+            codex: CodexTypeCode.salamanders,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'bastion_task_force',
-            codex: CodexCode.salamanders,
+            codex: CodexTypeCode.salamanders,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'orbital_assault_force',
-            codex: CodexCode.salamanders,
+            codex: CodexTypeCode.salamanders,
             isGeneral: true
         ),
         //=============Spacemarines - Ultramarines============
         DetachmentCodexLinkSeed(
             detachmentCode: 'blade_of_ultramar',
-            codex: CodexCode.ultramarines,
+            codex: CodexTypeCode.ultramarines,
             isGeneral: false
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'gladius_task_force',
-            codex: CodexCode.ultramarines,
+            codex: CodexTypeCode.ultramarines,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'anvil_siege_force',
-            codex: CodexCode.ultramarines,
+            codex: CodexTypeCode.ultramarines,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'ironstorm_spearhead',
-            codex: CodexCode.ultramarines,
+            codex: CodexTypeCode.ultramarines,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'firestorm_assault',
-            codex: CodexCode.ultramarines,
+            codex: CodexTypeCode.ultramarines,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'stormlance_task_force',
-            codex: CodexCode.ultramarines,
+            codex: CodexTypeCode.ultramarines,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'vanguard_spearhead',
-            codex: CodexCode.ultramarines,
+            codex: CodexTypeCode.ultramarines,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'first_company',
-            codex: CodexCode.ultramarines,
+            codex: CodexTypeCode.ultramarines,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'librarius_conclave',
-            codex: CodexCode.ultramarines,
+            codex: CodexTypeCode.ultramarines,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'bastion_task_force',
-            codex: CodexCode.ultramarines,
+            codex: CodexTypeCode.ultramarines,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'orbital_assault_force',
-            codex: CodexCode.ultramarines,
+            codex: CodexTypeCode.ultramarines,
             isGeneral: true
         ),
         //=============Spacemarines - White scars============
         DetachmentCodexLinkSeed(
             detachmentCode: 'spearpoint_task_force',
-            codex: CodexCode.whiteScars,
+            codex: CodexTypeCode.whiteScars,
             isGeneral: false
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'gladius_task_force',
-            codex: CodexCode.whiteScars,
+            codex: CodexTypeCode.whiteScars,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'anvil_siege_force',
-            codex: CodexCode.whiteScars,
+            codex: CodexTypeCode.whiteScars,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'ironstorm_spearhead',
-            codex: CodexCode.whiteScars,
+            codex: CodexTypeCode.whiteScars,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'firestorm_assault',
-            codex: CodexCode.whiteScars,
+            codex: CodexTypeCode.whiteScars,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'stormlance_task_force',
-            codex: CodexCode.whiteScars,
+            codex: CodexTypeCode.whiteScars,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'vanguard_spearhead',
-            codex: CodexCode.whiteScars,
+            codex: CodexTypeCode.whiteScars,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'first_company',
-            codex: CodexCode.whiteScars,
+            codex: CodexTypeCode.whiteScars,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'librarius_conclave',
-            codex: CodexCode.whiteScars,
+            codex: CodexTypeCode.whiteScars,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'bastion_task_force',
-            codex: CodexCode.whiteScars,
+            codex: CodexTypeCode.whiteScars,
             isGeneral: true
         ),
         DetachmentCodexLinkSeed(
             detachmentCode: 'orbital_assault_force',
-            codex: CodexCode.whiteScars,
+            codex: CodexTypeCode.whiteScars,
             isGeneral: true
         )
     ];

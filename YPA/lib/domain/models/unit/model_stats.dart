@@ -4,7 +4,6 @@
  ******************************************************************************/
 
 import '../../../core/database/tables/seed/seed_objects/_types.dart';
-import '../faction/faction_code.dart';
 import 'model_weapons.dart';
 
 // ==========================================
@@ -100,17 +99,17 @@ class WargearOptions
 
 class LeaderFilter
 {
-    final FactionCode faction;
-    final ArmyCode army;
-    final CodexCode codex;
-    final String detachmentCode;
+    final FactionTypeCode faction;
+    final ArmyTypeCode army;
+    final CodexTypeCode? codex;
+    final String? detachmentCode;
     final List<String> names;
 
     const LeaderFilter({
         required this.faction,
         required this.army,
-        required this.codex,
-        required this.detachmentCode,
+        this.codex,
+        this.detachmentCode,
         required this.names
     });
 
@@ -120,9 +119,9 @@ class LeaderFilter
 
     Map<String, dynamic> toJson() =>
     {
-        'faction': faction.value,
+        'faction': faction.code,
         'army': army.code,
-        'codex': codex.code,
+        'codex': codex?.code?? CodexTypeCode.none,
         'detachment': detachmentCode,
         'names': names
     };
@@ -130,9 +129,9 @@ class LeaderFilter
     factory LeaderFilter.fromJson(Map<String, dynamic> json)
     {
         return LeaderFilter(
-            faction: FactionCode(json['faction'] as String? ?? 'none'),
-            army: ArmyCode.values.byName(json['army'] as String? ?? ArmyCode.none.name),
-            codex: CodexCode.values.byName(json['codex'] as String? ?? CodexCode.none.name),
+            faction: FactionTypeCode.values.byName(json['faction'] as String? ?? FactionTypeCode.none.name),
+            army: ArmyTypeCode.values.byName(json['army'] as String? ?? ArmyTypeCode.none.name),
+            codex: CodexTypeCode.values.byName(json['codex'] as String? ?? CodexTypeCode.none.name),
             detachmentCode: json['detachment'] as String? ?? '',
             names: List<String>.from(json['names'] ?? [])
         );

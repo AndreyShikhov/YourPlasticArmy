@@ -10,140 +10,140 @@ List<CodexSeed> getAllCodexes()
 {
     return const[
         CodexSeed(
-            code: CodexCode.adeptaSororitas,
-            army: ArmyCode.adeptaSororitas
+            code: CodexTypeCode.adeptaSororitas,
+            army: ArmyTypeCode.adeptaSororitas
         ),
         CodexSeed(
-            code: CodexCode.adeptusCustodes,
-            army: ArmyCode.adeptusCustodes
+            code: CodexTypeCode.adeptusCustodes,
+            army: ArmyTypeCode.adeptusCustodes
         ),
         CodexSeed(
-            code: CodexCode.adeptusMechanicus,
-            army: ArmyCode.adeptusMechanicus
+            code: CodexTypeCode.adeptusMechanicus,
+            army: ArmyTypeCode.adeptusMechanicus
         ),
         CodexSeed(
-            code: CodexCode.adeptusTitanicus,
-            army: ArmyCode.adeptusTitanicus
+            code: CodexTypeCode.adeptusTitanicus,
+            army: ArmyTypeCode.adeptusTitanicus
         ),
         CodexSeed(
-            code: CodexCode.astraMilitarum,
-            army: ArmyCode.astraMilitarum
+            code: CodexTypeCode.astraMilitarum,
+            army: ArmyTypeCode.astraMilitarum
         ),
         CodexSeed(
-            code: CodexCode.greyKnights,
-            army: ArmyCode.greyKnights
+            code: CodexTypeCode.greyKnights,
+            army: ArmyTypeCode.greyKnights
         ),
         CodexSeed(
-            code: CodexCode.imperialAgents,
-            army: ArmyCode.imperialAgents
+            code: CodexTypeCode.imperialAgents,
+            army: ArmyTypeCode.imperialAgents
         ),
         CodexSeed(
-            code: CodexCode.imperialKnights,
-            army: ArmyCode.imperialKnights
+            code: CodexTypeCode.imperialKnights,
+            army: ArmyTypeCode.imperialKnights
         ),
         CodexSeed(
-            code: CodexCode.blackTemplars,
-            army: ArmyCode.spaceMarines
+            code: CodexTypeCode.blackTemplars,
+            army: ArmyTypeCode.spaceMarines
         ),
         CodexSeed(
-            code: CodexCode.bloodAngels,
-            army: ArmyCode.spaceMarines
+            code: CodexTypeCode.bloodAngels,
+            army: ArmyTypeCode.spaceMarines
         ),
         CodexSeed(
-            code: CodexCode.darkAngels,
-            army: ArmyCode.spaceMarines
+            code: CodexTypeCode.darkAngels,
+            army: ArmyTypeCode.spaceMarines
         ),
         CodexSeed(
-            code: CodexCode.deathWatch,
-            army: ArmyCode.spaceMarines
+            code: CodexTypeCode.deathWatch,
+            army: ArmyTypeCode.spaceMarines
         ),
         CodexSeed(
-            code: CodexCode.imperialFists,
-            army: ArmyCode.spaceMarines
+            code: CodexTypeCode.imperialFists,
+            army: ArmyTypeCode.spaceMarines
         ),
         CodexSeed(
-            code: CodexCode.ironHands,
-            army: ArmyCode.spaceMarines
+            code: CodexTypeCode.ironHands,
+            army: ArmyTypeCode.spaceMarines
         ),
         CodexSeed(
-            code: CodexCode.ravenGuard,
-            army: ArmyCode.spaceMarines
+            code: CodexTypeCode.ravenGuard,
+            army: ArmyTypeCode.spaceMarines
         ),
         CodexSeed(
-            code: CodexCode.salamanders,
-            army: ArmyCode.spaceMarines
+            code: CodexTypeCode.salamanders,
+            army: ArmyTypeCode.spaceMarines
         ),
         CodexSeed(
-            code: CodexCode.ultramarines,
-            army: ArmyCode.spaceMarines
+            code: CodexTypeCode.ultramarines,
+            army: ArmyTypeCode.spaceMarines
         ),
         CodexSeed(
-            code: CodexCode.whiteScars,
-            army: ArmyCode.spaceMarines
+            code: CodexTypeCode.whiteScars,
+            army: ArmyTypeCode.spaceMarines
         ),
         CodexSeed(
-            code: CodexCode.spaceWolves,
-            army: ArmyCode.spaceMarines
+            code: CodexTypeCode.spaceWolves,
+            army: ArmyTypeCode.spaceMarines
         ),
         CodexSeed(
-            code: CodexCode.chaosDaemons,
-            army: ArmyCode.chaosDaemons
+            code: CodexTypeCode.chaosDaemons,
+            army: ArmyTypeCode.chaosDaemons
         ),
         CodexSeed(
-            code: CodexCode.chaosKnights,
-            army: ArmyCode.chaosKnights
+            code: CodexTypeCode.chaosKnights,
+            army: ArmyTypeCode.chaosKnights
         ),
         CodexSeed(
-            code: CodexCode.chaosSpaceMarines,
-            army: ArmyCode.chaosSpaceMarines
+            code: CodexTypeCode.chaosSpaceMarines,
+            army: ArmyTypeCode.chaosSpaceMarines
         ),
         CodexSeed(
-            code: CodexCode.deathGuard,
-            army: ArmyCode.deathGuard
+            code: CodexTypeCode.deathGuard,
+            army: ArmyTypeCode.deathGuard
         ),
         CodexSeed(
-            code: CodexCode.emperorsChildren,
-            army: ArmyCode.emperorsChildren
+            code: CodexTypeCode.emperorsChildren,
+            army: ArmyTypeCode.emperorsChildren
         ),
         CodexSeed(
-            code: CodexCode.thousandSons,
-            army: ArmyCode.thousandSons
+            code: CodexTypeCode.thousandSons,
+            army: ArmyTypeCode.thousandSons
         ),
         CodexSeed(
-            code: CodexCode.worldEaters,
-            army: ArmyCode.worldEaters
+            code: CodexTypeCode.worldEaters,
+            army: ArmyTypeCode.worldEaters
         ),
         CodexSeed(
-            code: CodexCode.aeldari,
-            army: ArmyCode.aeldari
+            code: CodexTypeCode.aeldari,
+            army: ArmyTypeCode.aeldari
         ),
         CodexSeed(
-            code: CodexCode.drukhari,
-            army: ArmyCode.drukhari
+            code: CodexTypeCode.drukhari,
+            army: ArmyTypeCode.drukhari
         ),
         CodexSeed(
-            code: CodexCode.genestealerCults,
-            army: ArmyCode.genestealerCults
+            code: CodexTypeCode.genestealerCults,
+            army: ArmyTypeCode.genestealerCults
         ),
         CodexSeed(
-            code: CodexCode.leaguesOfVotann,
-            army: ArmyCode.leaguesOfVotann
+            code: CodexTypeCode.leaguesOfVotann,
+            army: ArmyTypeCode.leaguesOfVotann
         ),
         CodexSeed(
-            code: CodexCode.necrons,
-            army: ArmyCode.necrons
+            code: CodexTypeCode.necrons,
+            army: ArmyTypeCode.necrons
         ),
         CodexSeed(
-            code: CodexCode.orks,
-            army: ArmyCode.orks
+            code: CodexTypeCode.orks,
+            army: ArmyTypeCode.orks
         ),
         CodexSeed(
-            code: CodexCode.tauEmpire,
-            army: ArmyCode.tauEmpire
+            code: CodexTypeCode.tauEmpire,
+            army: ArmyTypeCode.tauEmpire
         ),
         CodexSeed(
-            code: CodexCode.tyranids,
-            army: ArmyCode.tyranids
+            code: CodexTypeCode.tyranids,
+            army: ArmyTypeCode.tyranids
         )
     ];
 }
