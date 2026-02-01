@@ -32,11 +32,11 @@ class UnitEditorScreen extends ConsumerWidget
     @override
     Widget build(BuildContext context, WidgetRef ref)
     {
-      // 1. Получаем состояние (для отрисовки)
-      final state = ref.watch(unitEditorControllerProvider((armyId, instanceId, roleCode)));
+        // 1. Получаем состояние (для отрисовки)
+        final state = ref.watch(unitEditorControllerProvider((armyId, instanceId, roleCode)));
 
-      // 2. Получаем контроллер (для вызова методов)
-      final notifier = ref.read(unitEditorControllerProvider((armyId, instanceId, roleCode)).notifier);
+        // 2. Получаем контроллер (для вызова методов)
+        final notifier = ref.read(unitEditorControllerProvider((armyId, instanceId, roleCode)).notifier);
         // TODO: implement build
         return
         Scaffold(
@@ -91,30 +91,32 @@ class UnitEditorScreen extends ConsumerWidget
         Map<String, Widget> categories = {};
         categories['Wargear Options'] = const Text('Настройки снаряжения');
 
-        if(state.unit!.unitAbility.isNotEmpty){
-          categories['Unit Ability'] = UnitAbilityBloc(abilities: state.unitAbilities);
+        if (state.unit!.unitAbility.isNotEmpty)
+        {
+            categories['Unit Ability'] = UnitAbilityBloc(abilities: state.unitAbilities);
         }
 
-        if(state.unit!.coreAbilities.isNotEmpty){
-          categories['Core Abilities'] =  CoreAbilityBloc(abilities: state.coreAbilities);
+        if (state.unit!.coreAbilities.isNotEmpty)
+        {
+            categories['Core Abilities'] = CoreAbilityBloc(abilities: state.coreAbilities);
         }
 
-        if(state.unit!.factionAbilities.isNotEmpty){
-          categories['Faction Abilities'] =  FactionAbilityBloc(abilities: state.factionAbilities);
+        if (state.unit!.factionAbilities.isNotEmpty)
+        {
+            categories['Faction Abilities'] = FactionAbilityBloc(abilities: state.factionAbilities);
         }
 
-
-
-        if (state.unit!.leader.isNotEmpty) {
-          categories['Leader'] =  LeaderBloc(armyId: armyId, filters: state.unit!.leader);
+        if (state.unit!.leader.isNotEmpty)
+        {
+            categories['Leader'] = LeaderBloc(armyId: armyId, instanceId: instanceId, roleCode: roleCode, filters: state.unit!.leader);
         }
 
-        if (state.unit!.ledBy.isNotEmpty) {
-          categories['Led By'] = LeaderBloc(armyId: armyId, filters: state.unit!.ledBy);
+        if (state.unit!.ledBy.isNotEmpty)
+        {
+            categories['Led By'] = LeaderBloc(armyId: armyId, instanceId: instanceId, roleCode: roleCode, filters: state.unit!.ledBy);
         }
 
         categories['Keywords'] = KeywordsBloc(keywords: state.unit!.keywords, factionKeywords: state.unit!.factionKeywords);
-
 
         List<Widget> sections = [];
         sections.add(_getStatsWidget(state.unit!));

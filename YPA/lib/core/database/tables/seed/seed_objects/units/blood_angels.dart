@@ -305,7 +305,6 @@ List<UnitSeed> bloodAngelsUnits()
                   names: [
                     'Assault Intercessors With Jump Packs',
                     'Vanguard Veteran Squad With Jump Packs',
-                    'Sanguinary Guard',
                   ]
               ),
               LeaderFilter(

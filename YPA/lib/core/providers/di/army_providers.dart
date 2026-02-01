@@ -11,6 +11,8 @@ import 'package:ypa/data/repositories/drift_army_repository.dart';
 import 'package:ypa/domain/models/army/army.dart';
 import 'package:ypa/domain/models/faction/faction_id.dart';
 
+import '../../../application/army/get_army_by_id.dart';
+
 // --- REPOSITORIES ---
 
 final armyRepositoryProvider = Provider<ArmyRepository>((ref)
@@ -32,6 +34,13 @@ final getArmiesByFactionUseCaseProvider = Provider<GetArmiesByFaction>((ref)
         final repository = ref.watch(armyRepositoryProvider);
         return GetArmiesByFaction(repository);
     });
+
+final getArmyByIdUseCaseProvider = Provider<GetArmyById>((ref)
+    {
+        final repository = ref.watch(armyRepositoryProvider);
+        return GetArmyById(repository);
+    });
+
 
 // --- UI STATE ---
 

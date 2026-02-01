@@ -4,12 +4,14 @@
  ******************************************************************************/
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ypa/application/army/get_army_by_id.dart';
 import 'package:ypa/application/unit_abilities/get_all_core_unit_abilities.dart';
 import 'package:ypa/application/unit_abilities/get_factions_unit_ability_by_code.dart';
 import 'package:ypa/application/unit_abilities/get_unit_bility_by_code.dart';
 import 'package:ypa/core/providers/di/di_providers.dart';
 import 'package:ypa/core/ui/screens/unit_editor/unit_editor_item_ui.dart';
 import 'package:ypa/core/ui/screens/unit_editor/unit_editor_state.dart';
+import 'package:ypa/domain/models/army/army.dart';
 
 import '../../../../domain/models/abilities/core_unit_ability/core_unit_ability.dart';
 import '../../../../domain/models/abilities/faction_unit_ability/faction_unit_ability.dart';
@@ -24,12 +26,14 @@ final unitEditorControllerProvider =
             final getUnitAbilityByCode = ref.watch(getunitAbilityByCodeUseCaseProvider);
             final getAllCoreUnitAbilities = ref.watch(getAllCoreUnitAbilitiesUseCaseProvider);
             final getFactionAbilityByCode = ref.watch(getFactionUnitAbilityByCodeUseCaseProvider);
+            final getArmyById = ref.watch(getArmyByIdUseCaseProvider);
 
             return UnitEditorController(
                 ref,
                 getUnitAbilityByCode,
                 getAllCoreUnitAbilities,
                 getFactionAbilityByCode,
+                getArmyById,
                 instanceId,
                 armyId,
                 roldeCode
@@ -46,6 +50,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
     final GetUnitAbilityByCode _getUnitAbilityByCode;
     final GetAllCoreUnitAbilities _getAllCoreUnitAbilities;
     final GetFactionsUnitAbilityByCode _getFactionsUnitAbilityByCode;
+    final GetArmyById _getArmyById;
     final String _instanceUnitId;
     final String _role;
     final String _armyId;
@@ -56,6 +61,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
         this._getUnitAbilityByCode,
         this._getAllCoreUnitAbilities,
         this._getFactionsUnitAbilityByCode,
+        this._getArmyById,
         this._instanceUnitId,
         this._armyId,
         this._role
@@ -112,7 +118,14 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
               getFactionUnitAbility(),
             ]);
 
-            // 3. ОБНОВЛЯЕМ СТЕЙТ ФИНАЛЬНО
+            //3. Добавляем Арим код
+
+           final ArmyDOM? army  = await _getArmyById(ArmyId.fromString(armyState.armyId!));
+           if(army != null){
+             state = state.copyWith(armyTypeCode: ArmyTypeCodeX.fromCode(army.code.value));
+           }
+
+            // 4. ОБНОВЛЯЕМ СТЕЙТ ФИНАЛЬНО
             state = state.copyWith(
                 unitAbilities: abilitiesResults[0] as List<UnitAbilityDOM>,
                 coreAbilities: abilitiesResults[1] as List<CoreUnitAbilityDOM>,

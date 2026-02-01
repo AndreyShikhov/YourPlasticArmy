@@ -4,6 +4,7 @@
  ******************************************************************************/
 
 
+import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
 import 'package:ypa/core/ui/screens/unit_editor/unit_editor_item_ui.dart';
 
 import '../../../../domain/models/abilities/core_unit_ability/core_unit_ability.dart';
@@ -17,6 +18,7 @@ class UnitEditorState
     final bool isLoading;
     final String unitInstanceId;
     final UnitEditorItemUi? unit;
+    final ArmyTypeCode? armyTypeCode;
     final List<UnitAbilityDOM> unitAbilities;
     final List<CoreUnitAbilityDOM> coreAbilities;
     final List<FactionUnitAbilityDOM> factionAbilities;
@@ -25,6 +27,7 @@ class UnitEditorState
     UnitEditorState({
         this.isLoading = false,
         required this.unitInstanceId,
+        this.armyTypeCode,
         this.unit,
         this.unitAbilities = const [],
         this.coreAbilities = const [],
@@ -35,6 +38,7 @@ class UnitEditorState
     UnitEditorState copyWith({
         bool? isLoading,
         String? unitInstanceId,
+        ArmyTypeCode? armyTypeCode,
         UnitEditorItemUi? unit,
         List<UnitAbilityDOM>? unitAbilities,
         List<CoreUnitAbilityDOM>? coreAbilities,
@@ -45,6 +49,7 @@ class UnitEditorState
         return UnitEditorState(
             isLoading: isLoading ?? this.isLoading,
             unitInstanceId: unitInstanceId ?? this.unitInstanceId,
+            armyTypeCode: armyTypeCode ?? this.armyTypeCode,
             unit: unit ?? this.unit,
             unitAbilities: unitAbilities ?? this.unitAbilities,
             coreAbilities: coreAbilities ?? this.coreAbilities,

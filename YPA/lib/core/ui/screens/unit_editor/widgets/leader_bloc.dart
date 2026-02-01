@@ -5,54 +5,89 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
+import 'package:ypa/core/ui/screens/army_builder/army_builder_state.dart';
 import 'package:ypa/domain/models/codex/codex.dart';
 import 'package:ypa/domain/models/detachment/detachment.dart';
 import 'package:ypa/domain/models/unit/model_stats.dart';
 
 import '../../army_builder/army_builder_controller.dart';
+import '../unit_editor_controller.dart';
 
 class LeaderBloc extends ConsumerWidget
 {
-
-    final String armyId;  
+    final String armyId;
+    final String instanceId;
+    final String roleCode;
     final List<LeaderFilter> filters;
 
     const LeaderBloc({
         super.key,
         required this.armyId,
+        required this.instanceId,
+        required this.roleCode,
         required this.filters
     });
 
     @override
     Widget build(BuildContext context, WidgetRef ref)
     {
-
-        // Получаем доступ к ТОМУ ЖЕ САМОМУ стейту, который видит ArmyBuilderScreen
         final armyState = ref.watch(armyBuilderControllerProvider(armyId));
+        final unitState = ref.watch(unitEditorControllerProvider((armyId, instanceId, roleCode)));
 
-        // Теперь вы можете читать любые данные армии
-        final currentDetachment = armyState.detachment;
-        final allUnits = armyState.userArmyUnits;
-        final Map<String, bool> unitsInArmy = _getUnitsInArmy(armyState.userArmyName, armyState.codex, armyState.detachment);
+        final Map<String, bool> unitsInArmy = _getUnitsInArmy(
+            armyState, 
+            unitState.armyTypeCode!, 
+            armyState.codex, 
+            armyState.detachment
+        );
 
-        return Column(
-          children: [
-            Text(unitsInArmy.keys.first)
-          ],
+        final entries = unitsInArmy.entries.toList();
+
+        return Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            runSpacing: 4, // Отступ между строками
+            children: [
+                for (int i = 0; i < entries.length; i++) ...[
+                    Text(
+                        entries[i].key,
+                        style: TextStyle(
+                            color: entries[i].value
+                                ? CupertinoColors.systemYellow
+                                : CupertinoColors.white,
+                            fontSize: 14,
+                            fontWeight: entries[i].value ? FontWeight.bold : FontWeight.normal,
+                        ),
+                    ),
+                    // Добавляем разделитель, если это не последний элемент
+                    if (i < entries.length - 1)
+                        const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8),
+                            child: Text(
+                                '|',
+                                style: TextStyle(color: CupertinoColors.systemGrey, fontSize: 12),
+                            ),
+                        ),
+                ]
+            ],
         );
     }
 
-    Map<String, bool> _getUnitsInArmy(String armyId, CodexDom? codex, DetachmentDOM? detachment)
+    Map<String, bool> _getUnitsInArmy(ArmyBuilderState armyState, ArmyTypeCode armyCode, CodexDom? codex, DetachmentDOM? detachment)
     {
-        List<String> names = [];
+        Set<String> unitNamesInUserArmy = _getAllUnitsNameInArmy(armyState);
+
+        Set<String> names = {};
+        Map<String, bool> result = {};
         for (LeaderFilter filter in filters)
         {
-            if (filter.army.name == armyId)
+            if (filter.army == armyCode)
             {
                 names.addAll(filter.names);
                 if (filter.codex != null &&
+                    filter.codex != CodexTypeCode.none &&
                     codex != null &&
-                    filter.codex == codex.code.value)
+                    filter.codex!.code == codex.code.value)
                 {
                     names.addAll(filter.names);
 
@@ -66,6 +101,21 @@ class LeaderBloc extends ConsumerWidget
             }
         }
 
-        return {};
+        if (names.isNotEmpty)
+        {
+            for (String unitName in names)
+            {
+                result[unitName] = unitNamesInUserArmy.contains(unitName);
+            }
+        }
+        return result;
+    }
+
+    Set<String> _getAllUnitsNameInArmy(ArmyBuilderState armyState)
+    {
+        return armyState.userArmyUnits?.values
+            .expand((units) => units) // «Схлопывает» все списки в один общий поток
+            .map((unit) => unit.name) // Берет только поле name
+            .toSet() ?? {};           // Оставляет только уникальные и превращает в Set
     }
 }

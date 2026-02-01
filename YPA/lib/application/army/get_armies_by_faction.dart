@@ -14,6 +14,6 @@ class GetArmiesByFaction
 
     Future<List<ArmyDOM>> call(FactionId factionId) async
     {
-        return await repository.findByFaction(factionId);
+        return await repository.getArmyByFaction(factionId);
     }
 }

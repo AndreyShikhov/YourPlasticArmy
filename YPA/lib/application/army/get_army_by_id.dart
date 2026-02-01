@@ -1,3 +1,5 @@
+
+
 /*******************************************************************************
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
@@ -5,14 +7,15 @@
 
 import 'package:ypa/domain/models/army/army.dart';
 
-class GetAllArmies
+
+class GetArmyById
 {
-    final ArmyRepository repository;
+  final ArmyRepository repository;
 
-    GetAllArmies(this.repository);
+  GetArmyById(this.repository);
 
-    Future<List<ArmyDOM>> call() async
-    {
-        return await repository.getAllArmies();
-    }
+  Future<ArmyDOM?> call(ArmyId armyId) async
+  {
+    return await repository.getArmyById(armyId);
+  }
 }

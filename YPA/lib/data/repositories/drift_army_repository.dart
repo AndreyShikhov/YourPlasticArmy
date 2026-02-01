@@ -15,34 +15,34 @@ class DriftArmyRepository implements ArmyRepository
     DriftArmyRepository(this.db);
 
     @override
-    Future<void> delete(ArmyId id) async
+    Future<void> deleteArmy(ArmyId id) async
     {
         await (db.delete(db.armies)..where((tbl) => tbl.id.equals(id.value))).go();
     }
 
     @override
-    Future<List<ArmyDOM>> findAll() async
+    Future<List<ArmyDOM>> getAllArmies() async
     {
         final rows = await db.select(db.armies).get();
         return rows.map(ArmyMapper.fromRow).toList();
     }
 
     @override
-    Future<List<ArmyDOM>> findByFaction(FactionId factionId) async
+    Future<List<ArmyDOM>> getArmyByFaction(FactionId factionId) async
     {
         final rows = await (db.select(db.armies)..where((tbl) => tbl.factionId.equals(factionId.value))).get();
         return rows.map(ArmyMapper.fromRow).toList();
     }
 
     @override
-    Future<ArmyDOM?> findById(ArmyId id) async
+    Future<ArmyDOM?> getArmyById(ArmyId id) async
     {
         final row = await (db.select(db.armies)..where((tbl) => tbl.id.equals(id.value))).getSingleOrNull();
         return row != null ? ArmyMapper.fromRow(row) : null;
     }
 
     @override
-    Future<void> save(ArmyDOM army) async
+    Future<void> saveArmy(ArmyDOM army) async
     {
         await db.into(db.armies).insertOnConflictUpdate(ArmyMapper.toCompanion(army));
     }

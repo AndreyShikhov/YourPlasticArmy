@@ -9,9 +9,9 @@ import 'army_id.dart';
 
 abstract class ArmyRepository
 {
-    Future<void> save(ArmyDOM army);
-    Future<ArmyDOM?> findById(ArmyId id);
-    Future<List<ArmyDOM>> findAll();
-    Future<List<ArmyDOM>> findByFaction(FactionId factionId);
-    Future<void> delete(ArmyId id);
+    Future<void> saveArmy(ArmyDOM army);
+    Future<ArmyDOM?> getArmyById(ArmyId id);
+    Future<List<ArmyDOM>> getAllArmies();
+    Future<List<ArmyDOM>> getArmyByFaction(FactionId factionId);
+    Future<void> deleteArmy(ArmyId id);
 }

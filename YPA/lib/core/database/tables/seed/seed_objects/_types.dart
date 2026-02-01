@@ -262,6 +262,28 @@ extension ArmyTypeCodeX on ArmyTypeCode
                 return FactionTypeCode.xenos;
         }
     }
+
+    static ArmyTypeCode? fromName(String name)
+    {
+      try
+      {
+        return ArmyTypeCode.values.firstWhere((e) => e.name == name);
+      } catch (_)
+      {
+        return null;
+      }
+    }
+
+    static ArmyTypeCode? fromCode(String name)
+    {
+      try
+      {
+        return ArmyTypeCode.values.firstWhere((e) => e.code == name);
+      } catch (_)
+      {
+        return null;
+      }
+    }
 }
 
 enum CodexTypeCode
@@ -307,7 +329,7 @@ enum CodexTypeCode
     tyranids
 
 }
-extension CodexCodeX on CodexTypeCode
+extension CodexTypeCodeX on CodexTypeCode
 {
     String get code
     {
