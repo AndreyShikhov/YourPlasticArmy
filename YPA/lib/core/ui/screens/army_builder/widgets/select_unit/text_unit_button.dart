@@ -63,7 +63,7 @@ class TextUnitButton extends ConsumerWidget
                                 color: Colors.redAccent,
                                 // Кнопка активна только если в армии есть хотя бы один такой юнит
                                 enabled: currentCount > 0,
-                                onTap: () => controller.removeLastUnitFromUserArmy(unit.dbId, UnitRoleCodeX.fromName(unit.role)!)
+                                onTap: () => controller.removeLastUnitFromUserArmy(unit.dbId, UnitRoleCode.fromName(unit.role)!)
                             ),
                             const SizedBox(width: 15),
                             // Текст с текущим количеством

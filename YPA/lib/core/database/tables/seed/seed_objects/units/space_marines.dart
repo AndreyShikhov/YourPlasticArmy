@@ -31,7 +31,6 @@ List<UnitSeed> spaceMarinesUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader

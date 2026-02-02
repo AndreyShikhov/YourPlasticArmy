@@ -122,7 +122,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
 
            final ArmyDOM? army  = await _getArmyById(ArmyId.fromString(armyState.armyId!));
            if(army != null){
-             state = state.copyWith(armyTypeCode: ArmyTypeCodeX.fromCode(army.code.value));
+             state = state.copyWith(armyTypeCode: ArmyTypeCode.fromCode(army.code.value));
            }
 
             // 4. ОБНОВЛЯЕМ СТЕЙТ ФИНАЛЬНО
@@ -146,7 +146,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
 
     UnitRoleCode? getUnitRoleCode()
     {
-        return UnitRoleCodeX.fromName(_role);
+        return UnitRoleCode.fromName(_role);
     }
 
     Future<List<UnitAbilityDOM>> getUnitAbility() async
@@ -181,7 +181,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
 
 
       return coreAbilities.where((ability) {
-        return state.unit!.coreAbilities.contains(CoreUnitAbilityCodeX.fromName(ability.code));
+        return state.unit!.coreAbilities.contains(CoreUnitAbilityCode.fromName(ability.code));
       }).toList();
     }
 
@@ -196,7 +196,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
       // 2. Создаем список Future-запросов для всех кодов способностей
 
       final List<Future<FactionUnitAbilityDOM?>> futures = state.unit!.factionAbilities
-          .map((abilityCode) => _getFactionsUnitAbilityByCode(FactionUnitAbilityCodeX.fromName(abilityCode.name)!.name))
+          .map((abilityCode) => _getFactionsUnitAbilityByCode(abilityCode.code))
           .toList();
 
       // 3. Дожидаемся завершения всех запросов одновременно

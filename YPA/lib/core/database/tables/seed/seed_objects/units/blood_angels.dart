@@ -289,7 +289,7 @@ List<UnitSeed> bloodAngelsUnits()
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              'not_ability'
+              'shock_assault'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader

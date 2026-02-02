@@ -94,7 +94,7 @@ class ArmyBuilderState
         }
 
         // 2. Преобразуем строковый заголовок (например, "Troops") в Enum UnitRoleCode
-        final roleCode = UnitRoleCodeX.fromName(role);
+        final roleCode = UnitRoleCode.fromName(role);
 
         // Если роль не распознана, возвращаем пустой список
         if (roleCode == null) return [];
@@ -143,7 +143,7 @@ class ArmyBuilderState
 
     int getAmountUnitsFromUserArmy(String role, String unitName) 
     {
-        final roleCode = UnitRoleCodeX.fromName(role);
+        final roleCode = UnitRoleCode.fromName(role);
 
         // 2. Если роль не валидна или список юнитов пуст — возвращаем 0
         if (roleCode == null || userArmyUnits == null || userArmyUnits!.isEmpty)

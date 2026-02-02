@@ -322,7 +322,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
 
             for (final entry in categoriesJson.entries)
             {
-                final roleCode = UnitRoleCodeX.fromName(entry.key);
+                final roleCode = UnitRoleCode.fromName(entry.key);
 
                 if (roleCode != null && entry.value is List)
                 {

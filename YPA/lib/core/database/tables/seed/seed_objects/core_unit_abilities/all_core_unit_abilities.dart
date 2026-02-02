@@ -9,26 +9,26 @@ List<CoreUnitAbilitySeed> allCoreUnitAbilities()
 {
     return [
         CoreUnitAbilitySeed(
-            code: CoreUnitAbilityCodeX(CoreUnitAbilityCode.leader).code,
-            name: CoreUnitAbilityCodeX(CoreUnitAbilityCode.leader).title,
+            code: CoreUnitAbilityCode.leader.code,
+            name: CoreUnitAbilityCode.leader.title,
             shortDescription: 'Reserve deployment',
             description: 'During the Declare Battle Formations step, you can set this unit up in Reserves instead of on the battlefield. In the Reinforcements step of one of your Movement phases, you can set this unit up anywhere on the battlefield that is more than 9" horizontally away from all enemy models.'
         ),
         CoreUnitAbilitySeed(
-            code: CoreUnitAbilityCodeX(CoreUnitAbilityCode.deepStrike).code,
-            name: CoreUnitAbilityCodeX(CoreUnitAbilityCode.deepStrike).title,
+            code: CoreUnitAbilityCode.deepStrike.code,
+            name: CoreUnitAbilityCode.deepStrike.title,
             shortDescription: 'Reserve deployment',
             description: 'During the Declare Battle Formations step, you can set this unit up in Reserves instead of on the battlefield. In the Reinforcements step of one of your Movement phases, you can set this unit up anywhere on the battlefield that is more than 9" horizontally away from all enemy models.'
         ),
         CoreUnitAbilitySeed(
-            code: CoreUnitAbilityCodeX(CoreUnitAbilityCode.scouts).code,
-            name: CoreUnitAbilityCodeX(CoreUnitAbilityCode.scouts).title,
+            code: CoreUnitAbilityCode.scouts.code,
+            name: CoreUnitAbilityCode.scouts.title,
             shortDescription: 'Reserve deployment',
             description: 'During the Declare Battle Formations step, you can set this unit up in Reserves instead of on the battlefield. In the Reinforcements step of one of your Movement phases, you can set this unit up anywhere on the battlefield that is more than 9" horizontally away from all enemy models.'
         ),
         CoreUnitAbilitySeed(
-            code: CoreUnitAbilityCodeX(CoreUnitAbilityCode.infiltrators).code,
-            name: CoreUnitAbilityCodeX(CoreUnitAbilityCode.infiltrators).title,
+            code: CoreUnitAbilityCode.infiltrators.code,
+            name: CoreUnitAbilityCode.infiltrators.title,
             shortDescription: 'Reserve deployment',
             description: 'During the Declare Battle Formations step, you can set this unit up in Reserves instead of on the battlefield. In the Reinforcements step of one of your Movement phases, you can set this unit up anywhere on the battlefield that is more than 9" horizontally away from all enemy models.'
         )

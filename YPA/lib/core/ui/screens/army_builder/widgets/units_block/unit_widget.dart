@@ -98,7 +98,7 @@ class UnitWidget extends ConsumerWidget
                                                     actionType: BTNunitActionType.remove,
                                                     onAction: ()
                                                     {
-                                                        final roleEnum = UnitRoleCodeX.fromName(unit.role)!;
+                                                        final roleEnum = UnitRoleCode.fromName(unit.role)!;
                                                         // Вызываем метод контроллера напрямую
                                                         ref.read(armyBuilderControllerProvider(armyId).notifier)
                                                             .removeLastUnitFromUserArmy(unit.dbId, roleEnum);
