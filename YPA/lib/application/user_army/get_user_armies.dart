@@ -14,6 +14,6 @@ class GetUserArmies
 
     Future<List<UserArmyDOM>> call() 
     {
-        return repository.findAll();
+        return repository.getAllUserArmy();
     }
 }

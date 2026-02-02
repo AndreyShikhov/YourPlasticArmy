@@ -44,7 +44,7 @@ class ArmyLystController extends StateNotifier<ArmyLystState>
         try
         {
             // ОПТИМИЗАЦИЯ: Используем новый метод с JOIN
-            final armyDataList = await _getUserArmies.repository.findAllWithCodexNames();
+            final armyDataList = await _getUserArmies.repository.getAllUserArmyWithCodexNames();
 
             final List<ArmyListItemUi> items = armyDataList.map((entry)
                 {

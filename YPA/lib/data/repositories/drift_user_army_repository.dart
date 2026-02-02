@@ -17,14 +17,14 @@ class DriftUserArmyRepository implements UserArmyRepository
     DriftUserArmyRepository(this.db);
 
     @override
-    Future<List<UserArmyDOM>> findAll() async
+    Future<List<UserArmyDOM>> getAllUserArmy() async
     {
         final rows = await db.select(db.userArmies).get();
         return rows.map((row) => UserArmyMapper.fromRow(row)).toList();
     }
 
     @override
-    Future<List<Map<UserArmyDOM, String>>> findAllWithCodexNames() async
+    Future<List<Map<UserArmyDOM, String>>> getAllUserArmyWithCodexNames() async
     {
         final query = db.select(db.userArmies).join([
                 innerJoin(db.codexes, db.codexes.id.equalsExp(db.userArmies.codexId))
@@ -40,7 +40,7 @@ class DriftUserArmyRepository implements UserArmyRepository
     }
 
     @override
-    Future<UserArmyDOM?> findUserArmyById(String id) async
+    Future<UserArmyDOM?> getUserArmyById(String id) async
     {
         final query = db.select(db.userArmies)..where((t) => t.id.equals(id));
         final row = await query.getSingleOrNull();
@@ -68,7 +68,7 @@ class DriftUserArmyRepository implements UserArmyRepository
     @override
     Future<void> removeLastUnitFromUserArmy(String armyId, UnitRoleCode role, String unitId) async
     {
-        final army = await findUserArmyById(armyId);
+        final army = await getUserArmyById(armyId);
         if (army != null) 
         {
             final updatedArmy = await army.removeLastUnitFromUserArmy(unitId, role.name);
@@ -79,7 +79,7 @@ class DriftUserArmyRepository implements UserArmyRepository
     @override
     Future<void> updateBattleSize(String armyId, BattleSizeCode newSize) async
     {
-        final army = await findUserArmyById(armyId);
+        final army = await getUserArmyById(armyId);
         if (army != null) 
         {
             final updatedArmy = army.updateBattleSize(newSize);
@@ -90,7 +90,7 @@ class DriftUserArmyRepository implements UserArmyRepository
     @override
     Future<void> dublecateUnitToUserArmy(String armyId, String instanceId, UnitRoleCode role) async
     {
-      final army = await findUserArmyById(armyId);
+      final army = await getUserArmyById(armyId);
       if (army != null) {
         // Вызываем логику домена
         final updatedArmy = await army.duplicateUnitInstance(instanceId, role.name);

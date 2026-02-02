@@ -19,7 +19,7 @@ class AddUnitToUserRoster
     }) async
     {
         // 1. Получаем армию
-        final army = await armyRepository.findUserArmyById(armyId);
+        final army = await armyRepository.getUserArmyById(armyId);
         // 2. Получаем юнит (чтобы знать, в какую категорию его положить)
         final unit = await unitRepository.findUnitByIdFromDb(UnitIdDom.fromString(unitId));
 

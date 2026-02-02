@@ -18,7 +18,7 @@ class UpdateUserArmyDetachment
         required DetachmentDOM newDetachment
     }) async
     {
-        final army = await repository.findUserArmyById(id);
+        final army = await repository.getUserArmyById(id);
         if (army != null) 
         {
             final updatedArmy = army.copyWith(detachment: newDetachment, detachmentId: newDetachment.id.value);
