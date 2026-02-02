@@ -196,7 +196,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
       // 2. Создаем список Future-запросов для всех кодов способностей
 
       final List<Future<FactionUnitAbilityDOM?>> futures = state.unit!.factionAbilities
-          .map((abilityCode) => _getFactionsUnitAbilityByCode(FactionUnitAbilityCodeX.fromName(abilityCode.name)!.SnakeName))
+          .map((abilityCode) => _getFactionsUnitAbilityByCode(FactionUnitAbilityCodeX.fromName(abilityCode.name)!.name))
           .toList();
 
       // 3. Дожидаемся завершения всех запросов одновременно

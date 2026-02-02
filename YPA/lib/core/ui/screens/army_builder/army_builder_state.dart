@@ -9,6 +9,7 @@ import 'package:ypa/core/ui/screens/army_builder/army_builder_item_ui.dart';
 
 import '../../../../domain/models/codex/codex.dart';
 import '../../../../domain/models/detachment/detachment.dart';
+import '../../../../domain/models/faction/faction.dart';
 
 class ArmyBuilderState
 {
@@ -17,6 +18,7 @@ class ArmyBuilderState
     final String userArmyName;
     final Map<BattleSizeCode, int>? battleSize;
     final int? currentPts;
+    final FactionId? factionId;
     final CodexDom? codex;
     final DetachmentDOM? detachment;
     final List<DetachmentDOM> allDetachments;
@@ -31,6 +33,7 @@ class ArmyBuilderState
         this.armyId,
         this.battleSize,
         this.currentPts,
+        this.factionId,
         this.codex,
         this.detachment,
         this.allDetachments = const[],
@@ -46,6 +49,7 @@ class ArmyBuilderState
         String? armyId,
         Map<BattleSizeCode, int>? battleSize,
         int? currentPts,
+        FactionId? factionId,
         CodexDom? codex,
         DetachmentDOM? detachment,
         List<DetachmentDOM>? allDetachments,
@@ -61,6 +65,7 @@ class ArmyBuilderState
             armyId: armyId ?? this.armyId,
             battleSize: battleSize ?? this.battleSize,
             currentPts: currentPts ?? this.currentPts,
+            factionId: factionId ?? this.factionId,
             codex: codex ?? this.codex,
             detachment: detachment ?? this.detachment,
             allDetachments: allDetachments ?? this.allDetachments,

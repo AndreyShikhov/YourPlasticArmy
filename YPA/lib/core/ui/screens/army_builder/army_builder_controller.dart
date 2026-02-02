@@ -256,6 +256,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             state = state.copyWith(
                 isLoading: false,
                 userArmyName: userArmy.userArmyName,
+                factionId: userArmy.factionId,
                 codex: codex,
                 detachment: savedDetachment,
                 allDetachments: allDetachments,

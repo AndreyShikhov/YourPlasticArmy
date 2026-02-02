@@ -49,31 +49,31 @@ class LeaderBloc extends ConsumerWidget
             runSpacing: 4, // Отступ между строками
             children: [
                 for (int i = 0; i < entries.length; i++) ...[
-                    Text(
-                        entries[i].key,
-                        style: TextStyle(
-                            color: entries[i].value
-                                ? CupertinoColors.systemYellow
-                                : CupertinoColors.white,
-                            fontSize: 14,
-                            fontWeight: entries[i].value ? FontWeight.bold : FontWeight.normal,
+                        Text(
+                            entries[i].key,
+                            style: TextStyle(
+                                color: entries[i].value
+                                    ? CupertinoColors.systemYellow
+                                    : CupertinoColors.white,
+                                fontSize: 14,
+                                fontWeight: entries[i].value ? FontWeight.bold : FontWeight.normal
+                            )
                         ),
-                    ),
-                    // Добавляем разделитель, если это не последний элемент
-                    if (i < entries.length - 1)
+                        // Добавляем разделитель, если это не последний элемент
+                        if (i < entries.length - 1)
                         const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 8),
                             child: Text(
                                 '|',
-                                style: TextStyle(color: CupertinoColors.systemGrey, fontSize: 12),
-                            ),
-                        ),
-                ]
-            ],
+                                style: TextStyle(color: CupertinoColors.systemGrey, fontSize: 12)
+                            )
+                        )
+                    ]
+            ]
         );
     }
 
-    Map<String, bool> _getUnitsInArmy(ArmyBuilderState armyState, ArmyTypeCode armyCode, CodexDom? codex, DetachmentDOM? detachment)
+    Map<String, bool> _getUnitsInArmy(ArmyBuilderState armyState, ArmyTypeCode armyCode, CodexDom? codex, DetachmentDOM? detachment) 
     {
         Set<String> unitNamesInUserArmy = _getAllUnitsNameInArmy(armyState);
 
@@ -81,25 +81,26 @@ class LeaderBloc extends ConsumerWidget
         Map<String, bool> result = {};
         for (LeaderFilter filter in filters)
         {
-            if (filter.army == armyCode)
-            {
-                names.addAll(filter.names);
-                if (filter.codex != null &&
-                    filter.codex != CodexTypeCode.none &&
-                    codex != null &&
-                    filter.codex!.code == codex.code.value)
-                {
-                    names.addAll(filter.names);
+            bool isFilterCodex = (filter.codex != CodexTypeCode.none);
+            bool isFilterDetachment = ( filter.detachmentCode != '');
 
-                    if (filter.detachmentCode != null &&
-                        detachment != null &&
-                        filter.detachmentCode == detachment.code.value)
-                    {
-                        names.addAll(filter.names);
-                    }
-                }
+            if ((filter.army == filter.army) && !isFilterCodex && !isFilterDetachment)
+            {
+              names.addAll(filter.names);
+              continue;
+            }
+
+            if(isFilterCodex && filter.codex!.code == codex?.code.value){
+              names.addAll(filter.names);
+              continue;
+            }
+
+            if(isFilterDetachment && filter.detachmentCode == detachment?.code.value){
+              names.addAll(filter.names);
+              continue;
             }
         }
+
 
         if (names.isNotEmpty)
         {

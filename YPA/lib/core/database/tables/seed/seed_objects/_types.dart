@@ -55,6 +55,17 @@ extension FactionTypeCodeX on FactionTypeCode
                 return 'Xenos';
         }
     }
+
+    static FactionTypeCode? fromName(String name)
+    {
+      try
+      {
+        return FactionTypeCode.values.firstWhere((e) => e.name == name);
+      } catch (_)
+      {
+        return null;
+      }
+    }
 }
 
 enum ArmyTypeCode
@@ -575,22 +586,6 @@ extension UnitRoleCodeX on UnitRoleCode
 {
     String get code => name;
 
-    String get SnakeName
-    {
-        switch (this)
-        {
-            case UnitRoleCode.characters:
-                return 'characters';
-            case UnitRoleCode.battleline:
-                return 'battleline';
-            case UnitRoleCode.dedicatedTransports:
-                return 'dedicated_transports';
-            case UnitRoleCode.fortifications:
-                return 'fortifications';
-            case UnitRoleCode.other:
-                return 'other';
-        }
-    }
 
     String get title
     {
@@ -659,50 +654,6 @@ extension WeaponAbilitiesCodeX on WeaponAbilitiesCode
 {
     String get code => name;
 
-    String get SnakeName
-    {
-        switch (this)
-        {
-            case WeaponAbilitiesCode.none:
-                return 'none';
-            case WeaponAbilitiesCode.assault:
-                return 'assault';
-            case WeaponAbilitiesCode.rapidFire:
-                return 'rapid_fire';
-            case WeaponAbilitiesCode.ignoresCover:
-                return 'ignores_cover';
-            case WeaponAbilitiesCode.twinLinked:
-                return 'twin_linked';
-            case WeaponAbilitiesCode.pistol:
-                return 'pistol';
-            case WeaponAbilitiesCode.torrent:
-                return 'torrent';
-            case WeaponAbilitiesCode.lethalHits:
-                return 'lethal_hits';
-            case WeaponAbilitiesCode.lance:
-                return 'lance';
-            case WeaponAbilitiesCode.indirectFire:
-                return 'indirect_fire';
-            case WeaponAbilitiesCode.blast:
-                return 'blast';
-            case WeaponAbilitiesCode.precision:
-                return 'precision';
-            case WeaponAbilitiesCode.melta:
-                return 'melta';
-            case WeaponAbilitiesCode.heavy:
-                return 'heavy';
-            case WeaponAbilitiesCode.hazardous:
-                return 'hazardous';
-            case WeaponAbilitiesCode.sustainedHits:
-                return 'sustained_hits';
-            case WeaponAbilitiesCode.extraAttacks:
-                return 'extra_attacks';
-            case WeaponAbilitiesCode.devastatingWounds:
-                return 'devastating_wounds';
-            case WeaponAbilitiesCode.anti:
-                return 'anti';
-        }
-    }
 
     String get title
     {
@@ -761,15 +712,6 @@ extension  FactionUnitAbilityCodeX on FactionUnitAbilityCode
 {
     String get code => name;
 
-    String get SnakeName
-    {
-        switch (this)
-        {
-            case FactionUnitAbilityCode.none: return 'none';
-            case FactionUnitAbilityCode.oathOfMoment: return 'oath_of_moment';
-
-        }
-    }
 
     String get title
     {
@@ -805,18 +747,6 @@ extension CoreUnitAbilityCodeX on CoreUnitAbilityCode
 {
     String get code => name;
 
-    String get SnakeName
-    {
-        switch (this)
-        {
-            case CoreUnitAbilityCode.none: return 'none';
-            case CoreUnitAbilityCode.leader: return 'leader';
-            case CoreUnitAbilityCode.deepStrike: return 'deep_strike';
-            case CoreUnitAbilityCode.scouts: return 'scouts';
-            case CoreUnitAbilityCode.infiltrators: return 'infiltrators';
-
-        }
-    }
 
     String get title
     {
@@ -854,17 +784,6 @@ extension StratagemsCodeX on StratagemsCode
 {
     String get code => name;
 
-    String get SnakeName
-    {
-        switch (this)
-        {
-            case StratagemsCode.none: return 'none';
-            case StratagemsCode.eitherPlayersTurn: return 'either_players_turn';
-            case StratagemsCode.yourTurn: return 'your_turn';
-            case StratagemsCode.opponentsTurn: return 'opponents_turn';
-
-        }
-    }
 
     String get title
     {
@@ -889,15 +808,6 @@ extension BattleSizeCodeX on BattleSizeCode
 {
     String get code => name;
 
-    String get SnakeName
-    {
-        switch (this)
-        {
-            case BattleSizeCode.incursion: return 'incursion';
-            case BattleSizeCode.strikeForce: return 'strike_force';
-            case BattleSizeCode.onslaught: return 'onslaught';
-        }
-    }
 
     String get title
     {
