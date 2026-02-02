@@ -9,17 +9,17 @@ import 'detachment.dart';
 abstract class DetachmentRepository
 {
     /// Создать или сохранить Detachment
-    Future<void> save(DetachmentDOM detachment);
+    Future<void> saveDetachment(DetachmentDOM detachment);
 
     /// Найти Detachment по ID
-    Future<DetachmentDOM?> findById(DetachmentId id);
+    Future<DetachmentDOM?> getDetachmentById(DetachmentId id);
 
     /// Найти Detachment  по CodexId
-    Future<List<DetachmentDOM>> findByCodex(CodexId codexId);
+    Future<List<DetachmentDOM>> getDetachmentByCodexId(CodexId codexId);
 
     /// Получить все Detachment
-    Future<List<DetachmentDOM>> findAll();
+    Future<List<DetachmentDOM>> getAllDetachment();
 
     /// Удалить Detachment
-    Future<void> delete(DetachmentId id);
+    Future<void> deleteDetachment(DetachmentId id);
 }

@@ -15,6 +15,6 @@ class GetAllDetachmentsByCodexId
     Future<List<DetachmentDOM>> call(CodexId codexId) 
     {
 
-        return repository.findByCodex(codexId);
+        return repository.getDetachmentByCodexId(codexId);
     }
 }

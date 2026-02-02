@@ -5,14 +5,14 @@
 
 import '../../domain/models/detachment/detachment.dart';
 
-class GetAllDetachments
-{
-    final DetachmentRepository repository;
 
-    GetAllDetachments(this.repository);
+class GetDetachmentById {
+  final DetachmentRepository repository;
 
-    Future<List<DetachmentDOM>> call() 
-    {
-        return repository.getAllDetachment();
-    }
+  GetDetachmentById(this.repository);
+
+  Future<DetachmentDOM?> call(DetachmentId detachmentId)
+  {
+    return repository.getDetachmentById(detachmentId);
+  }
 }

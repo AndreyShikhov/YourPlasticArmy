@@ -19,6 +19,7 @@ import 'package:ypa/domain/models/stratagem/stratagem_dom.dart';
 import 'package:ypa/domain/models/stratagem/stratagem_repository.dart';
 
 import '../../../application/detachment/detachments_use_cases.dart';
+import '../../../application/detachment/get_detachment_by_id.dart';
 
 // --- REPOSITORIES ---
 
@@ -65,6 +66,13 @@ final getAlldetachmentsByCodexIdUseCaseProvider = Provider<GetAllDetachmentsByCo
         final repository = ref.watch(detachmentRepositoryProvider);
         return GetAllDetachmentsByCodexId(repository);
     });
+
+final getDetachmentByIdUseCaseProvider = Provider<GetDetachmentById>((ref)
+    {
+        final repository = ref.watch(detachmentRepositoryProvider);
+        return GetDetachmentById(repository);
+    });
+
 
 // --- UI STATE ---
 

@@ -74,7 +74,7 @@ class UserArmyDOM
 
     /// Добавляет юнит в jsonData, соблюдая структуру категорий.
     /// [role] — это строковый код роли (например, 'Characters', 'Battleline'), который станет ключом в JSON.
-    Future<UserArmyDOM> addUnitToUserArmy(String unitId, String role) async
+    Future<UserArmyDOM> addUnitToUserArmy(String unitId, String role, int pts) async
     {
         // 1. Декодируем текущий JSON или создаем структуру по умолчанию
         Map<String, dynamic> root;
@@ -107,6 +107,7 @@ class UserArmyDOM
             {
                 "instanceId": const Uuid().v4(), // Уникальный ID отряда в ростере
                 "unitId": unitId,               // Ссылка на ID базового юнита из таблицы Units
+                "points": pts,                    // Cтоимость юнита"
                 "wargearOptions": {}           // Пока пустой объект опций
             };
 
@@ -186,4 +187,33 @@ class UserArmyDOM
             return this;
         }
     }
+
+
+    // ==========================================
+    // Getters
+    // ==========================================
+    int get totalPoints {
+      if (jsonData.isEmpty) return 0;
+
+      try {
+        final Map<String, dynamic> root = jsonDecode(jsonData);
+        final Map<String, dynamic> categories = root["categories"] ?? {};
+        int total = 0;
+
+        for (var unitList in categories.values) {
+          if (unitList is List)
+          {
+            for (var unitInstance in unitList) {
+              // Предполагаем, что при сохранении юнита в JSON
+              // мы записываем его текущую стоимость (points)
+              total += (unitInstance['points'] as int? ?? 0);
+            }
+          }
+        }
+        return total;
+      } catch (e) {
+        return 0;
+      }
+    }
+
 }

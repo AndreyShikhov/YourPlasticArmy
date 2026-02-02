@@ -22,7 +22,7 @@ class UnitWidget extends ConsumerWidget
 
     UnitWidget(
     {super.key,
-        required this.armyId, 
+        required this.armyId,
         required this.unit,
         required this.numberUnit
     });
@@ -38,9 +38,10 @@ class UnitWidget extends ConsumerWidget
     @override
     Widget build(BuildContext context, WidgetRef ref)
     {
-      final state = ref.watch(armyBuilderControllerProvider(armyId));
+        final state = ref.watch(armyBuilderControllerProvider(armyId));
 
-      bool isMaxUnitFromArmy = unit.repeat != state.getAmountUnitsFromUserArmy(unit.role, unit.name);
+        // Исправлено сравнение: проверяем, что текущее количество МЕНЬШЕ лимита
+        bool canDuplicate = unit.repeat > state.getAmountUnitsFromUserArmy(unit.role, unit.name);
 
         return Container(
             width: double.infinity,
@@ -53,63 +54,68 @@ class UnitWidget extends ConsumerWidget
             child: InkWell(
                 onTap: ()
                 {
-                  final String unitInsID = unit.instanceId;
-                  final String roleCode = unit.role;
-                  context.push('/game_screen/army_lyst/army_builder/$armyId/unit_editor/$roleCode/$unitInsID');
+                    final String unitInsID = unit.instanceId;
+                    final String roleCode = unit.role;
+                    context.push('/game_screen/army_lyst/army_builder/$armyId/unit_editor/$roleCode/$unitInsID');
                 },
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                        Row( // название юнита и стоимость
-                            children: [
-                                Text('${unit.name} ${_getRomeNumber(numberUnit)}', style: const TextStyle(color: Colors.white)),
-                                const Spacer(),
-                                Text(' ${unit.selectedComposition.keys.first} models / ${unit.selectedComposition.values.first} pts')
-                            ]
-                        ),
-                        Column( // все модели в юните
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                                Row(
-                                    children: [
-                                        Column(
+                child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+
+                            Row( // название юнита и стоимость
+                                children: [
+                                    Text('${unit.name} ${_getRomeNumber(numberUnit)}', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                                    const Spacer(),
+                                    Text(' ${unit.selectedComposition.keys.first} models / ${unit.selectedComposition.values.first} pts',
+                                        style: const TextStyle(color: Colors.white70, fontSize: 12))
+                                ]
+                            ),
+                            const SizedBox(height: 8),
+                            Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                    // 1. Оборачиваем список моделей в Expanded
+                                    Expanded(
+                                        child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                                 ..._getModelsWidgets()
                                             ]
-                                        ),
-                                        const Spacer(),
-                                        Row(
-                                            crossAxisAlignment: CrossAxisAlignment.end,
-                                            children: [
-                                              if(isMaxUnitFromArmy)
-                                                BTNActionUnit(
-                                                    bgColor: Colors.black26,
-                                                    actionType: BTNunitActionType.dublicate,
-                                                    onAction: ()
-                                                    {
-                                                        // Вызываем метод контроллера напрямую
-                                                        ref.read(armyBuilderControllerProvider(armyId).notifier)
-                                                            .addUnitToUserArmy(unit.dbId);
-                                                    }
-                                                ),
-                                                SizedBox(width: 30),
-                                                BTNActionUnit(
-                                                    bgColor: Colors.black26,
-                                                    actionType: BTNunitActionType.remove,
-                                                    onAction: ()
-                                                    {
-                                                        final roleEnum = UnitRoleCode.fromName(unit.role)!;
-                                                        // Вызываем метод контроллера напрямую
-                                                        ref.read(armyBuilderControllerProvider(armyId).notifier)
-                                                            .removeLastUnitFromUserArmy(unit.dbId, roleEnum);
-                                                    }
-                                                )
-                                            ]
                                         )
-                                    ]
-                                )]
-                        )
-                    ]
+                                    ),
+                                    // 2. Кнопки действий (Row автоматически прижмется вправо из-за Expanded слева)
+                                    Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                            if(canDuplicate)
+                                            BTNActionUnit(
+                                                bgColor: Colors.black26,
+                                                actionType: BTNunitActionType.dublicate,
+                                                onAction: ()
+                                                {
+                                                    ref.read(armyBuilderControllerProvider(armyId).notifier)
+                                                        .addUnitToUserArmy(unit.dbId);
+                                                }
+                                            ),
+                                            const SizedBox(width: 8),
+                                            BTNActionUnit(
+                                                bgColor: Colors.black26,
+                                                actionType: BTNunitActionType.remove,
+                                                onAction: ()
+                                                {
+                                                    final roleEnum = UnitRoleCode.fromName(unit.role)!;
+                                                    ref.read(armyBuilderControllerProvider(armyId).notifier)
+                                                        .removeLastUnitFromUserArmy(unit.dbId, roleEnum);
+                                                }
+                                            )
+                                        ]
+                                    )
+                                ]
+                            )
+                        ]
+                    )
                 )
             )
         );
@@ -119,28 +125,17 @@ class UnitWidget extends ConsumerWidget
     {
         switch (arabianNumber)
         {
-            case 1:
-                return 'I';
-            case 2:
-                return 'II';
-            case 3:
-                return 'III';
-            case 4:
-                return 'IV';
-            case 5:
-                return 'V';
-            case 6:
-                return 'VI';
-            case 7:
-                return 'VII';
-            case 8:
-                return 'VIII';
-            case 9:
-                return 'IX';
-            case 10:
-                return 'X';
-            default:
-            return '';
+            case 1: return 'I';
+            case 2: return 'II';
+            case 3: return 'III';
+            case 4: return 'IV';
+            case 5: return 'V';
+            case 6: return 'VI';
+            case 7: return 'VII';
+            case 8: return 'VIII';
+            case 9: return 'IX';
+            case 10: return 'X';
+            default: return '';
         }
     }
 }

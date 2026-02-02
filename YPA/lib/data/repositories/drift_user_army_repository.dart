@@ -24,19 +24,22 @@ class DriftUserArmyRepository implements UserArmyRepository
     }
 
     @override
-    Future<List<Map<UserArmyDOM, String>>> getAllUserArmyWithCodexNames() async
-    {
-        final query = db.select(db.userArmies).join([
-                innerJoin(db.codexes, db.codexes.id.equalsExp(db.userArmies.codexId))
-            ]);
+    Future<List<Map<UserArmyDOM, (String, String?)>>> getAllUserArmyWithCodexNames() async {
+      final query = db.select(db.userArmies).join([
+        innerJoin(db.codexes, db.codexes.id.equalsExp(db.userArmies.codexId)),
+        leftOuterJoin(db.detachments, db.detachments.id.equalsExp(db.userArmies.detachmentId)),
+      ]);
 
-        final rows = await query.get();
-        return rows.map((row)
-            {
-                final userArmyRow = row.readTable(db.userArmies);
-                final codexRow = row.readTable(db.codexes);
-                return {UserArmyMapper.fromRow(userArmyRow): codexRow.name};
-            }).toList();
+      final rows = await query.get();
+      return rows.map((row) {
+        final userArmyRow = row.readTable(db.userArmies);
+        final codexRow = row.readTable(db.codexes);
+        final detachmentRow = row.readTableOrNull(db.detachments);
+
+        return {
+          UserArmyMapper.fromRow(userArmyRow): (codexRow.name, detachmentRow?.name)
+        };
+      }).toList();
     }
 
     @override

@@ -94,30 +94,44 @@ class ArmyListScreen extends ConsumerWidget
 
                     const SizedBox(width: 8),
 
-                    Expanded(
-                        child: SizedBox(
-                            height: 60,
-                            child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color.fromARGB(255, 60, 60, 60),
-                                    shape: RoundedRectangleBorder(borderRadius: YPABorderRadius)
-                                ),
-                                onPressed: () async
-                                {
-                                    await context.push('/game_screen/army_lyst/army_builder/${item.id}');
-
-                                    ref.read(armyLystControllerProvider.notifier).loadArmies();
-                                },
-                                child: Text(
-                                    _generateTextButton(item),
-                                    style: const TextStyle(color: Colors.white, fontSize: 14),
-                                    textAlign: TextAlign.center,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis
-                                )
-                            )
-                        )
-                    ),
+                  Expanded(
+                      child: SizedBox(
+                          height: 60,
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4), // 2. Уменьшаем отступы
+                                  backgroundColor: const Color.fromARGB(255, 60, 60, 60),
+                                  shape: RoundedRectangleBorder(borderRadius: YPABorderRadius)
+                              ),
+                              onPressed: () async
+                              {
+                                await context.push('/game_screen/army_lyst/army_builder/${item.id}');
+                                ref.read(armyLystControllerProvider.notifier).loadArmies();
+                              },
+                              child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center, // 3. Центрируем текст по вертикали
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                        _generateTitleTextButton(item),
+                                        style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold),
+                                        textAlign: TextAlign.start,
+                                        maxLines: 1, // Ограничиваем в 1 строку для безопасности в 60px
+                                        overflow: TextOverflow.ellipsis
+                                    ),
+                                    const SizedBox(height: 2),
+                                    Text(
+                                        _generateDescriptionTextButton(item),
+                                        style: const TextStyle(color: Colors.white70, fontSize: 11),
+                                        textAlign: TextAlign.start,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis
+                                    )
+                                  ]
+                              )
+                          )
+                      )
+                  ),
 
                     const SizedBox(width: 8),
 
@@ -142,16 +156,21 @@ class ArmyListScreen extends ConsumerWidget
         );
     }
 
-    String _generateTextButton(ArmyListItemUi item)
+    String _generateTitleTextButton(ArmyListItemUi item)
     {
+        return '${item.codexName}: ${item.title}';
+    }
 
-        String res = '${item.codexName}: ${item.title} ';
+    String _generateDescriptionTextButton(ArmyListItemUi item)
+    {
+        String res = '';
+        String strEnd = ' ${item.currentPts} / ${item.maxPts} pts';
 
-        if (item.detachment != null && item.detachment!.isNotEmpty) {
-
-          res += '\n${item.detachment}';
+        if (item.detachment != null && item.detachment!.isNotEmpty) 
+        {
+            res += '${item.detachment}';
         }
-        return res; //'${item.codexName}: ${item.title} (${item.pts} pts)';
+        return res + strEnd; //'${item.codexName}: ${item.title} (${item.pts} pts)';
     }
 
     Future<void> _onDeleteArmyById(BuildContext context, WidgetRef ref, ArmyListItemUi item) async

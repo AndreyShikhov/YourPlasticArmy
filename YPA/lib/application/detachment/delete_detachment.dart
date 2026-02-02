@@ -26,7 +26,7 @@ class UpdateDetachment
         final detachmentId = DetachmentId.fromString(id);
 
         final existing =
-            await repository.findById(detachmentId);
+            await repository.getDetachmentById(detachmentId);
 
         if (existing == null) 
         {
@@ -44,7 +44,7 @@ class UpdateDetachment
             ruleFull: DetachmentRuleFull(dtRuleFull)
         );
 
-        await repository.save(updated);
+        await repository.saveDetachment(updated);
 
         return updated;
     }

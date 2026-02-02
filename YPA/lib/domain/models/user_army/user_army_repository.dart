@@ -9,7 +9,7 @@ import 'user_army_dom.dart';
 abstract class UserArmyRepository
 {
     Future<List<UserArmyDOM>> getAllUserArmy();
-    Future<List<Map<UserArmyDOM, String>>> getAllUserArmyWithCodexNames();
+    Future<List<Map<UserArmyDOM, (String, String?)>>> getAllUserArmyWithCodexNames();
     Future<UserArmyDOM?> getUserArmyById(String id);
     Future<void> saveUserArmy(UserArmyDOM userArmy);
     Future<void> deleteUserArmy(String id);

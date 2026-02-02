@@ -22,7 +22,7 @@ class CreateDetachment
         required String dtRuleFull
     }) async
     {
-        final all = await repository.findAll();
+        final all = await repository.getAllDetachment();
 
         final existing = all.where(
             (d) =>
@@ -45,7 +45,7 @@ class CreateDetachment
             ruleFull: DetachmentRuleFull(dtRuleFull)
         );
 
-        await repository.save(detachment);
+        await repository.saveDetachment(detachment);
 
         return detachment;
     }

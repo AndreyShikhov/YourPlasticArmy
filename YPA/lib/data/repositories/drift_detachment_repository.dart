@@ -17,7 +17,7 @@ class DriftDetachmentRepository implements DetachmentRepository
     DriftDetachmentRepository(this.db);
 
     @override
-    Future<void> save(DetachmentDOM detachment) async
+    Future<void> saveDetachment(DetachmentDOM detachment) async
     {
         final companion = DetachmentMapper.toCompanion(detachment);
 
@@ -25,7 +25,7 @@ class DriftDetachmentRepository implements DetachmentRepository
     }
 
     @override
-    Future<List<DetachmentDOM>> findByCodex(CodexId codexId) async
+    Future<List<DetachmentDOM>> getDetachmentByCodexId(CodexId codexId) async
     {
         final query = db.select(db.detachments).join([
                 innerJoin(db.codexDetachments, db.codexDetachments.detachmentId.equalsExp(db.detachments.id))
@@ -41,7 +41,7 @@ class DriftDetachmentRepository implements DetachmentRepository
     }
 
     @override
-    Future<DetachmentDOM?> findById(DetachmentId id) async
+    Future<DetachmentDOM?> getDetachmentById(DetachmentId id) async
     {
         final query = db.select(db.detachments)..where((tbl) => tbl.id.equals(id.value));
 
@@ -52,7 +52,7 @@ class DriftDetachmentRepository implements DetachmentRepository
     }
 
     @override
-    Future<List<DetachmentDOM>> findAll() async
+    Future<List<DetachmentDOM>> getAllDetachment() async
     {
         final rows = await db.select(db.detachments).get();
 
@@ -60,7 +60,7 @@ class DriftDetachmentRepository implements DetachmentRepository
     }
 
     @override
-    Future<void> delete(DetachmentId id) async
+    Future<void> deleteDetachment(DetachmentId id) async
     {
         await (db.delete(db.detachments)..where((tbl) => tbl.id.equals(id.value))).go();
     }

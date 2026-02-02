@@ -10,7 +10,7 @@ class ArmyListItemUi
     final String title;
     final String? detachment;
     final int currentPts;
-    final int? maxPTS;
+    final int? maxPts;
 
     ArmyListItemUi({
         required this.id, 
@@ -18,6 +18,6 @@ class ArmyListItemUi
         required this.title, 
         this.detachment,
         required this.currentPts,
-        this.maxPTS
+        this.maxPts
     });
 }
