@@ -55,7 +55,9 @@ class ArmyLystController extends StateNotifier<ArmyLystState>
                         id: army.id,
                         title: army.userArmyName,
                         codexName: codexName, // Название кодекса уже пришло из JOIN
-                        pts: 0
+                        detachment: army.detachment?.name.value ?? '',
+                        currentPts: 0,
+                        maxPTS: army.battleSize!.total,
                     );
                 }).toList();
 

@@ -31,7 +31,7 @@ class CreateUserArmy
             factionId: factionId,
             armyId: armyId,
             codexId: codexId,
-            selectedBattleSize: BattleSize.base(),
+            battleSize: BattleSize.base(),
             jsonData: '{"version": 1, "units": []}',
             createdAt: DateTime.now()
         );

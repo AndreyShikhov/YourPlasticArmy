@@ -247,7 +247,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             final List<ArmyBuilderUnitItemUi> allUnitsFromDb = await getAllUnitsByArmyId(userArmy.armyId);
             allUnitsFromDb.addAll(await getAllUnitsByCodexId(userArmy.codexId));
 
-            final sb = userArmy.selectedBattleSize;
+            final sb = userArmy.battleSize;
             final selectedCode = sb?.selected;
             final Map<BattleSizeCode, int> battleSizeMap = (sb != null && selectedCode != null)
                 ? {selectedCode: sb.total}

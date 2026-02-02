@@ -22,7 +22,7 @@ class UserArmyDOM
     final CodexId codexId;
     final String? detachmentId;
     final DetachmentDOM? detachment;
-    final BattleSize? selectedBattleSize;
+    final BattleSize? battleSize;
     final String jsonData;
     final DateTime createdAt;
 
@@ -34,7 +34,7 @@ class UserArmyDOM
         required this.codexId,
         this.detachmentId,
         this.detachment,
-        this.selectedBattleSize,
+        this.battleSize,
         required this.jsonData,
         required this.createdAt
     });
@@ -46,7 +46,7 @@ class UserArmyDOM
         ArmyId? armyId,
         String? detachmentId,
         DetachmentDOM? detachment,
-        BattleSize? selectedBattleSize,
+        BattleSize? battleSize,
         String? jsonData
     })
     {
@@ -58,7 +58,7 @@ class UserArmyDOM
             codexId: this.codexId,
             detachmentId: detachmentId ?? this.detachmentId,
             detachment: detachment ?? this.detachment,
-            selectedBattleSize: selectedBattleSize ?? this.selectedBattleSize,
+            battleSize: battleSize ?? this.battleSize,
             jsonData: jsonData ?? this.jsonData,
             createdAt: this.createdAt
         );
@@ -68,7 +68,7 @@ class UserArmyDOM
     UserArmyDOM updateBattleSize(BattleSizeCode newSize)
     {
         return copyWith(
-            selectedBattleSize: BattleSize.selected(newSize)
+            battleSize: BattleSize.selected(newSize)
         );
     }
 

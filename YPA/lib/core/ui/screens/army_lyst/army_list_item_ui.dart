@@ -8,7 +8,16 @@ class ArmyListItemUi
     final String id; // UUID
     final String codexName;
     final String title;
-    final int pts;
+    final String? detachment;
+    final int currentPts;
+    final int? maxPTS;
 
-    ArmyListItemUi({required this.id, required this.codexName, required this.title, required this.pts});
+    ArmyListItemUi({
+        required this.id, 
+        required this.codexName, 
+        required this.title, 
+        this.detachment,
+        required this.currentPts,
+        this.maxPTS
+    });
 }

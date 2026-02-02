@@ -18,7 +18,7 @@ class ArmyListScreen extends ConsumerWidget
     const ArmyListScreen({super.key});
 
     @override
-    Widget build(BuildContext context, WidgetRef ref) 
+    Widget build(BuildContext context, WidgetRef ref)
     {
         final state = ref.watch(armyLystControllerProvider);
         final scrollController = ScrollController();
@@ -72,13 +72,13 @@ class ArmyListScreen extends ConsumerWidget
         );
     }
 
-    Widget _buildArmyButton(BuildContext context, WidgetRef ref, ArmyListItemUi item) 
+    Widget _buildArmyButton(BuildContext context, WidgetRef ref, ArmyListItemUi item)
     {
         return Padding(
             padding: const EdgeInsets.only(bottom: 10.0),
             child: Row(
                 children: [
-                    SizedBox(
+                    SizedBox( //  button delet
                         height: 60,
                         width: 50,
                         child: ElevatedButton(
@@ -142,9 +142,16 @@ class ArmyListScreen extends ConsumerWidget
         );
     }
 
-    String _generateTextButton(ArmyListItemUi item) 
+    String _generateTextButton(ArmyListItemUi item)
     {
-        return '${item.codexName}: ${item.title} (${item.pts} pts)';
+
+        String res = '${item.codexName}: ${item.title} ';
+
+        if (item.detachment != null && item.detachment!.isNotEmpty) {
+
+          res += '\n${item.detachment}';
+        }
+        return res; //'${item.codexName}: ${item.title} (${item.pts} pts)';
     }
 
     Future<void> _onDeleteArmyById(BuildContext context, WidgetRef ref, ArmyListItemUi item) async
@@ -156,7 +163,7 @@ class ArmyListScreen extends ConsumerWidget
             ConfirmDialog(title: 'Delete Army?', message: 'Are you sure you want to delete "${item.title}"?')
         );
 
-        if (confirmed == true) 
+        if (confirmed == true)
         {
             await ref.read(armyLystControllerProvider.notifier).deleteArmy(item.id);
             await ref.read(armyLystControllerProvider.notifier).loadArmies();
