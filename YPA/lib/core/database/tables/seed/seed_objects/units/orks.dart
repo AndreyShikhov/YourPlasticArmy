@@ -22,12 +22,11 @@ List<UnitSeed> orksUnits()
             repeat: 6,
             keywords: const['Infantry', 'Battleline', 'Mob', 'Orks'],
             factionKeywords: const['Waaagh! Tribe'],
-            unitComposition: const UnitComposition(
+            unitComposition: const UnitCompositionDom(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -84,7 +83,7 @@ List<UnitSeed> orksUnits()
                             WeaponType.melee : ['Choppa']
                         }
                     ),
-                    wargearOptions: WargearOptions.emptyOptions
+                    wargearOptions: WargearOptionsDom.emptyOptions
                 )
             }
         )

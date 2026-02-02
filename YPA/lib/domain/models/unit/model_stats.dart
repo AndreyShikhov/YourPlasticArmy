@@ -10,16 +10,18 @@ import 'model_weapons.dart';
 // UNIT COMPOSITION
 // ==========================================
 
-class UnitComposition
+class UnitCompositionDom
 {
     final List<String> compositions;
     final List<Map<int, int>> unitCost;   // key - amount models / value - pts
     final Map<int, int>? selectedComposition; // key - amount models / value - pts
+    final List<AdditionalModelDom>? additionalModels; // дополниельные можели в юните котоыре не укладываются в стандартный composition
 
-    const UnitComposition({
+    const UnitCompositionDom({
         required this.compositions,
         required this.unitCost,
-        this.selectedComposition
+        this.selectedComposition,
+        this.additionalModels
     });
 
     // ==========================================
@@ -39,7 +41,7 @@ class UnitComposition
         'selectedComposition': selectedComposition?.map((key, value) => MapEntry(key.toString(), value))
     };
 
-    factory UnitComposition.fromJson(Map<String, dynamic> json)
+    factory UnitCompositionDom.fromJson(Map<String, dynamic> json)
     {
         final rawList = json['unitCost'] as List<dynamic>? ?? [];
         final parsedCost = rawList.map((item)
@@ -51,25 +53,48 @@ class UnitComposition
         final rawSelected = json['selectedComposition'] as Map<String, dynamic>?;
         final Map<int, int>? parsedSelected = rawSelected?.map((key, value) => MapEntry(int.parse(key), value as int));
 
-        return UnitComposition(
+        return UnitCompositionDom(
             compositions: List<String>.from(json['composition'] ?? []),
             unitCost: parsedCost,
             selectedComposition: parsedSelected
         );
     }
 
-    static const UnitComposition emptyComposition = UnitComposition(compositions: [], unitCost: [], selectedComposition: {});
+    static const UnitCompositionDom emptyComposition = UnitCompositionDom(compositions: [], unitCost: [], selectedComposition: {});
 }
 
+class AdditionalModelDom {
+  final String name;
+  final int cost;
+  final bool isSelected;
+
+  const AdditionalModelDom({
+    required this.name,
+    required this.cost,
+    this.isSelected = false,
+  });
+
+  Map<String, dynamic> toJson() => {
+    'name': name,
+    'cost': cost,
+    'isSelected': isSelected,
+  };
+
+  factory AdditionalModelDom.fromJson(Map<String, dynamic> json) => AdditionalModelDom(
+    name: json['name'] as String,
+    cost: json['cost'] as int,
+    isSelected: json['isSelected'] as bool? ?? false,
+  );
+}
 // ==========================================
 // WARGEAR OPTIONS
 // ==========================================
 
-class WargearOptions
+class WargearOptionsDom
 {
     final List<Map<String, List<String>>> wargearOptions;
 
-    const WargearOptions({
+    const WargearOptionsDom({
         required this.wargearOptions
     });
 
@@ -78,7 +103,7 @@ class WargearOptions
         'wargear_options': wargearOptions
     };
 
-    factory WargearOptions.fromJson(Map<String, dynamic> json)
+    factory WargearOptionsDom.fromJson(Map<String, dynamic> json)
     {
         final rawOptions = (json['wargear_options'] as List<dynamic>?) ?? [];
         final List<Map<String, List<String>>> parsedOptions = rawOptions.map((item)
@@ -90,17 +115,17 @@ class WargearOptions
                     });
             }).toList();
 
-        return WargearOptions(wargearOptions: parsedOptions);
+        return WargearOptionsDom(wargearOptions: parsedOptions);
     }
 
-    static const WargearOptions emptyOptions = WargearOptions(wargearOptions: []);
+    static const WargearOptionsDom emptyOptions = WargearOptionsDom(wargearOptions: []);
 }
 
 // ==========================================
 // Leader
 // ==========================================
 
-class LeaderFilter
+class LeaderFilterDom
 {
     final FactionTypeCode faction;
     final ArmyTypeCode army;
@@ -108,11 +133,11 @@ class LeaderFilter
     final String? detachmentCode;
     final List<String> names;
 
-    const LeaderFilter({
+    const LeaderFilterDom({
         required this.faction,
         required this.army,
-       this.codex,
-       this.detachmentCode,
+        this.codex,
+        this.detachmentCode,
         required this.names
     });
 
@@ -129,10 +154,10 @@ class LeaderFilter
         'names': names
     };
 
-    factory LeaderFilter.fromJson(Map<String, dynamic> json)
+    factory LeaderFilterDom.fromJson(Map<String, dynamic> json)
     {
-        return LeaderFilter(
-            faction: FactionTypeCode.values.byName(json['faction'] as String? ?? FactionTypeCode.none.name) ,
+        return LeaderFilterDom(
+            faction: FactionTypeCode.values.byName(json['faction'] as String? ?? FactionTypeCode.none.name),
             army: ArmyTypeCode.values.byName(json['army'] as String? ?? ArmyTypeCode.none.name),
             codex: CodexTypeCode.values.byName(json['codex'] as String? ?? CodexTypeCode.none.name),
             detachmentCode: json['detachment'] as String? ?? '',
@@ -157,7 +182,7 @@ class ModelStatsDom
     final int leadership;
     final int objectiveControl;
     final ModelWeaponsDom modelWeapons;
-    final WargearOptions wargearOptions;
+    final WargearOptionsDom wargearOptions;
 
     const ModelStatsDom({
         this.isNeedShow = true,
@@ -199,7 +224,7 @@ class ModelStatsDom
             leadership: json['leadership'] as int? ?? 6,
             objectiveControl: json['objectiveControl'] as int? ?? 0,
             modelWeapons: ModelWeaponsDom.fromJson(json['modelWeapons'] as Map<String, dynamic>? ?? {}),
-            wargearOptions: WargearOptions.fromJson(json['wargearOptions'] as Map<String, dynamic>? ?? {})
+            wargearOptions: WargearOptionsDom.fromJson(json['wargearOptions'] as Map<String, dynamic>? ?? {})
         );
     }
 
@@ -215,7 +240,7 @@ class ModelStatsDom
             leadership: 0,
             objectiveControl: 0,
             modelWeapons: ModelWeaponsDom.emptyOptions,
-            wargearOptions: WargearOptions.emptyOptions
+            wargearOptions: WargearOptionsDom.emptyOptions
         );
     }
 }
@@ -225,12 +250,12 @@ class UnitStatsDom
     final int repeat;
     final List<String> keywords;
     final List<String> factionKeywords;
-    final UnitComposition unitComposition;
+    final UnitCompositionDom unitComposition;
     final List<String> unitAbility;
     final List<CoreUnitAbilityCode> coreAbilities;
     final List<FactionUnitAbilityCode> factionAbilities;
-    final List<LeaderFilter> leader;
-    final List<LeaderFilter> ledBy;
+    final List<LeaderFilterDom> leader;
+    final List<LeaderFilterDom> ledBy;
     final Map<String, ModelStatsDom> modelStats; // Характеристики моделей юнита
 
     const UnitStatsDom({
@@ -268,12 +293,12 @@ class UnitStatsDom
             repeat: json['repeat'] as int? ?? 1,
             keywords: List<String>.from(json['keywords'] ?? []),
             factionKeywords: List<String>.from(json['factionKeywords'] ?? []),
-            unitComposition: UnitComposition.fromJson(json['unitComposition'] ?? {}),
+            unitComposition: UnitCompositionDom.fromJson(json['unitComposition'] ?? {}),
             unitAbility: List<String>.from(json['unitAbilities'] ?? []),
             coreAbilities: (json['coreAbilities'] as List? ?? []).map((e) => CoreUnitAbilityCode.values.byName(e)).toList(),
             factionAbilities: (json['factionAbilities'] as List? ?? []).map((e) => FactionUnitAbilityCode.values.byName(e)).toList(),
-            leader: (json['leader'] as List? ?? []).map((l) => LeaderFilter.fromJson(l as Map<String, dynamic>)).toList(),
-            ledBy: (json['ledBy'] as List? ?? []).map((l) => LeaderFilter.fromJson(l as Map<String, dynamic>)).toList(),
+            leader: (json['leader'] as List? ?? []).map((l) => LeaderFilterDom.fromJson(l as Map<String, dynamic>)).toList(),
+            ledBy: (json['ledBy'] as List? ?? []).map((l) => LeaderFilterDom.fromJson(l as Map<String, dynamic>)).toList(),
             modelStats: modelsRaw.map((key, value) => MapEntry(key, ModelStatsDom.fromJson(value)))
         );
     }
@@ -282,7 +307,7 @@ class UnitStatsDom
         repeat: 1,
         keywords: [],
         factionKeywords: [],
-        unitComposition: UnitComposition.emptyComposition,
+        unitComposition: UnitCompositionDom.emptyComposition,
         unitAbility: [],
         coreAbilities: [],
         factionAbilities: [],

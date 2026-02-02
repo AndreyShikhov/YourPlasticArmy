@@ -19,7 +19,7 @@ class LeaderBloc extends ConsumerWidget
     final String armyId;
     final String instanceId;
     final String roleCode;
-    final List<LeaderFilter> filters;
+    final List<LeaderFilterDom> filters;
 
     const LeaderBloc({
         super.key,
@@ -79,7 +79,7 @@ class LeaderBloc extends ConsumerWidget
 
         Set<String> names = {};
         Map<String, bool> result = {};
-        for (LeaderFilter filter in filters)
+        for (LeaderFilterDom filter in filters)
         {
             bool isFilterCodex = (filter.codex != CodexTypeCode.none);
             bool isFilterDetachment = ( filter.detachmentCode != '');

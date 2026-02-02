@@ -16,12 +16,12 @@ class UnitEditorItemUi
     final int repeat;
     final List<String> keywords;
     final List<String> factionKeywords;
-    final UnitComposition unitComposition;
+    final UnitCompositionDom unitComposition;
     final List<String> unitAbility;
     final List<CoreUnitAbilityCode> coreAbilities;
     final List<FactionUnitAbilityCode> factionAbilities;
-    final List<LeaderFilter> leader;
-    final List<LeaderFilter> ledBy;
+    final List<LeaderFilterDom> leader;
+    final List<LeaderFilterDom> ledBy;
     final Map<String, ModelStatsDom> modelStats;
     final Map<int, int> selectedComposition;
 

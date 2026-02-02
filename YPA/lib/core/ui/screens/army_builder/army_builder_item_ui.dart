@@ -16,12 +16,12 @@ class ArmyBuilderUnitItemUi
     final int repeat;
     final List<String> keywords;
     final List<String> factionKeywords;
-    final UnitComposition unitComposition;
+    final UnitCompositionDom unitComposition;
     final List<String> unitAbility;
     final List<CoreUnitAbilityCode> coreAbilities;
     final List<FactionUnitAbilityCode> factionAbilities;
-    final List<LeaderFilter> leader;
-    final List<LeaderFilter> ledBy;
+    final List<LeaderFilterDom> leader;
+    final List<LeaderFilterDom> ledBy;
     final Map<String, ModelStatsDom> modelStats;
     final Map<int, int> selectedComposition;
 
@@ -78,7 +78,7 @@ class ArmyBuilderUnitItemUi
             repeat: json['repeat'] ?? '1',
             keywords: List<String>.from(json['keywords'] ?? []),
             factionKeywords: List<String>.from(json['factionKeywords'] ?? []),
-            unitComposition: UnitComposition.fromJson(json['unitComposition'] ?? {}),
+            unitComposition: UnitCompositionDom.fromJson(json['unitComposition'] ?? {}),
             unitAbility: List<String>.from(json['unitAbility'] ?? []),
             coreAbilities: (json['coreAbilities'] as List? ?? [])
                 .map((e) => CoreUnitAbilityCode.values.byName(e))
@@ -86,8 +86,8 @@ class ArmyBuilderUnitItemUi
             factionAbilities: (json['factionAbilities'] as List? ?? [])
                 .map((e) => FactionUnitAbilityCode.values.byName(e))
                 .toList(),
-            leader:   (json['leader'] as List ?? []).map((l) => LeaderFilter.fromJson(l as Map<String, dynamic>)).toList(),
-            ledBy: (json['ledBy'] as List ?? []).map((l) => LeaderFilter.fromJson(l as Map<String, dynamic>)).toList(),
+            leader:   (json['leader'] as List ?? []).map((l) => LeaderFilterDom.fromJson(l as Map<String, dynamic>)).toList(),
+            ledBy: (json['ledBy'] as List ?? []).map((l) => LeaderFilterDom.fromJson(l as Map<String, dynamic>)).toList(),
             modelStats: modelStatsRaw.map((k, v) => MapEntry(k, ModelStatsDom.fromJson(v))),
             selectedComposition: selectedCompRaw.map((k, v) => MapEntry(int.parse(k), v as int))
         );
@@ -103,7 +103,7 @@ class ArmyBuilderUnitItemUi
             repeat: 1,
             keywords: [],
             factionKeywords: [],
-            unitComposition: UnitComposition.emptyComposition,
+            unitComposition: UnitCompositionDom.emptyComposition,
             unitAbility: [],
             coreAbilities: [],
             factionAbilities: [],

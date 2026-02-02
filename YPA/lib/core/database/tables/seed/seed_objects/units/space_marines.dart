@@ -26,7 +26,7 @@ List<UnitSeed> spaceMarinesUnits()
                 'Tacticus'
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
-            unitComposition: const UnitComposition(
+            unitComposition: const UnitCompositionDom(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
             ),
@@ -40,7 +40,7 @@ List<UnitSeed> spaceMarinesUnits()
             ],
             ledBy: const[],
             leader: [
-                LeaderFilter(
+                LeaderFilterDom(
                     faction: FactionTypeCode.imperium,
                     army: ArmyTypeCode.spaceMarines,
                     names: [
@@ -53,14 +53,14 @@ List<UnitSeed> spaceMarinesUnits()
                         'Sternguard Veteran Squad',
                         'Tactical Squad'
                     ]),
-                LeaderFilter(
+                LeaderFilterDom(
                     faction: FactionTypeCode.imperium,
                     army: ArmyTypeCode.spaceMarines,
                     codex: CodexTypeCode.darkAngels,
                     names: [
                         'Inner Circle Companions'
                     ]),
-                LeaderFilter(
+                LeaderFilterDom(
                     faction: FactionTypeCode.imperium,
                     army: ArmyTypeCode.spaceMarines,
                     codex: CodexTypeCode.deathWatch,
@@ -120,7 +120,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptions.emptyOptions
+                    wargearOptions: WargearOptionsDom.emptyOptions
                 )
             }
         ),
@@ -138,12 +138,11 @@ List<UnitSeed> spaceMarinesUnits()
                 'Tacticus'
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
-            unitComposition: const UnitComposition(
+            unitComposition: const UnitCompositionDom(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -203,7 +202,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptions.emptyOptions
+                    wargearOptions: WargearOptionsDom.emptyOptions
                 )
             }
         ),
@@ -221,12 +220,11 @@ List<UnitSeed> spaceMarinesUnits()
                 'Tacticus'
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
-            unitComposition: const UnitComposition(
+            unitComposition: const UnitCompositionDom(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -286,7 +284,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptions.emptyOptions
+                    wargearOptions: WargearOptionsDom.emptyOptions
                 )
             }
 
@@ -305,12 +303,11 @@ List<UnitSeed> spaceMarinesUnits()
                 'Tacticus'
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
-            unitComposition: const UnitComposition(
+            unitComposition: const UnitCompositionDom(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -370,7 +367,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptions.emptyOptions
+                    wargearOptions: WargearOptionsDom.emptyOptions
                 )
             }
         ),
@@ -390,7 +387,7 @@ List<UnitSeed> spaceMarinesUnits()
                 'ASSAULT INTERCESSOR SQUAD'
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
-            unitComposition: const UnitComposition(
+            unitComposition: const UnitCompositionDom(
                 compositions: ['1 model'],
                 unitCost: [{5: 75}]
             ),
@@ -404,7 +401,7 @@ List<UnitSeed> spaceMarinesUnits()
                 FactionUnitAbilityCode.oathOfMoment
             ],
             ledBy: const[
-                LeaderFilter(
+                LeaderFilterDom(
                     faction: FactionTypeCode.imperium,
                     army: ArmyTypeCode.spaceMarines,
                     names: [
@@ -427,7 +424,7 @@ List<UnitSeed> spaceMarinesUnits()
                         'Vulkan He’stan'
                     ]
                 ),
-                LeaderFilter(
+                LeaderFilterDom(
                     faction: FactionTypeCode.imperium,
                     army: ArmyTypeCode.spaceMarines,
                     codex: CodexTypeCode.darkAngels,
@@ -491,7 +488,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptions.emptyOptions
+                    wargearOptions: WargearOptionsDom.emptyOptions
                 ),
                 'Assault Intercessor':ModelStatsDom(
                     isNeedShow: true,
@@ -542,7 +539,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptions.emptyOptions
+                    wargearOptions: WargearOptionsDom.emptyOptions
                 )
             }
         ),
@@ -561,7 +558,7 @@ List<UnitSeed> spaceMarinesUnits()
                 'HEAVY INTERCESSOR SQUAD'
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
-            unitComposition: const UnitComposition(
+            unitComposition: const UnitCompositionDom(
                 compositions: ['1 model'],
                 unitCost: [{5: 100}]
             ),
@@ -575,29 +572,29 @@ List<UnitSeed> spaceMarinesUnits()
                 FactionUnitAbilityCode.oathOfMoment
             ],
             ledBy: const[
-                LeaderFilter(
+                LeaderFilterDom(
                     faction: FactionTypeCode.imperium, 
                     army: ArmyTypeCode.spaceMarines,
 
                     names: [
-                      'Apothecary Biologis',
-                      'Captain In Gravis Armour',
-                      'Iron Father Feirros',
-                      'Marneus Calgar',
-                      'Marneus Calgar in Armour of Antilochus',
-                      'Tor Garadon',
+                        'Apothecary Biologis',
+                        'Captain In Gravis Armour',
+                        'Iron Father Feirros',
+                        'Marneus Calgar',
+                        'Marneus Calgar in Armour of Antilochus',
+                        'Tor Garadon'
                     ]
                 ),
-              LeaderFilter(
-                  faction: FactionTypeCode.imperium,
-                  army: ArmyTypeCode.imperialAgents,
-                  names: [
-                    'Inquisitor',
-                    'Inquisitor Coteaz',
-                    'Inquisitor Draxus',
-                    'Inquisitor Greyfax',
-                  ]
-              ),
+                LeaderFilterDom(
+                    faction: FactionTypeCode.imperium,
+                    army: ArmyTypeCode.imperialAgents,
+                    names: [
+                        'Inquisitor',
+                        'Inquisitor Coteaz',
+                        'Inquisitor Draxus',
+                        'Inquisitor Greyfax'
+                    ]
+                )
             ],
             leader: const[],
             modelStats:
@@ -651,7 +648,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptions.emptyOptions
+                    wargearOptions: WargearOptionsDom.emptyOptions
                 ),
                 'Heavy Intercessor' : ModelStatsDom(
                     movement: 5,
@@ -701,7 +698,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptions.emptyOptions
+                    wargearOptions: WargearOptionsDom.emptyOptions
                 )
             }
         ),
@@ -720,7 +717,7 @@ List<UnitSeed> spaceMarinesUnits()
                 'INTERCESSOR SQUAD'
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
-            unitComposition: const UnitComposition(
+            unitComposition: const UnitCompositionDom(
                 compositions: ['1 model'],
                 unitCost: [{5: 80}]
             ),
@@ -787,7 +784,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptions.emptyOptions
+                    wargearOptions: WargearOptionsDom.emptyOptions
                 ),
                 'Intercessor' : ModelStatsDom(
                     movement: 6,
@@ -837,7 +834,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptions.emptyOptions
+                    wargearOptions: WargearOptionsDom.emptyOptions
                 )
             }
         ),
@@ -855,12 +852,11 @@ List<UnitSeed> spaceMarinesUnits()
                 'TACTICAL SQUAD'
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
-            unitComposition: const UnitComposition(
+            unitComposition: const UnitCompositionDom(
                 compositions: ['1 model'],
                 unitCost: [{5: 90}]
             ),
             unitAbility: const[
-                'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -920,7 +916,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptions.emptyOptions
+                    wargearOptions: WargearOptionsDom.emptyOptions
                 )
             }
         ),
@@ -941,12 +937,11 @@ List<UnitSeed> spaceMarinesUnits()
                 'Tacticus'
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
-            unitComposition: const UnitComposition(
+            unitComposition: const UnitCompositionDom(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -1007,7 +1002,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptions.emptyOptions
+                    wargearOptions: WargearOptionsDom.emptyOptions
                 )
             }
         ),
@@ -1025,12 +1020,11 @@ List<UnitSeed> spaceMarinesUnits()
                 'Tacticus'
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
-            unitComposition: const UnitComposition(
+            unitComposition: const UnitCompositionDom(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -1090,7 +1084,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptions.emptyOptions
+                    wargearOptions: WargearOptionsDom.emptyOptions
                 )
             }
         ),
@@ -1108,12 +1102,11 @@ List<UnitSeed> spaceMarinesUnits()
                 'Tacticus'
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
-            unitComposition: const UnitComposition(
+            unitComposition: const UnitCompositionDom(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -1173,7 +1166,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptions.emptyOptions
+                    wargearOptions: WargearOptionsDom.emptyOptions
                 )
             }
         ),
@@ -1191,12 +1184,11 @@ List<UnitSeed> spaceMarinesUnits()
                 'Tacticus'
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
-            unitComposition: const UnitComposition(
+            unitComposition: const UnitCompositionDom(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -1256,7 +1248,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptions.emptyOptions
+                    wargearOptions: WargearOptionsDom.emptyOptions
                 )
             }
         ),
@@ -1275,12 +1267,11 @@ List<UnitSeed> spaceMarinesUnits()
                 'Tacticus'
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
-            unitComposition: const UnitComposition(
+            unitComposition: const UnitCompositionDom(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -1340,7 +1331,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptions.emptyOptions
+                    wargearOptions: WargearOptionsDom.emptyOptions
                 )
             }
         ),
@@ -1360,12 +1351,11 @@ List<UnitSeed> spaceMarinesUnits()
                 'Tacticus'
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
-            unitComposition: const UnitComposition(
+            unitComposition: const UnitCompositionDom(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -1425,7 +1415,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptions.emptyOptions
+                    wargearOptions: WargearOptionsDom.emptyOptions
                 )
             }
         ),
@@ -1443,12 +1433,11 @@ List<UnitSeed> spaceMarinesUnits()
                 'Tacticus'
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
-            unitComposition: const UnitComposition(
+            unitComposition: const UnitCompositionDom(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -1508,7 +1497,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptions.emptyOptions
+                    wargearOptions: WargearOptionsDom.emptyOptions
                 )
             }
         ),
@@ -1526,12 +1515,11 @@ List<UnitSeed> spaceMarinesUnits()
                 'Tacticus'
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
-            unitComposition: const UnitComposition(
+            unitComposition: const UnitCompositionDom(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -1591,7 +1579,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptions.emptyOptions
+                    wargearOptions: WargearOptionsDom.emptyOptions
                 )
             }
         ),
@@ -1609,12 +1597,11 @@ List<UnitSeed> spaceMarinesUnits()
                 'Tacticus'
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
-            unitComposition: const UnitComposition(
+            unitComposition: const UnitCompositionDom(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -1674,7 +1661,99 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptions.emptyOptions
+                    wargearOptions: WargearOptionsDom.emptyOptions
+                )
+            }
+        ),
+        UnitSeed(
+            id: 'b0b6e585-80ba-46e0-8826-4916d0f8e1a1',
+            name: 'Outrider Squad',
+            army: ArmyTypeCode.spaceMarines,
+            role: UnitRoleCode.other,
+            repeat: 3,
+            keywords: [
+                'Mounted',
+                'Grenades',
+                'Imperium',
+                'Outrider Squad'
+            ],
+            factionKeywords: ['Adeptus Astartes'],
+            unitComposition: const UnitCompositionDom(
+                compositions: [
+                    '3 models',
+                    '6 models'
+                ],
+                unitCost: [
+                {3: 80},
+                {6:160}
+                ],
+              additionalModels: [
+                AdditionalModelDom(
+                    name: 'Invader ATV',
+                    cost: 60),
+              ]
+            ),
+            unitAbility: const[
+            ],
+            coreAbilities: const[
+                CoreUnitAbilityCode.leader
+            ],
+            factionAbilities: const[
+                FactionUnitAbilityCode.oathOfMoment
+            ],
+            ledBy: const[],
+            leader: const[],
+            modelStats:
+            {
+                'Bladeguard Veteran': ModelStatsDom(
+                    movement: 6,
+                    toughness: 4,
+                    save: 3,
+                    invulnerableSave: 4,
+                    wounds: 3,
+                    leadership: 6,
+                    objectiveControl: 1,
+                    modelWeapons: ModelWeaponsDom(
+                        weapons:
+                        {
+                            WeaponType.ranged : [
+                                WeaponDom(
+                                    name: 'Perdition Pistol',
+                                    type: WeaponType.ranged,
+                                    weaponAbilities: const[
+                                        WeaponAbilitiesCode.pistol,
+                                        WeaponAbilitiesCode.melta
+                                    ],
+                                    range: 6,
+                                    attacks: const Dice(fix: 1).toString(),
+                                    skill: 2,
+                                    strength: 8,
+                                    ap: -4,
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                        .toString()
+                                )
+                            ],
+                            WeaponType.melee : [
+                                WeaponDom(
+                                    name: 'The Axe Mortalis',
+                                    type: WeaponType.melee,
+                                    weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
+                                    range: 0,
+                                    attacks: const Dice(fix: 8).toString(),
+                                    skill: 2,
+                                    strength: 8,
+                                    ap: -3,
+                                    damage: const Dice(fix: 2).toString()
+                                )
+                            ]
+                        },
+                        selectedWeapons:
+                        {
+                            WeaponType.ranged : ['Perdition Pistol'],
+                            WeaponType.melee : ['The Axe Mortalis']
+                        }
+                    ),
+                    wargearOptions: WargearOptionsDom.emptyOptions
                 )
             }
         )

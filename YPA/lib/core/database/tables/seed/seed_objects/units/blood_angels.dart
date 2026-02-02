@@ -29,12 +29,11 @@ List<UnitSeed> bloodAngelsUnits()
                 'Commander Dante'
             ],
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
-            unitComposition: const UnitComposition(
+            unitComposition: const UnitCompositionDom(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -92,7 +91,7 @@ List<UnitSeed> bloodAngelsUnits()
                         WeaponType.melee : ['The Axe Mortalis']
                       }
                     ),
-                    wargearOptions: WargearOptions.emptyOptions
+                    wargearOptions: WargearOptionsDom.emptyOptions
                 )
             }
         ),
@@ -114,12 +113,11 @@ List<UnitSeed> bloodAngelsUnits()
                 'Commander Dante'
             ],
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
-            unitComposition: const UnitComposition(
+            unitComposition: const UnitCompositionDom(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -177,7 +175,7 @@ List<UnitSeed> bloodAngelsUnits()
                           WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptions.emptyOptions
+                    wargearOptions: WargearOptionsDom.emptyOptions
                 )
             }
         ),
@@ -199,12 +197,11 @@ List<UnitSeed> bloodAngelsUnits()
                 'Commander Dante'
             ],
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
-            unitComposition: const UnitComposition(
+            unitComposition: const UnitCompositionDom(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -262,7 +259,7 @@ List<UnitSeed> bloodAngelsUnits()
                           WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptions.emptyOptions
+                    wargearOptions: WargearOptionsDom.emptyOptions
                 )
             }
         ),
@@ -284,7 +281,7 @@ List<UnitSeed> bloodAngelsUnits()
                 'Commander Dante'
             ],
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
-            unitComposition: const UnitComposition(
+            unitComposition: const UnitCompositionDom(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
             ),
@@ -299,7 +296,7 @@ List<UnitSeed> bloodAngelsUnits()
             ],
             ledBy: const[],
             leader: const[
-              LeaderFilter(
+              LeaderFilterDom(
                   faction: FactionTypeCode.imperium,
                   army: ArmyTypeCode.spaceMarines,
                   names: [
@@ -307,7 +304,7 @@ List<UnitSeed> bloodAngelsUnits()
                     'Vanguard Veteran Squad With Jump Packs',
                   ]
               ),
-              LeaderFilter(
+              LeaderFilterDom(
                   faction: FactionTypeCode.imperium,
                   army: ArmyTypeCode.spaceMarines,
                   codex: CodexTypeCode.bloodAngels,
@@ -364,7 +361,7 @@ List<UnitSeed> bloodAngelsUnits()
                           WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptions.emptyOptions
+                    wargearOptions: WargearOptionsDom.emptyOptions
                 )
             }
         ),
@@ -392,12 +389,11 @@ List<UnitSeed> bloodAngelsUnits()
                 'Commander Dante'
             ],
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
-            unitComposition: const UnitComposition(
+            unitComposition: const UnitCompositionDom(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -455,7 +451,7 @@ List<UnitSeed> bloodAngelsUnits()
                           WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptions.emptyOptions
+                    wargearOptions: WargearOptionsDom.emptyOptions
                 )
             }
         ),
@@ -477,12 +473,11 @@ List<UnitSeed> bloodAngelsUnits()
                 'Commander Dante'
             ],
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
-            unitComposition: const UnitComposition(
+            unitComposition: const UnitCompositionDom(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -540,7 +535,7 @@ List<UnitSeed> bloodAngelsUnits()
                           WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptions.emptyOptions
+                    wargearOptions: WargearOptionsDom.emptyOptions
                 )
             }
         ),
@@ -562,12 +557,11 @@ List<UnitSeed> bloodAngelsUnits()
                 'Commander Dante'
             ],
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
-            unitComposition: const UnitComposition(
+            unitComposition: const UnitCompositionDom(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -625,7 +619,7 @@ List<UnitSeed> bloodAngelsUnits()
                           WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptions.emptyOptions
+                    wargearOptions: WargearOptionsDom.emptyOptions
                 )
             }
         ),
@@ -647,12 +641,11 @@ List<UnitSeed> bloodAngelsUnits()
                 'Commander Dante'
             ],
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
-            unitComposition: const UnitComposition(
+            unitComposition: const UnitCompositionDom(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -710,7 +703,7 @@ List<UnitSeed> bloodAngelsUnits()
                           WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptions.emptyOptions
+                    wargearOptions: WargearOptionsDom.emptyOptions
                 )
             }
         ),
@@ -732,12 +725,11 @@ List<UnitSeed> bloodAngelsUnits()
                 'Commander Dante'
             ],
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
-            unitComposition: const UnitComposition(
+            unitComposition: const UnitCompositionDom(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-              'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -795,7 +787,7 @@ List<UnitSeed> bloodAngelsUnits()
                           WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptions.emptyOptions
+                    wargearOptions: WargearOptionsDom.emptyOptions
                 )
             }
         ),
@@ -817,7 +809,7 @@ List<UnitSeed> bloodAngelsUnits()
                 'Commander Dante'
             ],
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
-            unitComposition: const UnitComposition(
+            unitComposition: const UnitCompositionDom(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
             ),
@@ -830,14 +822,14 @@ List<UnitSeed> bloodAngelsUnits()
                 FactionUnitAbilityCode.oathOfMoment
             ],
             ledBy: const[
-              LeaderFilter(
+              LeaderFilterDom(
                   faction: FactionTypeCode.imperium,
                   army: ArmyTypeCode.spaceMarines,
                   names: [
                     'Captain With Jump Pack',
                   ]
               ),
-              LeaderFilter(
+              LeaderFilterDom(
                   faction: FactionTypeCode.imperium,
                   army: ArmyTypeCode.spaceMarines,
                   codex: CodexTypeCode.bloodAngels,
@@ -895,7 +887,7 @@ List<UnitSeed> bloodAngelsUnits()
                           WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptions.emptyOptions
+                    wargearOptions: WargearOptionsDom.emptyOptions
                 )
             }
         )

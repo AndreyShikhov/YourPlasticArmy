@@ -25,12 +25,12 @@ class CreateUnit
         required int repeat,
         required List<String> keywords,
         required List<String> factionKeywords,
-        required UnitComposition unitComposition,
+        required UnitCompositionDom unitComposition,
         required List<String> unitAbility,
         required List<CoreUnitAbilityCode> coreAbilities,
         required List<FactionUnitAbilityCode> factionAbilities,
-        required List<LeaderFilter> leader,
-        required List<LeaderFilter> ledBy,
+        required List<LeaderFilterDom> leader,
+        required List<LeaderFilterDom> ledBy,
         required Map<String, ModelStatsDom> modelStats
     }) async
     {

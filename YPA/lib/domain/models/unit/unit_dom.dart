@@ -23,12 +23,12 @@ class UnitDOM
     final int repeat;
     final List<String> keywords;
     final List<String> factionKeywords;
-    final UnitComposition unitComposition;
+    final UnitCompositionDom unitComposition;
     final List<String> unitAbility;
     final List<CoreUnitAbilityCode> coreAbilities;
     final List<FactionUnitAbilityCode> factionAbilities;
-    final List<LeaderFilter> leader;
-    final List<LeaderFilter> ledBy;
+    final List<LeaderFilterDom> leader;
+    final List<LeaderFilterDom> ledBy;
     final Map<String, ModelStatsDom> modelStats;
 
     const UnitDOM._({
@@ -58,12 +58,12 @@ class UnitDOM
         required int repeat,
         required List<String> keywords,
         required List<String> factionKeywords,
-        required UnitComposition unitComposition,
+        required UnitCompositionDom unitComposition,
         required List<String> unitAbility,
         required List<CoreUnitAbilityCode> coreAbilities,
         required List<FactionUnitAbilityCode> factionAbilities,
-        required List<LeaderFilter> leader,
-        required List<LeaderFilter> ledBy,
+        required List<LeaderFilterDom> leader,
+        required List<LeaderFilterDom> ledBy,
         required Map<String, ModelStatsDom> modelStats
 
     })
@@ -95,12 +95,12 @@ class UnitDOM
         required int repeat,
         required List<String> keywords,
         required List<String> factionKeywords,
-        required UnitComposition unitComposition,
+        required UnitCompositionDom unitComposition,
         required List<String> unitAbility,
         required List<CoreUnitAbilityCode> coreAbilities,
         required List<FactionUnitAbilityCode> factionAbilities,
-        required List<LeaderFilter> leader,
-        required List<LeaderFilter> ledBy,
+        required List<LeaderFilterDom> leader,
+        required List<LeaderFilterDom> ledBy,
         required Map<String, ModelStatsDom> modelStats
 
     })
@@ -132,12 +132,12 @@ class UnitDOM
         int? repeat,
         List<String>? keywords,
         List<String>? factionKeywords,
-        UnitComposition? unitComposition,
+        UnitCompositionDom? unitComposition,
         List<String>? unitAbility,
         List<CoreUnitAbilityCode>? coreAbilities,
         List<FactionUnitAbilityCode>? factionAbilities,
-        List<LeaderFilter>? leader,
-        List<LeaderFilter>? ledBy,
+        List<LeaderFilterDom>? leader,
+        List<LeaderFilterDom>? ledBy,
         Map<String, ModelStatsDom>? modelStats
     })
     {

@@ -27,12 +27,11 @@ List<UnitSeed> ultramarinesUnits()
                 'Tacticus'
             ],
             factionKeywords: ['Adeptus Astartes'],
-            unitComposition: const UnitComposition(
+            unitComposition: const UnitCompositionDom(
                 compositions: ['1 model'],
                 unitCost: [{1: 120}]
             ),
             unitAbility: const[
-                'not_ability'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -90,7 +89,7 @@ List<UnitSeed> ultramarinesUnits()
                           WeaponType.melee : ['The Axe Mortalis']
                         }),
 
-                    wargearOptions: WargearOptions.emptyOptions
+                    wargearOptions: WargearOptionsDom.emptyOptions
                 )
             }
         )
