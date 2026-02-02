@@ -27,8 +27,13 @@ List<UnitSeed> spaceMarinesUnits()
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
             unitComposition: const UnitCompositionDom(
-                compositions: ['1 model'],
-                unitCost: [{1: 120}]
+                compositions: [
+                    UnitCompositionModelDom(
+                        name: '1 model',
+                        amount: 1,
+                        cost: 120
+                    )
+                ]
             ),
             unitAbility: const[
             ],
@@ -139,8 +144,13 @@ List<UnitSeed> spaceMarinesUnits()
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
             unitComposition: const UnitCompositionDom(
-                compositions: ['1 model'],
-                unitCost: [{1: 120}]
+                compositions: [
+                    UnitCompositionModelDom(
+                        name: '1 model',
+                        amount: 1,
+                        cost: 120
+                    )
+                ]
             ),
             unitAbility: const[
             ],
@@ -221,8 +231,13 @@ List<UnitSeed> spaceMarinesUnits()
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
             unitComposition: const UnitCompositionDom(
-                compositions: ['1 model'],
-                unitCost: [{1: 120}]
+                compositions: [
+                    UnitCompositionModelDom(
+                        name: '1 model',
+                        amount: 1,
+                        cost: 120
+                    )
+                ]
             ),
             unitAbility: const[
             ],
@@ -304,8 +319,13 @@ List<UnitSeed> spaceMarinesUnits()
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
             unitComposition: const UnitCompositionDom(
-                compositions: ['1 model'],
-                unitCost: [{1: 120}]
+                compositions: [
+                    UnitCompositionModelDom(
+                        name: '1 model',
+                        amount: 1,
+                        cost: 120
+                    )
+                ]
             ),
             unitAbility: const[
             ],
@@ -388,8 +408,13 @@ List<UnitSeed> spaceMarinesUnits()
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
             unitComposition: const UnitCompositionDom(
-                compositions: ['1 model'],
-                unitCost: [{5: 75}]
+                compositions: [
+                    UnitCompositionModelDom(
+                        name: '1 model',
+                        amount: 1,
+                        cost: 120
+                    )
+                ]
             ),
             unitAbility: const[
                 'shock_assault'
@@ -559,8 +584,13 @@ List<UnitSeed> spaceMarinesUnits()
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
             unitComposition: const UnitCompositionDom(
-                compositions: ['1 model'],
-                unitCost: [{5: 100}]
+                compositions: [
+                    UnitCompositionModelDom(
+                        name: '1 model',
+                        amount: 1,
+                        cost: 120
+                    )
+                ]
             ),
             unitAbility: const[
                 'unyielding_in_the_face_of_the_foe'
@@ -718,8 +748,13 @@ List<UnitSeed> spaceMarinesUnits()
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
             unitComposition: const UnitCompositionDom(
-                compositions: ['1 model'],
-                unitCost: [{5: 80}]
+                compositions: [
+                    UnitCompositionModelDom(
+                        name: '1 model',
+                        amount: 1,
+                        cost: 120
+                    )
+                ]
             ),
             unitAbility: const[
                 'objective_secured',
@@ -853,8 +888,13 @@ List<UnitSeed> spaceMarinesUnits()
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
             unitComposition: const UnitCompositionDom(
-                compositions: ['1 model'],
-                unitCost: [{5: 90}]
+                compositions: [
+                    UnitCompositionModelDom(
+                        name: '1 model',
+                        amount: 1,
+                        cost: 120
+                    )
+                ]
             ),
             unitAbility: const[
             ],
@@ -938,8 +978,13 @@ List<UnitSeed> spaceMarinesUnits()
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
             unitComposition: const UnitCompositionDom(
-                compositions: ['1 model'],
-                unitCost: [{1: 120}]
+                compositions: [
+                    UnitCompositionModelDom(
+                        name: '1 model',
+                        amount: 1,
+                        cost: 120
+                    )
+                ]
             ),
             unitAbility: const[
             ],
@@ -1021,8 +1066,13 @@ List<UnitSeed> spaceMarinesUnits()
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
             unitComposition: const UnitCompositionDom(
-                compositions: ['1 model'],
-                unitCost: [{1: 120}]
+                compositions: [
+                    UnitCompositionModelDom(
+                        name: '1 model',
+                        amount: 1,
+                        cost: 120
+                    )
+                ]
             ),
             unitAbility: const[
             ],
@@ -1103,8 +1153,13 @@ List<UnitSeed> spaceMarinesUnits()
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
             unitComposition: const UnitCompositionDom(
-                compositions: ['1 model'],
-                unitCost: [{1: 120}]
+                compositions: [
+                    UnitCompositionModelDom(
+                        name: '1 model',
+                        amount: 1,
+                        cost: 120
+                    )
+                ]
             ),
             unitAbility: const[
             ],
@@ -1185,8 +1240,13 @@ List<UnitSeed> spaceMarinesUnits()
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
             unitComposition: const UnitCompositionDom(
-                compositions: ['1 model'],
-                unitCost: [{1: 120}]
+                compositions: [
+                    UnitCompositionModelDom(
+                        name: '1 model',
+                        amount: 1,
+                        cost: 120
+                    )
+                ]
             ),
             unitAbility: const[
             ],
@@ -1268,8 +1328,13 @@ List<UnitSeed> spaceMarinesUnits()
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
             unitComposition: const UnitCompositionDom(
-                compositions: ['1 model'],
-                unitCost: [{1: 120}]
+                compositions: [
+                    UnitCompositionModelDom(
+                        name: '1 model',
+                        amount: 1,
+                        cost: 120
+                    )
+                ]
             ),
             unitAbility: const[
             ],
@@ -1352,8 +1417,13 @@ List<UnitSeed> spaceMarinesUnits()
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
             unitComposition: const UnitCompositionDom(
-                compositions: ['1 model'],
-                unitCost: [{1: 120}]
+                compositions: [
+                    UnitCompositionModelDom(
+                        name: '1 model',
+                        amount: 1,
+                        cost: 120
+                    )
+                ]
             ),
             unitAbility: const[
             ],
@@ -1434,8 +1504,13 @@ List<UnitSeed> spaceMarinesUnits()
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
             unitComposition: const UnitCompositionDom(
-                compositions: ['1 model'],
-                unitCost: [{1: 120}]
+                compositions: [
+                    UnitCompositionModelDom(
+                        name: '1 model',
+                        amount: 1,
+                        cost: 120
+                    )
+                ]
             ),
             unitAbility: const[
             ],
@@ -1516,8 +1591,13 @@ List<UnitSeed> spaceMarinesUnits()
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
             unitComposition: const UnitCompositionDom(
-                compositions: ['1 model'],
-                unitCost: [{1: 120}]
+                compositions: [
+                    UnitCompositionModelDom(
+                        name: '1 model',
+                        amount: 1,
+                        cost: 120
+                    )
+                ]
             ),
             unitAbility: const[
             ],
@@ -1598,8 +1678,13 @@ List<UnitSeed> spaceMarinesUnits()
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
             unitComposition: const UnitCompositionDom(
-                compositions: ['1 model'],
-                unitCost: [{1: 120}]
+                compositions: [
+                    UnitCompositionModelDom(
+                        name: '1 model',
+                        amount: 1,
+                        cost: 120
+                    )
+                ]
             ),
             unitAbility: const[
             ],
@@ -1678,21 +1763,28 @@ List<UnitSeed> spaceMarinesUnits()
                 'Outrider Squad'
             ],
             factionKeywords: ['Adeptus Astartes'],
-            unitComposition: const UnitCompositionDom(
+            unitComposition:
+            const UnitCompositionDom(
                 compositions: [
-                    '3 models',
-                    '6 models'
+                    UnitCompositionModelDom(
+                        name: 'Outrider Squad',
+                        amount: 3,
+                        cost: 80
+                    ),
+                    UnitCompositionModelDom(
+                        name: 'Outrider Squad',
+                        amount: 6,
+                        cost: 160
+                    )
                 ],
-                unitCost: [
-                {3: 80},
-                {6:160}
-                ],
-              additionalModels: [
-                AdditionalModelDom(
-                    name: 'Invader ATV',
-                    cost: 60),
-              ]
+                additionalModels: [
+                    UnitCompositionModelDom(
+                        name: 'Invader ATV', 
+                        amount: 1, 
+                        cost: 60)
+                ]
             ),
+
             unitAbility: const[
             ],
             coreAbilities: const[

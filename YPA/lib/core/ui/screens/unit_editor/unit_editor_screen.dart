@@ -13,6 +13,7 @@ import 'package:ypa/core/ui/screens/unit_editor/widgets/base_ability_bloc.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/basic_stats.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/keywords_bloc.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/leader_bloc.dart';
+import 'package:ypa/core/ui/screens/unit_editor/widgets/unit_composition_bloc.dart';
 
 import '../../widgets/expanded/expandable_section.dart';
 
@@ -56,11 +57,16 @@ class UnitEditorScreen extends ConsumerWidget
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                    if(state.unit != null)
-                                    Text(
-                                        'Models: ${state.unit!.selectedComposition.keys.first} / PTS:${state.unit!.selectedComposition.values.first}',
-                                        style: const TextStyle(color: Colors.white70, fontSize: 14)
-                                    )
+                                    if(state.unit != null)...[
+                                        Text(
+                                            'Models: ${state.unit!.selectedComposition.keys.first} / PTS:${state.unit!.selectedComposition.values.first}',
+                                            style: const TextStyle(color: Colors.white70, fontSize: 14)
+                                        ),
+                                        if(state.unit!.unitComposition.compositions.length > 1)...[
+                                            const SizedBox(width: 10),
+                                            UnitCompositionBloc(unitComposition: state.unit!.unitComposition) 
+                                        ]
+                                    ]
                                 ]
                             )
                         )

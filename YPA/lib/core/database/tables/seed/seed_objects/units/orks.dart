@@ -23,8 +23,13 @@ List<UnitSeed> orksUnits()
             keywords: const['Infantry', 'Battleline', 'Mob', 'Orks'],
             factionKeywords: const['Waaagh! Tribe'],
             unitComposition: const UnitCompositionDom(
-                compositions: ['1 model'],
-                unitCost: [{1: 120}]
+                compositions: [
+                  UnitCompositionModelDom(
+                    name: '1 model',
+                    amount: 1,
+                    cost: 120,
+                  ),
+                ]
             ),
             unitAbility: const[
             ],

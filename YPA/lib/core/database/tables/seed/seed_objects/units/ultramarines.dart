@@ -28,8 +28,13 @@ List<UnitSeed> ultramarinesUnits()
             ],
             factionKeywords: ['Adeptus Astartes'],
             unitComposition: const UnitCompositionDom(
-                compositions: ['1 model'],
-                unitCost: [{1: 120}]
+                compositions: [
+                  UnitCompositionModelDom(
+                      name: 'Roboute Guilliman',
+                      amount: 1,
+                      cost: 300
+                  )
+                ]
             ),
             unitAbility: const[
             ],

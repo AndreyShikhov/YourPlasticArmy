@@ -30,9 +30,15 @@ List<UnitSeed> bloodAngelsUnits()
             ],
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
             unitComposition: const UnitCompositionDom(
-                compositions: ['1 model'],
-                unitCost: [{1: 120}]
+                compositions: [
+                  UnitCompositionModelDom(
+                    name: '1 model',
+                    amount: 1,
+                    cost: 120,
+                  ),
+                ]
             ),
+
             unitAbility: const[
             ],
             coreAbilities: const[
@@ -114,8 +120,13 @@ List<UnitSeed> bloodAngelsUnits()
             ],
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
             unitComposition: const UnitCompositionDom(
-                compositions: ['1 model'],
-                unitCost: [{1: 120}]
+                compositions: [
+                  UnitCompositionModelDom(
+                      name: '1 model',
+                      amount: 1,
+                      cost: 120,
+                  ),
+                ]
             ),
             unitAbility: const[
             ],
@@ -198,8 +209,13 @@ List<UnitSeed> bloodAngelsUnits()
             ],
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
             unitComposition: const UnitCompositionDom(
-                compositions: ['1 model'],
-                unitCost: [{1: 120}]
+                compositions: [
+                  UnitCompositionModelDom(
+                      name: '1 model',
+                      amount: 1,
+                      cost: 120,
+                  ),
+                ]
             ),
             unitAbility: const[
             ],
@@ -282,8 +298,13 @@ List<UnitSeed> bloodAngelsUnits()
             ],
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
             unitComposition: const UnitCompositionDom(
-                compositions: ['1 model'],
-                unitCost: [{1: 120}]
+                compositions: [
+                  UnitCompositionModelDom(
+                      name: '1 model',
+                      amount: 1,
+                      cost: 120,
+                  ),
+                ]
             ),
             unitAbility: const[
               'shock_assault'
@@ -390,8 +411,13 @@ List<UnitSeed> bloodAngelsUnits()
             ],
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
             unitComposition: const UnitCompositionDom(
-                compositions: ['1 model'],
-                unitCost: [{1: 120}]
+                compositions: [
+                  UnitCompositionModelDom(
+                    name: '1 model',
+                    amount: 1,
+                    cost: 120,
+                  ),
+                ]
             ),
             unitAbility: const[
             ],
@@ -474,8 +500,13 @@ List<UnitSeed> bloodAngelsUnits()
             ],
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
             unitComposition: const UnitCompositionDom(
-                compositions: ['1 model'],
-                unitCost: [{1: 120}]
+                compositions: [
+                  UnitCompositionModelDom(
+                    name: '1 model',
+                    amount: 1,
+                    cost: 120,
+                  ),
+                ]
             ),
             unitAbility: const[
             ],
@@ -558,8 +589,13 @@ List<UnitSeed> bloodAngelsUnits()
             ],
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
             unitComposition: const UnitCompositionDom(
-                compositions: ['1 model'],
-                unitCost: [{1: 120}]
+                compositions: [
+                  UnitCompositionModelDom(
+                    name: '1 model',
+                    amount: 1,
+                    cost: 120,
+                  ),
+                ]
             ),
             unitAbility: const[
             ],
@@ -642,8 +678,13 @@ List<UnitSeed> bloodAngelsUnits()
             ],
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
             unitComposition: const UnitCompositionDom(
-                compositions: ['1 model'],
-                unitCost: [{1: 120}]
+                compositions: [
+                  UnitCompositionModelDom(
+                    name: '1 model',
+                    amount: 1,
+                    cost: 120,
+                  ),
+                ]
             ),
             unitAbility: const[
             ],
@@ -726,8 +767,13 @@ List<UnitSeed> bloodAngelsUnits()
             ],
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
             unitComposition: const UnitCompositionDom(
-                compositions: ['1 model'],
-                unitCost: [{1: 120}]
+                compositions: [
+                  UnitCompositionModelDom(
+                    name: '1 model',
+                    amount: 1,
+                    cost: 120,
+                  ),
+                ]
             ),
             unitAbility: const[
             ],
@@ -810,8 +856,13 @@ List<UnitSeed> bloodAngelsUnits()
             ],
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
             unitComposition: const UnitCompositionDom(
-                compositions: ['1 model'],
-                unitCost: [{1: 120}]
+                compositions: [
+                  UnitCompositionModelDom(
+                    name: '1 model',
+                    amount: 1,
+                    cost: 120,
+                  ),
+                ]
             ),
             unitAbility: const[
             ],

@@ -27,7 +27,7 @@ class AddUnitToUserRoster
         if (army != null && unit != null) 
         {
             // 3. Вызываем доменную логику (она вернет обновленный объект армии)
-            final updatedArmy = await army.addUnitToUserArmy(unitId, unit.role.value.name, unit.unitComposition.effectiveComposition.values.first);
+            final updatedArmy = await army.addUnitToUserArmy(unitId, unit.role.value.name, unit.unitComposition,unit.unitComposition.effectiveComposition.values.first);
 
             // 4. Сохраняем
             await armyRepository.saveUserArmy(updatedArmy);

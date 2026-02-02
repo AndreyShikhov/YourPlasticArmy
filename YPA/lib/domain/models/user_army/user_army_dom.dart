@@ -12,6 +12,7 @@ import 'package:ypa/domain/models/detachment/detachment.dart';
 
 import '../../../core/database/tables/seed/seed_objects/_types.dart';
 import '../faction/faction.dart';
+import '../unit/unit.dart';
 
 class UserArmyDOM
 {
@@ -74,7 +75,7 @@ class UserArmyDOM
 
     /// Добавляет юнит в jsonData, соблюдая структуру категорий.
     /// [role] — это строковый код роли (например, 'Characters', 'Battleline'), который станет ключом в JSON.
-    Future<UserArmyDOM> addUnitToUserArmy(String unitId, String role, int pts) async
+    Future<UserArmyDOM> addUnitToUserArmy(String unitId, String role, UnitCompositionDom composition, int pts) async
     {
         // 1. Декодируем текущий JSON или создаем структуру по умолчанию
         Map<String, dynamic> root;
@@ -107,6 +108,7 @@ class UserArmyDOM
             {
                 "instanceId": const Uuid().v4(), // Уникальный ID отряда в ростере
                 "unitId": unitId,               // Ссылка на ID базового юнита из таблицы Units
+                "composition": composition.toJson(),
                 "points": pts,                    // Cтоимость юнита"
                 "wargearOptions": {}           // Пока пустой объект опций
             };
