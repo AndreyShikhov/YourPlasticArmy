@@ -18,7 +18,11 @@ class CategoryExpanded extends ConsumerStatefulWidget
     final String armyId;
     final UnitRoleCode role;
 
-    const CategoryExpanded({super.key, required this.armyId, required this.role});
+    const CategoryExpanded({
+      super.key,
+      required this.armyId,
+      required this.role
+    });
 
     @override
     ConsumerState<CategoryExpanded> createState() => _CategoryExpandedState();
@@ -31,10 +35,12 @@ class _CategoryExpandedState extends ConsumerState<CategoryExpanded>
     bool _isSelectionMode = false;
 
     @override
-    Widget build(BuildContext context)
+    Widget build(BuildContext context,)
     {
         final state = ref.watch(armyBuilderControllerProvider(widget.armyId));
         final roleUnits = state.getAllUnitsByRoleFromUserArmy(widget.role.name);
+
+
 
         // В будущем тут будет реальный подсчет очков
         final subtitle = '${_getPTSFromCategory(roleUnits)} pts  ${roleUnits.length} units';
@@ -47,6 +53,10 @@ class _CategoryExpandedState extends ConsumerState<CategoryExpanded>
             {
                 setState(()
                     {
+                      // Если пытаемся открыть категорию, а в ней нет юнитов
+                      if (expanded && (state.userArmyUnits?[widget.role]?.isEmpty ?? true)) {
+                        _isSelectionMode = true; // сразу включаем режим выбора
+                      }
                         _isExpanded = expanded; // Меняем состояние здесь
                         if (!expanded) _isSelectionMode = false;
                     });

@@ -10,12 +10,12 @@ import '../../../../../../domain/models/unit/unit.dart';
 
 class ModelFromUnit extends StatelessWidget
 {
-
     final Map<String, ModelStatsDom> modelStats;
 
     const ModelFromUnit({
         super.key, required this.modelStats
     });
+
     @override
     Widget build(BuildContext context)
     {
@@ -25,28 +25,36 @@ class ModelFromUnit extends StatelessWidget
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                      children: [
-                        Text(modelStats.keys.first, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold))
-                      ]
-                  ),
-                  SizedBox(height: 2),
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (_hasRanged()) ...[
-                          const Text('Ranged:', style: TextStyle(color: Colors.white38, fontSize: 10)),
-                          ..._getRangedWeaponsThisModel(),
-                          const SizedBox(height: 4)
-                        ],
-                        if (_hasMelee()) ...[
-                          const Text('Melee:', style: TextStyle(color: Colors.white38, fontSize: 10)),
-                          ..._getMeleeWeaponsThisModel()
+                    Row(
+                        children: [
+                            // ИСПРАВЛЕНО: Добавлен Expanded и ellipsis для защиты от длинных имен
+                            Expanded(
+                                child: Text(
+                                    modelStats.keys.first,
+                                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis
+                                )
+                            )
                         ]
-                      ]
-                  )
+                    ),
+                    const SizedBox(height: 2),
+                    Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                            if (_hasRanged()) ...[
+                                const Text('Ranged:', style: TextStyle(color: Colors.white38, fontSize: 10)),
+                                ..._getRangedWeaponsThisModel(),
+                                const SizedBox(height: 4)
+                            ],
+                            if (_hasMelee()) ...[
+                                const Text('Melee:', style: TextStyle(color: Colors.white38, fontSize: 10)),
+                                ..._getMeleeWeaponsThisModel()
+                            ]
+                        ]
+                    )
                 ]
-            ),
+            )
         );
     }
 
@@ -60,17 +68,20 @@ class ModelFromUnit extends StatelessWidget
     {
         final List<String> ranged = modelStats.values.first.modelWeapons.selectedWeapons[WeaponType.ranged] ?? [];
 
-        return [Padding(
+        return [
+            Padding(
                 padding: const EdgeInsets.only(left: 10.0),
                 child: Column(
-                    children: [
-                        ...ranged.map((name) => Text(
-                                name,
-                                style: const TextStyle(color: Colors.white70, fontSize: 12)
-                            )).toList()
-                    ]
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: ranged.map((name) => Text(
+                            name,
+                            style: const TextStyle(color: Colors.white70, fontSize: 12),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis // Защита для оружия
+                        )).toList()
                 )
-            )];
+            )
+        ];
     }
 
     List<Widget> _getMeleeWeaponsThisModel()
@@ -78,16 +89,19 @@ class ModelFromUnit extends StatelessWidget
         final List<String> melee =
             modelStats.values.first.modelWeapons.selectedWeapons[WeaponType.melee] ?? [];
 
-        return [Padding(
+        return [
+            Padding(
                 padding: const EdgeInsets.only(left: 10.0),
                 child: Column(
-                    children: [
-                        ...melee.map((name) => Text(
-                                name,
-                                style: const TextStyle(color: Colors.white70, fontSize: 12)
-                            )).toList()
-                    ]
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: melee.map((name) => Text(
+                            name,
+                            style: const TextStyle(color: Colors.white70, fontSize: 12),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis // Защита для оружия
+                        )).toList()
                 )
-            )];
+            )
+        ];
     }
 }

@@ -63,13 +63,21 @@ class UnitWidget extends ConsumerWidget
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-
                             Row( // название юнита и стоимость
                                 children: [
-                                    Text('${unit.name} ${_getRomeNumber(numberUnit)}', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                                    const Spacer(),
-                                    Text(' ${unit.selectedComposition.keys.first} models / ${unit.selectedComposition.values.first} pts',
-                                        style: const TextStyle(color: Colors.white70, fontSize: 12))
+                                    Expanded(
+                                        child: Text(
+                                            '${unit.name} ${_getRomeNumber(numberUnit)}',
+                                            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                        ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                        '${unit.selectedComposition.keys.first} models / ${unit.selectedComposition.values.first} pts',
+                                        style: const TextStyle(color: Colors.white70, fontSize: 12),
+                                    )
                                 ]
                             ),
                             const SizedBox(height: 8),
@@ -85,7 +93,7 @@ class UnitWidget extends ConsumerWidget
                                             ]
                                         )
                                     ),
-                                    // 2. Кнопки действий (Row автоматически прижмется вправо из-за Expanded слева)
+                                    // 2. Кнопки действий
                                     Row(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [

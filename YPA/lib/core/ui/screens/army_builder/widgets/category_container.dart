@@ -31,14 +31,8 @@ class CategoryContainer extends ConsumerWidget
     {
         final state = ref.watch(armyBuilderControllerProvider(armyId));
 
-        final allUnitsFromCodex = state.getAllUnitsByRoleFromDB(
-            role.code
-        ); // все юниты (армия/кодекс) из базы данных по роли
-
         // получить все юниты определённой роли из юзхер армии
-        final allCategoryUnitsFromUserArmy = state.getAllUnitsByRoleFromUserArmy(
-            role.code
-        ); // все юниты (армия/кодекс) из армии пользователя
+        final allCategoryUnitsFromUserArmy = state.getAllUnitsByRoleFromUserArmy(role.name); // все юниты (армия/кодекс) из армии пользователя
 
         // Здесь будет ваша логика и контейнер со скроллом
         return Container(
