@@ -93,6 +93,7 @@ class UnitCompositionDom
         );
     }
 
+
     static const UnitCompositionDom emptyComposition = UnitCompositionDom(
         compositions: [],
         selectedComposition: null,
@@ -128,6 +129,33 @@ class UnitCompositionModelDom
         cost: json['cost'] as int,
         isSelected: json['isSelected'] as bool? ?? false
     );
+
+    UnitCompositionModelDom copyWith({
+        String? name,
+        int? amount,
+        int? cost,
+        bool? isSelected
+    })
+    {
+        return UnitCompositionModelDom(
+            name: name ?? this.name,
+            amount: amount ?? this.amount,
+            cost: cost ?? this.cost,
+            isSelected: isSelected ?? this.isSelected
+        );
+    }
+
+    @override
+    bool operator ==(Object other) =>
+        identical(this, other) ||
+            other is UnitCompositionModelDom &&
+                runtimeType == other.runtimeType &&
+                name == other.name &&
+                amount == other.amount &&
+                cost == other.cost;
+
+    @override
+    int get hashCode => name.hashCode ^ amount.hashCode ^ cost.hashCode;
 }
 // ==========================================
 // WARGEAR OPTIONS

@@ -12,6 +12,7 @@ import 'package:ypa/application/codex/get_codex_by_id.dart';
 import 'package:ypa/core/providers/di/di_providers.dart';
 import 'package:ypa/domain/models/army/army.dart';
 import 'package:ypa/domain/models/codex/codex.dart';
+import 'package:ypa/domain/models/user_army/user_army.dart';
 
 import '../../../../application/detachment/detachments_use_cases.dart';
 import '../../../../application/unit/unt_use_case.dart';
@@ -159,14 +160,14 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         }
     }
 
-    void updateUnitInState(String instanceId, UnitRoleCode role, UnitCompositionDom newComposition) 
+    void updateUnitInState(String instanceId, UnitRoleCode role, UnitCompositionDom newComposition)
     {
         if (state.userArmyUnits == null) return;
 
         final unitsInRole = state.userArmyUnits![role] ?? [];
         final index = unitsInRole.indexWhere((u) => u.instanceId == instanceId);
 
-        if (index != -1) 
+        if (index != -1)
         {
             final updatedUnit = unitsInRole[index].copyWith(
                 unitComposition: newComposition,
@@ -229,13 +230,13 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
     Future<List<ArmyBuilderUnitItemUi>> getAllUnitsByCodexId(CodexId codexId) async
     {
         List<UnitDOM> unitDomain = await _getAllUnitsByCodexid(codexId);
-        return unitDomain.map((unit) => _convertDomainUnitToUnitItemUi(unit, '')).toList();
+        return unitDomain.map((unit) => _convertDomainUnitToUnitItemUi(unit, '', null)).toList();
     }
 
     Future<List<ArmyBuilderUnitItemUi>> getAllUnitsByArmyId(ArmyId armyId) async
     {
         List<UnitDOM> unitDomain = await _getAllUnitsByArmyId(armyId);
-        return unitDomain.map((unit) => _convertDomainUnitToUnitItemUi(unit, '')).toList();
+        return unitDomain.map((unit) => _convertDomainUnitToUnitItemUi(unit, '', null)).toList();
     }
 
     // ==========================================
@@ -315,7 +316,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         state = state.copyWith(temDataUnitsByRoleFromdb: temDataUnitsByRole);
     }
 
-    ArmyBuilderUnitItemUi _convertDomainUnitToUnitItemUi(UnitDOM unit, String instanceId)
+    ArmyBuilderUnitItemUi _convertDomainUnitToUnitItemUi(UnitDOM unit, String instanceId, Map<String, dynamic>? saveComposition)
     {
         final String newInstanceId = instanceId == '' ? const Uuid().v4() : instanceId;
 
@@ -327,7 +328,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             repeat: unit.repeat,
             keywords: unit.keywords,
             factionKeywords: unit.factionKeywords,
-            unitComposition: unit.unitComposition,
+            unitComposition: _buildCompositionFromSavedata(unit.unitComposition, saveComposition),
             unitAbility: unit.unitAbility,
             coreAbilities: unit.coreAbilities,
             factionAbilities: unit.factionAbilities,
@@ -360,12 +361,12 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                         unitsJson.map((u) async
                             {
                                 final map = u as Map<String, dynamic>;
-                                if (map['unitId'] == null) return null;
+                                if (map[SaveCategoryCode.unitId.code] == null) return null;
 
-                                final unitDom = await _getUnitByIdFromDb(UnitIdDom.fromString(map['unitId']));
+                                final unitDom = await _getUnitByIdFromDb(UnitIdDom.fromString(map[SaveCategoryCode.unitId.code]));
                                 if (unitDom == null) return null;
 
-                                return _convertDomainUnitToUnitItemUi(unitDom, map['instanceId']);
+                                return _convertDomainUnitToUnitItemUi(unitDom, map[SaveCategoryCode.instanceId.code], map[SaveCategoryCode.composition.code]);
                             })
                     );
 
@@ -379,5 +380,43 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             debugPrint('Error decoding units from JSON: $e');
             return {};
         }
+    }
+
+    // ==========================================
+    //  Tools
+    // ==========================================
+
+    UnitCompositionDom _buildCompositionFromSavedata(UnitCompositionDom unitCompositionFromDB, Map<String, dynamic>? saveComposition)
+    {
+        var tempComposition = unitCompositionFromDB;
+        if (saveComposition != null)
+        {
+            final restoredComposition = UnitCompositionDom.fromJson(saveComposition);
+
+            // 1. Восстанавливаем основной выбранный состав (Selected Composition)
+            if (restoredComposition.selectedComposition != null)
+            {
+                tempComposition = tempComposition.copyWith(
+                    selectedComposition: restoredComposition.selectedComposition
+                );
+            }
+
+            // 2. Восстанавливаем выбор дополнительных моделей (Additional Models)
+            // Проходим по всем возможным моделям из базы и проверяем, были ли они выбраны в сохранении
+            final updatedAdditional = tempComposition.additionalModels.map((baseModel)
+                {
+                    final bool isSelected = restoredComposition.additionalModels.any((rm) =>
+                        rm.name == baseModel.name &&
+                            rm.amount == baseModel.amount &&
+                            rm.cost == baseModel.cost
+                    );
+
+                    // Если модель найдена в сохраненном списке — ставим ей флаг isSelected: true
+                    return isSelected ? baseModel.copyWith(isSelected: true) : baseModel;
+                }).toList();
+
+            tempComposition = tempComposition.copyWith(additionalModels: updatedAdditional);
+        }
+        return tempComposition;
     }
 }

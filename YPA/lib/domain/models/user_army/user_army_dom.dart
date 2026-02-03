@@ -219,7 +219,7 @@ class UserArmyDOM
     }
 
     /// Обновляет парметры [updateData] экземпляр юнита с указанным [unitId] из конкретной [role].
-    Future<UserArmyDOM> updateUnitInstance(String instanceId, String role, SaveCategoryCode category, Map<String, dynamic> updateData) async
+    Future<UserArmyDOM> updateUnitInstance(String instanceId, String role, SaveCategoryCode category,  dynamic updateData) async
     {
         if (jsonData.isEmpty) return this;
         final root = jsonDecode(jsonData);
@@ -229,14 +229,12 @@ class UserArmyDOM
         final index = unitList.indexWhere((u) => u[SaveCategoryCode.instanceId.code] == instanceId);
         if (index == -1) return this;
 
-        final finalUpdatedUnit = unitList[index];
-        finalUpdatedUnit[category.code] = updateData;
-
         // Обновляем данные инстанса, подмешивая новые поля (updateData)
-        unitList[index] = finalUpdatedUnit;
+        unitList[index][category.code] = updateData;
 
         return copyWith(jsonData: jsonEncode(root));
     }
+
 
     // ==========================================
     // Getters
