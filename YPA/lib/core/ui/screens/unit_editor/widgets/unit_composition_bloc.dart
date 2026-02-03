@@ -3,57 +3,119 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/domain/models/unit/model_stats.dart';
 
+import '../unit_editor_controller.dart';
 
+class UnitCompositionBloc extends ConsumerWidget
+{
+    final String armyId;
+    final String instanceId;
+    final String roleCode;
+    final UnitCompositionDom unitComposition;
 
-class UnitCompositionBloc extends ConsumerWidget {
-  final UnitCompositionDom unitComposition;
+    const UnitCompositionBloc({
+        super.key,
+        required this.armyId,
+        required this.instanceId,
+        required this.roleCode,
+        required this.unitComposition
+    });
 
-  const UnitCompositionBloc({
-    super.key,
-    required this.unitComposition,
-  });
+    @override
+    Widget build(BuildContext context, WidgetRef ref)
+    {
+        // Получаем список чекбоксов
+        final List<Widget> additionalCheckboxes = _getCheckBoxAdditionalModels(ref);
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // Если вариантов состава больше одного, показываем выпадающий список
+        if (unitComposition.compositions.length > 1)
+        {
+            final selectedModel = unitComposition.selectedComposition ?? unitComposition.compositions.first;
 
-      // Пытаемся найти текущую выбранную модель в списке вариантов
-      final selectedModel = unitComposition.selectedComposition ?? unitComposition.compositions.first;
+            return Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                    Row(
+                        children: [
+                            SizedBox(
+                                width: 160,
+                                child: DropdownButtonFormField<UnitCompositionModelDom>(
+                                    value: selectedModel,
+                                    // ... (ваши настройки оформления) ...
+                                    items: unitComposition.compositions.map((model) => DropdownMenuItem(
+                                            value: model,
+                                            child: Text('${model.amount} models / ${model.cost} pts', style: const TextStyle(fontSize: 12))
+                                        )).toList(),
+                                    onChanged: (newValue)
+                                    {
+                                        if (newValue != null)
+                                        {
+                                            ref.read(unitEditorControllerProvider((armyId, instanceId, roleCode)).notifier)
+                                                .updateComposition(newValue);
+                                        }
+                                    }
+                                )
+                            )
+                        ]
+                    ),
+                    // Добавляем чекбоксы ниже
+                    if (additionalCheckboxes.isNotEmpty) ...[
+                        const SizedBox(height: 10, width: 15),
+                        Wrap(
 
-      return SizedBox(
-        width: 250, // Немного увеличил ширину для вместимости текста PTS
-        child: DropdownButtonFormField<UnitCompositionModelDom>(
-          value: selectedModel,
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-            filled: true,
-            fillColor: Colors.white.withOpacity(0.05),
-          ),
-          dropdownColor: const Color(0xFF323232),
-          style: const TextStyle(color: Colors.white, fontSize: 13),
-          items: unitComposition.compositions.map((UnitCompositionModelDom model) {
-            return DropdownMenuItem<UnitCompositionModelDom>(
-              value: model,
-              child: Text(
-                '${model.name} (${model.amount} models) - ${model.cost} pts',
-                style: const TextStyle(fontSize: 12),
-              ),
+                            children: additionalCheckboxes
+                        )
+                    ]
+                ]
             );
-          }).toList(),
-          onChanged: (UnitCompositionModelDom? newValue) {
-            if (newValue != null) {
-              // В будущем: вызываем метод контроллера для обновления состава
-              // ref.read(unitEditorControllerProvider(...).notifier).updateComposition(newValue);
-              debugPrint('Selected composition: ${newValue.name}');
-            }
-          },
-        ),
-      );
-  }
+        }
+
+        // Если вариант один
+        return Row(
+            children: [
+                Text('${unitComposition.compositions.first.amount} models / ${unitComposition.compositions.first.cost} pts'),
+                ...additionalCheckboxes
+            ]
+        );
+    }
+
+    List<Widget> _getCheckBoxAdditionalModels(WidgetRef ref)
+    {
+        return unitComposition.additionalModels.map((model)
+            {
+                return Row(
+                    children: [
+                        Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                    const SizedBox(width: 12),
+                                    Text(model.name, style: const TextStyle(color: Colors.white70, fontSize: 12)),
+                                    const SizedBox(height: 2),
+                                    Text('+ ${model.cost}', style: const TextStyle(color: Colors.white70, fontSize: 12))
+                                ]
+                            ) 
+                        ),
+
+                        SizedBox(width: 5),
+                        Checkbox(
+                            value: model.isSelected,
+                            activeColor: Colors.orangeAccent,
+                            onChanged: (bool? newValue)
+                            {
+                                if (newValue != null)
+                                {
+                                    // ВЫЗЫВАЕМ МЕТОД КОНТРОЛЛЕРА
+                                    ref.read(unitEditorControllerProvider((armyId, instanceId, roleCode)).notifier)
+                                        .toggleAdditionalModel(model.name, newValue);
+                                }
+                            }
+                        )
+                    ]
+                );
+            }).toList();
+    }
 }

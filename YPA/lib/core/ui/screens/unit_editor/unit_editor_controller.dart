@@ -16,11 +16,12 @@ import 'package:ypa/domain/models/army/army.dart';
 import '../../../../domain/models/abilities/core_unit_ability/core_unit_ability.dart';
 import '../../../../domain/models/abilities/faction_unit_ability/faction_unit_ability.dart';
 import '../../../../domain/models/abilities/unit_ability/unit_ability.dart';
+import '../../../../domain/models/unit/unit.dart';
 import '../../../database/tables/seed/seed_objects/_types.dart';
 import '../army_builder/army_builder_controller.dart';
 
 final unitEditorControllerProvider = 
-    StateNotifierProvider.family<UnitEditorController, UnitEditorState, (String, String, String)>((ref, ids)
+    StateNotifierProvider.family<UnitEditorController, UnitEditorState,  (String, String, String)>((ref, ids)
         {
             final (armyId, instanceId, roldeCode) = ids;
             final getUnitAbilityByCode = ref.watch(getunitAbilityByCodeUseCaseProvider);
@@ -44,7 +45,6 @@ final unitEditorControllerProvider =
 
 class UnitEditorController extends StateNotifier<UnitEditorState>
 {
-
 
     final Ref _ref; // ссылка на контроллер Army editor
     final GetUnitAbilityByCode _getUnitAbilityByCode;
@@ -88,7 +88,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
 
         try
         {
-            final  unit = await armyState.getUnitByInstanceIdFromUserArmy(_instanceUnitId,  getUnitRoleCode()!);
+            final unit = await armyState.getUnitByInstanceIdFromUserArmy(_instanceUnitId, getUnitRoleCode()!);
 
             // 1. Создаем UI модель юнита
             final editorUnit = UnitEditorItemUi(
@@ -105,7 +105,6 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                 leader: unit.leader,
                 ledBy: unit.ledBy,
                 modelStats: unit.modelStats,
-                selectedComposition: unit.selectedComposition
             );
 
             // Сначала сохраняем юнита, чтобы функции get... могли его использовать
@@ -113,17 +112,18 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
 
             // 2. ЗАГРУЖАЕМ ВСЕ СПОСОБНОСТИ ПАРАЛЛЕЛЬНО
             final abilitiesResults = await Future.wait([
-              getUnitAbility(),
-              getCoreUnitAbility(),
-              getFactionUnitAbility(),
-            ]);
+                    getUnitAbility(),
+                    getCoreUnitAbility(),
+                    getFactionUnitAbility()
+                ]);
 
             //3. Добавляем Арим код
 
-           final ArmyDOM? army  = await _getArmyById(ArmyId.fromString(armyState.armyId!));
-           if(army != null){
-             state = state.copyWith(armyTypeCode: ArmyTypeCode.fromCode(army.code.value));
-           }
+            final ArmyDOM? army = await _getArmyById(ArmyId.fromString(armyState.armyId!));
+            if (army != null) 
+            {
+                state = state.copyWith(armyTypeCode: ArmyTypeCode.fromCode(army.code.value));
+            }
 
             // 4. ОБНОВЛЯЕМ СТЕЙТ ФИНАЛЬНО
             state = state.copyWith(
@@ -139,7 +139,6 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
 
     }
 
-
     // ==========================================
     // Getters
     // ==========================================
@@ -151,59 +150,110 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
 
     Future<List<UnitAbilityDOM>> getUnitAbility() async
     {
-      // 1. Проверяем, что юнит загружен и у него есть способности
-      if (state.unit == null || state.unit!.unitAbility.isEmpty)
-      {
-        return [];
-      }
+        // 1. Проверяем, что юнит загружен и у него есть способности
+        if (state.unit == null || state.unit!.unitAbility.isEmpty)
+        {
+            return [];
+        }
 
-      // 2. Создаем список Future-запросов для всех кодов способностей
+        // 2. Создаем список Future-запросов для всех кодов способностей
 
-      final List<Future<UnitAbilityDOM?>> futures = state.unit!.unitAbility
-          .map((abilityCode) => _getUnitAbilityByCode(abilityCode))
-          .toList();
+        final List<Future<UnitAbilityDOM?>> futures = state.unit!.unitAbility
+            .map((abilityCode) => _getUnitAbilityByCode(abilityCode))
+            .toList();
 
-      // 3. Дожидаемся завершения всех запросов одновременно
-      final List<UnitAbilityDOM?> results = await Future.wait(futures);
+        // 3. Дожидаемся завершения всех запросов одновременно
+        final List<UnitAbilityDOM?> results = await Future.wait(futures);
 
-      // 4. Фильтруем null (если способность не найдена в базе) и возвращаем чистый список
-      return results.whereType<UnitAbilityDOM>().toList();
+        // 4. Фильтруем null (если способность не найдена в базе) и возвращаем чистый список
+        return results.whereType<UnitAbilityDOM>().toList();
     }
 
-    Future<List<CoreUnitAbilityDOM>> getCoreUnitAbility() async {
+    Future<List<CoreUnitAbilityDOM>> getCoreUnitAbility() async
+    {
 
-      if (state.unit == null || state.unit!.coreAbilities.isEmpty)
-      {
-        return [];
-      }
+        if (state.unit == null || state.unit!.coreAbilities.isEmpty)
+        {
+            return [];
+        }
 
-      final  coreAbilities = await _getAllCoreUnitAbilities();
+        final coreAbilities = await _getAllCoreUnitAbilities();
 
-
-      return coreAbilities.where((ability) {
-        return state.unit!.coreAbilities.contains(CoreUnitAbilityCode.fromName(ability.code));
-      }).toList();
+        return coreAbilities.where((ability)
+            {
+                return state.unit!.coreAbilities.contains(CoreUnitAbilityCode.fromName(ability.code));
+            }).toList();
     }
 
-    Future<List<FactionUnitAbilityDOM>> getFactionUnitAbility()  async{
+    Future<List<FactionUnitAbilityDOM>> getFactionUnitAbility() async
+    {
 
-      // 1. Проверяем, что юнит загружен и у него есть способности
-      if (state.unit == null || state.unit!.factionAbilities.isEmpty)
-      {
-        return [];
-      }
+        // 1. Проверяем, что юнит загружен и у него есть способности
+        if (state.unit == null || state.unit!.factionAbilities.isEmpty)
+        {
+            return [];
+        }
 
-      // 2. Создаем список Future-запросов для всех кодов способностей
+        // 2. Создаем список Future-запросов для всех кодов способностей
 
-      final List<Future<FactionUnitAbilityDOM?>> futures = state.unit!.factionAbilities
-          .map((abilityCode) => _getFactionsUnitAbilityByCode(abilityCode.code))
-          .toList();
+        final List<Future<FactionUnitAbilityDOM?>> futures = state.unit!.factionAbilities
+            .map((abilityCode) => _getFactionsUnitAbilityByCode(abilityCode.code))
+            .toList();
 
-      // 3. Дожидаемся завершения всех запросов одновременно
-      final List<FactionUnitAbilityDOM?> results = await Future.wait(futures);
+        // 3. Дожидаемся завершения всех запросов одновременно
+        final List<FactionUnitAbilityDOM?> results = await Future.wait(futures);
 
-      // 4. Фильтруем null (если способность не найдена в базе) и возвращаем чистый список
-      return results.whereType<FactionUnitAbilityDOM>().toList();
+        // 4. Фильтруем null (если способность не найдена в базе) и возвращаем чистый список
+        return results.whereType<FactionUnitAbilityDOM>().toList();
     }
 
+    // ==========================================
+    //  Tools
+    // ==========================================
+
+    void updateComposition(UnitCompositionModelDom newComposition) 
+    {
+      state = state.copyWith(
+          unit: state.unit!.copyWith(
+              unitComposition: UnitCompositionDom(
+                  compositions: state.unit!.unitComposition.compositions,
+                  selectedComposition: newComposition,
+                  additionalModels:  state.unit!.unitComposition.additionalModels
+              )
+          )
+      );
+    }
+
+    void toggleAdditionalModel(String modelName, bool isSelected) 
+    {
+        if (state.unit == null) return;
+
+        final currentComp = state.unit!.unitComposition;
+
+        // Создаем новый список моделей, меняя флаг у нужной
+        final updatedAdditional = currentComp.additionalModels.map((m)
+            {
+                if (m.name == modelName) 
+                {
+                    return UnitCompositionModelDom(
+                        name: m.name,
+                        amount: m.amount,
+                        cost: m.cost,
+                        isSelected: isSelected
+                    );
+                }
+                return m;
+            }).toList();
+
+        // Обновляем стейт
+        state = state.copyWith(
+            unit: state.unit!.copyWith(
+                unitComposition: UnitCompositionDom(
+                    compositions: currentComp.compositions,
+                    selectedComposition: currentComp.selectedComposition,
+                    additionalModels: updatedAdditional
+                )
+            )
+        );
+    }
 }

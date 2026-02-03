@@ -1781,7 +1781,15 @@ List<UnitSeed> spaceMarinesUnits()
                     UnitCompositionModelDom(
                         name: 'Invader ATV', 
                         amount: 1, 
-                        cost: 60)
+                        cost: 60),
+                  UnitCompositionModelDom(
+                      name: 'Invader ATV2',
+                      amount: 1,
+                      cost: 60),
+                  UnitCompositionModelDom(
+                      name: 'Invader ATV3',
+                      amount: 1,
+                      cost: 60),
                 ]
             ),
 

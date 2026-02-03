@@ -47,25 +47,24 @@ class UnitEditorScreen extends ConsumerWidget
                     centerTitle: false,
                     title: Padding(
                         padding: const EdgeInsets.only(left: 10),
-                        child: Text(state.unit != null ? '${state.unit?.name}' : 'Loading...')
+                        child: Text(state.unit != null ? '${state.unit?.name} : ${_getUnitComposition(state)}' : 'Loading...')
                     ),
                     flexibleSpace: SafeArea(
                         child: Container(
                             alignment: Alignment.centerLeft,
-                            padding: const EdgeInsets.only(left: 82, bottom: 15),
+                            padding: const EdgeInsets.only(left: 72, top: 15),
                             child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                     if(state.unit != null)...[
-                                        Text(
-                                            'Models: ${state.unit!.selectedComposition.keys.first} / PTS:${state.unit!.selectedComposition.values.first}',
-                                            style: const TextStyle(color: Colors.white70, fontSize: 14)
+                                        const SizedBox(width: 10),
+                                        UnitCompositionBloc(
+                                            armyId: armyId,
+                                            instanceId: instanceId,
+                                            roleCode: roleCode,
+                                            unitComposition: state.unit!.unitComposition
                                         ),
-                                        if(state.unit!.unitComposition.compositions.length > 1)...[
-                                            const SizedBox(width: 10),
-                                            UnitCompositionBloc(unitComposition: state.unit!.unitComposition) 
-                                        ]
                                     ]
                                 ]
                             )
@@ -132,6 +131,30 @@ class UnitEditorScreen extends ConsumerWidget
         );
 
         return sections;
+    }
+
+    String _getUnitComposition(UnitEditorState state){
+
+      if (state.unit == null) return '';
+
+      // Берем выбранный состав или первый из списка доступных
+      final baseComp = state.unit!.unitComposition.selectedComposition ??
+          state.unit!.unitComposition.compositions.firstOrNull;
+
+      int models = baseComp?.amount ?? 0;
+      int cost = baseComp?.cost ?? 0;
+
+      // Добавляем стоимость и количество моделей из доп. опций
+      for (var model in state.unit!.unitComposition.additionalModels)
+      {
+        if (model.isSelected)
+        {
+          models += model.amount;
+          cost += model.cost;
+        }
+      }
+
+      return 'Models: $models / $cost pts';
     }
 
 }
