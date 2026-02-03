@@ -59,12 +59,13 @@ class UnitEditorScreen extends ConsumerWidget
                                 children: [
                                     if(state.unit != null)...[
                                         const SizedBox(width: 10),
-                                        UnitCompositionBloc(
-                                            armyId: armyId,
-                                            instanceId: instanceId,
-                                            roleCode: roleCode,
-                                            unitComposition: state.unit!.unitComposition
-                                        ),
+                                        Expanded(child: UnitCompositionBloc(
+                                                armyId: armyId,
+                                                instanceId: instanceId,
+                                                roleCode: roleCode,
+                                                unitComposition: state.unit!.unitComposition
+                                            )
+                                        )
                                     ]
                                 ]
                             )
@@ -133,28 +134,29 @@ class UnitEditorScreen extends ConsumerWidget
         return sections;
     }
 
-    String _getUnitComposition(UnitEditorState state){
+    String _getUnitComposition(UnitEditorState state) 
+    {
 
-      if (state.unit == null) return '';
+        if (state.unit == null) return '';
 
-      // Берем выбранный состав или первый из списка доступных
-      final baseComp = state.unit!.unitComposition.selectedComposition ??
-          state.unit!.unitComposition.compositions.firstOrNull;
+        // Берем выбранный состав или первый из списка доступных
+        final baseComp = state.unit!.unitComposition.selectedComposition ??
+            state.unit!.unitComposition.compositions.firstOrNull;
 
-      int models = baseComp?.amount ?? 0;
-      int cost = baseComp?.cost ?? 0;
+        int models = baseComp?.amount ?? 0;
+        int cost = baseComp?.cost ?? 0;
 
-      // Добавляем стоимость и количество моделей из доп. опций
-      for (var model in state.unit!.unitComposition.additionalModels)
-      {
-        if (model.isSelected)
+        // Добавляем стоимость и количество моделей из доп. опций
+        for (var model in state.unit!.unitComposition.additionalModels)
         {
-          models += model.amount;
-          cost += model.cost;
+            if (model.isSelected)
+            {
+                models += model.amount;
+                cost += model.cost;
+            }
         }
-      }
 
-      return 'Models: $models / $cost pts';
+        return 'Models: $models / $cost pts';
     }
 
 }
