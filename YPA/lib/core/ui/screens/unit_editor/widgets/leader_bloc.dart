@@ -77,6 +77,7 @@ class LeaderBloc extends ConsumerWidget
     {
         Set<String> unitNamesInUserArmy = _getAllUnitsNameInArmy(armyState);
 
+
         Set<String> names = {};
         Map<String, bool> result = {};
         for (LeaderFilterDom filter in filters)

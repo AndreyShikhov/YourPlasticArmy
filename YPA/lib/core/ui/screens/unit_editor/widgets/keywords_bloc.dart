@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class KeywordsBloc extends StatelessWidget
@@ -10,61 +11,73 @@ class KeywordsBloc extends StatelessWidget
 
     final List<String> keywords;
     final List<String> factionKeywords;
+
     KeywordsBloc({
-        required this.keywords, 
+        required this.keywords,
         required this.factionKeywords
     });
 
     @override
-    Widget build(BuildContext context) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Text(
-            'Keywords:',
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white70),
-          ),
-          const SizedBox(height: 4),
-          // ЗАМЕНЯЕМ Row на Wrap
-          Wrap(
-            spacing: 8.0, // Отступ между элементами по горизонтали
-            runSpacing: 4.0, // Отступ между строками по вертикали
-            children: _getKeywords(),
-          ),
-          const SizedBox(height: 12),
-          const Text(
-            'Faction Keywords:',
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white70),
-          ),
-          const SizedBox(height: 4),
-          // ЗАМЕНЯЕМ Row на Wrap
-          Wrap(
-            spacing: 8.0,
-            runSpacing: 4.0,
-            children: _getFactionKeywords(),
-          ),
-        ],
-      );
+    Widget build(BuildContext context) 
+    {
+        return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+                const Text(
+                    'Keywords:',
+                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white70)
+                ),
+                const SizedBox(height: 4),
+                // ЗАМЕНЯЕМ Row на Wrap
+
+                _createKeywords(keywords),
+                const SizedBox(height: 12),
+                const Text(
+                    'Faction Keywords:',
+                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white70)
+                ),
+                const SizedBox(height: 4),
+                // ЗАМЕНЯЕМ Row на Wrap
+                _createKeywords(factionKeywords)
+            ]
+        );
     }
 
-    List<Widget> _getKeywords() {
-      return keywords.map((keyword) => _buildKeywordChip(keyword)).toList();
-    }
+    Wrap _createKeywords(List<String> keywords) 
+    {
 
-    List<Widget> _getFactionKeywords() {
-      return factionKeywords.map((keyword) => _buildKeywordChip(keyword)).toList();
-    }
+      List<String> finalKeywords = keywords.map((keyword) {
+        return keyword.toLowerCase().split(' ').map((word) {
+          if (word.isEmpty) return word;
+          return word[0].toUpperCase() + word.substring(1);
+        }).join(' ');
+      }).toList();
 
-    // Вспомогательный метод для красивого отображения ключевого слова
-    Widget _buildKeywordChip(String text, ) {
-      return Text(
-        text.toUpperCase(),
-        style: TextStyle(
-          color:  Colors.white,
-          fontSize: 12,
-          letterSpacing: 0.5,
-        ),
-      );
+        return Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            runSpacing: 4, // Отступ между строками
+            children: [
+                for (int i = 0; i < finalKeywords.length; i++) ...[
+                        Text(
+                            finalKeywords[i],
+                            style: TextStyle(
+                                color: CupertinoColors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal
+                            )
+                        ),
+                        // Добавляем разделитель, если это не последний элемент
+                        if (i < finalKeywords.length - 1)
+                        const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8),
+                            child: Text(
+                                '|',
+                                style: TextStyle(color: CupertinoColors.systemGrey, fontSize: 12)
+                            )
+                        )
+                    ]
+            ]
+        );
     }
 }
