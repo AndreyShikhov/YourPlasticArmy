@@ -13,7 +13,7 @@ class UpdateUnitParametersFromUserArmy
 
     UpdateUnitParametersFromUserArmy(this.repository);
 
-    Future<void> call({required String armyId, required String instanceId, required UnitRoleCode role, required SaveCategoryCode category, required Map<String, dynamic> updateData}) async
+    Future<void> call({required String armyId, required String instanceId, required UnitRoleCode role, required SaveCategoryCode category, required dynamic updateData}) async
     {
         await repository.updateUnitInstanceFromUserArmy(armyId, instanceId, role, category, updateData);
     }

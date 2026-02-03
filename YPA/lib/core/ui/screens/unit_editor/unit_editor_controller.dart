@@ -234,13 +234,14 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
           updateData: updatedComp.toSaveUserArmyJson()
       );
 
+      //2.1 обновление PTS юнита в базе
       Map<String,dynamic> newTotalPts = {SaveCategoryCode.points.code: updatedComp.totalUnitCost};
       await _updateUnitInUserRoster(
           armyId: _armyId,
           instanceId: _instanceUnitId,
           role: role,
           category: SaveCategoryCode.points,
-          updateData: newTotalPts,
+          updateData: newTotalPts.values.first,
       );
       // обновить ещё pts они идут отдельным параметром
       // 3. Оптимизированное обновление основного экрана
@@ -289,6 +290,16 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
         role: role!,
         category: SaveCategoryCode.composition,
         updateData: state.unit!.unitComposition.toSaveUserArmyJson()
+        );
+
+        //2.1 обновление PTS юнита в базе
+        Map<String,dynamic> newTotalPts = {SaveCategoryCode.points.code: state.unit!.unitComposition.totalUnitCost};
+        await _updateUnitInUserRoster(
+          armyId: _armyId,
+          instanceId: _instanceUnitId,
+          role: role,
+          category: SaveCategoryCode.points,
+          updateData: newTotalPts.values.first,
         );
 
         // 3. Оптимизированное обновление основного экрана

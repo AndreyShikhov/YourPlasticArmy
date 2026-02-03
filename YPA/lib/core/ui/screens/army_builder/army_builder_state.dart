@@ -177,7 +177,6 @@ class ArmyBuilderState
             leader: findedUnit.leader,
             ledBy: findedUnit.ledBy,
             modelStats: findedUnit.modelStats,
-            selectedComposition: findedUnit.selectedComposition
         );
     }
 }

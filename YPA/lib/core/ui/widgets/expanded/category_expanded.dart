@@ -83,5 +83,5 @@ class _CategoryExpandedState extends ConsumerState<CategoryExpanded>
 
     int _getPTSFromCategory(List<ArmyBuilderUnitItemUi> units) =>
     units.fold(0, (sum, u) =>
-        sum + (u.selectedComposition.isNotEmpty ? u.selectedComposition.values.first : 0));
+        sum + u.unitComposition.totalUnitCost);
 }

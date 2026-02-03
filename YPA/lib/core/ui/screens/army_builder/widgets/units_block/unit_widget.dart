@@ -11,6 +11,7 @@ import 'package:ypa/core/ui/screens/army_builder/army_builder_item_ui.dart';
 import 'package:ypa/core/ui/screens/army_builder/widgets/units_block/model_from_unit.dart';
 import 'package:ypa/core/ui/screens/data/style_data.dart';
 
+import '../../../../../../domain/models/unit/unit.dart';
 import '../../army_builder_controller.dart';
 import 'btn_action_unit.dart';
 
@@ -75,7 +76,7 @@ class UnitWidget extends ConsumerWidget
                                     ),
                                     const SizedBox(width: 8),
                                     Text(
-                                        '${unit.selectedComposition.keys.first} models / ${unit.selectedComposition.values.first} pts',
+                                        ' ${_getModelsAndPts(unit.unitComposition)}',
                                         style: const TextStyle(color: Colors.white70, fontSize: 12),
                                     )
                                 ]
@@ -145,5 +146,27 @@ class UnitWidget extends ConsumerWidget
             case 10: return 'X';
             default: return '';
         }
+    }
+
+    String _getModelsAndPts(UnitCompositionDom composition)
+    {
+      // 1. Берем базовый состав (выбранный или первый по умолчанию)
+      final base = composition.selectedComposition ?? composition.compositions.firstOrNull;
+
+      int models = base?.amount ?? 0;
+      int pts = base?.cost ?? 0;
+
+      // 2. Добавляем данные из дополнительных выбранных моделей
+      for (var model in composition.additionalModels)
+      {
+        if (model.isSelected)
+        {
+          models += model.amount;
+          pts += model.cost;
+        }
+      }
+
+
+      return  '$models models / $pts pts';
     }
 }

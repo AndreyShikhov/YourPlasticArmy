@@ -23,7 +23,6 @@ class ArmyBuilderUnitItemUi
     final List<LeaderFilterDom> leader;
     final List<LeaderFilterDom> ledBy;
     final Map<String, ModelStatsDom> modelStats;
-    final Map<int, int> selectedComposition;
 
     ArmyBuilderUnitItemUi({
         required this.instanceId,
@@ -40,7 +39,6 @@ class ArmyBuilderUnitItemUi
         required this.leader,
         required this.ledBy,
         required this.modelStats,
-        required this.selectedComposition
     });
 
     ArmyBuilderUnitItemUi copyWith({
@@ -58,7 +56,6 @@ class ArmyBuilderUnitItemUi
         List<LeaderFilterDom>? leader,
         List<LeaderFilterDom>? ledBy,
         Map<String, ModelStatsDom>? modelStats,
-        Map<int, int>? selectedComposition
     })
     {
         return ArmyBuilderUnitItemUi(
@@ -76,7 +73,6 @@ class ArmyBuilderUnitItemUi
             leader: leader ?? this.leader,
             ledBy: ledBy ?? this.ledBy,
             modelStats: modelStats ?? this.modelStats,
-            selectedComposition: selectedComposition ?? this.selectedComposition
         );
     }
 
@@ -98,7 +94,6 @@ class ArmyBuilderUnitItemUi
             'leader': leader,
             'ledBy': ledBy,
             'modelStats': modelStats.map((k, v) => MapEntry(k, v.toJson())),
-            'selectedComposition': selectedComposition.map((k, v) => MapEntry(k.toString(), v))
         };
     }
 
@@ -126,7 +121,6 @@ class ArmyBuilderUnitItemUi
             leader: (json['leader'] as List ?? []).map((l) => LeaderFilterDom.fromJson(l as Map<String, dynamic>)).toList(),
             ledBy: (json['ledBy'] as List ?? []).map((l) => LeaderFilterDom.fromJson(l as Map<String, dynamic>)).toList(),
             modelStats: modelStatsRaw.map((k, v) => MapEntry(k, ModelStatsDom.fromJson(v))),
-            selectedComposition: selectedCompRaw.map((k, v) => MapEntry(int.parse(k), v as int))
         );
     }
 
@@ -147,7 +141,6 @@ class ArmyBuilderUnitItemUi
             leader: [],
             ledBy: [],
             modelStats: {},
-            selectedComposition: {}
         );
     }
 }

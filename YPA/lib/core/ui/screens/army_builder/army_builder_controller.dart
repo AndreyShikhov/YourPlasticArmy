@@ -170,9 +170,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         if (index != -1)
         {
             final updatedUnit = unitsInRole[index].copyWith(
-                unitComposition: newComposition,
-                // Также обновляем selectedComposition для правильного расчета очков
-                selectedComposition: newComposition.effectiveComposition
+                unitComposition: newComposition
             );
 
             final newList = List<ArmyBuilderUnitItemUi>.from(unitsInRole);
@@ -201,12 +199,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             {
                 for (var unit in units)
                 {
-                    // Проверяем, что в выбранном составе есть очки
-                    if (unit.selectedComposition.isNotEmpty)
-                    {
-                        // Прибавляем стоимость (values.first — это значение очков из Map<int, int>)
-                        total += unit.selectedComposition.values.first;
-                    }
+                    total += unit.unitComposition.totalUnitCost;
                 }
             });
 
@@ -334,8 +327,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             factionAbilities: unit.factionAbilities,
             leader: unit.leader,
             ledBy: unit.ledBy,
-            modelStats: unit.modelStats,
-            selectedComposition: unit.unitComposition.effectiveComposition
+            modelStats: unit.modelStats
         );
     }
 
