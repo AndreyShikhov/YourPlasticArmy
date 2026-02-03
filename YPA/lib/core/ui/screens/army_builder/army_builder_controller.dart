@@ -7,6 +7,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uuid/uuid.dart';
 import 'package:ypa/application/codex/get_codex_by_id.dart';
 import 'package:ypa/core/providers/di/di_providers.dart';
 import 'package:ypa/domain/models/army/army.dart';
@@ -158,56 +159,58 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         }
     }
 
-    void updateUnitInState(String instanceId, UnitRoleCode role, UnitCompositionDom newComposition) {
-      if (state.userArmyUnits == null) return;
+    void updateUnitInState(String instanceId, UnitRoleCode role, UnitCompositionDom newComposition) 
+    {
+        if (state.userArmyUnits == null) return;
 
-      final unitsInRole = state.userArmyUnits![role] ?? [];
-      final index = unitsInRole.indexWhere((u) => u.instanceId == instanceId);
+        final unitsInRole = state.userArmyUnits![role] ?? [];
+        final index = unitsInRole.indexWhere((u) => u.instanceId == instanceId);
 
-      if (index != -1) {
-        final updatedUnit = unitsInRole[index].copyWith(
-            unitComposition: newComposition,
-            // Также обновляем selectedComposition для правильного расчета очков
-            selectedComposition: newComposition.effectiveComposition
-        );
+        if (index != -1) 
+        {
+            final updatedUnit = unitsInRole[index].copyWith(
+                unitComposition: newComposition,
+                // Также обновляем selectedComposition для правильного расчета очков
+                selectedComposition: newComposition.effectiveComposition
+            );
 
-        final newList = List<ArmyBuilderUnitItemUi>.from(unitsInRole);
-        newList[index] = updatedUnit;
+            final newList = List<ArmyBuilderUnitItemUi>.from(unitsInRole);
+            newList[index] = updatedUnit;
 
-        final newUserArmyUnits = Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>.from(state.userArmyUnits!);
-        newUserArmyUnits[role] = newList;
+            final newUserArmyUnits = Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>.from(state.userArmyUnits!);
+            newUserArmyUnits[role] = newList;
 
-        state = state.copyWith(userArmyUnits: newUserArmyUnits);
-        updateCurrentPts(); // Пересчитываем очки мгновенно
-      }
+            state = state.copyWith(userArmyUnits: newUserArmyUnits);
+            updateCurrentPts(); // Пересчитываем очки мгновенно
+        }
     }
 
-     updateCurrentPts()
+    updateCurrentPts()
     {
-      int total = 0;
+        int total = 0;
 
-      // Если юнитов нет, возвращаем стейт с 0 очков
-      if (state.userArmyUnits == null || state.userArmyUnits!.isEmpty)
-      {
-        state = state.copyWith(currentPts: total);
-      }
-
-      // Проходим по всем категориям и юнитам в них
-      state.userArmyUnits!.forEach((role, units)
-      {
-        for (var unit in units)
+        // Если юнитов нет, возвращаем стейт с 0 очков
+        if (state.userArmyUnits == null || state.userArmyUnits!.isEmpty)
         {
-          // Проверяем, что в выбранном составе есть очки
-          if (unit.selectedComposition.isNotEmpty)
-          {
-            // Прибавляем стоимость (values.first — это значение очков из Map<int, int>)
-            total += unit.selectedComposition.values.first;
-          }
+            state = state.copyWith(currentPts: total);
         }
-      });
 
-      // Возвращаем новый объект стейта через copyWith
-      state = state.copyWith(currentPts: total);
+        // Проходим по всем категориям и юнитам в них
+        state.userArmyUnits!.forEach((role, units)
+            {
+                for (var unit in units)
+                {
+                    // Проверяем, что в выбранном составе есть очки
+                    if (unit.selectedComposition.isNotEmpty)
+                    {
+                        // Прибавляем стоимость (values.first — это значение очков из Map<int, int>)
+                        total += unit.selectedComposition.values.first;
+                    }
+                }
+            });
+
+        // Возвращаем новый объект стейта через copyWith
+        state = state.copyWith(currentPts: total);
     }
 
     // ==========================================
@@ -226,15 +229,14 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
     Future<List<ArmyBuilderUnitItemUi>> getAllUnitsByCodexId(CodexId codexId) async
     {
         List<UnitDOM> unitDomain = await _getAllUnitsByCodexid(codexId);
-        return unitDomain.map((unit) => _convertDomainUnitToUnitItemUi(unit)).toList();
+        return unitDomain.map((unit) => _convertDomainUnitToUnitItemUi(unit, '')).toList();
     }
 
     Future<List<ArmyBuilderUnitItemUi>> getAllUnitsByArmyId(ArmyId armyId) async
     {
         List<UnitDOM> unitDomain = await _getAllUnitsByArmyId(armyId);
-        return unitDomain.map((unit) => _convertDomainUnitToUnitItemUi(unit)).toList();
+        return unitDomain.map((unit) => _convertDomainUnitToUnitItemUi(unit, '')).toList();
     }
-
 
     // ==========================================
     //  Load Army
@@ -313,10 +315,12 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         state = state.copyWith(temDataUnitsByRoleFromdb: temDataUnitsByRole);
     }
 
-    ArmyBuilderUnitItemUi _convertDomainUnitToUnitItemUi(UnitDOM unit)
+    ArmyBuilderUnitItemUi _convertDomainUnitToUnitItemUi(UnitDOM unit, String instanceId)
     {
+        final String newInstanceId = instanceId == '' ? const Uuid().v4() : instanceId;
+
         return ArmyBuilderUnitItemUi(
-            instanceId: unit.id.value,
+            instanceId: newInstanceId,
             dbId: unit.id.value,
             name: unit.name.value,
             role: unit.role.value.name,
@@ -361,7 +365,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                                 final unitDom = await _getUnitByIdFromDb(UnitIdDom.fromString(map['unitId']));
                                 if (unitDom == null) return null;
 
-                                return _convertDomainUnitToUnitItemUi(unitDom);
+                                return _convertDomainUnitToUnitItemUi(unitDom, map['instanceId']);
                             })
                     );
 
