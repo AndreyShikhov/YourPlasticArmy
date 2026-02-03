@@ -26,12 +26,12 @@ class UnitCompositionDom
         List<UnitCompositionModelDom>? compositions,
         UnitCompositionModelDom? selectedComposition,
         List<UnitCompositionModelDom>? additionalModels
-    }) 
+    })
     {
         return UnitCompositionDom(
-          compositions: compositions?? this.compositions,
-          selectedComposition: selectedComposition?? this.selectedComposition,
-          additionalModels: additionalModels?? this.additionalModels
+            compositions: compositions ?? this.compositions,
+            selectedComposition: selectedComposition ?? this.selectedComposition,
+            additionalModels: additionalModels ?? this.additionalModels
         );
     }
 
@@ -40,13 +40,25 @@ class UnitCompositionDom
     // ==========================================
 
     // ИСПРАВЛЕНО: Теперь возвращает Map<int, int> через двоеточие {:}, а не запятую
-    Map<int, int> get effectiveComposition 
+    Map<int, int> get effectiveComposition
     {
         final active = selectedComposition ?? compositions.firstOrNull;
         if (active == null) return {0: 0};
         return {active.amount: active.cost};
     }
 
+    int get totalUnitCost 
+    {
+        // Используем выбранный или ПЕРВЫЙ из списка
+        final base = selectedComposition ?? compositions.firstOrNull;
+        int res = base?.cost ?? 0;
+
+        for (var model in additionalModels)
+        {
+            if (model.isSelected) res += model.cost;
+        }
+        return res;
+    }
     // ==========================================
     // JSON
     // ==========================================
@@ -102,7 +114,7 @@ class UnitCompositionModelDom
         this.isSelected = false
     });
 
-    Map<String, dynamic> toJson() => 
+    Map<String, dynamic> toJson() =>
     {
         'name': name,
         'amount': amount,

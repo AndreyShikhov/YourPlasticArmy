@@ -4,7 +4,7 @@
  ******************************************************************************/
 
 import '../../core/database/tables/seed/seed_objects/_types.dart';
-import '../../domain/models/user_army/user_army_repository.dart';
+import '../../domain/models/user_army/user_army.dart';
 
 class UpdateUnitParametersFromUserArmy
 {
@@ -13,8 +13,8 @@ class UpdateUnitParametersFromUserArmy
 
     UpdateUnitParametersFromUserArmy(this.repository);
 
-    Future<void> call({required String armyId, required String instanceId, required UnitRoleCode role, required Map<String, dynamic> updateData}) async
+    Future<void> call({required String armyId, required String instanceId, required UnitRoleCode role, required SaveCategoryCode category, required Map<String, dynamic> updateData}) async
     {
-        await repository.updateUnitInstanceFromUserArmy(armyId, instanceId, role, updateData);
+        await repository.updateUnitInstanceFromUserArmy(armyId, instanceId, role, category, updateData);
     }
 }

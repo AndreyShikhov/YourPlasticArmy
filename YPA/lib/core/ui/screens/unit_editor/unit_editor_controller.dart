@@ -12,6 +12,7 @@ import 'package:ypa/core/providers/di/di_providers.dart';
 import 'package:ypa/core/ui/screens/unit_editor/unit_editor_item_ui.dart';
 import 'package:ypa/core/ui/screens/unit_editor/unit_editor_state.dart';
 import 'package:ypa/domain/models/army/army.dart';
+import 'package:ypa/domain/models/user_army/user_army.dart';
 
 import '../../../../application/user_army/user_army_use_cases.dart';
 import '../../../../domain/models/abilities/core_unit_ability/core_unit_ability.dart';
@@ -229,6 +230,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
           armyId: _armyId,
           instanceId: _instanceUnitId,
           role: role!,
+          category: SaveCategoryCode.composition,
           updateData: updatedComp.toSaveUserArmyJson()
       );
 
@@ -276,6 +278,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
         armyId: _armyId,
         instanceId: _instanceUnitId,
         role: role!,
+        category: SaveCategoryCode.composition,
         updateData: state.unit!.unitComposition.toSaveUserArmyJson()
         );
 

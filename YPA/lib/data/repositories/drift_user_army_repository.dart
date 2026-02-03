@@ -103,12 +103,12 @@ class DriftUserArmyRepository implements UserArmyRepository
     }
 
     @override
-    Future<void> updateUnitInstanceFromUserArmy(String armyId, String instanceId, UnitRoleCode role, Map<String, dynamic> updateData) async
+    Future<void> updateUnitInstanceFromUserArmy(String armyId, String instanceId, UnitRoleCode role,SaveCategoryCode category, Map<String, dynamic> updateData) async
     {
       final army = await getUserArmyById(armyId);
       if (army != null) {
         // Вызываем логику домена
-        final updatedArmy = await army.updateUnitInstance(instanceId, role.name, updateData);
+        final updatedArmy = await army.updateUnitInstance(instanceId, role.name,category, updateData);
         // Сохраняем результат
         await saveUserArmy(updatedArmy);
       }
