@@ -12,94 +12,110 @@ import 'model_weapons.dart';
 
 class UnitCompositionDom
 {
-  final List<UnitCompositionModelDom> compositions;
-  final UnitCompositionModelDom? selectedComposition;
-  final List<UnitCompositionModelDom> additionalModels; // Сделал не nullable для удобства (по умолчанию [])
+    final List<UnitCompositionModelDom> compositions;
+    final UnitCompositionModelDom? selectedComposition;
+    final List<UnitCompositionModelDom> additionalModels; // Сделал не nullable для удобства (по умолчанию [])
 
-  const UnitCompositionDom({
-    required this.compositions,
-    this.selectedComposition,
-    this.additionalModels = const []
-  });
+    const UnitCompositionDom({
+        required this.compositions,
+        this.selectedComposition,
+        this.additionalModels = const[]
+    });
 
-  // ==========================================
-  // Getters
-  // ==========================================
+    UnitCompositionDom copyWith({
+        List<UnitCompositionModelDom>? compositions,
+        UnitCompositionModelDom? selectedComposition,
+        List<UnitCompositionModelDom>? additionalModels
+    }) 
+    {
+        return UnitCompositionDom(
+          compositions: compositions?? this.compositions,
+          selectedComposition: selectedComposition?? this.selectedComposition,
+          additionalModels: additionalModels?? this.additionalModels
+        );
+    }
 
-  // ИСПРАВЛЕНО: Теперь возвращает Map<int, int> через двоеточие {:}, а не запятую
-  Map<int, int> get effectiveComposition {
-    final active = selectedComposition ?? compositions.firstOrNull;
-    if (active == null) return {0: 0};
-    return {active.amount: active.cost};
-  }
+    // ==========================================
+    // Getters
+    // ==========================================
 
-  // ==========================================
-  // JSON
-  // ==========================================
-  Map<String, dynamic> toJson() =>
-      {
+    // ИСПРАВЛЕНО: Теперь возвращает Map<int, int> через двоеточие {:}, а не запятую
+    Map<int, int> get effectiveComposition 
+    {
+        final active = selectedComposition ?? compositions.firstOrNull;
+        if (active == null) return {0: 0};
+        return {active.amount: active.cost};
+    }
+
+    // ==========================================
+    // JSON
+    // ==========================================
+    Map<String, dynamic> toJson() =>
+    {
         'compositions': compositions.map((c) => c.toJson()).toList(),
         'selectedComposition': selectedComposition?.toJson(),
-        'additionalModels': additionalModels.map((c) => c.toJson()).toList(),
-      };
+        'additionalModels': additionalModels.map((c) => c.toJson()).toList()
+    };
 
-  Map<String, dynamic> toSaveUserArmyJson() =>
-      {
+    Map<String, dynamic> toSaveUserArmyJson() =>
+    {
         'selectedComposition': selectedComposition?.toJson(),
         'additionalModels': additionalModels
             .where((c) => c.isSelected)
             .map((c) => c.toJson())
-            .toList(),
-      };
+            .toList()
+    };
 
-  factory UnitCompositionDom.fromJson(Map<String, dynamic> json)
-  {
-    return UnitCompositionDom(
-      compositions: (json['compositions'] as List? ?? [])
-          .map((e) => UnitCompositionModelDom.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      selectedComposition: json['selectedComposition'] != null
-          ? UnitCompositionModelDom.fromJson(json['selectedComposition'] as Map<String, dynamic>)
-          : null,
-      additionalModels: (json['additionalModels'] as List? ?? [])
-          .map((e) => UnitCompositionModelDom.fromJson(e as Map<String, dynamic>))
-          .toList(),
+    factory UnitCompositionDom.fromJson(Map<String, dynamic> json)
+    {
+        return UnitCompositionDom(
+            compositions: (json['compositions'] as List? ?? [])
+                .map((e) => UnitCompositionModelDom.fromJson(e as Map<String, dynamic>))
+                .toList(),
+            selectedComposition: json['selectedComposition'] != null
+                ? UnitCompositionModelDom.fromJson(json['selectedComposition'] as Map<String, dynamic>)
+                : null,
+            additionalModels: (json['additionalModels'] as List? ?? [])
+                .map((e) => UnitCompositionModelDom.fromJson(e as Map<String, dynamic>))
+                .toList()
+        );
+    }
+
+    static const UnitCompositionDom emptyComposition = UnitCompositionDom(
+        compositions: [],
+        selectedComposition: null,
+        additionalModels: []
     );
-  }
-
-  static const UnitCompositionDom emptyComposition = UnitCompositionDom(
-      compositions: [],
-      selectedComposition: null,
-      additionalModels: []
-  );
 }
 
-class UnitCompositionModelDom {
-  final String name;
-  final int amount;
-  final int cost;
-  final bool isSelected;
+class UnitCompositionModelDom
+{
+    final String name;
+    final int amount;
+    final int cost;
+    final bool isSelected;
 
-  const UnitCompositionModelDom({
-    required this.name,
-    required this.amount,
-    required this.cost,
-    this.isSelected = false,
-  });
+    const UnitCompositionModelDom({
+        required this.name,
+        required this.amount,
+        required this.cost,
+        this.isSelected = false
+    });
 
-  Map<String, dynamic> toJson() => {
-    'name': name,
-    'amount': amount,
-    'cost': cost,
-    'isSelected': isSelected,
-  };
+    Map<String, dynamic> toJson() => 
+    {
+        'name': name,
+        'amount': amount,
+        'cost': cost,
+        'isSelected': isSelected
+    };
 
-  factory UnitCompositionModelDom.fromJson(Map<String, dynamic> json) => UnitCompositionModelDom(
-    name: json['name'] as String,
-    amount: json['amount'] as int,
-    cost: json['cost'] as int,
-    isSelected: json['isSelected'] as bool? ?? false,
-  );
+    factory UnitCompositionModelDom.fromJson(Map<String, dynamic> json) => UnitCompositionModelDom(
+        name: json['name'] as String,
+        amount: json['amount'] as int,
+        cost: json['cost'] as int,
+        isSelected: json['isSelected'] as bool? ?? false
+    );
 }
 // ==========================================
 // WARGEAR OPTIONS

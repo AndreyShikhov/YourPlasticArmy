@@ -13,6 +13,7 @@ import 'package:ypa/core/ui/screens/unit_editor/unit_editor_item_ui.dart';
 import 'package:ypa/core/ui/screens/unit_editor/unit_editor_state.dart';
 import 'package:ypa/domain/models/army/army.dart';
 
+import '../../../../application/user_army/user_army_use_cases.dart';
 import '../../../../domain/models/abilities/core_unit_ability/core_unit_ability.dart';
 import '../../../../domain/models/abilities/faction_unit_ability/faction_unit_ability.dart';
 import '../../../../domain/models/abilities/unit_ability/unit_ability.dart';
@@ -28,6 +29,8 @@ final unitEditorControllerProvider =
             final getAllCoreUnitAbilities = ref.watch(getAllCoreUnitAbilitiesUseCaseProvider);
             final getFactionAbilityByCode = ref.watch(getFactionUnitAbilityByCodeUseCaseProvider);
             final getArmyById = ref.watch(getArmyByIdUseCaseProvider);
+            final updateUnitInUserRoster = ref.watch(updateUnitParametersFromUserArmyUseCaseProvider);
+
 
             return UnitEditorController(
                 ref,
@@ -36,6 +39,7 @@ final unitEditorControllerProvider =
                 getFactionAbilityByCode,
                 getArmyById,
                 instanceId,
+                updateUnitInUserRoster,
                 armyId,
                 roldeCode
             );
@@ -51,6 +55,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
     final GetAllCoreUnitAbilities _getAllCoreUnitAbilities;
     final GetFactionsUnitAbilityByCode _getFactionsUnitAbilityByCode;
     final GetArmyById _getArmyById;
+    final UpdateUnitParametersFromUserArmy _updateUnitInUserRoster;
     final String _instanceUnitId;
     final String _role;
     final String _armyId;
@@ -63,6 +68,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
         this._getFactionsUnitAbilityByCode,
         this._getArmyById,
         this._instanceUnitId,
+        this._updateUnitInUserRoster,
         this._armyId,
         this._role
 
@@ -211,21 +217,27 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
     //  Tools
     // ==========================================
 
-    void updateComposition(UnitCompositionModelDom newComposition) 
-    {
-      state = state.copyWith(
-          unit: state.unit!.copyWith(
-              unitComposition: UnitCompositionDom(
-                  compositions: state.unit!.unitComposition.compositions,
-                  selectedComposition: newComposition,
-                  additionalModels:  state.unit!.unitComposition.additionalModels
-              )
-          )
+    void updateComposition(UnitCompositionModelDom newComposition) async {
+      // 1. Локальное обновление экрана редактора
+      final updatedComp = state.unit!.unitComposition.copyWith(selectedComposition: newComposition);
+      state = state.copyWith(unit: state.unit!.copyWith(unitComposition: updatedComp));
+
+      final role  = UnitRoleCode.fromName(_role);
+
+      // 2. Сохранение в БД (через UseCase)
+      await _updateUnitInUserRoster(
+          armyId: _armyId,
+          instanceId: _instanceUnitId,
+          role: role!,
+          updateData: updatedComp.toSaveUserArmyJson()
       );
+
+      // 3. Оптимизированное обновление основного экрана
+      _ref.read(armyBuilderControllerProvider(_armyId).notifier)
+          .updateUnitInState(_instanceUnitId, getUnitRoleCode()!, updatedComp);
     }
 
-    void toggleAdditionalModel(String modelName, bool isSelected) 
-    {
+    void toggleAdditionalModel(String modelName, bool isSelected) async {
         if (state.unit == null) return;
 
         final currentComp = state.unit!.unitComposition;
@@ -244,7 +256,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                 }
                 return m;
             }).toList();
-
+        // 1. Локальное обновление экрана редактора
         // Обновляем стейт
         state = state.copyWith(
             unit: state.unit!.copyWith(
@@ -255,5 +267,20 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                 )
             )
         );
+
+        final role  = UnitRoleCode.fromName(_role);
+
+        // 2. Сохранение в БД (через UseCase)
+
+        await _updateUnitInUserRoster(
+        armyId: _armyId,
+        instanceId: _instanceUnitId,
+        role: role!,
+        updateData: state.unit!.unitComposition.toSaveUserArmyJson()
+        );
+
+        // 3. Оптимизированное обновление основного экрана
+        _ref.read(armyBuilderControllerProvider(_armyId).notifier)
+            .updateUnitInState(_instanceUnitId, getUnitRoleCode()!, state.unit!.unitComposition);
     }
 }

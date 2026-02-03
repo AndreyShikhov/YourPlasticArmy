@@ -158,6 +158,30 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         }
     }
 
+    void updateUnitInState(String instanceId, UnitRoleCode role, UnitCompositionDom newComposition) {
+      if (state.userArmyUnits == null) return;
+
+      final unitsInRole = state.userArmyUnits![role] ?? [];
+      final index = unitsInRole.indexWhere((u) => u.instanceId == instanceId);
+
+      if (index != -1) {
+        final updatedUnit = unitsInRole[index].copyWith(
+            unitComposition: newComposition,
+            // Также обновляем selectedComposition для правильного расчета очков
+            selectedComposition: newComposition.effectiveComposition
+        );
+
+        final newList = List<ArmyBuilderUnitItemUi>.from(unitsInRole);
+        newList[index] = updatedUnit;
+
+        final newUserArmyUnits = Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>.from(state.userArmyUnits!);
+        newUserArmyUnits[role] = newList;
+
+        state = state.copyWith(userArmyUnits: newUserArmyUnits);
+        updateCurrentPts(); // Пересчитываем очки мгновенно
+      }
+    }
+
      updateCurrentPts()
     {
       int total = 0;

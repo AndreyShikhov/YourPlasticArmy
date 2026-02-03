@@ -67,3 +67,9 @@ final removeLastUnitFromUserRosterUseCaseProvider = Provider<RemoveLastUnitFromU
         final repository = ref.watch(userArmyRepositoryProvider);
         return RemoveLastUnitFromUserRoster(repository);
     });
+
+final updateUnitParametersFromUserArmyUseCaseProvider = Provider<UpdateUnitParametersFromUserArmy>((ref)
+    {
+        final repository = ref.watch(userArmyRepositoryProvider);
+        return UpdateUnitParametersFromUserArmy(repository);
+    });

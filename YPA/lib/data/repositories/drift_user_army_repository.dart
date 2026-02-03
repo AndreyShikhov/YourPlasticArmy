@@ -101,4 +101,16 @@ class DriftUserArmyRepository implements UserArmyRepository
         await saveUserArmy(updatedArmy);
       }
     }
+
+    @override
+    Future<void> updateUnitInstanceFromUserArmy(String armyId, String instanceId, UnitRoleCode role, Map<String, dynamic> updateData) async
+    {
+      final army = await getUserArmyById(armyId);
+      if (army != null) {
+        // Вызываем логику домена
+        final updatedArmy = await army.updateUnitInstance(instanceId, role.name, updateData);
+        // Сохраняем результат
+        await saveUserArmy(updatedArmy);
+      }
+    }
 }

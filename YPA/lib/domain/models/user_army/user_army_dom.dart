@@ -190,6 +190,23 @@ class UserArmyDOM
         }
     }
 
+    /// Обновляет парметры [updateData] экземпляр юнита с указанным [unitId] из конкретной [role].
+    Future<UserArmyDOM> updateUnitInstance(String instanceId, String role, Map<String, dynamic> updateData) async {
+      if (jsonData.isEmpty) return this;        final root = jsonDecode(jsonData);
+      final categories = root["categories"] ?? {};
+      final List<dynamic> unitList = categories[role] ?? [];
+
+      final index = unitList.indexWhere((u) => u['instanceId'] == instanceId);
+      if (index == -1) return this;
+
+      // Обновляем данные инстанса, подмешивая новые поля (updateData)
+      unitList[index] = {
+        ...unitList[index],
+        ...updateData,
+      };
+
+      return copyWith(jsonData: jsonEncode(root));
+    }
 
     // ==========================================
     // Getters

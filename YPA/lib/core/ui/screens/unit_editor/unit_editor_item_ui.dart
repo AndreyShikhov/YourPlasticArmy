@@ -37,42 +37,41 @@ class UnitEditorItemUi
         required this.factionAbilities,
         required this.leader,
         required this.ledBy,
-        required this.modelStats,
+        required this.modelStats
 
     });
 
-
     UnitEditorItemUi copyWith({
-     String? instanceId,
-     String? name,
-     String? role,
-     int? repeat,
-     List<String>? keywords,
-     List<String>? factionKeywords,
-     UnitCompositionDom? unitComposition,
-     List<String>? unitAbility,
-     List<CoreUnitAbilityCode>? coreAbilities,
-     List<FactionUnitAbilityCode>? factionAbilities,
-     List<LeaderFilterDom>? leader,
-     List<LeaderFilterDom>? ledBy,
-     Map<String, ModelStatsDom>? modelStats,
+        String? instanceId,
+        String? name,
+        String? role,
+        int? repeat,
+        List<String>? keywords,
+        List<String>? factionKeywords,
+        UnitCompositionDom? unitComposition,
+        List<String>? unitAbility,
+        List<CoreUnitAbilityCode>? coreAbilities,
+        List<FactionUnitAbilityCode>? factionAbilities,
+        List<LeaderFilterDom>? leader,
+        List<LeaderFilterDom>? ledBy,
+        Map<String, ModelStatsDom>? modelStats
     })
     {
-      return UnitEditorItemUi(
-        instanceId: instanceId ?? this.instanceId,
-        name: name ?? this.name,
-        role: role ?? this.role,
-        repeat: repeat ?? this.repeat,
-        keywords: keywords ?? this.keywords,
-        factionKeywords: factionKeywords ?? this.factionKeywords,
-        unitComposition:  unitComposition ?? this.unitComposition,
-        unitAbility:  unitAbility ?? this.unitAbility,
-        coreAbilities: coreAbilities ?? this.coreAbilities,
-        factionAbilities: factionAbilities ?? this.factionAbilities,
-        leader: leader ?? this.leader,
-        ledBy: ledBy ?? this.ledBy,
-        modelStats: modelStats ?? this.modelStats,
-      );
+        return UnitEditorItemUi(
+            instanceId: instanceId ?? this.instanceId,
+            name: name ?? this.name,
+            role: role ?? this.role,
+            repeat: repeat ?? this.repeat,
+            keywords: keywords ?? this.keywords,
+            factionKeywords: factionKeywords ?? this.factionKeywords,
+            unitComposition: unitComposition ?? this.unitComposition,
+            unitAbility: unitAbility ?? this.unitAbility,
+            coreAbilities: coreAbilities ?? this.coreAbilities,
+            factionAbilities: factionAbilities ?? this.factionAbilities,
+            leader: leader ?? this.leader,
+            ledBy: ledBy ?? this.ledBy,
+            modelStats: modelStats ?? this.modelStats
+        );
     }
 
 }

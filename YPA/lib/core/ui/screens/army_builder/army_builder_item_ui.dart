@@ -43,6 +43,43 @@ class ArmyBuilderUnitItemUi
         required this.selectedComposition
     });
 
+    ArmyBuilderUnitItemUi copyWith({
+        String? instanceId,
+        String? dbId,
+        String? name,
+        String? role,
+        int? repeat,
+        List<String>? keywords,
+        List<String>? factionKeywords,
+        UnitCompositionDom? unitComposition,
+        List<String>? unitAbility,
+        List<CoreUnitAbilityCode>? coreAbilities,
+        List<FactionUnitAbilityCode>? factionAbilities,
+        List<LeaderFilterDom>? leader,
+        List<LeaderFilterDom>? ledBy,
+        Map<String, ModelStatsDom>? modelStats,
+        Map<int, int>? selectedComposition
+    })
+    {
+        return ArmyBuilderUnitItemUi(
+            instanceId: instanceId ?? this.instanceId,
+            dbId: dbId ?? this.dbId,
+            name: name ?? this.name,
+            role: role ?? this.role,
+            repeat: repeat ?? this.repeat,
+            keywords: keywords ?? this.keywords,
+            factionKeywords: factionKeywords ?? this.factionKeywords,
+            unitComposition: unitComposition ?? this.unitComposition,
+            unitAbility: unitAbility ?? this.unitAbility,
+            coreAbilities: coreAbilities ?? this.coreAbilities,
+            factionAbilities: factionAbilities ?? this.factionAbilities,
+            leader: leader ?? this.leader,
+            ledBy: ledBy ?? this.ledBy,
+            modelStats: modelStats ?? this.modelStats,
+            selectedComposition: selectedComposition ?? this.selectedComposition
+        );
+    }
+
     Map<String, dynamic> toJson()
     {
         return
@@ -86,7 +123,7 @@ class ArmyBuilderUnitItemUi
             factionAbilities: (json['factionAbilities'] as List? ?? [])
                 .map((e) => FactionUnitAbilityCode.values.byName(e))
                 .toList(),
-            leader:   (json['leader'] as List ?? []).map((l) => LeaderFilterDom.fromJson(l as Map<String, dynamic>)).toList(),
+            leader: (json['leader'] as List ?? []).map((l) => LeaderFilterDom.fromJson(l as Map<String, dynamic>)).toList(),
             ledBy: (json['ledBy'] as List ?? []).map((l) => LeaderFilterDom.fromJson(l as Map<String, dynamic>)).toList(),
             modelStats: modelStatsRaw.map((k, v) => MapEntry(k, ModelStatsDom.fromJson(v))),
             selectedComposition: selectedCompRaw.map((k, v) => MapEntry(int.parse(k), v as int))
