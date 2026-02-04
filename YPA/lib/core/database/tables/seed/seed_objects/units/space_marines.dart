@@ -101,7 +101,7 @@ List<UnitSeed> spaceMarinesUnits()
                                     skill: 2,
                                     strength: 8,
                                     ap: -4,
-                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
                                         .toString()
                                 )
                             ],
@@ -188,7 +188,7 @@ List<UnitSeed> spaceMarinesUnits()
                                     skill: 2,
                                     strength: 8,
                                     ap: -4,
-                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
                                         .toString()
                                 )
                             ],
@@ -275,7 +275,7 @@ List<UnitSeed> spaceMarinesUnits()
                                     skill: 2,
                                     strength: 8,
                                     ap: -4,
-                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
                                         .toString()
                                 )
                             ],
@@ -363,7 +363,7 @@ List<UnitSeed> spaceMarinesUnits()
                                     skill: 2,
                                     strength: 8,
                                     ap: -4,
-                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
                                         .toString()
                                 )
                             ],
@@ -489,7 +489,7 @@ List<UnitSeed> spaceMarinesUnits()
                                     skill: 2,
                                     strength: 8,
                                     ap: -4,
-                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
                                         .toString()
                                 )
                             ],
@@ -540,7 +540,7 @@ List<UnitSeed> spaceMarinesUnits()
                                     skill: 2,
                                     strength: 8,
                                     ap: -4,
-                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
                                         .toString()
                                 )
                             ],
@@ -654,7 +654,7 @@ List<UnitSeed> spaceMarinesUnits()
                                     skill: 2,
                                     strength: 8,
                                     ap: -4,
-                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
                                         .toString()
                                 )
                             ],
@@ -704,7 +704,7 @@ List<UnitSeed> spaceMarinesUnits()
                                     skill: 2,
                                     strength: 8,
                                     ap: -4,
-                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
                                         .toString()
                                 )
                             ],
@@ -795,7 +795,7 @@ List<UnitSeed> spaceMarinesUnits()
                                     skill: 2,
                                     strength: 8,
                                     ap: -4,
-                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
                                         .toString()
                                 )
                             ],
@@ -845,7 +845,7 @@ List<UnitSeed> spaceMarinesUnits()
                                     skill: 2,
                                     strength: 8,
                                     ap: -4,
-                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
                                         .toString()
                                 )
                             ],
@@ -932,7 +932,7 @@ List<UnitSeed> spaceMarinesUnits()
                                     skill: 2,
                                     strength: 8,
                                     ap: -4,
-                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
                                         .toString()
                                 )
                             ],
@@ -1023,7 +1023,7 @@ List<UnitSeed> spaceMarinesUnits()
                                     skill: 2,
                                     strength: 8,
                                     ap: -4,
-                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
                                         .toString()
                                 )
                             ],
@@ -1110,7 +1110,7 @@ List<UnitSeed> spaceMarinesUnits()
                                     skill: 2,
                                     strength: 8,
                                     ap: -4,
-                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
                                         .toString()
                                 )
                             ],
@@ -1197,7 +1197,7 @@ List<UnitSeed> spaceMarinesUnits()
                                     skill: 2,
                                     strength: 8,
                                     ap: -4,
-                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
                                         .toString()
                                 )
                             ],
@@ -1284,7 +1284,7 @@ List<UnitSeed> spaceMarinesUnits()
                                     skill: 2,
                                     strength: 8,
                                     ap: -4,
-                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
                                         .toString()
                                 )
                             ],
@@ -1372,7 +1372,7 @@ List<UnitSeed> spaceMarinesUnits()
                                     skill: 2,
                                     strength: 8,
                                     ap: -4,
-                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
                                         .toString()
                                 )
                             ],
@@ -1461,7 +1461,7 @@ List<UnitSeed> spaceMarinesUnits()
                                     skill: 2,
                                     strength: 8,
                                     ap: -4,
-                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
                                         .toString()
                                 )
                             ],
@@ -1548,7 +1548,7 @@ List<UnitSeed> spaceMarinesUnits()
                                     skill: 2,
                                     strength: 8,
                                     ap: -4,
-                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
                                         .toString()
                                 )
                             ],
@@ -1635,7 +1635,7 @@ List<UnitSeed> spaceMarinesUnits()
                                     skill: 2,
                                     strength: 8,
                                     ap: -4,
-                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
                                         .toString()
                                 )
                             ],
@@ -1722,7 +1722,7 @@ List<UnitSeed> spaceMarinesUnits()
                                     skill: 2,
                                     strength: 8,
                                     ap: -4,
-                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
                                         .toString()
                                 )
                             ],
@@ -1829,7 +1829,7 @@ List<UnitSeed> spaceMarinesUnits()
                                     skill: 2,
                                     strength: 8,
                                     ap: -4,
-                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.D6)
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
                                         .toString()
                                 )
                             ],

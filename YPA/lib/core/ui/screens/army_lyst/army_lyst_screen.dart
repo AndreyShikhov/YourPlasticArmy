@@ -85,7 +85,7 @@ class ArmyListScreen extends ConsumerWidget
                             style: ElevatedButton.styleFrom(
                                 padding: EdgeInsets.zero,
                                 backgroundColor: const Color.fromARGB(255, 120, 40, 40),
-                                shape: RoundedRectangleBorder(borderRadius: YPABorderRadius)
+                                shape: const RoundedRectangleBorder(borderRadius: ypaBorderRadius)
                             ),
                             onPressed: () => _onDeleteArmyById(context, ref, item),
                             child: const Icon(Icons.delete, color: Colors.white, size: 20)
@@ -98,10 +98,10 @@ class ArmyListScreen extends ConsumerWidget
                       child: SizedBox(
                           height: 60,
                           child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
+                              style:  ElevatedButton.styleFrom(
                                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4), /// 2. Уменьшаем отступы
                                   backgroundColor: const Color.fromARGB(255, 60, 60, 60),
-                                  shape: RoundedRectangleBorder(borderRadius: YPABorderRadius)
+                                  shape: const RoundedRectangleBorder(borderRadius: ypaBorderRadius)
                               ),
                               onPressed: () async
                               {
@@ -142,7 +142,7 @@ class ArmyListScreen extends ConsumerWidget
                             style: ElevatedButton.styleFrom(
                                 padding: EdgeInsets.zero,
                                 backgroundColor: const Color.fromARGB(174, 46, 210, 34),
-                                shape: RoundedRectangleBorder(borderRadius: YPABorderRadius)
+                                shape: const RoundedRectangleBorder(borderRadius: ypaBorderRadius)
                             ),
                             onPressed: ()
                             {

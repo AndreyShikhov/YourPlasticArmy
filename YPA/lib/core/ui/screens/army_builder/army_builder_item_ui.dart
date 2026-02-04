@@ -100,7 +100,7 @@ class ArmyBuilderUnitItemUi
     factory ArmyBuilderUnitItemUi.fromJson(Map<String, dynamic> json)
     {
         final modelStatsRaw = json['modelStats'] as Map<String, dynamic>? ?? {};
-        final selectedCompRaw = json['selectedComposition'] as Map<String, dynamic>? ?? {};
+
 
         return ArmyBuilderUnitItemUi(
             instanceId: json['instanceId'] ?? '',
@@ -118,8 +118,8 @@ class ArmyBuilderUnitItemUi
             factionAbilities: (json['factionAbilities'] as List? ?? [])
                 .map((e) => FactionUnitAbilityCode.values.byName(e))
                 .toList(),
-            leader: (json['leader'] as List ?? []).map((l) => LeaderFilterDom.fromJson(l as Map<String, dynamic>)).toList(),
-            ledBy: (json['ledBy'] as List ?? []).map((l) => LeaderFilterDom.fromJson(l as Map<String, dynamic>)).toList(),
+            leader: (json['leader'] as List ).map((l) => LeaderFilterDom.fromJson(l as Map<String, dynamic>)).toList(),
+            ledBy: (json['ledBy'] as List ).map((l) => LeaderFilterDom.fromJson(l as Map<String, dynamic>)).toList(),
             modelStats: modelStatsRaw.map((k, v) => MapEntry(k, ModelStatsDom.fromJson(v))),
         );
     }

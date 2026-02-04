@@ -128,7 +128,7 @@ class _MainScreenState extends ConsumerState<MainScreen>
                                                 style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)
                                             ),
                                             const SizedBox(height: 8),
-                                            Text(user.userName ?? 'Guest', style: TextStyle(color: Colors.grey, fontSize: 14))
+                                            Text(user.userName ?? 'Guest', style: const TextStyle(color: Colors.grey, fontSize: 14))
                                         ]
                                     )
                                 ),
@@ -186,7 +186,7 @@ class _MainScreenState extends ConsumerState<MainScreen>
     void _showResetDbDialog(BuildContext context) {
       showDialog(
         context: context,
-        builder: (context) => AlertDialog(
+        builder: (dialogContext) => AlertDialog(
           backgroundColor: const Color(0xFF323232),
           title: const Text('Сброс базы данных', style: TextStyle(color: Colors.white)),
           content: const Text(
@@ -195,22 +195,26 @@ class _MainScreenState extends ConsumerState<MainScreen>
           ),
           actions: [
             TextButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: () => Navigator.pop(dialogContext),
               child: const Text('Отмена'),
             ),
             TextButton(
               onPressed: () async {
-                Navigator.pop(context); // Закрыть диалог
+                final messenger = ScaffoldMessenger.of(context);
+                Navigator.pop(dialogContext); // Закрыть диалог
 
                 // Показываем индикатор загрузки
-                ScaffoldMessenger.of(context).showSnackBar(
+                messenger.showSnackBar(
                   const SnackBar(content: Text('Пересборка базы данных...'), duration: Duration(seconds: 2)),
                 );
 
                 // Вызываем действие через провайдер
                 await ref.read(databaseActionsProvider).resetDatabase();
 
-                ScaffoldMessenger.of(context).showSnackBar(
+                // Проверяем актуальность контекста после асинхронной операции
+                if (!mounted) return;
+
+                messenger.showSnackBar(
                   const SnackBar(content: Text('База данных успешно обновлена!')),
                 );
               },

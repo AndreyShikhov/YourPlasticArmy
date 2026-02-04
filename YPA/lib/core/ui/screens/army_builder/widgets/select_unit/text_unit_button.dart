@@ -42,9 +42,8 @@ class TextUnitButton extends ConsumerWidget
             ///margin: const EdgeInsets.symmetric(vertical: 4),
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             decoration: BoxDecoration(
-                color: baseColor.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(5),
-                border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3), width: 2.0))
+                border: Border(bottom: BorderSide(color: baseColor, width: 2.0))
             ),
             child: Row(
                 children: [
@@ -78,7 +77,7 @@ class TextUnitButton extends ConsumerWidget
                                 icon: Icons.add_circle_outline,
                                 color: Colors.greenAccent,
                                 /// Кнопка активна только если не превышен лимит
-                                enabled: currentCount < maxCount!,
+                                enabled: currentCount < maxCount,
                                 onTap: () => controller.addUnitToUserArmy(unit.dbId)
                             )
                         ]

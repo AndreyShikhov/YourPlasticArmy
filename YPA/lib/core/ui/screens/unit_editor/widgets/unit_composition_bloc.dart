@@ -31,8 +31,6 @@ class UnitCompositionBloc extends ConsumerWidget
 
         if (unitComposition.compositions.length > 1)
         {
-            final selectedModel = unitComposition.selectedComposition ?? unitComposition.compositions.first;
-
             return Column( /// ИСПРАВЛЕНО: Заменен Row на Column
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
@@ -40,12 +38,11 @@ class UnitCompositionBloc extends ConsumerWidget
                     SizedBox(
                         width: 200,
                         child: DropdownButtonFormField<UnitCompositionModelDom>(
-                            value: selectedModel,
                             decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                                 filled: true,
-                                fillColor: Colors.white.withOpacity(0.05)
+                                fillColor: Colors.white
                             ),
                             dropdownColor: const Color(0xFF323232),
                             items: unitComposition.compositions.map((model) => DropdownMenuItem(

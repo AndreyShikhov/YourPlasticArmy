@@ -15,15 +15,15 @@ final GoRouter router = GoRouter(
     routes: [
         GoRoute(
             path: '/',
-            builder: (context, state) => BaseWindow(bgColor: mainScreenColor, child: const MainScreen()),
+            builder: (context, state) => const BaseWindow(bgColor: mainScreenColor, child:  MainScreen()),
             routes: [
                 GoRoute(
                     path: 'game_screen',
-                    builder: (context, state) => BaseWindow(bgColor: mainScreenColor, child: GameScreen()),
+                    builder: (context, state) => const BaseWindow(bgColor: mainScreenColor, child: GameScreen()),
                     routes: [
                         GoRoute(
                             path: 'army_lyst',
-                            builder: (context, state) => BaseWindow(bgColor: mainScreenColor, child: const ArmyListScreen()),
+                            builder: (context, state) => const  BaseWindow(bgColor: mainScreenColor, child:  ArmyListScreen()),
                             routes: [
                                 /// Билдер армии (принимает ID)
                                 GoRoute(

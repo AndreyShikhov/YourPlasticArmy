@@ -25,7 +25,6 @@ class ArmyPointsEditor extends ConsumerWidget
         final selectedSize = state.battleSize?.keys.firstOrNull;
 
         return DropdownButtonFormField<BattleSizeCode>(
-            value: selectedSize,
             dropdownColor: const Color.fromARGB(255, 55, 55, 55),
             style: const TextStyle(color: Colors.white),
             decoration: const InputDecoration(

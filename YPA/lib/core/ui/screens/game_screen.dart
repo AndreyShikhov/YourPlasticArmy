@@ -14,8 +14,10 @@ enum ButtonTypeGameScreen
 
 class GameScreen extends StatefulWidget
 {
-    @override
-    _GameScreen createState() => _GameScreen();
+  const GameScreen({super.key});
+
+  @override
+  State<GameScreen> createState() => _GameScreen();
 }
 
 class _GameScreen extends State<GameScreen>
@@ -102,7 +104,6 @@ class _GameScreen extends State<GameScreen>
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: _buildButtons()
-                        //const SizedBox(height: 20),
                     )
                 )
             )

@@ -1,4 +1,3 @@
-
 /*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
@@ -23,7 +22,7 @@ class UnitEditorScreen extends ConsumerWidget
     final String instanceId;
     final String roleCode;
 
-    UnitEditorScreen({
+   const UnitEditorScreen({
         super.key,
         required this.armyId,
         required this.instanceId,
@@ -38,9 +37,8 @@ class UnitEditorScreen extends ConsumerWidget
 
         /// 2. Получаем контроллер (для вызова методов)
         ///final notifier = ref.read(unitEditorControllerProvider((armyId, instanceId, roleCode)).notifier);
-        /// TODO: implement build
-        return
-        Scaffold(
+        
+        return Scaffold(
             appBar: PreferredSize(
                 preferredSize: const Size.fromHeight(120),
                 child: AppBar(
@@ -57,10 +55,9 @@ class UnitEditorScreen extends ConsumerWidget
             ),
             body: state.isLoading
                 ? const Center(child: CircularProgressIndicator())
-                : Container(
-                    child: ListView(children: _buildSections(state)
-                    )
-                )
+                : ListView(
+                    children: _buildSections(state),
+                ),
         );
     }
 
@@ -78,7 +75,12 @@ class UnitEditorScreen extends ConsumerWidget
     {
         Map<String, Widget> categories = {};
 
-        categories['Unit Composition'] = UnitCompositionBloc(armyId: armyId, instanceId: instanceId, roleCode: roleCode, unitComposition: state.unit!.unitComposition);
+        categories['Unit Composition'] = UnitCompositionBloc(
+            armyId: armyId, 
+            instanceId: instanceId, 
+            roleCode: roleCode, 
+            unitComposition: state.unit!.unitComposition
+        );
         categories['Wargear Options'] = const Text('Настройки снаряжения');
 
         if (state.unit!.unitAbility.isNotEmpty)
@@ -98,15 +100,28 @@ class UnitEditorScreen extends ConsumerWidget
 
         if (state.unit!.leader.isNotEmpty)
         {
-            categories['Leader'] = LeaderBloc(armyId: armyId, instanceId: instanceId, roleCode: roleCode, filters: state.unit!.leader);
+            categories['Leader'] = LeaderBloc(
+                armyId: armyId, 
+                instanceId: instanceId, 
+                roleCode: roleCode, 
+                filters: state.unit!.leader
+            );
         }
 
         if (state.unit!.ledBy.isNotEmpty)
         {
-            categories['Led By'] = LeaderBloc(armyId: armyId, instanceId: instanceId, roleCode: roleCode, filters: state.unit!.ledBy);
+            categories['Led By'] = LeaderBloc(
+                armyId: armyId, 
+                instanceId: instanceId, 
+                roleCode: roleCode, 
+                filters: state.unit!.ledBy
+            );
         }
 
-        categories['Keywords'] = KeywordsBloc(keywords: state.unit!.keywords, factionKeywords: state.unit!.factionKeywords);
+        categories['Keywords'] = KeywordsBloc(
+            keywords: state.unit!.keywords, 
+            factionKeywords: state.unit!.factionKeywords
+        );
 
         List<Widget> sections = [];
         sections.add(_getStatsWidget(state.unit!));
@@ -120,7 +135,6 @@ class UnitEditorScreen extends ConsumerWidget
 
     String _getUnitComposition(UnitEditorState state)
     {
-
         if (state.unit == null) return '';
 
         /// Берем выбранный состав или первый из списка доступных

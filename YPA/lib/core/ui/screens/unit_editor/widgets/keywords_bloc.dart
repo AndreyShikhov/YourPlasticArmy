@@ -12,13 +12,14 @@ class KeywordsBloc extends StatelessWidget
     final List<String> keywords;
     final List<String> factionKeywords;
 
-    KeywordsBloc({
+    const KeywordsBloc({
+        super.key,
         required this.keywords,
         required this.factionKeywords
     });
 
     @override
-    Widget build(BuildContext context) 
+    Widget build(BuildContext context)
     {
         return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,7 +30,6 @@ class KeywordsBloc extends StatelessWidget
                     style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white70)
                 ),
                 const SizedBox(height: 4),
-
 
                 _createKeywords(keywords),
                 const SizedBox(height: 12),
@@ -44,15 +44,17 @@ class KeywordsBloc extends StatelessWidget
         );
     }
 
-    Wrap _createKeywords(List<String> keywords) 
+    Wrap _createKeywords(List<String> keywords)
     {
 
-      List<String> finalKeywords = keywords.map((keyword) {
-        return keyword.toLowerCase().split(' ').map((word) {
-          if (word.isEmpty) return word;
-          return word[0].toUpperCase() + word.substring(1);
-        }).join(' ');
-      }).toList();
+        List<String> finalKeywords = keywords.map((keyword)
+            {
+                return keyword.toLowerCase().split(' ').map((word)
+                    {
+                        if (word.isEmpty) return word;
+                        return word[0].toUpperCase() + word.substring(1);
+                    }).join(' ');
+            }).toList();
 
         return Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
@@ -61,7 +63,7 @@ class KeywordsBloc extends StatelessWidget
                 for (int i = 0; i < finalKeywords.length; i++) ...[
                         Text(
                             finalKeywords[i],
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: CupertinoColors.white,
                                 fontSize: 14,
                                 fontWeight: FontWeight.normal

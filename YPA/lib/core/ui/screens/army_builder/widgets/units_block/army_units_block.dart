@@ -16,7 +16,7 @@ class ArmyUnitsBlock extends ConsumerWidget
     final List<ArmyBuilderUnitItemUi> units;
     final Color bgColor;
 
-    ArmyUnitsBlock({super.key, required this.armyId, required this.units, required this.bgColor});
+    const ArmyUnitsBlock({super.key, required this.armyId, required this.units, required this.bgColor});
 
     @override
     Widget build(BuildContext context, WidgetRef ref)
@@ -25,7 +25,7 @@ class ArmyUnitsBlock extends ConsumerWidget
             child: Container(
                 margin: const EdgeInsets.symmetric(vertical: 4),
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                decoration: BoxDecoration(color: bgColor, borderRadius: YPABorderRadius),
+                decoration: BoxDecoration(color: bgColor, borderRadius: ypaBorderRadius),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min, 

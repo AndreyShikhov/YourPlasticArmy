@@ -57,7 +57,7 @@ class BTNActionUnit extends ConsumerWidget
 
             decoration: BoxDecoration(
                 color: bgColor,
-                borderRadius: YPABorderRadius,
+                borderRadius: ypaBorderRadius,
             ),
             child: Row(
                 crossAxisAlignment: CrossAxisAlignment.end,

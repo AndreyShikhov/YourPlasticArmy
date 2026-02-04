@@ -37,7 +37,6 @@ final armyBuilderControllerProvider =
             final getAllUnitsByCodexId = ref.watch(getAllUnitsByCodexIdUseCaseProvider);
             final getAllUnitsByArmyId = ref.watch(getUnitsByArmyUseCaseProvider);
             final addUnitToUserRoster = ref.watch(addUnitToUserRosterUseCaseProvider);
-            final getUnitByIdFromDb = ref.watch(findUnitByIdFromDbUseCaseProvider);
             final getUnitsByIdsFromDb = ref.watch(getUnitsByIdsFromDbUseCaseProvider);
             final removeLastUnitFromUserRoster = ref.watch(removeLastUnitFromUserRosterUseCaseProvider);
 
@@ -51,7 +50,6 @@ final armyBuilderControllerProvider =
                 getAllUnitsByCodexId,
                 getAllUnitsByArmyId,
                 addUnitToUserRoster,
-                getUnitByIdFromDb,
                 getUnitsByIdsFromDb,
                 removeLastUnitFromUserRoster,
                 armyId
@@ -70,7 +68,6 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
     final GetUnitsByArmy _getAllUnitsByArmyId;
     final AddUnitToUserRoster _addUnitToUserRoster;
     final RemoveLastUnitFromUserRoster _removeLastUnitFromUserRoster;
-    final GetUnitByIdFromDb _getUnitByIdFromDb;
     final GetUnitsByIdsFromDb _getUnitsByIdsFromDb;
     final String _armyId;
 
@@ -86,7 +83,6 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         this._getAllUnitsByCodexid,
         this._getAllUnitsByArmyId,
         this._addUnitToUserRoster,
-        this._getUnitByIdFromDb,
         this._getUnitsByIdsFromDb,
         this._removeLastUnitFromUserRoster,
         this._armyId

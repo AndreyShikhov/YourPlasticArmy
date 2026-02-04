@@ -20,7 +20,6 @@ class DetachmentSelector extends ConsumerWidget
     Widget build(BuildContext context, WidgetRef ref)
     {
         return DropdownButtonFormField<String>(
-            value: state.detachment?.name.value,
             dropdownColor: const Color.fromARGB(255, 55, 55, 55),
             style: const TextStyle(color: Colors.white),
             decoration: const InputDecoration(

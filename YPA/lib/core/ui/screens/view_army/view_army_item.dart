@@ -18,7 +18,7 @@ class ViewArmyUnitItemUi
     final String oc; /// Objective Control
     final List<String> keywords;
     final List<String> factionKeywords;
-    ///final List<Weapon> weapons;
+
 
     ViewArmyUnitItemUi({
         required this.name,
@@ -32,6 +32,5 @@ class ViewArmyUnitItemUi
         required this.oc,
         required this.keywords,
         required this.factionKeywords,
-//required this.weapons
     });
 }

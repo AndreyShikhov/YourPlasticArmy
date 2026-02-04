@@ -6,9 +6,9 @@
 import '../../../core/database/tables/seed/seed_objects/_types.dart';
 import 'model_weapons.dart';
 
-// ==========================================
-// UNIT COMPOSITION
-// ==========================================
+/// ==========================================
+/// UNIT COMPOSITION
+/// ==========================================
 
 class UnitCompositionDom
 {
@@ -35,11 +35,11 @@ class UnitCompositionDom
         );
     }
 
-    // ==========================================
-    // Getters
-    // ==========================================
+    /// ==========================================
+    /// Getters
+    /// ==========================================
 
-    // ИСПРАВЛЕНО: Теперь возвращает Map<int, int> через двоеточие {:}, а не запятую
+    /// ИСПРАВЛЕНО: Теперь возвращает Map (int, int)через двоеточие {:}, а не запятую
     Map<int, int> get effectiveComposition
     {
         final active = selectedComposition ?? compositions.firstOrNull;
@@ -49,7 +49,7 @@ class UnitCompositionDom
 
     int get totalUnitCost 
     {
-        // Используем выбранный или ПЕРВЫЙ из списка
+        /// Используем выбранный или ПЕРВЫЙ из списка
         final base = selectedComposition ?? compositions.firstOrNull;
         int res = base?.cost ?? 0;
 
@@ -59,9 +59,9 @@ class UnitCompositionDom
         }
         return res;
     }
-    // ==========================================
-    // JSON
-    // ==========================================
+    /// ==========================================
+    /// JSON
+    /// ==========================================
     Map<String, dynamic> toJson() =>
     {
         'compositions': compositions.map((c) => c.toJson()).toList(),
@@ -157,9 +157,9 @@ class UnitCompositionModelDom
     @override
     int get hashCode => name.hashCode ^ amount.hashCode ^ cost.hashCode;
 }
-// ==========================================
-// WARGEAR OPTIONS
-// ==========================================
+/// ==========================================
+/// WARGEAR OPTIONS
+/// ==========================================
 
 class WargearOptionsDom
 {
@@ -192,9 +192,9 @@ class WargearOptionsDom
     static const WargearOptionsDom emptyOptions = WargearOptionsDom(wargearOptions: []);
 }
 
-// ==========================================
-// Leader
-// ==========================================
+/// ==========================================
+/// Leader
+/// ==========================================
 
 class LeaderFilterDom
 {
@@ -212,9 +212,9 @@ class LeaderFilterDom
         required this.names
     });
 
-    // ==========================================
-    // Json
-    // ==========================================
+    /// ==========================================
+    /// Json
+    /// ==========================================
 
     Map<String, dynamic> toJson() =>
     {
@@ -238,9 +238,9 @@ class LeaderFilterDom
 
 }
 
-// ==========================================
-// Model STATS
-// ==========================================
+/// ==========================================
+/// Model STATS
+/// ==========================================
 
 class ModelStatsDom
 {
@@ -374,7 +374,7 @@ class UnitStatsDom
         );
     }
 
-    static UnitStatsDom empty() => UnitStatsDom(
+    static UnitStatsDom empty() => const UnitStatsDom(
         repeat: 1,
         keywords: [],
         factionKeywords: [],

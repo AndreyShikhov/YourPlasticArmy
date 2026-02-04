@@ -11,7 +11,7 @@ import '../army/army_id.dart';
 import '../codex/codex_id.dart';
 import 'unit_id.dart';
 import 'unit_name.dart';
-import 'unit_roleCode.dart';
+import 'unit_role_code.dart';
 
 class UnitDOM
 {
@@ -125,6 +125,7 @@ class UnitDOM
     }
 
     UnitDOM copyWith({
+        UnitIdDom? id,
         UnitNameDom? name,
         ArmyId? armyId,
         Object? codexId = const _Sentinel(),

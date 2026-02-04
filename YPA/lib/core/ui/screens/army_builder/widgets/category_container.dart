@@ -58,20 +58,10 @@ class CategoryContainer extends ConsumerWidget
     }
 
     /// проверть детачмент на специальные правила, может быть будет нужно добавить или убрать юнитов
-    void _checkDetachment()
-    {
-    }
+    /// void _checkDetachment()
+    /// {
+    /// }
 
-    List<Widget> _getUnitsDBWindowByList(List<ArmyBuilderUnitItemUi> listUnit)
-    {
-        if (listUnit.isEmpty)
-        {
-            debugPrint('Warning: listUnit is null or empty');
-            return [];
-        }
-
-        return listUnit.map((unit) => SelectUnitsDialog(armyId: armyId, role: role)).toList();
-    }
 
     List<ArmyUnitsBlock> _getUnitsUserArmyWindowByList(List<ArmyBuilderUnitItemUi> listUnit)
     {

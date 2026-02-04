@@ -101,11 +101,15 @@ class DetachmentDOM
 
     bool canAddUnit(UnitDOM unit, Set<UnitRoleCode> allowedUnitRoleCode) 
     {
-        int existingCount = _units.where((u) => u.id == unit.id).length;
+        /// Проверяем, сколько юнитов с таким же именем уже в детачменте
+        int existingCount = _units.where((u) => u.name.value == unit.name.value).length;
+        
+        /// Если лимит превышен (например, больше 3 одинаковых юнитов)
+        if (existingCount >= unit.repeat) return false;
 
-        if (!allowedUnitRoleCode.contains(unit.role)) return false;
+        /// Проверяем, разрешена ли роль данного юнита в детачменте
+        if (!allowedUnitRoleCode.contains(unit.role.value)) return false;
 
         return true;
     }
 }
-

@@ -21,7 +21,7 @@ class UnitWidget extends ConsumerWidget
     final ArmyBuilderUnitItemUi unit;
     final int numberUnit;
 
-    UnitWidget(
+    const UnitWidget(
     {super.key,
         required this.armyId,
         required this.unit,
@@ -48,9 +48,9 @@ class UnitWidget extends ConsumerWidget
             width: double.infinity,
             margin: const EdgeInsets.symmetric(vertical: 4),
 
-            decoration: BoxDecoration(
-                borderRadius: YPABorderRadius,
-                border: Border(bottom: BorderSide(color: Colors.white.withOpacity(0.3), width: 2.0))
+            decoration: const BoxDecoration(
+                borderRadius: ypaBorderRadius,
+                border:  Border(bottom: BorderSide(color: Colors.white, width: 2.0)),
             ),
             child: InkWell(
                 onTap: ()

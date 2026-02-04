@@ -9,8 +9,8 @@
 
 enum DiceSides
     {
-  D6,
-  D3,
+  d6,
+  d3,
   none
 }
 
@@ -20,8 +20,8 @@ extension DiceSidesX on DiceSides
   {
     switch (this)
     {
-      case DiceSides.D6: return 'D6';
-      case DiceSides.D3: return 'D3';
+      case DiceSides.d6: return 'D6';
+      case DiceSides.d3: return 'D3';
       case DiceSides.none: return '';
     }
   }

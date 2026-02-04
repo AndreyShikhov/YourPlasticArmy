@@ -7,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/application/user_army/create_user_army.dart';
 import 'package:ypa/application/user_army/delet_user_army_by_id.dart';
 import 'package:ypa/application/user_army/get_user_armies.dart';
-import 'package:ypa/core/providers/di/detachment_providers.dart';
 import 'package:ypa/core/providers/di/user_army_providers.dart';
 import 'package:ypa/core/ui/screens/army_lyst/army_list_item_ui.dart';
 import 'package:ypa/core/ui/screens/army_lyst/army_lyst_state.dart';
@@ -15,29 +14,24 @@ import 'package:ypa/domain/models/army/army.dart';
 import 'package:ypa/domain/models/codex/codex_id.dart';
 import 'package:ypa/domain/models/faction/faction.dart';
 
-import '../../../../application/detachment/get_detachment_by_id.dart';
-
 final armyLystControllerProvider = StateNotifierProvider<ArmyLystController, ArmyLystState>((ref)
     {
         final getUserArmies = ref.watch(getUserArmiesUseCaseProvider);
         final createUserArmy = ref.watch(createUserArmyUseCaseProvider);
         final deleteUserArmyById = ref.watch(deleteUserArmyByIdUseCaseProvider);
-        final getDetachment = ref.watch(getDetachmentByIdUseCaseProvider);
 
-        return ArmyLystController(getUserArmies, createUserArmy, getDetachment, deleteUserArmyById);
+        return ArmyLystController(getUserArmies, createUserArmy,  deleteUserArmyById);
     });
 
 class ArmyLystController extends StateNotifier<ArmyLystState>
 {
     final GetUserArmies _getUserArmies;
     final CreateUserArmy _createUserArmy;
-    final GetDetachmentById _getDetachment;
     final DeletUserArmyById _deleteUserArmyById;
 
     ArmyLystController(
         this._getUserArmies, 
         this._createUserArmy,
-        this._getDetachment,
         this._deleteUserArmyById
     ) : super(const ArmyLystState())
     {

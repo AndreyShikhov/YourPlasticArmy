@@ -14,7 +14,7 @@ class UnitContainerFromArmyUser extends ConsumerWidget
     final String armyId;
     final String unitId;
 
-    UnitContainerFromArmyUser({super.key, required this.armyId, required this.unitId});
+    const UnitContainerFromArmyUser({super.key, required this.armyId, required this.unitId});
 
     @override
     Widget build(BuildContext context, WidgetRef ref)
@@ -26,11 +26,9 @@ class UnitContainerFromArmyUser extends ConsumerWidget
             child: Column(
                 children: [
                     TextUnitButton(unit: state.getUnitByIdFromDb(unitId), armyId: armyId),
-                    SizedBox(height: 5)
+                    const SizedBox(height: 5)
                 ]
             )
         );
-
-        throw UnimplementedError();
     }
 }

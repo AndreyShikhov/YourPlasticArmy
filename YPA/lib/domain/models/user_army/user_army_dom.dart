@@ -61,14 +61,17 @@ class UserArmyDOM
     });
 
     UserArmyDOM copyWith({
+        String? id,
         String? userArmyName,
         int? totalPoints,
         FactionId? factionId,
         ArmyId? armyId,
+        CodexId? codexId,
         String? detachmentId,
         DetachmentDOM? detachment,
         BattleSize? battleSize,
-        String? jsonData
+        String? jsonData,
+        DateTime? createdAt,
     })
     {
         return UserArmyDOM(

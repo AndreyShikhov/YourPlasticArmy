@@ -79,7 +79,6 @@ class _CreateArmyDialogState extends ConsumerState<CreateArmyDialog>
                         allFactionsAsync.when(
                             data: (factions) => DropdownButtonFormField<String>(
                                 decoration: const InputDecoration(labelText: 'Select Faction'),
-                                value: selectedFactionId,
                                 items: factions
                                     .map((f) => DropdownMenuItem(value: f.id.value.toString(), child: Text(f.name.value)))
                                     .toList(),
@@ -105,7 +104,6 @@ class _CreateArmyDialogState extends ConsumerState<CreateArmyDialog>
                         allArmiesAsync.when(
                             data: (armies) => DropdownButtonFormField<String>(
                                 decoration: const InputDecoration(labelText: 'Select Army'),
-                                value: selectedArmyName,
                                 items: armies
                                     .map((a) => DropdownMenuItem(value: a.id.value.toString(), child: Text(a.name.value)))
                                     .toList(),
@@ -139,7 +137,6 @@ class _CreateArmyDialogState extends ConsumerState<CreateArmyDialog>
                                 if (codexs.length <= 1) return const SizedBox.shrink();
                                 return DropdownButtonFormField<String>(
                                     decoration: const InputDecoration(labelText: 'Select Codex'),
-                                    value: selectedCodexId,
                                     items: codexs
                                         .map((c) => DropdownMenuItem(value: c.id.value.toString(), child: Text(c.name.value)))
                                         .toList(),
