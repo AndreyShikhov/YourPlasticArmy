@@ -48,7 +48,7 @@ class BasicStats extends StatelessWidget
                     Container(
                         padding: const EdgeInsets.all(2),
                         decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: const Color.fromARGB(26, 255, 255, 255),
                             borderRadius: BorderRadius.circular(6)
                         ),
                         child: Column(
@@ -85,7 +85,7 @@ class BasicStats extends StatelessWidget
                                 Container(
                                     padding: const EdgeInsets.symmetric(horizontal: 4),
                                     decoration: const BoxDecoration(
-                                        color: Colors.white,
+                                        color:  Color.fromARGB(26, 255, 255, 255),
                                         borderRadius:  BorderRadius.only(bottomLeft: Radius.circular(4), bottomRight: Radius.circular(4))
                                     ),
                                     child: Row(

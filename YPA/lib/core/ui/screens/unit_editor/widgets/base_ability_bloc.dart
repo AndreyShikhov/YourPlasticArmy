@@ -49,7 +49,7 @@ class _AbilityToggleItemState extends State<_AbilityToggleItem>
             margin: const EdgeInsets.symmetric(vertical: 4),
             width: double.infinity,
             decoration: BoxDecoration(
-                color: Colors.white, /// Легкий фон для кнопки
+                color: const Color.fromARGB(26, 255, 255, 255), /// Легкий фон для кнопки
                 borderRadius: BorderRadius.circular(8)
             ),
             child: InkWell(

@@ -38,11 +38,12 @@ class UnitCompositionBloc extends ConsumerWidget
                     SizedBox(
                         width: 200,
                         child: DropdownButtonFormField<UnitCompositionModelDom>(
+                            initialValue: unitComposition.selectedComposition ?? unitComposition.compositions.first,
                             decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                                 filled: true,
-                                fillColor: Colors.white
+                                fillColor: const Color.fromARGB(26, 255, 255, 255)
                             ),
                             dropdownColor: const Color(0xFF323232),
                             items: unitComposition.compositions.map((model) => DropdownMenuItem(
