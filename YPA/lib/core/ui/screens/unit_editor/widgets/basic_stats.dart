@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import 'package:flutter/material.dart';
 
@@ -54,7 +54,7 @@ class BasicStats extends StatelessWidget
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                                // Строка заголовков
+                                /// Строка заголовков
                                 Text(
                                     name,
                                     style: const TextStyle(
@@ -81,7 +81,7 @@ class BasicStats extends StatelessWidget
                                     )
                                 ),
                                 const SizedBox(height: 1),
-                                // Строка значений
+                                /// Строка значений
                                 Container(
                                     padding: const EdgeInsets.symmetric(horizontal: 4),
                                     decoration: BoxDecoration(

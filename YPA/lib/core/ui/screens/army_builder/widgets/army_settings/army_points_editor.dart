@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,7 +21,7 @@ class ArmyPointsEditor extends ConsumerWidget
     {
         final state = ref.watch(armyBuilderControllerProvider(armyId));
 
-        // Получаем текущее выбранное значение Enum из стейта
+        /// Получаем текущее выбранное значение Enum из стейта
         final selectedSize = state.battleSize?.keys.firstOrNull;
 
         return DropdownButtonFormField<BattleSizeCode>(
@@ -44,7 +44,7 @@ class ArmyPointsEditor extends ConsumerWidget
             {
                 if (newValue != null && newValue != selectedSize)
                 {
-                    // Вызываем метод контроллера для обновления размера битвы
+                    /// Вызываем метод контроллера для обновления размера битвы
                     ref.read(armyBuilderControllerProvider(armyId).notifier).updateBattleSizeArmyRoster(newValue);
                 }
             }

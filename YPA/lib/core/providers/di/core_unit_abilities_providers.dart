@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/application/unit_abilities/get_all_core_unit_abilities.dart';

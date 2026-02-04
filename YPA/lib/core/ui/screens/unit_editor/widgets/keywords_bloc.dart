@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +29,7 @@ class KeywordsBloc extends StatelessWidget
                     style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white70)
                 ),
                 const SizedBox(height: 4),
-                // ЗАМЕНЯЕМ Row на Wrap
+
 
                 _createKeywords(keywords),
                 const SizedBox(height: 12),
@@ -38,7 +38,7 @@ class KeywordsBloc extends StatelessWidget
                     style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white70)
                 ),
                 const SizedBox(height: 4),
-                // ЗАМЕНЯЕМ Row на Wrap
+
                 _createKeywords(factionKeywords)
             ]
         );
@@ -56,7 +56,7 @@ class KeywordsBloc extends StatelessWidget
 
         return Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
-            runSpacing: 4, // Отступ между строками
+            runSpacing: 4, /// Отступ между строками
             children: [
                 for (int i = 0; i < finalKeywords.length; i++) ...[
                         Text(
@@ -67,7 +67,7 @@ class KeywordsBloc extends StatelessWidget
                                 fontWeight: FontWeight.normal
                             )
                         ),
-                        // Добавляем разделитель, если это не последний элемент
+                        /// Добавляем разделитель, если это не последний элемент
                         if (i < finalKeywords.length - 1)
                         const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 8),

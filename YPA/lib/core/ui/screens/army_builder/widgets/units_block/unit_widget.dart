@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -41,7 +41,7 @@ class UnitWidget extends ConsumerWidget
     {
         final state = ref.watch(armyBuilderControllerProvider(armyId));
 
-        // Исправлено сравнение: проверяем, что текущее количество МЕНЬШЕ лимита
+        /// Исправлено сравнение: проверяем, что текущее количество МЕНЬШЕ лимита
         bool canDuplicate = unit.repeat > state.getAmountUnitsFromUserArmy(unit.role, unit.name);
 
         return Container(
@@ -64,7 +64,7 @@ class UnitWidget extends ConsumerWidget
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                            Row( // название юнита и стоимость
+                            Row( /// название юнита и стоимость
                                 children: [
                                     Expanded(
                                         child: Text(

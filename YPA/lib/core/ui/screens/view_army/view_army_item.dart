@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 
 
@@ -9,16 +9,16 @@ class ViewArmyUnitItemUi
 {
     final String name;
     final String role;
-    final String m; // Movement
-    final String t; // Toughness
-    final String sv; // Save
-    final String isv; // Invulnerable Save
-    final String w; // Wounds
-    final String ld; // Leadership
-    final String oc; // Objective Control
+    final String m; /// Movement
+    final String t; /// Toughness
+    final String sv; /// Save
+    final String isv; /// Invulnerable Save
+    final String w; /// Wounds
+    final String ld; /// Leadership
+    final String oc; /// Objective Control
     final List<String> keywords;
     final List<String> factionKeywords;
-    //final List<Weapon> weapons;
+    ///final List<Weapon> weapons;
 
     ViewArmyUnitItemUi({
         required this.name,

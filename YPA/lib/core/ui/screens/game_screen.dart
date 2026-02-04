@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -27,10 +27,10 @@ class _GameScreen extends State<GameScreen>
     {
         super.didChangeDependencies();
 
-        // Проверяем, активен ли сейчас этот экран
+        /// Проверяем, активен ли сейчас этот экран
         if (ModalRoute.of(context)?.isCurrent == true) 
         {
-            // Активируем кнопки при возврате
+            /// Активируем кнопки при возврате
             setState(() => enableAllButtons(isEnable: true));
         }
     }
@@ -71,7 +71,7 @@ class _GameScreen extends State<GameScreen>
                     onPressed: () async
                     {
                         setState(() => enableAllButtons(isEnable: false));
-                        // переход на другой экран
+                        /// переход на другой экран
                         _buttonHandlers[0]();
                     },
                     isActive: _statesAllButtons[buttonTypeGs] ?? true,

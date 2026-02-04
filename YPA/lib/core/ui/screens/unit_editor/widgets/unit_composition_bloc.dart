@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -33,7 +33,7 @@ class UnitCompositionBloc extends ConsumerWidget
         {
             final selectedModel = unitComposition.selectedComposition ?? unitComposition.compositions.first;
 
-            return Column( // ИСПРАВЛЕНО: Заменен Row на Column
+            return Column( /// ИСПРАВЛЕНО: Заменен Row на Column
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -76,8 +76,8 @@ class UnitCompositionBloc extends ConsumerWidget
             );
         }
 
-        // Если вариант один
-        return Column( // ИСПРАВЛЕНО: Заменен Row на Column для консистентности
+        /// Если вариант один
+        return Column( /// ИСПРАВЛЕНО: Заменен Row на Column для консистентности
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
                 Text(
@@ -100,7 +100,7 @@ class UnitCompositionBloc extends ConsumerWidget
     {
         return unitComposition.additionalModels.map((model)
             {
-                return IntrinsicWidth( // Чтобы Row не занимал всю ширину внутри Wrap
+                return IntrinsicWidth( /// Чтобы Row не занимал всю ширину внутри Wrap
                     child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [

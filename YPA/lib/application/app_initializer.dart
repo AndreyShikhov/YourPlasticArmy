@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import '../core/database/app_database.dart';
 
@@ -13,8 +13,8 @@ class AppInitializer
 
     Future<void> init() async
     {
-        // Запускаем заполнение базы данных (Core Seeding).
-        // Метод seedDatabase внутри core проверяет наличие данных и добавляет их, если нужно.
+        /// Запускаем заполнение базы данных (Core Seeding).
+        /// Метод seedDatabase внутри core проверяет наличие данных и добавляет их, если нужно.
         await db.seedDatabase();
     }
 }

@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import '../../core/database/tables/seed/seed_objects/_types.dart';
 import '../../domain/models/user_army/user_army.dart';

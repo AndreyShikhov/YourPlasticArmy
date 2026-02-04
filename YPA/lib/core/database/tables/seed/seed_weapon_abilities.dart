@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import 'package:drift/drift.dart';
 import 'package:uuid/uuid.dart';
@@ -21,8 +21,8 @@ Future<void> seedAllWeaponAbilities(AppDatabase db) async
                 id: abilityId,
                 code: wAbility.code,
                 name: wAbility.name,
-                shortDescription: wAbility.shortDescription!,
-                description: wAbility.description!
+                shortDescription: wAbility.shortDescription,
+                description: wAbility.description
             ),
             mode: InsertMode.insertOrIgnore
         );

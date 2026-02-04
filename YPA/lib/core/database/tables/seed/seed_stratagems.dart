@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import 'package:drift/drift.dart';
 import 'package:ypa/core/database/tables/seed/seed_objects/strategems/strategems.dart';

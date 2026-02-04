@@ -1,14 +1,16 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 import 'package:ypa/domain/models/unit/model_stats.dart';
 
 import '../../../../../domain/models/faction/faction.dart';
 
-// ==========================================
-// ENUMS (Modern Enhanced Style)
-// ==========================================
+
+
+/// ==========================================
+/// ENUMS (Modern Enhanced Style)
+/// ==========================================
 
 enum GamePhase { command, movement, shooting, charge, fight }
 
@@ -32,7 +34,7 @@ enum FactionTypeCode {
 
 enum ArmyTypeCode {
   none('none', 'none', FactionTypeCode.none),
-  // Imperium
+  /// Imperium
   adeptaSororitas('adepta_sororitas', 'Adepta Sororitas', FactionTypeCode.imperium),
   adeptusCustodes('adeptus_custodes', 'Adeptus Custodes', FactionTypeCode.imperium),
   adeptusMechanicus('adeptus_mechanicus', 'Adeptus Mechanicus', FactionTypeCode.imperium),
@@ -42,7 +44,7 @@ enum ArmyTypeCode {
   imperialAgents('imperial_agents', 'Imperial Agents', FactionTypeCode.imperium),
   imperialKnights('imperial_knights', 'Imperial Knights', FactionTypeCode.imperium),
   spaceMarines('space_marines', 'Space Marines', FactionTypeCode.imperium),
-  // Chaos
+  /// Chaos
   chaosDaemons('chaos_daemons', 'Chaos Daemons', FactionTypeCode.chaos),
   chaosKnights('chaos_knights', 'Chaos Knights', FactionTypeCode.chaos),
   chaosSpaceMarines('chaos_space_marines', 'Chaos Space Marines', FactionTypeCode.chaos),
@@ -50,7 +52,7 @@ enum ArmyTypeCode {
   emperorsChildren('emperors_children', 'Emperors Children', FactionTypeCode.chaos),
   thousandSons('thousand_sons', 'Thousand Sons', FactionTypeCode.chaos),
   worldEaters('world_eaters', 'World Eaters', FactionTypeCode.chaos),
-  // Xenos
+  /// Xenos
   aeldari('aeldari', 'Aeldari', FactionTypeCode.xenos),
   drukhari('drukhari', 'Drukhari', FactionTypeCode.xenos),
   genestealerCults('genestealer_cults', 'Genestealer Cults', FactionTypeCode.xenos),
@@ -221,9 +223,9 @@ enum BattleSizeCode {
       values.where((e) => e.name == name).firstOrNull;
 }
 
-// ==========================================
-// SEED & SUPPORT CLASSES
-// ==========================================
+/// ==========================================
+/// SEED & SUPPORT CLASSES
+/// ==========================================
 
 class FactionSeed {
   final FactionTypeCode code;

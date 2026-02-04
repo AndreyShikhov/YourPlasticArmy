@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/application/role/get_all_roles.dart';

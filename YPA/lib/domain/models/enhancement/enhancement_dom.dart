@@ -1,8 +1,8 @@
 
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import '../detachment/detachment.dart';
 import 'enhancement.dart';

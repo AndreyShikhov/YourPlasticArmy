@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,7 +18,7 @@ class CategoryContainer extends ConsumerWidget
     final UnitRoleCode role;
     final bool isSelectionModeContainer;
 
-    // Конструктор должен выглядеть так:
+    /// Конструктор должен выглядеть так:
     const CategoryContainer({
         super.key,
         required this.armyId,
@@ -31,24 +31,24 @@ class CategoryContainer extends ConsumerWidget
     {
         final state = ref.watch(armyBuilderControllerProvider(armyId));
 
-        // получить все юниты определённой роли из юзхер армии
+        /// получить все юниты определённой роли из юзхер армии
         final allCategoryUnitsFromUserArmy = state.getAllUnitsByRoleFromUserArmy(role.name); // все юниты (армия/кодекс) из армии пользователя
 
-        // Здесь будет ваша логика и контейнер со скроллом
+        /// Здесь будет ваша логика и контейнер со скроллом
         return Container(
             padding: const EdgeInsets.all(8.0),
             child: SingleChildScrollView(
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    // load data from user army
+                    /// load data from user army
                     children: [
-                        // 1. Список юнитов, которые УЖЕ в армии (показываем всегда)
+                        /// 1. Список юнитов, которые УЖЕ в армии (показываем всегда)
                         if (allCategoryUnitsFromUserArmy.isNotEmpty && !isSelectionModeContainer) ...[
                             ..._getUnitsUserArmyWindowByList(allCategoryUnitsFromUserArmy),
                             const SizedBox(height: 20)
                         ],
 
-                        // 2. Список доступных для выбора юнитов (показываем ТОЛЬКО в режиме выбора)
+                        /// 2. Список доступных для выбора юнитов (показываем ТОЛЬКО в режиме выбора)
                         if (isSelectionModeContainer) ...[_showUnitsSelectionDialog(), const SizedBox(height: 20)]
                     ]
                 // load data from data base
@@ -57,7 +57,7 @@ class CategoryContainer extends ConsumerWidget
         );
     }
 
-    // проверть детачмент на специальные правила, может быть будет нужно добавить или убрать юнитов
+    /// проверть детачмент на специальные правила, может быть будет нужно добавить или убрать юнитов
     void _checkDetachment()
     {
     }
@@ -75,7 +75,7 @@ class CategoryContainer extends ConsumerWidget
 
     List<ArmyUnitsBlock> _getUnitsUserArmyWindowByList(List<ArmyBuilderUnitItemUi> listUnit)
     {
-        //1. Группируем юниты по имени в один проход через Map
+        ///1. Группируем юниты по имени в один проход через Map
         final Map<String, List<ArmyBuilderUnitItemUi>> groupedUnits = {};
 
         for (final unit in listUnit)
@@ -84,7 +84,7 @@ class CategoryContainer extends ConsumerWidget
         }
 
         bool isLight = false;
-        // 2. Преобразуем сгруппированные данные в список виджетов
+        /// 2. Преобразуем сгруппированные данные в список виджетов
         return groupedUnits.values.map((unitsGroup)
             {
                 isLight = !isLight;

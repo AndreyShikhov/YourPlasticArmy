@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -66,7 +66,7 @@ class ArmyBuilderScreen extends ConsumerWidget
     {
         final List<Widget> sections = [];
 
-        // 1. Секция описания армии (настройки)
+        /// 1. Секция описания армии (настройки)
         sections.add(
             ExpandableSection(
                 title: 'Army Description',
@@ -88,7 +88,7 @@ class ArmyBuilderScreen extends ConsumerWidget
             )
         );
 
-        // 2. Секции ролей юнитов
+        /// 2. Секции ролей юнитов
         for (var role in UnitRoleCode.values)
         {
             sections.add(CategoryExpanded(armyId: armyId, role: role));

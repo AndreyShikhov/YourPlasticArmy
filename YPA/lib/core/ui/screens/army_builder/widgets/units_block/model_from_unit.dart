@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import 'package:flutter/material.dart';
 import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
@@ -27,7 +27,7 @@ class ModelFromUnit extends StatelessWidget
                 children: [
                     Row(
                         children: [
-                            // ИСПРАВЛЕНО: Добавлен Expanded и ellipsis для защиты от длинных имен
+                            /// ИСПРАВЛЕНО: Добавлен Expanded и ellipsis для защиты от длинных имен
                             Expanded(
                                 child: Text(
                                     modelStats.keys.first,

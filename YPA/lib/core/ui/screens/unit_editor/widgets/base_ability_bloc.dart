@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import 'package:flutter/material.dart';
 import 'package:ypa/domain/models/abilities/base_ability.dart';
@@ -40,7 +40,7 @@ class _AbilityToggleItem extends StatefulWidget
 
 class _AbilityToggleItemState extends State<_AbilityToggleItem>
 {
-    bool _isShortRule = false; // Состояние: развернуто или нет
+    bool _isShortRule = false; /// Состояние: развернуто или нет
 
     @override
     Widget build(BuildContext context) 
@@ -49,7 +49,7 @@ class _AbilityToggleItemState extends State<_AbilityToggleItem>
             margin: const EdgeInsets.symmetric(vertical: 4),
             width: double.infinity,
             decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.05), // Легкий фон для кнопки
+                color: Colors.white.withOpacity(0.05), /// Легкий фон для кнопки
                 borderRadius: BorderRadius.circular(8)
             ),
             child: InkWell(
@@ -57,7 +57,7 @@ class _AbilityToggleItemState extends State<_AbilityToggleItem>
                 {
                     setState(()
                         {
-                            _isShortRule = !_isShortRule; // Переключаем состояние при клике
+                            _isShortRule = !_isShortRule; /// Переключаем состояние при клике
                         });
                 },
                 borderRadius: BorderRadius.circular(8),
@@ -75,13 +75,13 @@ class _AbilityToggleItemState extends State<_AbilityToggleItem>
                                 )
                             ),
                             const SizedBox(height: 6),
-                            // Переключаем текст в зависимости от состояния
+                            /// Переключаем текст в зависимости от состояния
                             Text(
                                 _isShortRule ? widget.ability.description : widget.ability.shortDescription,
                                 style: const TextStyle(
                                     color: Colors.white70,
                                     fontSize: 13,
-                                    height: 1.4 // Межстрочный интервал для читаемости
+                                    height: 1.4 /// Межстрочный интервал для читаемости
                                 )
                             ),
                             if (!_isShortRule)

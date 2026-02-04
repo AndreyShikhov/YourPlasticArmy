@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/application/army/get_army_by_id.dart';
@@ -51,7 +51,7 @@ final unitEditorControllerProvider =
 class UnitEditorController extends StateNotifier<UnitEditorState>
 {
 
-    final Ref _ref; // ссылка на контроллер Army editor
+    final Ref _ref; /// ссылка на контроллер Army editor
     final GetUnitAbilityByCode _getUnitAbilityByCode;
     final GetAllCoreUnitAbilities _getAllCoreUnitAbilities;
     final GetFactionsUnitAbilityByCode _getFactionsUnitAbilityByCode;
@@ -61,7 +61,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
     final String _role;
     final String _armyId;
 
-    // Инициализируем super дефолтным состоянием
+    /// Инициализируем super дефолтным состоянием
     UnitEditorController(
         this._ref,
         this._getUnitAbilityByCode,
@@ -83,21 +83,21 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
         _init();
     }
 
-    // ==========================================
-    // Load unit
-    // ==========================================
+    /// ==========================================
+    /// Load unit
+    /// ==========================================
     Future<void> _init() async
     {
 
         final armyState = _ref.read(armyBuilderControllerProvider(_armyId));
-        // Здесь будет логика загрузки данных юнита из общего стора или БД
+        /// Здесь будет логика загрузки данных юнита из общего стора или БД
         state = state.copyWith(isLoading: true, error: null, unitInstanceId: _instanceUnitId);
 
         try
         {
             final unit = await armyState.getUnitByInstanceIdFromUserArmy(_instanceUnitId, getUnitRoleCode()!);
 
-            // 1. Создаем UI модель юнита
+            /// 1. Создаем UI модель юнита
             final editorUnit = UnitEditorItemUi(
                 instanceId: unit.instanceId,
                 name: unit.name,
@@ -114,17 +114,17 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                 modelStats: unit.modelStats,
             );
 
-            // Сначала сохраняем юнита, чтобы функции get... могли его использовать
+            /// Сначала сохраняем юнита, чтобы функции get... могли его использовать
             state = state.copyWith(unit: editorUnit);
 
-            // 2. ЗАГРУЖАЕМ ВСЕ СПОСОБНОСТИ ПАРАЛЛЕЛЬНО
+            /// 2. ЗАГРУЖАЕМ ВСЕ СПОСОБНОСТИ ПАРАЛЛЕЛЬНО
             final abilitiesResults = await Future.wait([
                     getUnitAbility(),
                     getCoreUnitAbility(),
                     getFactionUnitAbility()
                 ]);
 
-            //3. Добавляем Арим код
+            ///3. Добавляем Арим код
 
             final ArmyDOM? army = await _getArmyById(ArmyId.fromString(armyState.armyId!));
             if (army != null) 
@@ -132,7 +132,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                 state = state.copyWith(armyTypeCode: ArmyTypeCode.fromCode(army.code.value));
             }
 
-            // 4. ОБНОВЛЯЕМ СТЕЙТ ФИНАЛЬНО
+            /// 4. ОБНОВЛЯЕМ СТЕЙТ ФИНАЛЬНО
             state = state.copyWith(
                 unitAbilities: abilitiesResults[0] as List<UnitAbilityDOM>,
                 coreAbilities: abilitiesResults[1] as List<CoreUnitAbilityDOM>,
@@ -146,9 +146,9 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
 
     }
 
-    // ==========================================
-    // Getters
-    // ==========================================
+    /// ==========================================
+    /// Getters
+    /// ==========================================
 
     UnitRoleCode? getUnitRoleCode()
     {
@@ -157,22 +157,22 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
 
     Future<List<UnitAbilityDOM>> getUnitAbility() async
     {
-        // 1. Проверяем, что юнит загружен и у него есть способности
+        /// 1. Проверяем, что юнит загружен и у него есть способности
         if (state.unit == null || state.unit!.unitAbility.isEmpty)
         {
             return [];
         }
 
-        // 2. Создаем список Future-запросов для всех кодов способностей
+        /// 2. Создаем список Future-запросов для всех кодов способностей
 
         final List<Future<UnitAbilityDOM?>> futures = state.unit!.unitAbility
             .map((abilityCode) => _getUnitAbilityByCode(abilityCode))
             .toList();
 
-        // 3. Дожидаемся завершения всех запросов одновременно
+        /// 3. Дожидаемся завершения всех запросов одновременно
         final List<UnitAbilityDOM?> results = await Future.wait(futures);
 
-        // 4. Фильтруем null (если способность не найдена в базе) и возвращаем чистый список
+        /// 4. Фильтруем null (если способность не найдена в базе) и возвращаем чистый список
         return results.whereType<UnitAbilityDOM>().toList();
     }
 
@@ -195,37 +195,37 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
     Future<List<FactionUnitAbilityDOM>> getFactionUnitAbility() async
     {
 
-        // 1. Проверяем, что юнит загружен и у него есть способности
+        /// 1. Проверяем, что юнит загружен и у него есть способности
         if (state.unit == null || state.unit!.factionAbilities.isEmpty)
         {
             return [];
         }
 
-        // 2. Создаем список Future-запросов для всех кодов способностей
+        /// 2. Создаем список Future-запросов для всех кодов способностей
 
         final List<Future<FactionUnitAbilityDOM?>> futures = state.unit!.factionAbilities
             .map((abilityCode) => _getFactionsUnitAbilityByCode(abilityCode.code))
             .toList();
 
-        // 3. Дожидаемся завершения всех запросов одновременно
+        /// 3. Дожидаемся завершения всех запросов одновременно
         final List<FactionUnitAbilityDOM?> results = await Future.wait(futures);
 
-        // 4. Фильтруем null (если способность не найдена в базе) и возвращаем чистый список
+        /// 4. Фильтруем null (если способность не найдена в базе) и возвращаем чистый список
         return results.whereType<FactionUnitAbilityDOM>().toList();
     }
 
-    // ==========================================
-    //  Tools
-    // ==========================================
+    /// ==========================================
+    ///  Tools
+    /// ==========================================
 
     void updateComposition(UnitCompositionModelDom newComposition) async {
-      // 1. Локальное обновление экрана редактора
+      /// 1. Локальное обновление экрана редактора
       final updatedComp = state.unit!.unitComposition.copyWith(selectedComposition: newComposition);
       state = state.copyWith(unit: state.unit!.copyWith(unitComposition: updatedComp));
 
       final role  = UnitRoleCode.fromName(_role);
 
-      // 2. Сохранение в БД (через UseCase)
+      /// 2. Сохранение в БД (через UseCase)
       await _updateUnitInUserRoster(
           armyId: _armyId,
           instanceId: _instanceUnitId,
@@ -234,7 +234,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
           updateData: updatedComp.toSaveUserArmyJson()
       );
 
-      //2.1 обновление PTS юнита в базе
+      ///2.1 обновление PTS юнита в базе
       Map<String,dynamic> newTotalPts = {SaveCategoryCode.points.code: updatedComp.totalUnitCost};
       await _updateUnitInUserRoster(
           armyId: _armyId,
@@ -243,8 +243,8 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
           category: SaveCategoryCode.points,
           updateData: newTotalPts.values.first,
       );
-      // обновить ещё pts они идут отдельным параметром
-      // 3. Оптимизированное обновление основного экрана
+      /// обновить ещё pts они идут отдельным параметром
+      /// 3. Оптимизированное обновление основного экрана
       _ref.read(armyBuilderControllerProvider(_armyId).notifier)
           .updateUnitInState(_instanceUnitId, getUnitRoleCode()!, updatedComp);
     }
@@ -254,7 +254,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
 
         final currentComp = state.unit!.unitComposition;
 
-        // Создаем новый список моделей, меняя флаг у нужной
+        /// Создаем новый список моделей, меняя флаг у нужной
         final updatedAdditional = currentComp.additionalModels.map((m)
             {
                 if (m.name == modelName) 
@@ -268,8 +268,8 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                 }
                 return m;
             }).toList();
-        // 1. Локальное обновление экрана редактора
-        // Обновляем стейт
+        /// 1. Локальное обновление экрана редактора
+        /// Обновляем стейт
         state = state.copyWith(
             unit: state.unit!.copyWith(
                 unitComposition: UnitCompositionDom(
@@ -282,7 +282,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
 
         final role  = UnitRoleCode.fromName(_role);
 
-        // 2. Сохранение в БД (через UseCase)
+        /// 2. Сохранение в БД (через UseCase)
 
         await _updateUnitInUserRoster(
         armyId: _armyId,
@@ -292,7 +292,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
         updateData: state.unit!.unitComposition.toSaveUserArmyJson()
         );
 
-        //2.1 обновление PTS юнита в базе
+        ///2.1 обновление PTS юнита в базе
         Map<String,dynamic> newTotalPts = {SaveCategoryCode.points.code: state.unit!.unitComposition.totalUnitCost};
         await _updateUnitInUserRoster(
           armyId: _armyId,
@@ -302,7 +302,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
           updateData: newTotalPts.values.first,
         );
 
-        // 3. Оптимизированное обновление основного экрана
+        /// 3. Оптимизированное обновление основного экрана
         _ref.read(armyBuilderControllerProvider(_armyId).notifier)
             .updateUnitInState(_instanceUnitId, getUnitRoleCode()!, state.unit!.unitComposition);
     }

@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import 'dart:math';
 
@@ -29,7 +29,7 @@ class _CreateArmyDialogState extends ConsumerState<CreateArmyDialog>
     String selectedArmyId = '';
     String? selectedCodexId;
 
-    // Генерируем имя один раз при создании стейта
+    /// Генерируем имя один раз при создании стейта
     late final String generatedName;
     List<CodexDom> currentCodexes = [];
 
@@ -37,7 +37,7 @@ class _CreateArmyDialogState extends ConsumerState<CreateArmyDialog>
     void initState() 
     {
         super.initState();
-        // Имя создается один раз и не меняется при перерисовках
+        /// Имя создается один раз и не меняется при перерисовках
         generatedName = 'New Army ${Random().nextInt(10000)}';
     }
 
@@ -67,7 +67,7 @@ class _CreateArmyDialogState extends ConsumerState<CreateArmyDialog>
                             controller: nameController,
                             decoration: InputDecoration(
                                 labelText: 'Army Name',
-                                hintText: generatedName // Показываем подсказку
+                                hintText: generatedName /// Показываем подсказку
                             ),
                             onChanged: (_) => setState(()
                                 {
@@ -75,7 +75,7 @@ class _CreateArmyDialogState extends ConsumerState<CreateArmyDialog>
                         ),
                         const SizedBox(height: 10),
 
-                        // 1. Faction
+                        /// 1. Faction
                         allFactionsAsync.when(
                             data: (factions) => DropdownButtonFormField<String>(
                                 decoration: const InputDecoration(labelText: 'Select Faction'),

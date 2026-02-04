@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,19 +25,19 @@ class SelectUnitsDialog extends ConsumerStatefulWidget
 
 class _SelectUnitsDialogState extends ConsumerState<SelectUnitsDialog>
 {
-    String _searchQuery = ''; // Состояние поискового запроса
+    String _searchQuery = ''; /// Состояние поискового запроса
 
     @override
     Widget build(BuildContext context)
     {
         final state = ref.watch(armyBuilderControllerProvider(widget.armyId));
 
-        // 1. Получаем все юниты для данной роли из БД
+        /// 1. Получаем все юниты для данной роли из БД
         final allUnits = state.getAllUnitsByRoleFromDB(widget.role.name);
 
-        // 2. ФИЛЬТРАЦИЯ: Оставляем только те, что содержат поисковый запрос
+        /// 2. ФИЛЬТРАЦИЯ: Оставляем только те, что содержат поисковый запрос
         final filteredUnits = _searchQuery.isEmpty
-            ? allUnits // Если поиск пустой — показываем ВСЕХ юнитов
+            ? allUnits /// Если поиск пустой — показываем ВСЕХ юнитов
             : allUnits.where((unit)
                 {
                     final name = unit.name.toLowerCase();
@@ -51,7 +51,7 @@ class _SelectUnitsDialogState extends ConsumerState<SelectUnitsDialog>
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                    // Виджет поиска
+                    /// Виджет поиска
                     UnitSearchWidget(
                         armyId: widget.armyId,
                         onSearch: (text)
@@ -64,7 +64,7 @@ class _SelectUnitsDialogState extends ConsumerState<SelectUnitsDialog>
                     ),
                     const SizedBox(height: 10),
 
-                    // Список ОТФИЛЬТРОВАННЫХ юнитов
+                    /// Список ОТФИЛЬТРОВАННЫХ юнитов
                     if (filteredUnits.isNotEmpty)
                     ..._getUnitButtons(filteredUnits)
                     else if (_searchQuery.isNotEmpty)

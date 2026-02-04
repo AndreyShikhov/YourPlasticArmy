@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/application/codex/get_codex_by_id.dart';
@@ -11,21 +11,21 @@ import 'package:ypa/core/providers/di/user_army_providers.dart';
 import 'package:ypa/core/ui/screens/view_army/view_army_item.dart';
 import 'package:ypa/core/ui/screens/view_army/view_army_state.dart';
 
-// Провайдер контроллера с параметром armyId
+/// Провайдер контроллера с параметром armyId
 final viewArmyControllerProvider = StateNotifierProvider.family<ViewArmyController, ViewArmyState, String>((
         ref,
         armyId
     )
     {
         final getUserArmyById = ref.watch(getUserArmyByIdUseCaseProvider);
-        final getCodexById = ref.watch(getCodexByIdUseCaseProvider); // Добавили UseCase
+        final getCodexById = ref.watch(getCodexByIdUseCaseProvider); /// Добавили UseCase
         return ViewArmyController(getUserArmyById, getCodexById, armyId);
     });
 
 class ViewArmyController extends StateNotifier<ViewArmyState>
 {
     final GetUserArmyById _getUserArmyById;
-    final GetCodexById _getCodexById; // Добавили поле
+    final GetCodexById _getCodexById; /// Добавили поле
     final String _armyId;
 
     ViewArmyController(this._getUserArmyById, this._getCodexById, this._armyId) : super(const ViewArmyState())
@@ -46,10 +46,10 @@ class ViewArmyController extends StateNotifier<ViewArmyState>
                 return;
             }
 
-            // ПОЛУЧАЕМ ИМЯ КОДЕКСА ИЗ БАЗЫ
+            /// ПОЛУЧАЕМ ИМЯ КОДЕКСА ИЗ БАЗЫ
             final codex = await _getCodexById(userArmy.codexId);
 
-            // В будущем здесь будет логика восстановления юнитов из JSON
+            /// В будущем здесь будет логика восстановления юнитов из JSON
             final List<ViewArmyUnitItemUi> units = [];
 
             state = state.copyWith(

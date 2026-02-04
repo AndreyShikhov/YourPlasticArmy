@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import 'package:ypa/domain/models/detachment/detachment.dart';
 import 'package:ypa/domain/models/stratagem/strategem.dart';

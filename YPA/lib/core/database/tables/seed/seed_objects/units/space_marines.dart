@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import '../../../../../../domain/models/unit/unit.dart';
 import '../_types.dart';
@@ -45,7 +45,7 @@ List<UnitSeed> spaceMarinesUnits()
             ],
             ledBy: const[],
             leader: [
-                LeaderFilterDom(
+                const LeaderFilterDom(
                     faction: FactionTypeCode.imperium,
                     army: ArmyTypeCode.spaceMarines,
                     names: [
@@ -58,14 +58,14 @@ List<UnitSeed> spaceMarinesUnits()
                         'Sternguard Veteran Squad',
                         'Tactical Squad'
                     ]),
-                LeaderFilterDom(
+                const LeaderFilterDom(
                     faction: FactionTypeCode.imperium,
                     army: ArmyTypeCode.spaceMarines,
                     codex: CodexTypeCode.darkAngels,
                     names: [
                         'Inner Circle Companions'
                     ]),
-                LeaderFilterDom(
+                const LeaderFilterDom(
                     faction: FactionTypeCode.imperium,
                     army: ArmyTypeCode.spaceMarines,
                     codex: CodexTypeCode.deathWatch,
@@ -1782,14 +1782,14 @@ List<UnitSeed> spaceMarinesUnits()
                         name: 'Invader ATV', 
                         amount: 1, 
                         cost: 60),
-                  UnitCompositionModelDom(
-                      name: 'Invader ATV2',
-                      amount: 1,
-                      cost: 60),
-                  UnitCompositionModelDom(
-                      name: 'Invader ATV3',
-                      amount: 1,
-                      cost: 60),
+                    UnitCompositionModelDom(
+                        name: 'Invader ATV2',
+                        amount: 1,
+                        cost: 60),
+                    UnitCompositionModelDom(
+                        name: 'Invader ATV3',
+                        amount: 1,
+                        cost: 60)
                 ]
             ),
 

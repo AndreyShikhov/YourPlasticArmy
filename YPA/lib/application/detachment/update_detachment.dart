@@ -1,8 +1,8 @@
 
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import '../../domain/models/army/army.dart';
 import '../../domain/models/detachment/detachment.dart';

@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -46,7 +46,7 @@ class LeaderBloc extends ConsumerWidget
 
         return Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
-            runSpacing: 4, // Отступ между строками
+            runSpacing: 4, /// Отступ между строками
             children: [
                 for (int i = 0; i < entries.length; i++) ...[
                         Text(
@@ -59,7 +59,7 @@ class LeaderBloc extends ConsumerWidget
                                 fontWeight: entries[i].value ? FontWeight.bold : FontWeight.normal
                             )
                         ),
-                        // Добавляем разделитель, если это не последний элемент
+                        /// Добавляем разделитель, если это не последний элемент
                         if (i < entries.length - 1)
                         const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 8),
@@ -116,8 +116,8 @@ class LeaderBloc extends ConsumerWidget
     Set<String> _getAllUnitsNameInArmy(ArmyBuilderState armyState)
     {
         return armyState.userArmyUnits?.values
-            .expand((units) => units) // «Схлопывает» все списки в один общий поток
-            .map((unit) => unit.name) // Берет только поле name
-            .toSet() ?? {};           // Оставляет только уникальные и превращает в Set
+            .expand((units) => units) /// «Схлопывает» все списки в один общий поток
+            .map((unit) => unit.name) /// Берет только поле name
+            .toSet() ?? {};           /// Оставляет только уникальные и превращает в Set
     }
 }

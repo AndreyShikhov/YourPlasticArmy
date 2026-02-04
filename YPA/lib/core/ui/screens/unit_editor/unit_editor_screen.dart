@@ -1,8 +1,8 @@
 
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -33,12 +33,12 @@ class UnitEditorScreen extends ConsumerWidget
     @override
     Widget build(BuildContext context, WidgetRef ref)
     {
-        // 1. Получаем состояние (для отрисовки)
+        /// 1. Получаем состояние (для отрисовки)
         final state = ref.watch(unitEditorControllerProvider((armyId, instanceId, roleCode)));
 
-        // 2. Получаем контроллер (для вызова методов)
-        //final notifier = ref.read(unitEditorControllerProvider((armyId, instanceId, roleCode)).notifier);
-        // TODO: implement build
+        /// 2. Получаем контроллер (для вызова методов)
+        ///final notifier = ref.read(unitEditorControllerProvider((armyId, instanceId, roleCode)).notifier);
+        /// TODO: implement build
         return
         Scaffold(
             appBar: PreferredSize(
@@ -123,14 +123,14 @@ class UnitEditorScreen extends ConsumerWidget
 
         if (state.unit == null) return '';
 
-        // Берем выбранный состав или первый из списка доступных
+        /// Берем выбранный состав или первый из списка доступных
         final baseComp = state.unit!.unitComposition.selectedComposition ??
             state.unit!.unitComposition.compositions.firstOrNull;
 
         int models = baseComp?.amount ?? 0;
         int cost = baseComp?.cost ?? 0;
 
-        // Добавляем стоимость и количество моделей из доп. опций
+        /// Добавляем стоимость и количество моделей из доп. опций
         for (var model in state.unit!.unitComposition.additionalModels)
         {
             if (model.isSelected)

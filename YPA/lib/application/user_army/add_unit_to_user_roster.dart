@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import '../../domain/models/unit/unit.dart';
 import '../../domain/models/user_army/user_army_repository.dart';
@@ -9,7 +9,7 @@ import '../../domain/models/user_army/user_army_repository.dart';
 class AddUnitToUserRoster
 {
     final UserArmyRepository armyRepository;
-    final UnitRepositoryDom unitRepository; // Понадобится, чтобы узнать роль юнита
+    final UnitRepositoryDom unitRepository; /// Понадобится, чтобы узнать роль юнита
 
     AddUnitToUserRoster(this.armyRepository, this.unitRepository);
 
@@ -19,7 +19,7 @@ class AddUnitToUserRoster
         required String instanceId,
     }) async
     {
-        // 1. Получаем армию
+        /// 1. Получаем армию
         final army = await armyRepository.getUserArmyById(armyId);
         // 2. Получаем юнит (чтобы знать, в какую категорию его положить)
         final unit = await unitRepository.findUnitByIdFromDb(UnitIdDom.fromString(unitId));
@@ -27,10 +27,10 @@ class AddUnitToUserRoster
 
         if (army != null && unit != null) 
         {
-            // 3. Вызываем доменную логику (она вернет обновленный объект армии)
+            /// 3. Вызываем доменную логику (она вернет обновленный объект армии)
             final updatedArmy = await army.addUnitToUserArmy(unitId, instanceId, unit.role.value.name, unit.unitComposition);
 
-            // 4. Сохраняем
+            /// 4. Сохраняем
             await armyRepository.saveUserArmy(updatedArmy);
         }
     }

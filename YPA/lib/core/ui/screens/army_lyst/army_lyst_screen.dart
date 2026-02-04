@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -78,7 +78,7 @@ class ArmyListScreen extends ConsumerWidget
             padding: const EdgeInsets.only(bottom: 10.0),
             child: Row(
                 children: [
-                    SizedBox( //  button delet
+                    SizedBox( ///  button delet
                         height: 60,
                         width: 50,
                         child: ElevatedButton(
@@ -99,7 +99,7 @@ class ArmyListScreen extends ConsumerWidget
                           height: 60,
                           child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4), // 2. Уменьшаем отступы
+                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4), /// 2. Уменьшаем отступы
                                   backgroundColor: const Color.fromARGB(255, 60, 60, 60),
                                   shape: RoundedRectangleBorder(borderRadius: YPABorderRadius)
                               ),
@@ -109,14 +109,14 @@ class ArmyListScreen extends ConsumerWidget
                                 ref.read(armyLystControllerProvider.notifier).loadArmies();
                               },
                               child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center, // 3. Центрируем текст по вертикали
+                                  mainAxisAlignment: MainAxisAlignment.center, /// 3. Центрируем текст по вертикали
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                         _generateTitleTextButton(item),
                                         style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold),
                                         textAlign: TextAlign.start,
-                                        maxLines: 1, // Ограничиваем в 1 строку для безопасности в 60px
+                                        maxLines: 1, /// Ограничиваем в 1 строку для безопасности в 60px
                                         overflow: TextOverflow.ellipsis
                                     ),
                                     const SizedBox(height: 2),
@@ -170,12 +170,12 @@ class ArmyListScreen extends ConsumerWidget
         {
             res += '${item.detachment}';
         }
-        return res + strEnd; //'${item.codexName}: ${item.title} (${item.pts} pts)';
+        return res + strEnd; ///'${item.codexName}: ${item.title} (${item.pts} pts)';
     }
 
     Future<void> _onDeleteArmyById(BuildContext context, WidgetRef ref, ArmyListItemUi item) async
     {
-        // Показываем подтверждение
+        /// Показываем подтверждение
         final confirmed = await showDialog<bool>(
             context: context,
             builder: (context) =>

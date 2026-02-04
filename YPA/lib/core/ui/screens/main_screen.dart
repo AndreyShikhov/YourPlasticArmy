@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import 'dart:io';
 
@@ -133,7 +133,7 @@ class _MainScreenState extends ConsumerState<MainScreen>
                                     )
                                 ),
                                 _drawerItem(Icons.settings, 'Настройки', context),
-                              // НОВАЯ КНОПКА: ПЕРЕСОБРАТЬ БАЗУ
+                              /// НОВАЯ КНОПКА: ПЕРЕСОБРАТЬ БАЗУ
                               ListTile(
                                 leading: const Icon(Icons.refresh, color: Colors.orangeAccent),
                                 title: const Text('Пересобрать БД', style: TextStyle(color: Colors.orangeAccent)),

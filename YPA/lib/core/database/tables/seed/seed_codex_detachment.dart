@@ -1,10 +1,9 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import 'package:drift/drift.dart';
-import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
 import 'package:ypa/core/database/tables/seed/seed_objects/detachments/detachment_codex.dart';
 
 import '../../app_database.dart';

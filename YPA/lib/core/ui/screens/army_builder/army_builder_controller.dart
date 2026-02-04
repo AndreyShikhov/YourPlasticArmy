@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import 'dart:async';
 import 'dart:convert';
@@ -18,7 +18,6 @@ import '../../../../application/detachment/detachments_use_cases.dart';
 import '../../../../application/unit/unt_use_case.dart';
 import '../../../../application/user_army/user_army_use_cases.dart';
 import '../../../../domain/models/detachment/detachment.dart';
-import '../../../../domain/models/unit/model_stats.dart';
 import '../../../../domain/models/unit/unit.dart';
 import '../../../../domain/models/user_army/user_army.dart';
 import '../../../database/tables/seed/seed_objects/_types.dart';
@@ -102,16 +101,16 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         super.dispose();
     }
 
-    // ==========================================
-    // Updates
-    // ==========================================
+    /// ==========================================
+    /// Updates
+    /// ==========================================
 
     Future<void> updateNameArmyRoster(String newName) async
     {
-        // 1. Обновляем стейт мгновенно для плавности UI
+        /// 1. Обновляем стейт мгновенно для плавности UI
         state = state.copyWith(userArmyName: newName);
         
-        // 2. Сбрасываем старый таймер
+        /// 2. Сбрасываем старый таймер
         _nameDebounceTimer?.cancel();
         
         // 3. Запускаем новый таймер на 500мс

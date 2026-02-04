@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import 'package:flutter/material.dart';
 
@@ -12,7 +12,7 @@ class ExpandableSection extends StatelessWidget
     final Widget child;
     final Widget? trailing;
 
-    // Теперь это обязательные параметры для управления состоянием извне
+    /// Теперь это обязательные параметры для управления состоянием извне
     final bool isExpanded;
     final ValueChanged<bool> onExpansionChanged;
 
@@ -32,7 +32,7 @@ class ExpandableSection extends StatelessWidget
         return Column(
             children: [
                 GestureDetector(
-                    // При нажатии просто сообщаем родителю, что хотим инвертировать состояние
+                    /// При нажатии просто сообщаем родителю, что хотим инвертировать состояние
                     onTap: () => onExpansionChanged(!isExpanded),
                     child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -58,7 +58,7 @@ class ExpandableSection extends StatelessWidget
                         )
                     )
                 ),
-                // Показываем содержимое только если родитель передал isExpanded = true
+                /// Показываем содержимое только если родитель передал isExpanded = true
                 if (isExpanded)
                 Container(
                     width: double.infinity,

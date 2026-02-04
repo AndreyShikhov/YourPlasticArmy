@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import 'package:flutter/material.dart';
 
@@ -12,7 +12,7 @@ class ExpandableSection extends StatefulWidget
     final Widget child;
     final bool initialExpanded;
     final Widget? trailing;
-    // Добавляем колбэк для отслеживания состояния
+    /// Добавляем колбэк для отслеживания состояния
     final ValueChanged<bool>? onExpansionChanged;
 
     const ExpandableSection({
@@ -52,7 +52,7 @@ class _ExpandableSectionState extends State<ExpandableSection>
                             {
                                 _isExpanded = !_isExpanded;
                             });
-                        // Вызываем колбэк при изменении состояния
+                        /// Вызываем колбэк при изменении состояния
                         widget.onExpansionChanged?.call(_isExpanded);
                     },
                     child: Container(

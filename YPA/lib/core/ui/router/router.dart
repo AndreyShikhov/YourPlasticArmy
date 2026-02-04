@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import 'package:go_router/go_router.dart';
 import 'package:ypa/core/ui/screens/screen.dart';
@@ -25,7 +25,7 @@ final GoRouter router = GoRouter(
                             path: 'army_lyst',
                             builder: (context, state) => BaseWindow(bgColor: mainScreenColor, child: const ArmyListScreen()),
                             routes: [
-                                // Билдер армии (принимает ID)
+                                /// Билдер армии (принимает ID)
                                 GoRoute(
                                     path: 'army_builder/:armyId',
                                     builder: (context, state)
@@ -57,7 +57,7 @@ final GoRouter router = GoRouter(
                                         )
                                     ]
                                 ),
-                                // Просмотр армии (принимает ID)
+                                /// Просмотр армии (принимает ID)
                                 GoRoute(
                                     path: 'view_army/:armyId',
                                     builder: (context, state)

@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import 'package:flutter/cupertino.dart';
 import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
@@ -22,9 +22,9 @@ class ArmyBuilderState
     final CodexDom? codex;
     final DetachmentDOM? detachment;
     final List<DetachmentDOM> allDetachments;
-    final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>? userArmyUnits; // уже добавленный в ростер игрока юниты
-    final List<ArmyBuilderUnitItemUi> allUnitsFromDb; // юниты из базы
-    final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>? temDataUnitsByRoleFromdb; // отфильтрованные по роли юниты из базы данны
+    final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>? userArmyUnits; /// уже добавленный в ростер игрока юниты
+    final List<ArmyBuilderUnitItemUi> allUnitsFromDb; /// юниты из базы
+    final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>? temDataUnitsByRoleFromdb; /// отфильтрованные по роли юниты из базы данны
     final String? error;
 
     const ArmyBuilderState({

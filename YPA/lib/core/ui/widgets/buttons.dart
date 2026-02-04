@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import 'package:flutter/material.dart';
 
@@ -28,8 +28,8 @@ class MainButton extends FilledButton
     static ButtonStyle mainButtonStyle(BuildContext? context) 
     {
         return FilledButton.styleFrom(
-            backgroundColor: const Color.fromARGB(255, 78, 73, 73), // Цвет фона
-            foregroundColor: texColor, // Цвет текста
+            backgroundColor: const Color.fromARGB(255, 78, 73, 73), /// Цвет фона
+            foregroundColor: texColor, /// Цвет текста
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             fixedSize: const Size(160, 80),
             side: const BorderSide(color: Colors.black, width: 2, strokeAlign: BorderSide.strokeAlignOutside),
@@ -62,12 +62,12 @@ class AppIconButton extends StatelessWidget
     {
         return IconButton(
             tooltip: tooltip,
-            // Если enabled = false, передаем null в onPressed, что дизейблит кнопку
+            /// Если enabled = false, передаем null в onPressed, что дизейблит кнопку
             onPressed: enabled ? onTap : null,
             icon: Icon(icon),
             color: color,
             disabledColor: disabledColor,
-            // Делает кнопку компактнее, убирая лишние отступы
+            /// Делает кнопку компактнее, убирая лишние отступы
             visualDensity: VisualDensity.compact
         );
     }

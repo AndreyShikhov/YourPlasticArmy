@@ -1,10 +1,9 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import 'package:uuid/uuid.dart';
-import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
 import 'package:ypa/core/database/tables/seed/seed_objects/factions/factions.dart';
 
 import '../../app_database.dart';

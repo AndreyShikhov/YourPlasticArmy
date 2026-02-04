@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,7 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class UnitSearchWidget extends ConsumerStatefulWidget
 {
     final String armyId;
-    final ValueChanged<String> onSearch; // Коллбэк для передачи текста наверх
+    final ValueChanged<String> onSearch; /// Коллбэк для передачи текста наверх
 
     const UnitSearchWidget({super.key, required this.armyId, required this.onSearch});
 
@@ -31,7 +31,7 @@ class _UnitSearchWidgetState extends ConsumerState<UnitSearchWidget>
     @override
     void dispose()
     {
-        _controller.dispose(); // Обязательно освобождаем ресурсы
+        _controller.dispose(); /// Обязательно освобождаем ресурсы
         super.dispose();
     }
 
@@ -42,7 +42,7 @@ class _UnitSearchWidgetState extends ConsumerState<UnitSearchWidget>
             padding: const EdgeInsets.all(8.0),
             child: TextField(
                 controller: _controller,
-                onChanged: widget.onSearch, // Передаем текст при каждом изменении
+                onChanged: widget.onSearch, /// Передаем текст при каждом изменении
                 style: const TextStyle(color: Colors.white),
                 decoration: InputDecoration(
                     hintText: 'Unit name...',
@@ -53,7 +53,7 @@ class _UnitSearchWidgetState extends ConsumerState<UnitSearchWidget>
                         onPressed: ()
                         {
                             _controller.clear();
-                            widget.onSearch(''); // Сбрасываем фильтр
+                            widget.onSearch(''); /// Сбрасываем фильтр
                         }
                     ),
                     filled: true,

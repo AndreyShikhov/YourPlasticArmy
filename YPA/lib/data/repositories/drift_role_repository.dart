@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import 'package:ypa/core/database/app_database.dart';
 import 'package:ypa/data/mappers/role_mapper.dart';

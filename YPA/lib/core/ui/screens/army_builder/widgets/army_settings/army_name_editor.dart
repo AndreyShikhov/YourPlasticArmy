@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -34,7 +34,7 @@ class _ArmyNameEditorState extends ConsumerState<ArmyNameEditor>
     void didUpdateWidget(ArmyNameEditor oldWidget)
     {
         super.didUpdateWidget(oldWidget);
-        // Если имя изменилось извне (например, при загрузке), обновляем контроллер
+        /// Если имя изменилось извне (например, при загрузке), обновляем контроллер
         if (oldWidget.initialName != widget.initialName && _controller.text != widget.initialName)
         {
             _controller.text = widget.initialName;
@@ -58,7 +58,7 @@ class _ArmyNameEditorState extends ConsumerState<ArmyNameEditor>
                     controller: _controller,
                     onChanged: (value)
                     {
-                        // Вызываем метод контроллера для сохранения в базу
+                        /// Вызываем метод контроллера для сохранения в базу
                         ref.read(armyBuilderControllerProvider(widget.armyId).notifier).updateNameArmyRoster(value);
                     },
                     style: const TextStyle(color: Colors.white),

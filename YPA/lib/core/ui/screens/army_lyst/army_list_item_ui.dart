@@ -1,11 +1,11 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 class ArmyListItemUi
 {
-    final String id; // UUID
+    final String id; /// UUID
     final String codexName;
     final String title;
     final String? detachment;

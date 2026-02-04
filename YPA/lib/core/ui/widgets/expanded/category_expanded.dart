@@ -1,7 +1,7 @@
-/*******************************************************************************
+/*
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
- ******************************************************************************/
+ */
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,7 +30,7 @@ class CategoryExpanded extends ConsumerStatefulWidget
 
 class _CategoryExpandedState extends ConsumerState<CategoryExpanded>
 {
-    // Единственный источник истины для состояния открытия
+    /// Единственный источник истины для состояния открытия
     bool _isExpanded = false;
     bool _isSelectionMode = false;
 
@@ -42,34 +42,34 @@ class _CategoryExpandedState extends ConsumerState<CategoryExpanded>
 
 
 
-        // В будущем тут будет реальный подсчет очков
+        /// В будущем тут будет реальный подсчет очков
         final subtitle = '${_getPTSFromCategory(roleUnits)} pts  ${roleUnits.length} units';
 
         return ExpandableSection(
             title: widget.role.title,
             subtitle: subtitle,
-            isExpanded: _isExpanded, // Передаем состояние "сверху"
+            isExpanded: _isExpanded, /// Передаем состояние "сверху"
             onExpansionChanged: (expanded)
             {
                 setState(()
                     {
-                      // Если пытаемся открыть категорию, а в ней нет юнитов
+                      /// Если пытаемся открыть категорию, а в ней нет юнитов
                       if (expanded && (state.userArmyUnits?[widget.role]?.isEmpty ?? true)) {
-                        _isSelectionMode = true; // сразу включаем режим выбора
+                        _isSelectionMode = true; /// сразу включаем режим выбора
                       }
-                        _isExpanded = expanded; // Меняем состояние здесь
+                        _isExpanded = expanded; /// Меняем состояние здесь
                         if (!expanded) _isSelectionMode = false;
                     });
             },
             trailing: ButtonOpenSelectUnits(
                 icon: _isSelectionMode ? Icons.remove : Icons.add,
-                // Кнопка теперь четко знает, развернута ли секция
+                /// Кнопка теперь четко знает, развернута ли секция
                 enabled: !state.isLoading && _isExpanded,
                 onTap: ()
                 {
                     setState(()
                         {
-                            _isSelectionMode = !_isSelectionMode; // Переключаем режим
+                            _isSelectionMode = !_isSelectionMode; /// Переключаем режим
                         });
                 }
             ),
