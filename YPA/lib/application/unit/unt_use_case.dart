@@ -9,5 +9,4 @@ export 'get_all_units.dart';
 export 'get_unit_byID_from_db.dart';
 export 'get_units_by_army.dart';
 export 'get_units_by_codex.dart';
-
-
+export 'get_units_by_ids.dart';

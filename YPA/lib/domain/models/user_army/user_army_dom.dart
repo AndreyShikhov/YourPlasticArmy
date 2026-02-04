@@ -95,7 +95,7 @@ class UserArmyDOM
 
     /// Добавляет юнит в jsonData, соблюдая структуру категорий.
     /// [role] — это строковый код роли (например, 'Characters', 'Battleline'), который станет ключом в JSON.
-    Future<UserArmyDOM> addUnitToUserArmy(String unitId, String role, UnitCompositionDom composition) async
+    Future<UserArmyDOM> addUnitToUserArmy(String unitId,String instanceId, String role, UnitCompositionDom composition) async
     {
         // 1. Декодируем текущий JSON или создаем структуру по умолчанию
         Map<String, dynamic> root;
@@ -134,7 +134,7 @@ class UserArmyDOM
         final newUnitInstance =
             {
 
-                SaveCategoryCode.instanceId.code: const Uuid().v4(),                        // Уникальный ID отряда в ростере
+                SaveCategoryCode.instanceId.code: instanceId,                        // Уникальный ID отряда в ростере
                 SaveCategoryCode.unitId.code: unitId,                                       // Ссылка на ID базового юнита из таблицы Units
                 SaveCategoryCode.composition.code: finalComposition.toSaveUserArmyJson(),   // Сохзраняем не весь Compositionа только выбранные элементы
                 SaveCategoryCode.points.code: finalComposition.totalUnitCost,               // Cтоимость юнита"

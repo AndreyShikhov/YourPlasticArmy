@@ -39,41 +39,24 @@ class DriftUnitRepository implements UnitRepositoryDom
     }
 
     @override
+    Future<List<UnitDOM>> findUnitsByIds(List<String> ids) async
+    {
+        final query = db.select(db.units)..where((tbl) => tbl.id.isIn(ids));
+        final rows = await query.get();
+        return rows.map(UnitMapper.fromRow).toList();
+    }
+
+    @override
     Future<List<UnitDOM>> findUnitsByCodex(CodexId codexId) async
     {
-        //print('DEBUG: Requesting units for codexId.value: "${codexId.value}"');
-
         final query = db.select(db.units)..where((tbl) => tbl.codexId.equals(codexId.value));
-
         final rows = await query.get();
-        //print('DEBUG: Found ${rows.length} rows in DB for codex. Starting mapping...');
-
-        final List<UnitDOM> units = [];
-
-        for (var row in rows)
-        {
-            try
-            {
-                units.add(UnitMapper.fromRow(row));
-            } catch (e)
-            {
-                print('ERROR mapping unit "${row.name}" from codex: $e');
-                // print('   - armyId: ${row.armyId}');
-                // print('   - codexId: ${row.codexId}');
-                // print('   - roleCode: ${row.roleCode}');
-            }
-        }
-
-        //print('DEBUG: Successfully mapped ${units.length} / ${rows.length} units from codex');
-        return units;
+        return rows.map(UnitMapper.fromRow).toList();
     }
 
     @override
     Future<List<UnitDOM>> findUnitsByArmy(ArmyId armyId) async
     {
-
-        //print('DEBUG: Requesting units for armyId.value: "${armyId.value}"');
-
         final query = db.select(db.units)..where((tbl)
             {
                 return tbl.armyId.equals(armyId.value) & tbl.codexId.isNull();
@@ -81,29 +64,7 @@ class DriftUnitRepository implements UnitRepositoryDom
         );
 
         final rows = await query.get();
-        //print('DEBUG: Found ${rows.length} rows in DB. Starting mapping...');
-
-        final List<UnitDOM> units = [];
-
-        for (var row in rows)
-        {
-            try
-            {
-                // Пробуем сконвертировать каждую строку
-                units.add(UnitMapper.fromRow(row));
-            } catch (e)
-            {
-                // Если здесь произойдет ошибка, мы увидим на каком юните и почему
-                print('ERROR mapping unit "${row.name}": $e');
-                // print('   - armyId: ${row.armyId}');
-                // print('   - codexId: ${row.codexId}');
-                // print('   - roleCode: ${row.roleCode}');
-                // print('   - stats: ${row.unitStats}');
-            }
-        }
-
-        //print('DEBUG: Successfully mapped ${units.length} / ${rows.length} units');
-        return units;
+        return rows.map(UnitMapper.fromRow).toList();
     }
 
     @override

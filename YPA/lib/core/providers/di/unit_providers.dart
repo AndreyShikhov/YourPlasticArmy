@@ -68,6 +68,12 @@ final findUnitByIdFromDbUseCaseProvider = Provider<GetUnitByIdFromDb>((ref)
         return GetUnitByIdFromDb(repository);
     });
 
+final getUnitsByIdsFromDbUseCaseProvider = Provider<GetUnitsByIdsFromDb>((ref)
+    {
+        final repository = ref.watch(unitRepositoryProvider);
+        return GetUnitsByIdsFromDb(repository);
+    });
+
 // --- UI STATE ---
 
 final rolesListProvider = FutureProvider<List<RoleDOM>>((ref) async

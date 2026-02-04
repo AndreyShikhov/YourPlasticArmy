@@ -17,6 +17,9 @@ abstract class UnitRepositoryDom
     /// Найти Unit по ID
     Future<UnitDOM?> findUnitByIdFromDb(UnitIdDom id);
 
+    /// Найти Unit по списку ID
+    Future<List<UnitDOM>> findUnitsByIds(List<String> ids);
+
     /// Получить все Unit
     Future<List<UnitDOM>> findAllUnits();
 
@@ -29,4 +32,3 @@ abstract class UnitRepositoryDom
     /// Удалить Unit
     Future<void> deleteUnit(UnitIdDom id);
 }
-
