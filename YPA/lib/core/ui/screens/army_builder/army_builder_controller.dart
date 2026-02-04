@@ -12,13 +12,13 @@ import 'package:ypa/application/codex/get_codex_by_id.dart';
 import 'package:ypa/core/providers/di/di_providers.dart';
 import 'package:ypa/domain/models/army/army.dart';
 import 'package:ypa/domain/models/codex/codex.dart';
-import 'package:ypa/domain/models/user_army/user_army.dart';
 
 import '../../../../application/detachment/detachments_use_cases.dart';
 import '../../../../application/unit/unt_use_case.dart';
 import '../../../../application/user_army/user_army_use_cases.dart';
 import '../../../../domain/models/detachment/detachment.dart';
 import '../../../../domain/models/unit/unit.dart';
+import '../../../../domain/models/user_army/user_army.dart';
 import '../../../database/tables/seed/seed_objects/_types.dart';
 import 'army_builder_item_ui.dart';
 import 'army_builder_state.dart';
@@ -101,6 +101,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         } catch (e)
         {
             state = state.copyWith(error: e.toString());
+            loadArmy();
         }
     }
 
@@ -120,43 +121,86 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         } catch (e)
         {
             state = state.copyWith(error: e.toString());
+            loadArmy();
         }
     }
 
     Future<void> updateBattleSizeArmyRoster(BattleSizeCode newSize) async
     {
+        // 1. Оптимизация: Обновляем стейт сразу
+        final newSb = BattleSize.selected(newSize);
+        state = state.copyWith(battleSize: {newSize: newSb.total});
+
         try
         {
             await _updateBattleSize(id: _armyId, newSize: newSize);
-            // После обновления в базе, перезагружаем армию для обновления всех лимитов
-            loadArmy();
         } catch (e)
         {
             state = state.copyWith(error: e.toString());
+            loadArmy(); // Откат при ошибке
         }
     }
 
     Future<void> addUnitToUserArmy(String unitId) async
     {
+        if (state.userArmyUnits == null) return;
+
         try
         {
+            // 1. Находим базовый юнит в кэше БД
+            final baseUnitItem = state.allUnitsFromDb.firstWhere((u) => u.dbId == unitId);
+            
+            // 2. Генерируем новый инстанс локально
+            final instanceId = const Uuid().v4();
+            final role = UnitRoleCode.fromName(baseUnitItem.role)!;
+            
+            final newUnit = baseUnitItem.copyWith(instanceId: instanceId);
+
+            // 3. Обновляем стейт
+            final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> updatedUnits = Map.from(state.userArmyUnits!);
+            updatedUnits[role] = [...(updatedUnits[role] ?? []), newUnit];
+
+            state = state.copyWith(userArmyUnits: updatedUnits);
+            updateCurrentPts();
+
+            // 4. Сохраняем в БД в фоне (или ждем, если нужно)
+            // Примечание: UseCase должен поддерживать передачу instanceId или мы полагаемся на loadArmy при расхождении
             await _addUnitToUserRoster(armyId: _armyId, unitId: unitId);
-            loadArmy();
+            
         } catch (e)
         {
             state = state.copyWith(error: e.toString());
+            loadArmy();
         }
     }
 
     Future<void> removeLastUnitFromUserArmy(String unitId, UnitRoleCode role) async
     {
+        if (state.userArmyUnits == null) return;
+
         try
         {
+            // 1. Удаляем локально
+            final List<ArmyBuilderUnitItemUi> unitsInRole = List.from(state.userArmyUnits![role] ?? []);
+            
+            // Ищем последний юнит с таким dbId
+            final index = unitsInRole.lastIndexWhere((u) => u.dbId == unitId);
+            if (index != -1) {
+                unitsInRole.removeAt(index);
+                
+                final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> updatedUnits = Map.from(state.userArmyUnits!);
+                updatedUnits[role] = unitsInRole;
+
+                state = state.copyWith(userArmyUnits: updatedUnits);
+                updateCurrentPts();
+            }
+
+            // 2. Вызываем UseCase
             await _removeLastUnitFromUserRoster(armyId: _armyId, role: role, unitId: unitId);
-            loadArmy();
         } catch (e)
         {
             state = state.copyWith(error: e.toString());
+            loadArmy();
         }
     }
 
@@ -184,17 +228,16 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         }
     }
 
-    updateCurrentPts()
+    void updateCurrentPts()
     {
         int total = 0;
 
-        // Если юнитов нет, возвращаем стейт с 0 очков
         if (state.userArmyUnits == null || state.userArmyUnits!.isEmpty)
         {
             state = state.copyWith(currentPts: total);
+            return;
         }
 
-        // Проходим по всем категориям и юнитам в них
         state.userArmyUnits!.forEach((role, units)
             {
                 for (var unit in units)
@@ -203,7 +246,6 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                 }
             });
 
-        // Возвращаем новый объект стейта через copyWith
         state = state.copyWith(currentPts: total);
     }
 
@@ -264,6 +306,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                 userArmy.jsonData
             );
 
+            // Кэшируем доступных юнитов один раз при загрузке
             final List<ArmyBuilderUnitItemUi> allUnitsFromDb = await getAllUnitsByArmyId(userArmy.armyId);
             allUnitsFromDb.addAll(await getAllUnitsByCodexId(userArmy.codexId));
 
@@ -385,27 +428,22 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         {
             final restoredComposition = UnitCompositionDom.fromJson(saveComposition);
 
-            // 1. Восстанавливаем основной выбранный состав (Selected Composition)
             if (restoredComposition.selectedComposition != null)
             {
                 tempComposition = tempComposition.copyWith(
                     selectedComposition: restoredComposition.selectedComposition
                 );
             }
-
-            // 2. Восстанавливаем выбор дополнительных моделей (Additional Models)
-            // Проходим по всем возможным моделям из базы и проверяем, были ли они выбраны в сохранении
-            final updatedAdditional = tempComposition.additionalModels.map((baseModel)
-                {
-                    final bool isSelected = restoredComposition.additionalModels.any((rm) =>
-                        rm.name == baseModel.name &&
-                            rm.amount == baseModel.amount &&
-                            rm.cost == baseModel.cost
-                    );
-
-                    // Если модель найдена в сохраненном списке — ставим ей флаг isSelected: true
-                    return isSelected ? baseModel.copyWith(isSelected: true) : baseModel;
-                }).toList();
+            
+            final updatedAdditional = tempComposition.additionalModels.map((baseModel) 
+            {
+                final bool isSelected = restoredComposition.additionalModels.any((rm) => 
+                    rm.name == baseModel.name && 
+                    rm.amount == baseModel.amount && 
+                    rm.cost == baseModel.cost
+                );
+                return isSelected ? baseModel.copyWith(isSelected: true) : baseModel;
+            }).toList();
 
             tempComposition = tempComposition.copyWith(additionalModels: updatedAdditional);
         }
