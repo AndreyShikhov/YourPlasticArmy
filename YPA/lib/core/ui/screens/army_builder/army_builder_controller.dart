@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: MIT
  ******************************************************************************/
 
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
@@ -17,6 +18,7 @@ import '../../../../application/detachment/detachments_use_cases.dart';
 import '../../../../application/unit/unt_use_case.dart';
 import '../../../../application/user_army/user_army_use_cases.dart';
 import '../../../../domain/models/detachment/detachment.dart';
+import '../../../../domain/models/unit/model_stats.dart';
 import '../../../../domain/models/unit/unit.dart';
 import '../../../../domain/models/user_army/user_army.dart';
 import '../../../database/tables/seed/seed_objects/_types.dart';
@@ -73,6 +75,8 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
     final GetUnitsByIdsFromDb _getUnitsByIdsFromDb;
     final String _armyId;
 
+    Timer? _nameDebounceTimer;
+
     ArmyBuilderController(
         this._getUserArmyById,
         this._getCodexById,
@@ -92,21 +96,35 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         loadArmy();
     }
 
+    @override
+    void dispose() {
+        _nameDebounceTimer?.cancel();
+        super.dispose();
+    }
+
     // ==========================================
     // Updates
     // ==========================================
 
     Future<void> updateNameArmyRoster(String newName) async
     {
+        // 1. Обновляем стейт мгновенно для плавности UI
         state = state.copyWith(userArmyName: newName);
-        try
-        {
-            await _updateName(id: _armyId, newUserArmyName: newName);
-        } catch (e)
-        {
-            state = state.copyWith(error: e.toString());
-            loadArmy();
-        }
+        
+        // 2. Сбрасываем старый таймер
+        _nameDebounceTimer?.cancel();
+        
+        // 3. Запускаем новый таймер на 500мс
+        _nameDebounceTimer = Timer(const Duration(milliseconds: 500), () async {
+            try
+            {
+                await _updateName(id: _armyId, newUserArmyName: newName);
+            } catch (e)
+            {
+                state = state.copyWith(error: e.toString());
+                loadArmy(); // В случае ошибки синхронизируем данные с БД
+            }
+        });
     }
 
     Future<void> updateDetachmentArmyRoster(String nameDetachment) async

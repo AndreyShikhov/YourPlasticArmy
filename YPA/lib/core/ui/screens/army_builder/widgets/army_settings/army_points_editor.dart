@@ -42,7 +42,7 @@ class ArmyPointsEditor extends ConsumerWidget
                 }).toList(),
             onChanged: (newValue)
             {
-                if (newValue != null)
+                if (newValue != null && newValue != selectedSize)
                 {
                     // Вызываем метод контроллера для обновления размера битвы
                     ref.read(armyBuilderControllerProvider(armyId).notifier).updateBattleSizeArmyRoster(newValue);

@@ -110,7 +110,7 @@ class UnitCompositionBloc extends ConsumerWidget
                                 activeColor: Colors.orangeAccent,
                                 onChanged: (bool? newValue)
                                 {
-                                    if (newValue != null)
+                                    if (newValue != null && newValue != model.isSelected)
                                     {
                                         ref.read(unitEditorControllerProvider((armyId, instanceId, roleCode)).notifier)
                                             .toggleAdditionalModel(model.name, newValue);
