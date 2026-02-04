@@ -37,7 +37,7 @@ class UnitEditorScreen extends ConsumerWidget
         final state = ref.watch(unitEditorControllerProvider((armyId, instanceId, roleCode)));
 
         // 2. Получаем контроллер (для вызова методов)
-        final notifier = ref.read(unitEditorControllerProvider((armyId, instanceId, roleCode)).notifier);
+        //final notifier = ref.read(unitEditorControllerProvider((armyId, instanceId, roleCode)).notifier);
         // TODO: implement build
         return
         Scaffold(
@@ -47,28 +47,10 @@ class UnitEditorScreen extends ConsumerWidget
                     centerTitle: false,
                     title: Padding(
                         padding: const EdgeInsets.only(left: 10),
-                        child: Text(state.unit != null ? '${state.unit?.name} : ${_getUnitComposition(state)}' : 'Loading...')
-                    ),
-                    flexibleSpace: SafeArea(
-                        child: Container(
-                            alignment: Alignment.centerLeft,
-                            padding: const EdgeInsets.only(left: 72, top: 15),
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                    if(state.unit != null)...[
-                                        const SizedBox(width: 10),
-                                        Expanded(child: UnitCompositionBloc(
-                                                armyId: armyId,
-                                                instanceId: instanceId,
-                                                roleCode: roleCode,
-                                                unitComposition: state.unit!.unitComposition
-                                            )
-                                        )
-                                    ]
-                                ]
-                            )
+                        child: Text(state.unit != null ? '${state.unit?.name} : ${_getUnitComposition(state)}' : 'Loading...',
+                            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                            softWrap: true,
+                            maxLines: 2
                         )
                     )
                 )
@@ -95,6 +77,8 @@ class UnitEditorScreen extends ConsumerWidget
     List<Widget> _buildSections(UnitEditorState state)
     {
         Map<String, Widget> categories = {};
+
+        categories['Unit Composition'] = UnitCompositionBloc(armyId: armyId, instanceId: instanceId, roleCode: roleCode, unitComposition: state.unit!.unitComposition);
         categories['Wargear Options'] = const Text('Настройки снаряжения');
 
         if (state.unit!.unitAbility.isNotEmpty)
@@ -134,7 +118,7 @@ class UnitEditorScreen extends ConsumerWidget
         return sections;
     }
 
-    String _getUnitComposition(UnitEditorState state) 
+    String _getUnitComposition(UnitEditorState state)
     {
 
         if (state.unit == null) return '';
