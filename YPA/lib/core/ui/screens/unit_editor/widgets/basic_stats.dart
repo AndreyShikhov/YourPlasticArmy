@@ -45,63 +45,69 @@ class BasicStats extends StatelessWidget
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                    Container(
-                        padding: const EdgeInsets.all(2),
+                    DecoratedBox(
                         decoration: BoxDecoration(
                             color: const Color.fromARGB(26, 255, 255, 255),
                             borderRadius: BorderRadius.circular(6)
                         ),
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                                /// Строка заголовков
-                                Text(
-                                    name,
-                                    style: const TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16)),
-                                Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                                    decoration: const BoxDecoration(
-                                        color: Colors.black26,
-                                        borderRadius: BorderRadius.only(topLeft: Radius.circular(4), topRight: Radius.circular(4))
+                        child: Padding(
+                            padding: const EdgeInsets.all(2),
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                    /// Строка заголовков
+                                    Text(
+                                        name,
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16)),
+                                    DecoratedBox(
+                                        decoration: const BoxDecoration(
+                                            color: Colors.black26,
+                                            borderRadius: BorderRadius.only(topLeft: Radius.circular(4), topRight: Radius.circular(4))
+                                        ),
+                                        child: Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 4),
+                                            child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                    _getBoxParameterBox('M', isHeader: true),
+                                                    _getBoxParameterBox('T', isHeader: true),
+                                                    _getBoxParameterBox('SV', isHeader: true),
+                                                    if (stats.invulnerableSave > 0) _getBoxParameterBox('ISV', isHeader: true),
+                                                    _getBoxParameterBox('W', isHeader: true),
+                                                    _getBoxParameterBox('LD', isHeader: true),
+                                                    _getBoxParameterBox('OC', isHeader: true)
+                                                ]
+                                            )
+                                        )
                                     ),
-                                    child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                            _getBoxParameterBox('M', isHeader: true),
-                                            _getBoxParameterBox('T', isHeader: true),
-                                            _getBoxParameterBox('SV', isHeader: true),
-                                            if (stats.invulnerableSave > 0) _getBoxParameterBox('ISV', isHeader: true),
-                                            _getBoxParameterBox('W', isHeader: true),
-                                            _getBoxParameterBox('LD', isHeader: true),
-                                            _getBoxParameterBox('OC', isHeader: true)
-                                        ]
+                                    const SizedBox(height: 1),
+                                    /// Строка значений
+                                    DecoratedBox(
+                                        decoration: const BoxDecoration(
+                                            color:  Color.fromARGB(26, 255, 255, 255),
+                                            borderRadius:  BorderRadius.only(bottomLeft: Radius.circular(4), bottomRight: Radius.circular(4))
+                                        ),
+                                        child: Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 4),
+                                            child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                    _getBoxParameterBox('${stats.movement}"'),
+                                                    _getBoxParameterBox('${stats.toughness}'),
+                                                    _getBoxParameterBox('${stats.save}+'),
+                                                    if (stats.invulnerableSave > 0) _getBoxParameterBox('${stats.invulnerableSave}+'),
+                                                    _getBoxParameterBox('${stats.wounds}'),
+                                                    _getBoxParameterBox('${stats.leadership}+'),
+                                                    _getBoxParameterBox('${stats.objectiveControl}')
+                                                ]
+                                            )
+                                        )
                                     )
-                                ),
-                                const SizedBox(height: 1),
-                                /// Строка значений
-                                Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                                    decoration: const BoxDecoration(
-                                        color:  Color.fromARGB(26, 255, 255, 255),
-                                        borderRadius:  BorderRadius.only(bottomLeft: Radius.circular(4), bottomRight: Radius.circular(4))
-                                    ),
-                                    child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                            _getBoxParameterBox('${stats.movement}"'),
-                                            _getBoxParameterBox('${stats.toughness}'),
-                                            _getBoxParameterBox('${stats.save}+'),
-                                            if (stats.invulnerableSave > 0) _getBoxParameterBox('${stats.invulnerableSave}+'),
-                                            _getBoxParameterBox('${stats.wounds}'),
-                                            _getBoxParameterBox('${stats.leadership}+'),
-                                            _getBoxParameterBox('${stats.objectiveControl}')
-                                        ]
-                                    )
-                                )
-                            ]
+                                ]
+                            )
                         )
                     )
                 ]

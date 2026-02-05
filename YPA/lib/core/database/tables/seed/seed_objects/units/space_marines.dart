@@ -1792,8 +1792,8 @@ List<UnitSeed> spaceMarinesUnits()
                         cost: 60)
                 ]
             ),
-
             unitAbility: const[
+                'thunderous_impact'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -1801,56 +1801,167 @@ List<UnitSeed> spaceMarinesUnits()
             factionAbilities: const[
                 FactionUnitAbilityCode.oathOfMoment
             ],
-            ledBy: const[],
+            ledBy: const[
+                LeaderFilterDom(
+                    faction: FactionTypeCode.imperium,
+                    army: ArmyTypeCode.spaceMarines,
+                    names: ['Chaplain On Bike'])
+            ],
             leader: const[],
             modelStats:
             {
-                'Bladeguard Veteran': ModelStatsDom(
-                    movement: 6,
-                    toughness: 4,
+                'Outrider Squad': ModelStatsDom(
+                    movement: 12,
+                    toughness: 5,
                     save: 3,
-                    invulnerableSave: 4,
-                    wounds: 3,
+                    invulnerableSave: 0,
+                    wounds: 4,
                     leadership: 6,
-                    objectiveControl: 1,
+                    objectiveControl: 2,
                     modelWeapons: ModelWeaponsDom(
                         weapons:
                         {
                             WeaponType.ranged : [
                                 WeaponDom(
-                                    name: 'Perdition Pistol',
+                                    name: 'Bolt pistol',
                                     type: WeaponType.ranged,
-                                    weaponAbilities: const[
-                                        WeaponAbilitiesCode.pistol,
-                                        WeaponAbilitiesCode.melta
+                                    weaponAbilities: [
+                                        WeaponAbilitiesCode.pistol
                                     ],
-                                    range: 6,
+                                    range: 12,
                                     attacks: const Dice(fix: 1).toString(),
-                                    skill: 2,
-                                    strength: 8,
-                                    ap: -4,
-                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
-                                        .toString()
+                                    skill: 3,
+                                    strength: 4,
+                                    ap: 0,
+                                    damage: const Dice(fix: 1).toString()
+                                ),
+                                WeaponDom(
+                                    name: 'Heavy bolt pistol',
+                                    type: WeaponType.ranged,
+                                    weaponAbilities: [
+                                        WeaponAbilitiesCode.pistol
+                                    ],
+                                    range: 18,
+                                    attacks: const Dice(fix: 1).toString(),
+                                    skill: 3,
+                                    strength: 4,
+                                    ap: 1,
+                                    damage: const Dice(fix: 1).toString()
+                                ),
+                                WeaponDom(
+                                    name: 'Twin bolt rifle',
+                                    type: WeaponType.ranged,
+                                    weaponAbilities: [
+                                        WeaponAbilitiesCode.twinLinked
+                                    ],
+                                    range: 24,
+                                    attacks: const Dice(fix: 2).toString(),
+                                    skill: 3,
+                                    strength: 4,
+                                    ap: 1,
+                                    damage: const Dice(fix: 1).toString()
                                 )
                             ],
                             WeaponType.melee : [
                                 WeaponDom(
-                                    name: 'The Axe Mortalis',
+                                    name: 'Astartes chainsword',
                                     type: WeaponType.melee,
-                                    weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
+                                    weaponAbilities: const[],
                                     range: 0,
-                                    attacks: const Dice(fix: 8).toString(),
-                                    skill: 2,
-                                    strength: 8,
-                                    ap: -3,
-                                    damage: const Dice(fix: 2).toString()
+                                    attacks: const Dice(fix: 4).toString(),
+                                    skill: 3,
+                                    strength: 4,
+                                    ap: 1,
+                                    damage: const Dice(fix: 1).toString()
                                 )
                             ]
                         },
                         selectedWeapons:
                         {
-                            WeaponType.ranged : ['Perdition Pistol'],
-                            WeaponType.melee : ['The Axe Mortalis']
+                            WeaponType.ranged : [
+                                'Heavy bolt pistol',
+                                'Twin bolt rifle'
+                            ],
+                            WeaponType.melee : ['Astartes chainsword']
+                        }
+                    ),
+                    wargearOptions: WargearOptionsDom.emptyOptions
+                ),
+                'Invader ATV': ModelStatsDom(
+                    isNeedShow: false,
+                    movement: 12,
+                    toughness: 5,
+                    save: 3,
+                    invulnerableSave: 0,
+                    wounds: 8,
+                    leadership: 6,
+                    objectiveControl: 2,
+                    modelWeapons: ModelWeaponsDom(
+                        weapons:
+                        {
+                            WeaponType.ranged : [
+                                WeaponDom(
+                                    name: 'Bolt pistol',
+                                    type: WeaponType.ranged,
+                                    weaponAbilities: [
+                                        WeaponAbilitiesCode.pistol
+                                    ],
+                                    range: 12,
+                                    attacks: const Dice(fix: 1).toString(),
+                                    skill: 3,
+                                    strength: 4,
+                                    ap: 0,
+                                    damage: const Dice(fix: 1).toString()
+                                ),
+                              WeaponDom(
+                                  name: 'Onslaught gatling cannon',
+                                  type: WeaponType.ranged,
+                                  weaponAbilities: [
+                                    WeaponAbilitiesCode.devastatingWounds
+                                  ],
+                                  range: 24,
+                                  attacks: const Dice(fix: 8).toString(),
+                                  skill: 3,
+                                  strength: 5,
+                                  ap: 0,
+                                  damage: const Dice(fix: 1).toString()
+                              ),
+                              WeaponDom(
+                                  name: 'Multi-melta',
+                                  type: WeaponType.ranged,
+                                  weaponAbilities: [
+                                    WeaponAbilitiesCode.melta
+                                  ],
+                                  range: 18,
+                                  attacks: const Dice(fix: 2).toString(),
+                                  skill: 3,
+                                  strength: 9,
+                                  ap: 4,
+                                  damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6).toString()
+                              ),
+
+                            ],
+                            WeaponType.melee : [
+                                WeaponDom(
+                                    name: 'Close combat weapon',
+                                    type: WeaponType.melee,
+                                    weaponAbilities: const[],
+                                    range: 0,
+                                    attacks: const Dice(fix: 5).toString(),
+                                    skill: 3,
+                                    strength: 4,
+                                    ap: 1,
+                                    damage: const Dice(fix: 1).toString()
+                                )
+                            ]
+                        },
+                        selectedWeapons:
+                        {
+                            WeaponType.ranged : [
+                                'Bolt pistol',
+                                'Onslaught gatling cannon'
+                            ],
+                            WeaponType.melee : ['Close combat weapon']
                         }
                     ),
                     wargearOptions: WargearOptionsDom.emptyOptions

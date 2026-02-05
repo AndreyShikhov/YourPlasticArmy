@@ -35,7 +35,14 @@ List<UnitAbilitySeed> allUnitAbilities()
             name: 'Target Elimination',
             shortDescription: 're-roll a Wound roll of 1',
             description: 'Target Elimination: Each time this unit is selected to shoot, it can use this ability. If it does, until the end of the phase, add 2 to the Attacks characteristic of bolt rifles equipped by models in this unit and you can only select one enemy unit as the target of all of this unit’s attacks.'
-        )
+        ),
+      const  UnitAbilitySeed(
+          code: 'thunderous_impact',
+          name: 'Thunderous Impact',
+          shortDescription: 'after charge add 1 to characteristics: Strength/Damage/attack',
+          description: 'Each time a model in this unit makes a melee attack, if this unit made a Charge move this turn, improve the Strength and Damage characteristics of that attack by 1.'
+      )
+
 
     ];
 }
