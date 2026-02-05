@@ -6,7 +6,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/core/ui/screens/unit_editor/unit_editor_controller.dart';
-import 'package:ypa/core/ui/screens/unit_editor/unit_editor_item_ui.dart';
 import 'package:ypa/core/ui/screens/unit_editor/unit_editor_state.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/base_ability_bloc.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/basic_stats.dart';
@@ -27,138 +26,156 @@ class UnitEditorScreen extends ConsumerWidget
         required this.armyId,
         required this.instanceId,
         required this.roleCode
-    }); 
+    });
 
     @override
     Widget build(BuildContext context, WidgetRef ref)
     {
-        /// 1. Получаем состояние (для отрисовки)
-        final state = ref.watch(unitEditorControllerProvider((armyId, instanceId, roleCode)));
+        final ids = (armyId, instanceId, roleCode);
 
-        /// 2. Получаем контроллер (для вызова методов)
-        ///final notifier = ref.read(unitEditorControllerProvider((armyId, instanceId, roleCode)).notifier);
+        // 1. СЛУШАЕМ ТОЛЬКО ФЛАГ ЗАГРУЗКИ. 
+        // Весь экран перерисуется только ОДИН РАЗ, когда isLoading сменится с true на false.
+        final isLoading = ref.watch(unitEditorControllerProvider(ids).select((s) => s.isLoading));
+        final hasUnit = ref.watch(unitEditorControllerProvider(ids).select((s) => s.unit != null));
+
+        if (isLoading) return const Scaffold(body: Center(child: CircularProgressIndicator()));
+        if (!hasUnit) return const Scaffold(body: Center(child: Text('Unit not found')));
 
         return Scaffold(
             appBar: PreferredSize(
                 preferredSize: const Size.fromHeight(120),
                 child: AppBar(
                     centerTitle: false,
-                    title: Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: Text(state.unit != null ? '${state.unit?.name} : ${_getUnitComposition(state)}' : 'Loading...',
-                            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                            softWrap: true,
-                            maxLines: 2
-                        )
+                    // 2. ИСПОЛЬЗУЕМ Consumer, чтобы обновлялся ТОЛЬКО ТЕКСТ в AppBar
+                    title: Consumer(
+                        builder: (context, ref, _)
+                        {
+                            final unitName = ref.watch(unitEditorControllerProvider(ids).select((s) => s.unit?.name ?? ''));
+                            final compStr = ref.watch(unitEditorControllerProvider(ids).select((s) => _calculateCompString(s)));
+
+                            return Text(
+                                '$unitName : $compStr',
+                                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                softWrap: true,
+                                maxLines: 2
+                            );
+                        }
                     )
                 )
             ),
-            body: state.isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : ListView(
-                    children: _buildSections(state)
-                )
-        );
-    }
-
-    Widget _getStatsWidget(UnitEditorItemUi unit)
-    {
-        return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: Center(
-                child: BasicStats(unit: unit)
+            body: ListView(
+                // 3. Создаем секции. Они создаются один раз и больше не перерисовываются целиком.
+                children: _buildSections(ref, ids)
             )
         );
     }
 
-    List<Widget> _buildSections(UnitEditorState state)
+    // Выносим тяжелый расчет в отдельный метод, который вызывается только при смене состава
+    String _calculateCompString(UnitEditorState state)
     {
-        Map<String, Widget> categories = {};
+        if (state.unit == null) return '';
+        final base = state.unit!.unitComposition.selectedComposition ?? state.unit!.unitComposition.compositions.firstOrNull;
+        int models = base?.amount ?? 0;
+        int pts = base?.cost ?? 0;
 
-        if (state.unit!.unitComposition.compositions.length > 1) 
+        for (var m in state.unit!.unitComposition.additionalModels)
         {
-            categories['Unit Composition'] = UnitCompositionBloc(
-                armyId: armyId,
-                instanceId: instanceId,
-                roleCode: roleCode,
-                unitComposition: state.unit!.unitComposition
-            );
+            if (m.isSelected)
+            {
+                models += m.amount;
+                pts += m.cost;
+            }
         }
+        return '$models models / $pts pts';
+    }
 
-        categories['Wargear Options'] = const Text('Настройки снаряжения');
-
-        if (state.unit!.unitAbility.isNotEmpty)
-        {
-            categories['Unit Ability'] = UnitAbilityBloc(abilities: state.unitAbilities);
-        }
-
-        if (state.unit!.coreAbilities.isNotEmpty)
-        {
-            categories['Core Abilities'] = CoreAbilityBloc(abilities: state.coreAbilities);
-        }
-
-        if (state.unit!.factionAbilities.isNotEmpty)
-        {
-            categories['Faction Abilities'] = FactionAbilityBloc(abilities: state.factionAbilities);
-        }
-
-        if (state.unit!.leader.isNotEmpty)
-        {
-            categories['Leader'] = LeaderBloc(
-                armyId: armyId, 
-                instanceId: instanceId, 
-                roleCode: roleCode, 
-                filters: state.unit!.leader
-            );
-        }
-
-        if (state.unit!.ledBy.isNotEmpty)
-        {
-            categories['Led By'] = LeaderBloc(
-                armyId: armyId, 
-                instanceId: instanceId, 
-                roleCode: roleCode, 
-                filters: state.unit!.ledBy
-            );
-        }
-
-        categories['Keywords'] = KeywordsBloc(
-            keywords: state.unit!.keywords, 
-            factionKeywords: state.unit!.factionKeywords
-        );
+    List<Widget> _buildSections(WidgetRef ref,  (String, String, String) ids)
+    {
+        // Получаем СТАТИЧЕСКИЕ данные юнита, которые не меняются (списки кодов способностей)
+        final unit = ref.read(unitEditorControllerProvider(ids)).unit!;
 
         List<Widget> sections = [];
-        sections.add(_getStatsWidget(state.unit!));
 
-        categories.forEach((title, content) =>
-            sections.add(ExpandableSection(title: title, child: content))
-        );
+        /// Добавляем статы (они константные)
+        sections.add(Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: Center(child: BasicStats(unit: unit))
+            ));
+
+        /// Секция состава
+
+        if (unit.unitComposition.compositions.length > 1) 
+        {
+            sections.add(ExpandableSection(
+                    title: 'Unit Composition',
+                    child: UnitCompositionBloc(
+                        armyId: armyId,
+                        instanceId: instanceId,
+                        roleCode: roleCode,
+                        unitComposition: unit.unitComposition
+                    )
+                ));
+        }
+
+
+        /// секция настройки вооружения
+        sections.add(const ExpandableSection(
+          title: 'Wargear Options',
+          child: Text('Настройки снаряжения'),
+        ));
+
+        /// Секции правил (добавляем только если они есть)
+        if (unit.unitAbility.isNotEmpty)
+        {
+            sections.add(ExpandableSection(
+                    title: 'Unit Ability',
+                    child: UnitAbilityBloc(abilities: ref.read(unitEditorControllerProvider(ids)).unitAbilities)
+                ));
+        }
+
+        if (unit.coreAbilities.isNotEmpty)
+        {
+          sections.add(ExpandableSection(
+              title: 'Core Abilities',
+              child: UnitAbilityBloc(abilities: ref.read(unitEditorControllerProvider(ids)).coreAbilities)
+          ));
+        }
+
+        if (unit.factionAbilities.isNotEmpty)
+        {
+          sections.add(ExpandableSection(
+              title: 'Faction Abilities',
+              child: UnitAbilityBloc(abilities: ref.read(unitEditorControllerProvider(ids)).factionAbilities)
+          ));
+        }
+
+        /// таблица юнитов которые этот юнит может лидировать
+        if (unit.leader.isNotEmpty)
+        {
+          sections.add(ExpandableSection(
+              title: 'Leader',
+              child: LeaderBloc(armyId: armyId, instanceId: instanceId, roleCode: roleCode, filters: unit.leader),
+          ));
+        }
+
+        /// таблица юнитов которые могут лидировать этот юнит
+        if (unit.ledBy.isNotEmpty)
+        {
+          sections.add(ExpandableSection(
+            title: 'Led By',
+            child: LeaderBloc(armyId: armyId, instanceId: instanceId, roleCode: roleCode, filters: unit.ledBy),
+          ));
+        }
+
+        /// секция Keywords
+        sections.add( ExpandableSection(
+          title: 'Keywords',
+          child: KeywordsBloc(
+              keywords: unit.keywords,
+              factionKeywords: unit.factionKeywords
+          ),
+        ));
 
         return sections;
     }
-
-    String _getUnitComposition(UnitEditorState state)
-    {
-        if (state.unit == null) return '';
-
-        /// Берем выбранный состав или первый из списка доступных
-        final baseComp = state.unit!.unitComposition.selectedComposition ??
-            state.unit!.unitComposition.compositions.firstOrNull;
-
-        int models = baseComp?.amount ?? 0;
-        int cost = baseComp?.cost ?? 0;
-
-        /// Добавляем стоимость и количество моделей из доп. опций
-        for (var model in state.unit!.unitComposition.additionalModels)
-        {
-            if (model.isSelected)
-            {
-                models += model.amount;
-                cost += model.cost;
-            }
-        }
-
-        return 'Models: $models / $cost pts';
-    }
-
 }
