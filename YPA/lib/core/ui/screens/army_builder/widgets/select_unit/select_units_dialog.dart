@@ -86,7 +86,8 @@ class _SelectUnitsDialogState extends ConsumerState<SelectUnitsDialog>
             (i) => TextUnitButton(
                 unit: units[i],
                 armyId: widget.armyId,
-                baseColor: i.isEven ? const Color.fromARGB(128, 227, 222, 222) : const Color.fromARGB(50, 55, 55, 55)
+                baseColor: i.isEven ? const Color.fromARGB(77, 255, 255, 255) : const Color.fromARGB(
+                    77, 149, 149, 149)
             )
         );
     }

@@ -112,7 +112,6 @@ class UnitEditorScreen extends ConsumerWidget
                         armyId: armyId,
                         instanceId: instanceId,
                         roleCode: roleCode,
-                        unitComposition: unit.unitComposition
                     )
                 ));
         }
