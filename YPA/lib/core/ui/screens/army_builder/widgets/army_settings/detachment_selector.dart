@@ -6,15 +6,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../../../domain/models/detachment/detachment.dart';
 import '../../army_builder_controller.dart';
-import '../../army_builder_state.dart';
 
 class DetachmentSelector extends ConsumerWidget
 {
     final String armyId;
-    final ArmyBuilderState state;
+    final DetachmentDOM? detachment;
+    final List<DetachmentDOM> allDetachments;
 
-    const DetachmentSelector({super.key, required this.armyId, required this.state});
+    const DetachmentSelector({
+      super.key,
+      required this.armyId,
+      required this.detachment,
+      required this.allDetachments
+    });
 
     @override
     Widget build(BuildContext context, WidgetRef ref)
@@ -27,10 +33,10 @@ class DetachmentSelector extends ConsumerWidget
                 labelStyle: TextStyle(color: Colors.white70),
                 enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white24))
             ),
-            items: _buildDropdownItems(state),
+            items: _buildDropdownItems(allDetachments),
             onChanged: (newValue)
             {
-                if (newValue != null && newValue != state.detachment?.name.value)
+                if (newValue != null && newValue != detachment?.name.value)
                 {
                     ref.read(armyBuilderControllerProvider(armyId).notifier).updateDetachmentArmyRoster(newValue);
                 }
@@ -38,9 +44,9 @@ class DetachmentSelector extends ConsumerWidget
         );
     }
 
-    List<DropdownMenuItem<String>> _buildDropdownItems(ArmyBuilderState state)
+    List<DropdownMenuItem<String>> _buildDropdownItems(List<DetachmentDOM> allDetachments)
     {
-        return state.allDetachments.map((detachment)
+        return allDetachments.map((detachment)
             {
                 return DropdownMenuItem<String>(value: detachment.name.value, child: Text(detachment.name.value));
             }).toList();

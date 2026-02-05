@@ -4,28 +4,37 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../domain/models/unit/unit.dart';
+import '../unit_editor_controller.dart';
 import '../unit_editor_item_ui.dart';
 
-class BasicStats extends StatelessWidget
+class BasicStats extends ConsumerWidget
 {
-    final UnitEditorItemUi unit;
+    final  (String, String, String) ids;
 
-    const BasicStats({super.key, required this.unit});
+    const BasicStats({
+        super.key,
+        required this.ids
+    });
 
     @override
-    Widget build(BuildContext context)
+    Widget build(BuildContext context, WidgetRef ref)
     {
+        final unit = ref.watch(unitEditorControllerProvider(ids).select((s) => s.unit));
+
+        if (unit == null) return const SizedBox.shrink();
+
         return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-                ..._createModelsBloc()
+                ..._createModelsBloc(unit)
             ]
         );
     }
 
-    List<Widget> _createModelsBloc()
+    List<Widget> _createModelsBloc(UnitEditorItemUi unit)
     {
         List<Widget> allStats = [];
         unit.modelStats.forEach((name, stats)
@@ -69,17 +78,19 @@ class BasicStats extends StatelessWidget
                                         ),
                                         child: Padding(
                                             padding: const EdgeInsets.symmetric(horizontal: 4),
-                                            child: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                    _getBoxParameterBox('M', isHeader: true),
-                                                    _getBoxParameterBox('T', isHeader: true),
-                                                    _getBoxParameterBox('SV', isHeader: true),
-                                                    if (stats.invulnerableSave > 0) _getBoxParameterBox('ISV', isHeader: true),
-                                                    _getBoxParameterBox('W', isHeader: true),
-                                                    _getBoxParameterBox('LD', isHeader: true),
-                                                    _getBoxParameterBox('OC', isHeader: true)
-                                                ]
+                                            child: RepaintBoundary(
+                                                child: Row(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    children: [
+                                                        const _StatBox('M', isHeader: true),
+                                                        const _StatBox('T', isHeader: true),
+                                                        const _StatBox('SV', isHeader: true),
+                                                        if (stats.invulnerableSave > 0) const _StatBox('ISV', isHeader: true),
+                                                        const _StatBox('W', isHeader: true),
+                                                        const _StatBox('LD', isHeader: true),
+                                                        const _StatBox('OC', isHeader: true)
+                                                    ]
+                                                )
                                             )
                                         )
                                     ),
@@ -87,22 +98,24 @@ class BasicStats extends StatelessWidget
                                     /// Строка значений
                                     DecoratedBox(
                                         decoration: const BoxDecoration(
-                                            color:  Color.fromARGB(26, 255, 255, 255),
-                                            borderRadius:  BorderRadius.only(bottomLeft: Radius.circular(4), bottomRight: Radius.circular(4))
+                                            color: Color.fromARGB(26, 255, 255, 255),
+                                            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(4), bottomRight: Radius.circular(4))
                                         ),
                                         child: Padding(
                                             padding: const EdgeInsets.symmetric(horizontal: 4),
-                                            child: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                    _getBoxParameterBox('${stats.movement}"'),
-                                                    _getBoxParameterBox('${stats.toughness}'),
-                                                    _getBoxParameterBox('${stats.save}+'),
-                                                    if (stats.invulnerableSave > 0) _getBoxParameterBox('${stats.invulnerableSave}+'),
-                                                    _getBoxParameterBox('${stats.wounds}'),
-                                                    _getBoxParameterBox('${stats.leadership}+'),
-                                                    _getBoxParameterBox('${stats.objectiveControl}')
-                                                ]
+                                            child: RepaintBoundary(
+                                                child: Row(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    children: [
+                                                        _StatBox('${stats.movement}"'),
+                                                        _StatBox('${stats.toughness}'),
+                                                        _StatBox('${stats.save}+'),
+                                                        if (stats.invulnerableSave > 0) _StatBox('${stats.invulnerableSave}+'),
+                                                        _StatBox('${stats.wounds}'),
+                                                        _StatBox('${stats.leadership}+'),
+                                                        _StatBox('${stats.objectiveControl}')
+                                                    ]
+                                                )
                                             )
                                         )
                                     )
@@ -114,19 +127,28 @@ class BasicStats extends StatelessWidget
             )
         );
     }
+}
 
-    Widget _getBoxParameterBox(String value, {bool isHeader = false})
+class _StatBox extends StatelessWidget
+{
+    final String value;
+    final bool isHeader;
+
+    const _StatBox(this.value, {this.isHeader = false});
+
+    @override
+    Widget build(BuildContext context) 
     {
         return SizedBox(
-            width: 35,
-            height: 35,
+            width: 50,
+            height: 50,
             child: Center(
                 child: Text(
                     value,
                     style: TextStyle(
                         color: isHeader ? Colors.white38 : Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: isHeader ? 16 : 18
+                        fontSize: isHeader ? 18 : 20
                     )
                 )
             )

@@ -32,7 +32,6 @@ final unitEditorControllerProvider =
             final getArmyById = ref.watch(getArmyByIdUseCaseProvider);
             final updateUnitInUserRoster = ref.watch(updateUnitParametersFromUserArmyUseCaseProvider);
 
-
             return UnitEditorController(
                 ref,
                 getUnitAbilityByCode,
@@ -111,7 +110,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                 factionAbilities: unit.factionAbilities,
                 leader: unit.leader,
                 ledBy: unit.ledBy,
-                modelStats: unit.modelStats,
+                modelStats: unit.modelStats
             );
 
             /// Сначала сохраняем юнита, чтобы функции get... могли его использовать
@@ -127,7 +126,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
             ///3. Добавляем Арим код
 
             final ArmyDOM? army = await _getArmyById(ArmyId.fromString(armyState.armyId!));
-            if (army != null) 
+            if (army != null)
             {
                 state = state.copyWith(armyTypeCode: ArmyTypeCode.fromCode(army.code.value));
             }
@@ -218,38 +217,40 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
     ///  Tools
     /// ==========================================
 
-    void updateComposition(UnitCompositionModelDom newComposition) async {
-      /// 1. Локальное обновление экрана редактора
-      final updatedComp = state.unit!.unitComposition.copyWith(selectedComposition: newComposition);
-      state = state.copyWith(unit: state.unit!.copyWith(unitComposition: updatedComp));
+    void updateComposition(UnitCompositionModelDom newComposition) async
+    {
+        /// 1. Локальное обновление экрана редактора
+        final updatedComp = state.unit!.unitComposition.copyWith(selectedComposition: newComposition);
+        state = state.copyWith(unit: state.unit!.copyWith(unitComposition: updatedComp));
 
-      final role  = UnitRoleCode.fromName(_role);
+        final role = UnitRoleCode.fromName(_role);
 
-      /// 2. Сохранение в БД (через UseCase)
-      await _updateUnitInUserRoster(
-          armyId: _armyId,
-          instanceId: _instanceUnitId,
-          role: role!,
-          category: SaveCategoryCode.composition,
-          updateData: updatedComp.toSaveUserArmyJson()
-      );
+        /// 2. Сохранение в БД (через UseCase)
+        await _updateUnitInUserRoster(
+            armyId: _armyId,
+            instanceId: _instanceUnitId,
+            role: role!,
+            category: SaveCategoryCode.composition,
+            updateData: updatedComp.toSaveUserArmyJson()
+        );
 
-      ///2.1 обновление PTS юнита в базе
-      Map<String,dynamic> newTotalPts = {SaveCategoryCode.points.code: updatedComp.totalUnitCost};
-      await _updateUnitInUserRoster(
-          armyId: _armyId,
-          instanceId: _instanceUnitId,
-          role: role,
-          category: SaveCategoryCode.points,
-          updateData: newTotalPts.values.first,
-      );
-      /// обновить ещё pts они идут отдельным параметром
-      /// 3. Оптимизированное обновление основного экрана
-      _ref.read(armyBuilderControllerProvider(_armyId).notifier)
-          .updateUnitInState(_instanceUnitId, getUnitRoleCode()!, updatedComp);
+        ///2.1 обновление PTS юнита в базе
+        Map<String, dynamic> newTotalPts = {SaveCategoryCode.points.code: updatedComp.totalUnitCost};
+        await _updateUnitInUserRoster(
+            armyId: _armyId,
+            instanceId: _instanceUnitId,
+            role: role,
+            category: SaveCategoryCode.points,
+            updateData: newTotalPts.values.first
+        );
+        /// обновить ещё pts они идут отдельным параметром
+        /// 3. Оптимизированное обновление основного экрана
+        _ref.read(armyBuilderControllerProvider(_armyId).notifier)
+            .updateUnitInState(_instanceUnitId, getUnitRoleCode()!, updatedComp);
     }
 
-    void toggleAdditionalModel(String modelName, bool isSelected) async {
+    void toggleAdditionalModel(String modelName, bool isSelected) async
+    {
         if (state.unit == null) return;
 
         final currentComp = state.unit!.unitComposition;
@@ -257,7 +258,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
         /// Создаем новый список моделей, меняя флаг у нужной
         final updatedAdditional = currentComp.additionalModels.map((m)
             {
-                if (m.name == modelName) 
+                if (m.name == modelName)
                 {
                     return UnitCompositionModelDom(
                         name: m.name,
@@ -268,6 +269,24 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                 }
                 return m;
             }).toList();
+
+        final Map<String, ModelStatsDom> updatedModelStats;
+        final currentModelStats = state.unit!.modelStats;
+        /// Обновляем видимость статов для дополнительной модели, если она есть в статах
+        if (currentModelStats.length > 1 && currentModelStats.containsKey(modelName)) 
+        {
+            /// Создаем новую карту: копируем старую и перезаписываем одну модель
+            updatedModelStats = 
+            {
+                ...currentModelStats,
+                modelName: currentModelStats[modelName]!.copyWith(isNeedShow: isSelected)
+            };
+        } else 
+        {
+            /// Если модель не найдена или статы одни, оставляем как есть
+            updatedModelStats = currentModelStats;
+        }
+
         /// 1. Локальное обновление экрана редактора
         /// Обновляем стейт
         state = state.copyWith(
@@ -276,30 +295,31 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                     compositions: currentComp.compositions,
                     selectedComposition: currentComp.selectedComposition,
                     additionalModels: updatedAdditional
-                )
+                ),
+              modelStats: updatedModelStats,
             )
         );
 
-        final role  = UnitRoleCode.fromName(_role);
+        final role = UnitRoleCode.fromName(_role);
 
         /// 2. Сохранение в БД (через UseCase)
 
         await _updateUnitInUserRoster(
-        armyId: _armyId,
-        instanceId: _instanceUnitId,
-        role: role!,
-        category: SaveCategoryCode.composition,
-        updateData: state.unit!.unitComposition.toSaveUserArmyJson()
+            armyId: _armyId,
+            instanceId: _instanceUnitId,
+            role: role!,
+            category: SaveCategoryCode.composition,
+            updateData: state.unit!.unitComposition.toSaveUserArmyJson()
         );
 
         ///2.1 обновление PTS юнита в базе
-        Map<String,dynamic> newTotalPts = {SaveCategoryCode.points.code: state.unit!.unitComposition.totalUnitCost};
+        Map<String, dynamic> newTotalPts = {SaveCategoryCode.points.code: state.unit!.unitComposition.totalUnitCost};
         await _updateUnitInUserRoster(
-          armyId: _armyId,
-          instanceId: _instanceUnitId,
-          role: role,
-          category: SaveCategoryCode.points,
-          updateData: newTotalPts.values.first,
+            armyId: _armyId,
+            instanceId: _instanceUnitId,
+            role: role,
+            category: SaveCategoryCode.points,
+            updateData: newTotalPts.values.first
         );
 
         /// 3. Оптимизированное обновление основного экрана

@@ -30,46 +30,46 @@ class CategoryExpanded extends ConsumerStatefulWidget
 
 class _CategoryExpandedState extends ConsumerState<CategoryExpanded>
 {
-    /// Единственный источник истины для состояния открытия
     bool _isExpanded = false;
     bool _isSelectionMode = false;
 
     @override
-    Widget build(BuildContext context,)
+    Widget build(BuildContext context)
     {
-        final state = ref.watch(armyBuilderControllerProvider(widget.armyId));
-        final roleUnits = state.getAllUnitsByRoleFromUserArmy(widget.role.name);
+        /// 1. Подписываемся ТОЛЬКО на юнитов конкретной роли.
+        /// Если изменятся юниты в другой категории, этот виджет НЕ перерисуется.
+        final roleUnits = ref.watch(armyBuilderControllerProvider(widget.armyId).select(
+            (s) => s.getAllUnitsByRoleFromUserArmy(widget.role.name)
+        ));
 
+        /// 2. Слушаем флаг загрузки отдельно
+        final isLoading = ref.watch(armyBuilderControllerProvider(widget.armyId).select((s) => s.isLoading));
 
-
-        /// В будущем тут будет реальный подсчет очков
         final subtitle = '${_getPTSFromCategory(roleUnits)} pts  ${roleUnits.length} units';
 
         return ExpandableSection(
             title: widget.role.title,
             subtitle: subtitle,
-            isExpanded: _isExpanded, /// Передаем состояние "сверху"
+            isExpanded: _isExpanded,
             onExpansionChanged: (expanded)
             {
                 setState(()
                     {
-                      /// Если пытаемся открыть категорию, а в ней нет юнитов
-                      if (expanded && (state.userArmyUnits?[widget.role]?.isEmpty ?? true)) {
-                        _isSelectionMode = true; /// сразу включаем режим выбора
-                      }
-                        _isExpanded = expanded; /// Меняем состояние здесь
+                        if (expanded && roleUnits.isEmpty) {
+                            _isSelectionMode = true;
+                        }
+                        _isExpanded = expanded;
                         if (!expanded) _isSelectionMode = false;
                     });
             },
             trailing: ButtonOpenSelectUnits(
                 icon: _isSelectionMode ? Icons.remove : Icons.add,
-                /// Кнопка теперь четко знает, развернута ли секция
-                enabled: !state.isLoading && _isExpanded,
+                enabled: !isLoading && _isExpanded,
                 onTap: ()
                 {
                     setState(()
                         {
-                            _isSelectionMode = !_isSelectionMode; /// Переключаем режим
+                            _isSelectionMode = !_isSelectionMode;
                         });
                 }
             ),
@@ -82,6 +82,5 @@ class _CategoryExpandedState extends ConsumerState<CategoryExpanded>
     }
 
     int _getPTSFromCategory(List<ArmyBuilderUnitItemUi> units) =>
-    units.fold(0, (sum, u) =>
-        sum + u.unitComposition.totalUnitCost);
+        units.fold(0, (sum, u) => sum + u.unitComposition.totalUnitCost);
 }

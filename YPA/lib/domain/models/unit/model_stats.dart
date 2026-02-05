@@ -314,6 +314,33 @@ class ModelStatsDom
             wargearOptions: WargearOptionsDom.emptyOptions
         );
     }
+
+    ModelStatsDom copyWith({
+        bool? isNeedShow,
+        int? movement,
+        int? toughness,
+        int? save,
+        int? invulnerableSave,
+        int? wounds,
+        int? leadership,
+        int? objectiveControl,
+        ModelWeaponsDom? modelWeapons,
+        WargearOptionsDom? wargearOptions,
+    }){
+        return ModelStatsDom(
+          isNeedShow: isNeedShow?? this.isNeedShow,
+          movement: movement?? this.movement,
+          toughness: toughness?? this.toughness,
+          save: save?? this.save,
+          invulnerableSave: invulnerableSave?? this.invulnerableSave,
+          wounds: wounds?? this.wounds,
+          leadership: leadership?? this.leadership,
+          objectiveControl: objectiveControl?? this.objectiveControl,
+          modelWeapons: modelWeapons?? this.modelWeapons,
+          wargearOptions: wargearOptions?? this.wargearOptions
+        );
+    }
+
 }
 
 class UnitStatsDom

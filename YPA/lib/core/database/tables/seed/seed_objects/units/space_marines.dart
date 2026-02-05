@@ -1913,32 +1913,45 @@ List<UnitSeed> spaceMarinesUnits()
                                     ap: 0,
                                     damage: const Dice(fix: 1).toString()
                                 ),
-                              WeaponDom(
-                                  name: 'Onslaught gatling cannon',
-                                  type: WeaponType.ranged,
-                                  weaponAbilities: [
-                                    WeaponAbilitiesCode.devastatingWounds
-                                  ],
-                                  range: 24,
-                                  attacks: const Dice(fix: 8).toString(),
-                                  skill: 3,
-                                  strength: 5,
-                                  ap: 0,
-                                  damage: const Dice(fix: 1).toString()
-                              ),
-                              WeaponDom(
-                                  name: 'Multi-melta',
-                                  type: WeaponType.ranged,
-                                  weaponAbilities: [
-                                    WeaponAbilitiesCode.melta
-                                  ],
-                                  range: 18,
-                                  attacks: const Dice(fix: 2).toString(),
-                                  skill: 3,
-                                  strength: 9,
-                                  ap: 4,
-                                  damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6).toString()
-                              ),
+                                WeaponDom(
+                                    name: 'Twin bolt rifle',
+                                    type: WeaponType.ranged,
+                                    weaponAbilities: [
+                                        WeaponAbilitiesCode.twinLinked
+                                    ],
+                                    range: 24,
+                                    attacks: const Dice(fix: 2).toString(),
+                                    skill: 3,
+                                    strength: 4,
+                                    ap: 1,
+                                    damage: const Dice(fix: 1).toString()
+                                ),
+                                WeaponDom(
+                                    name: 'Onslaught gatling cannon',
+                                    type: WeaponType.ranged,
+                                    weaponAbilities: [
+                                        WeaponAbilitiesCode.devastatingWounds
+                                    ],
+                                    range: 24,
+                                    attacks: const Dice(fix: 8).toString(),
+                                    skill: 3,
+                                    strength: 5,
+                                    ap: 0,
+                                    damage: const Dice(fix: 1).toString()
+                                ),
+                                WeaponDom(
+                                    name: 'Multi-melta',
+                                    type: WeaponType.ranged,
+                                    weaponAbilities: [
+                                        WeaponAbilitiesCode.melta
+                                    ],
+                                    range: 18,
+                                    attacks: const Dice(fix: 2).toString(),
+                                    skill: 3,
+                                    strength: 9,
+                                    ap: 4,
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6).toString()
+                                )
 
                             ],
                             WeaponType.melee : [
@@ -1959,7 +1972,8 @@ List<UnitSeed> spaceMarinesUnits()
                         {
                             WeaponType.ranged : [
                                 'Bolt pistol',
-                                'Onslaught gatling cannon'
+                                'Onslaught gatling cannon',
+                                'Twin bolt rifle'
                             ],
                             WeaponType.melee : ['Close combat weapon']
                         }

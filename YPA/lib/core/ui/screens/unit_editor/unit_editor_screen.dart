@@ -33,8 +33,8 @@ class UnitEditorScreen extends ConsumerWidget
     {
         final ids = (armyId, instanceId, roleCode);
 
-        // 1. СЛУШАЕМ ТОЛЬКО ФЛАГ ЗАГРУЗКИ. 
-        // Весь экран перерисуется только ОДИН РАЗ, когда isLoading сменится с true на false.
+        /// 1. СЛУШАЕМ ТОЛЬКО ФЛАГ ЗАГРУЗКИ.
+        /// Весь экран перерисуется только ОДИН РАЗ, когда isLoading сменится с true на false.
         final isLoading = ref.watch(unitEditorControllerProvider(ids).select((s) => s.isLoading));
         final hasUnit = ref.watch(unitEditorControllerProvider(ids).select((s) => s.unit != null));
 
@@ -46,7 +46,7 @@ class UnitEditorScreen extends ConsumerWidget
                 preferredSize: const Size.fromHeight(120),
                 child: AppBar(
                     centerTitle: false,
-                    // 2. ИСПОЛЬЗУЕМ Consumer, чтобы обновлялся ТОЛЬКО ТЕКСТ в AppBar
+                    /// 2. ИСПОЛЬЗУЕМ Consumer, чтобы обновлялся ТОЛЬКО ТЕКСТ в AppBar
                     title: Consumer(
                         builder: (context, ref, _)
                         {
@@ -64,13 +64,13 @@ class UnitEditorScreen extends ConsumerWidget
                 )
             ),
             body: ListView(
-                // 3. Создаем секции. Они создаются один раз и больше не перерисовываются целиком.
+                /// 3. Создаем секции. Они создаются один раз и больше не перерисовываются целиком.
                 children: _buildSections(ref, ids)
             )
         );
     }
 
-    // Выносим тяжелый расчет в отдельный метод, который вызывается только при смене состава
+    /// Выносим тяжелый расчет в отдельный метод, который вызывается только при смене состава
     String _calculateCompString(UnitEditorState state)
     {
         if (state.unit == null) return '';
@@ -91,7 +91,7 @@ class UnitEditorScreen extends ConsumerWidget
 
     List<Widget> _buildSections(WidgetRef ref,  (String, String, String) ids)
     {
-        // Получаем СТАТИЧЕСКИЕ данные юнита, которые не меняются (списки кодов способностей)
+        /// Получаем СТАТИЧЕСКИЕ данные юнита, которые не меняются (списки кодов способностей)
         final unit = ref.read(unitEditorControllerProvider(ids)).unit!;
 
         List<Widget> sections = [];
@@ -99,7 +99,7 @@ class UnitEditorScreen extends ConsumerWidget
         /// Добавляем статы (они константные)
         sections.add(Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: Center(child: BasicStats(unit: unit))
+                child: Center(child: BasicStats(ids: ids))
             ));
 
         /// Секция состава
