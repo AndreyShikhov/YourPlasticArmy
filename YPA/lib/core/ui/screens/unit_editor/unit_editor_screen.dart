@@ -22,7 +22,7 @@ class UnitEditorScreen extends ConsumerWidget
     final String instanceId;
     final String roleCode;
 
-   const UnitEditorScreen({
+    const UnitEditorScreen({
         super.key,
         required this.armyId,
         required this.instanceId,
@@ -37,7 +37,7 @@ class UnitEditorScreen extends ConsumerWidget
 
         /// 2. Получаем контроллер (для вызова методов)
         ///final notifier = ref.read(unitEditorControllerProvider((armyId, instanceId, roleCode)).notifier);
-        
+
         return Scaffold(
             appBar: PreferredSize(
                 preferredSize: const Size.fromHeight(120),
@@ -56,8 +56,8 @@ class UnitEditorScreen extends ConsumerWidget
             body: state.isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : ListView(
-                    children: _buildSections(state),
-                ),
+                    children: _buildSections(state)
+                )
         );
     }
 
@@ -75,12 +75,16 @@ class UnitEditorScreen extends ConsumerWidget
     {
         Map<String, Widget> categories = {};
 
-        categories['Unit Composition'] = UnitCompositionBloc(
-            armyId: armyId, 
-            instanceId: instanceId, 
-            roleCode: roleCode, 
-            unitComposition: state.unit!.unitComposition
-        );
+        if (state.unit!.unitComposition.compositions.length > 1) 
+        {
+            categories['Unit Composition'] = UnitCompositionBloc(
+                armyId: armyId,
+                instanceId: instanceId,
+                roleCode: roleCode,
+                unitComposition: state.unit!.unitComposition
+            );
+        }
+
         categories['Wargear Options'] = const Text('Настройки снаряжения');
 
         if (state.unit!.unitAbility.isNotEmpty)
