@@ -11,7 +11,6 @@ import 'package:ypa/core/providers/di/army_providers.dart';
 import 'package:ypa/core/providers/di/codex_providers.dart';
 import 'package:ypa/core/providers/di/faction_providers.dart';
 import 'package:ypa/core/ui/screens/army_lyst/army_lyst_controller.dart';
-import 'package:ypa/domain/models/codex/codex_dom.dart';
 
 class CreateArmyDialog extends ConsumerStatefulWidget
 {
@@ -24,39 +23,31 @@ class CreateArmyDialog extends ConsumerStatefulWidget
 class _CreateArmyDialogState extends ConsumerState<CreateArmyDialog>
 {
     final TextEditingController nameController = TextEditingController();
+
     String? selectedFactionId;
     String? selectedArmyName;
     String selectedArmyId = '';
     String? selectedCodexId;
 
-    /// Генерируем имя один раз при создании стейта
     late final String generatedName;
-    List<CodexDom> currentCodexes = [];
 
     @override
-    void initState() 
+    void initState()
     {
         super.initState();
-        /// Имя создается один раз и не меняется при перерисовках
         generatedName = 'New Army ${Random().nextInt(10000)}';
     }
 
     @override
-    void dispose() 
+    void dispose()
     {
         nameController.dispose();
         super.dispose();
     }
 
     @override
-    Widget build(BuildContext context) 
+    Widget build(BuildContext context)
     {
-        final allFactionsAsync = ref.watch(factionsListProvider);
-        final allArmiesAsync = selectedFactionId != null
-            ? ref.watch(armiesByFactionProvider(selectedFactionId!))
-            : null;
-        final allCodexsAsync = selectedArmyName != null ? ref.watch(codexesByArmyProvider(selectedArmyName!)) : null;
-
         return AlertDialog(
             title: const Text('Create New Army'),
             content: SingleChildScrollView(
@@ -67,122 +58,185 @@ class _CreateArmyDialogState extends ConsumerState<CreateArmyDialog>
                             controller: nameController,
                             decoration: InputDecoration(
                                 labelText: 'Army Name',
-                                hintText: generatedName /// Показываем подсказку
-                            ),
-                            onChanged: (_) => setState(()
+                                hintText: generatedName
+                            )
+                        ),
+                        const SizedBox(height: 16),
+
+                        // 1. Faction Selector
+                        _FactionSelector(
+                            selectedId: selectedFactionId,
+                            onChanged: (val) => setState(()
                                 {
+                                    selectedFactionId = val;
+                                    selectedArmyName = null;
+                                    selectedCodexId = null;
                                 })
                         ),
-                        const SizedBox(height: 10),
-
-                        /// 1. Faction
-                        allFactionsAsync.when(
-                            data: (factions) => DropdownButtonFormField<String>(
-                                decoration: const InputDecoration(labelText: 'Select Faction'),
-                                items: factions
-                                    .map((f) => DropdownMenuItem(value: f.id.value.toString(), child: Text(f.name.value)))
-                                    .toList(),
-                                onChanged: (value)
-                                {
-                                    setState(()
-                                        {
-                                            selectedFactionId = value;
-                                            selectedArmyName = null;
-                                            selectedCodexId = null;
-                                            currentCodexes = [];
-                                        });
-                                }
-                            ),
-                            error: (e, __) => Text('Error: $e'),
-                            loading: () => const CircularProgressIndicator()
-                        ),
 
                         const SizedBox(height: 10),
 
-                        // 2. Army
-                        if (selectedFactionId != null && allArmiesAsync != null)
-                        allArmiesAsync.when(
-                            data: (armies) => DropdownButtonFormField<String>(
-                                decoration: const InputDecoration(labelText: 'Select Army'),
-                                items: armies
-                                    .map((a) => DropdownMenuItem(value: a.id.value.toString(), child: Text(a.name.value)))
-                                    .toList(),
-                                onChanged: (value)
-                                {
-                                    setState(()
-                                        {
-                                            selectedArmyName = value;
-                                            selectedCodexId = null;
-                                            currentCodexes = [];
-                                            selectedArmyId = allArmiesAsync.value!
-                                                .where((a) => a.id.value.toString() == value)
-                                                .first
-                                                .id
-                                                .value;
-                                        });
-                                }
-                            ),
-                            error: (e, __) => Text('Error: $e'),
-                            loading: () => const LinearProgressIndicator()
-                        ),
-
-                        const SizedBox(height: 10),
-
-                        // 3. Codex
-                        if (selectedArmyName != null && allCodexsAsync != null)
-                        allCodexsAsync.when(
-                            data: (codexs)
+                        // 2. Army Selector
+                        if (selectedFactionId != null)
+                        _ArmySelector(
+                            factionId: selectedFactionId!,
+                            selectedArmyId: selectedArmyId,
+                            onChanged: (armyName, armyId)
                             {
-                                currentCodexes = codexs;
-                                if (codexs.length <= 1) return const SizedBox.shrink();
-                                return DropdownButtonFormField<String>(
-                                    decoration: const InputDecoration(labelText: 'Select Codex'),
-                                    items: codexs
-                                        .map((c) => DropdownMenuItem(value: c.id.value.toString(), child: Text(c.name.value)))
-                                        .toList(),
-                                    onChanged: (value)
-                                    {
-                                        setState(() => selectedCodexId = value);
-                                    }
-                                );
-                            },
-                            error: (e, __) => Text('Error: $e'),
-                            loading: () => const LinearProgressIndicator()
+                                if (armyId != selectedArmyId)
+                                {
+                                    setState(()
+                                        {
+                                            selectedArmyName = armyName;
+                                            selectedArmyId = armyId;
+                                            selectedCodexId = null;
+                                        });
+                                }
+                            }
+                        ),
+
+                        const SizedBox(height: 10),
+
+                        // 3. Codex Selector
+                        if (selectedArmyName != null)
+                        _CodexSelector(
+                            armyId: selectedArmyId,
+                            selectedId: selectedCodexId,
+                            onChanged: (val) => setState(() => selectedCodexId = val)
                         )
                     ]
                 )
             ),
             actions: [
-                TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('CANCEL')),
-                ElevatedButton(onPressed: _canCreate() ? () => _onCreate() : null, child: const Text('CREATE'))
+                TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text('CANCEL')
+                ),
+                ElevatedButton(
+                    onPressed: selectedArmyName != null ? _onCreate : null,
+                    child: const Text('CREATE')
+                )
             ]
         );
     }
 
-    bool _canCreate() 
-    {
-        // Теперь можно создать, если выбрана армия (имя возьмем автогенерируемое, если пусто)
-        return selectedArmyName != null;
-    }
-
     void _onCreate() async
     {
-        // Если пользователь не ввел имя, берем сгенерированное
         String name = nameController.text.trim();
-        if (name.isEmpty) 
-        {
-            name = generatedName;
-        }
+        if (name.isEmpty) name = generatedName;
 
-        final finalCodexId =
-            selectedCodexId ?? (currentCodexes.length == 1 ? currentCodexes.first.id.value.toString() : null);
+        final currentCodexes = ref.read(codexesByArmyProvider(selectedArmyName!)).value ?? [];
+        final finalCodexId = selectedCodexId ??
+            (currentCodexes.length == 1 ? currentCodexes.first.id.value.toString() : null);
 
-        if (finalCodexId != null) 
+        if (finalCodexId != null)
         {
-            await ref
-                .read(armyLystControllerProvider.notifier)
-                .createArmy(userArmyName: name, factionId: selectedFactionId!, armyId: selectedArmyId, codexIdRaw: finalCodexId);
+            await ref.read(armyLystControllerProvider.notifier).createArmy(
+                userArmyName: name,
+                factionId: selectedFactionId!,
+                armyId: selectedArmyId,
+                codexIdRaw: finalCodexId
+            );
             if (mounted) Navigator.of(context).pop();
         }
+    }
+}
+
+class _FactionSelector extends ConsumerWidget
+{
+    final String? selectedId;
+    final ValueChanged<String?> onChanged;
+
+    const _FactionSelector({required this.selectedId, required this.onChanged});
+
+    @override
+    Widget build(BuildContext context, WidgetRef ref)
+    {
+        final factionsAsync = ref.watch(factionsListProvider);
+        return factionsAsync.when(
+            data: (factions) => DropdownButtonFormField<String>(
+                initialValue: selectedId,
+                decoration: const InputDecoration(labelText: 'Select Faction'),
+                items: factions
+                    .map((f) => DropdownMenuItem(
+                            value: f.id.value.toString(), child: Text(f.name.value)))
+                    .toList(),
+                onChanged: onChanged
+            ),
+            error: (e, _) => Text('Error: $e'),
+            loading: () => const Center(child: LinearProgressIndicator())
+        );
+    }
+}
+
+class _ArmySelector extends ConsumerWidget
+{
+    final String factionId;
+    final String selectedArmyId;
+    final void Function(String name, String id) onChanged;
+
+    const _ArmySelector({
+        required this.factionId,
+        required this.selectedArmyId,
+        required this.onChanged
+    });
+
+    @override
+    Widget build(BuildContext context, WidgetRef ref)
+    {
+        final armiesAsync = ref.watch(armiesByFactionProvider(factionId));
+        return armiesAsync.when(
+            data: (armies) => DropdownButtonFormField<String>(
+                initialValue: selectedArmyId.isEmpty ? null : selectedArmyId,
+                decoration: const InputDecoration(labelText: 'Select Army'),
+                items: armies
+                    .map((a) => DropdownMenuItem(
+                            value: a.id.value, child: Text(a.name.value)))
+                    .toList(),
+                onChanged: (id)
+                {
+                    if (id != null)
+                    {
+                        final army = armies.firstWhere((a) => a.id.value == id);
+                        onChanged(army.name.value, army.id.value);
+                    }
+                }
+            ),
+            error: (e, _) => Text('Error: $e'),
+            loading: () => const LinearProgressIndicator()
+        );
+    }
+}
+
+class _CodexSelector extends ConsumerWidget
+{
+    final String armyId; // Переименовали поле
+    final String? selectedId;
+    final ValueChanged<String?> onChanged;
+
+    const _CodexSelector(
+    {required this.armyId, required this.selectedId, required this.onChanged});
+
+    @override
+    Widget build(BuildContext context, WidgetRef ref)
+    {
+        final codexsAsync = ref.watch(codexesByArmyProvider(armyId));
+        return codexsAsync.when(
+            data: (codexs)
+            {
+                if (codexs.length <= 1) return const SizedBox.shrink();
+                return DropdownButtonFormField<String>(
+                    initialValue: selectedId,
+                    decoration: const InputDecoration(labelText: 'Select Codex'),
+                    items: codexs
+                        .map((c) => DropdownMenuItem(
+                                value: c.id.value, child: Text(c.name.value)))
+                        .toList(),
+                    onChanged: onChanged
+                );
+            },
+            error: (e, _) => Text('Error: $e'),
+            loading: () => const LinearProgressIndicator()
+        );
     }
 }
