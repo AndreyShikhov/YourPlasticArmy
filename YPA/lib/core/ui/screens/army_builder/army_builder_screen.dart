@@ -97,6 +97,7 @@ class _ArmySettingsExpandedState extends ConsumerState<ArmySettingsExpanded>
     @override
     Widget build(BuildContext context) 
     {
+
       final (userArmyName, detachment, allDetachments, battleSize) = ref.watch(
         armyBuilderControllerProvider(widget.armyId).select((s) => (
         s.userArmyName,

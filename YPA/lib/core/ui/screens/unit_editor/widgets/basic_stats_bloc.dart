@@ -10,11 +10,11 @@ import '../../../../../domain/models/unit/unit.dart';
 import '../unit_editor_controller.dart';
 import '../unit_editor_item_ui.dart';
 
-class BasicStats extends ConsumerWidget
+class BasicStatsBloc extends ConsumerWidget
 {
     final  (String, String, String) ids;
 
-    const BasicStats({
+    const BasicStatsBloc({
         super.key,
         required this.ids
     });

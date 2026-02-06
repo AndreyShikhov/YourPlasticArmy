@@ -252,9 +252,9 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         state = state.copyWith(currentPts: total);
     }
 
-    // ==========================================
-    //  Load Army
-    // ==========================================
+    /// ==========================================
+    ///  Load Army
+    /// ==========================================
 
     Future<void> loadArmy() async
     {
@@ -324,7 +324,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             final decoded = jsonDecode(jsonData) as Map<String, dynamic>;
             final categoriesJson = decoded['categories'] as Map<String, dynamic>? ?? {};
             
-            // 1. Собираем все уникальные unitId для пакетного запроса
+            /// 1. Собираем все уникальные unitId для пакетного запроса
             final Set<String> allUnitIds = {};
             for (var roleList in categoriesJson.values) {
                 if (roleList is List) {
@@ -335,11 +335,11 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                 }
             }
 
-            // 2. Пакетная загрузка всех базовых данных юнитов за ОДИН запрос
+            /// 2. Пакетная загрузка всех базовых данных юнитов за ОДИН запрос
             final List<UnitDOM> baseUnits = await _getUnitsByIdsFromDb(allUnitIds.toList());
             final Map<String, UnitDOM> baseUnitsMap = {for (var u in baseUnits) u.id.value: u};
 
-            // 3. Распределяем по ролям и инстансам
+            /// 3. Распределяем по ролям и инстансам
             final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> result = {};
 
             for (final entry in categoriesJson.entries)

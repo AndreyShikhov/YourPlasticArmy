@@ -8,7 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/core/ui/screens/unit_editor/unit_editor_controller.dart';
 import 'package:ypa/core/ui/screens/unit_editor/unit_editor_state.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/base_ability_bloc.dart';
-import 'package:ypa/core/ui/screens/unit_editor/widgets/basic_stats.dart';
+import 'package:ypa/core/ui/screens/unit_editor/widgets/basic_stats_bloc.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/keywords_bloc.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/leader_bloc.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/unit_composition_bloc.dart';
@@ -99,7 +99,7 @@ class UnitEditorScreen extends ConsumerWidget
         /// Добавляем статы (они константные)
         sections.add(Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: Center(child: BasicStats(ids: ids))
+                child: Center(child: BasicStatsBloc(ids: ids))
             ));
 
         /// Секция состава
