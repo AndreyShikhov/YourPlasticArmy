@@ -44,7 +44,7 @@ class UnitEditorScreen extends ConsumerWidget
 
         return Scaffold(
             appBar: PreferredSize(
-                preferredSize: const Size.fromHeight(120),
+                preferredSize: const Size.fromHeight(40),
                 child: AppBar(
                     centerTitle: false,
                     /// 2. ИСПОЛЬЗУЕМ Consumer, чтобы обновлялся ТОЛЬКО ТЕКСТ в AppBar

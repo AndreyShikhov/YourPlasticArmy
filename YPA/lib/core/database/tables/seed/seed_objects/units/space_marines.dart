@@ -1822,6 +1822,19 @@ List<UnitSeed> spaceMarinesUnits()
                         weapons:
                         {
                             WeaponType.ranged : [
+                              WeaponDom(
+                                  name: 'Pistol 1',
+                                  type: WeaponType.ranged,
+                                  weaponAbilities: [
+                                    WeaponAbilitiesCode.pistol
+                                  ],
+                                  range: 18,
+                                  attacks: const Dice(fix: 1).toString(),
+                                  skill: 3,
+                                  strength: 4,
+                                  ap: 1,
+                                  damage: const Dice(fix: 1).toString()
+                              ),
                                 WeaponDom(
                                     name: 'Heavy bolt pistol',
                                     type: WeaponType.ranged,
@@ -1835,6 +1848,19 @@ List<UnitSeed> spaceMarinesUnits()
                                     ap: 1,
                                     damage: const Dice(fix: 1).toString()
                                 ),
+                              WeaponDom(
+                                  name: 'Ppistol 2',
+                                  type: WeaponType.ranged,
+                                  weaponAbilities: [
+                                    WeaponAbilitiesCode.pistol
+                                  ],
+                                  range: 18,
+                                  attacks: const Dice(fix: 1).toString(),
+                                  skill: 3,
+                                  strength: 4,
+                                  ap: 1,
+                                  damage: const Dice(fix: 1).toString()
+                              ),
                                 WeaponDom(
                                     name: 'Twin bolt rifle',
                                     type: WeaponType.ranged,
