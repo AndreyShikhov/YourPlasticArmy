@@ -41,8 +41,9 @@ class WargearStatsBloc extends ConsumerWidget
                             children: [
                                 _buildHeaderRanged(),
                                 _BuildBlocWeapons(modelStats, WeaponType.ranged),
+                                const SizedBox(height: 8),
                                 _buildHeaderMelee(),
-                                _BuildBlocWeapons(modelStats, WeaponType.melee),
+                                _BuildBlocWeapons(modelStats, WeaponType.melee)
                             ]
                         )
                     )
@@ -105,34 +106,98 @@ class WargearStatsBloc extends ConsumerWidget
     {
         final unitModels = modelsStats.entries
             .where((e) => e.value.isNeedShow ?? false)
-            .map((e) => e.key)
             .toList();
 
-        List<Widget> allAcceptedWeapons = [];
-        for (String name in unitModels)
+        List<Widget> sections = [];
+        for (final modelEntry in unitModels)
         {
-            final model = modelsStats[name]!;
-            List<String> nameAcceptedWeapons = model.modelWeapons.selectedWeapons[type]!;
+            final modelName = modelEntry.key;
+            final model = modelEntry.value;
 
-            for (final weapon in model.modelWeapons.weapons[type]!)
+            final selectedWeapons = model.modelWeapons.selectedWeapons[type] ?? [];
+            final availableWeapons = model.modelWeapons.weapons[type] ?? [];
+
+            if (availableWeapons.isEmpty) continue;
+
+            sections.add(_buildModelWeaponSection(modelName, availableWeapons, selectedWeapons));
+        }
+
+        return Column(
+           crossAxisAlignment: CrossAxisAlignment.start,
+           children: sections,
+        );
+    }
+
+    Widget _buildModelWeaponSection(String modelName, List<WeaponDom> availableWeapons, List<String> selectedWeapons)
+    {
+        List<Widget> weaponRows = [];
+        bool isLight = false;
+
+        for (final weapon in availableWeapons)
+        {
+            if (selectedWeapons.contains(weapon.name))
             {
-                if (nameAcceptedWeapons.contains(weapon.name))
-                {
-                    allAcceptedWeapons.add(_buildRowWeapon(weapon));
-                }
+                isLight = !isLight;
+                weaponRows.add(_buildUsedRowWeapon(weapon, isLight));
+            } else
+            {
+                weaponRows.add(_buildUnUsedRowWeapon(weapon));
             }
         }
 
-        return Column(children: allAcceptedWeapons);
+        return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 4.0),
+            child: DecoratedBox(
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.white12),
+                    borderRadius: BorderRadius.circular(4),
+                ),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                        Padding(
+                            padding: const EdgeInsets.only(top: 4.0, left: 8.0, bottom: 2.0),
+                            child: Text(
+                                modelName,
+                                style: const TextStyle(color: Colors.white70, fontWeight: FontWeight.bold, fontSize: 12),
+                            ),
+                        ),
+                        ...weaponRows,
+                    ],
+                ),
+            ),
+        );
     }
 
-    Widget _buildRowWeapon(WeaponDom weapon, {bool isLight = false})
+    Widget _buildUsedRowWeapon(WeaponDom weapon, bool isLight)
     {
         return DecoratedBox(
             decoration: BoxDecoration(
-              color: isLight ? Colors.black12 : Colors.transparent,
+                color: isLight ? const Color.fromARGB(47, 255, 255, 255) : const Color.fromARGB(39, 0, 0, 0)
             ),
             child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                    _NameWeapon(weapon.name),
+                    SizedBox(width: 60, child: Center(child: Text('${weapon.range}"'))),
+                    _StatBox(weapon.attacks),
+                    _StatBox('${weapon.skill}+'),
+                    _StatBox('${weapon.strength}'),
+                    _StatBox('-${weapon.ap}'),
+                    _StatBox(weapon.damage)
+                ]
+            )
+        );
+    }
+
+    Widget _buildUnUsedRowWeapon(WeaponDom weapon)
+    {
+        return DecoratedBox(
+            decoration: const BoxDecoration(
+                color: Color.fromARGB(52, 255, 0, 0)
+            ),
+            child: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                     _NameWeapon(weapon.name),
                     SizedBox(width: 60, child: Center(child: Text('${weapon.range}"'))),
@@ -186,7 +251,8 @@ class _StatBox extends StatelessWidget
                         color: isHeader ? Colors.white70 : Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: isHeader ? 14 : 16
-                    )
+                    ),
+                    textAlign: TextAlign.center
                 )
             )
         );
@@ -216,9 +282,10 @@ class _NameWeapon extends StatelessWidget
                             fontWeight: FontWeight.bold,
                             fontSize: 14
                         ),
-                        overflow: TextOverflow.ellipsis,
-                    ),
-                ),
+                        textAlign: TextAlign.start,
+                        overflow: TextOverflow.ellipsis
+                    )
+                )
             )
         );
     }
