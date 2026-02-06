@@ -12,6 +12,7 @@ import 'package:ypa/core/ui/screens/unit_editor/widgets/basic_stats_bloc.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/keywords_bloc.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/leader_bloc.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/unit_composition_bloc.dart';
+import 'package:ypa/core/ui/screens/unit_editor/widgets/wargear_stats_bloc.dart';
 
 import '../../widgets/expanded/expandable_section.dart';
 
@@ -118,9 +119,9 @@ class UnitEditorScreen extends ConsumerWidget
 
 
         /// секция настройки вооружения
-        sections.add(const ExpandableSection(
+        sections.add( ExpandableSection(
           title: 'Wargear Options',
-          child: Text('Настройки снаряжения'),
+          child: WargearStatsBloc(ids: ids),
         ));
 
         /// Секции правил (добавляем только если они есть)
