@@ -27,7 +27,7 @@ class ArmyBuilderScreen extends ConsumerWidget
 
         return Scaffold(
             appBar: PreferredSize(
-                preferredSize: const Size.fromHeight(120),
+                preferredSize: const Size.fromHeight(60),
                 child: AppBar(
                     centerTitle: false,
                     title: Consumer(
@@ -44,7 +44,7 @@ class ArmyBuilderScreen extends ConsumerWidget
                     flexibleSpace: SafeArea(
                         child: Container(
                             alignment: Alignment.centerLeft,
-                            padding: const EdgeInsets.only(left: 82, bottom: 15),
+                            padding: const EdgeInsets.only(left: 82, top: 35),
                             child: Consumer(
                                 builder: (context, ref, _)
                                 {

@@ -30,14 +30,15 @@ class _SelectUnitsDialogState extends ConsumerState<SelectUnitsDialog>
     @override
     Widget build(BuildContext context)
     {
-        final state = ref.watch(armyBuilderControllerProvider(widget.armyId));
 
-        /// 1. Получаем все юниты для данной роли из БД
-        final allUnits = state.getAllUnitsByRoleFromDB(widget.role.name);
+        /// Используем select, чтобы игнорировать любые другие изменения в стейте армии.
+        final allUnits = ref.watch(armyBuilderControllerProvider(widget.armyId).select(
+            (s) => s.allUnitsFromDb.where((unit) => unit.role == widget.role.name).toList()
+        ));
 
         /// 2. ФИЛЬТРАЦИЯ: Оставляем только те, что содержат поисковый запрос
         final filteredUnits = _searchQuery.isEmpty
-            ? allUnits /// Если поиск пустой — показываем ВСЕХ юнитов
+            ? allUnits /// Если поиск пустой — показываем ВСЕХ юнитов роли
             : allUnits.where((unit)
                 {
                     final name = unit.name.toLowerCase();
@@ -79,15 +80,15 @@ class _SelectUnitsDialogState extends ConsumerState<SelectUnitsDialog>
         );
     }
 
-    List<TextUnitButton> _getUnitButtons(List<ArmyBuilderUnitItemUi> units)
+    List<Widget> _getUnitButtons(List<ArmyBuilderUnitItemUi> units)
     {
         return List.generate(
             units.length,
             (i) => TextUnitButton(
                 unit: units[i],
                 armyId: widget.armyId,
-                baseColor: i.isEven ? const Color.fromARGB(77, 255, 255, 255) : const Color.fromARGB(
-                    77, 149, 149, 149)
+                baseColor: i.isEven ? const Color.fromARGB(77, 255, 255, 255) : const Color.fromARGB(77, 149, 149, 149),
+                confirmColor: Colors.transparent, // Добавили недостающий параметр
             )
         );
     }

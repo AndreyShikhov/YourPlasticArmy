@@ -10,7 +10,7 @@ import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
 import '../../army_builder_controller.dart';
 import '../../army_builder_item_ui.dart';
 
-class TextUnitButton extends ConsumerWidget
+class TextUnitButton extends StatelessWidget
 {
     final ArmyBuilderUnitItemUi unit;
     final String armyId;
@@ -26,17 +26,8 @@ class TextUnitButton extends ConsumerWidget
     });
 
     @override
-    Widget build(BuildContext context, WidgetRef ref) 
+    Widget build(BuildContext context) 
     {
-        /// 1. ОПТИМИЗАЦИЯ: Подписываемся ТОЛЬКО на количество конкретного юнита.
-        /// Весь виджет будет "спать", пока меняются другие данные в стейте.
-        final currentCount = ref.watch(armyBuilderControllerProvider(armyId).select(
-            (s) => s.getCurrentCountUnitFromUserArmy(unit.name)
-        ));
-
-        final controller = ref.read(armyBuilderControllerProvider(armyId).notifier);
-        final maxCount = unit.repeat;
-
         return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
             child: DecoratedBox(
@@ -55,33 +46,48 @@ class TextUnitButton extends ConsumerWidget
                                 overflow: TextOverflow.ellipsis,
                             )
                         ),
-                        _AppIconButton(
-                            icon: Icons.remove_circle_outline,
-                            color: Colors.redAccent,
-                            enabled: currentCount > 0,
-                            onTap: () => controller.removeLastUnitFromUserArmy(
-                                unit.dbId, UnitRoleCode.fromName(unit.role)!
-                            )
-                        ),
-                        const SizedBox(width: 8),
                         
-                        /// Текст теперь защищен селектором выше
-                        SizedBox(
-                            width: 45,
-                            child: Center(
-                                child: Text(
-                                    '$currentCount / $maxCount',
-                                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13)
-                                ),
-                            ),
-                        ),
-                        
-                        const SizedBox(width: 8),
-                        _AppIconButton(
-                            icon: Icons.add_circle_outline,
-                            color: Colors.greenAccent,
-                            enabled: currentCount < maxCount,
-                            onTap: () => controller.addUnitToUserArmy(unit.dbId)
+                        /// ОПТИМИЗАЦИЯ: Только эта часть перерисовывается при изменении количества
+                        Consumer(
+                            builder: (context, ref, _) {
+                                final currentCount = ref.watch(armyBuilderControllerProvider(armyId).select(
+                                    (s) => s.getCurrentCountUnitFromUserArmy(unit.name)
+                                ));
+                                
+                                final controller = ref.read(armyBuilderControllerProvider(armyId).notifier);
+                                final maxCount = unit.repeat;
+                                
+                                return Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                        _AppIconButton(
+                                            icon: Icons.remove_circle_outline,
+                                            color: Colors.redAccent,
+                                            enabled: currentCount > 0,
+                                            onTap: () => controller.removeLastUnitFromUserArmy(
+                                                unit.dbId, UnitRoleCode.fromName(unit.role)!
+                                            )
+                                        ),
+                                        const SizedBox(width: 8),
+                                        SizedBox(
+                                            width: 45,
+                                            child: Center(
+                                                child: Text(
+                                                    '$currentCount / $maxCount',
+                                                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13)
+                                                ),
+                                            ),
+                                        ),
+                                        const SizedBox(width: 8),
+                                        _AppIconButton(
+                                            icon: Icons.add_circle_outline,
+                                            color: Colors.greenAccent,
+                                            enabled: currentCount < maxCount,
+                                            onTap: () => controller.addUnitToUserArmy(unit.dbId)
+                                        ),
+                                    ],
+                                );
+                            },
                         ),
                         const SizedBox(width: 4),
                     ]
