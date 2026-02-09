@@ -8,10 +8,6 @@ import 'package:go_router/go_router.dart';
 
 import '../widgets/buttons.dart';
 
-enum ButtonTypeGameScreen
-{ armyBuilder, versus, analytics
-}
-
 class GameScreen extends StatefulWidget
 {
   const GameScreen({super.key});
@@ -23,64 +19,26 @@ class GameScreen extends StatefulWidget
 class _GameScreen extends State<GameScreen>
 {
     final Color contentColor = Colors.black26;
+    bool _isNavigationInProgress = false;
 
     @override
     void didChangeDependencies() 
     {
         super.didChangeDependencies();
 
-        /// Проверяем, активен ли сейчас этот экран
+        /// Сбрасываем флаг навигации при возврате на экран
         if (ModalRoute.of(context)?.isCurrent == true) 
         {
-            /// Активируем кнопки при возврате
-            setState(() => enableAllButtons(isEnable: true));
+            setState(() => _isNavigationInProgress = false);
         }
     }
 
-    List get _buttonHandlers => [() => context.go('/game_screen/army_lyst')];
-
-    Map<ButtonTypeGameScreen, bool> _statesAllButtons = 
+    void _handleNavigation() 
     {
-        ButtonTypeGameScreen.armyBuilder: true,
-        ButtonTypeGameScreen.versus: true,
-        ButtonTypeGameScreen.analytics: true
-    };
-
-    void enableAllButtons({bool isEnable = true}) 
-    {
-        setState(()
-            {
-                _statesAllButtons = 
-                {
-                    ButtonTypeGameScreen.armyBuilder: isEnable,
-                    ButtonTypeGameScreen.versus: isEnable,
-                    ButtonTypeGameScreen.analytics: isEnable
-                };
-            });
-    }
-
-    final List<String> _buttonTitles = ['armyBuilder', 'versus', 'analytics'];
-
-    List<Widget> _buildButtons() 
-    {
-        return _buttonTitles.asMap().entries.map((elem)
-            {
-                final int index = elem.key;
-                final title = elem.value;
-                final buttonTypeGs = ButtonTypeGameScreen.values[index];
-
-                return MainButton(
-                    onPressed: () async
-                    {
-                        setState(() => enableAllButtons(isEnable: false));
-                        /// переход на другой экран
-                        _buttonHandlers[0]();
-                    },
-                    isActive: _statesAllButtons[buttonTypeGs] ?? true,
-                    textBTN: title,
-                    style: MainButton.mainButtonStyle(context)
-                );
-            }).toList();
+        if (_isNavigationInProgress) return;
+        
+        setState(() => _isNavigationInProgress = true);
+        context.go('/game_screen/army_lyst');
     }
 
     @override
@@ -92,10 +50,7 @@ class _GameScreen extends State<GameScreen>
                 elevation: 0,
                 leading: IconButton(
                     icon: const Icon(Icons.arrow_back, color: Colors.white),
-                    onPressed: ()
-                    {
-                        Navigator.pop(context, 'reset_buttons');
-                    }
+                    onPressed: () => context.pop()
                 )
             ),
             body: Container(
@@ -103,7 +58,25 @@ class _GameScreen extends State<GameScreen>
                 child: Center(
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: _buildButtons()
+                        children: [
+                            MainButton(
+                                textBTN: 'Army Builder',
+                                isActive: !_isNavigationInProgress,
+                                onPressed: _handleNavigation,
+                            ),
+                            const SizedBox(height: 24),
+                            MainButton(
+                                textBTN: 'Versus Mode',
+                                isActive: !_isNavigationInProgress,
+                                onPressed: _handleNavigation,
+                            ),
+                            const SizedBox(height: 24),
+                            MainButton(
+                                textBTN: 'Analytics',
+                                isActive: !_isNavigationInProgress,
+                                onPressed: _handleNavigation,
+                            ),
+                        ]
                     )
                 )
             )
