@@ -10,6 +10,7 @@ import 'package:ypa/core/ui/screens/unit_editor/unit_editor_item_ui.dart';
 import '../../../../domain/models/abilities/core_unit_ability/core_unit_ability.dart';
 import '../../../../domain/models/abilities/faction_unit_ability/faction_unit_ability.dart';
 import '../../../../domain/models/abilities/unit_ability/unit_ability.dart';
+import '../../../../domain/models/abilities/weapon_ability/weapon_ability.dart';
 
 
 class UnitEditorState
@@ -22,6 +23,7 @@ class UnitEditorState
     final List<UnitAbilityDOM> unitAbilities;
     final List<CoreUnitAbilityDOM> coreAbilities;
     final List<FactionUnitAbilityDOM> factionAbilities;
+    final List<WeaponAbilityDOM> weaponAbilities;
     final String? error;
 
     UnitEditorState({
@@ -32,6 +34,7 @@ class UnitEditorState
         this.unitAbilities = const [],
         this.coreAbilities = const [],
         this.factionAbilities = const [],
+        this.weaponAbilities = const [],
         this.error
     });
 
@@ -43,6 +46,7 @@ class UnitEditorState
         List<UnitAbilityDOM>? unitAbilities,
         List<CoreUnitAbilityDOM>? coreAbilities,
         List<FactionUnitAbilityDOM>? factionAbilities,
+        List<WeaponAbilityDOM>? weaponAbilities,
         String? error
     })
     {
@@ -54,6 +58,7 @@ class UnitEditorState
             unitAbilities: unitAbilities ?? this.unitAbilities,
             coreAbilities: coreAbilities ?? this.coreAbilities,
             factionAbilities: factionAbilities ?? this.factionAbilities,
+            weaponAbilities: weaponAbilities ?? this.weaponAbilities,
             error: error ?? this.error
         );
     }

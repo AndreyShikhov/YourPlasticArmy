@@ -8,7 +8,7 @@ import 'package:ypa/application/army/get_army_by_id.dart';
 import 'package:ypa/application/unit_abilities/get_all_core_unit_abilities.dart';
 import 'package:ypa/application/unit_abilities/get_factions_unit_ability_by_code.dart';
 import 'package:ypa/application/unit_abilities/get_unit_bility_by_code.dart';
-import 'package:ypa/core/providers/di/di_providers.dart';
+import 'package:ypa/application/weapon_abilities/get_all_weapon_abilities.dart';
 import 'package:ypa/core/ui/screens/unit_editor/unit_editor_item_ui.dart';
 import 'package:ypa/core/ui/screens/unit_editor/unit_editor_state.dart';
 import 'package:ypa/domain/models/army/army.dart';
@@ -18,8 +18,15 @@ import '../../../../application/user_army/user_army_use_cases.dart';
 import '../../../../domain/models/abilities/core_unit_ability/core_unit_ability.dart';
 import '../../../../domain/models/abilities/faction_unit_ability/faction_unit_ability.dart';
 import '../../../../domain/models/abilities/unit_ability/unit_ability.dart';
+import '../../../../domain/models/abilities/weapon_ability/weapon_ability.dart';
 import '../../../../domain/models/unit/unit.dart';
 import '../../../database/tables/seed/seed_objects/_types.dart';
+import '../../../providers/di/army_providers.dart';
+import '../../../providers/di/core_unit_abilities_providers.dart';
+import '../../../providers/di/faction_unit_abilities_providers.dart';
+import '../../../providers/di/unit_abilities_providers.dart';
+import '../../../providers/di/user_army_providers.dart';
+import '../../../providers/di/weapon_abilities_providers.dart';
 import '../army_builder/army_builder_controller.dart';
 
 final unitEditorControllerProvider = 
@@ -31,6 +38,7 @@ final unitEditorControllerProvider =
             final getFactionAbilityByCode = ref.watch(getFactionUnitAbilityByCodeUseCaseProvider);
             final getArmyById = ref.watch(getArmyByIdUseCaseProvider);
             final updateUnitInUserRoster = ref.watch(updateUnitParametersFromUserArmyUseCaseProvider);
+            final getAllWeaponAbilities = ref.watch(getAllWeaponAbilitiesUseCaseProvider);
 
             return UnitEditorController(
                 ref,
@@ -38,8 +46,9 @@ final unitEditorControllerProvider =
                 getAllCoreUnitAbilities,
                 getFactionAbilityByCode,
                 getArmyById,
-                instanceId,
                 updateUnitInUserRoster,
+                getAllWeaponAbilities,
+                instanceId,
                 armyId,
                 roldeCode
             );
@@ -56,6 +65,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
     final GetFactionsUnitAbilityByCode _getFactionsUnitAbilityByCode;
     final GetArmyById _getArmyById;
     final UpdateUnitParametersFromUserArmy _updateUnitInUserRoster;
+    final GetAllWeaponAbilities _getAllWeaponAbilities;
     final String _instanceUnitId;
     final String _role;
     final String _armyId;
@@ -67,8 +77,9 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
         this._getAllCoreUnitAbilities,
         this._getFactionsUnitAbilityByCode,
         this._getArmyById,
-        this._instanceUnitId,
         this._updateUnitInUserRoster,
+        this._getAllWeaponAbilities,
+        this._instanceUnitId,
         this._armyId,
         this._role
 
@@ -120,7 +131,8 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
             final abilitiesResults = await Future.wait([
                     getUnitAbility(),
                     getCoreUnitAbility(),
-                    getFactionUnitAbility()
+                    getFactionUnitAbility(),
+                    getWeaponAbilities()
                 ]);
 
             ///3. Добавляем Арим код
@@ -136,6 +148,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                 unitAbilities: abilitiesResults[0] as List<UnitAbilityDOM>,
                 coreAbilities: abilitiesResults[1] as List<CoreUnitAbilityDOM>,
                 factionAbilities: abilitiesResults[2] as List<FactionUnitAbilityDOM>,
+                weaponAbilities: abilitiesResults[3] as List<WeaponAbilityDOM>,
                 isLoading: false
             );
         }catch (e)
@@ -213,6 +226,32 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
         return results.whereType<FactionUnitAbilityDOM>().toList();
     }
 
+    Future<List<WeaponAbilityDOM>> getWeaponAbilities() async
+    {
+        if (state.unit == null) return [];
+
+        final Set<WeaponAbilitiesCode> abilityCodes = {};
+
+        for (final modelStats in state.unit!.modelStats.values)
+        {
+            for (final weapons in modelStats.modelWeapons.weapons.values)
+            {
+                for (final weapon in weapons)
+                {
+                    abilityCodes.addAll(weapon.weaponAbilities);
+                }
+            }
+        }
+
+        if (abilityCodes.isEmpty) return [];
+
+        final allAbilities = await _getAllWeaponAbilities();
+
+        return allAbilities.where((ability) => 
+            abilityCodes.any((code) => code.code == ability.code)
+        ).toList();
+    }
+
     /// ==========================================
     ///  Tools
     /// ==========================================
@@ -273,15 +312,15 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
         final Map<String, ModelStatsDom> updatedModelStats;
         final currentModelStats = state.unit!.modelStats;
         /// Обновляем видимость статов для дополнительной модели, если она есть в статах
-        if (currentModelStats.length > 1 && currentModelStats.containsKey(modelName)) 
+        if (currentModelStats.length > 1 && currentModelStats.containsKey(modelName))
         {
             /// Создаем новую карту: копируем старую и перезаписываем одну модель
-            updatedModelStats = 
+            updatedModelStats =
             {
                 ...currentModelStats,
                 modelName: currentModelStats[modelName]!.copyWith(isNeedShow: isSelected)
             };
-        } else 
+        } else
         {
             /// Если модель не найдена или статы одни, оставляем как есть
             updatedModelStats = currentModelStats;
@@ -296,7 +335,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                     selectedComposition: currentComp.selectedComposition,
                     additionalModels: updatedAdditional
                 ),
-              modelStats: updatedModelStats,
+                modelStats: updatedModelStats
             )
         );
 

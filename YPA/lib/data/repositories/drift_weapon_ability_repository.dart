@@ -6,7 +6,8 @@
 import 'package:ypa/core/database/app_database.dart';
 import 'package:ypa/data/mappers/weapon_ability_mapper.dart';
 
-import '../../domain/models/weapon_ability/weapon_ability.dart';
+import '../../domain/models/abilities/weapon_ability/weapon_ability.dart';
+
 
 class DriftWeaponAbilityRepository implements WeaponAbilityRepository
 {
@@ -15,14 +16,14 @@ class DriftWeaponAbilityRepository implements WeaponAbilityRepository
     DriftWeaponAbilityRepository(this.db);
 
     @override
-    Future<List<WeaponAbilityDOM>> findAll() async
+    Future<List<WeaponAbilityDOM>> getAllWeaponAbility() async
     {
         final rows = await db.select(db.weaponAbilities).get();
         return rows.map(WeaponAbilityMapper.fromRow).toList();
     }
 
     @override
-    Future<WeaponAbilityDOM?> findByCode(String code) async
+    Future<WeaponAbilityDOM?> getWeaponAbilityByCode(String code) async
     {
         final row = await (db.select(db.weaponAbilities)..where((tbl) => tbl.code.equals(code))).getSingleOrNull();
         return row != null ? WeaponAbilityMapper.fromRow(row) : null;

@@ -146,3 +146,19 @@ class FactionAbilityBloc extends BaseAbilityBloc
         return super.build(context);
     }
 }
+
+
+class WeaponAbilityBloc extends BaseAbilityBloc
+{
+  const WeaponAbilityBloc({
+    super.key,
+    required super.abilities
+  });
+
+  @override
+  Widget build(BuildContext context)
+  {
+    // TODO: implement build
+    return super.build(context);
+  }
+}

@@ -4,7 +4,8 @@
  */
 
 import 'package:ypa/core/database/app_database.dart';
-import 'package:ypa/domain/models/weapon_ability/weapon_ability.dart';
+
+import '../../domain/models/abilities/weapon_ability/weapon_ability.dart';
 
 class WeaponAbilityMapper
 {

@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: MIT
  */
 
-import 'package:ypa/domain/models/weapon_ability/weapon_ability_dom.dart';
-import 'package:ypa/domain/models/weapon_ability/weapon_ability_repository.dart';
+
+
+import '../../domain/models/abilities/weapon_ability/weapon_ability.dart';
 
 class GetAllWeaponAbilities
 {
@@ -14,6 +15,6 @@ class GetAllWeaponAbilities
 
     Future<List<WeaponAbilityDOM>> call() 
     {
-        return repository.findAll();
+        return repository.getAllWeaponAbility();
     }
 }
