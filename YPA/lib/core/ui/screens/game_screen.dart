@@ -5,8 +5,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
-import '../widgets/buttons.dart';
+import 'data/style_data.dart';
 
 class GameScreen extends StatefulWidget
 {
@@ -59,20 +58,20 @@ class _GameScreen extends State<GameScreen>
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                            MainButton(
-                                textBTN: 'Army Builder',
+                            _MainButton(
+                                text: 'Army Builder',
                                 isActive: !_isNavigationInProgress,
                                 onPressed: _handleNavigation,
                             ),
                             const SizedBox(height: 24),
-                            MainButton(
-                                textBTN: 'Versus Mode',
+                            _MainButton(
+                                text: 'Versus Mode',
                                 isActive: !_isNavigationInProgress,
                                 onPressed: _handleNavigation,
                             ),
                             const SizedBox(height: 24),
-                            MainButton(
-                                textBTN: 'Analytics',
+                            _MainButton(
+                                text: 'Analytics',
                                 isActive: !_isNavigationInProgress,
                                 onPressed: _handleNavigation,
                             ),
@@ -80,6 +79,53 @@ class _GameScreen extends State<GameScreen>
                     )
                 )
             )
+        );
+    }
+}
+
+/// ЛОКАЛЬНЫЙ ОПТИМИЗИРОВАННЫЙ ВИДЖЕТ КНОПКИ
+class _MainButton extends StatelessWidget {
+    final String text;
+    final bool isActive;
+    final VoidCallback onPressed;
+
+    const _MainButton({
+        required this.text,
+        required this.isActive,
+        required this.onPressed,
+    });
+
+    /// Стиль теперь константа, создается 1 раз
+    static final ButtonStyle _style = FilledButton.styleFrom(
+        backgroundColor: const Color.fromARGB(255, 78, 73, 73),
+        foregroundColor: texColor,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        fixedSize: const Size(160, 80),
+        side: const BorderSide(color: Colors.black, width: 2, strokeAlign: BorderSide.strokeAlignOutside),
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero)
+    );
+
+    @override
+    Widget build(BuildContext context) {
+        return FilledButton(
+            onPressed: isActive ? onPressed : null,
+            style: _style,
+            child: _ButtonText(text: text),
+        );
+    }
+}
+
+/// Изолированный виджет текста для предотвращения лишних перерисовок
+class _ButtonText extends StatelessWidget {
+    final String text;
+    const _ButtonText({required this.text});
+
+    @override
+    Widget build(BuildContext context) {
+        return Text(
+            text,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontWeight: FontWeight.bold),
         );
     }
 }

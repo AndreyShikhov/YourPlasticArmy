@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
 
-import '../../../../widgets/buttons.dart';
 import '../../army_builder_controller.dart';
 import '../../army_builder_item_ui.dart';
 
@@ -29,22 +28,17 @@ class TextUnitButton extends ConsumerWidget
     @override
     Widget build(BuildContext context, WidgetRef ref) 
     {
-        /// 2. Подписываемся на состояние контроллера
-        final state = ref.watch(armyBuilderControllerProvider(armyId));
+        /// 1. ОПТИМИЗАЦИЯ: Подписываемся ТОЛЬКО на количество конкретного юнита.
+        /// Весь виджет будет "спать", пока меняются другие данные в стейте.
+        final currentCount = ref.watch(armyBuilderControllerProvider(armyId).select(
+            (s) => s.getCurrentCountUnitFromUserArmy(unit.name)
+        ));
 
-        /// 3. Получаем доступ к методам контроллера через notifier
         final controller = ref.read(armyBuilderControllerProvider(armyId).notifier);
-
-        /// Получаем текущие значения для логики блокировки
-        final currentCount = state.getCurrentCountUnitFromUserArmy(unit.name);
         final maxCount = unit.repeat;
 
-        /// Лимит из правил
-
         return Padding(
-
-            ///margin: const EdgeInsets.symmetric(vertical: 4),
-            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
+            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
             child: DecoratedBox(
                 decoration: BoxDecoration(
                     color: baseColor,
@@ -53,52 +47,75 @@ class TextUnitButton extends ConsumerWidget
                 ),
                 child: Row(
                     children: [
-                      const SizedBox(width: 5),
+                        const SizedBox(width: 8),
                         Expanded(
                             child: Text(
                                 unit.name,
-                                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14)
+                                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
+                                overflow: TextOverflow.ellipsis,
                             )
                         ),
-                        Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-
-                                /// Кнопка МИНУС
-                                AppIconButton(
-                                    icon: Icons.remove_circle_outline,
-                                    color: Colors.redAccent,
-
-                                    /// Кнопка активна только если в армии есть хотя бы один такой юнит
-                                    enabled: currentCount > 0,
-                                    onTap: () =>
-                                    controller.removeLastUnitFromUserArmy(
-                                        unit.dbId, UnitRoleCode.fromName(unit.role)!)
+                        _AppIconButton(
+                            icon: Icons.remove_circle_outline,
+                            color: Colors.redAccent,
+                            enabled: currentCount > 0,
+                            onTap: () => controller.removeLastUnitFromUserArmy(
+                                unit.dbId, UnitRoleCode.fromName(unit.role)!
+                            )
+                        ),
+                        const SizedBox(width: 8),
+                        
+                        /// Текст теперь защищен селектором выше
+                        SizedBox(
+                            width: 45,
+                            child: Center(
+                                child: Text(
+                                    '$currentCount / $maxCount',
+                                    style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13)
                                 ),
-                                const SizedBox(width: 15),
-
-                                /// Текст с текущим количеством
-                                Text(
-                                    '${state.getCurrentCountUnitFromUserArmy(unit.name)} / ${unit.repeat}',
-                                    style: const TextStyle(
-                                        color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14)
-                                ),
-                                const SizedBox(width: 15),
-
-                                /// Кнопка ПЛЮС
-                                AppIconButton(
-                                    icon: Icons.add_circle_outline,
-                                    color: Colors.greenAccent,
-
-                                    /// Кнопка активна только если не превышен лимит
-                                    enabled: currentCount < maxCount,
-                                    onTap: () => controller.addUnitToUserArmy(unit.dbId)
-                                )
-                            ]
-                        )
+                            ),
+                        ),
+                        
+                        const SizedBox(width: 8),
+                        _AppIconButton(
+                            icon: Icons.add_circle_outline,
+                            color: Colors.greenAccent,
+                            enabled: currentCount < maxCount,
+                            onTap: () => controller.addUnitToUserArmy(unit.dbId)
+                        ),
+                        const SizedBox(width: 4),
                     ]
                 )
             )
+        );
+    }
+}
+
+/// ЛОКАЛЬНЫЙ ОПТИМИЗИРОВАННЫЙ ВИДЖЕТ КНОПКИ
+class _AppIconButton extends StatelessWidget {
+    final IconData icon;
+    final VoidCallback onTap;
+    final bool enabled;
+    final Color color;
+
+    const _AppIconButton({
+        required this.icon,
+        required this.onTap,
+        required this.color,
+        this.enabled = true,
+    });
+
+    @override
+    Widget build(BuildContext context) {
+        return IconButton(
+            onPressed: enabled ? onTap : null,
+            icon: Icon(icon, size: 22),
+            color: color,
+            disabledColor: Colors.white10,
+            visualDensity: VisualDensity.compact,
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+            splashRadius: 20,
         );
     }
 }

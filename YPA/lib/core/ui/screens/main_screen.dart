@@ -13,7 +13,6 @@ import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../database/database_actions_provider.dart';
 import '../../providers/user_notifier.dart';
-import '../widgets/buttons.dart';
 import 'data/style_data.dart';
 
 class MainScreen extends ConsumerStatefulWidget
@@ -49,8 +48,6 @@ class _MainScreenState extends ConsumerState<MainScreen>
     @override
     Widget build(BuildContext context) 
     {
-        final userState = ref.watch(userStateProvider);
-
         return Scaffold(
             appBar: AppBar(
                 backgroundColor: const Color(0x7160605E),
@@ -60,21 +57,24 @@ class _MainScreenState extends ConsumerState<MainScreen>
                     IconButton(onPressed: () => Scaffold.of(context).openDrawer(), icon: const Icon(Icons.menu))
                 )
             ),
-            drawer: _buildDrawer(context, userState),
+            /// Используем Consumer только для Drawer, чтобы не перерисовывать весь экран при изменении UserState
+            drawer: Consumer(
+                builder: (context, ref, _) => _buildDrawer(context, ref.watch(userStateProvider)),
+            ),
             body: Container(
                 color: mainScreenColor,
                 child: Center(
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center, 
                         children: [
-                            MainButton(
-                                textBTN: 'Warhammer 40K',
+                            _MainButton(
+                                text: 'Build Army',
                                 isActive: !_isNavigationInProgress,
                                 onPressed: _handleButtonClick,
                             ),
                             const SizedBox(height: 24),
-                            MainButton(
-                                textBTN: 'Warhammer AoS',
+                            _MainButton(
+                                text: 'View Army',
                                 isActive: !_isNavigationInProgress,
                                 onPressed: _handleButtonClick,
                             ),
@@ -195,6 +195,53 @@ class _MainScreenState extends ConsumerState<MainScreen>
                     ),
                 ],
             ),
+        );
+    }
+}
+
+/// ЛОКАЛЬНЫЙ ОПТИМИЗИРОВАННЫЙ ВИДЖЕТ КНОПКИ
+class _MainButton extends StatelessWidget {
+    final String text;
+    final bool isActive;
+    final VoidCallback onPressed;
+
+    const _MainButton({
+        required this.text,
+        required this.isActive,
+        required this.onPressed,
+    });
+
+    /// Стиль теперь константа, создается 1 раз
+    static final ButtonStyle _style = FilledButton.styleFrom(
+        backgroundColor: const Color.fromARGB(255, 78, 73, 73),
+        foregroundColor: texColor,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        fixedSize: const Size(160, 80),
+        side: const BorderSide(color: Colors.black, width: 2, strokeAlign: BorderSide.strokeAlignOutside),
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero)
+    );
+
+    @override
+    Widget build(BuildContext context) {
+        return FilledButton(
+            onPressed: isActive ? onPressed : null,
+            style: _style,
+            child: _ButtonText(text: text),
+        );
+    }
+}
+
+/// Изолированный виджет текста для предотвращения лишних перерисовок
+class _ButtonText extends StatelessWidget {
+    final String text;
+    const _ButtonText({required this.text});
+
+    @override
+    Widget build(BuildContext context) {
+        return Text(
+            text,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontWeight: FontWeight.bold),
         );
     }
 }
