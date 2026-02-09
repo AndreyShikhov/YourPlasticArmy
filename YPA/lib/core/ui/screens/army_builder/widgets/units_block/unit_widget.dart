@@ -105,7 +105,7 @@ class UnitWidget extends ConsumerWidget
                                                 onAction: ()
                                                 {
                                                     ref.read(armyBuilderControllerProvider(armyId).notifier)
-                                                        .addUnitToUserArmy(unit.dbId);
+                                                        .duplicateUnitToUserArmy(unit.dbId, unit);
                                                 }
                                             ),
                                             const SizedBox(width: 8),

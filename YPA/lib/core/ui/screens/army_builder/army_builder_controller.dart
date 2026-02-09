@@ -37,6 +37,7 @@ final armyBuilderControllerProvider =
             final getAllUnitsByCodexId = ref.watch(getAllUnitsByCodexIdUseCaseProvider);
             final getAllUnitsByArmyId = ref.watch(getUnitsByArmyUseCaseProvider);
             final addUnitToUserRoster = ref.watch(addUnitToUserRosterUseCaseProvider);
+            final updateUnitInUserRoster = ref.watch(updateUnitParametersFromUserArmyUseCaseProvider);
             final getUnitsByIdsFromDb = ref.watch(getUnitsByIdsFromDbUseCaseProvider);
             final removeLastUnitFromUserRoster = ref.watch(removeLastUnitFromUserRosterUseCaseProvider);
 
@@ -50,6 +51,7 @@ final armyBuilderControllerProvider =
                 getAllUnitsByCodexId,
                 getAllUnitsByArmyId,
                 addUnitToUserRoster,
+                updateUnitInUserRoster,
                 getUnitsByIdsFromDb,
                 removeLastUnitFromUserRoster,
                 armyId
@@ -67,6 +69,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
     final GetAllUnitsByCodexId _getAllUnitsByCodexid;
     final GetUnitsByArmy _getAllUnitsByArmyId;
     final AddUnitToUserRoster _addUnitToUserRoster;
+    final UpdateUnitParametersFromUserArmy _updateUnitInUserRoster;
     final RemoveLastUnitFromUserRoster _removeLastUnitFromUserRoster;
     final GetUnitsByIdsFromDb _getUnitsByIdsFromDb;
     final String _armyId;
@@ -83,6 +86,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         this._getAllUnitsByCodexid,
         this._getAllUnitsByArmyId,
         this._addUnitToUserRoster,
+        this._updateUnitInUserRoster,
         this._getUnitsByIdsFromDb,
         this._removeLastUnitFromUserRoster,
         this._armyId
@@ -180,6 +184,55 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             state = state.copyWith(error: e.toString());
             loadArmy();
         }
+    }
+
+
+    Future<void> duplicateUnitToUserArmy(String unitId, ArmyBuilderUnitItemUi unit) async
+    {
+      if (state.userArmyUnits == null) return;
+
+      try
+      {
+        final baseUnitItem = state.allUnitsFromDb.firstWhere((u) => u.dbId == unitId);
+        final instanceId = const Uuid().v4();
+        final role = UnitRoleCode.fromName(baseUnitItem.role)!;
+        final newUnit = baseUnitItem.copyWith(
+          instanceId: instanceId,
+          dbId: unit.dbId,
+          name: unit.name,
+          role: unit.role,
+          repeat: unit.repeat,
+          keywords: unit.keywords,
+          factionKeywords: unit.factionKeywords,
+          unitComposition: unit.unitComposition,
+          unitAbility: unit.unitAbility,
+          coreAbilities: unit.coreAbilities,
+          factionAbilities: unit.factionAbilities,
+          leader: unit.leader,
+          ledBy: unit.ledBy,
+          modelStats: unit.modelStats,
+        );
+
+        final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> updatedUnits = Map.from(state.userArmyUnits!);
+        updatedUnits[role] = [...(updatedUnits[role] ?? []), newUnit];
+
+        state = state.copyWith(userArmyUnits: updatedUnits);
+        updateCurrentPts();
+
+        await _addUnitToUserRoster(armyId: _armyId, instanceId: instanceId, unitId: unitId);
+        await _updateUnitInUserRoster(
+            armyId: _armyId,
+            instanceId: instanceId,
+            role: UnitRoleCode.fromName(unit.role)!,
+            category: SaveCategoryCode.composition,
+            updateData: newUnit.unitComposition.toSaveUserArmyJson()
+        );
+
+      } catch (e)
+      {
+        state = state.copyWith(error: e.toString());
+        loadArmy();
+      }
     }
 
     Future<void> removeLastUnitFromUserArmy(String unitId, UnitRoleCode role) async
@@ -395,7 +448,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             repeat: unit.repeat,
             keywords: unit.keywords,
             factionKeywords: unit.factionKeywords,
-            unitComposition: _buildCompositionFromSavedata(unit.unitComposition, saveComposition),
+            unitComposition: _buildCompositionFromSaveData(unit.unitComposition, saveComposition),
             unitAbility: unit.unitAbility,
             coreAbilities: unit.coreAbilities,
             factionAbilities: unit.factionAbilities,
@@ -417,7 +470,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         return unitDomain.map((unit) => _convertDomainUnitToUnitItemUi(unit, '', null)).toList();
     }
 
-    UnitCompositionDom _buildCompositionFromSavedata(UnitCompositionDom unitCompositionFromDB, Map<String, dynamic>? saveComposition)
+    UnitCompositionDom _buildCompositionFromSaveData(UnitCompositionDom unitCompositionFromDB, Map<String, dynamic>? saveComposition)
     {
         var tempComposition = unitCompositionFromDB;
         if (saveComposition != null)
