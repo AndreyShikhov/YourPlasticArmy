@@ -5,7 +5,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart' show WeaponType;
+import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
 
 import '../../../../../domain/models/unit/unit.dart';
 import '../unit_editor_controller.dart';
@@ -32,8 +32,8 @@ class WargearStatsBloc extends ConsumerWidget
             return Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
                 child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center, /// Центрируем группу таблиц
-                    mainAxisSize: MainAxisSize.min,             /// Строка сжимается до размера контента
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                         _buildCategorySection(modelStats, WeaponType.ranged),
@@ -48,8 +48,8 @@ class WargearStatsBloc extends ConsumerWidget
         return Padding(
             padding: const EdgeInsets.only(bottom: 16.0),
             child: Column(
+                mainAxisSize: MainAxisSize.max,
                 children: [
-
                     SizedBox(
                         height: 400, /// Фиксированная высота для карусели
                         child: PageView(
@@ -73,8 +73,8 @@ class WargearStatsBloc extends ConsumerWidget
                 borderRadius: BorderRadius.circular(6)
             ),
             child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
                 children: [
                     _WeaponCategoryHeader(type: type),
                     _WeaponTypeGroup(modelsStats: modelStats, type: type)
@@ -207,18 +207,37 @@ class _WeaponRow extends StatelessWidget
 
         return DecoratedBox(
             decoration: BoxDecoration(color: bgColor),
-            child: Row(
+            child: Column(
                 mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                    _NameWeapon(weapon.name, isUsed),
-                    SizedBox(width: 60, child: Center(child: Text('${weapon.range}"', style: TextStyle(color: isUsed ? Colors.white : const Color.fromARGB(153, 143, 143, 143))))),
-                    _StatBox(weapon.attacks, isUsed: isUsed),
-                    _StatBox('${weapon.skill}+', isUsed: isUsed),
-                    _StatBox('${weapon.strength}', isUsed: isUsed),
-                    _StatBox('-${weapon.ap}', isUsed: isUsed),
-                    _StatBox(weapon.damage, isUsed: isUsed)
+                    Row(          /// строка со статами оружия
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                            _NameWeapon(weapon.name, isUsed),
+                            SizedBox(width: 60, child: Center(child: Text('${weapon.range}"', style: TextStyle(color: isUsed ? Colors.white : const Color.fromARGB(153, 143, 143, 143))))),
+                            _StatBox(weapon.attacks, isUsed: isUsed),
+                            _StatBox('${weapon.skill}+', isUsed: isUsed),
+                            _StatBox('${weapon.strength}', isUsed: isUsed),
+                            _StatBox('-${weapon.ap}', isUsed: isUsed),
+                            _StatBox(weapon.damage, isUsed: isUsed)
+                        ]
+                    ),
+                    Row(
+                        children: [
+                            if(weapon.weaponAbilities.isNotEmpty)
+                            Padding(
+                                padding: const EdgeInsets.only(left: 4.0, bottom: 2.0),
+                                child: Row(
+                                    children: [_WeaponAbilitiesBTN(weapon.weaponAbilities)]
+                                )
+                            )
+
+                        ]
+                    )
                 ]
             )
+
         );
     }
 }
@@ -243,7 +262,7 @@ class _WeaponCategoryHeader extends StatelessWidget
                 borderRadius: const BorderRadius.only(topLeft: Radius.circular(4), topRight: Radius.circular(4))
             ),
             child: Row(
-                mainAxisSize: MainAxisSize.min,
+                mainAxisSize: MainAxisSize.max,
                 children: [
                     SizedBox(width: 140, child: Padding(
                             padding: const EdgeInsets.only(left: 4.0),
@@ -323,6 +342,49 @@ class _NameWeapon extends StatelessWidget
                         softWrap: true,
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis
+                    )
+                )
+            )
+        );
+    }
+}
+
+class _WeaponAbilitiesBTN extends StatelessWidget
+{
+    final List<WeaponAbilitiesCode> abilities;
+
+    const _WeaponAbilitiesBTN(this.abilities);
+
+    @override
+    Widget build(BuildContext context)
+    {
+        return Wrap(
+            spacing: 4.0,    
+            runSpacing: 4.0, 
+            children: abilities.map((ability) => _buildAbilityTag(ability)).toList()
+        );
+    }
+
+    Widget _buildAbilityTag(WeaponAbilitiesCode ability)
+    {
+        return InkWell(
+            onTap: ()
+            {
+                // Здесь будет логика (например, показать описание способности)
+                print('Tapped on ${ability.title}');
+            },
+            borderRadius: BorderRadius.circular(4), // Чтобы эффект нажатия был скругленным
+            child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+                decoration:const  BoxDecoration(
+                    color:  Color.fromARGB(153, 0, 0, 0),
+                ),
+                child: Text(
+                    ability.title.toUpperCase(),
+                    style: const TextStyle(
+                        color: Colors.white70,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 9
                     )
                 )
             )
