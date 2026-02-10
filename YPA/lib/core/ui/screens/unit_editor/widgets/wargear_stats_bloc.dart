@@ -129,6 +129,15 @@ class _WeaponTypeGroup extends StatelessWidget
             groupedByModel.putIfAbsent(info.modelName, () => []).add(info);
         }
 
+        // СОРТИРОВКА: Внутри каждой модели сначала ставим экипированное оружие, затем неиспользуемое
+        for (var modelWeaponsList in groupedByModel.values) 
+        {
+            modelWeaponsList.sort((a, b) {
+                if (a.isEquiped == b.isEquiped) return 0;
+                return a.isEquiped ? -1 : 1;
+            });
+        }
+
         return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: groupedByModel.entries.map((entry)
@@ -374,11 +383,11 @@ class _NameWeapon extends StatelessWidget
                                     softWrap: true,
                                     maxLines: 3,
                                     overflow: TextOverflow.ellipsis
-                                )
-                            )
-                        ]
-                    )
-                )
+                                ),
+                            ),
+                        ],
+                    ),
+                ),
             )
         );
     }
@@ -426,6 +435,7 @@ class _WeaponAbilitiesBTN extends StatelessWidget
 
     void _showAbilityDialog(BuildContext context, WeaponAbilitiesCode abilityCode)
     {
+        /// Ищем описание в списке загруженных абилок
         final abilityData = weaponAbilities.where((a) => a.code == abilityCode.code).firstOrNull;
 
         if (abilityData != null)

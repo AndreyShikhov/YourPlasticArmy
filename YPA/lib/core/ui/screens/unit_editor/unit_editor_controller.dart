@@ -333,39 +333,103 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
         /// 2. Основной цикл по моделям
         unit.modelStats.forEach((modelName, stats)
             {
-                bool isSergeant = stats.isSergeant ?? false;
-
-                for (final type in [WeaponType.ranged, WeaponType.melee])
+                if (stats.isNeedShow! || stats.isSergeant!)
                 {
-                    final availableWeapons = stats.modelWeapons.weapons[type] ?? [];
-                    final equippedNames = stats.modelWeapons.selectedWeapons[type] ?? [];
+                    bool isSergeant = stats.isSergeant ?? false;
 
-                    for (final weapon in availableWeapons)
+                    for (final type in [WeaponType.ranged, WeaponType.melee])
                     {
-                        int totalAmount = 0;
-                        bool isEquiped = equippedNames.contains(weapon.name);
+                        final availableWeapons = stats.modelWeapons.weapons[type] ?? [];
+                        final equippedNames = stats.modelWeapons.selectedWeapons[type] ?? [];
 
-                        if (isEquiped)
+                        for (final weapon in availableWeapons)
                         {
-                            if (isSergeant)
-                            {
-                                totalAmount = 1;
-                            }
-                            else
-                            {
-                                /// Количество моделей без сержантов
-                                final totalModelsCount = composition.effectiveComposition.keys.firstOrNull ?? 0;
-                                totalAmount = totalModelsCount - totalSergeantsInUnit;
-                            }
-                        }
+                            int totalAmount = 0;
+                            bool isEquiped = equippedNames.contains(weapon.name);
 
-                        weaponInfo.add((
-                            modelName: modelName,
-                            weaponType: type,
-                            weaponName: weapon.name,
-                            isEquiped: isEquiped,
-                            amount: totalAmount
-                            ));
+                            if (isEquiped)
+                            {
+                                if (isSergeant)
+                                {
+                                    totalAmount = 1;
+                                }
+                                else
+                                {
+                                    /// Количество моделей без сержантов
+                                    final totalModelsCount = composition.effectiveComposition.keys.firstOrNull ?? 0;
+                                    totalAmount = totalModelsCount - totalSergeantsInUnit;
+                                }
+                            }
+
+                            weaponInfo.add((
+                                modelName: modelName,
+                                weaponType: type,
+                                weaponName: weapon.name,
+                                isEquiped: isEquiped,
+                                amount: totalAmount
+                                ));
+                        }
+                    }
+                }
+            });
+
+        return weaponInfo;
+    }
+
+    List< ({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> _calculateWeaponUnitWithCompositionAndStats(
+        UnitEditorItemUi unit,
+        UnitCompositionDom composition,
+        Map<String, ModelStatsDom> modelStats)
+
+    {
+        final List< ({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> weaponInfo = [];
+
+        /// 1. Считаем общее количество сержантов во всем юните заранее
+        int totalSergeantsInUnit = 0;
+        modelStats.forEach((_, stats)
+            {
+                if (stats.isSergeant ?? false) totalSergeantsInUnit++;
+            });
+
+        /// 2. Основной цикл по моделям
+        modelStats.forEach((modelName, stats)
+            {
+                if (stats.isNeedShow! || stats.isSergeant!) 
+                {
+                    bool isSergeant = stats.isSergeant ?? false;
+
+                    for (final type in [WeaponType.ranged, WeaponType.melee])
+                    {
+                        final availableWeapons = stats.modelWeapons.weapons[type] ?? [];
+                        final equippedNames = stats.modelWeapons.selectedWeapons[type] ?? [];
+
+                        for (final weapon in availableWeapons)
+                        {
+                            int totalAmount = 0;
+                            bool isEquiped = equippedNames.contains(weapon.name);
+
+                            if (isEquiped) 
+                            {
+                                if (isSergeant) 
+                                {
+                                    totalAmount = 1;
+                                }
+                                else 
+                                {
+                                    /// Количество моделей без сержантов
+                                    final totalModelsCount = composition.effectiveComposition.keys.firstOrNull ?? 0;
+                                    totalAmount = totalModelsCount - totalSergeantsInUnit;
+                                }
+                            }
+
+                            weaponInfo.add((
+                                modelName: modelName,
+                                weaponType: type,
+                                weaponName: weapon.name,
+                                isEquiped: isEquiped,
+                                amount: totalAmount
+                                ));
+                        }
                     }
                 }
             });
@@ -454,7 +518,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                     additionalModels: updatedAdditional
                 ),
                 modelStats: updatedModelStats,
-                weaponInfo: _calculateWeaponUnitWithComposition(state.unit!, currentComp)
+                weaponInfo: _calculateWeaponUnitWithCompositionAndStats(state.unit!, currentComp, updatedModelStats)
             )
         );
 
