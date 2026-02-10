@@ -22,14 +22,19 @@ class WargearStatsBloc extends ConsumerWidget
     @override
     Widget build(BuildContext context, WidgetRef ref)
     {
-        final modelStats = ref.watch(unitEditorControllerProvider(ids).select((s) => s.unit?.modelStats));
-        /// Подписываемся на загруженные абилки оружия
+        /// 1. ОПТИМИЗАЦИЯ: Подписываемся ТОЛЬКО на те части, которые влияют на этот блок.
+        /// Если в UnitEditorItemUi изменятся Keywords или Name, этот блок НЕ перерисуется.
+        final (weaponInfo, modelStats, ) = ref.watch(unitEditorControllerProvider(ids).select((s) => (
+                s.unit?.weaponInfo,
+                s.unit?.modelStats,
+                )));
+
+        /// 2. Подписываемся на абилки (они загружаются один раз при старте)
         final weaponAbilities = ref.watch(unitEditorControllerProvider(ids).select((s) => s.weaponAbilities));
 
-        if (modelStats == null) return const SizedBox.shrink();
+        if (weaponInfo == null || modelStats == null) return const SizedBox.shrink();
 
         final screenWidth = MediaQuery.sizeOf(context).width;
-        /// Порог для перехода на десктопный режим (850-900 пикселей обычно достаточно)
         final isWide = screenWidth > 900;
 
         if (isWide)
@@ -41,27 +46,26 @@ class WargearStatsBloc extends ConsumerWidget
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                        _buildCategorySection(modelStats, weaponAbilities, WeaponType.ranged),
-                        const SizedBox(width: 32), /// Контролируемый зазор между таблицами
-                        _buildCategorySection(modelStats, weaponAbilities, WeaponType.melee)
+                        _buildCategorySection(weaponInfo, modelStats, weaponAbilities, WeaponType.ranged),
+                        const SizedBox(width: 32),
+                        _buildCategorySection(weaponInfo, modelStats, weaponAbilities, WeaponType.melee)
                     ]
                 )
             );
         }
 
-        /// Режим для смартфонов: Карусель (PageView)
         return Padding(
             padding: const EdgeInsets.only(bottom: 16.0),
             child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
                     SizedBox(
-                        height: 400, /// Фиксированная высота для карусели
+                        height: 400,
                         child: PageView(
                             controller: PageController(viewportFraction: 1.0),
                             children: [
-                                SingleChildScrollView(child: _buildCategorySection(modelStats, weaponAbilities, WeaponType.ranged)),
-                                SingleChildScrollView(child: _buildCategorySection(modelStats, weaponAbilities, WeaponType.melee))
+                                SingleChildScrollView(child: _buildCategorySection(weaponInfo, modelStats, weaponAbilities, WeaponType.ranged)),
+                                SingleChildScrollView(child: _buildCategorySection(weaponInfo, modelStats, weaponAbilities, WeaponType.melee))
                             ]
                         )
                     )
@@ -70,19 +74,28 @@ class WargearStatsBloc extends ConsumerWidget
         );
     }
 
-    /// Вспомогательный метод для создания блока категории (Дальнее или Ближнее)
-    Widget _buildCategorySection(Map<String, ModelStatsDom> modelStats, List<WeaponAbilityDOM> weaponAbilities, WeaponType type)
+    Widget _buildCategorySection(
+        List<dynamic> weaponInfo, 
+        Map<String, ModelStatsDom> modelStats, 
+        List<WeaponAbilityDOM> weaponAbilities, 
+        WeaponType type
+    ) 
     {
         return DecoratedBox(
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(6)
             ),
             child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: [
                     _WeaponCategoryHeader(type: type),
-                    _WeaponTypeGroup(modelsStats: modelStats, weaponAbilities: weaponAbilities, type: type)
+                    _WeaponTypeGroup(
+                        weaponInfo: weaponInfo, 
+                        modelStats: modelStats, 
+                        weaponAbilities: weaponAbilities, 
+                        type: type
+                    )
                 ]
             )
         );
@@ -91,39 +104,42 @@ class WargearStatsBloc extends ConsumerWidget
 
 class _WeaponTypeGroup extends StatelessWidget
 {
-    final Map<String, ModelStatsDom> modelsStats;
+    final List<dynamic> weaponInfo;
+    final Map<String, ModelStatsDom> modelStats;
     final List<WeaponAbilityDOM> weaponAbilities;
     final WeaponType type;
 
-    const _WeaponTypeGroup({required this.modelsStats, required this.weaponAbilities, required this.type});
+    const _WeaponTypeGroup({
+        required this.weaponInfo, 
+        required this.modelStats, 
+        required this.weaponAbilities, 
+        required this.type
+    });
 
     @override
     Widget build(BuildContext context)
     {
-        final unitModels = modelsStats.entries.where((e) => e.value.isNeedShow ?? false).toList();
+        final weaponsByType = weaponInfo.where((w) => w.weaponType == type).toList();
 
-        List<Widget> sections = [];
-        for (final modelEntry in unitModels)
+        if (weaponsByType.isEmpty) return const SizedBox.shrink();
+
+        final Map<String, List<dynamic>> groupedByModel = {};
+        for (var info in weaponsByType)
         {
-            final modelName = modelEntry.key;
-            final model = modelEntry.value;
-
-            final selectedWeapons = model.modelWeapons.selectedWeapons[type] ?? [];
-            final availableWeapons = model.modelWeapons.weapons[type] ?? [];
-
-            if (availableWeapons.isEmpty) continue;
-
-            sections.add(_ModelWeaponBlock(
-                    modelName: modelName,
-                    availableWeapons: availableWeapons,
-                    selectedWeapons: selectedWeapons,
-                    weaponAbilities: weaponAbilities
-                ));
+            groupedByModel.putIfAbsent(info.modelName, () => []).add(info);
         }
 
         return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: sections
+            children: groupedByModel.entries.map((entry)
+                {
+                    return _ModelWeaponBlock(
+                        modelName: entry.key,
+                        modelWeapons: entry.value,
+                        weaponAbilities: weaponAbilities,
+                        originalModelStats: modelStats[entry.key]!
+                    );
+                }).toList()
         );
     }
 }
@@ -131,47 +147,41 @@ class _WeaponTypeGroup extends StatelessWidget
 class _ModelWeaponBlock extends StatelessWidget
 {
     final String modelName;
-    final List<WeaponDom> availableWeapons;
-    final List<String> selectedWeapons;
+    final List<dynamic> modelWeapons;
     final List<WeaponAbilityDOM> weaponAbilities;
+    final ModelStatsDom originalModelStats;
 
     const _ModelWeaponBlock({
         required this.modelName,
-        required this.availableWeapons,
-        required this.selectedWeapons,
-        required this.weaponAbilities
+        required this.modelWeapons,
+        required this.weaponAbilities,
+        required this.originalModelStats
     });
 
     @override
     Widget build(BuildContext context)
     {
         List<Widget> weaponRows = [];
-        List<Widget> unusedWeaponRows = [];
         bool isLight = false;
 
-        for (final weapon in availableWeapons)
+        for (final info in modelWeapons)
         {
-            final isUsed = selectedWeapons.contains(weapon.name);
-            if (isUsed) isLight = !isLight;
+            final weaponType = info.weaponType as WeaponType;
+            final weapon = originalModelStats.modelWeapons.weapons[weaponType]!
+                .firstWhere((w) => w.name == info.weaponName);
 
-            isUsed ? weaponRows.add(_WeaponRow(
-                weapon: weapon,
-                isUsed: isUsed,
-                isLight: isLight,
-                weaponAbilities: weaponAbilities
-            )) : unusedWeaponRows.add(_WeaponRow(
-                weapon: weapon,
-                isUsed: isUsed,
-                isLight: isLight,
-                weaponAbilities: weaponAbilities
-            ));
+            if (info.isEquiped) isLight = !isLight;
+
+            weaponRows.add(_WeaponRow(
+                    weapon: weapon,
+                    isUsed: info.isEquiped,
+                    isLight: isLight,
+                    weaponAbilities: weaponAbilities,
+                    amount: info.amount
+                ));
         }
 
-        /// не используемые должны быть всегда последними
-        weaponRows.addAll(unusedWeaponRows);
-
         return Padding(
-            /// Убрали горизонтальный отступ, чтобы ширина совпадала с заголовком
             padding: const EdgeInsets.symmetric(vertical: 4.0),
             child: DecoratedBox(
                 decoration: BoxDecoration(
@@ -179,7 +189,7 @@ class _ModelWeaponBlock extends StatelessWidget
                     borderRadius: BorderRadius.circular(4)
                 ),
                 child: Column(
-                    mainAxisSize: MainAxisSize.max,
+                    mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                         Padding(
@@ -203,11 +213,13 @@ class _WeaponRow extends StatelessWidget
     final bool isUsed;
     final bool isLight;
     final List<WeaponAbilityDOM> weaponAbilities;
+    final int amount;
 
     const _WeaponRow({
         required this.weapon,
         required this.isUsed,
         required this.weaponAbilities,
+        required this.amount,
         this.isLight = false
     });
 
@@ -224,10 +236,10 @@ class _WeaponRow extends StatelessWidget
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                    Row(          /// строка со статами оружия
+                    Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                            _NameWeapon(weapon.name, isUsed),
+                            _NameWeapon(weapon.name, isUsed, amount),
                             SizedBox(width: 60, child: Center(child: Text('${weapon.range}"', style: TextStyle(color: isUsed ? Colors.white : const Color.fromARGB(153, 143, 143, 143))))),
                             _StatBox(weapon.attacks, isUsed: isUsed),
                             _StatBox('${weapon.skill}+', isUsed: isUsed),
@@ -325,29 +337,46 @@ class _NameWeapon extends StatelessWidget
 {
     final String value;
     final bool isUsed;
+    final int amount;
 
-    const _NameWeapon(this.value, this.isUsed);
+    const _NameWeapon(this.value, this.isUsed, this.amount);
 
     @override
     Widget build(BuildContext context)
     {
+        final String amountWeapon = '$amount' 'x ';
+
         return SizedBox(
-            /// Синхронизировали ширину с заголовком (было 130)
             width: 140,
             child: Padding(
                 padding: const EdgeInsets.only(left: 4.0, top: 4.0, bottom: 4.0),
                 child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(
-                        value,
-                        style: TextStyle(
-                            color: isUsed ? Colors.white : const Color.fromARGB(153, 143, 143, 143),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 13
-                        ),
-                        softWrap: true,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis
+                    child: Row(
+                        children: [
+                            if (amount > 0)
+                            Text(
+                                amountWeapon,
+                                style: const TextStyle(
+                                    color: Color.fromARGB(215, 255, 174, 0),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 13
+                                )
+                            ),
+                            Expanded(
+                                child: Text(
+                                    value,
+                                    style: TextStyle(
+                                        color: isUsed ? Colors.white : const Color.fromARGB(153, 143, 143, 143),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 13
+                                    ),
+                                    softWrap: true,
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis
+                                )
+                            )
+                        ]
                     )
                 )
             )
@@ -397,7 +426,6 @@ class _WeaponAbilitiesBTN extends StatelessWidget
 
     void _showAbilityDialog(BuildContext context, WeaponAbilitiesCode abilityCode)
     {
-        /// Ищем описание в списке загруженных абилок
         final abilityData = weaponAbilities.where((a) => a.code == abilityCode.code).firstOrNull;
 
         if (abilityData != null)

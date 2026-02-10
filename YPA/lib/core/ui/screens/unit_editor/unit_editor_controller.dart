@@ -109,7 +109,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
             final unit = await armyState.getUnitByInstanceIdFromUserArmy(_instanceUnitId, getUnitRoleCode()!);
 
             /// 1. Сбор информации об оружии (Кортежи)
-            final weaponInfo = _calculateWeaponInfo(unit);
+            final weaponInfo = _calculateWeaponInfoWithUnitArmyEditor(unit);
 
             /// 2. Создаем UI модель юнита
             final editorUnit = UnitEditorItemUi(
@@ -126,7 +126,6 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                 leader: unit.leader,
                 ledBy: unit.ledBy,
                 modelStats: unit.modelStats,
-                amountModels: {},
                 weaponInfo: weaponInfo
             );
 
@@ -252,7 +251,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
 
         final allAbilities = await _getAllWeaponAbilities();
 
-        return allAbilities.where((ability) => 
+        return allAbilities.where((ability) =>
             abilityCodes.any((code) => code.code == ability.code)
         ).toList();
     }
@@ -261,55 +260,115 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
     ///  Tools
     /// ==========================================
 
-    List<({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> _calculateWeaponInfo(ArmyBuilderUnitItemUi unit)
+    List< ({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> _calculateWeaponInfoWithUnitArmyEditor(ArmyBuilderUnitItemUi unit)
     {
-        final List<({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> weaponInfo = [];
+        final List< ({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> weaponInfo = [];
 
         /// 1. Считаем общее количество сержантов во всем юните заранее
         int totalSergeantsInUnit = 0;
-        unit.modelStats.forEach((_, stats) {
-            if (stats.isSergeant ?? false) totalSergeantsInUnit++;
-        });
+        unit.modelStats.forEach((_, stats)
+            {
+                if (stats.isSergeant ?? false) totalSergeantsInUnit++;
+            });
 
         /// 2. Основной цикл по моделям
         unit.modelStats.forEach((modelName, stats)
-        {
-            bool isSergeant = stats.isSergeant ?? false;
-
-            for (final type in [WeaponType.ranged, WeaponType.melee])
             {
-                final availableWeapons = stats.modelWeapons.weapons[type] ?? [];
-                final equippedNames = stats.modelWeapons.selectedWeapons[type] ?? [];
-
-                for (final weapon in availableWeapons)
+                if (stats.isNeedShow! || stats.isSergeant!)
                 {
-                    int totalAmount = 0;
-                    bool isEquiped = equippedNames.contains(weapon.name);
+                    bool isSergeant = stats.isSergeant ?? false;
 
-                    if (isEquiped)
+                    for (final type in [WeaponType.ranged, WeaponType.melee])
                     {
-                        if (isSergeant)
+                        final availableWeapons = stats.modelWeapons.weapons[type] ?? [];
+                        final equippedNames = stats.modelWeapons.selectedWeapons[type] ?? [];
+
+                        for (final weapon in availableWeapons)
                         {
-                            totalAmount = 1;
-                        }
-                        else
-                        {
-                            /// Количество моделей без сержантов
-                            final totalModelsCount = unit.unitComposition.effectiveComposition.keys.firstOrNull ?? 0;
-                            totalAmount = totalModelsCount - totalSergeantsInUnit;
+                            int totalAmount = 0;
+                            bool isEquiped = equippedNames.contains(weapon.name);
+
+                            if (isEquiped)
+                            {
+                                if (isSergeant)
+                                {
+                                    totalAmount = 1;
+                                }
+                                else
+                                {
+                                    /// Количество моделей без сержантов
+                                    final totalModelsCount = unit.unitComposition.effectiveComposition.keys.firstOrNull ?? 0;
+                                    totalAmount = totalModelsCount - totalSergeantsInUnit;
+                                }
+                            }
+
+                            weaponInfo.add((
+                                modelName: modelName,
+                                weaponType: type,
+                                weaponName: weapon.name,
+                                isEquiped: isEquiped,
+                                amount: totalAmount
+                                ));
                         }
                     }
-
-                    weaponInfo.add((
-                        modelName: modelName,
-                        weaponType: type,
-                        weaponName: weapon.name,
-                        isEquiped: isEquiped,
-                        amount: totalAmount
-                    ));
                 }
-            }
-        });
+
+            });
+
+        return weaponInfo;
+    }
+
+    List< ({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> _calculateWeaponUnitWithComposition(UnitEditorItemUi unit, UnitCompositionDom composition)
+
+    {
+        final List< ({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> weaponInfo = [];
+
+        /// 1. Считаем общее количество сержантов во всем юните заранее
+        int totalSergeantsInUnit = 0;
+        unit.modelStats.forEach((_, stats)
+            {
+                if (stats.isSergeant ?? false) totalSergeantsInUnit++;
+            });
+
+        /// 2. Основной цикл по моделям
+        unit.modelStats.forEach((modelName, stats)
+            {
+                bool isSergeant = stats.isSergeant ?? false;
+
+                for (final type in [WeaponType.ranged, WeaponType.melee])
+                {
+                    final availableWeapons = stats.modelWeapons.weapons[type] ?? [];
+                    final equippedNames = stats.modelWeapons.selectedWeapons[type] ?? [];
+
+                    for (final weapon in availableWeapons)
+                    {
+                        int totalAmount = 0;
+                        bool isEquiped = equippedNames.contains(weapon.name);
+
+                        if (isEquiped)
+                        {
+                            if (isSergeant)
+                            {
+                                totalAmount = 1;
+                            }
+                            else
+                            {
+                                /// Количество моделей без сержантов
+                                final totalModelsCount = composition.effectiveComposition.keys.firstOrNull ?? 0;
+                                totalAmount = totalModelsCount - totalSergeantsInUnit;
+                            }
+                        }
+
+                        weaponInfo.add((
+                            modelName: modelName,
+                            weaponType: type,
+                            weaponName: weapon.name,
+                            isEquiped: isEquiped,
+                            amount: totalAmount
+                            ));
+                    }
+                }
+            });
 
         return weaponInfo;
     }
@@ -318,7 +377,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
     {
         /// 1. Локальное обновление экрана редактора
         final updatedComp = state.unit!.unitComposition.copyWith(selectedComposition: newComposition);
-        state = state.copyWith(unit: state.unit!.copyWith(unitComposition: updatedComp));
+        state = state.copyWith(unit: state.unit!.copyWith(unitComposition: updatedComp, weaponInfo: _calculateWeaponUnitWithComposition(state.unit!, updatedComp)));
 
         final role = UnitRoleCode.fromName(_role);
 
@@ -344,6 +403,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
         /// 3. Оптимизированное обновление основного экрана
         _ref.read(armyBuilderControllerProvider(_armyId).notifier)
             .updateUnitInState(_instanceUnitId, getUnitRoleCode()!, updatedComp);
+
     }
 
     void toggleAdditionalModel(String modelName, bool isSelected) async
@@ -370,15 +430,15 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
         final Map<String, ModelStatsDom> updatedModelStats;
         final currentModelStats = state.unit!.modelStats;
         /// Обновляем видимость статов для дополнительной модели, если она есть в статах
-        if (currentModelStats.length > 1 && currentModelStats.containsKey(modelName)) 
+        if (currentModelStats.length > 1 && currentModelStats.containsKey(modelName))
         {
             /// Создаем новую карту: копируем старую и перезаписываем одну модель
-            updatedModelStats = 
+            updatedModelStats =
             {
                 ...currentModelStats,
                 modelName: currentModelStats[modelName]!.copyWith(isNeedShow: isSelected)
             };
-        } else 
+        } else
         {
             /// Если модель не найдена или статы одни, оставляем как есть
             updatedModelStats = currentModelStats;
@@ -393,7 +453,8 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                     selectedComposition: currentComp.selectedComposition,
                     additionalModels: updatedAdditional
                 ),
-              modelStats: updatedModelStats,
+                modelStats: updatedModelStats,
+                weaponInfo: _calculateWeaponUnitWithComposition(state.unit!, currentComp)
             )
         );
 
@@ -422,5 +483,6 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
         /// 3. Оптимизированное обновление основного экрана
         _ref.read(armyBuilderControllerProvider(_armyId).notifier)
             .updateUnitInState(_instanceUnitId, getUnitRoleCode()!, state.unit!.unitComposition);
+
     }
 }

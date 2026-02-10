@@ -22,7 +22,6 @@ class UnitEditorItemUi
     final List<LeaderFilterDom> leader;
     final List<LeaderFilterDom> ledBy;
     final Map<String, ModelStatsDom> modelStats;
-    final Map<String, int> amountModels;
 
     /// Изменили на List, так как оружия много
     final List<({
@@ -31,7 +30,7 @@ class UnitEditorItemUi
         String weaponName, 
         bool isEquiped, 
         int amount
-    })> weaponInfo;
+    })>? weaponInfo;
 
     UnitEditorItemUi({
         required this.instanceId,
@@ -47,8 +46,7 @@ class UnitEditorItemUi
         required this.leader,
         required this.ledBy,
         required this.modelStats,
-        required this.amountModels,
-        required this.weaponInfo,
+        this.weaponInfo,
     });
 
     UnitEditorItemUi copyWith({
@@ -65,7 +63,6 @@ class UnitEditorItemUi
         List<LeaderFilterDom>? leader,
         List<LeaderFilterDom>? ledBy,
         Map<String, ModelStatsDom>? modelStats,
-        Map<String, int>? amountModels,
         List<({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})>? weaponInfo,
     })
     {
@@ -83,7 +80,6 @@ class UnitEditorItemUi
             leader: leader ?? this.leader,
             ledBy: ledBy ?? this.ledBy,
             modelStats: modelStats ?? this.modelStats,
-            amountModels: amountModels ?? this.amountModels,
             weaponInfo: weaponInfo ?? this.weaponInfo,
         );
     }
