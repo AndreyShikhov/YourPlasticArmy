@@ -161,35 +161,62 @@ class UnitCompositionModelDom
 /// WARGEAR OPTIONS
 /// ==========================================
 
+
+
+
+
+
 class WargearOptionsDom
 {
-    final List<Map<String, List<String>>> wargearOptions;
+
+    final String modelName;
+    final Map<WargearConditionCount, int> conditionCount;
+    final List<String> additionalWeapons;
+    final Map<List<String>, List<String>> replaceWeapons;
 
     const WargearOptionsDom({
-        required this.wargearOptions
+      required this.modelName,
+      required this.conditionCount,
+      required this.additionalWeapons,
+      required this.replaceWeapons
     });
+    
 
     Map<String, dynamic> toJson() =>
     {
-        'wargear_options': wargearOptions
+        'modelName': modelName,
+        'conditionCount': conditionCount.map((key, value) => MapEntry(key.name, value)),
+        'additionalWeapons': additionalWeapons,
+        'replaceWeapons': replaceWeapons.map((key, value) => MapEntry(key.join(','), value.join(',')))
     };
 
     factory WargearOptionsDom.fromJson(Map<String, dynamic> json)
     {
-        final rawOptions = (json['wargear_options'] as List<dynamic>?) ?? [];
-        final List<Map<String, List<String>>> parsedOptions = rawOptions.map((item)
-            {
-                final map = item as Map<String, dynamic>;
-                return map.map((key, value)
-                    {
-                        return MapEntry(key, (value as List).cast<String>().toList());
-                    });
-            }).toList();
-
-        return WargearOptionsDom(wargearOptions: parsedOptions);
+        return WargearOptionsDom(
+            modelName: json['modelName'] as String? ?? '',
+            conditionCount: Map.fromEntries(
+                (json['conditionCount'] as Map<String, dynamic>? ?? {}).entries.map((e) {
+                    final cond = WargearConditionCount.fromName(e.key);
+                    if (cond == null) return null;
+                    return MapEntry(cond, e.value as int);
+                }).whereType<MapEntry<WargearConditionCount, int>>()
+            ),
+            additionalWeapons: List<String>.from(json['additionalWeapons'] ?? []),
+            replaceWeapons: (json['replaceWeapons'] as Map<String, dynamic>? ?? {}).map(
+                (key, value) => MapEntry(
+                    key.split(','),
+                    (value as String).split(','),
+                ),
+            ),
+        );
     }
 
-    static const WargearOptionsDom emptyOptions = WargearOptionsDom(wargearOptions: []);
+    static const WargearOptionsDom emptyOptions = WargearOptionsDom(
+        modelName: '',
+        conditionCount: {},
+        additionalWeapons: [],
+        replaceWeapons: {}
+    );
 }
 
 /// ==========================================
@@ -253,7 +280,7 @@ class ModelStatsDom
     final int leadership;
     final int objectiveControl;
     final ModelWeaponsDom modelWeapons;
-    final WargearOptionsDom wargearOptions;
+    final List<WargearOptionsDom> wargearOptions;
 
     const ModelStatsDom({
         this.isNeedShow = true,
@@ -279,7 +306,7 @@ class ModelStatsDom
         'leadership': leadership,
         'objectiveControl': objectiveControl,
         'modelWeapons': modelWeapons.toJson(),
-        'wargearOptions': wargearOptions.toJson()
+        'wargearOptions': wargearOptions.map((w) => w.toJson()).toList()
     };
 
     factory ModelStatsDom.fromJson(Map<String, dynamic> json)
@@ -295,7 +322,9 @@ class ModelStatsDom
             leadership: json['leadership'] as int? ?? 6,
             objectiveControl: json['objectiveControl'] as int? ?? 0,
             modelWeapons: ModelWeaponsDom.fromJson(json['modelWeapons'] as Map<String, dynamic>? ?? {}),
-            wargearOptions: WargearOptionsDom.fromJson(json['wargearOptions'] as Map<String, dynamic>? ?? {})
+            wargearOptions: (json['wargearOptions'] as List? ?? [])
+                .map((e) => WargearOptionsDom.fromJson(e as Map<String, dynamic>))
+                .toList()
         );
     }
 
@@ -311,7 +340,7 @@ class ModelStatsDom
             leadership: 0,
             objectiveControl: 0,
             modelWeapons: ModelWeaponsDom.emptyOptions,
-            wargearOptions: WargearOptionsDom.emptyOptions
+            wargearOptions: []
         );
     }
 
@@ -325,7 +354,7 @@ class ModelStatsDom
         int? leadership,
         int? objectiveControl,
         ModelWeaponsDom? modelWeapons,
-        WargearOptionsDom? wargearOptions,
+        List<WargearOptionsDom>? wargearOptions,
     }){
         return ModelStatsDom(
           isNeedShow: isNeedShow?? this.isNeedShow,

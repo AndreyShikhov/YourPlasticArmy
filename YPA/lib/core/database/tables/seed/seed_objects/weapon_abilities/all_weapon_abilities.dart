@@ -93,11 +93,12 @@ List<WeaponAbilitySeed> allWeaponAbilities()
             description: 'On a Hit roll of 1, the bearer suffers damage or is destroyed after the unit has shot/fought.'
         ),
         WeaponAbilitySeed(
-            code: WeaponAbilitiesCode.sustainedHits.code,
-            name: WeaponAbilitiesCode.sustainedHits.title,
+            code: WeaponAbilitiesCode.sustainedHits1.code,
+            name: WeaponAbilitiesCode.sustainedHits1.title,
             shortDescription: 'Exploding 6s',
             description: 'Critical Hits score an additional x hits on the target.'
         ),
+
         WeaponAbilitySeed(
             code: WeaponAbilitiesCode.extraAttacks.code,
             name: WeaponAbilitiesCode.extraAttacks.title,

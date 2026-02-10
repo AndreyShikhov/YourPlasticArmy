@@ -88,7 +88,7 @@ List<UnitSeed> orksUnits()
                             WeaponType.melee : ['Choppa']
                         }
                     ),
-                    wargearOptions: WargearOptionsDom.emptyOptions
+                    wargearOptions: []
                 )
             }
         )

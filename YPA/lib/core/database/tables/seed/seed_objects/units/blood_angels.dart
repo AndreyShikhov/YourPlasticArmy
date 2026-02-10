@@ -97,7 +97,7 @@ List<UnitSeed> bloodAngelsUnits()
                         WeaponType.melee : ['The Axe Mortalis']
                       }
                     ),
-                    wargearOptions: WargearOptionsDom.emptyOptions
+                    wargearOptions: []
                 )
             }
         ),
@@ -186,7 +186,7 @@ List<UnitSeed> bloodAngelsUnits()
                           WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptionsDom.emptyOptions
+                    wargearOptions: []
                 )
             }
         ),
@@ -275,7 +275,7 @@ List<UnitSeed> bloodAngelsUnits()
                           WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptionsDom.emptyOptions
+                    wargearOptions: []
                 )
             }
         ),
@@ -382,7 +382,7 @@ List<UnitSeed> bloodAngelsUnits()
                           WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptionsDom.emptyOptions
+                    wargearOptions: []
                 )
             }
         ),
@@ -477,7 +477,7 @@ List<UnitSeed> bloodAngelsUnits()
                           WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptionsDom.emptyOptions
+                    wargearOptions: []
                 )
             }
         ),
@@ -566,7 +566,7 @@ List<UnitSeed> bloodAngelsUnits()
                           WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptionsDom.emptyOptions
+                    wargearOptions: []
                 )
             }
         ),
@@ -655,7 +655,7 @@ List<UnitSeed> bloodAngelsUnits()
                           WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptionsDom.emptyOptions
+                    wargearOptions: []
                 )
             }
         ),
@@ -744,7 +744,7 @@ List<UnitSeed> bloodAngelsUnits()
                           WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptionsDom.emptyOptions
+                    wargearOptions: []
                 )
             }
         ),
@@ -833,7 +833,7 @@ List<UnitSeed> bloodAngelsUnits()
                           WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptionsDom.emptyOptions
+                    wargearOptions: []
                 )
             }
         ),
@@ -938,7 +938,7 @@ List<UnitSeed> bloodAngelsUnits()
                           WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptionsDom.emptyOptions
+                    wargearOptions: []
                 )
             }
         )

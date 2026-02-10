@@ -125,7 +125,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptionsDom.emptyOptions
+                    wargearOptions: []
                 )
             }
         ),
@@ -212,7 +212,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptionsDom.emptyOptions
+                    wargearOptions: []
                 )
             }
         ),
@@ -299,7 +299,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptionsDom.emptyOptions
+                    wargearOptions: []
                 )
             }
 
@@ -387,7 +387,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptionsDom.emptyOptions
+                    wargearOptions: []
                 )
             }
         ),
@@ -513,7 +513,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptionsDom.emptyOptions
+                    wargearOptions: []
                 ),
                 'Assault Intercessor':ModelStatsDom(
                     isNeedShow: true,
@@ -564,7 +564,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptionsDom.emptyOptions
+                    wargearOptions: []
                 )
             }
         ),
@@ -643,42 +643,71 @@ List<UnitSeed> spaceMarinesUnits()
                         {
                             WeaponType.ranged : [
                                 WeaponDom(
-                                    name: 'Perdition Pistol',
+                                    name: 'Bolt pistol',
                                     type: WeaponType.ranged,
                                     weaponAbilities: const[
-                                        WeaponAbilitiesCode.pistol,
-                                        WeaponAbilitiesCode.melta
+                                        WeaponAbilitiesCode.pistol
                                     ],
-                                    range: 6,
+                                    range: 12,
                                     attacks: const Dice(fix: 1).toString(),
-                                    skill: 2,
-                                    strength: 8,
-                                    ap: -4,
-                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
-                                        .toString()
+                                    skill: 3,
+                                    strength: 4,
+                                    ap: 0,
+                                    damage: const Dice(fix: 1).toString()
+                                ),
+                                WeaponDom(
+                                    name: 'Heavy bolt rifle',
+                                    type: WeaponType.ranged,
+                                    weaponAbilities: const[
+                                        WeaponAbilitiesCode.assault,
+                                        WeaponAbilitiesCode.heavy
+                                    ],
+                                    range: 30,
+                                    attacks: const Dice(fix: 2).toString(),
+                                    skill: 3,
+                                    strength: 5,
+                                    ap: 1,
+                                    damage: const Dice(fix: 2).toString()
+                                ),
+                                WeaponDom(
+                                    name: 'Heavy bolter',
+                                    type: WeaponType.ranged,
+                                    weaponAbilities: const[
+                                        WeaponAbilitiesCode.assault,
+                                        WeaponAbilitiesCode.heavy,
+                                        WeaponAbilitiesCode.sustainedHits1
+                                    ],
+                                    range: 36,
+                                    attacks: const Dice(fix: 3).toString(),
+                                    skill: 3,
+                                    strength: 5,
+                                    ap: 1,
+                                    damage: const Dice(fix: 2).toString()
                                 )
                             ],
                             WeaponType.melee : [
                                 WeaponDom(
-                                    name: 'The Axe Mortalis',
+                                    name: 'Close combat weapon',
                                     type: WeaponType.melee,
-                                    weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
+                                    weaponAbilities: const[],
                                     range: 0,
-                                    attacks: const Dice(fix: 8).toString(),
-                                    skill: 2,
-                                    strength: 8,
-                                    ap: -3,
-                                    damage: const Dice(fix: 2).toString()
+                                    attacks: const Dice(fix: 3).toString(),
+                                    skill: 3,
+                                    strength: 4,
+                                    ap: 0,
+                                    damage: const Dice(fix: 1).toString()
                                 )
                             ]
                         },
                         selectedWeapons:
                         {
-                            WeaponType.ranged : ['Perdition Pistol'],
-                            WeaponType.melee : ['The Axe Mortalis']
+                            WeaponType.ranged : [
+                                'Bolt pistol',
+                                'Heavy bolt rifle'],
+                            WeaponType.melee : ['Close combat weapon']
                         }
                     ),
-                    wargearOptions: WargearOptionsDom.emptyOptions
+                    wargearOptions: []
                 ),
                 'Heavy Intercessor' : ModelStatsDom(
                     movement: 5,
@@ -693,42 +722,77 @@ List<UnitSeed> spaceMarinesUnits()
                         {
                             WeaponType.ranged : [
                                 WeaponDom(
-                                    name: 'Perdition Pistol',
+                                    name: 'Bolt pistol',
                                     type: WeaponType.ranged,
                                     weaponAbilities: const[
-                                        WeaponAbilitiesCode.pistol,
-                                        WeaponAbilitiesCode.melta
+                                        WeaponAbilitiesCode.pistol
                                     ],
-                                    range: 6,
+                                    range: 12,
                                     attacks: const Dice(fix: 1).toString(),
-                                    skill: 2,
-                                    strength: 8,
-                                    ap: -4,
-                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
-                                        .toString()
+                                    skill: 3,
+                                    strength: 4,
+                                    ap: 0,
+                                    damage: const Dice(fix: 1).toString()
+                                ),
+                                WeaponDom(
+                                    name: 'Heavy bolt rifle',
+                                    type: WeaponType.ranged,
+                                    weaponAbilities: const[
+                                        WeaponAbilitiesCode.assault,
+                                        WeaponAbilitiesCode.heavy
+                                    ],
+                                    range: 30,
+                                    attacks: const Dice(fix: 2).toString(),
+                                    skill: 3,
+                                    strength: 5,
+                                    ap: 1,
+                                    damage: const Dice(fix: 2).toString()
+                                ),
+                                WeaponDom(
+                                    name: 'Heavy bolter',
+                                    type: WeaponType.ranged,
+                                    weaponAbilities: const[
+                                        WeaponAbilitiesCode.assault,
+                                        WeaponAbilitiesCode.heavy,
+                                        WeaponAbilitiesCode.sustainedHits1
+                                    ],
+                                    range: 36,
+                                    attacks: const Dice(fix: 3).toString(),
+                                    skill: 3,
+                                    strength: 5,
+                                    ap: 1,
+                                    damage: const Dice(fix: 2).toString()
                                 )
                             ],
                             WeaponType.melee : [
                                 WeaponDom(
-                                    name: 'The Axe Mortalis',
+                                    name: 'Close combat weapon',
                                     type: WeaponType.melee,
-                                    weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
+                                    weaponAbilities: const[],
                                     range: 0,
-                                    attacks: const Dice(fix: 8).toString(),
-                                    skill: 2,
-                                    strength: 8,
-                                    ap: -3,
-                                    damage: const Dice(fix: 2).toString()
+                                    attacks: const Dice(fix: 3).toString(),
+                                    skill: 3,
+                                    strength: 4,
+                                    ap: 0,
+                                    damage: const Dice(fix: 1).toString()
                                 )
                             ]
                         },
                         selectedWeapons:
                         {
-                            WeaponType.ranged : ['Perdition Pistol'],
-                            WeaponType.melee : ['The Axe Mortalis']
+                            WeaponType.ranged : [
+                                'Bolt pistol',
+                                'Heavy bolt rifle'],
+                            WeaponType.melee : ['Close combat weapon']
                         }
                     ),
-                    wargearOptions: WargearOptionsDom.emptyOptions
+                    wargearOptions: [
+                      const WargearOptionsDom(
+                          modelName: '',
+                          conditionCount: {WargearConditionCount.forEvery : 5},
+                          additionalWeapons: [],
+                          replaceWeapons:{['Heavy bolt rifle']:['Heavy bolter']})
+                    ]
                 )
             }
         ),
@@ -819,7 +883,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptionsDom.emptyOptions
+                    wargearOptions: []
                 ),
                 'Intercessor' : ModelStatsDom(
                     movement: 6,
@@ -869,7 +933,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptionsDom.emptyOptions
+                    wargearOptions: []
                 )
             }
         ),
@@ -956,7 +1020,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptionsDom.emptyOptions
+                    wargearOptions: []
                 )
             }
         ),
@@ -1047,7 +1111,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptionsDom.emptyOptions
+                    wargearOptions: []
                 )
             }
         ),
@@ -1134,7 +1198,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptionsDom.emptyOptions
+                    wargearOptions: []
                 )
             }
         ),
@@ -1221,7 +1285,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptionsDom.emptyOptions
+                    wargearOptions: []
                 )
             }
         ),
@@ -1308,7 +1372,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptionsDom.emptyOptions
+                    wargearOptions: []
                 )
             }
         ),
@@ -1396,7 +1460,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptionsDom.emptyOptions
+                    wargearOptions: []
                 )
             }
         ),
@@ -1485,7 +1549,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptionsDom.emptyOptions
+                    wargearOptions: []
                 )
             }
         ),
@@ -1572,7 +1636,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptionsDom.emptyOptions
+                    wargearOptions: []
                 )
             }
         ),
@@ -1659,7 +1723,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptionsDom.emptyOptions
+                    wargearOptions: []
                 )
             }
         ),
@@ -1746,7 +1810,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
-                    wargearOptions: WargearOptionsDom.emptyOptions
+                    wargearOptions: []
                 )
             }
         ),
@@ -1822,19 +1886,19 @@ List<UnitSeed> spaceMarinesUnits()
                         weapons:
                         {
                             WeaponType.ranged : [
-                              WeaponDom(
-                                  name: 'Pistol 1',
-                                  type: WeaponType.ranged,
-                                  weaponAbilities: [
-                                    WeaponAbilitiesCode.pistol
-                                  ],
-                                  range: 18,
-                                  attacks: const Dice(fix: 1).toString(),
-                                  skill: 3,
-                                  strength: 4,
-                                  ap: 1,
-                                  damage: const Dice(fix: 1).toString()
-                              ),
+                                WeaponDom(
+                                    name: 'Pistol 1',
+                                    type: WeaponType.ranged,
+                                    weaponAbilities: [
+                                        WeaponAbilitiesCode.pistol
+                                    ],
+                                    range: 18,
+                                    attacks: const Dice(fix: 1).toString(),
+                                    skill: 3,
+                                    strength: 4,
+                                    ap: 1,
+                                    damage: const Dice(fix: 1).toString()
+                                ),
                                 WeaponDom(
                                     name: 'Heavy bolt pistol',
                                     type: WeaponType.ranged,
@@ -1848,19 +1912,19 @@ List<UnitSeed> spaceMarinesUnits()
                                     ap: 1,
                                     damage: const Dice(fix: 1).toString()
                                 ),
-                              WeaponDom(
-                                  name: 'Ppistol 2',
-                                  type: WeaponType.ranged,
-                                  weaponAbilities: [
-                                    WeaponAbilitiesCode.pistol
-                                  ],
-                                  range: 18,
-                                  attacks: const Dice(fix: 1).toString(),
-                                  skill: 3,
-                                  strength: 4,
-                                  ap: 1,
-                                  damage: const Dice(fix: 1).toString()
-                              ),
+                                WeaponDom(
+                                    name: 'Ppistol 2',
+                                    type: WeaponType.ranged,
+                                    weaponAbilities: [
+                                        WeaponAbilitiesCode.pistol
+                                    ],
+                                    range: 18,
+                                    attacks: const Dice(fix: 1).toString(),
+                                    skill: 3,
+                                    strength: 4,
+                                    ap: 1,
+                                    damage: const Dice(fix: 1).toString()
+                                ),
                                 WeaponDom(
                                     name: 'Twin bolt rifle',
                                     type: WeaponType.ranged,
@@ -1898,7 +1962,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['Astartes chainsword']
                         }
                     ),
-                    wargearOptions: WargearOptionsDom.emptyOptions
+                    wargearOptions: []
                 ),
                 'Invader ATV': ModelStatsDom(
                     isNeedShow: false,
@@ -1991,7 +2055,7 @@ List<UnitSeed> spaceMarinesUnits()
                             WeaponType.melee : ['Close combat weapon']
                         }
                     ),
-                    wargearOptions: WargearOptionsDom.emptyOptions
+                    wargearOptions: []
                 )
             }
         )

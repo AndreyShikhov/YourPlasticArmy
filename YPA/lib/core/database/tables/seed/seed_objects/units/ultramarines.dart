@@ -94,7 +94,7 @@ List<UnitSeed> ultramarinesUnits()
                           WeaponType.melee : ['The Axe Mortalis']
                         }),
 
-                    wargearOptions: WargearOptionsDom.emptyOptions
+                    wargearOptions:[]
                 )
             }
         )

@@ -159,7 +159,7 @@ enum WeaponAbilitiesCode {
   melta('melta', 'Melta'),
   heavy('heavy', 'Heavy'),
   hazardous('hazardous', 'Hazardous'),
-  sustainedHits('sustained_hits', 'Sustained Hits'),
+  sustainedHits1('sustained_hits_1', 'Sustained Hits 1'),
   extraAttacks('extra_attacks', 'Extra Attacks'),
   devastatingWounds('devastating_wounds', 'Devastating Wounds'),
   anti('anti', 'Anti');
@@ -220,6 +220,23 @@ enum BattleSizeCode {
       values.where((e) => e.title == title).firstOrNull;
 
   static BattleSizeCode? fromName(String name) =>
+      values.where((e) => e.name == name).firstOrNull;
+}
+
+
+enum WargearConditionCount {
+  none('none', 'none'),
+  all('all', 'All'),
+  upTo('upTo', 'Up To'),
+  forEvery ('forEvery', 'For Every'),
+  only ('only', 'Only');
+
+
+  final String code;
+  final String title;
+  const WargearConditionCount(this.code, this.title);
+
+  static WargearConditionCount? fromName(String name) =>
       values.where((e) => e.name == name).firstOrNull;
 }
 
