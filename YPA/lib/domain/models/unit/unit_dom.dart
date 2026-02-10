@@ -18,7 +18,7 @@ class UnitDOM
     final UnitIdDom id;
     final UnitNameDom name;
     final ArmyId armyId;
-    final CodexId? codexId; // ИЗМЕНЕНО: теперь это CodexId (UUID)
+    final CodexId? codexId;
     final UnitRoleCodeDom role;
     final int repeat;
     final List<String> keywords;
@@ -53,7 +53,7 @@ class UnitDOM
         required UnitIdDom id,
         required UnitNameDom name,
         required ArmyId armyId,
-        required CodexId? codexId, // ИЗМЕНЕНО
+        required CodexId? codexId,
         required UnitRoleCode role,
         required int repeat,
         required List<String> keywords,

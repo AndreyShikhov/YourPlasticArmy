@@ -586,9 +586,14 @@ List<UnitSeed> spaceMarinesUnits()
             unitComposition: const UnitCompositionDom(
                 compositions: [
                     UnitCompositionModelDom(
-                        name: '1 model',
-                        amount: 1,
-                        cost: 120
+                        name: '5 model',
+                        amount: 5,
+                        cost: 100
+                    ),
+                    UnitCompositionModelDom(
+                        name: '10 model',
+                        amount: 10,
+                        cost: 200
                     )
                 ]
             ),
@@ -605,7 +610,6 @@ List<UnitSeed> spaceMarinesUnits()
                 LeaderFilterDom(
                     faction: FactionTypeCode.imperium, 
                     army: ArmyTypeCode.spaceMarines,
-
                     names: [
                         'Apothecary Biologis',
                         'Captain In Gravis Armour',
@@ -631,6 +635,7 @@ List<UnitSeed> spaceMarinesUnits()
             {
                 'Heavy Intercessor Sergeant' : ModelStatsDom(
                     isNeedShow: false,
+                    isSergeant: true,
                     movement: 5,
                     toughness: 6,
                     save: 3,
@@ -787,11 +792,11 @@ List<UnitSeed> spaceMarinesUnits()
                         }
                     ),
                     wargearOptions: [
-                      const WargearOptionsDom(
-                          modelName: '',
-                          conditionCount: {WargearConditionCount.forEvery : 5},
-                          additionalWeapons: [],
-                          replaceWeapons:{['Heavy bolt rifle']:['Heavy bolter']})
+                        const WargearOptionsDom(
+                            modelName: '',
+                            conditionCount: {WargearConditionCount.forEvery : 5},
+                            additionalWeapons: [],
+                            replaceWeapons: {['Heavy bolt rifle']:['Heavy bolter']})
                     ]
                 )
             }
@@ -1874,7 +1879,7 @@ List<UnitSeed> spaceMarinesUnits()
             leader: const[],
             modelStats:
             {
-                'Outrider Squad': ModelStatsDom(
+                'Outrider': ModelStatsDom(
                     movement: 12,
                     toughness: 5,
                     save: 3,
@@ -1964,6 +1969,98 @@ List<UnitSeed> spaceMarinesUnits()
                     ),
                     wargearOptions: []
                 ),
+                'Outrider Sergeant': ModelStatsDom(
+                  isNeedShow: false,
+                  isSergeant: true,
+                  movement: 12,
+                  toughness: 5,
+                  save: 3,
+                  invulnerableSave: 0,
+                  wounds: 4,
+                  leadership: 6,
+                  objectiveControl: 2,
+                  modelWeapons: ModelWeaponsDom(
+                      weapons:
+                      {
+                        WeaponType.ranged : [
+                          WeaponDom(
+                              name: 'Pistol 1',
+                              type: WeaponType.ranged,
+                              weaponAbilities: [
+                                WeaponAbilitiesCode.pistol
+                              ],
+                              range: 18,
+                              attacks: const Dice(fix: 1).toString(),
+                              skill: 3,
+                              strength: 4,
+                              ap: 1,
+                              damage: const Dice(fix: 1).toString()
+                          ),
+                          WeaponDom(
+                              name: 'Heavy bolt pistol',
+                              type: WeaponType.ranged,
+                              weaponAbilities: [
+                                WeaponAbilitiesCode.pistol
+                              ],
+                              range: 18,
+                              attacks: const Dice(fix: 1).toString(),
+                              skill: 3,
+                              strength: 4,
+                              ap: 1,
+                              damage: const Dice(fix: 1).toString()
+                          ),
+                          WeaponDom(
+                              name: 'Ppistol 2',
+                              type: WeaponType.ranged,
+                              weaponAbilities: [
+                                WeaponAbilitiesCode.pistol
+                              ],
+                              range: 18,
+                              attacks: const Dice(fix: 1).toString(),
+                              skill: 3,
+                              strength: 4,
+                              ap: 1,
+                              damage: const Dice(fix: 1).toString()
+                          ),
+                          WeaponDom(
+                              name: 'Twin bolt rifle',
+                              type: WeaponType.ranged,
+                              weaponAbilities: [
+                                WeaponAbilitiesCode.twinLinked
+                              ],
+                              range: 24,
+                              attacks: const Dice(fix: 2).toString(),
+                              skill: 3,
+                              strength: 4,
+                              ap: 1,
+                              damage: const Dice(fix: 1).toString()
+                          )
+                        ],
+                        WeaponType.melee : [
+                          WeaponDom(
+                              name: 'Astartes chainsword',
+                              type: WeaponType.melee,
+                              weaponAbilities: const[],
+                              range: 0,
+                              attacks: const Dice(fix: 4).toString(),
+                              skill: 3,
+                              strength: 4,
+                              ap: 1,
+                              damage: const Dice(fix: 1).toString()
+                          )
+                        ]
+                      },
+                      selectedWeapons:
+                      {
+                        WeaponType.ranged : [
+                          'Heavy bolt pistol',
+                          'Twin bolt rifle'
+                        ],
+                        WeaponType.melee : ['Astartes chainsword']
+                      }
+                  ),
+                  wargearOptions: []
+              ),
                 'Invader ATV': ModelStatsDom(
                     isNeedShow: false,
                     movement: 12,

@@ -39,7 +39,7 @@ class UnitCompositionDom
     /// Getters
     /// ==========================================
 
-    /// ИСПРАВЛЕНО: Теперь возвращает Map (int, int)через двоеточие {:}, а не запятую
+
     Map<int, int> get effectiveComposition
     {
         final active = selectedComposition ?? compositions.firstOrNull;
@@ -272,6 +272,7 @@ class LeaderFilterDom
 class ModelStatsDom
 {
     final bool? isNeedShow;
+    final bool? isSergeant;
     final int movement;
     final int toughness;
     final int save;
@@ -284,6 +285,7 @@ class ModelStatsDom
 
     const ModelStatsDom({
         this.isNeedShow = true,
+        this.isSergeant = false,
         required this.movement,
         required this.toughness,
         required this.save,
@@ -298,6 +300,7 @@ class ModelStatsDom
     Map<String, dynamic> toJson() =>
     {
         'isNeedShow': isNeedShow,
+        'isSergeant': isSergeant,
         'movement': movement,
         'toughness': toughness,
         'save': save,
@@ -314,6 +317,7 @@ class ModelStatsDom
 
         return ModelStatsDom(
             isNeedShow: json['isNeedShow'] as bool? ?? false,
+            isSergeant: json['isSergeant'] as bool? ?? false,
             movement: json['movement'] as int? ?? 0,
             toughness: json['toughness'] as int? ?? 0,
             save: json['save'] as int? ?? 0,
@@ -332,6 +336,7 @@ class ModelStatsDom
     {
         return const ModelStatsDom(
             isNeedShow: false,
+            isSergeant: false,
             movement: 0,
             toughness: 0,
             save: 0,
@@ -346,6 +351,7 @@ class ModelStatsDom
 
     ModelStatsDom copyWith({
         bool? isNeedShow,
+        bool? isSergeant,
         int? movement,
         int? toughness,
         int? save,
@@ -358,6 +364,7 @@ class ModelStatsDom
     }){
         return ModelStatsDom(
           isNeedShow: isNeedShow?? this.isNeedShow,
+          isSergeant: isSergeant?? this.isSergeant,
           movement: movement?? this.movement,
           toughness: toughness?? this.toughness,
           save: save?? this.save,
