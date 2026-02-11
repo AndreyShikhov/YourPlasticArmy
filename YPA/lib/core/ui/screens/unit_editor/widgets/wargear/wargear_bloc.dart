@@ -84,7 +84,7 @@ class _WargearState extends ConsumerState<Wargear>
                                             _currentPage = page;
                                         });
                                 },
-                                children: _buildWargearSections(allWargear, composition!)
+                                children: _buildWargearSections(allWargear, composition!, weaponInfo)
                             )
                         )
                     ),
@@ -148,14 +148,20 @@ class _WargearState extends ConsumerState<Wargear>
         return res;
     }
 
-    List<Widget> _buildWargearSections(List<WargearOptionsDom> allWargears, UnitCompositionDom composition)
+    List<Widget> _buildWargearSections(
+        List<WargearOptionsDom> allWargears,
+        UnitCompositionDom composition,
+        List<({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})>? weaponInfo)
     {
         return allWargears.map((wargear) => SingleChildScrollView(
-                child: _buildWargearSection(wargear, composition)
+                child: _buildWargearSection(wargear, composition, weaponInfo)
             )).toList();
     }
 
-    Widget _buildWargearSection(WargearOptionsDom wargear, UnitCompositionDom composition)
+    Widget _buildWargearSection(
+        WargearOptionsDom wargear,
+        UnitCompositionDom composition,
+        List<({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})>? weaponInfo)
     {
         List<Widget> widgetsToSelect = [];
         if (wargear.conditionCount.isNotEmpty)
@@ -176,19 +182,36 @@ class _WargearState extends ConsumerState<Wargear>
                     break;
                 case WargearConditionCount.forEvery:
                     amountModifers = (composition.totalUnitAmount / count).truncate();
+                    /// 1. Находим, сколько пушек из этой опции уже экипировано у этой модели
+                    final replacementWeapons = wargear.replaceWeapons.values.first;
+                    final currentEquippedAmount = weaponInfo?.where((info) =>
+                    info.modelName == wargear.modelName &&
+                        replacementWeapons.contains(info.weaponName)
+                    ).firstOrNull?.amount ?? 0;
+
                     for (int i = 0; i < amountModifers; i++)
                     {
-                        widgetsToSelect.add(
-                            _WargearCheckbox(
-                                isSelected: false,
-                                onChanged: (bool? newValue)
-                                {
-                                    final notifier = ref.read(unitEditorControllerProvider(widget.ids).notifier);
-                                    notifier.replaceWeapon(wargear.modelName, wargear.replaceWeapons.keys.first, wargear.replaceWeapons.values.first);
-                                },
-                                titles: wargear.replaceWeapons.values.first
-                            )
-                        );
+                      /// Чекбокс "выбран", если его индекс меньше количества реально взятого оружия
+                      final isThisSelected = i < currentEquippedAmount;
+
+                      widgetsToSelect.add(
+                          _WargearCheckbox(
+                              isSelected: isThisSelected, /// Теперь он берет данные из стейта!
+                              onChanged: (bool? newValue)
+                              {
+                                final notifier = ref.read(unitEditorControllerProvider(widget.ids).notifier);
+                                final replaceKeys = wargear.replaceWeapons.keys.first;
+                                final replaceValues = wargear.replaceWeapons.values.first;
+
+                                if (newValue == true) {
+                                  notifier.replaceWeapon(wargear.modelName, replaceKeys, replaceValues);
+                                } else {
+                                  notifier.replaceWeapon(wargear.modelName, replaceValues, replaceKeys);
+                                }
+                              },
+                              titles: wargear.replaceWeapons.values.first
+                          )
+                      );
                     }
                     break;
             }
