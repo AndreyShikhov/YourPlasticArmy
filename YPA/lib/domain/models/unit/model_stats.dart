@@ -58,6 +58,18 @@ class UnitCompositionDom
         }
         return res;
     }
+
+    int get totalUnitAmount
+    {
+      final base = selectedComposition ?? compositions.firstOrNull;
+      int res = base?.amount ?? 0;
+
+      for (var model in additionalModels)
+      {
+        if (model.isSelected) res += model.amount;
+      }
+      return res;
+    }
     /// ==========================================
     /// JSON
     /// ==========================================
