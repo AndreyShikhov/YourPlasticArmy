@@ -178,7 +178,17 @@ class _WargearState extends ConsumerState<Wargear>
                     amountModifers = (composition.totalUnitAmount / count).truncate();
                     for (int i = 0; i < amountModifers; i++)
                     {
-                        widgetsToSelect.add(_WargearCheckbox(isSelected: false, onChanged: (_) => {}, titles: wargear.replaceWeapons.values.first));
+                        widgetsToSelect.add(
+                            _WargearCheckbox(
+                                isSelected: false,
+                                onChanged: (bool? newValue)
+                                {
+                                    final notifier = ref.read(unitEditorControllerProvider(widget.ids).notifier);
+                                    notifier.replaceWeapon(wargear.modelName, wargear.replaceWeapons.keys.first, wargear.replaceWeapons.values.first);
+                                },
+                                titles: wargear.replaceWeapons.values.first
+                            )
+                        );
                     }
                     break;
             }

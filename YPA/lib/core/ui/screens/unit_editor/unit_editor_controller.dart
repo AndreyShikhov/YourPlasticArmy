@@ -394,7 +394,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
         /// 2. Основной цикл по моделям
         modelStats.forEach((modelName, stats)
             {
-                if (stats.isNeedShow! || stats.isSergeant!) 
+                if (stats.isNeedShow! || stats.isSergeant!)
                 {
                     bool isSergeant = stats.isSergeant ?? false;
 
@@ -408,13 +408,13 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                             int totalAmount = 0;
                             bool isEquiped = equippedNames.contains(weapon.name);
 
-                            if (isEquiped) 
+                            if (isEquiped)
                             {
-                                if (isSergeant) 
+                                if (isSergeant)
                                 {
                                     totalAmount = 1;
                                 }
-                                else 
+                                else
                                 {
                                     /// Количество моделей без сержантов
                                     final totalModelsCount = composition.effectiveComposition.keys.firstOrNull ?? 0;
@@ -549,4 +549,51 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
             .updateUnitInState(_instanceUnitId, getUnitRoleCode()!, state.unit!.unitComposition);
 
     }
+
+    /// ==========================================
+    ///  Wargear operations
+    /// ==========================================
+    void replaceWeapon(String unitModelName, List<String> replace, List<String> replaceable)
+    {
+        if (state.unit?.weaponInfo == null) return;
+
+        final updatedWeaponInfo = state.unit!.weaponInfo!.map((info)
+            {
+                if (info.modelName != unitModelName) return info;
+
+                int newAmount = info.amount;
+                bool isEquiped = info.isEquiped;
+
+                /// Если это оружие, которое мы ЗАМЕНЯЕМ (убираем)
+                if (replace.contains(info.weaponName))
+                {
+                    newAmount = (newAmount > 0) ? newAmount - 1 : 0;
+                    isEquiped = newAmount > 0;
+                }
+
+                /// Если это оружие, которое мы ДОБАВЛЯЕМ
+                else if (replaceable.contains(info.weaponName))
+                {
+                    newAmount++;
+                    isEquiped = true;
+                }
+
+                return (
+                modelName: info.modelName,
+                weaponType: info.weaponType,
+                weaponName: info.weaponName,
+                isEquiped: isEquiped,
+                amount: newAmount
+                );
+            }).toList();
+
+        state = state.copyWith(
+            unit: state.unit!.copyWith(weaponInfo: updatedWeaponInfo)
+        );
+
+        state = state.copyWith(
+            unit: state.unit!.copyWith(weaponInfo: updatedWeaponInfo)
+        );
+    }
 }
+

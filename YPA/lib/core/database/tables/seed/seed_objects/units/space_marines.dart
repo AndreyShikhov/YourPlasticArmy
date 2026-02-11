@@ -794,25 +794,25 @@ List<UnitSeed> spaceMarinesUnits()
                     wargearOptions: [
                         const WargearOptionsDom(
                             text: '1 For every 5 models in this unit, 1 Heavy Intercessor’s heavy bolt rifle can be replaced with 1 heavy bolter.',
-                            modelName: '',
+                            modelName: 'Heavy Intercessor',
                             conditionCount: {WargearConditionCount.forEvery : 5},
                             additionalWeapons: [],
                             replaceWeapons: {['Heavy bolt rifle']:['Heavy bolter']}),
                         const WargearOptionsDom(
                             text: '2 For every 5 models in this unit, 1 Heavy Intercessor’s heavy bolt rifle can be replaced with 1 heavy bolter.',
-                            modelName: '',
+                            modelName: 'Heavy Intercessor',
                             conditionCount: {WargearConditionCount.forEvery : 5},
                             additionalWeapons: [],
                             replaceWeapons: {['Heavy bolt rifle']:['1 Heavy bolter', '2 Heavy bolter']}),
                         const WargearOptionsDom(
                             text: '3 For every 5 models in this unit, 1 Heavy Intercessor’s heavy bolt rifle can be replaced with 1 heavy bolter.',
-                            modelName: '',
+                            modelName: 'Heavy Intercessor',
                             conditionCount: {WargearConditionCount.forEvery : 5},
                             additionalWeapons: [],
                             replaceWeapons: {['Heavy bolt rifle']:['Heavy bolter']}),
                         const WargearOptionsDom(
                             text: '4 For every 5 models in this unit, 1 Heavy Intercessor’s heavy bolt rifle can be replaced with 1 heavy bolter.',
-                            modelName: '',
+                            modelName: 'Heavy Intercessor',
                             conditionCount: {WargearConditionCount.forEvery : 5},
                             additionalWeapons: [],
                             replaceWeapons: {['Heavy bolt rifle']:['Heavy bolter']})
