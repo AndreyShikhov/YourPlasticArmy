@@ -793,10 +793,30 @@ List<UnitSeed> spaceMarinesUnits()
                     ),
                     wargearOptions: [
                         const WargearOptionsDom(
+                            text: '1 For every 5 models in this unit, 1 Heavy Intercessor’s heavy bolt rifle can be replaced with 1 heavy bolter.',
+                            modelName: '',
+                            conditionCount: {WargearConditionCount.forEvery : 5},
+                            additionalWeapons: [],
+                            replaceWeapons: {['Heavy bolt rifle']:['Heavy bolter']}),
+                        const WargearOptionsDom(
+                            text: '2 For every 5 models in this unit, 1 Heavy Intercessor’s heavy bolt rifle can be replaced with 1 heavy bolter.',
+                            modelName: '',
+                            conditionCount: {WargearConditionCount.forEvery : 5},
+                            additionalWeapons: [],
+                            replaceWeapons: {['Heavy bolt rifle']:['Heavy bolter']}),
+                        const WargearOptionsDom(
+                            text: '3 For every 5 models in this unit, 1 Heavy Intercessor’s heavy bolt rifle can be replaced with 1 heavy bolter.',
+                            modelName: '',
+                            conditionCount: {WargearConditionCount.forEvery : 5},
+                            additionalWeapons: [],
+                            replaceWeapons: {['Heavy bolt rifle']:['Heavy bolter']}),
+                        const WargearOptionsDom(
+                            text: '4 For every 5 models in this unit, 1 Heavy Intercessor’s heavy bolt rifle can be replaced with 1 heavy bolter.',
                             modelName: '',
                             conditionCount: {WargearConditionCount.forEvery : 5},
                             additionalWeapons: [],
                             replaceWeapons: {['Heavy bolt rifle']:['Heavy bolter']})
+
                     ]
                 )
             }
@@ -1970,97 +1990,97 @@ List<UnitSeed> spaceMarinesUnits()
                     wargearOptions: []
                 ),
                 'Outrider Sergeant': ModelStatsDom(
-                  isNeedShow: false,
-                  isSergeant: true,
-                  movement: 12,
-                  toughness: 5,
-                  save: 3,
-                  invulnerableSave: 0,
-                  wounds: 4,
-                  leadership: 6,
-                  objectiveControl: 2,
-                  modelWeapons: ModelWeaponsDom(
-                      weapons:
-                      {
-                        WeaponType.ranged : [
-                          WeaponDom(
-                              name: 'Pistol 1',
-                              type: WeaponType.ranged,
-                              weaponAbilities: [
-                                WeaponAbilitiesCode.pistol
-                              ],
-                              range: 18,
-                              attacks: const Dice(fix: 1).toString(),
-                              skill: 3,
-                              strength: 4,
-                              ap: 1,
-                              damage: const Dice(fix: 1).toString()
-                          ),
-                          WeaponDom(
-                              name: 'Heavy bolt pistol',
-                              type: WeaponType.ranged,
-                              weaponAbilities: [
-                                WeaponAbilitiesCode.pistol
-                              ],
-                              range: 18,
-                              attacks: const Dice(fix: 1).toString(),
-                              skill: 3,
-                              strength: 4,
-                              ap: 1,
-                              damage: const Dice(fix: 1).toString()
-                          ),
-                          WeaponDom(
-                              name: 'Ppistol 2',
-                              type: WeaponType.ranged,
-                              weaponAbilities: [
-                                WeaponAbilitiesCode.pistol
-                              ],
-                              range: 18,
-                              attacks: const Dice(fix: 1).toString(),
-                              skill: 3,
-                              strength: 4,
-                              ap: 1,
-                              damage: const Dice(fix: 1).toString()
-                          ),
-                          WeaponDom(
-                              name: 'Twin bolt rifle',
-                              type: WeaponType.ranged,
-                              weaponAbilities: [
-                                WeaponAbilitiesCode.twinLinked
-                              ],
-                              range: 24,
-                              attacks: const Dice(fix: 2).toString(),
-                              skill: 3,
-                              strength: 4,
-                              ap: 1,
-                              damage: const Dice(fix: 1).toString()
-                          )
-                        ],
-                        WeaponType.melee : [
-                          WeaponDom(
-                              name: 'Astartes chainsword',
-                              type: WeaponType.melee,
-                              weaponAbilities: const[],
-                              range: 0,
-                              attacks: const Dice(fix: 4).toString(),
-                              skill: 3,
-                              strength: 4,
-                              ap: 1,
-                              damage: const Dice(fix: 1).toString()
-                          )
-                        ]
-                      },
-                      selectedWeapons:
-                      {
-                        WeaponType.ranged : [
-                          'Heavy bolt pistol',
-                          'Twin bolt rifle'
-                        ],
-                        WeaponType.melee : ['Astartes chainsword']
-                      }
-                  ),
-                  wargearOptions: []
-              ),
+                    isNeedShow: false,
+                    isSergeant: true,
+                    movement: 12,
+                    toughness: 5,
+                    save: 3,
+                    invulnerableSave: 0,
+                    wounds: 4,
+                    leadership: 6,
+                    objectiveControl: 2,
+                    modelWeapons: ModelWeaponsDom(
+                        weapons:
+                        {
+                            WeaponType.ranged : [
+                                WeaponDom(
+                                    name: 'Pistol 1',
+                                    type: WeaponType.ranged,
+                                    weaponAbilities: [
+                                        WeaponAbilitiesCode.pistol
+                                    ],
+                                    range: 18,
+                                    attacks: const Dice(fix: 1).toString(),
+                                    skill: 3,
+                                    strength: 4,
+                                    ap: 1,
+                                    damage: const Dice(fix: 1).toString()
+                                ),
+                                WeaponDom(
+                                    name: 'Heavy bolt pistol',
+                                    type: WeaponType.ranged,
+                                    weaponAbilities: [
+                                        WeaponAbilitiesCode.pistol
+                                    ],
+                                    range: 18,
+                                    attacks: const Dice(fix: 1).toString(),
+                                    skill: 3,
+                                    strength: 4,
+                                    ap: 1,
+                                    damage: const Dice(fix: 1).toString()
+                                ),
+                                WeaponDom(
+                                    name: 'Ppistol 2',
+                                    type: WeaponType.ranged,
+                                    weaponAbilities: [
+                                        WeaponAbilitiesCode.pistol
+                                    ],
+                                    range: 18,
+                                    attacks: const Dice(fix: 1).toString(),
+                                    skill: 3,
+                                    strength: 4,
+                                    ap: 1,
+                                    damage: const Dice(fix: 1).toString()
+                                ),
+                                WeaponDom(
+                                    name: 'Twin bolt rifle',
+                                    type: WeaponType.ranged,
+                                    weaponAbilities: [
+                                        WeaponAbilitiesCode.twinLinked
+                                    ],
+                                    range: 24,
+                                    attacks: const Dice(fix: 2).toString(),
+                                    skill: 3,
+                                    strength: 4,
+                                    ap: 1,
+                                    damage: const Dice(fix: 1).toString()
+                                )
+                            ],
+                            WeaponType.melee : [
+                                WeaponDom(
+                                    name: 'Astartes chainsword',
+                                    type: WeaponType.melee,
+                                    weaponAbilities: const[],
+                                    range: 0,
+                                    attacks: const Dice(fix: 4).toString(),
+                                    skill: 3,
+                                    strength: 4,
+                                    ap: 1,
+                                    damage: const Dice(fix: 1).toString()
+                                )
+                            ]
+                        },
+                        selectedWeapons:
+                        {
+                            WeaponType.ranged : [
+                                'Heavy bolt pistol',
+                                'Twin bolt rifle'
+                            ],
+                            WeaponType.melee : ['Astartes chainsword']
+                        }
+                    ),
+                    wargearOptions: []
+                ),
                 'Invader ATV': ModelStatsDom(
                     isNeedShow: false,
                     movement: 12,

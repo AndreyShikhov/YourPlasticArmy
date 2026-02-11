@@ -7,30 +7,51 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/base_ability_bloc.dart';
+import 'package:ypa/core/ui/screens/unit_editor/widgets/wargear/wargear_bloc.dart';
 import 'package:ypa/domain/models/abilities/base_ability.dart';
 
-import '../../../../../domain/models/abilities/weapon_ability/weapon_ability.dart';
-import '../../../../../domain/models/unit/unit.dart';
-import '../unit_editor_controller.dart';
+import '../../../../../../domain/models/abilities/weapon_ability/weapon_ability.dart';
+import '../../../../../../domain/models/unit/unit.dart';
+import '../../unit_editor_controller.dart';
 
-class WargearStatsBloc extends ConsumerWidget
+class WargearStatsBloc extends ConsumerStatefulWidget
 {
     final  (String, String, String) ids;
 
     const WargearStatsBloc({super.key, required this.ids});
 
     @override
-    Widget build(BuildContext context, WidgetRef ref)
+    ConsumerState<WargearStatsBloc> createState() => _WargearStatsBlocState();
+}
+
+class _WargearStatsBlocState extends ConsumerState<WargearStatsBloc>
+{
+    late final PageController _pageController;
+    int _currentPage = 0; /// Индекс текущей страницы
+
+    @override
+    void initState()
     {
-        /// 1. ОПТИМИЗАЦИЯ: Подписываемся ТОЛЬКО на те части, которые влияют на этот блок.
-        /// Если в UnitEditorItemUi изменятся Keywords или Name, этот блок НЕ перерисуется.
-        final (weaponInfo, modelStats, ) = ref.watch(unitEditorControllerProvider(ids).select((s) => (
+        super.initState();
+        _pageController = PageController(viewportFraction: 1.0);
+    }
+
+    @override
+    void dispose()
+    {
+        _pageController.dispose();
+        super.dispose();
+    }
+
+    @override
+    Widget build(BuildContext context)
+    {
+        final (weaponInfo, modelStats) = ref.watch(unitEditorControllerProvider(widget.ids).select((s) => (
                 s.unit?.weaponInfo,
-                s.unit?.modelStats,
+                s.unit?.modelStats
                 )));
 
-        /// 2. Подписываемся на абилки (они загружаются один раз при старте)
-        final weaponAbilities = ref.watch(unitEditorControllerProvider(ids).select((s) => s.weaponAbilities));
+        final weaponAbilities = ref.watch(unitEditorControllerProvider(widget.ids).select((s) => s.weaponAbilities));
 
         if (weaponInfo == null || modelStats == null) return const SizedBox.shrink();
 
@@ -41,45 +62,86 @@ class WargearStatsBloc extends ConsumerWidget
         {
             return Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                child: Column(
                     children: [
-                        _buildCategorySection(weaponInfo, modelStats, weaponAbilities, WeaponType.ranged),
-                        const SizedBox(width: 32),
-                        _buildCategorySection(weaponInfo, modelStats, weaponAbilities, WeaponType.melee)
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                                _buildCategorySection(weaponInfo, modelStats, weaponAbilities, WeaponType.ranged),
+                                const SizedBox(width: 32),
+                                _buildCategorySection(weaponInfo, modelStats, weaponAbilities, WeaponType.melee)
+                            ]
+                        ),
+                        const SizedBox(height: 10),
+                        Wargear(ids: widget.ids)
                     ]
                 )
+
             );
         }
 
         return Padding(
             padding: const EdgeInsets.only(bottom: 16.0),
             child: Column(
-                mainAxisSize: MainAxisSize.max,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                     SizedBox(
-                        height: 400,
+                        height: 450,
                         child: PageView(
-                            controller: PageController(viewportFraction: 1.0),
+                            controller: _pageController,
+                            onPageChanged: (int page)
+                            {
+                                setState(()
+                                    {
+                                        _currentPage = page;
+                                    });
+                            },
                             children: [
                                 SingleChildScrollView(child: _buildCategorySection(weaponInfo, modelStats, weaponAbilities, WeaponType.ranged)),
                                 SingleChildScrollView(child: _buildCategorySection(weaponInfo, modelStats, weaponAbilities, WeaponType.melee))
                             ]
                         )
-                    )
+                    ),
+                    const SizedBox(height: 4),
+                    /// ТОЧКИ-ИНДИКАТОРЫ
+                    _buildPageIndicator(2),
+                  const SizedBox(height: 10),
+                  Wargear(ids: widget.ids)
+
                 ]
             )
         );
     }
 
+    /// Рисуем точки индикации карусели
+    Widget _buildPageIndicator(int pageCount) 
+    {
+        return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(pageCount, (index)
+                {
+                    return AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        margin: const EdgeInsets.symmetric(horizontal: 4),
+                        height: 8,
+                        width: _currentPage == index ? 24 : 8, /// Активная точка длиннее
+                        decoration: BoxDecoration(
+                            color: _currentPage == index ? Colors.blueAccent : Colors.white24,
+                            borderRadius: BorderRadius.circular(4)
+                        )
+                    );
+                })
+        );
+    }
+
     Widget _buildCategorySection(
-        List<dynamic> weaponInfo, 
-        Map<String, ModelStatsDom> modelStats, 
-        List<WeaponAbilityDOM> weaponAbilities, 
+        List<dynamic> weaponInfo,
+        Map<String, ModelStatsDom> modelStats,
+        List<WeaponAbilityDOM> weaponAbilities,
         WeaponType type
-    ) 
+    )
     {
         return DecoratedBox(
             decoration: BoxDecoration(
@@ -87,13 +149,13 @@ class WargearStatsBloc extends ConsumerWidget
             ),
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                     _WeaponCategoryHeader(type: type),
                     _WeaponTypeGroup(
-                        weaponInfo: weaponInfo, 
-                        modelStats: modelStats, 
-                        weaponAbilities: weaponAbilities, 
+                        weaponInfo: weaponInfo,
+                        modelStats: modelStats,
+                        weaponAbilities: weaponAbilities,
                         type: type
                     )
                 ]
@@ -110,9 +172,9 @@ class _WeaponTypeGroup extends StatelessWidget
     final WeaponType type;
 
     const _WeaponTypeGroup({
-        required this.weaponInfo, 
-        required this.modelStats, 
-        required this.weaponAbilities, 
+        required this.weaponInfo,
+        required this.modelStats,
+        required this.weaponAbilities,
         required this.type
     });
 
@@ -129,13 +191,13 @@ class _WeaponTypeGroup extends StatelessWidget
             groupedByModel.putIfAbsent(info.modelName, () => []).add(info);
         }
 
-        // СОРТИРОВКА: Внутри каждой модели сначала ставим экипированное оружие, затем неиспользуемое
-        for (var modelWeaponsList in groupedByModel.values) 
+        for (var modelWeaponsList in groupedByModel.values)
         {
-            modelWeaponsList.sort((a, b) {
-                if (a.isEquiped == b.isEquiped) return 0;
-                return a.isEquiped ? -1 : 1;
-            });
+            modelWeaponsList.sort((a, b)
+                {
+                    if (a.isEquiped == b.isEquiped) return 0;
+                    return a.isEquiped ? -1 : 1;
+                });
         }
 
         return Column(
@@ -242,7 +304,7 @@ class _WeaponRow extends StatelessWidget
         return DecoratedBox(
             decoration: BoxDecoration(color: bgColor),
             child: Column(
-                mainAxisSize: MainAxisSize.max,
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                     Row(
@@ -383,11 +445,11 @@ class _NameWeapon extends StatelessWidget
                                     softWrap: true,
                                     maxLines: 3,
                                     overflow: TextOverflow.ellipsis
-                                ),
-                            ),
-                        ],
-                    ),
-                ),
+                                )
+                            )
+                        ]
+                    )
+                )
             )
         );
     }
@@ -435,7 +497,6 @@ class _WeaponAbilitiesBTN extends StatelessWidget
 
     void _showAbilityDialog(BuildContext context, WeaponAbilitiesCode abilityCode)
     {
-        /// Ищем описание в списке загруженных абилок
         final abilityData = weaponAbilities.where((a) => a.code == abilityCode.code).firstOrNull;
 
         if (abilityData != null)
@@ -456,7 +517,7 @@ class _WeaponAbilitiesBTN extends StatelessWidget
                     return AlertDialog(
                         backgroundColor: const Color.fromARGB(255, 45, 45, 45),
                         contentPadding: const EdgeInsets.all(8),
-                        content: 
+                        content:
                         Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [

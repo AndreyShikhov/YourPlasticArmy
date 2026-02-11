@@ -12,7 +12,7 @@ import 'package:ypa/core/ui/screens/unit_editor/widgets/basic_stats_bloc.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/keywords_bloc.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/leader_bloc.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/unit_composition_bloc.dart';
-import 'package:ypa/core/ui/screens/unit_editor/widgets/wargear_stats_bloc.dart';
+import 'package:ypa/core/ui/screens/unit_editor/widgets/wargear/wargear_stats_bloc.dart';
 
 import '../../widgets/expanded/expandable_section.dart';
 

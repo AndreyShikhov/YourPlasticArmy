@@ -39,7 +39,6 @@ class UnitCompositionDom
     /// Getters
     /// ==========================================
 
-
     Map<int, int> get effectiveComposition
     {
         final active = selectedComposition ?? compositions.firstOrNull;
@@ -47,7 +46,7 @@ class UnitCompositionDom
         return {active.amount: active.cost};
     }
 
-    int get totalUnitCost 
+    int get totalUnitCost
     {
         /// Используем выбранный или ПЕРВЫЙ из списка
         final base = selectedComposition ?? compositions.firstOrNull;
@@ -92,7 +91,6 @@ class UnitCompositionDom
                 .toList()
         );
     }
-
 
     static const UnitCompositionDom emptyComposition = UnitCompositionDom(
         compositions: [],
@@ -146,13 +144,13 @@ class UnitCompositionModelDom
     }
 
     @override
-    bool operator ==(Object other) =>
-        identical(this, other) ||
-            other is UnitCompositionModelDom &&
-                runtimeType == other.runtimeType &&
-                name == other.name &&
-                amount == other.amount &&
-                cost == other.cost;
+    bool operator==(Object other) =>
+    identical(this, other) ||
+        other is UnitCompositionModelDom &&
+            runtimeType == other.runtimeType &&
+            name == other.name &&
+            amount == other.amount &&
+            cost == other.cost;
 
     @override
     int get hashCode => name.hashCode ^ amount.hashCode ^ cost.hashCode;
@@ -161,29 +159,26 @@ class UnitCompositionModelDom
 /// WARGEAR OPTIONS
 /// ==========================================
 
-
-
-
-
-
 class WargearOptionsDom
 {
 
+    final String text;
     final String modelName;
     final Map<WargearConditionCount, int> conditionCount;
     final List<String> additionalWeapons;
     final Map<List<String>, List<String>> replaceWeapons;
 
     const WargearOptionsDom({
-      required this.modelName,
-      required this.conditionCount,
-      required this.additionalWeapons,
-      required this.replaceWeapons
+        required this.text,
+        required this.modelName,
+        required this.conditionCount,
+        required this.additionalWeapons,
+        required this.replaceWeapons
     });
-    
 
     Map<String, dynamic> toJson() =>
     {
+        'text': text,
         'modelName': modelName,
         'conditionCount': conditionCount.map((key, value) => MapEntry(key.name, value)),
         'additionalWeapons': additionalWeapons,
@@ -193,25 +188,28 @@ class WargearOptionsDom
     factory WargearOptionsDom.fromJson(Map<String, dynamic> json)
     {
         return WargearOptionsDom(
+            text: json['text'] as String? ?? '',
             modelName: json['modelName'] as String? ?? '',
             conditionCount: Map.fromEntries(
-                (json['conditionCount'] as Map<String, dynamic>? ?? {}).entries.map((e) {
-                    final cond = WargearConditionCount.fromName(e.key);
-                    if (cond == null) return null;
-                    return MapEntry(cond, e.value as int);
-                }).whereType<MapEntry<WargearConditionCount, int>>()
+                (json['conditionCount'] as Map<String, dynamic>? ?? {}).entries.map((e)
+                    {
+                        final cond = WargearConditionCount.fromName(e.key);
+                        if (cond == null) return null;
+                        return MapEntry(cond, e.value as int);
+                    }).whereType<MapEntry<WargearConditionCount, int>>()
             ),
             additionalWeapons: List<String>.from(json['additionalWeapons'] ?? []),
             replaceWeapons: (json['replaceWeapons'] as Map<String, dynamic>? ?? {}).map(
                 (key, value) => MapEntry(
                     key.split(','),
-                    (value as String).split(','),
-                ),
-            ),
+                    (value as String).split(',')
+                )
+            )
         );
     }
 
     static const WargearOptionsDom emptyOptions = WargearOptionsDom(
+        text: '',
         modelName: '',
         conditionCount: {},
         additionalWeapons: [],
@@ -360,20 +358,21 @@ class ModelStatsDom
         int? leadership,
         int? objectiveControl,
         ModelWeaponsDom? modelWeapons,
-        List<WargearOptionsDom>? wargearOptions,
-    }){
+        List<WargearOptionsDom>? wargearOptions
+    })
+    {
         return ModelStatsDom(
-          isNeedShow: isNeedShow?? this.isNeedShow,
-          isSergeant: isSergeant?? this.isSergeant,
-          movement: movement?? this.movement,
-          toughness: toughness?? this.toughness,
-          save: save?? this.save,
-          invulnerableSave: invulnerableSave?? this.invulnerableSave,
-          wounds: wounds?? this.wounds,
-          leadership: leadership?? this.leadership,
-          objectiveControl: objectiveControl?? this.objectiveControl,
-          modelWeapons: modelWeapons?? this.modelWeapons,
-          wargearOptions: wargearOptions?? this.wargearOptions
+            isNeedShow: isNeedShow ?? this.isNeedShow,
+            isSergeant: isSergeant ?? this.isSergeant,
+            movement: movement ?? this.movement,
+            toughness: toughness ?? this.toughness,
+            save: save ?? this.save,
+            invulnerableSave: invulnerableSave ?? this.invulnerableSave,
+            wounds: wounds ?? this.wounds,
+            leadership: leadership ?? this.leadership,
+            objectiveControl: objectiveControl ?? this.objectiveControl,
+            modelWeapons: modelWeapons ?? this.modelWeapons,
+            wargearOptions: wargearOptions ?? this.wargearOptions
         );
     }
 
