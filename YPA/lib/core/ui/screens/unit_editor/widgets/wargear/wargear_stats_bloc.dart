@@ -315,7 +315,7 @@ class _WeaponRow extends StatelessWidget
                             _StatBox(weapon.attacks, isUsed: isUsed),
                             _StatBox('${weapon.skill}+', isUsed: isUsed),
                             _StatBox('${weapon.strength}', isUsed: isUsed),
-                            _StatBox('-${weapon.ap}', isUsed: isUsed),
+                            _StatBox('${weapon.ap.abs() * -1}', isUsed: isUsed),
                             _StatBox(weapon.damage, isUsed: isUsed)
                         ]
                     ),
