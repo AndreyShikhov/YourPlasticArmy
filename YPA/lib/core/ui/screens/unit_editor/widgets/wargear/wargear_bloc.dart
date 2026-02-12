@@ -212,6 +212,40 @@ class _WargearState extends ConsumerState<Wargear>
                     }
                     break;
                 case WargearConditionCount.upTo:
+                    amountModifers = wargear.conditionCount.values.first;
+
+                    final replacementWeapons = wargear.replaceWeapons.values.first;
+                    final currentEquippedAmount = weaponInfo?.where((info) =>
+                    info.modelName == wargear.modelName &&
+                        replacementWeapons.contains(info.weaponName)
+                    ).firstOrNull?.amount ?? 0;
+
+                    for (int i = 0; i < amountModifers; i++)
+                    {
+                      /// Чекбокс "выбран", если его индекс меньше количества реально взятого оружия
+                      final isThisSelected = i < currentEquippedAmount;
+
+                      widgetsToSelect.add(
+                          _WargearCheckbox(
+                              isSelected: isThisSelected, /// Теперь он берет данные из стейта!
+                              onChanged: (bool? newValue)
+                              {
+                                final notifier = ref.read(unitEditorControllerProvider(widget.ids).notifier);
+                                final replaceKeys = wargear.replaceWeapons.keys.first;
+                                final replaceValues = wargear.replaceWeapons.values.first;
+
+                                if (newValue == true)
+                                {
+                                  notifier.replaceWeapon(wargear.modelName, replaceKeys, replaceValues);
+                                } else
+                                {
+                                  notifier.replaceWeapon(wargear.modelName, replaceValues, replaceKeys);
+                                }
+                              },
+                              titles: wargear.replaceWeapons.values.first
+                          )
+                      );
+                    }
                     break;
                 case WargearConditionCount.all:
                     amountModifers = composition.totalUnitAmount;
