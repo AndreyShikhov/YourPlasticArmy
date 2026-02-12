@@ -595,5 +595,37 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
             unit: state.unit!.copyWith(weaponInfo: updatedWeaponInfo)
         );
     }
+
+    void addWeapon(String unitModelName, List<String> addWeapons, bool isAdd)
+    {
+        if (state.unit?.weaponInfo == null) return;
+
+        final updatedWeaponInfo = state.unit!.weaponInfo!.map((info)
+            {
+                if (info.modelName != unitModelName) return info;
+
+                int newAmount = info.amount;
+                bool isEquiped = info.isEquiped;
+
+                newAmount = isAdd ? newAmount + 1 : newAmount - 1;
+                isEquiped = newAmount > 0;
+
+                return (
+                modelName: info.modelName,
+                weaponType: info.weaponType,
+                weaponName: info.weaponName,
+                isEquiped: isEquiped,
+                amount: newAmount
+                );
+            }).toList();
+
+        state = state.copyWith(
+            unit: state.unit!.copyWith(weaponInfo: updatedWeaponInfo)
+        );
+
+        state = state.copyWith(
+            unit: state.unit!.copyWith(weaponInfo: updatedWeaponInfo)
+        );
+    }
 }
 

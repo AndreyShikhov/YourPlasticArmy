@@ -808,7 +808,7 @@ List<UnitSeed> spaceMarinesUnits()
                             text: 'only Heavy Intercessor Sergeant For every 5 models in this unit, 1 Heavy Intercessor’s heavy bolt rifle can be replaced with 1 heavy bolter.',
                             modelName: 'Heavy Intercessor Sergeant',
                             conditionCount: {WargearConditionCount.only : 1},
-                            additionalWeapons: [''],
+                            additionalWeapons: [],
                             replaceWeapons: {['Heavy bolt rifle']:['Heavy bolter']}),
                         const WargearOptionsDom(
                             text: 'up to 4  Heavy Intercessor For every 5 models in this unit, 1 Heavy Intercessor’s heavy bolt rifle can be replaced with 1 heavy bolter.',
