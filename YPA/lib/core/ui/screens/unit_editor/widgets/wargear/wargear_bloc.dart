@@ -170,14 +170,17 @@ class _WargearState extends ConsumerState<Wargear>
 
             int amountModifers = 0;
             bool isReplace = wargear.additionalWeapons.isEmpty;
-            final replaceKeys = wargear.replaceWeapons.keys.first;
-            final replaceValues = wargear.replaceWeapons.values.first;
+            final replaceKeys = isReplace ? wargear.replaceWeapons.keys.first : <String>[];
+            final replaceValues = isReplace ? wargear.replaceWeapons.values.first : <String>[];
             final addWeapons = wargear.additionalWeapons;
             final notifier = ref.read(unitEditorControllerProvider(widget.ids).notifier);
-            final replacementWeapons = wargear.replaceWeapons.values.first;
+            
+            /// Использование уже проверенных replaceValues или addWeapons
+            final comparisonWeapons = isReplace ? replaceValues : addWeapons;
+            
             final currentEquippedAmount = weaponInfo?.where((info) =>
                 info.modelName == wargear.modelName &&
-                    replacementWeapons.contains(info.weaponName)
+                    comparisonWeapons.contains(info.weaponName)
             ).firstOrNull?.amount ?? 0;
 
             switch (condition)
@@ -215,7 +218,7 @@ class _WargearState extends ConsumerState<Wargear>
                                     }
                                 }
                             },
-                            titles: wargear.replaceWeapons.values.first
+                            titles: comparisonWeapons
                         )
                     );
 
@@ -253,7 +256,7 @@ class _WargearState extends ConsumerState<Wargear>
                                         }
                                     }
                                 },
-                                titles: wargear.replaceWeapons.values.first
+                                titles: comparisonWeapons
                             )
                         );
                     }
@@ -293,7 +296,7 @@ class _WargearState extends ConsumerState<Wargear>
                                         }
                                     }
                                 },
-                                titles: wargear.replaceWeapons.values.first
+                                titles: comparisonWeapons
                             )
                         );
                     }
@@ -336,7 +339,7 @@ class _WargearState extends ConsumerState<Wargear>
                                         }
                                     }
                                 },
-                                titles: wargear.replaceWeapons.values.first
+                                titles: comparisonWeapons
                             )
                         );
                     }

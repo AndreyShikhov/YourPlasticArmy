@@ -602,7 +602,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
 
         final updatedWeaponInfo = state.unit!.weaponInfo!.map((info)
             {
-                if (info.modelName != unitModelName) return info;
+                if (info.modelName != unitModelName || !addWeapons.contains(info.weaponName)) return info;
 
                 int newAmount = info.amount;
                 bool isEquiped = info.isEquiped;
