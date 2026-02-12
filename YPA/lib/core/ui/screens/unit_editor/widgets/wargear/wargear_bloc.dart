@@ -16,11 +16,7 @@ import '../../unit_editor_controller.dart';
 class Wargear extends ConsumerStatefulWidget
 {
     final  (String, String, String) ids;
-
-    const Wargear({
-        super.key,
-        required this.ids
-    });
+    const Wargear({super.key, required this.ids});
 
     @override
     ConsumerState<Wargear> createState() => _WargearState();
@@ -32,32 +28,32 @@ class _WargearState extends ConsumerState<Wargear>
     int _currentPage = 0;
 
     @override
-    void initState()
+    void initState() 
     {
         super.initState();
         _pageController = PageController(viewportFraction: 1.0);
     }
 
     @override
-    void dispose()
+    void dispose() 
     {
         _pageController.dispose();
         super.dispose();
     }
 
     @override
-    Widget build(BuildContext context)
+    Widget build(BuildContext context) 
     {
-        final (weaponInfo, modelStats, composition) = ref.watch(unitEditorControllerProvider(widget.ids).select((s) => (
-                s.unit?.weaponInfo,
+        final (modelStats, composition, snapshot) = ref.watch(unitEditorControllerProvider(widget.ids).select((s) => (
                 s.unit?.modelStats,
-                s.unit?.unitComposition
+                s.unit?.unitComposition,
+                s.unit?.selectedWargearIndices
                 )));
 
-        if (modelStats == null) return const SizedBox.shrink();
+        if (modelStats == null || snapshot == null) return const SizedBox.shrink();
 
-        final allWargear = _getAllWargear(modelStats);
-        if (allWargear.isEmpty) return const SizedBox.shrink();
+        final allWargearWithModel = _getAllWargearWithModel(modelStats);
+        if (allWargearWithModel.isEmpty) return const SizedBox.shrink();
 
         return Padding(
             padding: const EdgeInsets.only(bottom: 16.0),
@@ -69,215 +65,105 @@ class _WargearState extends ConsumerState<Wargear>
                         height: 250,
                         child: ScrollConfiguration(
                             behavior: ScrollConfiguration.of(context).copyWith(
-                                dragDevices:
-                                {
-                                    PointerDeviceKind.touch,
-                                    PointerDeviceKind.mouse,
-                                    PointerDeviceKind.trackpad
-                                }
+                                dragDevices: {PointerDeviceKind.touch, PointerDeviceKind.mouse, PointerDeviceKind.trackpad}
                             ),
                             child: PageView(
                                 controller: _pageController,
-                                onPageChanged: (int page)
-                                {
-                                    setState(()
-                                        {
-                                            _currentPage = page;
-                                        });
-                                },
-                                children: _buildWargearSections(allWargear, composition!, weaponInfo)
+                                onPageChanged: (int page) => setState(() => _currentPage = page),
+                                children: allWargearWithModel.map((item) => SingleChildScrollView(
+                                        child: _buildWargearSection(item.modelName, item.option, item.index, composition!, snapshot)
+                                    )).toList()
                             )
                         )
                     ),
-                    if (allWargear.length > 1) ...[
+                    if (allWargearWithModel.length > 1) ...[
                         const SizedBox(height: 12),
-                        _buildPageIndicator(allWargear.length)
+                        _buildPageIndicator(allWargearWithModel.length)
                     ]
                 ]
             )
         );
     }
 
-    Widget _buildPageIndicator(int pageCount)
+    List< ({String modelName, WargearOptionsDom option, int index})> _getAllWargearWithModel(Map<String, ModelStatsDom> allStats) 
     {
-        return Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-                IconButton(
-                    onPressed: _currentPage > 0 
-                        ? () => _pageController.previousPage(duration: const Duration(milliseconds: 300), curve: Curves.easeInOut)
-                        : null,
-                    icon: const Icon(Icons.arrow_back_ios, size: 16, color: Colors.white70)
-                ),
-                ...List.generate(pageCount, (index)
-                    {
-                        return GestureDetector(
-                            onTap: () => _pageController.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut),
-                            child: MouseRegion(
-                                cursor: SystemMouseCursors.click,
-                                child: AnimatedContainer(
-                                    duration: const Duration(milliseconds: 300),
-                                    margin: const EdgeInsets.symmetric(horizontal: 4),
-                                    height: 8,
-                                    width: _currentPage == index ? 24 : 8,
-                                    decoration: BoxDecoration(
-                                        color: _currentPage == index ? Colors.blueAccent : Colors.white24,
-                                        borderRadius: BorderRadius.circular(4)
-                                    )
-                                )
-                            )
-                        );
-                    }),
-                IconButton(
-                    onPressed: _currentPage < pageCount - 1
-                        ? () => _pageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.easeInOut)
-                        : null,
-                    icon: const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.white70)
-                )
-            ]
-        );
-    }
-
-    List<WargearOptionsDom> _getAllWargear(Map<String, ModelStatsDom> allStats)
-    {
-        List<WargearOptionsDom> res = [];
-        allStats.forEach((key, value)
+        List< ({String modelName, WargearOptionsDom option, int index})> res = [];
+        allStats.forEach((modelName, stats)
             {
-                res.addAll(value.wargearOptions);
+                for (int i = 0; i < stats.wargearOptions.length; i++)
+                {
+                    res.add((modelName: modelName, option: stats.wargearOptions[i], index: i));
+                }
             });
         return res;
     }
 
-    List<Widget> _buildWargearSections(
-        List<WargearOptionsDom> allWargears,
-        UnitCompositionDom composition,
-        List< ({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})>? weaponInfo)
+    Widget _buildWargearSection(String modelName, WargearOptionsDom option, int optionIdx, UnitCompositionDom composition, Map<String, List<int>> snapshot) 
     {
-        return allWargears.map((wargear) => SingleChildScrollView(
-                child: _buildWargearSection(wargear, composition, weaponInfo)
-            )).toList();
-    }
-
-    Widget _buildWargearSection(WargearOptionsDom wargear,
-        UnitCompositionDom composition,
-        List< ({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})>? weaponInfo)
-    {
-        if (wargear.conditionCount.isEmpty) return const SizedBox.shrink();
-
-        final condition = wargear.conditionCount.keys.first;
-        final hasReplaceOptions = wargear.replaceWeapons.isNotEmpty;
-        final isReplace = wargear.additionalWeapons.isEmpty && hasReplaceOptions;
-        final isMultipleChoice = wargear.replaceWeapons.length > 1;
-
-        final comparisonWeapons = hasReplaceOptions 
-            ? wargear.replaceWeapons.values.firstOrNull ?? [] 
-            : wargear.additionalWeapons;
-
-        final currentEquippedCount = _getEquippedAmount(wargear.modelName, comparisonWeapons, weaponInfo);
+        final optionId = "$modelName-$optionIdx";
+        final condition = option.conditionCount.keys.firstOrNull ?? WargearConditionCount.none;
+        final selectedIndices = snapshot[optionId] ?? [];
 
         List<Widget> widgets = [];
+        final notifier = ref.read(unitEditorControllerProvider(widget.ids).notifier);
 
-        if (condition == WargearConditionCount.only && isMultipleChoice)
+        if (condition == WargearConditionCount.only && option.replaceWeapons.length > 1) 
         {
-            widgets = _buildRadioGroup(wargear, weaponInfo);
-        } else
+            // Radio логика
+            widgets = [
+                RadioGroup<int>(
+                    groupValue: selectedIndices.firstOrNull,
+                    onChanged: (int? index)
+                    {
+                        if (index != null) notifier.toggleWargearRadio(optionId, index);
+                    },
+                    child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: option.replaceWeapons.entries.mapIndexed((idx, entry)
+                            {
+                                return _WargearRadio(value: idx, titles: entry.value);
+                            }).toList()
+                    )
+                )
+            ];
+        } else 
         {
-            final limit = _calculateLimit(condition, wargear, composition);
-            widgets = List.generate(limit, (index) =>
-                _buildCheckboxItem(wargear, index < currentEquippedCount, isReplace)
-            );
+            // Checkbox логика
+            final limit = _calculateLimit(condition, option, composition);
+            widgets = List.generate(limit, (idx)
+                {
+                    final isSelected = selectedIndices.contains(idx);
+                    final titles = option.replaceWeapons.isNotEmpty
+                        ? option.replaceWeapons.values.firstOrNull ?? []
+                        : option.additionalWeapons;
+
+                    return _WargearCheckbox(
+                        isSelected: isSelected,
+                        onChanged: (val) => notifier.toggleWargearCheckbox(optionId, idx, val == true),
+                        titles: titles
+                    );
+                });
         }
 
-        return _buildSectionLayout(wargear.text, widgets);
+        return _buildSectionLayout(option.text, widgets);
     }
 
-    int _calculateLimit(WargearConditionCount condition, WargearOptionsDom wargear, UnitCompositionDom composition)
+    int _calculateLimit(WargearConditionCount condition, WargearOptionsDom option, UnitCompositionDom composition) 
     {
         switch (condition)
         {
-            case WargearConditionCount.upTo: return wargear.conditionCount.values.firstOrNull ?? 0;
+            case WargearConditionCount.upTo: return option.conditionCount.values.firstOrNull ?? 0;
             case WargearConditionCount.all: return composition.totalUnitAmount;
             case WargearConditionCount.forEvery:
-                final count = wargear.conditionCount.values.firstOrNull ?? 1;
+                final count = option.conditionCount.values.firstOrNull ?? 1;
                 return (composition.totalUnitAmount / (count > 0 ? count : 1)).truncate();
             case WargearConditionCount.only: return 1;
             default: return 0;
         }
     }
 
-    int _getEquippedAmount(String modelName, List<String> weapons, List<dynamic>? weaponInfo)
-    {
-        return weaponInfo?.where((info) =>
-            info.modelName == modelName && weapons.contains(info.weaponName)
-        ).firstOrNull?.amount ?? 0;
-    }
-
-    List<Widget> _buildRadioGroup(WargearOptionsDom wargear, List<dynamic>? weaponInfo)
-    {
-        final notifier = ref.read(unitEditorControllerProvider(widget.ids).notifier);
-
-        final selectedEntry = wargear.replaceWeapons.entries.firstWhereOrNull((entry) =>
-            weaponInfo?.any((info) =>
-                info.modelName == wargear.modelName &&
-                    entry.value.contains(info.weaponName) &&
-                    info.isEquiped && info.amount > 0
-            ) ?? false
-        );
-
-        return [
-            RadioGroup<List<String>>(
-                groupValue: selectedEntry?.key,
-                onChanged: (List<String>? baseOption)
-                {
-                    if (baseOption != null)
-                    {
-                        final replacementOption = wargear.replaceWeapons[baseOption];
-                        if (replacementOption != null) 
-                        {
-                            notifier.replaceWeapon(wargear.modelName, baseOption, replacementOption);
-                        }
-                    }
-                },
-                child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: wargear.replaceWeapons.entries.map((entry)
-                        {
-                            return _WargearRadio(
-                                value: entry.key,
-                                titles: entry.value
-                            );
-                        }).toList()
-                )
-            )
-        ];
-    }
-
-    Widget _buildCheckboxItem(WargearOptionsDom wargear, bool isSelected, bool isReplace)
-    {
-        final notifier = ref.read(unitEditorControllerProvider(widget.ids).notifier);
-        final replaceKeys = isReplace ? (wargear.replaceWeapons.keys.firstOrNull ?? []) : <String>[];
-        final replaceValues = isReplace ? (wargear.replaceWeapons.values.firstOrNull ?? []) : <String>[];
-
-        return _WargearCheckbox(
-            isSelected: isSelected,
-            onChanged: (bool? newValue)
-            {
-                if (newValue == true)
-                {
-                    isReplace ? notifier.replaceWeapon(wargear.modelName, replaceKeys, replaceValues)
-                        : notifier.addWeapon(wargear.modelName, wargear.additionalWeapons, true);
-                } else
-                {
-                    isReplace ? notifier.replaceWeapon(wargear.modelName, replaceValues, replaceKeys)
-                        : notifier.addWeapon(wargear.modelName, wargear.additionalWeapons, false);
-                }
-            },
-            titles: isReplace ? replaceValues : wargear.additionalWeapons
-        );
-    }
-
-    Widget _buildSectionLayout(String title, List<Widget> children)
+    Widget _buildSectionLayout(String title, List<Widget> children) 
     {
         return Padding(
             padding: const EdgeInsets.all(16.0),
@@ -287,14 +173,40 @@ class _WargearState extends ConsumerState<Wargear>
                     const SizedBox(height: 16),
                     SizedBox(
                         height: 160,
-                        child: Wrap(
-                            direction: Axis.vertical,
-                            runSpacing: 20,
-                            children: children
-                        )
+                        child: Wrap(direction: Axis.vertical, runSpacing: 20, children: children)
                     )
                 ]
             )
+        );
+    }
+
+    Widget _buildPageIndicator(int pageCount) 
+    {
+        return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+                IconButton(
+                    onPressed: _currentPage > 0 ? () => _pageController.previousPage(duration: const Duration(milliseconds: 300), curve: Curves.easeInOut) : null,
+                    icon: const Icon(Icons.arrow_back_ios, size: 16, color: Colors.white70)
+                ),
+                ...List.generate(pageCount, (index) => GestureDetector(
+                        onTap: () => _pageController.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut),
+                        child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 300),
+                            margin: const EdgeInsets.symmetric(horizontal: 4),
+                            height: 8,
+                            width: _currentPage == index ? 24 : 8,
+                            decoration: BoxDecoration(
+                                color: _currentPage == index ? Colors.blueAccent : Colors.white24,
+                                borderRadius: BorderRadius.circular(4)
+                            )
+                        )
+                    )),
+                IconButton(
+                    onPressed: _currentPage < pageCount - 1 ? () => _pageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.easeInOut) : null,
+                    icon: const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.white70)
+                )
+            ]
         );
     }
 }
@@ -305,22 +217,11 @@ class _WargearCheckbox extends StatelessWidget
     final ValueChanged<bool?> onChanged;
     final List<String> titles;
 
-    const _WargearCheckbox({
-        required this.isSelected,
-        required this.onChanged,
-        required this.titles
-    });
+    const _WargearCheckbox({required this.isSelected, required this.onChanged, required this.titles});
 
     @override
-    Widget build(BuildContext context)
+    Widget build(BuildContext context) 
     {
-        List<Widget> widgetsTitle = [];
-        for (String title in titles)
-        {
-            widgetsTitle.add(Text(title, style: const TextStyle(color: Colors.white, fontSize: 12)));
-            widgetsTitle.add(const SizedBox(width: 4));
-        }
-
         return IntrinsicWidth(
             child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -329,13 +230,13 @@ class _WargearCheckbox extends StatelessWidget
                         visualDensity: VisualDensity.compact,
                         value: isSelected,
                         activeColor: Colors.orangeAccent,
-                        onChanged: (bool? newValue)
-                        {
-                            onChanged(newValue);
-                        }
+                        onChanged: onChanged
                     ),
                     const SizedBox(width: 4),
-                    Row(children: widgetsTitle)
+                    ...titles.map((t) => Padding(
+                            padding: const EdgeInsets.only(right: 4),
+                            child: Text(t, style: const TextStyle(color: Colors.white, fontSize: 12))
+                        ))
                 ]
             )
         );
@@ -344,33 +245,24 @@ class _WargearCheckbox extends StatelessWidget
 
 class _WargearRadio extends StatelessWidget
 {
-    final List<String> value;
+    final int value;
     final List<String> titles;
 
-    const _WargearRadio({
-        required this.value,
-        required this.titles
-    });
+    const _WargearRadio({required this.value, required this.titles});
 
     @override
-    Widget build(BuildContext context)
+    Widget build(BuildContext context) 
     {
-        List<Widget> widgetsTitle = [];
-        for (String title in titles)
-        {
-            widgetsTitle.add(Text(title, style: const TextStyle(color: Colors.white, fontSize: 12)));
-            widgetsTitle.add(const SizedBox(width: 4));
-        }
-
         return IntrinsicWidth(
             child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                    Radio<List<String>>(
-                        value: value
-                    ),
+                    Radio<int>(value: value),
                     const SizedBox(width: 4),
-                    Row(children: widgetsTitle)
+                    ...titles.map((t) => Padding(
+                            padding: const EdgeInsets.only(right: 4),
+                            child: Text(t, style: const TextStyle(color: Colors.white, fontSize: 12))
+                        ))
                 ]
             )
         );

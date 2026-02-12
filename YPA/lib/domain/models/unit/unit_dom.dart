@@ -30,6 +30,7 @@ class UnitDOM
     final List<LeaderFilterDom> leader;
     final List<LeaderFilterDom> ledBy;
     final Map<String, ModelStatsDom> modelStats;
+    final Map<String, List<int>> selectedWargearIndices;
 
     const UnitDOM._({
         required this.id,
@@ -46,7 +47,8 @@ class UnitDOM
         required this.factionAbilities,
         required this.leader,
         required this.ledBy,
-        required this.modelStats
+        required this.modelStats,
+        required this.selectedWargearIndices
     });
 
     factory UnitDOM.restore({
@@ -64,7 +66,8 @@ class UnitDOM
         required List<FactionUnitAbilityCode> factionAbilities,
         required List<LeaderFilterDom> leader,
         required List<LeaderFilterDom> ledBy,
-        required Map<String, ModelStatsDom> modelStats
+        required Map<String, ModelStatsDom> modelStats,
+        Map<String, List<int>>? selectedWargearIndices
 
     })
     {
@@ -83,7 +86,8 @@ class UnitDOM
             factionAbilities: factionAbilities,
             leader: leader,
             ledBy: ledBy,
-            modelStats: modelStats
+            modelStats: modelStats,
+            selectedWargearIndices: selectedWargearIndices ?? {}
         );
     }
 
@@ -120,7 +124,8 @@ class UnitDOM
             factionAbilities: factionAbilities,
             leader: leader,
             ledBy: ledBy,
-            modelStats: modelStats
+            modelStats: modelStats,
+            selectedWargearIndices: {}
         );
     }
 
@@ -139,7 +144,8 @@ class UnitDOM
         List<FactionUnitAbilityCode>? factionAbilities,
         List<LeaderFilterDom>? leader,
         List<LeaderFilterDom>? ledBy,
-        Map<String, ModelStatsDom>? modelStats
+        Map<String, ModelStatsDom>? modelStats,
+        Map<String, List<int>>? selectedWargearIndices
     })
     {
         return UnitDOM._(
@@ -158,7 +164,8 @@ class UnitDOM
             factionAbilities: factionAbilities ?? this.factionAbilities,
             leader: leader ?? this.leader,
             ledBy: ledBy ?? this.ledBy,
-            modelStats: modelStats ?? this.modelStats
+            modelStats: modelStats ?? this.modelStats,
+            selectedWargearIndices: selectedWargearIndices ?? this.selectedWargearIndices
         );
     }
 }

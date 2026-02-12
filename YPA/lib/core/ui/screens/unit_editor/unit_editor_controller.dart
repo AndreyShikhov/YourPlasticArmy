@@ -126,6 +126,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                 leader: unit.leader,
                 ledBy: unit.ledBy,
                 modelStats: unit.modelStats,
+                selectedWargearIndices: unit.selectedWargearIndices,
                 weaponInfo: weaponInfo
             );
 
@@ -553,79 +554,187 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
     /// ==========================================
     ///  Wargear operations
     /// ==========================================
+
+    void toggleWargearCheckbox(String optionId, int index, bool isSelected) 
+    {
+        if (state.unit == null) return;
+
+        final currentIndices = Map<String, List<int>>.from(state.unit!.selectedWargearIndices);
+        final optionIndices = List<int>.from(currentIndices[optionId] ?? []);
+
+        if (isSelected) 
+        {
+            if (!optionIndices.contains(index)) 
+            {
+                optionIndices.add(index);
+            }
+        } else 
+        {
+            optionIndices.remove(index);
+        }
+
+        currentIndices[optionId] = optionIndices;
+        _updateSnapshotAndRecalculate(currentIndices);
+    }
+
+    void toggleWargearRadio(String optionId, int index) 
+    {
+        if (state.unit == null) return;
+
+        final currentIndices = Map<String, List<int>>.from(state.unit!.selectedWargearIndices);
+        currentIndices[optionId] = [index];
+
+        _updateSnapshotAndRecalculate(currentIndices);
+    }
+
+    void _updateSnapshotAndRecalculate(Map<String, List<int>> newIndices) 
+    {
+        if (state.unit == null) return;
+
+        // 1. Обновляем индексы в стейте
+        final updatedUnit = state.unit!.copyWith(selectedWargearIndices: newIndices);
+
+        // 2. Полный пересчет weaponInfo на основе снапшота
+        final recalculatedWeaponInfo = _calculateWeaponInfoFromSnapshot(updatedUnit);
+
+        state = state.copyWith(
+            unit: updatedUnit.copyWith(weaponInfo: recalculatedWeaponInfo)
+        );
+
+        // 3. Сохранение (здесь нужно добавить UseCase для сохранения выбранных индексов)
+        // ...
+    }
+
+    List< ({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> _calculateWeaponInfoFromSnapshot(UnitEditorItemUi unit) 
+    {
+        final List< ({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> weaponInfo = [];
+
+        // Временная карта для подсчета количества экипированного оружия
+        // Map<modelName, Map<weaponName, amount>>
+        final Map<String, Map<String, int>> equippedCount = {};
+
+        // 1. Инициализируем базовое оружие для всех видимых моделей
+        int totalSergeants = 0;
+        unit.modelStats.forEach((modelName, stats)
+            {
+                if (stats.isSergeant == true) totalSergeants++;
+            });
+
+        int totalModels = unit.unitComposition.effectiveComposition.keys.firstOrNull ?? 0;
+        int normalModels = totalModels - totalSergeants;
+
+        unit.modelStats.forEach((modelName, stats)
+            {
+                if (!(stats.isNeedShow == true || stats.isSergeant == true)) return;
+
+                equippedCount[modelName] ??= {};
+                int modelCount = (stats.isSergeant == true) ? 1 : normalModels;
+
+                for (final type in [WeaponType.ranged, WeaponType.melee])
+                {
+                    final baseWeapons = stats.modelWeapons.selectedWeapons[type] ?? [];
+                    for (var wName in baseWeapons)
+                    {
+                        equippedCount[modelName]![wName] = (equippedCount[modelName]![wName] ?? 0) + modelCount;
+                    }
+                }
+            });
+
+        // 2. Применяем изменения из снапшота
+        unit.modelStats.forEach((modelName, stats)
+            {
+                if (!(stats.isNeedShow == true || stats.isSergeant == true)) return;
+
+                for (int i = 0; i < stats.wargearOptions.length; i++)
+                {
+                    final option = stats.wargearOptions[i];
+                    final optionId = "$modelName-$i";
+                    final selectedIndices = unit.selectedWargearIndices[optionId] ?? [];
+
+                    for (var idx in selectedIndices)
+                    {
+                        // Если это замена
+                        if (option.replaceWeapons.isNotEmpty) 
+                        {
+                            // Определяем, какой вариант замены использовать
+                            // В случае Radio (multiple choice) - idx это индекс варианта
+                            // В случае Checkbox - idx это индекс слота/модели, а вариант всегда один (0)
+                            final int entryIdx = (option.replaceWeapons.length > 1) ? idx : 0;
+                            
+                            if (entryIdx < option.replaceWeapons.length)
+                            {
+                                final replaceEntry = option.replaceWeapons.entries.elementAt(entryIdx);
+                                final baseWeapons = replaceEntry.key;
+                                final newWeapons = replaceEntry.value;
+
+                                // Убираем базу
+                                for (var w in baseWeapons)
+                                {
+                                    equippedCount[modelName]![w] = (equippedCount[modelName]![w] ?? 0) - 1;
+                                }
+                                // Добавляем новое
+                                for (var w in newWeapons)
+                                {
+                                    equippedCount[modelName]![w] = (equippedCount[modelName]![w] ?? 0) + 1;
+                                }
+                            }
+                        } 
+                        // Если это просто добавление
+                        else if (option.additionalWeapons.isNotEmpty) 
+                        {
+                            for (var w in option.additionalWeapons)
+                            {
+                                equippedCount[modelName]![w] = (equippedCount[modelName]![w] ?? 0) + 1;
+                            }
+                        }
+                    }
+                }
+            });
+
+        // 3. Формируем финальный список weaponInfo
+        unit.modelStats.forEach((modelName, stats)
+            {
+                if (!(stats.isNeedShow == true || stats.isSergeant == true)) return;
+
+                // Собираем все уникальные названия оружия для этой модели (и базу, и опции)
+                final Set<String> allPossibleWeapons = {};
+                for (var type in [WeaponType.ranged, WeaponType.melee])
+                {
+                    allPossibleWeapons.addAll(stats.modelWeapons.weapons[type]?.map((w) => w.name) ?? []);
+                }
+
+                for (var wName in allPossibleWeapons)
+                {
+                    int amount = equippedCount[modelName]?[wName] ?? 0;
+                    WeaponType? type;
+                    // Находим тип оружия
+                    if (stats.modelWeapons.weapons[WeaponType.ranged]?.any((w) => w.name == wName) == true) type = WeaponType.ranged;
+                    else if (stats.modelWeapons.weapons[WeaponType.melee]?.any((w) => w.name == wName) == true) type = WeaponType.melee;
+
+                    if (type != null) 
+                    {
+                        weaponInfo.add((
+                            modelName: modelName,
+                            weaponType: type,
+                            weaponName: wName,
+                            isEquiped: amount > 0,
+                            amount: amount
+                            ));
+                    }
+                }
+            });
+
+        return weaponInfo;
+    }
+
     void replaceWeapon(String unitModelName, List<String> replace, List<String> replaceable)
     {
-        if (state.unit?.weaponInfo == null) return;
-
-        final updatedWeaponInfo = state.unit!.weaponInfo!.map((info)
-            {
-                if (info.modelName != unitModelName) return info;
-
-                int newAmount = info.amount;
-                bool isEquiped = info.isEquiped;
-
-                /// Если это оружие, которое мы ЗАМЕНЯЕМ (убираем)
-                if (replace.contains(info.weaponName))
-                {
-                    newAmount = (newAmount > 0) ? newAmount - 1 : 0;
-                    isEquiped = newAmount > 0;
-                }
-
-                /// Если это оружие, которое мы ДОБАВЛЯЕМ
-                else if (replaceable.contains(info.weaponName))
-                {
-                    newAmount++;
-                    isEquiped = true;
-                }
-
-                return (
-                modelName: info.modelName,
-                weaponType: info.weaponType,
-                weaponName: info.weaponName,
-                isEquiped: isEquiped,
-                amount: newAmount
-                );
-            }).toList();
-
-        state = state.copyWith(
-            unit: state.unit!.copyWith(weaponInfo: updatedWeaponInfo)
-        );
-
-        state = state.copyWith(
-            unit: state.unit!.copyWith(weaponInfo: updatedWeaponInfo)
-        );
+        // Старый метод оставляем пока для совместимости, если он где-то используется, 
+        // но логику переносим на snapshot
     }
 
     void addWeapon(String unitModelName, List<String> addWeapons, bool isAdd)
     {
-        if (state.unit?.weaponInfo == null) return;
-
-        final updatedWeaponInfo = state.unit!.weaponInfo!.map((info)
-            {
-                if (info.modelName != unitModelName || !addWeapons.contains(info.weaponName)) return info;
-
-                int newAmount = info.amount;
-                bool isEquiped = info.isEquiped;
-
-                newAmount = isAdd ? newAmount + 1 : newAmount - 1;
-                isEquiped = newAmount > 0;
-
-                return (
-                modelName: info.modelName,
-                weaponType: info.weaponType,
-                weaponName: info.weaponName,
-                isEquiped: isEquiped,
-                amount: newAmount
-                );
-            }).toList();
-
-        state = state.copyWith(
-            unit: state.unit!.copyWith(weaponInfo: updatedWeaponInfo)
-        );
-
-        state = state.copyWith(
-            unit: state.unit!.copyWith(weaponInfo: updatedWeaponInfo)
-        );
+        // Аналогично
     }
 }
-

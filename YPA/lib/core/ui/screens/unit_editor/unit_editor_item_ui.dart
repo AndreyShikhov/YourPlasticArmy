@@ -22,6 +22,7 @@ class UnitEditorItemUi
     final List<LeaderFilterDom> leader;
     final List<LeaderFilterDom> ledBy;
     final Map<String, ModelStatsDom> modelStats;
+    final Map<String, List<int>> selectedWargearIndices;
 
     /// Изменили на List, так как оружия много
     final List<({
@@ -46,6 +47,7 @@ class UnitEditorItemUi
         required this.leader,
         required this.ledBy,
         required this.modelStats,
+        required this.selectedWargearIndices,
         this.weaponInfo,
     });
 
@@ -63,6 +65,7 @@ class UnitEditorItemUi
         List<LeaderFilterDom>? leader,
         List<LeaderFilterDom>? ledBy,
         Map<String, ModelStatsDom>? modelStats,
+        Map<String, List<int>>? selectedWargearIndices,
         List<({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})>? weaponInfo,
     })
     {
@@ -80,6 +83,7 @@ class UnitEditorItemUi
             leader: leader ?? this.leader,
             ledBy: ledBy ?? this.ledBy,
             modelStats: modelStats ?? this.modelStats,
+            selectedWargearIndices: selectedWargearIndices ?? this.selectedWargearIndices,
             weaponInfo: weaponInfo ?? this.weaponInfo,
         );
     }

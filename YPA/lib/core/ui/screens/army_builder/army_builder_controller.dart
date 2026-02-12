@@ -454,7 +454,9 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             factionAbilities: unit.factionAbilities,
             leader: unit.leader,
             ledBy: unit.ledBy,
-            modelStats: unit.modelStats
+            modelStats: unit.modelStats,
+            selectedWargearIndices: unit.selectedWargearIndices
+
         );
     }
 

@@ -23,6 +23,7 @@ class ArmyBuilderUnitItemUi
     final List<LeaderFilterDom> leader;
     final List<LeaderFilterDom> ledBy;
     final Map<String, ModelStatsDom> modelStats;
+    final Map<String, List<int>> selectedWargearIndices;
 
     ArmyBuilderUnitItemUi({
         required this.instanceId,
@@ -39,6 +40,7 @@ class ArmyBuilderUnitItemUi
         required this.leader,
         required this.ledBy,
         required this.modelStats,
+        required this.selectedWargearIndices,
     });
 
     ArmyBuilderUnitItemUi copyWith({
@@ -56,6 +58,7 @@ class ArmyBuilderUnitItemUi
         List<LeaderFilterDom>? leader,
         List<LeaderFilterDom>? ledBy,
         Map<String, ModelStatsDom>? modelStats,
+        Map<String, List<int>>? selectedWargearIndices,
     })
     {
         return ArmyBuilderUnitItemUi(
@@ -73,6 +76,7 @@ class ArmyBuilderUnitItemUi
             leader: leader ?? this.leader,
             ledBy: ledBy ?? this.ledBy,
             modelStats: modelStats ?? this.modelStats,
+            selectedWargearIndices: selectedWargearIndices ?? this.selectedWargearIndices,
         );
     }
 
@@ -94,6 +98,7 @@ class ArmyBuilderUnitItemUi
             'leader': leader,
             'ledBy': ledBy,
             'modelStats': modelStats.map((k, v) => MapEntry(k, v.toJson())),
+            'selectedWargearIndices': selectedWargearIndices
         };
     }
 
@@ -121,6 +126,9 @@ class ArmyBuilderUnitItemUi
             leader: (json['leader'] as List ).map((l) => LeaderFilterDom.fromJson(l as Map<String, dynamic>)).toList(),
             ledBy: (json['ledBy'] as List ).map((l) => LeaderFilterDom.fromJson(l as Map<String, dynamic>)).toList(),
             modelStats: modelStatsRaw.map((k, v) => MapEntry(k, ModelStatsDom.fromJson(v))),
+            selectedWargearIndices: (json['selectedWargearIndices'] as Map<String, dynamic>? ?? {}).map(
+                (k, v) => MapEntry(k, List<int>.from(v as List))
+            )
         );
     }
 
@@ -141,6 +149,7 @@ class ArmyBuilderUnitItemUi
             leader: [],
             ledBy: [],
             modelStats: {},
+            selectedWargearIndices: {},
         );
     }
 }
