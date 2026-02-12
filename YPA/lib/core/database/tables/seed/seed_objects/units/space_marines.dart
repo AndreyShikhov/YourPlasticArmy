@@ -824,30 +824,73 @@ List<UnitSeed> spaceMarinesUnits()
                             text: 'add every 5 models in this unit, 1 Heavy Intercessor’s heavy bolt rifle can be replaced with 1 heavy bolter.',
                             modelName: 'Heavy Intercessor',
                             conditionCount: {WargearConditionCount.forEvery : 5},
-                            additionalWeapons: ['Heavy bolter'],
+                            additionalWeapons: [],
                             replaceWeapons: {}
                         ),
                         const WargearOptionsDom(
                             text: 'add all  models in this unit, 1 Heavy Intercessor’s heavy bolt rifle can be replaced with 1 heavy bolter.',
                             modelName: 'Heavy Intercessor',
                             conditionCount: {WargearConditionCount.all : 0},
-                            additionalWeapons: ['Heavy bolter'],
+                            additionalWeapons: [],
                             replaceWeapons: {}
                         ),
                         const WargearOptionsDom(
                             text: 'add only Heavy Intercessor Sergeant For every 5 models in this unit, 1 Heavy Intercessor’s heavy bolt rifle can be replaced with 1 heavy bolter.',
                             modelName: 'Heavy Intercessor Sergeant',
                             conditionCount: {WargearConditionCount.only : 1},
-                            additionalWeapons: ['Heavy bolter'],
+                            additionalWeapons: [],
                             replaceWeapons: {}
                         ),
                         const WargearOptionsDom(
                             text: 'add up to 4  Heavy Intercessor For every 5 models in this unit, 1 Heavy Intercessor’s heavy bolt rifle can be replaced with 1 heavy bolter.',
                             modelName: 'Heavy Intercessor',
                             conditionCount: {WargearConditionCount.upTo : 4},
-                            additionalWeapons: ['Heavy bolter'],
-                            replaceWeapons: {}
-                        )
+                            additionalWeapons: [],
+                            replaceWeapons: {
+                              ['Heavy bolt rifle']:['Heavy bolter'],
+                              ['Bolt pistol']:['Heavy bolter']
+                            }
+                        ),
+                      const WargearOptionsDom(
+                          text: 'multy every 5 models in this unit, 1 Heavy Intercessor’s heavy bolt rifle can be replaced with 1 heavy bolter.',
+                          modelName: 'Heavy Intercessor',
+                          conditionCount: {WargearConditionCount.forEvery : 5},
+                          additionalWeapons: [],
+                          replaceWeapons: {
+                            ['Heavy bolt rifle']:['Heavy bolter'],
+                            ['Bolt pistol']:['Heavy bolter']
+                          }
+                      ),
+                      const WargearOptionsDom(
+                          text: 'multy all  models in this unit, 1 Heavy Intercessor’s heavy bolt rifle can be replaced with 1 heavy bolter.',
+                          modelName: 'Heavy Intercessor',
+                          conditionCount: {WargearConditionCount.all : 0},
+                          additionalWeapons: [],
+                          replaceWeapons: {
+                            ['Heavy bolt rifle']:['Heavy bolter'],
+                            ['Bolt pistol']:['Heavy bolter']
+                          }
+                      ),
+                      const WargearOptionsDom(
+                          text: 'multy only Heavy Intercessor Sergeant For every 5 models in this unit, 1 Heavy Intercessor’s heavy bolt rifle can be replaced with 1 heavy bolter.',
+                          modelName: 'Heavy Intercessor Sergeant',
+                          conditionCount: {WargearConditionCount.only : 1},
+                          additionalWeapons: [],
+                          replaceWeapons: {
+                            ['Heavy bolt rifle']:['Heavy bolter'],
+                            ['Bolt pistol']:['Heavy bolter']
+                          }
+                      ),
+                      const WargearOptionsDom(
+                          text: 'multy up to 4  Heavy Intercessor For every 5 models in this unit, 1 Heavy Intercessor’s heavy bolt rifle can be replaced with 1 heavy bolter.',
+                          modelName: 'Heavy Intercessor',
+                          conditionCount: {WargearConditionCount.upTo : 4},
+                          additionalWeapons: [],
+                          replaceWeapons: {
+                            ['Heavy bolt rifle']:['Heavy bolter'],
+                            ['Bolt pistol']:['Heavy bolter']
+                          }
+                      )
 
                     ]
                 )
