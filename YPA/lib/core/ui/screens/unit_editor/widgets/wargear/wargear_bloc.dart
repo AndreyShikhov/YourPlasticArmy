@@ -158,363 +158,129 @@ class _WargearState extends ConsumerState<Wargear>
             )).toList();
     }
 
-    Widget _buildWargearSection(
-        WargearOptionsDom wargear,
+    /// ГЛАВНЫЙ МЕТОД СЕКЦИИ (теперь компактный)
+    Widget _buildWargearSection(WargearOptionsDom wargear,
         UnitCompositionDom composition,
-        List< ({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})>? weaponInfo)
+        List<
+        ({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})>? weaponInfo)
     {
-        List<Widget> widgetsToSelect = [];
-        if (wargear.conditionCount.isNotEmpty)
+        if (wargear.conditionCount.isEmpty) return const SizedBox.shrink();
+
+        final condition = wargear.conditionCount.keys.first;
+        final hasReplaceOptions = wargear.replaceWeapons.isNotEmpty;
+        final isReplace = wargear.additionalWeapons.isEmpty && hasReplaceOptions;
+        final isMultipleChoice = wargear.replaceWeapons.length > 1;
+
+        final comparisonWeapons = hasReplaceOptions ? wargear.replaceWeapons.values.first : wargear
+                .additionalWeapons;
+        final currentEquippedCount = _getEquippedAmount(wargear.modelName, comparisonWeapons, weaponInfo);
+
+        List<Widget> widgets = [];
+
+        // Логика выбора: Radio (один из многих) или Checkbox (независимые или групповые)
+        if (condition == WargearConditionCount.only && isMultipleChoice)
         {
-            final condition = wargear.conditionCount.keys.first;
-            int amountModifers = 0;
-
-            /// ПРОВЕРКИ
-            final bool hasReplaceOptions = wargear.replaceWeapons.isNotEmpty;
-            bool isReplace = wargear.additionalWeapons.isEmpty && hasReplaceOptions;
-            bool oneIs = wargear.replaceWeapons.length > 1;
-
-            /// БЕЗОПАСНОЕ ПОЛУЧЕНИЕ ПЕРВОЙ ОПЦИИ (только если она есть)
-            final replaceKeys = hasReplaceOptions ? wargear.replaceWeapons.keys.first : <String>[];
-            final replaceValues = hasReplaceOptions ? wargear.replaceWeapons.values.first : <String>[];
-
-            final addWeapons = wargear.additionalWeapons;
-            final notifier = ref.read(unitEditorControllerProvider(widget.ids).notifier);
-
-            /// ОПРЕДЕЛЯЕМ, ЧТО СРАВНИВАТЬ В WEAPON_INFO
-            /// Если есть замены - сравниваем с ними, если нет - с доп. оружием
-            final comparisonWeapons = hasReplaceOptions ? replaceValues : addWeapons;
-
-            final currentEquippedAmount = weaponInfo?.where((info) =>
-                info.modelName == wargear.modelName &&
-                    comparisonWeapons.contains(info.weaponName)
-            ).firstOrNull?.amount ?? 0;
-
-            switch (condition)
-            {
-                case WargearConditionCount.none:
-                    break;
-                case WargearConditionCount.only:
-                    /// условимся что это работает только дял одной модели юнита указанной в названии
-
-                    /// 1. Находим, сколько пушек из этой опции уже экипировано у этой модели
-                    /// Чекбокс "выбран", если его индекс меньше количества реально взятого оружия
-
-                    if (oneIs)
-                    {
-                        for (var entry in wargear.replaceWeapons.entries)
-                        {
-                            final replacementOption = entry.value;
-                            final baseOption = entry.key;
-
-                            /// Проверяем, выбрана ли именно ЭТА опция
-                            final isThisOptionSelected = weaponInfo?.any((info) =>
-                                info.modelName == wargear.modelName &&
-                                    replacementOption.contains(info.weaponName) &&
-                                    info.isEquiped && info.amount > 0
-                            ) ?? false;
-
-                            widgetsToSelect.add(
-                                _WargearRadio(
-                                    isSelected: isThisOptionSelected,
-                                    onChanged: ()
-                                    {
-                                        /// При выборе Radio мы не просто переключаем,
-                                        /// а заменяем текущее на выбранное
-                                        notifier.replaceWeapon(wargear.modelName, baseOption, replacementOption);
-                                    },
-                                    titles: replacementOption
-                                )
-                            );
-                        }
-
-                    } else
-                    {
-                        final isThisSelected = currentEquippedAmount > 0;
-                        widgetsToSelect.add(
-                            _WargearCheckbox(
-                                isSelected: isThisSelected, /// Теперь он берет данные из стейта!
-                                onChanged: (bool? newValue)
-                                {
-                                    if (newValue == true)
-                                    {
-                                        if (isReplace)
-                                        {
-                                            notifier.replaceWeapon(wargear.modelName, replaceKeys, replaceValues);
-                                        } else
-                                        {
-                                            notifier.addWeapon(wargear.modelName, addWeapons, true);
-                                        }
-                                    } else
-                                    {
-                                        if (isReplace)
-                                        {
-                                            notifier.replaceWeapon(wargear.modelName, replaceValues, replaceKeys);
-                                        } else
-                                        {
-                                            notifier.addWeapon(wargear.modelName, addWeapons, false);
-                                        }
-                                    }
-                                },
-                                titles: comparisonWeapons
-                            )
-                        );
-                    }
-
-                    break;
-                case WargearConditionCount.upTo:
-                    amountModifers = wargear.conditionCount.values.first;
-
-                    for (int i = 0; i < amountModifers; i++)
-                    {
-
-                        if (oneIs)
-                        {
-                            for (var entry in wargear.replaceWeapons.entries)
-                            {
-                                final replacementOption = entry.value;
-                                final baseOption = entry.key;
-
-                                /// Проверяем, выбрана ли именно ЭТА опция
-                                final isThisOptionSelected = weaponInfo?.any((info) =>
-                                    info.modelName == wargear.modelName &&
-                                        replacementOption.contains(info.weaponName) &&
-                                        info.isEquiped && info.amount > 0
-                                ) ?? false;
-
-                                widgetsToSelect.add(
-                                    _WargearRadio(
-                                        isSelected: isThisOptionSelected,
-                                        onChanged: ()
-                                        {
-                                            /// При выборе Radio мы не просто переключаем,
-                                            /// а заменяем текущее на выбранное
-                                            notifier.replaceWeapon(wargear.modelName, baseOption, replacementOption);
-                                        },
-                                        titles: replacementOption
-                                    )
-                                );
-                            }
-
-                        } else
-                        {
-                            /// Чекбокс "выбран", если его индекс меньше количества реально взятого оружия
-                            final isThisSelected = i < currentEquippedAmount;
-
-                            widgetsToSelect.add(
-                                _WargearCheckbox(
-                                    isSelected: isThisSelected, /// Теперь он берет данные из стейта!
-                                    onChanged: (bool? newValue)
-                                    {
-                                        if (newValue == true)
-                                        {
-                                            if (isReplace)
-                                            {
-                                                notifier.replaceWeapon(wargear.modelName, replaceKeys, replaceValues);
-                                            } else
-                                            {
-                                                notifier.addWeapon(wargear.modelName, addWeapons, true);
-                                            }
-                                        } else
-                                        {
-                                            if (isReplace)
-                                            {
-                                                notifier.replaceWeapon(wargear.modelName, replaceValues, replaceKeys);
-                                            } else
-                                            {
-                                                notifier.addWeapon(wargear.modelName, addWeapons, false);
-                                            }
-                                        }
-                                    },
-                                    titles: comparisonWeapons
-                                )
-                            );
-                        }
-
-                    }
-                    break;
-                case WargearConditionCount.all:
-                    amountModifers = composition.totalUnitAmount;
-                    /// 1. Находим, сколько пушек из этой опции уже экипировано у этой модели
-
-                    for (int i = 0; i < amountModifers; i++)
-                    {
-
-                        if (oneIs)
-                        {
-                            for (var entry in wargear.replaceWeapons.entries)
-                            {
-                                final replacementOption = entry.value;
-                                final baseOption = entry.key;
-
-                                /// Проверяем, выбрана ли именно ЭТА опция
-                                final isThisOptionSelected = weaponInfo?.any((info) =>
-                                    info.modelName == wargear.modelName &&
-                                        replacementOption.contains(info.weaponName) &&
-                                        info.isEquiped && info.amount > 0
-                                ) ?? false;
-
-                                widgetsToSelect.add(
-                                    _WargearRadio(
-                                        isSelected: isThisOptionSelected,
-                                        onChanged: ()
-                                        {
-                                            /// При выборе Radio мы не просто переключаем,
-                                            /// а заменяем текущее на выбранное
-                                            notifier.replaceWeapon(wargear.modelName, baseOption, replacementOption);
-                                        },
-                                        titles: replacementOption
-                                    )
-                                );
-                            }
-                        } else
-                        {
-                            /// Чекбокс "выбран", если его индекс меньше количества реально взятого оружия
-                            final isThisSelected = i < currentEquippedAmount;
-
-                            widgetsToSelect.add(
-                                _WargearCheckbox(
-                                    isSelected: isThisSelected, /// Теперь он берет данные из стейта!
-                                    onChanged: (bool? newValue)
-                                    {
-                                        if (newValue == true)
-                                        {
-                                            if (isReplace)
-                                            {
-                                                notifier.replaceWeapon(wargear.modelName, replaceKeys, replaceValues);
-                                            } else
-                                            {
-                                                notifier.addWeapon(wargear.modelName, addWeapons, true);
-                                            }
-
-                                        } else
-                                        {
-                                            if (isReplace)
-                                            {
-                                                notifier.replaceWeapon(wargear.modelName, replaceValues, replaceKeys);
-                                            } else
-                                            {
-                                                notifier.addWeapon(wargear.modelName, addWeapons, false);
-                                            }
-                                        }
-                                    },
-                                    titles: comparisonWeapons
-                                )
-                            );
-                        }
-
-                    }
-
-                    break;
-                case WargearConditionCount.forEvery:
-
-                    final count = wargear.conditionCount.values.first;
-                    amountModifers = (composition.totalUnitAmount / count).truncate();
-                    /// 1. Находим, сколько пушек из этой опции уже экипировано у этой модели
-
-                    for (int i = 0; i < amountModifers; i++)
-                    {
-                        if (oneIs) 
-                        {
-                            for (var entry in wargear.replaceWeapons.entries)
-                            {
-                                final replacementOption = entry.value;
-                                final baseOption = entry.key;
-
-                                /// Проверяем, выбрана ли именно ЭТА опция
-                                final isThisOptionSelected = weaponInfo?.any((info) =>
-                                    info.modelName == wargear.modelName &&
-                                        replacementOption.contains(info.weaponName) &&
-                                        info.isEquiped && info.amount > 0
-                                ) ?? false;
-
-                                widgetsToSelect.add(
-                                    _WargearRadio(
-                                        isSelected: isThisOptionSelected,
-                                        onChanged: ()
-                                        {
-                                            /// При выборе Radio мы не просто переключаем,
-                                            /// а заменяем текущее на выбранное
-                                            notifier.replaceWeapon(wargear.modelName, baseOption, replacementOption);
-                                        },
-                                        titles: replacementOption
-                                    )
-                                );
-                            }
-                        } else 
-                        {
-                            /// Чекбокс "выбран", если его индекс меньше количества реально взятого оружия
-                            final isThisSelected = i < currentEquippedAmount;
-
-                            widgetsToSelect.add(
-                                _WargearCheckbox(
-                                    isSelected: isThisSelected, /// Теперь он берет данные из стейта!
-                                    onChanged: (bool? newValue)
-                                    {
-                                        if (newValue == true)
-                                        {
-                                            if (isReplace)
-                                            {
-                                                notifier.replaceWeapon(wargear.modelName, replaceKeys, replaceValues);
-                                            } else
-                                            {
-                                                notifier.addWeapon(wargear.modelName, addWeapons, true);
-                                            }
-
-                                        } else
-                                        {
-                                            if (isReplace)
-                                            {
-                                                notifier.replaceWeapon(wargear.modelName, replaceValues, replaceKeys);
-                                            } else
-                                            {
-                                                notifier.addWeapon(wargear.modelName, addWeapons, false);
-                                            }
-                                        }
-                                    },
-                                    titles: comparisonWeapons
-                                )
-                            );
-                        }
-
-                    }
-                    break;
-            }
+            widgets = _buildRadioGroup(wargear, weaponInfo);
+        } else
+        {
+            final limit = _calculateLimit(condition, wargear, composition);
+            widgets = List.generate(limit, (index) =>
+                _buildCheckboxItem(wargear, index < currentEquippedCount, isReplace)
+            );
         }
 
-        /// 2. Возврат верстки
+        return _buildSectionLayout(wargear.text, widgets);
+    }
+
+    /// Вычисляет, сколько всего моделей/слотов доступно для этой опции
+    int _calculateLimit(WargearConditionCount condition, WargearOptionsDom wargear, UnitCompositionDom composition)
+    {
+        switch (condition)
+        {
+            case WargearConditionCount.upTo: return wargear.conditionCount.values.first;
+            case WargearConditionCount.all: return composition.totalUnitAmount;
+            case WargearConditionCount.forEvery:
+                final count = wargear.conditionCount.values.first;
+                return (composition.totalUnitAmount / (count > 0 ? count : 1)).truncate();
+            case WargearConditionCount.only: return 1;
+            default: return 0;
+        }
+    }
+
+    /// Считает, сколько единиц конкретного оружия сейчас экипировано
+    int _getEquippedAmount(String modelName, List<String> weapons, List<dynamic>? weaponInfo)
+    {
+        return weaponInfo?.where((info) =>
+            info.modelName == modelName && weapons.contains(info.weaponName)
+        ).firstOrNull?.amount ?? 0;
+    }
+
+    /// Создает группу Radio кнопок для выбора "1 из N"
+    List<Widget> _buildRadioGroup(WargearOptionsDom wargear, List<dynamic>? weaponInfo)
+    {
+        final notifier = ref.read(unitEditorControllerProvider(widget.ids).notifier);
+        return wargear.replaceWeapons.entries.map((entry)
+            {
+                final isSelected = weaponInfo?.any((info) =>
+                    info.modelName == wargear.modelName &&
+                        entry.value.contains(info.weaponName) &&
+                        info.isEquiped && info.amount > 0
+                ) ?? false;
+
+                return _WargearRadio(
+                    isSelected: isSelected,
+                    onChanged: () => notifier.replaceWeapon(wargear.modelName, entry.key, entry.value),
+                    titles: entry.value
+                );
+            }).toList();
+    }
+
+    /// Создает отдельный Checkbox
+    Widget _buildCheckboxItem(WargearOptionsDom wargear, bool isSelected, bool isReplace)
+    {
+        final notifier = ref.read(unitEditorControllerProvider(widget.ids).notifier);
+        final replaceKeys = isReplace ? wargear.replaceWeapons.keys.first : <String>[];
+        final replaceValues = isReplace ? wargear.replaceWeapons.values.first : <String>[];
+
+        return _WargearCheckbox(
+            isSelected: isSelected,
+            onChanged: (bool? newValue)
+            {
+                if (newValue == true)
+                {
+                    isReplace ? notifier.replaceWeapon(wargear.modelName, replaceKeys, replaceValues)
+                        : notifier.addWeapon(wargear.modelName, wargear.additionalWeapons, true);
+                } else
+                {
+                    isReplace ? notifier.replaceWeapon(wargear.modelName, replaceValues, replaceKeys)
+                        : notifier.addWeapon(wargear.modelName, wargear.additionalWeapons, false);
+                }
+            },
+            titles: isReplace ? replaceValues : wargear.additionalWeapons
+        );
+    }
+
+    /// Отрисовка общего контейнера секции
+    Widget _buildSectionLayout(String title, List<Widget> children)
+    {
         return Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
-
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                    Center(
-                        child: Text(
-                            wargear.text,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(color: Colors.white, fontSize: 16, height: 1.4)
+                    Text(title, textAlign: TextAlign.center, style: const TextStyle(color: Colors.white, fontSize: 16)),
+                    const SizedBox(height: 16),
+                    SizedBox(
+                        height: 160,
+                        child: Wrap(
+                            direction: Axis.vertical,
+                            runSpacing: 20,
+                            children: children
                         )
-                    ),
-                    Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                            SizedBox(height: 160,
-                                child: Wrap(
-                                    direction: Axis.vertical, /// Элементы идут сверху вниз, затем в новую колонку
-                                    runSpacing: 20,   /// Расстояние между самими колонками
-                                    spacing: 0, /// Расстояние между элементами внутри одной колонки
-                                    children: widgetsToSelect
-                                )
-
-                            )
-                        ]
                     )
                 ]
             )
         );
     }
-
 }
 
 /// ==========================================
