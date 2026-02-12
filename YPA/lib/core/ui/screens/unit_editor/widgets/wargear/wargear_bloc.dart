@@ -151,7 +151,7 @@ class _WargearState extends ConsumerState<Wargear>
     List<Widget> _buildWargearSections(
         List<WargearOptionsDom> allWargears,
         UnitCompositionDom composition,
-        List<({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})>? weaponInfo)
+        List< ({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})>? weaponInfo)
     {
         return allWargears.map((wargear) => SingleChildScrollView(
                 child: _buildWargearSection(wargear, composition, weaponInfo)
@@ -161,7 +161,7 @@ class _WargearState extends ConsumerState<Wargear>
     Widget _buildWargearSection(
         WargearOptionsDom wargear,
         UnitCompositionDom composition,
-        List<({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})>? weaponInfo)
+        List< ({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})>? weaponInfo)
     {
         List<Widget> widgetsToSelect = [];
         if (wargear.conditionCount.isNotEmpty)
@@ -179,39 +179,76 @@ class _WargearState extends ConsumerState<Wargear>
                 case WargearConditionCount.upTo:
                     break;
                 case WargearConditionCount.all:
+                    amountModifers = composition.totalUnitAmount;
+                    /// 1. Находим, сколько пушек из этой опции уже экипировано у этой модели
+                    final replacementWeapons = wargear.replaceWeapons.values.first;
+                    final currentEquippedAmount = weaponInfo?.where((info) =>
+                        info.modelName == wargear.modelName &&
+                            replacementWeapons.contains(info.weaponName)
+                    ).firstOrNull?.amount ?? 0;
+
+                    for (int i = 0; i < amountModifers; i++)
+                    {
+                        /// Чекбокс "выбран", если его индекс меньше количества реально взятого оружия
+                        final isThisSelected = i < currentEquippedAmount;
+
+                        widgetsToSelect.add(
+                            _WargearCheckbox(
+                                isSelected: isThisSelected, /// Теперь он берет данные из стейта!
+                                onChanged: (bool? newValue)
+                                {
+                                    final notifier = ref.read(unitEditorControllerProvider(widget.ids).notifier);
+                                    final replaceKeys = wargear.replaceWeapons.keys.first;
+                                    final replaceValues = wargear.replaceWeapons.values.first;
+
+                                    if (newValue == true)
+                                    {
+                                        notifier.replaceWeapon(wargear.modelName, replaceKeys, replaceValues);
+                                    } else
+                                    {
+                                        notifier.replaceWeapon(wargear.modelName, replaceValues, replaceKeys);
+                                    }
+                                },
+                                titles: wargear.replaceWeapons.values.first
+                            )
+                        );
+                    }
+
                     break;
                 case WargearConditionCount.forEvery:
                     amountModifers = (composition.totalUnitAmount / count).truncate();
                     /// 1. Находим, сколько пушек из этой опции уже экипировано у этой модели
                     final replacementWeapons = wargear.replaceWeapons.values.first;
                     final currentEquippedAmount = weaponInfo?.where((info) =>
-                    info.modelName == wargear.modelName &&
-                        replacementWeapons.contains(info.weaponName)
+                        info.modelName == wargear.modelName &&
+                            replacementWeapons.contains(info.weaponName)
                     ).firstOrNull?.amount ?? 0;
 
                     for (int i = 0; i < amountModifers; i++)
                     {
-                      /// Чекбокс "выбран", если его индекс меньше количества реально взятого оружия
-                      final isThisSelected = i < currentEquippedAmount;
+                        /// Чекбокс "выбран", если его индекс меньше количества реально взятого оружия
+                        final isThisSelected = i < currentEquippedAmount;
 
-                      widgetsToSelect.add(
-                          _WargearCheckbox(
-                              isSelected: isThisSelected, /// Теперь он берет данные из стейта!
-                              onChanged: (bool? newValue)
-                              {
-                                final notifier = ref.read(unitEditorControllerProvider(widget.ids).notifier);
-                                final replaceKeys = wargear.replaceWeapons.keys.first;
-                                final replaceValues = wargear.replaceWeapons.values.first;
+                        widgetsToSelect.add(
+                            _WargearCheckbox(
+                                isSelected: isThisSelected, /// Теперь он берет данные из стейта!
+                                onChanged: (bool? newValue)
+                                {
+                                    final notifier = ref.read(unitEditorControllerProvider(widget.ids).notifier);
+                                    final replaceKeys = wargear.replaceWeapons.keys.first;
+                                    final replaceValues = wargear.replaceWeapons.values.first;
 
-                                if (newValue == true) {
-                                  notifier.replaceWeapon(wargear.modelName, replaceKeys, replaceValues);
-                                } else {
-                                  notifier.replaceWeapon(wargear.modelName, replaceValues, replaceKeys);
-                                }
-                              },
-                              titles: wargear.replaceWeapons.values.first
-                          )
-                      );
+                                    if (newValue == true)
+                                    {
+                                        notifier.replaceWeapon(wargear.modelName, replaceKeys, replaceValues);
+                                    } else
+                                    {
+                                        notifier.replaceWeapon(wargear.modelName, replaceValues, replaceKeys);
+                                    }
+                                },
+                                titles: wargear.replaceWeapons.values.first
+                            )
+                        );
                     }
                     break;
             }
@@ -231,11 +268,18 @@ class _WargearState extends ConsumerState<Wargear>
                             style: const TextStyle(color: Colors.white, fontSize: 16, height: 1.4)
                         )
                     ),
-
                     Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                            ...widgetsToSelect
+                            SizedBox(height: 160,
+                                child: Wrap(
+                                    direction: Axis.vertical, /// Элементы идут сверху вниз, затем в новую колонку
+                                    runSpacing: 20,   /// Расстояние между самими колонками
+                                    spacing: 0, /// Расстояние между элементами внутри одной колонки
+                                    children: widgetsToSelect
+                                ) 
+
+                            )
                         ]
                     )
                 ]
