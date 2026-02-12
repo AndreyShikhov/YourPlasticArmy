@@ -587,33 +587,47 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
         _updateSnapshotAndRecalculate(currentIndices);
     }
 
-    void _updateSnapshotAndRecalculate(Map<String, List<int>> newIndices) 
+    void _updateSnapshotAndRecalculate(Map<String, List<int>> newIndices)  async
     {
         if (state.unit == null) return;
 
-        // 1. Обновляем индексы в стейте
+        /// 1. Обновляем индексы в стейте
         final updatedUnit = state.unit!.copyWith(selectedWargearIndices: newIndices);
 
-        // 2. Полный пересчет weaponInfo на основе снапшота
+        /// 2. Полный пересчет weaponInfo на основе снапшота
         final recalculatedWeaponInfo = _calculateWeaponInfoFromSnapshot(updatedUnit);
 
         state = state.copyWith(
             unit: updatedUnit.copyWith(weaponInfo: recalculatedWeaponInfo)
         );
 
-        // 3. Сохранение (здесь нужно добавить UseCase для сохранения выбранных индексов)
-        // ...
+        /// 3. Сохранение в БД
+        final role = UnitRoleCode.fromName(state.unit!.role)!;
+
+        await _updateUnitInUserRoster(
+            armyId: _armyId,
+            instanceId: _instanceUnitId,
+            role: role,
+            category: SaveCategoryCode.wargearOptions,
+            updateData: newIndices
+        );
+
+        /// 4. Обновление основного экрана (синхронизация)
+        _ref.read(armyBuilderControllerProvider(_armyId).notifier)
+            .updateUnitWargearInState(_instanceUnitId, role, newIndices);
+
+
     }
 
     List< ({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> _calculateWeaponInfoFromSnapshot(UnitEditorItemUi unit) 
     {
         final List< ({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> weaponInfo = [];
 
-        // Временная карта для подсчета количества экипированного оружия
-        // Map<modelName, Map<weaponName, amount>>
+        /// Временная карта для подсчета количества экипированного оружия
+        /// Map<modelName, Map<weaponName, amount>>
         final Map<String, Map<String, int>> equippedCount = {};
 
-        // 1. Инициализируем базовое оружие для всех видимых моделей
+        /// 1. Инициализируем базовое оружие для всех видимых моделей
         int totalSergeants = 0;
         unit.modelStats.forEach((modelName, stats)
             {
@@ -640,7 +654,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                 }
             });
 
-        // 2. Применяем изменения из снапшота
+        /// 2. Применяем изменения из снапшота
         unit.modelStats.forEach((modelName, stats)
             {
                 if (!(stats.isNeedShow == true || stats.isSergeant == true)) return;
@@ -653,12 +667,12 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
 
                     for (var idx in selectedIndices)
                     {
-                        // Если это замена
+                        /// Если это замена
                         if (option.replaceWeapons.isNotEmpty) 
                         {
-                            // Определяем, какой вариант замены использовать
-                            // В случае Radio (multiple choice) - idx это индекс варианта
-                            // В случае Checkbox - idx это индекс слота/модели, а вариант всегда один (0)
+                            /// Определяем, какой вариант замены использовать
+                            /// В случае Radio (multiple choice) - idx это индекс варианта
+                            /// В случае Checkbox - idx это индекс слота/модели, а вариант всегда один (0)
                             final int entryIdx = (option.replaceWeapons.length > 1) ? idx : 0;
                             
                             if (entryIdx < option.replaceWeapons.length)
@@ -667,19 +681,19 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                                 final baseWeapons = replaceEntry.key;
                                 final newWeapons = replaceEntry.value;
 
-                                // Убираем базу
+                                /// Убираем базу
                                 for (var w in baseWeapons)
                                 {
                                     equippedCount[modelName]![w] = (equippedCount[modelName]![w] ?? 0) - 1;
                                 }
-                                // Добавляем новое
+                                /// Добавляем новое
                                 for (var w in newWeapons)
                                 {
                                     equippedCount[modelName]![w] = (equippedCount[modelName]![w] ?? 0) + 1;
                                 }
                             }
                         } 
-                        // Если это просто добавление
+                        /// Если это просто добавление
                         else if (option.additionalWeapons.isNotEmpty) 
                         {
                             for (var w in option.additionalWeapons)
@@ -691,12 +705,12 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                 }
             });
 
-        // 3. Формируем финальный список weaponInfo
+        /// 3. Формируем финальный список weaponInfo
         unit.modelStats.forEach((modelName, stats)
             {
                 if (!(stats.isNeedShow == true || stats.isSergeant == true)) return;
 
-                // Собираем все уникальные названия оружия для этой модели (и базу, и опции)
+                /// Собираем все уникальные названия оружия для этой модели (и базу, и опции)
                 final Set<String> allPossibleWeapons = {};
                 for (var type in [WeaponType.ranged, WeaponType.melee])
                 {
@@ -707,8 +721,8 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                 {
                     int amount = equippedCount[modelName]?[wName] ?? 0;
                     WeaponType? type;
-                    // Находим тип оружия
-                    if (stats.modelWeapons.weapons[WeaponType.ranged]?.any((w) => w.name == wName) == true) type = WeaponType.ranged;
+                    /// Находим тип оружия
+                    if (stats.modelWeapons.weapons[WeaponType.ranged]?.any((w) => w.name == wName) == true)  type = WeaponType.ranged;
                     else if (stats.modelWeapons.weapons[WeaponType.melee]?.any((w) => w.name == wName) == true) type = WeaponType.melee;
 
                     if (type != null) 
@@ -729,12 +743,12 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
 
     void replaceWeapon(String unitModelName, List<String> replace, List<String> replaceable)
     {
-        // Старый метод оставляем пока для совместимости, если он где-то используется, 
-        // но логику переносим на snapshot
+        /// Старый метод оставляем пока для совместимости, если он где-то используется,
+        /// но логику переносим на snapshot
     }
 
     void addWeapon(String unitModelName, List<String> addWeapons, bool isAdd)
     {
-        // Аналогично
+        /// Аналогично
     }
 }

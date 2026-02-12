@@ -21,14 +21,14 @@ class AddUnitToUserRoster
     {
         /// 1. Получаем армию
         final army = await armyRepository.getUserArmyById(armyId);
-        // 2. Получаем юнит (чтобы знать, в какую категорию его положить)
+        /// 2. Получаем юнит (чтобы знать, в какую категорию его положить)
         final unit = await unitRepository.findUnitByIdFromDb(UnitIdDom.fromString(unitId));
 
 
         if (army != null && unit != null) 
         {
             /// 3. Вызываем доменную логику (она вернет обновленный объект армии)
-            final updatedArmy = await army.addUnitToUserArmy(unitId, instanceId, unit.role.value.name, unit.unitComposition);
+            final updatedArmy = await army.addUnitToUserArmy(unitId, instanceId, unit.role.value.name, unit.unitComposition, unit.selectedWargearIndices);
 
             /// 4. Сохраняем
             await armyRepository.saveUserArmy(updatedArmy);

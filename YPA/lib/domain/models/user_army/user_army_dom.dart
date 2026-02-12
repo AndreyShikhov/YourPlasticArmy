@@ -98,9 +98,9 @@ class UserArmyDOM
 
     /// Добавляет юнит в jsonData, соблюдая структуру категорий.
     /// [role] — это строковый код роли (например, 'Characters', 'Battleline'), который станет ключом в JSON.
-    Future<UserArmyDOM> addUnitToUserArmy(String unitId,String instanceId, String role, UnitCompositionDom composition) async
+    Future<UserArmyDOM> addUnitToUserArmy(String unitId,String instanceId, String role, UnitCompositionDom composition, Map<String, List<int>> selectedWargear) async
     {
-        // 1. Декодируем текущий JSON или создаем структуру по умолчанию
+        /// 1. Декодируем текущий JSON или создаем структуру по умолчанию
         Map<String, dynamic> root;
         if (jsonData.isEmpty)
         {
@@ -120,10 +120,10 @@ class UserArmyDOM
             }
         }
 
-        // 2. Получаем или создаем мапу категорий
+        /// 2. Получаем или создаем мапу категорий
         Map<String, dynamic> categories = root["categories"] ?? {};
 
-        // 3. Получаем список юнитов для конкретной роли
+        /// 3. Получаем список юнитов для конкретной роли
         List<dynamic> unitList = categories[role] ?? [];
 
         final finalComposition = (composition.selectedComposition == null && composition.compositions.isNotEmpty)
@@ -133,23 +133,23 @@ class UserArmyDOM
                 additionalModels: composition.additionalModels
             ) : composition;
 
-        // 4. Формируем новый объект юнита
+        /// 4. Формируем новый объект юнита
         final newUnitInstance =
             {
 
-                SaveCategoryCode.instanceId.code: instanceId,                        // Уникальный ID отряда в ростере
-                SaveCategoryCode.unitId.code: unitId,                                       // Ссылка на ID базового юнита из таблицы Units
-                SaveCategoryCode.composition.code: finalComposition.toSaveUserArmyJson(),   // Сохзраняем не весь Compositionа только выбранные элементы
-                SaveCategoryCode.points.code: finalComposition.totalUnitCost,               // Cтоимость юнита"
-                SaveCategoryCode.wargearOptions.code: {}                                    // Пока пустой объект опций
+                SaveCategoryCode.instanceId.code: instanceId,                               /// Уникальный ID отряда в ростере
+                SaveCategoryCode.unitId.code: unitId,                                       /// Ссылка на ID базового юнита из таблицы Units
+                SaveCategoryCode.composition.code: finalComposition.toSaveUserArmyJson(),   /// Сохзраняем не весь Compositionа только выбранные элементы
+                SaveCategoryCode.points.code: finalComposition.totalUnitCost,               /// Cтоимость юнита"
+                SaveCategoryCode.wargearOptions.code: selectedWargear                       /// Warger выбранные варгиры
             };
 
-        // 5. Добавляем юнит в список и обновляем структуру
+        /// 5. Добавляем юнит в список и обновляем структуру
         unitList.add(newUnitInstance);
         categories[role] = unitList;
         root["categories"] = categories;
 
-        // 6. Возвращаем новый экземпляр UserArmyDOM с обновленной JSON-строкой
+        /// 6. Возвращаем новый экземпляр UserArmyDOM с обновленной JSON-строкой
         return copyWith(jsonData: jsonEncode(root));
     }
 
@@ -160,19 +160,19 @@ class UserArmyDOM
         final categories = root["categories"] ?? {};
         final List<dynamic> unitList = categories[role] ?? [];
 
-        // Находим инстанс, который хотим скопировать
+        /// Находим инстанс, который хотим скопировать
         final originalIndex = unitList.indexWhere((u) => u['instanceId'] == instanceId);
         if (originalIndex == -1) return this;
 
-        // Создаем глубокую копию объекта
+        /// Создаем глубокую копию объекта
         final original = unitList[originalIndex];
         final duplicate =
             {
                 ...original,
-                SaveCategoryCode.instanceId.code: const Uuid().v4() // ОБЯЗАТЕЛЬНО новый уникальный ID
+                SaveCategoryCode.instanceId.code: const Uuid().v4() /// ОБЯЗАТЕЛЬНО новый уникальный ID
             };
 
-        // Вставляем копию сразу после оригинала
+        /// Вставляем копию сразу после оригинала
         unitList.insert(originalIndex + 1, duplicate);
 
         return copyWith(jsonData: jsonEncode(root));
@@ -188,12 +188,12 @@ class UserArmyDOM
             final Map<String, dynamic> root = jsonDecode(jsonData);
             final Map<String, dynamic> categories = root["categories"] ?? {};
 
-            // Ищем список именно в той категории, которую передали
+            /// Ищем список именно в той категории, которую передали
             List<dynamic> unitList = categories[role] ?? [];
 
             if (unitList.isEmpty) return this;
 
-            // Ищем индекс последнего юнита с таким unitId в этой категории
+            /// Ищем индекс последнего юнита с таким unitId в этой категории
             int lastIndex = -1;
             for (int i = unitList.length - 1; i >= 0; i--)
             {
@@ -204,7 +204,7 @@ class UserArmyDOM
                 }
             }
 
-            // Если нашли — удаляем и обновляем JSON
+            /// Если нашли — удаляем и обновляем JSON
             if (lastIndex != -1)
             {
                 unitList.removeAt(lastIndex);
@@ -213,10 +213,10 @@ class UserArmyDOM
                 return copyWith(jsonData: jsonEncode(root));
             }
 
-            return this; // Если не нашли в этой категории
+            return this; /// Если не нашли в этой категории
         } catch (e)
         {
-            // Использование print или debugPrint для доменных моделей допустимо для отладки
+            /// Использование print или debugPrint для доменных моделей допустимо для отладки
             return this;
         }
     }
@@ -239,9 +239,9 @@ class UserArmyDOM
     }
 
 
-    // ==========================================
-    // Getters
-    // ==========================================
+    /// ==========================================
+    /// Getters
+    /// ==========================================
     int get totalPoints
     {
         if (jsonData.isEmpty) return 0;
@@ -258,8 +258,8 @@ class UserArmyDOM
                 {
                     for (var unitInstance in unitList)
                     {
-                        // Предполагаем, что при сохранении юнита в JSON
-                        // мы записываем его текущую стоимость (points)
+                        /// Предполагаем, что при сохранении юнита в JSON
+                        /// мы записываем его текущую стоимость (points)
                         total += (unitInstance['points'] as int? ?? 0);
                     }
                 }

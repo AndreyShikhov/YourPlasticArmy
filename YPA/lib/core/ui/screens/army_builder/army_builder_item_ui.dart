@@ -4,6 +4,7 @@
  */
 
 import 'package:ypa/domain/models/unit/model_stats.dart';
+import 'package:ypa/domain/models/user_army/user_army_dom.dart';
 
 import '../../../database/tables/seed/seed_objects/_types.dart';
 
@@ -98,7 +99,7 @@ class ArmyBuilderUnitItemUi
             'leader': leader,
             'ledBy': ledBy,
             'modelStats': modelStats.map((k, v) => MapEntry(k, v.toJson())),
-            'selectedWargearIndices': selectedWargearIndices
+            SaveCategoryCode.wargearOptions.code: selectedWargearIndices
         };
     }
 
@@ -126,7 +127,7 @@ class ArmyBuilderUnitItemUi
             leader: (json['leader'] as List ).map((l) => LeaderFilterDom.fromJson(l as Map<String, dynamic>)).toList(),
             ledBy: (json['ledBy'] as List ).map((l) => LeaderFilterDom.fromJson(l as Map<String, dynamic>)).toList(),
             modelStats: modelStatsRaw.map((k, v) => MapEntry(k, ModelStatsDom.fromJson(v))),
-            selectedWargearIndices: (json['selectedWargearIndices'] as Map<String, dynamic>? ?? {}).map(
+            selectedWargearIndices: (json[SaveCategoryCode.wargearOptions.code] as Map<String, dynamic>? ?? {}).map(
                 (k, v) => MapEntry(k, List<int>.from(v as List))
             )
         );
