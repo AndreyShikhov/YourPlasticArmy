@@ -5,6 +5,7 @@
 
 import 'dart:ui';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -97,7 +98,6 @@ class _WargearState extends ConsumerState<Wargear>
         );
     }
 
-    /// Рисуем точки и стрелки навигации
     Widget _buildPageIndicator(int pageCount)
     {
         return Row(
@@ -158,11 +158,9 @@ class _WargearState extends ConsumerState<Wargear>
             )).toList();
     }
 
-    /// ГЛАВНЫЙ МЕТОД СЕКЦИИ (теперь компактный)
     Widget _buildWargearSection(WargearOptionsDom wargear,
         UnitCompositionDom composition,
-        List<
-        ({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})>? weaponInfo)
+        List< ({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})>? weaponInfo)
     {
         if (wargear.conditionCount.isEmpty) return const SizedBox.shrink();
 
@@ -171,13 +169,14 @@ class _WargearState extends ConsumerState<Wargear>
         final isReplace = wargear.additionalWeapons.isEmpty && hasReplaceOptions;
         final isMultipleChoice = wargear.replaceWeapons.length > 1;
 
-        final comparisonWeapons = hasReplaceOptions ? wargear.replaceWeapons.values.first : wargear
-                .additionalWeapons;
+        final comparisonWeapons = hasReplaceOptions 
+            ? wargear.replaceWeapons.values.firstOrNull ?? [] 
+            : wargear.additionalWeapons;
+
         final currentEquippedCount = _getEquippedAmount(wargear.modelName, comparisonWeapons, weaponInfo);
 
         List<Widget> widgets = [];
 
-        // Логика выбора: Radio (один из многих) или Checkbox (независимые или групповые)
         if (condition == WargearConditionCount.only && isMultipleChoice)
         {
             widgets = _buildRadioGroup(wargear, weaponInfo);
@@ -192,22 +191,20 @@ class _WargearState extends ConsumerState<Wargear>
         return _buildSectionLayout(wargear.text, widgets);
     }
 
-    /// Вычисляет, сколько всего моделей/слотов доступно для этой опции
     int _calculateLimit(WargearConditionCount condition, WargearOptionsDom wargear, UnitCompositionDom composition)
     {
         switch (condition)
         {
-            case WargearConditionCount.upTo: return wargear.conditionCount.values.first;
+            case WargearConditionCount.upTo: return wargear.conditionCount.values.firstOrNull ?? 0;
             case WargearConditionCount.all: return composition.totalUnitAmount;
             case WargearConditionCount.forEvery:
-                final count = wargear.conditionCount.values.first;
+                final count = wargear.conditionCount.values.firstOrNull ?? 1;
                 return (composition.totalUnitAmount / (count > 0 ? count : 1)).truncate();
             case WargearConditionCount.only: return 1;
             default: return 0;
         }
     }
 
-    /// Считает, сколько единиц конкретного оружия сейчас экипировано
     int _getEquippedAmount(String modelName, List<String> weapons, List<dynamic>? weaponInfo)
     {
         return weaponInfo?.where((info) =>
@@ -215,32 +212,52 @@ class _WargearState extends ConsumerState<Wargear>
         ).firstOrNull?.amount ?? 0;
     }
 
-    /// Создает группу Radio кнопок для выбора "1 из N"
     List<Widget> _buildRadioGroup(WargearOptionsDom wargear, List<dynamic>? weaponInfo)
     {
         final notifier = ref.read(unitEditorControllerProvider(widget.ids).notifier);
-        return wargear.replaceWeapons.entries.map((entry)
-            {
-                final isSelected = weaponInfo?.any((info) =>
-                    info.modelName == wargear.modelName &&
-                        entry.value.contains(info.weaponName) &&
-                        info.isEquiped && info.amount > 0
-                ) ?? false;
 
-                return _WargearRadio(
-                    isSelected: isSelected,
-                    onChanged: () => notifier.replaceWeapon(wargear.modelName, entry.key, entry.value),
-                    titles: entry.value
-                );
-            }).toList();
+        final selectedEntry = wargear.replaceWeapons.entries.firstWhereOrNull((entry) =>
+            weaponInfo?.any((info) =>
+                info.modelName == wargear.modelName &&
+                    entry.value.contains(info.weaponName) &&
+                    info.isEquiped && info.amount > 0
+            ) ?? false
+        );
+
+        return [
+            RadioGroup<List<String>>(
+                groupValue: selectedEntry?.key,
+                onChanged: (List<String>? baseOption)
+                {
+                    if (baseOption != null)
+                    {
+                        final replacementOption = wargear.replaceWeapons[baseOption];
+                        if (replacementOption != null) 
+                        {
+                            notifier.replaceWeapon(wargear.modelName, baseOption, replacementOption);
+                        }
+                    }
+                },
+                child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: wargear.replaceWeapons.entries.map((entry)
+                        {
+                            return _WargearRadio(
+                                value: entry.key,
+                                titles: entry.value
+                            );
+                        }).toList()
+                )
+            )
+        ];
     }
 
-    /// Создает отдельный Checkbox
     Widget _buildCheckboxItem(WargearOptionsDom wargear, bool isSelected, bool isReplace)
     {
         final notifier = ref.read(unitEditorControllerProvider(widget.ids).notifier);
-        final replaceKeys = isReplace ? wargear.replaceWeapons.keys.first : <String>[];
-        final replaceValues = isReplace ? wargear.replaceWeapons.values.first : <String>[];
+        final replaceKeys = isReplace ? (wargear.replaceWeapons.keys.firstOrNull ?? []) : <String>[];
+        final replaceValues = isReplace ? (wargear.replaceWeapons.values.firstOrNull ?? []) : <String>[];
 
         return _WargearCheckbox(
             isSelected: isSelected,
@@ -260,7 +277,6 @@ class _WargearState extends ConsumerState<Wargear>
         );
     }
 
-    /// Отрисовка общего контейнера секции
     Widget _buildSectionLayout(String title, List<Widget> children)
     {
         return Padding(
@@ -283,13 +299,8 @@ class _WargearState extends ConsumerState<Wargear>
     }
 }
 
-/// ==========================================
-///  Select buttons
-/// ==========================================
-
 class _WargearCheckbox extends StatelessWidget
 {
-
     final bool isSelected;
     final ValueChanged<bool?> onChanged;
     final List<String> titles;
@@ -303,7 +314,6 @@ class _WargearCheckbox extends StatelessWidget
     @override
     Widget build(BuildContext context)
     {
-
         List<Widget> widgetsTitle = [];
         for (String title in titles)
         {
@@ -334,13 +344,11 @@ class _WargearCheckbox extends StatelessWidget
 
 class _WargearRadio extends StatelessWidget
 {
-    final bool isSelected;
-    final VoidCallback onChanged;
+    final List<String> value;
     final List<String> titles;
 
     const _WargearRadio({
-        required this.isSelected,
-        required this.onChanged,
+        required this.value,
         required this.titles
     });
 
@@ -358,13 +366,8 @@ class _WargearRadio extends StatelessWidget
             child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                    Radio<bool>(
-                        visualDensity: VisualDensity.compact,
-                        value: true,
-
-                        groupValue: isSelected ? true : null,
-                        activeColor: Colors.orangeAccent,
-                        onChanged: (_) => onChanged()
+                    Radio<List<String>>(
+                        value: value
                     ),
                     const SizedBox(width: 4),
                     Row(children: widgetsTitle)
