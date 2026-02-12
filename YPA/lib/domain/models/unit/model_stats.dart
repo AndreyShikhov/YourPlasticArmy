@@ -70,6 +70,14 @@ class UnitCompositionDom
       }
       return res;
     }
+
+    List<String> get allModelNames
+    {
+        Set<String> res = {};
+        res.addAll(compositions.map((e) => e.name));
+        res.addAll(additionalModels.map((e) => e.name));
+        return res.toList();
+    }
     /// ==========================================
     /// JSON
     /// ==========================================
