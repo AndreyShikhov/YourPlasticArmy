@@ -31,11 +31,11 @@ List<UnitSeed> bloodAngelsUnits()
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
             unitComposition: const UnitCompositionDom(
                 compositions: [
-                  UnitCompositionModelDom(
-                    name: '1 model',
-                    amount: 1,
-                    cost: 120,
-                  ),
+                    UnitCompositionModelDom(
+                        name: '1 model',
+                        amount: 1,
+                        cost: 120
+                    )
                 ]
             ),
 
@@ -60,42 +60,56 @@ List<UnitSeed> bloodAngelsUnits()
                     leadership: 5,
                     objectiveControl: 1,
                     modelWeapons: ModelWeaponsDom(
-                      weapons: {
-                        WeaponType.ranged : [
-                          WeaponDom(
-                              name: 'Perdition Pistol',
-                              type: WeaponType.ranged,
-                              weaponAbilities: const[
-                                WeaponAbilitiesCode.pistol,
-                                WeaponAbilitiesCode.melta
-                              ],
-                              range: 6,
-                              attacks: const Dice(fix: 1).toString(),
-                              skill: 2,
-                              strength: 8,
-                              ap: -4,
-                              damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
-                                  .toString()
-                          )
-                        ],
-                        WeaponType.melee : [
-                          WeaponDom(
-                              name: 'The Axe Mortalis',
-                              type: WeaponType.melee,
-                              weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
-                              range: 0,
-                              attacks: const Dice(fix: 8).toString(),
-                              skill: 2,
-                              strength: 8,
-                              ap: -3,
-                              damage: const Dice(fix: 2).toString()
-                          )
-                        ]
-                      },
-                      selectedWeapons: {
-                        WeaponType.ranged : ['Perdition Pistol'],
-                        WeaponType.melee : ['The Axe Mortalis']
-                      }
+                        weapons:
+                        {
+                          WeaponType.ranged : [
+                            WeaponDom(
+                                name: 'Perdition Pistol',
+                                weapons:
+                                {'': WeaponProfileDom(
+                                    weaponAbilities: const[
+                                      WeaponAbilitiesCode.pistol,
+                                      WeaponAbilitiesCode.melta
+                                    ],
+                                    range: 6,
+                                    attacks: const Dice(fix: 1).toString(),
+                                    skill: 2,
+                                    strength: 8,
+                                    ap: -4,
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
+                                        .toString()
+                                )
+                                }
+
+                            )
+                          ],
+                          WeaponType.melee : [
+                            WeaponDom(
+                                name: 'The Axe Mortalis',
+                                weapons:
+                                {'': WeaponProfileDom(
+                                    weaponAbilities: const[
+                                      WeaponAbilitiesCode.pistol,
+                                      WeaponAbilitiesCode.melta
+                                    ],
+                                    range: 6,
+                                    attacks: const Dice(fix: 1).toString(),
+                                    skill: 2,
+                                    strength: 8,
+                                    ap: -4,
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
+                                        .toString()
+                                )
+                                }
+
+                            )
+                          ]
+                        },
+                        selectedWeapons:
+                        {
+                          WeaponType.ranged : ['Perdition Pistol'],
+                          WeaponType.melee : ['The Axe Mortalis']
+                        }
                     ),
                     wargearOptions: []
                 )
@@ -121,11 +135,11 @@ List<UnitSeed> bloodAngelsUnits()
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
             unitComposition: const UnitCompositionDom(
                 compositions: [
-                  UnitCompositionModelDom(
-                      name: '1 model',
-                      amount: 1,
-                      cost: 120,
-                  ),
+                    UnitCompositionModelDom(
+                        name: '1 model',
+                        amount: 1,
+                        cost: 120
+                    )
                 ]
             ),
             unitAbility: const[
@@ -149,39 +163,53 @@ List<UnitSeed> bloodAngelsUnits()
                     leadership: 6,
                     objectiveControl: 1,
                     modelWeapons: ModelWeaponsDom(
-                        weapons: {
+                        weapons:
+                        {
                           WeaponType.ranged : [
                             WeaponDom(
                                 name: 'Perdition Pistol',
-                                type: WeaponType.ranged,
-                                weaponAbilities: const[
-                                  WeaponAbilitiesCode.pistol,
-                                  WeaponAbilitiesCode.melta
-                                ],
-                                range: 6,
-                                attacks: const Dice(fix: 1).toString(),
-                                skill: 2,
-                                strength: 8,
-                                ap: -4,
-                                damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
-                                    .toString()
+                                weapons:
+                                {'': WeaponProfileDom(
+                                    weaponAbilities: const[
+                                      WeaponAbilitiesCode.pistol,
+                                      WeaponAbilitiesCode.melta
+                                    ],
+                                    range: 6,
+                                    attacks: const Dice(fix: 1).toString(),
+                                    skill: 2,
+                                    strength: 8,
+                                    ap: -4,
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
+                                        .toString()
+                                )
+                                }
+
                             )
                           ],
                           WeaponType.melee : [
                             WeaponDom(
                                 name: 'The Axe Mortalis',
-                                type: WeaponType.melee,
-                                weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
-                                range: 0,
-                                attacks: const Dice(fix: 8).toString(),
-                                skill: 2,
-                                strength: 8,
-                                ap: -3,
-                                damage: const Dice(fix: 2).toString()
+                                weapons:
+                                {'': WeaponProfileDom(
+                                    weaponAbilities: const[
+                                      WeaponAbilitiesCode.pistol,
+                                      WeaponAbilitiesCode.melta
+                                    ],
+                                    range: 6,
+                                    attacks: const Dice(fix: 1).toString(),
+                                    skill: 2,
+                                    strength: 8,
+                                    ap: -4,
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
+                                        .toString()
+                                )
+                                }
+
                             )
                           ]
                         },
-                        selectedWeapons: {
+                        selectedWeapons:
+                        {
                           WeaponType.ranged : ['Perdition Pistol'],
                           WeaponType.melee : ['The Axe Mortalis']
                         }
@@ -210,11 +238,11 @@ List<UnitSeed> bloodAngelsUnits()
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
             unitComposition: const UnitCompositionDom(
                 compositions: [
-                  UnitCompositionModelDom(
-                      name: '1 model',
-                      amount: 1,
-                      cost: 120,
-                  ),
+                    UnitCompositionModelDom(
+                        name: '1 model',
+                        amount: 1,
+                        cost: 120
+                    )
                 ]
             ),
             unitAbility: const[
@@ -238,39 +266,53 @@ List<UnitSeed> bloodAngelsUnits()
                     leadership: 6,
                     objectiveControl: 1,
                     modelWeapons: ModelWeaponsDom(
-                        weapons: {
+                        weapons:
+                        {
                           WeaponType.ranged : [
                             WeaponDom(
                                 name: 'Perdition Pistol',
-                                type: WeaponType.ranged,
-                                weaponAbilities: const[
-                                  WeaponAbilitiesCode.pistol,
-                                  WeaponAbilitiesCode.melta
-                                ],
-                                range: 6,
-                                attacks: const Dice(fix: 1).toString(),
-                                skill: 2,
-                                strength: 8,
-                                ap: -4,
-                                damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
-                                    .toString()
+                                weapons:
+                                {'': WeaponProfileDom(
+                                    weaponAbilities: const[
+                                      WeaponAbilitiesCode.pistol,
+                                      WeaponAbilitiesCode.melta
+                                    ],
+                                    range: 6,
+                                    attacks: const Dice(fix: 1).toString(),
+                                    skill: 2,
+                                    strength: 8,
+                                    ap: -4,
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
+                                        .toString()
+                                )
+                                }
+
                             )
                           ],
                           WeaponType.melee : [
                             WeaponDom(
                                 name: 'The Axe Mortalis',
-                                type: WeaponType.melee,
-                                weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
-                                range: 0,
-                                attacks: const Dice(fix: 8).toString(),
-                                skill: 2,
-                                strength: 8,
-                                ap: -3,
-                                damage: const Dice(fix: 2).toString()
+                                weapons:
+                                {'': WeaponProfileDom(
+                                    weaponAbilities: const[
+                                      WeaponAbilitiesCode.pistol,
+                                      WeaponAbilitiesCode.melta
+                                    ],
+                                    range: 6,
+                                    attacks: const Dice(fix: 1).toString(),
+                                    skill: 2,
+                                    strength: 8,
+                                    ap: -4,
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
+                                        .toString()
+                                )
+                                }
+
                             )
                           ]
                         },
-                        selectedWeapons: {
+                        selectedWeapons:
+                        {
                           WeaponType.ranged : ['Perdition Pistol'],
                           WeaponType.melee : ['The Axe Mortalis']
                         }
@@ -299,15 +341,15 @@ List<UnitSeed> bloodAngelsUnits()
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
             unitComposition: const UnitCompositionDom(
                 compositions: [
-                  UnitCompositionModelDom(
-                      name: '1 model',
-                      amount: 1,
-                      cost: 120,
-                  ),
+                    UnitCompositionModelDom(
+                        name: '1 model',
+                        amount: 1,
+                        cost: 120
+                    )
                 ]
             ),
             unitAbility: const[
-              'shock_assault'
+                'shock_assault'
             ],
             coreAbilities: const[
                 CoreUnitAbilityCode.leader
@@ -317,24 +359,24 @@ List<UnitSeed> bloodAngelsUnits()
             ],
             ledBy: const[],
             leader: const[
-              LeaderFilterDom(
-                  faction: FactionTypeCode.imperium,
-                  army: ArmyTypeCode.spaceMarines,
-                  names: [
-                    'Assault Intercessors With Jump Packs',
-                    'Vanguard Veteran Squad With Jump Packs',
-                  ]
-              ),
-              LeaderFilterDom(
-                  faction: FactionTypeCode.imperium,
-                  army: ArmyTypeCode.spaceMarines,
-                  codex: CodexTypeCode.bloodAngels,
-                  names: [
-                    'Sanguinary Guard',
-                  ]
-              ),
+                LeaderFilterDom(
+                    faction: FactionTypeCode.imperium,
+                    army: ArmyTypeCode.spaceMarines,
+                    names: [
+                        'Assault Intercessors With Jump Packs',
+                        'Vanguard Veteran Squad With Jump Packs'
+                    ]
+                ),
+                LeaderFilterDom(
+                    faction: FactionTypeCode.imperium,
+                    army: ArmyTypeCode.spaceMarines,
+                    codex: CodexTypeCode.bloodAngels,
+                    names: [
+                        'Sanguinary Guard'
+                    ]
+                )
             ],
-            modelStats: 
+            modelStats:
             {
                 'Commander Dante': ModelStatsDom(
                     movement: 12,
@@ -345,39 +387,53 @@ List<UnitSeed> bloodAngelsUnits()
                     leadership: 6,
                     objectiveControl: 1,
                     modelWeapons: ModelWeaponsDom(
-                        weapons: {
+                        weapons:
+                        {
                           WeaponType.ranged : [
                             WeaponDom(
                                 name: 'Perdition Pistol',
-                                type: WeaponType.ranged,
-                                weaponAbilities: const[
-                                  WeaponAbilitiesCode.pistol,
-                                  WeaponAbilitiesCode.melta
-                                ],
-                                range: 6,
-                                attacks: const Dice(fix: 1).toString(),
-                                skill: 2,
-                                strength: 8,
-                                ap: -4,
-                                damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
-                                    .toString()
+                                weapons:
+                                {'': WeaponProfileDom(
+                                    weaponAbilities: const[
+                                      WeaponAbilitiesCode.pistol,
+                                      WeaponAbilitiesCode.melta
+                                    ],
+                                    range: 6,
+                                    attacks: const Dice(fix: 1).toString(),
+                                    skill: 2,
+                                    strength: 8,
+                                    ap: -4,
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
+                                        .toString()
+                                )
+                                }
+
                             )
                           ],
                           WeaponType.melee : [
                             WeaponDom(
                                 name: 'The Axe Mortalis',
-                                type: WeaponType.melee,
-                                weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
-                                range: 0,
-                                attacks: const Dice(fix: 8).toString(),
-                                skill: 2,
-                                strength: 8,
-                                ap: -3,
-                                damage: const Dice(fix: 2).toString()
+                                weapons:
+                                {'': WeaponProfileDom(
+                                    weaponAbilities: const[
+                                      WeaponAbilitiesCode.pistol,
+                                      WeaponAbilitiesCode.melta
+                                    ],
+                                    range: 6,
+                                    attacks: const Dice(fix: 1).toString(),
+                                    skill: 2,
+                                    strength: 8,
+                                    ap: -4,
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
+                                        .toString()
+                                )
+                                }
+
                             )
                           ]
                         },
-                        selectedWeapons: {
+                        selectedWeapons:
+                        {
                           WeaponType.ranged : ['Perdition Pistol'],
                           WeaponType.melee : ['The Axe Mortalis']
                         }
@@ -412,11 +468,11 @@ List<UnitSeed> bloodAngelsUnits()
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
             unitComposition: const UnitCompositionDom(
                 compositions: [
-                  UnitCompositionModelDom(
-                    name: '1 model',
-                    amount: 1,
-                    cost: 120,
-                  ),
+                    UnitCompositionModelDom(
+                        name: '1 model',
+                        amount: 1,
+                        cost: 120
+                    )
                 ]
             ),
             unitAbility: const[
@@ -429,7 +485,7 @@ List<UnitSeed> bloodAngelsUnits()
             ],
             ledBy: const[],
             leader: const[],
-            modelStats: 
+            modelStats:
             {
                 'Baal Predator': ModelStatsDom(
                     movement: 12,
@@ -440,39 +496,53 @@ List<UnitSeed> bloodAngelsUnits()
                     leadership: 6,
                     objectiveControl: 3,
                     modelWeapons: ModelWeaponsDom(
-                        weapons: {
+                        weapons:
+                        {
                           WeaponType.ranged : [
                             WeaponDom(
                                 name: 'Perdition Pistol',
-                                type: WeaponType.ranged,
-                                weaponAbilities: const[
-                                  WeaponAbilitiesCode.pistol,
-                                  WeaponAbilitiesCode.melta
-                                ],
-                                range: 6,
-                                attacks: const Dice(fix: 1).toString(),
-                                skill: 2,
-                                strength: 8,
-                                ap: -4,
-                                damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
-                                    .toString()
+                                weapons:
+                                {'': WeaponProfileDom(
+                                    weaponAbilities: const[
+                                      WeaponAbilitiesCode.pistol,
+                                      WeaponAbilitiesCode.melta
+                                    ],
+                                    range: 6,
+                                    attacks: const Dice(fix: 1).toString(),
+                                    skill: 2,
+                                    strength: 8,
+                                    ap: -4,
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
+                                        .toString()
+                                )
+                                }
+
                             )
                           ],
                           WeaponType.melee : [
                             WeaponDom(
                                 name: 'The Axe Mortalis',
-                                type: WeaponType.melee,
-                                weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
-                                range: 0,
-                                attacks: const Dice(fix: 8).toString(),
-                                skill: 2,
-                                strength: 8,
-                                ap: -3,
-                                damage: const Dice(fix: 2).toString()
+                                weapons:
+                                {'': WeaponProfileDom(
+                                    weaponAbilities: const[
+                                      WeaponAbilitiesCode.pistol,
+                                      WeaponAbilitiesCode.melta
+                                    ],
+                                    range: 6,
+                                    attacks: const Dice(fix: 1).toString(),
+                                    skill: 2,
+                                    strength: 8,
+                                    ap: -4,
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
+                                        .toString()
+                                )
+                                }
+
                             )
                           ]
                         },
-                        selectedWeapons: {
+                        selectedWeapons:
+                        {
                           WeaponType.ranged : ['Perdition Pistol'],
                           WeaponType.melee : ['The Axe Mortalis']
                         }
@@ -501,11 +571,11 @@ List<UnitSeed> bloodAngelsUnits()
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
             unitComposition: const UnitCompositionDom(
                 compositions: [
-                  UnitCompositionModelDom(
-                    name: '1 model',
-                    amount: 1,
-                    cost: 120,
-                  ),
+                    UnitCompositionModelDom(
+                        name: '1 model',
+                        amount: 1,
+                        cost: 120
+                    )
                 ]
             ),
             unitAbility: const[
@@ -518,7 +588,7 @@ List<UnitSeed> bloodAngelsUnits()
             ],
             ledBy: const[],
             leader: const[],
-            modelStats: 
+            modelStats:
             {
                 'Death Company Dreadnought': ModelStatsDom(
                     movement: 8,
@@ -529,39 +599,53 @@ List<UnitSeed> bloodAngelsUnits()
                     leadership: 6,
                     objectiveControl: 4,
                     modelWeapons: ModelWeaponsDom(
-                        weapons: {
+                        weapons:
+                        {
                           WeaponType.ranged : [
                             WeaponDom(
                                 name: 'Perdition Pistol',
-                                type: WeaponType.ranged,
-                                weaponAbilities: const[
-                                  WeaponAbilitiesCode.pistol,
-                                  WeaponAbilitiesCode.melta
-                                ],
-                                range: 6,
-                                attacks: const Dice(fix: 1).toString(),
-                                skill: 2,
-                                strength: 8,
-                                ap: -4,
-                                damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
-                                    .toString()
+                                weapons:
+                                {'': WeaponProfileDom(
+                                    weaponAbilities: const[
+                                      WeaponAbilitiesCode.pistol,
+                                      WeaponAbilitiesCode.melta
+                                    ],
+                                    range: 6,
+                                    attacks: const Dice(fix: 1).toString(),
+                                    skill: 2,
+                                    strength: 8,
+                                    ap: -4,
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
+                                        .toString()
+                                )
+                                }
+
                             )
                           ],
                           WeaponType.melee : [
                             WeaponDom(
                                 name: 'The Axe Mortalis',
-                                type: WeaponType.melee,
-                                weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
-                                range: 0,
-                                attacks: const Dice(fix: 8).toString(),
-                                skill: 2,
-                                strength: 8,
-                                ap: -3,
-                                damage: const Dice(fix: 2).toString()
+                                weapons:
+                                {'': WeaponProfileDom(
+                                    weaponAbilities: const[
+                                      WeaponAbilitiesCode.pistol,
+                                      WeaponAbilitiesCode.melta
+                                    ],
+                                    range: 6,
+                                    attacks: const Dice(fix: 1).toString(),
+                                    skill: 2,
+                                    strength: 8,
+                                    ap: -4,
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
+                                        .toString()
+                                )
+                                }
+
                             )
                           ]
                         },
-                        selectedWeapons: {
+                        selectedWeapons:
+                        {
                           WeaponType.ranged : ['Perdition Pistol'],
                           WeaponType.melee : ['The Axe Mortalis']
                         }
@@ -590,11 +674,11 @@ List<UnitSeed> bloodAngelsUnits()
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
             unitComposition: const UnitCompositionDom(
                 compositions: [
-                  UnitCompositionModelDom(
-                    name: '1 model',
-                    amount: 1,
-                    cost: 120,
-                  ),
+                    UnitCompositionModelDom(
+                        name: '1 model',
+                        amount: 1,
+                        cost: 120
+                    )
                 ]
             ),
             unitAbility: const[
@@ -607,7 +691,7 @@ List<UnitSeed> bloodAngelsUnits()
             ],
             ledBy: const[],
             leader: const[],
-            modelStats: 
+            modelStats:
             {
                 'Death Company Marines': ModelStatsDom(
                     movement: 6,
@@ -618,39 +702,53 @@ List<UnitSeed> bloodAngelsUnits()
                     leadership: 6,
                     objectiveControl: 1,
                     modelWeapons: ModelWeaponsDom(
-                        weapons: {
+                        weapons:
+                        {
                           WeaponType.ranged : [
                             WeaponDom(
                                 name: 'Perdition Pistol',
-                                type: WeaponType.ranged,
-                                weaponAbilities: const[
-                                  WeaponAbilitiesCode.pistol,
-                                  WeaponAbilitiesCode.melta
-                                ],
-                                range: 6,
-                                attacks: const Dice(fix: 1).toString(),
-                                skill: 2,
-                                strength: 8,
-                                ap: -4,
-                                damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
-                                    .toString()
+                                weapons:
+                                {'': WeaponProfileDom(
+                                    weaponAbilities: const[
+                                      WeaponAbilitiesCode.pistol,
+                                      WeaponAbilitiesCode.melta
+                                    ],
+                                    range: 6,
+                                    attacks: const Dice(fix: 1).toString(),
+                                    skill: 2,
+                                    strength: 8,
+                                    ap: -4,
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
+                                        .toString()
+                                )
+                                }
+
                             )
                           ],
                           WeaponType.melee : [
                             WeaponDom(
                                 name: 'The Axe Mortalis',
-                                type: WeaponType.melee,
-                                weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
-                                range: 0,
-                                attacks: const Dice(fix: 8).toString(),
-                                skill: 2,
-                                strength: 8,
-                                ap: -3,
-                                damage: const Dice(fix: 2).toString()
+                                weapons:
+                                {'': WeaponProfileDom(
+                                    weaponAbilities: const[
+                                      WeaponAbilitiesCode.pistol,
+                                      WeaponAbilitiesCode.melta
+                                    ],
+                                    range: 6,
+                                    attacks: const Dice(fix: 1).toString(),
+                                    skill: 2,
+                                    strength: 8,
+                                    ap: -4,
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
+                                        .toString()
+                                )
+                                }
+
                             )
                           ]
                         },
-                        selectedWeapons: {
+                        selectedWeapons:
+                        {
                           WeaponType.ranged : ['Perdition Pistol'],
                           WeaponType.melee : ['The Axe Mortalis']
                         }
@@ -679,11 +777,11 @@ List<UnitSeed> bloodAngelsUnits()
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
             unitComposition: const UnitCompositionDom(
                 compositions: [
-                  UnitCompositionModelDom(
-                    name: '1 model',
-                    amount: 1,
-                    cost: 120,
-                  ),
+                    UnitCompositionModelDom(
+                        name: '1 model',
+                        amount: 1,
+                        cost: 120
+                    )
                 ]
             ),
             unitAbility: const[
@@ -696,7 +794,7 @@ List<UnitSeed> bloodAngelsUnits()
             ],
             ledBy: const[],
             leader: const[],
-            modelStats: 
+            modelStats:
             {
                 'Death Company Marines with Bolt Rifles': ModelStatsDom(
                     movement: 6,
@@ -707,39 +805,53 @@ List<UnitSeed> bloodAngelsUnits()
                     leadership: 6,
                     objectiveControl: 1,
                     modelWeapons: ModelWeaponsDom(
-                        weapons: {
+                        weapons:
+                        {
                           WeaponType.ranged : [
                             WeaponDom(
                                 name: 'Perdition Pistol',
-                                type: WeaponType.ranged,
-                                weaponAbilities: const[
-                                  WeaponAbilitiesCode.pistol,
-                                  WeaponAbilitiesCode.melta
-                                ],
-                                range: 6,
-                                attacks: const Dice(fix: 1).toString(),
-                                skill: 2,
-                                strength: 8,
-                                ap: -4,
-                                damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
-                                    .toString()
+                                weapons:
+                                {'': WeaponProfileDom(
+                                    weaponAbilities: const[
+                                      WeaponAbilitiesCode.pistol,
+                                      WeaponAbilitiesCode.melta
+                                    ],
+                                    range: 6,
+                                    attacks: const Dice(fix: 1).toString(),
+                                    skill: 2,
+                                    strength: 8,
+                                    ap: -4,
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
+                                        .toString()
+                                )
+                                }
+
                             )
                           ],
                           WeaponType.melee : [
                             WeaponDom(
                                 name: 'The Axe Mortalis',
-                                type: WeaponType.melee,
-                                weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
-                                range: 0,
-                                attacks: const Dice(fix: 8).toString(),
-                                skill: 2,
-                                strength: 8,
-                                ap: -3,
-                                damage: const Dice(fix: 2).toString()
+                                weapons:
+                                {'': WeaponProfileDom(
+                                    weaponAbilities: const[
+                                      WeaponAbilitiesCode.pistol,
+                                      WeaponAbilitiesCode.melta
+                                    ],
+                                    range: 6,
+                                    attacks: const Dice(fix: 1).toString(),
+                                    skill: 2,
+                                    strength: 8,
+                                    ap: -4,
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
+                                        .toString()
+                                )
+                                }
+
                             )
                           ]
                         },
-                        selectedWeapons: {
+                        selectedWeapons:
+                        {
                           WeaponType.ranged : ['Perdition Pistol'],
                           WeaponType.melee : ['The Axe Mortalis']
                         }
@@ -768,11 +880,11 @@ List<UnitSeed> bloodAngelsUnits()
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
             unitComposition: const UnitCompositionDom(
                 compositions: [
-                  UnitCompositionModelDom(
-                    name: '1 model',
-                    amount: 1,
-                    cost: 120,
-                  ),
+                    UnitCompositionModelDom(
+                        name: '1 model',
+                        amount: 1,
+                        cost: 120
+                    )
                 ]
             ),
             unitAbility: const[
@@ -785,7 +897,7 @@ List<UnitSeed> bloodAngelsUnits()
             ],
             ledBy: const[],
             leader: const[],
-            modelStats: 
+            modelStats:
             {
                 'Death Company Marines With Jump Packs':ModelStatsDom(
                     movement: 12,
@@ -796,39 +908,53 @@ List<UnitSeed> bloodAngelsUnits()
                     leadership: 6,
                     objectiveControl: 1,
                     modelWeapons: ModelWeaponsDom(
-                        weapons: {
+                        weapons:
+                        {
                           WeaponType.ranged : [
                             WeaponDom(
                                 name: 'Perdition Pistol',
-                                type: WeaponType.ranged,
-                                weaponAbilities: const[
-                                  WeaponAbilitiesCode.pistol,
-                                  WeaponAbilitiesCode.melta
-                                ],
-                                range: 6,
-                                attacks: const Dice(fix: 1).toString(),
-                                skill: 2,
-                                strength: 8,
-                                ap: -4,
-                                damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
-                                    .toString()
+                                weapons:
+                                {'': WeaponProfileDom(
+                                    weaponAbilities: const[
+                                      WeaponAbilitiesCode.pistol,
+                                      WeaponAbilitiesCode.melta
+                                    ],
+                                    range: 6,
+                                    attacks: const Dice(fix: 1).toString(),
+                                    skill: 2,
+                                    strength: 8,
+                                    ap: -4,
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
+                                        .toString()
+                                )
+                                }
+
                             )
                           ],
                           WeaponType.melee : [
                             WeaponDom(
                                 name: 'The Axe Mortalis',
-                                type: WeaponType.melee,
-                                weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
-                                range: 0,
-                                attacks: const Dice(fix: 8).toString(),
-                                skill: 2,
-                                strength: 8,
-                                ap: -3,
-                                damage: const Dice(fix: 2).toString()
+                                weapons:
+                                {'': WeaponProfileDom(
+                                    weaponAbilities: const[
+                                      WeaponAbilitiesCode.pistol,
+                                      WeaponAbilitiesCode.melta
+                                    ],
+                                    range: 6,
+                                    attacks: const Dice(fix: 1).toString(),
+                                    skill: 2,
+                                    strength: 8,
+                                    ap: -4,
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
+                                        .toString()
+                                )
+                                }
+
                             )
                           ]
                         },
-                        selectedWeapons: {
+                        selectedWeapons:
+                        {
                           WeaponType.ranged : ['Perdition Pistol'],
                           WeaponType.melee : ['The Axe Mortalis']
                         }
@@ -857,11 +983,11 @@ List<UnitSeed> bloodAngelsUnits()
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
             unitComposition: const UnitCompositionDom(
                 compositions: [
-                  UnitCompositionModelDom(
-                    name: '1 model',
-                    amount: 1,
-                    cost: 120,
-                  ),
+                    UnitCompositionModelDom(
+                        name: '1 model',
+                        amount: 1,
+                        cost: 120
+                    )
                 ]
             ),
             unitAbility: const[
@@ -873,24 +999,24 @@ List<UnitSeed> bloodAngelsUnits()
                 FactionUnitAbilityCode.oathOfMoment
             ],
             ledBy: const[
-              LeaderFilterDom(
-                  faction: FactionTypeCode.imperium,
-                  army: ArmyTypeCode.spaceMarines,
-                  names: [
-                    'Captain With Jump Pack',
-                  ]
-              ),
-              LeaderFilterDom(
-                  faction: FactionTypeCode.imperium,
-                  army: ArmyTypeCode.spaceMarines,
-                  codex: CodexTypeCode.bloodAngels,
-                  names: [
-                    'Commander Dante',
-                  ]
-              ),
+                LeaderFilterDom(
+                    faction: FactionTypeCode.imperium,
+                    army: ArmyTypeCode.spaceMarines,
+                    names: [
+                        'Captain With Jump Pack'
+                    ]
+                ),
+                LeaderFilterDom(
+                    faction: FactionTypeCode.imperium,
+                    army: ArmyTypeCode.spaceMarines,
+                    codex: CodexTypeCode.bloodAngels,
+                    names: [
+                        'Commander Dante'
+                    ]
+                )
             ],
             leader: const[],
-            modelStats: 
+            modelStats:
             {
                 'Sanguinary Guard': ModelStatsDom(
                     movement: 12,
@@ -901,41 +1027,55 @@ List<UnitSeed> bloodAngelsUnits()
                     leadership: 6,
                     objectiveControl: 1,
                     modelWeapons: ModelWeaponsDom(
-                        weapons: {
-                          WeaponType.ranged : [
-                            WeaponDom(
-                                name: 'Perdition Pistol',
-                                type: WeaponType.ranged,
-                                weaponAbilities: const[
-                                  WeaponAbilitiesCode.pistol,
-                                  WeaponAbilitiesCode.melta
-                                ],
-                                range: 6,
-                                attacks: const Dice(fix: 1).toString(),
-                                skill: 2,
-                                strength: 8,
-                                ap: -4,
-                                damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
-                                    .toString()
-                            )
-                          ],
-                          WeaponType.melee : [
-                            WeaponDom(
-                                name: 'The Axe Mortalis',
-                                type: WeaponType.melee,
-                                weaponAbilities: const[WeaponAbilitiesCode.lethalHits],
-                                range: 0,
-                                attacks: const Dice(fix: 8).toString(),
-                                skill: 2,
-                                strength: 8,
-                                ap: -3,
-                                damage: const Dice(fix: 2).toString()
-                            )
-                          ]
+                        weapons:
+                        {
+                            WeaponType.ranged : [
+                                WeaponDom(
+                                    name: 'Perdition Pistol',
+                                    weapons: 
+                                    {'': WeaponProfileDom(
+                                            weaponAbilities: const[
+                                                WeaponAbilitiesCode.pistol,
+                                                WeaponAbilitiesCode.melta
+                                            ],
+                                            range: 6,
+                                            attacks: const Dice(fix: 1).toString(),
+                                            skill: 2,
+                                            strength: 8,
+                                            ap: -4,
+                                            damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
+                                                .toString()
+                                        )
+                                    }
+
+                                )
+                            ],
+                            WeaponType.melee : [
+                                WeaponDom(
+                                    name: 'The Axe Mortalis',
+                                    weapons: 
+                                    {'': WeaponProfileDom(
+                                            weaponAbilities: const[
+                                                WeaponAbilitiesCode.pistol,
+                                                WeaponAbilitiesCode.melta
+                                            ],
+                                            range: 6,
+                                            attacks: const Dice(fix: 1).toString(),
+                                            skill: 2,
+                                            strength: 8,
+                                            ap: -4,
+                                            damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
+                                                .toString()
+                                        )
+                                    }
+
+                                )
+                            ]
                         },
-                        selectedWeapons: {
-                          WeaponType.ranged : ['Perdition Pistol'],
-                          WeaponType.melee : ['The Axe Mortalis']
+                        selectedWeapons:
+                        {
+                            WeaponType.ranged : ['Perdition Pistol'],
+                            WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
                     wargearOptions: []

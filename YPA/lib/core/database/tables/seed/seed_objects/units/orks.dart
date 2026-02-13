@@ -53,39 +53,55 @@ List<UnitSeed> orksUnits()
                     leadership: 7,
                     objectiveControl: 2,
                     modelWeapons: ModelWeaponsDom(
-                        weapons: 
+                        weapons:
                         {
-                            WeaponType.ranged : [
-                                WeaponDom(
-                                    name: 'Slugga',
-                                    type: WeaponType.ranged,
-                                    weaponAbilities: [WeaponAbilitiesCode.pistol],
-                                    range: 12,
+                          WeaponType.ranged : [
+                            WeaponDom(
+                                name: 'Perdition Pistol',
+                                weapons:
+                                {'': WeaponProfileDom(
+                                    weaponAbilities: const[
+                                      WeaponAbilitiesCode.pistol,
+                                      WeaponAbilitiesCode.melta
+                                    ],
+                                    range: 6,
                                     attacks: const Dice(fix: 1).toString(),
-                                    skill: 5,
-                                    strength: 4,
-                                    ap: 0,
-                                    damage: const Dice(fix: 1).toString()
+                                    skill: 2,
+                                    strength: 8,
+                                    ap: -4,
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
+                                        .toString()
                                 )
-                            ],
-                            WeaponType.melee : [
-                                WeaponDom(
-                                    name: 'Choppa',
-                                    type: WeaponType.melee,
-                                    weaponAbilities: const[],
-                                    range: 0,
-                                    attacks: const Dice(fix: 3).toString(),
-                                    skill: 3,
-                                    strength: 4,
-                                    ap: -1,
-                                    damage: const Dice(fix: 1).toString()
+                                }
+
+                            )
+                          ],
+                          WeaponType.melee : [
+                            WeaponDom(
+                                name: 'The Axe Mortalis',
+                                weapons:
+                                {'': WeaponProfileDom(
+                                    weaponAbilities: const[
+                                      WeaponAbilitiesCode.pistol,
+                                      WeaponAbilitiesCode.melta
+                                    ],
+                                    range: 6,
+                                    attacks: const Dice(fix: 1).toString(),
+                                    skill: 2,
+                                    strength: 8,
+                                    ap: -4,
+                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
+                                        .toString()
                                 )
-                            ]
+                                }
+
+                            )
+                          ]
                         },
-                        selectedWeapons: 
+                        selectedWeapons:
                         {
-                            WeaponType.ranged : ['Slugga'],
-                            WeaponType.melee : ['Choppa']
+                          WeaponType.ranged : ['Perdition Pistol'],
+                          WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
                     wargearOptions: []
