@@ -732,7 +732,18 @@ List<UnitSeed> spaceMarinesUnits()
                                             strength: 4,
                                             ap: 0,
                                             damage: const Dice(fix: 1).toString()
-                                        )
+                                        ),
+                                      'charge': WeaponProfileDom(
+                                          weaponAbilities: const[
+                                            WeaponAbilitiesCode.pistol
+                                          ],
+                                          range: 12,
+                                          attacks: const Dice(fix: 1).toString(),
+                                          skill: 3,
+                                          strength: 8,
+                                          ap: 0,
+                                          damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6 ,  modifier: 3).toString()
+                                      )
                                     }
 
                                 ),

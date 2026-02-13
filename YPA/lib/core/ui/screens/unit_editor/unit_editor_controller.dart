@@ -243,7 +243,9 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
             {
                 for (final weapon in weapons)
                 {
-                    abilityCodes.addAll(weapon.weaponAbilities);
+                    weapon.weapons.forEach((key , value){
+                      abilityCodes.addAll(value.weaponAbilities);
+                    });
                 }
             }
         }
