@@ -202,6 +202,7 @@ class _WeaponTypeGroup extends StatelessWidget
 
         return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
             children: groupedByModel.entries.map((entry)
                 {
                     return _ModelWeaponBlock(
@@ -252,26 +253,27 @@ class _ModelWeaponBlock extends StatelessWidget
                 ));
         }
 
-        return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4.0),
-            child: DecoratedBox(
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.white12),
-                    borderRadius: BorderRadius.circular(4)
-                ),
-                child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                        Padding(
-                            padding: const EdgeInsets.only(top: 4.0, left: 4.0, bottom: 2.0),
-                            child: Text(
-                                modelName,
-                                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12)
-                            )
-                        ),
-                        ...weaponRows
-                    ]
+        return SizedBox(width: 450,
+            child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4.0),
+                child: DecoratedBox(
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.white12),
+                        borderRadius: BorderRadius.circular(4)
+                    ),
+                    child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                            Padding(
+                                padding: const EdgeInsets.only(top: 4.0, left: 4.0, bottom: 2.0),
+                                child: Text(modelName, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12)
+                                )
+                            ),
+                            ...weaponRows
+                        ]
+                    )
                 )
             )
         );
@@ -305,19 +307,12 @@ class _WeaponRow extends StatelessWidget
             decoration: BoxDecoration(color: bgColor),
             child: Column(
                 mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                    Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                            ..._getRowsWeaponProfiles(weapon)
-                        ]
-                    )
-
-                ]
+                children: _getRowsWeaponProfiles(weapon)
             )
-
         );
+
     }
 
     List<Widget> _getRowsWeaponProfiles(WeaponDom weapon)
@@ -333,9 +328,12 @@ class _WeaponRow extends StatelessWidget
                 }
                 res.add(
                     Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
                         children: [
                             _NameWeapon(name, isUsed, amount),
-                            SizedBox(width: 60, child: Center(child: Text('${value.range}"', style: TextStyle(color: isUsed ? Colors.white : const Color.fromARGB(153, 143, 143, 143))))),
+                            const Spacer(),
+                            _StatBox('${value.range}"', isUsed: isUsed),
                             _StatBox(value.attacks, isUsed: isUsed),
                             _StatBox('${value.skill}+', isUsed: isUsed),
                             _StatBox('${value.strength}', isUsed: isUsed),
@@ -350,6 +348,7 @@ class _WeaponRow extends StatelessWidget
                     res.add(Padding(
                             padding: const EdgeInsets.only(left: 4.0, bottom: 2.0),
                             child: Row(
+                                mainAxisSize: MainAxisSize.min,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                     _WeaponAbilitiesBTN(abilities: value.weaponAbilities, weaponAbilities: weaponAbilities)
@@ -382,25 +381,27 @@ class _WeaponCategoryHeader extends StatelessWidget
                 color: color,
                 borderRadius: const BorderRadius.only(topLeft: Radius.circular(4), topRight: Radius.circular(4))
             ),
-            child: Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                    SizedBox(width: 140, child: Padding(
+            child: SizedBox(width: 450,
+                child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                        Padding(
                             padding: const EdgeInsets.only(left: 4.0),
-                            child: Text(title, style: _headerTitleStyle)
-                        )),
-                    const SizedBox(width: 60, child: Center(child: Text('Range', style: _headerTitleStyle))),
-                    const _StatBox('A', isHeader: true),
-                    _StatBox(skillLabel, isHeader: true),
-                    const _StatBox('S', isHeader: true),
-                    const _StatBox('AP', isHeader: true),
-                    const _StatBox('D', isHeader: true)
-                ]
+                            child: _StatBox(title, isHeader: true)
+                        ),
+                        const Spacer(),
+                        const _StatBox('Range', isHeader: true),
+                        const _StatBox('A', isHeader: true),
+                        _StatBox(skillLabel, isHeader: true),
+                        const _StatBox('S', isHeader: true),
+                        const _StatBox('AP', isHeader: true),
+                        const _StatBox('D', isHeader: true)
+                    ]
+                )
             )
         );
     }
-
-    static const _headerTitleStyle = TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14);
 }
 
 class _StatBox extends StatelessWidget
@@ -420,28 +421,29 @@ class _StatBox extends StatelessWidget
     {
 
         double width = 35;
-        if (value.length > 1) 
+        // if (value.length > 3 && value.length < 10)
+        // {
+        //     width = 50;
+        // }
+        if (value.length > 10)
         {
-            width = 50;
+            width = 140;
         }
 
         return SizedBox(
             width: width,
             height: 35,
             child: Center(
-                child: Padding(
-                    padding: const EdgeInsets.all(2.0), 
-                    child: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Text(
-                            value,
-                            style: TextStyle(
-                                color: isUsed ? Colors.white : const Color.fromARGB(153, 143, 143, 143),
-                                fontWeight: FontWeight.bold,
-                                fontSize: isHeader ? 14 : 16
-                            ),
-                            textAlign: TextAlign.center
-                        )
+                child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                        value,
+                        style: TextStyle(
+                            color: isUsed ? Colors.white : const Color.fromARGB(153, 143, 143, 143),
+                            fontWeight: FontWeight.bold,
+                            fontSize: isHeader ? 14 : 16
+                        ),
+                        textAlign: TextAlign.center
                     )
                 )
             )
