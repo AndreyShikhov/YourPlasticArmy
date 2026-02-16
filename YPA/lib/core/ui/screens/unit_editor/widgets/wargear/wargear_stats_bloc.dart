@@ -14,10 +14,21 @@ import '../../../../../../domain/models/abilities/weapon_ability/weapon_ability.
 import '../../../../../../domain/models/unit/unit.dart';
 import '../../unit_editor_controller.dart';
 
+// --- КОНСТАНТЫ СТИЛЕЙ ДЛЯ ОПТИМИЗАЦИИ (Строки 435, 535) ---
+const _kAbilityTextStyle = TextStyle(color: Colors.white70, fontWeight: FontWeight.bold, fontSize: 9);
+const _kAbilityDecoration = BoxDecoration(color: Color.fromARGB(153, 0, 0, 0), borderRadius: BorderRadius.all(Radius.circular(4)));
+const _kModelNameStyle = TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12);
+const _kStatUsedHeaderStyle = TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14);
+const _kStatUnusedHeaderStyle = TextStyle(color: Color.fromARGB(153, 143, 143, 143), fontWeight: FontWeight.bold, fontSize: 14);
+const _kStatUsedStyle = TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16);
+const _kStatUnusedStyle = TextStyle(color: Color.fromARGB(153, 143, 143, 143), fontWeight: FontWeight.bold, fontSize: 16);
+const _kNameUsedStyle = TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13);
+const _kNameUnusedStyle = TextStyle(color: Color.fromARGB(153, 143, 143, 143), fontWeight: FontWeight.bold, fontSize: 13);
+const _kAmountStyle = TextStyle(color: Color.fromARGB(215, 255, 174, 0), fontWeight: FontWeight.bold, fontSize: 13);
+
 class WargearStatsBloc extends ConsumerStatefulWidget
 {
     final  (String, String, String) ids;
-
     const WargearStatsBloc({super.key, required this.ids});
 
     @override
@@ -27,7 +38,7 @@ class WargearStatsBloc extends ConsumerStatefulWidget
 class _WargearStatsBlocState extends ConsumerState<WargearStatsBloc>
 {
     late final PageController _pageController;
-    int _currentPage = 0; /// Индекс текущей страницы
+    int _currentPage = 0;
 
     @override
     void initState()
@@ -46,17 +57,12 @@ class _WargearStatsBlocState extends ConsumerState<WargearStatsBloc>
     @override
     Widget build(BuildContext context)
     {
-        final (weaponInfo, modelStats) = ref.watch(unitEditorControllerProvider(widget.ids).select((s) => (
-                s.unit?.weaponInfo,
-                s.unit?.modelStats
-                )));
-
+        final (weaponInfo, modelStats) = ref.watch(unitEditorControllerProvider(widget.ids).select((s) => (s.unit?.weaponInfo, s.unit?.modelStats)));
         final weaponAbilities = ref.watch(unitEditorControllerProvider(widget.ids).select((s) => s.weaponAbilities));
 
         if (weaponInfo == null || modelStats == null) return const SizedBox.shrink();
 
-        final screenWidth = MediaQuery.sizeOf(context).width;
-        final isWide = screenWidth > 900;
+        final isWide = MediaQuery.sizeOf(context).width > 900;
 
         if (isWide)
         {
@@ -66,7 +72,6 @@ class _WargearStatsBlocState extends ConsumerState<WargearStatsBloc>
                     children: [
                         Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                                 _buildCategorySection(weaponInfo, modelStats, weaponAbilities, WeaponType.ranged),
@@ -78,7 +83,6 @@ class _WargearStatsBlocState extends ConsumerState<WargearStatsBloc>
                         Wargear(ids: widget.ids)
                     ]
                 )
-
             );
         }
 
@@ -91,13 +95,7 @@ class _WargearStatsBlocState extends ConsumerState<WargearStatsBloc>
                         height: 450,
                         child: PageView(
                             controller: _pageController,
-                            onPageChanged: (int page)
-                            {
-                                setState(()
-                                    {
-                                        _currentPage = page;
-                                    });
-                            },
+                            onPageChanged: (int page) => setState(() => _currentPage = page),
                             children: [
                                 SingleChildScrollView(child: _buildCategorySection(weaponInfo, modelStats, weaponAbilities, WeaponType.ranged)),
                                 SingleChildScrollView(child: _buildCategorySection(weaponInfo, modelStats, weaponAbilities, WeaponType.melee))
@@ -105,17 +103,14 @@ class _WargearStatsBlocState extends ConsumerState<WargearStatsBloc>
                         )
                     ),
                     const SizedBox(height: 4),
-                    /// ТОЧКИ-ИНДИКАТОРЫ
                     _buildPageIndicator(2),
                     const SizedBox(height: 10),
                     Wargear(ids: widget.ids)
-
                 ]
             )
         );
     }
 
-    /// Рисуем точки индикации карусели
     Widget _buildPageIndicator(int pageCount)
     {
         return Row(
@@ -126,38 +121,23 @@ class _WargearStatsBlocState extends ConsumerState<WargearStatsBloc>
                         duration: const Duration(milliseconds: 300),
                         margin: const EdgeInsets.symmetric(horizontal: 4),
                         height: 8,
-                        width: _currentPage == index ? 24 : 8, /// Активная точка длиннее
-                        decoration: BoxDecoration(
-                            color: _currentPage == index ? Colors.blueAccent : Colors.white24,
-                            borderRadius: BorderRadius.circular(4)
-                        )
+                        width: _currentPage == index ? 24 : 8,
+                        decoration: BoxDecoration(color: _currentPage == index ? Colors.blueAccent : Colors.white24, borderRadius: BorderRadius.circular(4))
                     );
                 })
         );
     }
 
-    Widget _buildCategorySection(
-        List<dynamic> weaponInfo,
-        Map<String, ModelStatsDom> modelStats,
-        List<WeaponAbilityDOM> weaponAbilities,
-        WeaponType type
-    )
+    Widget _buildCategorySection(List<dynamic> weaponInfo, Map<String, ModelStatsDom> modelStats, List<WeaponAbilityDOM> weaponAbilities, WeaponType type)
     {
         return DecoratedBox(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(6)
-            ),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(6)),
             child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                     _WeaponCategoryHeader(type: type),
-                    _WeaponTypeGroup(
-                        weaponInfo: weaponInfo,
-                        modelStats: modelStats,
-                        weaponAbilities: weaponAbilities,
-                        type: type
-                    )
+                    _WeaponTypeGroup(weaponInfo: weaponInfo, modelStats: modelStats, weaponAbilities: weaponAbilities, type: type)
                 ]
             )
         );
@@ -171,18 +151,12 @@ class _WeaponTypeGroup extends StatelessWidget
     final List<WeaponAbilityDOM> weaponAbilities;
     final WeaponType type;
 
-    const _WeaponTypeGroup({
-        required this.weaponInfo,
-        required this.modelStats,
-        required this.weaponAbilities,
-        required this.type
-    });
+    const _WeaponTypeGroup({required this.weaponInfo, required this.modelStats, required this.weaponAbilities, required this.type});
 
     @override
     Widget build(BuildContext context)
     {
         final weaponsByType = weaponInfo.where((w) => w.weaponType == type).toList();
-
         if (weaponsByType.isEmpty) return const SizedBox.shrink();
 
         final Map<String, List<dynamic>> groupedByModel = {};
@@ -191,26 +165,11 @@ class _WeaponTypeGroup extends StatelessWidget
             groupedByModel.putIfAbsent(info.modelName, () => []).add(info);
         }
 
-        for (var modelWeaponsList in groupedByModel.values)
-        {
-            modelWeaponsList.sort((a, b)
-                {
-                    if (a.isEquiped == b.isEquiped) return 0;
-                    return a.isEquiped ? -1 : 1;
-                });
-        }
-
         return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: groupedByModel.entries.map((entry)
                 {
-                    return _ModelWeaponBlock(
-                        modelName: entry.key,
-                        modelWeapons: entry.value,
-                        weaponAbilities: weaponAbilities,
-                        originalModelStats: modelStats[entry.key]!
-                    );
+                    return _ModelWeaponBlock(modelName: entry.key, modelWeapons: entry.value, weaponAbilities: weaponAbilities, originalModelStats: modelStats[entry.key]!);
                 }).toList()
         );
     }
@@ -223,12 +182,7 @@ class _ModelWeaponBlock extends StatelessWidget
     final List<WeaponAbilityDOM> weaponAbilities;
     final ModelStatsDom originalModelStats;
 
-    const _ModelWeaponBlock({
-        required this.modelName,
-        required this.modelWeapons,
-        required this.weaponAbilities,
-        required this.originalModelStats
-    });
+    const _ModelWeaponBlock({required this.modelName, required this.modelWeapons, required this.weaponAbilities, required this.originalModelStats});
 
     @override
     Widget build(BuildContext context)
@@ -239,41 +193,21 @@ class _ModelWeaponBlock extends StatelessWidget
         for (final info in modelWeapons)
         {
             final weaponType = info.weaponType as WeaponType;
-            final weapon = originalModelStats.modelWeapons.weapons[weaponType]!
-                .firstWhere((w) => w.name == info.weaponName);
-
+            final weapon = originalModelStats.modelWeapons.weapons[weaponType]!.firstWhere((w) => w.name == info.weaponName);
             if (info.isEquiped) isLight = !isLight;
-
-            weaponRows.add(_WeaponRow(
-                    weapon: weapon,
-                    isUsed: info.isEquiped,
-                    isLight: isLight,
-                    weaponAbilities: weaponAbilities,
-                    amount: info.amount
-                ));
+            weaponRows.add(_WeaponRow(weapon: weapon, isUsed: info.isEquiped, isLight: isLight, weaponAbilities: weaponAbilities, amount: info.amount));
         }
 
-        return SizedBox(width: 450,
-            child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4.0),
-                child: DecoratedBox(
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.white12),
-                        borderRadius: BorderRadius.circular(4)
-                    ),
-                    child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                            Padding(
-                                padding: const EdgeInsets.only(top: 4.0, left: 4.0, bottom: 2.0),
-                                child: Text(modelName, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12)
-                                )
-                            ),
-                            ...weaponRows
-                        ]
-                    )
+        return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            child: DecoratedBox(
+                decoration: BoxDecoration(border: Border.all(color: Colors.white12), borderRadius: BorderRadius.circular(4)),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                        Padding(padding: const EdgeInsets.all(4.0), child: Text(modelName, style: _kModelNameStyle)),
+                        ...weaponRows
+                    ]
                 )
             )
         );
@@ -288,50 +222,28 @@ class _WeaponRow extends StatelessWidget
     final List<WeaponAbilityDOM> weaponAbilities;
     final int amount;
 
-    const _WeaponRow({
-        required this.weapon,
-        required this.isUsed,
-        required this.weaponAbilities,
-        required this.amount,
-        this.isLight = false
-    });
+    const _WeaponRow({required this.weapon, required this.isUsed, required this.weaponAbilities, required this.amount, this.isLight = false});
 
     @override
     Widget build(BuildContext context)
     {
-        final Color bgColor = isUsed
-            ? (isLight ? const Color.fromARGB(103, 255, 255, 255) : const Color.fromARGB(76, 179, 179, 179))
-            : const Color.fromARGB(34, 69, 0, 0);
+        final Color bgColor = isUsed ? (isLight ? const Color.fromARGB(103, 255, 255, 255) : const Color.fromARGB(76, 179, 179, 179)) : const Color.fromARGB(34, 69, 0, 0);
 
         return DecoratedBox(
             decoration: BoxDecoration(color: bgColor),
-            child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: _getRowsWeaponProfiles(weapon)
-            )
+            child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: _getRowsWeaponProfiles(weapon))
         );
-
     }
 
     List<Widget> _getRowsWeaponProfiles(WeaponDom weapon)
     {
         List<Widget> res = [];
-
         weapon.weapons.forEach((key, value)
             {
-                String name = weapon.name;
-                if (key != '')
-                {
-                    name += ' - $key';
-                }
-                res.add(
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.max,
+                final fullName = key.isEmpty ? weapon.name : '${weapon.name} - $key';
+                res.add(Row(
                         children: [
-                            _NameWeapon(name, isUsed, amount),
+                            _NameWeapon(fullName, isUsed, amount),
                             const Spacer(),
                             _StatBox('${value.range}"', isUsed: isUsed),
                             _StatBox(value.attacks, isUsed: isUsed),
@@ -340,24 +252,16 @@ class _WeaponRow extends StatelessWidget
                             _StatBox('${value.ap.abs() * -1}', isUsed: isUsed),
                             _StatBox(value.damage, isUsed: isUsed)
                         ]
-                    )
-                );
+                    ));
 
                 if (value.weaponAbilities.isNotEmpty)
                 {
                     res.add(Padding(
-                            padding: const EdgeInsets.only(left: 4.0, bottom: 2.0),
-                            child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                    _WeaponAbilitiesBTN(abilities: value.weaponAbilities, weaponAbilities: weaponAbilities)
-                                ]
-                            )
+                            padding: const EdgeInsets.only(left: 4.0, bottom: 4.0, right: 4.0),
+                            child: _WeaponAbilitiesBTN(abilities: value.weaponAbilities, weaponAbilities: weaponAbilities)
                         ));
                 }
             });
-
         return res;
     }
 }
@@ -365,7 +269,6 @@ class _WeaponRow extends StatelessWidget
 class _WeaponCategoryHeader extends StatelessWidget
 {
     final WeaponType type;
-
     const _WeaponCategoryHeader({required this.type});
 
     @override
@@ -373,32 +276,21 @@ class _WeaponCategoryHeader extends StatelessWidget
     {
         final isRanged = type == WeaponType.ranged;
         final color = isRanged ? const Color.fromARGB(152, 28, 193, 246) : const Color.fromARGB(153, 248, 23, 23);
-        final title = isRanged ? 'Ranged Weapons' : 'Melee Weapons';
         final skillLabel = isRanged ? 'BS' : 'WS';
 
         return DecoratedBox(
-            decoration: BoxDecoration(
-                color: color,
-                borderRadius: const BorderRadius.only(topLeft: Radius.circular(4), topRight: Radius.circular(4))
-            ),
-            child: SizedBox(width: 450,
-                child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                        Padding(
-                            padding: const EdgeInsets.only(left: 4.0),
-                            child: _StatBox(title, isHeader: true)
-                        ),
-                        const Spacer(),
-                        const _StatBox('Range', isHeader: true),
-                        const _StatBox('A', isHeader: true),
-                        _StatBox(skillLabel, isHeader: true),
-                        const _StatBox('S', isHeader: true),
-                        const _StatBox('AP', isHeader: true),
-                        const _StatBox('D', isHeader: true)
-                    ]
-                )
+            decoration: BoxDecoration(color: color, borderRadius: const BorderRadius.only(topLeft: Radius.circular(4), topRight: Radius.circular(4))),
+            child: Row(
+                children: [
+                    Padding(padding: const EdgeInsets.only(left: 4.0), child: _StatBox(isRanged ? 'Ranged' : 'Melee', isHeader: true)),
+                    const Spacer(),
+                    const _StatBox('Range', isHeader: true),
+                    const _StatBox('A', isHeader: true),
+                    _StatBox(skillLabel, isHeader: true),
+                    const _StatBox('S', isHeader: true),
+                    const _StatBox('AP', isHeader: true),
+                    const _StatBox('D', isHeader: true)
+                ]
             )
         );
     }
@@ -410,42 +302,22 @@ class _StatBox extends StatelessWidget
     final bool isHeader;
     final bool isUsed;
 
-    const _StatBox(
-        this.value,
-        {this.isHeader = false,
-            this.isUsed = true}
-    );
+    const _StatBox(this.value, {this.isHeader = false, this.isUsed = true});
 
     @override
     Widget build(BuildContext context)
     {
-
-        double width = 35;
-        /// if (value.length > 3 && value.length < 10)
-        /// {
-        ///     width = 50;
-        /// }
-        if (value.length > 10)
-        {
-            width = 140;
-        }
+        final style = isHeader ? (isUsed ? _kStatUsedHeaderStyle : _kStatUnusedHeaderStyle) : (isUsed ? _kStatUsedStyle : _kStatUnusedStyle);
 
         return SizedBox(
-            width: width,
+            width: value.length > 10 ? 140 : 35,
             height: 35,
             child: Center(
-                child: FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Text(
-                        value,
-                        style: TextStyle(
-                            color: isUsed ? Colors.white : const Color.fromARGB(153, 143, 143, 143),
-                            fontWeight: FontWeight.bold,
-                            fontSize: isHeader ? 14 : 16
-                        ),
-                        textAlign: TextAlign.center
+                child: value.length > 10
+                    ? FittedBox(fit: BoxFit.scaleDown,
+                        child: Text(value, style: style, textAlign: TextAlign.center)
                     )
-                )
+                    : Text(value, style: style, textAlign: TextAlign.center)
             )
         );
     }
@@ -462,40 +334,15 @@ class _NameWeapon extends StatelessWidget
     @override
     Widget build(BuildContext context)
     {
-        final String amountWeapon = '$amount' 'x ';
-
         return SizedBox(
             width: 140,
             child: Padding(
-                padding: const EdgeInsets.only(left: 4.0, top: 4.0, bottom: 4.0),
-                child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                        children: [
-                            if (amount > 0)
-                            Text(
-                                amountWeapon,
-                                style: const TextStyle(
-                                    color: Color.fromARGB(215, 255, 174, 0),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 13
-                                )
-                            ),
-                            Expanded(
-                                child: Text(
-                                    value,
-                                    style: TextStyle(
-                                        color: isUsed ? Colors.white : const Color.fromARGB(153, 143, 143, 143),
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 13
-                                    ),
-                                    softWrap: true,
-                                    maxLines: 3,
-                                    overflow: TextOverflow.ellipsis
-                                )
-                            )
-                        ]
-                    )
+                padding: const EdgeInsets.all(4.0),
+                child: Row(
+                    children: [
+                        if (amount > 0) Text('$amount x ', style: _kAmountStyle),
+                        Expanded(child: Text(value, style: isUsed ? _kNameUsedStyle : _kNameUnusedStyle, maxLines: 3, overflow: TextOverflow.ellipsis))
+                    ]
                 )
             )
         );
@@ -512,12 +359,7 @@ class _WeaponAbilitiesBTN extends StatelessWidget
     @override
     Widget build(BuildContext context)
     {
-        return Wrap(
-            alignment: WrapAlignment.start,
-            spacing: 4.0,
-            runSpacing: 4.0,
-            children: abilities.map((ability) => _buildAbilityTag(context, ability)).toList()
-        );
+        return Wrap(spacing: 4.0, runSpacing: 4.0, children: abilities.map((ability) => _buildAbilityTag(context, ability)).toList());
     }
 
     Widget _buildAbilityTag(BuildContext context, WeaponAbilitiesCode abilityCode)
@@ -526,21 +368,8 @@ class _WeaponAbilitiesBTN extends StatelessWidget
             onTap: () => _showAbilityDialog(context, abilityCode),
             borderRadius: BorderRadius.circular(4),
             child: DecoratedBox(
-                decoration: const BoxDecoration(
-                    color: Color.fromARGB(153, 0, 0, 0),
-                    borderRadius: BorderRadius.all(Radius.circular(4))
-                ),
-                child: Padding( // Сохраняем отступы, которые были в Container
-                    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-                    child: Text(
-                        abilityCode.title.toUpperCase(),
-                        style: const TextStyle(
-                            color: Colors.white70,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 9
-                        )
-                    )
-                )
+                decoration: _kAbilityDecoration,
+                child: Padding(padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2), child: Text(abilityCode.title.toUpperCase(), style: _kAbilityTextStyle))
             )
         );
     }
@@ -548,45 +377,16 @@ class _WeaponAbilitiesBTN extends StatelessWidget
     void _showAbilityDialog(BuildContext context, WeaponAbilitiesCode abilityCode)
     {
         final abilityData = weaponAbilities.where((a) => a.code == abilityCode.code).firstOrNull;
-
         if (abilityData != null)
         {
-
-            final WeaponAbilityDOM weaponAbility = WeaponAbilityDOM(
-                id: '',
-                code: abilityData.code,
-                name: abilityData.name,
-                shortDescription: abilityData.shortDescription,
-                description: abilityData.description
-            );
-
             showDialog(
                 context: context,
-                builder: (context)
-                {
-                    return AlertDialog(
-                        backgroundColor: const Color.fromARGB(255, 45, 45, 45),
-                        contentPadding: const EdgeInsets.all(8),
-                        content:
-                        Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                                SizedBox(
-                                    width: double.maxFinite,
-                                    child: WeaponAbilityBloc(abilities: [weaponAbility as BaseAbilityDom])
-                                )
-                            ]
-                        ),
-                        actions: [
-                            TextButton(
-                                onPressed: () => Navigator.of(context).pop(),
-                                child: const Text("CLOSE", style: TextStyle(color: Colors.blue))
-                            )
-                        ]
-                    );
-                }
+                builder: (context) => AlertDialog(
+                    backgroundColor: const Color.fromARGB(255, 45, 45, 45),
+                    content: Column(mainAxisSize: MainAxisSize.min, children: [SizedBox(width: double.maxFinite, child: WeaponAbilityBloc(abilities: [abilityData as BaseAbilityDom]))]),
+                    actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text("CLOSE"))]
+                )
             );
         }
     }
-
 }

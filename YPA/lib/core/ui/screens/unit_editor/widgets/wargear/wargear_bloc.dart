@@ -13,6 +13,10 @@ import '../../../../../../domain/models/unit/unit.dart';
 import '../../../../../database/tables/seed/seed_objects/_types.dart';
 import '../../unit_editor_controller.dart';
 
+// Константы для оптимизации анимаций
+const _kAnimDuration = Duration(milliseconds: 300);
+const _kAnimCurve = Curves.easeInOut;
+
 class Wargear extends ConsumerStatefulWidget
 {
     final  (String, String, String) ids;
@@ -70,9 +74,11 @@ class _WargearState extends ConsumerState<Wargear>
                             child: PageView(
                                 controller: _pageController,
                                 onPageChanged: (int page) => setState(() => _currentPage = page),
-                                children: allWargearWithModel.map((item) => SingleChildScrollView(
-                                        child: _buildWargearSection(item.modelName, item.option, item.index, composition!, snapshot)
-                                    )).toList()
+                                children: allWargearWithModel
+                                    .map((item) => SingleChildScrollView(
+                                            child: _buildWargearSection(item.modelName, item.option, item.index, composition!, snapshot)
+                                        ))
+                                    .toList()
                             )
                         )
                     ),
@@ -109,37 +115,28 @@ class _WargearState extends ConsumerState<Wargear>
 
         if (condition == WargearConditionCount.only && option.replaceWeapons.length > 1) 
         {
-            // Radio логика
             final int? selectedIdx = selectedIndices.firstOrNull;
             widgets = [
-              RadioGroup<int>(
-                  groupValue: selectedIdx,
-                  onChanged: (int? index) => notifier.toggleWargearRadio(optionId, index),
-                  child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: option.replaceWeapons.entries.mapIndexed((idx, entry)
-                      {
-                        return _WargearRadio(
-                            value: idx,
-                            groupValue: selectedIdx,
-                            onChanged: (val) => notifier.toggleWargearRadio(optionId, val),
-                            titles: entry.value
-                        );
-                      }).toList()
-                  )
-              )
+                RadioGroup<int>(
+                    groupValue: selectedIdx,
+                    onChanged: (int? index) => notifier.toggleWargearRadio(optionId, index),
+                    child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: option.replaceWeapons.entries.mapIndexed((idx, entry)
+                            {
+                                return _WargearRadio(value: idx, titles: entry.value);
+                            }).toList()
+                    )
+                )
             ];
         } else 
         {
-            /// Checkbox логика
             final limit = _calculateLimit(condition, option, composition);
             widgets = List.generate(limit, (idx)
                 {
                     final isSelected = selectedIndices.contains(idx);
-                    final titles = option.replaceWeapons.isNotEmpty
-                        ? option.replaceWeapons.values.firstOrNull ?? []
-                        : option.additionalWeapons;
+                    final titles = option.replaceWeapons.isNotEmpty ? option.replaceWeapons.values.firstOrNull ?? [] : option.additionalWeapons;
 
                     return _WargearCheckbox(
                         isSelected: isSelected,
@@ -189,27 +186,51 @@ class _WargearState extends ConsumerState<Wargear>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
                 IconButton(
-                    onPressed: _currentPage > 0 ? () => _pageController.previousPage(duration: const Duration(milliseconds: 300), curve: Curves.easeInOut) : null,
+                    onPressed: _currentPage > 0 ? () => _pageController.previousPage(duration: _kAnimDuration, curve: _kAnimCurve) : null,
                     icon: const Icon(Icons.arrow_back_ios, size: 16, color: Colors.white70)
                 ),
-                ...List.generate(pageCount, (index) => GestureDetector(
-                        onTap: () => _pageController.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut),
-                        child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 300),
-                            margin: const EdgeInsets.symmetric(horizontal: 4),
-                            height: 8,
-                            width: _currentPage == index ? 24 : 8,
-                            decoration: BoxDecoration(
-                                color: _currentPage == index ? Colors.blueAccent : Colors.white24,
-                                borderRadius: BorderRadius.circular(4)
-                            )
-                        )
-                    )),
+                ...List.generate(
+                    pageCount,
+                    (index) => _PageDot(
+                        isActive: _currentPage == index,
+                        onTap: () => _pageController.animateToPage(index, duration: _kAnimDuration, curve: _kAnimCurve)
+                    )
+                ),
                 IconButton(
-                    onPressed: _currentPage < pageCount - 1 ? () => _pageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.easeInOut) : null,
+                    onPressed: _currentPage < pageCount - 1 ? () => _pageController.nextPage(duration: _kAnimDuration, curve: _kAnimCurve) : null,
                     icon: const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.white70)
                 )
             ]
+        );
+    }
+}
+
+// Извлеченный виджет точки для оптимизации перерисовок
+class _PageDot extends StatelessWidget
+{
+    final bool isActive;
+    final VoidCallback onTap;
+
+    const _PageDot({required this.isActive, required this.onTap});
+
+    @override
+    Widget build(BuildContext context) 
+    {
+        return GestureDetector(
+            onTap: onTap,
+            child: MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: AnimatedContainer(
+                    duration: _kAnimDuration,
+                    margin: const EdgeInsets.symmetric(horizontal: 4),
+                    height: 8,
+                    width: isActive ? 24 : 8,
+                    decoration: BoxDecoration(
+                        color: isActive ? Colors.blueAccent : Colors.white24,
+                        borderRadius: BorderRadius.circular(4)
+                    )
+                )
+            )
         );
     }
 }
@@ -236,10 +257,14 @@ class _WargearCheckbox extends StatelessWidget
                         onChanged: onChanged
                     ),
                     const SizedBox(width: 4),
-                    ...titles.map((t) => Padding(
-                            padding: const EdgeInsets.only(right: 4),
-                            child: Text(t, style: const TextStyle(color: Colors.white, fontSize: 12))
-                        ))
+                    // Оптимизация: один виджет Text вместо списка через map
+                    Flexible(
+                        child: Text(
+                            titles.join(' + '),
+                            style: const TextStyle(color: Colors.white, fontSize: 12),
+                            overflow: TextOverflow.ellipsis
+                        )
+                    )
                 ]
             )
         );
@@ -249,16 +274,9 @@ class _WargearCheckbox extends StatelessWidget
 class _WargearRadio extends StatelessWidget
 {
     final int value;
-    final int? groupValue;
-    final ValueChanged<int?> onChanged;
     final List<String> titles;
 
-    const _WargearRadio({
-        required this.value, 
-        required this.groupValue,
-        required this.onChanged,
-        required this.titles
-    });
+    const _WargearRadio({required this.value, required this.titles});
 
     @override
     Widget build(BuildContext context) 
@@ -268,16 +286,18 @@ class _WargearRadio extends StatelessWidget
                 mainAxisSize: MainAxisSize.min,
                 children: [
                     Radio<int>(
-                        value: value, 
-                        groupValue: groupValue,
-                        toggleable: true,
-                        onChanged: onChanged,
+                        value: value,
+                        toggleable: true
                     ),
                     const SizedBox(width: 4),
-                    ...titles.map((t) => Padding(
-                            padding: const EdgeInsets.only(right: 4),
-                            child: Text(t, style: const TextStyle(color: Colors.white, fontSize: 12))
-                        ))
+                    // Оптимизация: один виджет Text вместо списка через map
+                    Flexible(
+                        child: Text(
+                            titles.join(' + '),
+                            style: const TextStyle(color: Colors.white, fontSize: 12),
+                            overflow: TextOverflow.ellipsis
+                        )
+                    )
                 ]
             )
         );
