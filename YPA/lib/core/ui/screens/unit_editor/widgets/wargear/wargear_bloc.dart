@@ -110,26 +110,29 @@ class _WargearState extends ConsumerState<Wargear>
         if (condition == WargearConditionCount.only && option.replaceWeapons.length > 1) 
         {
             // Radio логика
+            final int? selectedIdx = selectedIndices.firstOrNull;
             widgets = [
-                RadioGroup<int>(
-                    groupValue: selectedIndices.firstOrNull,
-                    onChanged: (int? index)
-                    {
-                        if (index != null) notifier.toggleWargearRadio(optionId, index);
-                    },
-                    child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: option.replaceWeapons.entries.mapIndexed((idx, entry)
-                            {
-                                return _WargearRadio(value: idx, titles: entry.value);
-                            }).toList()
-                    )
-                )
+              RadioGroup<int>(
+                  groupValue: selectedIdx,
+                  onChanged: (int? index) => notifier.toggleWargearRadio(optionId, index),
+                  child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: option.replaceWeapons.entries.mapIndexed((idx, entry)
+                      {
+                        return _WargearRadio(
+                            value: idx,
+                            groupValue: selectedIdx,
+                            onChanged: (val) => notifier.toggleWargearRadio(optionId, val),
+                            titles: entry.value
+                        );
+                      }).toList()
+                  )
+              )
             ];
         } else 
         {
-            // Checkbox логика
+            /// Checkbox логика
             final limit = _calculateLimit(condition, option, composition);
             widgets = List.generate(limit, (idx)
                 {
@@ -246,9 +249,16 @@ class _WargearCheckbox extends StatelessWidget
 class _WargearRadio extends StatelessWidget
 {
     final int value;
+    final int? groupValue;
+    final ValueChanged<int?> onChanged;
     final List<String> titles;
 
-    const _WargearRadio({required this.value, required this.titles});
+    const _WargearRadio({
+        required this.value, 
+        required this.groupValue,
+        required this.onChanged,
+        required this.titles
+    });
 
     @override
     Widget build(BuildContext context) 
@@ -257,7 +267,12 @@ class _WargearRadio extends StatelessWidget
             child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                    Radio<int>(value: value),
+                    Radio<int>(
+                        value: value, 
+                        groupValue: groupValue,
+                        toggleable: true,
+                        onChanged: onChanged,
+                    ),
                     const SizedBox(width: 4),
                     ...titles.map((t) => Padding(
                             padding: const EdgeInsets.only(right: 4),

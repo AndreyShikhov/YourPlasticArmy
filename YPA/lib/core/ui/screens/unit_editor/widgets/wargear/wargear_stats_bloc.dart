@@ -421,10 +421,10 @@ class _StatBox extends StatelessWidget
     {
 
         double width = 35;
-        // if (value.length > 3 && value.length < 10)
-        // {
-        //     width = 50;
-        // }
+        /// if (value.length > 3 && value.length < 10)
+        /// {
+        ///     width = 50;
+        /// }
         if (value.length > 10)
         {
             width = 140;

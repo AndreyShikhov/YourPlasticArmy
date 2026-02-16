@@ -243,9 +243,10 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
             {
                 for (final weapon in weapons)
                 {
-                    weapon.weapons.forEach((key , value){
-                      abilityCodes.addAll(value.weaponAbilities);
-                    });
+                    weapon.weapons.forEach((key, value)
+                        {
+                            abilityCodes.addAll(value.weaponAbilities);
+                        });
                 }
             }
         }
@@ -557,20 +558,20 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
     ///  Wargear operations
     /// ==========================================
 
-    void toggleWargearCheckbox(String optionId, int index, bool isSelected) 
+    void toggleWargearCheckbox(String optionId, int index, bool isSelected)
     {
         if (state.unit == null) return;
 
         final currentIndices = Map<String, List<int>>.from(state.unit!.selectedWargearIndices);
         final optionIndices = List<int>.from(currentIndices[optionId] ?? []);
 
-        if (isSelected) 
+        if (isSelected)
         {
-            if (!optionIndices.contains(index)) 
+            if (!optionIndices.contains(index))
             {
                 optionIndices.add(index);
             }
-        } else 
+        } else
         {
             optionIndices.remove(index);
         }
@@ -579,17 +580,23 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
         _updateSnapshotAndRecalculate(currentIndices);
     }
 
-    void toggleWargearRadio(String optionId, int index) 
+    void toggleWargearRadio(String optionId, int? index)
     {
         if (state.unit == null) return;
 
         final currentIndices = Map<String, List<int>>.from(state.unit!.selectedWargearIndices);
-        currentIndices[optionId] = [index];
+        if (index == null) 
+        {
+            currentIndices[optionId] = []; /// Если null, очищаем (развыделяем)
+        } else 
+        {
+            currentIndices[optionId] = [index]; /// Если есть значение, устанавливаем его
+        }
 
         _updateSnapshotAndRecalculate(currentIndices);
     }
 
-    void _updateSnapshotAndRecalculate(Map<String, List<int>> newIndices)  async
+    void _updateSnapshotAndRecalculate(Map<String, List<int>> newIndices) async
     {
         if (state.unit == null) return;
 
@@ -618,10 +625,9 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
         _ref.read(armyBuilderControllerProvider(_armyId).notifier)
             .updateUnitWargearInState(_instanceUnitId, role, newIndices);
 
-
     }
 
-    List< ({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> _calculateWeaponInfoFromSnapshot(UnitEditorItemUi unit) 
+    List< ({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> _calculateWeaponInfoFromSnapshot(UnitEditorItemUi unit)
     {
         final List< ({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> weaponInfo = [];
 
@@ -670,13 +676,13 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                     for (var idx in selectedIndices)
                     {
                         /// Если это замена
-                        if (option.replaceWeapons.isNotEmpty) 
+                        if (option.replaceWeapons.isNotEmpty)
                         {
                             /// Определяем, какой вариант замены использовать
                             /// В случае Radio (multiple choice) - idx это индекс варианта
                             /// В случае Checkbox - idx это индекс слота/модели, а вариант всегда один (0)
                             final int entryIdx = (option.replaceWeapons.length > 1) ? idx : 0;
-                            
+
                             if (entryIdx < option.replaceWeapons.length)
                             {
                                 final replaceEntry = option.replaceWeapons.entries.elementAt(entryIdx);
@@ -696,7 +702,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                             }
                         } 
                         /// Если это просто добавление
-                        else if (option.additionalWeapons.isNotEmpty) 
+                        else if (option.additionalWeapons.isNotEmpty)
                         {
                             for (var w in option.additionalWeapons)
                             {
@@ -724,10 +730,10 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                     int amount = equippedCount[modelName]?[wName] ?? 0;
                     WeaponType? type;
                     /// Находим тип оружия
-                    if (stats.modelWeapons.weapons[WeaponType.ranged]?.any((w) => w.name == wName) == true)  type = WeaponType.ranged;
+                    if (stats.modelWeapons.weapons[WeaponType.ranged]?.any((w) => w.name == wName) == true) type = WeaponType.ranged;
                     else if (stats.modelWeapons.weapons[WeaponType.melee]?.any((w) => w.name == wName) == true) type = WeaponType.melee;
 
-                    if (type != null) 
+                    if (type != null)
                     {
                         weaponInfo.add((
                             modelName: modelName,
