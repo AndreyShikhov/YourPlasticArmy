@@ -16,7 +16,7 @@ import '../../../../../../domain/models/abilities/weapon_ability/weapon_ability.
 import '../../../../../../domain/models/unit/unit.dart';
 import '../../unit_editor_controller.dart';
 
-/// --- КОНСТАНТЫ СТИЛЕЙ ДЛЯ ОПТИМИЗАЦИИ (Строки 435, 535) ---
+// --- КОНСТАНТЫ СТИЛЕЙ И ДЕКОРАЦИЙ ДЛЯ ОПТИМИЗАЦИИ ---
 const _kAbilityTextStyle = TextStyle(color: Colors.white70, fontWeight: FontWeight.bold, fontSize: 9);
 const _kAbilityDecoration = BoxDecoration(color: Color.fromARGB(153, 0, 0, 0), borderRadius: BorderRadius.all(Radius.circular(4)));
 const _kModelNameStyle = TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12);
@@ -41,19 +41,21 @@ class WargearStatsBloc extends ConsumerStatefulWidget
 class _WargearStatsBlocState extends ConsumerState<WargearStatsBloc>
 {
     late final PageController _pageController;
-    int _currentPage = 0; /// Индекс текущей страницы
+    late final ValueNotifier<int> _currentPageNotifier;
 
     @override
     void initState()
     {
         super.initState();
         _pageController = PageController(viewportFraction: 1.0);
+        _currentPageNotifier = ValueNotifier<int>(0);
     }
 
     @override
     void dispose()
     {
         _pageController.dispose();
+        _currentPageNotifier.dispose();
         super.dispose();
     }
 
@@ -80,19 +82,17 @@ class _WargearStatsBlocState extends ConsumerState<WargearStatsBloc>
                     children: [
                         Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                                _buildCategorySection(weaponInfo, modelStats, weaponAbilities, WeaponType.ranged),
+                                Expanded(child: _buildCategorySection(weaponInfo, modelStats, weaponAbilities, WeaponType.ranged)),
                                 const SizedBox(width: 32),
-                                _buildCategorySection(weaponInfo, modelStats, weaponAbilities, WeaponType.melee)
+                                Expanded(child: _buildCategorySection(weaponInfo, modelStats, weaponAbilities, WeaponType.melee))
                             ]
                         ),
                         const SizedBox(height: 10),
                         Wargear(ids: widget.ids)
                     ]
                 )
-
             );
         }
 
@@ -104,61 +104,56 @@ class _WargearStatsBlocState extends ConsumerState<WargearStatsBloc>
                     SizedBox(
                         height: 450,
                         child: ScrollConfiguration(
-                            /// Позволяет прокручивать PageView мышкой на Windows
                             behavior: ScrollConfiguration.of(context).copyWith(
-                                dragDevices:
-                                {
+                                dragDevices: {
                                     PointerDeviceKind.touch,
                                     PointerDeviceKind.mouse,
-                                    PointerDeviceKind.trackpad
-                                }
+                                    PointerDeviceKind.trackpad,
+                                },
                             ),
                             child: PageView(
                                 controller: _pageController,
-                                onPageChanged: (int page) => setState(() => _currentPage = page),
+                                onPageChanged: (int page) => _currentPageNotifier.value = page,
                                 children: [
                                     SingleChildScrollView(child: _buildCategorySection(weaponInfo, modelStats, weaponAbilities, WeaponType.ranged)),
                                     SingleChildScrollView(child: _buildCategorySection(weaponInfo, modelStats, weaponAbilities, WeaponType.melee))
                                 ]
-                            )
+                            ),
                         )
                     ),
-                    const SizedBox(height: 12), // Увеличил отступ
-                    _buildPageIndicator(2),
+                    const SizedBox(height: 4),
+                    ValueListenableBuilder<int>(
+                        valueListenable: _currentPageNotifier,
+                        builder: (context, currentPage, _) => _buildPageIndicator(2, currentPage),
+                    ),
                     const SizedBox(height: 10),
                     Wargear(ids: widget.ids)
-
                 ]
             )
         );
     }
 
-    /// Рисуем точки индикации карусели
-    Widget _buildPageIndicator(int pageCount)
+    Widget _buildPageIndicator(int pageCount, int currentPage)
     {
         return Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: List.generate(pageCount, (index)
                 {
                     return GestureDetector(
-                        onTap: () => _pageController.animateToPage(
-                            index,
-                            duration: const Duration(milliseconds: 300),
-                            curve: Curves.easeInOut
-                        ),
+                        onTap: () => _pageController.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut),
                         child: MouseRegion(
                             cursor: SystemMouseCursors.click,
                             child: AnimatedContainer(
                                 duration: const Duration(milliseconds: 300),
                                 margin: const EdgeInsets.symmetric(horizontal: 4),
                                 height: 8,
-                                width: _currentPage == index ? 24 : 8,
+                                width: currentPage == index ? 24 : 8,
                                 decoration: BoxDecoration(
-                                    color: _currentPage == index ? Colors.blueAccent : Colors.white24,
+                                    color: currentPage == index ? Colors.blueAccent : Colors.white24,
                                     borderRadius: BorderRadius.circular(4)
                                 )
-                            )
-                        )
+                            ),
+                        ),
                     );
                 })
         );
@@ -176,8 +171,8 @@ class _WargearStatsBlocState extends ConsumerState<WargearStatsBloc>
                 borderRadius: BorderRadius.circular(6)
             ),
             child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                     _WeaponCategoryHeader(type: type),
                     _WeaponTypeGroup(
@@ -219,18 +214,8 @@ class _WeaponTypeGroup extends StatelessWidget
             groupedByModel.putIfAbsent(info.modelName, () => []).add(info);
         }
 
-        for (var modelWeaponsList in groupedByModel.values)
-        {
-            modelWeaponsList.sort((a, b)
-                {
-                    if (a.isEquiped == b.isEquiped) return 0;
-                    return a.isEquiped ? -1 : 1;
-                });
-        }
-
         return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: groupedByModel.entries.map((entry)
                 {
                     return _ModelWeaponBlock(
@@ -281,27 +266,23 @@ class _ModelWeaponBlock extends StatelessWidget
                 ));
         }
 
-        return SizedBox(width: 450,
-            child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4.0),
-                child: DecoratedBox(
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.white12),
-                        borderRadius: BorderRadius.circular(4)
-                    ),
-                    child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                            Padding(
-                                padding: const EdgeInsets.only(top: 4.0, left: 4.0, bottom: 2.0),
-                                child: Text(modelName, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12)
-                                )
-                            ),
-                            ...weaponRows
-                        ]
-                    )
+        return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            child: DecoratedBox(
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.white12),
+                    borderRadius: BorderRadius.circular(4)
+                ),
+                child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                        Padding(
+                            padding: const EdgeInsets.only(top: 4.0, left: 4.0, bottom: 2.0),
+                            child: Text(modelName, style: _kModelNameStyle)
+                        ),
+                        ...weaponRows
+                    ]
                 )
             )
         );
@@ -334,13 +315,10 @@ class _WeaponRow extends StatelessWidget
         return DecoratedBox(
             decoration: BoxDecoration(color: bgColor),
             child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: _getRowsWeaponProfiles(weapon)
             )
         );
-
     }
 
     List<Widget> _getRowsWeaponProfiles(WeaponDom weapon)
@@ -349,30 +327,18 @@ class _WeaponRow extends StatelessWidget
 
         weapon.weapons.forEach((key, value)
             {
-                String name = weapon.name;
-                if (key != '')
-                {
-                    name += ' - $key';
-                }
+                final String fullName = key.isEmpty ? weapon.name : '${weapon.name} - $key';
                 res.add(
                     Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
                         children: [
-                            _NameWeapon(name, isUsed, amount),
+                            _NameWeapon(fullName, isUsed, amount),
                             const Spacer(),
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                _StatBox('${value.range}"', isUsed: isUsed),
-                                _StatBox(value.attacks, isUsed: isUsed),
-                                _StatBox('${value.skill}+', isUsed: isUsed),
-                                _StatBox('${value.strength}', isUsed: isUsed),
-                                _StatBox('${value.ap.abs() * -1}', isUsed: isUsed),
-                                _StatBox(value.damage, isUsed: isUsed)
-                              ],
-                            )
+                            _StatBox('${value.range}"', isUsed: isUsed, width: 45),
+                            _StatBox(value.attacks, isUsed: isUsed),
+                            _StatBox('${value.skill}+', isUsed: isUsed),
+                            _StatBox('${value.strength}', isUsed: isUsed),
+                            _StatBox('${value.ap.abs() * -1}', isUsed: isUsed),
+                            _StatBox(value.damage, isUsed: isUsed),
                         ]
                     )
                 );
@@ -380,14 +346,8 @@ class _WeaponRow extends StatelessWidget
                 if (value.weaponAbilities.isNotEmpty)
                 {
                     res.add(Padding(
-                            padding: const EdgeInsets.only(left: 4.0, bottom: 2.0),
-                            child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                    _WeaponAbilitiesBTN(abilities: value.weaponAbilities, weaponAbilities: weaponAbilities)
-                                ]
-                            )
+                            padding: const EdgeInsets.only(left: 4.0, bottom: 4.0, right: 4.0),
+                            child: _WeaponAbilitiesBTN(abilities: value.weaponAbilities, weaponAbilities: weaponAbilities)
                         ));
                 }
             });
@@ -407,7 +367,6 @@ class _WeaponCategoryHeader extends StatelessWidget
     {
         final isRanged = type == WeaponType.ranged;
         final color = isRanged ? const Color.fromARGB(152, 28, 193, 246) : const Color.fromARGB(153, 248, 23, 23);
-        final title = isRanged ? 'Ranged Weapons' : 'Melee Weapons';
         final skillLabel = isRanged ? 'BS' : 'WS';
 
         return DecoratedBox(
@@ -415,40 +374,20 @@ class _WeaponCategoryHeader extends StatelessWidget
                 color: color,
                 borderRadius: const BorderRadius.only(topLeft: Radius.circular(4), topRight: Radius.circular(4))
             ),
-            child: SizedBox(width: 450, height: 35,
+            child: SizedBox(height: 35,
                 child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                         const SizedBox(width: 4),
                         SizedBox(width: 140,
-                            child: Text(title, style: _kStatUsedHeaderStyle, textAlign: TextAlign.center)
+                            child: Text(isRanged ? 'Ranged' : 'Melee', style: _kStatUsedHeaderStyle, textAlign: TextAlign.center)
                         ),
                         const Spacer(),
-                        Row(mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                                const SizedBox(width: 45,
-                                    child: Text('Range', style: _kStatUsedHeaderStyle, textAlign: TextAlign.center)
-                                ),
-                                const SizedBox(width: 34,
-                                    child: Text('A', style: _kStatUsedHeaderStyle, textAlign: TextAlign.center)
-                                ),
-                                SizedBox(width: 34,
-                                    child: Text(skillLabel, style: _kStatUsedHeaderStyle, textAlign: TextAlign.center)
-                                ),
-                                const SizedBox(width: 34,
-                                    child: Text('S', style: _kStatUsedHeaderStyle, textAlign: TextAlign.center)
-                                ),
-                                const SizedBox(width: 34,
-                                    child: Text('AP', style: _kStatUsedHeaderStyle, textAlign: TextAlign.center)
-                                ),
-                                const SizedBox(width: 34,
-                                    child: Text('D', style: _kStatUsedHeaderStyle, textAlign: TextAlign.center)
-                                )
-                            ]
-                        )
-
+                        const _StatBox('Range', isHeader: true, width: 45),
+                        const _StatBox('A', isHeader: true),
+                        _StatBox(skillLabel, isHeader: true),
+                        const _StatBox('S', isHeader: true),
+                        const _StatBox('AP', isHeader: true),
+                        const _StatBox('D', isHeader: true),
                     ]
                 )
             )
@@ -459,29 +398,30 @@ class _WeaponCategoryHeader extends StatelessWidget
 class _StatBox extends StatelessWidget
 {
     final String value;
+    final bool isHeader;
     final bool isUsed;
+    final double width;
 
     const _StatBox(
         this.value,
-        {this.isUsed = true}
+        {this.isHeader = false,
+            this.isUsed = true,
+            this.width = 34}
     );
 
     @override
     Widget build(BuildContext context)
     {
+        final style = isHeader ? (isUsed ? _kStatUsedHeaderStyle : _kStatUnusedHeaderStyle) : (isUsed ? _kStatUsedStyle : _kStatUnusedStyle);
+        
         return SizedBox(
-            width: 34,
+            width: width,
             height: 34,
             child: Center(
-                child: FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Text(
-                        value,
-                        style: isUsed ? _kStatUsedHeaderStyle : _kStatUnusedHeaderStyle,
-                        textAlign: TextAlign.center
-                    )
-                )
-            )
+                child: value.length > 3
+                    ? FittedBox(fit: BoxFit.scaleDown, child: Text(value, style: style))
+                    : Text(value, style: style),
+            ),
         );
     }
 }
@@ -497,40 +437,26 @@ class _NameWeapon extends StatelessWidget
     @override
     Widget build(BuildContext context)
     {
-        final String amountWeapon = '$amount' 'x ';
-
         return SizedBox(
             width: 140,
             child: Padding(
-                padding: const EdgeInsets.only(left: 4.0, top: 4.0, bottom: 4.0),
-                child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                        children: [
-                            if (amount > 0)
-                            Text(
-                                amountWeapon,
-                                style: const TextStyle(
-                                    color: Color.fromARGB(215, 255, 174, 0),
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 13
-                                )
-                            ),
-                            Expanded(
-                                child: Text(
-                                    value,
-                                    style: TextStyle(
-                                        color: isUsed ? Colors.white : const Color.fromARGB(153, 143, 143, 143),
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 13
-                                    ),
-                                    softWrap: true,
-                                    maxLines: 3,
-                                    overflow: TextOverflow.ellipsis
-                                )
+                padding: const EdgeInsets.all(4.0),
+                child: Row(
+                    children: [
+                        if (amount > 0)
+                        Text(
+                            '$amount x ',
+                            style: _kAmountStyle
+                        ),
+                        Expanded(
+                            child: Text(
+                                value,
+                                style: isUsed ? _kNameUsedStyle : _kNameUnusedStyle,
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis
                             )
-                        ]
-                    )
+                        )
+                    ]
                 )
             )
         );
@@ -561,19 +487,12 @@ class _WeaponAbilitiesBTN extends StatelessWidget
             onTap: () => _showAbilityDialog(context, abilityCode),
             borderRadius: BorderRadius.circular(4),
             child: DecoratedBox(
-                decoration: const BoxDecoration(
-                    color: Color.fromARGB(153, 0, 0, 0),
-                    borderRadius: BorderRadius.all(Radius.circular(4))
-                ),
-                child: Padding( // Сохраняем отступы, которые были в Container
+                decoration: _kAbilityDecoration,
+                child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                     child: Text(
                         abilityCode.title.toUpperCase(),
-                        style: const TextStyle(
-                            color: Colors.white70,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 9
-                        )
+                        style: _kAbilityTextStyle,
                     )
                 )
             )
@@ -586,29 +505,18 @@ class _WeaponAbilitiesBTN extends StatelessWidget
 
         if (abilityData != null)
         {
-
-            final WeaponAbilityDOM weaponAbility = WeaponAbilityDOM(
-                id: '',
-                code: abilityData.code,
-                name: abilityData.name,
-                shortDescription: abilityData.shortDescription,
-                description: abilityData.description
-            );
-
             showDialog(
                 context: context,
                 builder: (context)
                 {
                     return AlertDialog(
                         backgroundColor: const Color.fromARGB(255, 45, 45, 45),
-                        contentPadding: const EdgeInsets.all(8),
-                        content:
-                        Column(
+                        content: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                                 SizedBox(
                                     width: double.maxFinite,
-                                    child: WeaponAbilityBloc(abilities: [weaponAbility as BaseAbilityDom])
+                                    child: WeaponAbilityBloc(abilities: [abilityData as BaseAbilityDom])
                                 )
                             ]
                         ),
