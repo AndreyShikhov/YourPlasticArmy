@@ -104,7 +104,7 @@ class _WargearStatsBlocState extends ConsumerState<WargearStatsBloc>
                     SizedBox(
                         height: 450,
                         child: ScrollConfiguration(
-                            // Позволяет прокручивать PageView мышкой на Windows
+                            /// Позволяет прокручивать PageView мышкой на Windows
                             behavior: ScrollConfiguration.of(context).copyWith(
                                 dragDevices:
                                 {
@@ -357,16 +357,22 @@ class _WeaponRow extends StatelessWidget
                 res.add(
                     Row(
                         mainAxisAlignment: MainAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.max,
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                             _NameWeapon(name, isUsed, amount),
                             const Spacer(),
-                            _StatBox('${value.range}"', isUsed: isUsed),
-                            _StatBox(value.attacks, isUsed: isUsed),
-                            _StatBox('${value.skill}+', isUsed: isUsed),
-                            _StatBox('${value.strength}', isUsed: isUsed),
-                            _StatBox('${value.ap.abs() * -1}', isUsed: isUsed),
-                            _StatBox(value.damage, isUsed: isUsed)
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                _StatBox('${value.range}"', isUsed: isUsed),
+                                _StatBox(value.attacks, isUsed: isUsed),
+                                _StatBox('${value.skill}+', isUsed: isUsed),
+                                _StatBox('${value.strength}', isUsed: isUsed),
+                                _StatBox('${value.ap.abs() * -1}', isUsed: isUsed),
+                                _StatBox(value.damage, isUsed: isUsed)
+                              ],
+                            )
                         ]
                     )
                 );
@@ -409,22 +415,40 @@ class _WeaponCategoryHeader extends StatelessWidget
                 color: color,
                 borderRadius: const BorderRadius.only(topLeft: Radius.circular(4), topRight: Radius.circular(4))
             ),
-            child: SizedBox(width: 450,
+            child: SizedBox(width: 450, height: 35,
                 child: Row(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                        Padding(
-                            padding: const EdgeInsets.only(left: 4.0),
-                            child: _StatBox(title, isHeader: true)
+                        const SizedBox(width: 4),
+                        SizedBox(width: 140,
+                            child: Text(title, style: _kStatUsedHeaderStyle, textAlign: TextAlign.center)
                         ),
                         const Spacer(),
-                        const _StatBox('Range', isHeader: true),
-                        const _StatBox('A', isHeader: true),
-                        _StatBox(skillLabel, isHeader: true),
-                        const _StatBox('S', isHeader: true),
-                        const _StatBox('AP', isHeader: true),
-                        const _StatBox('D', isHeader: true)
+                        Row(mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                                const SizedBox(width: 45,
+                                    child: Text('Range', style: _kStatUsedHeaderStyle, textAlign: TextAlign.center)
+                                ),
+                                const SizedBox(width: 34,
+                                    child: Text('A', style: _kStatUsedHeaderStyle, textAlign: TextAlign.center)
+                                ),
+                                SizedBox(width: 34,
+                                    child: Text(skillLabel, style: _kStatUsedHeaderStyle, textAlign: TextAlign.center)
+                                ),
+                                const SizedBox(width: 34,
+                                    child: Text('S', style: _kStatUsedHeaderStyle, textAlign: TextAlign.center)
+                                ),
+                                const SizedBox(width: 34,
+                                    child: Text('AP', style: _kStatUsedHeaderStyle, textAlign: TextAlign.center)
+                                ),
+                                const SizedBox(width: 34,
+                                    child: Text('D', style: _kStatUsedHeaderStyle, textAlign: TextAlign.center)
+                                )
+                            ]
+                        )
+
                     ]
                 )
             )
@@ -435,42 +459,25 @@ class _WeaponCategoryHeader extends StatelessWidget
 class _StatBox extends StatelessWidget
 {
     final String value;
-    final bool isHeader;
     final bool isUsed;
 
     const _StatBox(
         this.value,
-        {this.isHeader = false,
-            this.isUsed = true}
+        {this.isUsed = true}
     );
 
     @override
     Widget build(BuildContext context)
     {
-
-        double width = 35;
-        /// if (value.length > 3 && value.length < 10)
-        /// {
-        ///     width = 50;
-        /// }
-        if (value.length > 10)
-        {
-            width = 140;
-        }
-
         return SizedBox(
-            width: width,
-            height: 35,
+            width: 34,
+            height: 34,
             child: Center(
                 child: FittedBox(
                     fit: BoxFit.scaleDown,
                     child: Text(
                         value,
-                        style: TextStyle(
-                            color: isUsed ? Colors.white : const Color.fromARGB(153, 143, 143, 143),
-                            fontWeight: FontWeight.bold,
-                            fontSize: isHeader ? 14 : 16
-                        ),
+                        style: isUsed ? _kStatUsedHeaderStyle : _kStatUnusedHeaderStyle,
                         textAlign: TextAlign.center
                     )
                 )
