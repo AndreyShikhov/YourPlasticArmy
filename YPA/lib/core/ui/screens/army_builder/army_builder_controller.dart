@@ -24,7 +24,7 @@ import '../../../database/tables/seed/seed_objects/_types.dart';
 import 'army_builder_item_ui.dart';
 import 'army_builder_state.dart';
 
-// Провайдер контроллера с параметром armyId
+/// Провайдер контроллера с параметром armyId
 final armyBuilderControllerProvider =
     StateNotifierProvider.family<ArmyBuilderController, ArmyBuilderState, String>((ref, armyId)
         {
@@ -114,7 +114,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         /// 2. Сбрасываем старый таймер
         _nameDebounceTimer?.cancel();
 
-        // 3. Запускаем новый таймер на 500мс
+        /// 3. Запускаем новый таймер на 500мс
         _nameDebounceTimer = Timer(const Duration(milliseconds: 500), () async
             {
                 try
@@ -445,7 +445,8 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                                     unitDom, 
                                     map[SaveCategoryCode.instanceId.code], 
                                     map[SaveCategoryCode.composition.code],
-                                    map[SaveCategoryCode.wargearOptions.code]
+                                    map[SaveCategoryCode.wargearOptions.code],
+                                    map[SaveCategoryCode.weaponInfo.code],
                                 ));
                         }
                     }
@@ -474,7 +475,13 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         state = state.copyWith(temDataUnitsByRoleFromdb: temDataUnitsByRole);
     }
 
-    ArmyBuilderUnitItemUi _convertDomainUnitToUnitItemUi(UnitDOM unit, String instanceId, Map<String, dynamic>? saveComposition, Map<String, dynamic>? saveWargear)
+    ArmyBuilderUnitItemUi _convertDomainUnitToUnitItemUi(
+        UnitDOM unit,
+        String instanceId,
+        Map<String, dynamic>? saveComposition,
+        Map<String, dynamic>? saveWargear,
+        List<dynamic>? saveWeaponSnapshot
+        )
     {
         return ArmyBuilderUnitItemUi(
             instanceId: instanceId == '' ? const Uuid().v4() : instanceId,
@@ -492,19 +499,20 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             ledBy: unit.ledBy,
             modelStats: unit.modelStats,
             selectedWargearIndices: _buildWargearFromSaveData(saveWargear),
+            weaponSnapshot: _buildWWeaponInfoFromSaveData(saveWeaponSnapshot),
         );
     }
 
     Future<List<ArmyBuilderUnitItemUi>> getAllUnitsByCodexId(CodexId codexId) async
     {
         List<UnitDOM> unitDomain = await _getAllUnitsByCodexid(codexId);
-        return unitDomain.map((unit) => _convertDomainUnitToUnitItemUi(unit, '', null, null)).toList();
+        return unitDomain.map((unit) => _convertDomainUnitToUnitItemUi(unit, '', null, null, null)).toList();
     }
 
     Future<List<ArmyBuilderUnitItemUi>> getAllUnitsByArmyId(ArmyId armyId) async
     {
         List<UnitDOM> unitDomain = await _getAllUnitsByArmyId(armyId);
-        return unitDomain.map((unit) => _convertDomainUnitToUnitItemUi(unit, '', null, null)).toList();
+        return unitDomain.map((unit) => _convertDomainUnitToUnitItemUi(unit, '', null, null, null)).toList();
     }
 
     UnitCompositionDom _buildCompositionFromSaveData(UnitCompositionDom unitCompositionFromDB, Map<String, dynamic>? saveComposition)
@@ -541,5 +549,14 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         return saveWargear.map((k, v) => MapEntry(k, List<int>.from(v as List)));
       }
       return {};
+    }
+
+    List<Map<String, dynamic>> _buildWWeaponInfoFromSaveData(List<dynamic>? savedWeaponInfo)
+    {
+      if (savedWeaponInfo != null)
+      {
+        return savedWeaponInfo.map((e) => Map<String, dynamic>.from(e as Map)).toList();
+      }
+      return [];
     }
 }

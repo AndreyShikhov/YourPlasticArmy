@@ -25,6 +25,7 @@ class ArmyBuilderUnitItemUi
     final List<LeaderFilterDom> ledBy;
     final Map<String, ModelStatsDom> modelStats;
     final Map<String, List<int>> selectedWargearIndices;
+    final List<Map<String, dynamic>> weaponSnapshot;
 
     ArmyBuilderUnitItemUi({
         required this.instanceId,
@@ -42,6 +43,7 @@ class ArmyBuilderUnitItemUi
         required this.ledBy,
         required this.modelStats,
         required this.selectedWargearIndices,
+        required this.weaponSnapshot
     });
 
     ArmyBuilderUnitItemUi copyWith({
@@ -60,6 +62,7 @@ class ArmyBuilderUnitItemUi
         List<LeaderFilterDom>? ledBy,
         Map<String, ModelStatsDom>? modelStats,
         Map<String, List<int>>? selectedWargearIndices,
+        List<Map<String, dynamic>>? weaponSnapshot
     })
     {
         return ArmyBuilderUnitItemUi(
@@ -78,6 +81,7 @@ class ArmyBuilderUnitItemUi
             ledBy: ledBy ?? this.ledBy,
             modelStats: modelStats ?? this.modelStats,
             selectedWargearIndices: selectedWargearIndices ?? this.selectedWargearIndices,
+            weaponSnapshot: weaponSnapshot ?? this.weaponSnapshot
         );
     }
 
@@ -99,7 +103,8 @@ class ArmyBuilderUnitItemUi
             'leader': leader,
             'ledBy': ledBy,
             'modelStats': modelStats.map((k, v) => MapEntry(k, v.toJson())),
-            SaveCategoryCode.wargearOptions.code: selectedWargearIndices
+            SaveCategoryCode.wargearOptions.code: selectedWargearIndices,
+            SaveCategoryCode.weaponInfo.code: weaponSnapshot
         };
     }
 
@@ -129,7 +134,10 @@ class ArmyBuilderUnitItemUi
             modelStats: modelStatsRaw.map((k, v) => MapEntry(k, ModelStatsDom.fromJson(v))),
             selectedWargearIndices: (json[SaveCategoryCode.wargearOptions.code] as Map<String, dynamic>? ?? {}).map(
                 (k, v) => MapEntry(k, List<int>.from(v as List))
-            )
+            ),
+            weaponSnapshot: (json[SaveCategoryCode.weaponInfo.code] as List? ?? [])
+                .map((e) => e as Map<String, dynamic>)
+                .toList()
         );
     }
 
@@ -151,6 +159,7 @@ class ArmyBuilderUnitItemUi
             ledBy: [],
             modelStats: {},
             selectedWargearIndices: {},
+            weaponSnapshot: []
         );
     }
 }

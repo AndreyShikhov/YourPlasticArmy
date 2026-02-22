@@ -13,7 +13,7 @@ import '../../../../../../domain/models/unit/unit.dart';
 import '../../../../../database/tables/seed/seed_objects/_types.dart';
 import '../../unit_editor_controller.dart';
 
-// Константы для оптимизации анимаций
+/// Константы для оптимизации анимаций
 const _kAnimDuration = Duration(milliseconds: 300);
 const _kAnimCurve = Curves.easeInOut;
 
@@ -205,7 +205,7 @@ class _WargearState extends ConsumerState<Wargear>
     }
 }
 
-// Извлеченный виджет точки для оптимизации перерисовок
+/// Извлеченный виджет точки для оптимизации перерисовок
 class _PageDot extends StatelessWidget
 {
     final bool isActive;

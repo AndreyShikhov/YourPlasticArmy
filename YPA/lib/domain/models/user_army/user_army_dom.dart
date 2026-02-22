@@ -21,7 +21,8 @@ enum SaveCategoryCode
     unitId('unitId', 'Unit Id'),
     composition('composition', 'Composition'),
     points('points', 'Points'),
-    wargearOptions('wargearOptions', 'Wargear Options');
+    wargearOptions('wargearOptions', 'Wargear Options'),
+    weaponInfo('weaponInfo', 'Weapon Info');
 
     final String code;
     final String title;
@@ -98,7 +99,13 @@ class UserArmyDOM
 
     /// Добавляет юнит в jsonData, соблюдая структуру категорий.
     /// [role] — это строковый код роли (например, 'Characters', 'Battleline'), который станет ключом в JSON.
-    Future<UserArmyDOM> addUnitToUserArmy(String unitId,String instanceId, String role, UnitCompositionDom composition, Map<String, List<int>> selectedWargear) async
+    Future<UserArmyDOM> addUnitToUserArmy(
+        String unitId,
+        String instanceId,
+        String role,
+        UnitCompositionDom composition,
+        Map<String, List<int>> selectedWargear,
+        List<Map<String, dynamic>> weaponSnapshot) async
     {
         /// 1. Декодируем текущий JSON или создаем структуру по умолчанию
         Map<String, dynamic> root;
@@ -141,7 +148,8 @@ class UserArmyDOM
                 SaveCategoryCode.unitId.code: unitId,                                       /// Ссылка на ID базового юнита из таблицы Units
                 SaveCategoryCode.composition.code: finalComposition.toSaveUserArmyJson(),   /// Сохзраняем не весь Compositionа только выбранные элементы
                 SaveCategoryCode.points.code: finalComposition.totalUnitCost,               /// Cтоимость юнита"
-                SaveCategoryCode.wargearOptions.code: selectedWargear                       /// Warger выбранные варгиры
+                SaveCategoryCode.wargearOptions.code: selectedWargear,                      /// Warger выбранные варгиры
+                SaveCategoryCode.weaponInfo.code: weaponSnapshot                            /// Информация таблиц с оружием
             };
 
         /// 5. Добавляем юнит в список и обновляем структуру

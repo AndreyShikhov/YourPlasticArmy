@@ -16,7 +16,7 @@ import '../../../../../../domain/models/abilities/weapon_ability/weapon_ability.
 import '../../../../../../domain/models/unit/unit.dart';
 import '../../unit_editor_controller.dart';
 
-// --- КОНСТАНТЫ СТИЛЕЙ И ДЕКОРАЦИЙ ДЛЯ ОПТИМИЗАЦИИ ---
+/// --- КОНСТАНТЫ СТИЛЕЙ И ДЕКОРАЦИЙ ДЛЯ ОПТИМИЗАЦИИ ---
 const _kAbilityTextStyle = TextStyle(color: Colors.white70, fontWeight: FontWeight.bold, fontSize: 9);
 const _kAbilityDecoration = BoxDecoration(color: Color.fromARGB(153, 0, 0, 0), borderRadius: BorderRadius.all(Radius.circular(4)));
 const _kModelNameStyle = TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12);

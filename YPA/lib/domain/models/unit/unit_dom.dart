@@ -31,6 +31,7 @@ class UnitDOM
     final List<LeaderFilterDom> ledBy;
     final Map<String, ModelStatsDom> modelStats;
     final Map<String, List<int>> selectedWargearIndices;
+    final List<Map<String, dynamic>> weaponSnapshot;
 
     const UnitDOM._({
         required this.id,
@@ -48,7 +49,8 @@ class UnitDOM
         required this.leader,
         required this.ledBy,
         required this.modelStats,
-        required this.selectedWargearIndices
+        required this.selectedWargearIndices,
+        required this.weaponSnapshot
     });
 
     factory UnitDOM.restore({
@@ -67,7 +69,8 @@ class UnitDOM
         required List<LeaderFilterDom> leader,
         required List<LeaderFilterDom> ledBy,
         required Map<String, ModelStatsDom> modelStats,
-        Map<String, List<int>>? selectedWargearIndices
+        Map<String, List<int>>? selectedWargearIndices,
+        List<Map<String, dynamic>>? weaponSnapshot
 
     })
     {
@@ -87,7 +90,8 @@ class UnitDOM
             leader: leader,
             ledBy: ledBy,
             modelStats: modelStats,
-            selectedWargearIndices: selectedWargearIndices ?? {}
+            selectedWargearIndices: selectedWargearIndices ?? {},
+            weaponSnapshot: weaponSnapshot ?? []
         );
     }
 
@@ -125,7 +129,8 @@ class UnitDOM
             leader: leader,
             ledBy: ledBy,
             modelStats: modelStats,
-            selectedWargearIndices: {}
+            selectedWargearIndices: {},
+            weaponSnapshot: []
         );
     }
 
@@ -145,7 +150,8 @@ class UnitDOM
         List<LeaderFilterDom>? leader,
         List<LeaderFilterDom>? ledBy,
         Map<String, ModelStatsDom>? modelStats,
-        Map<String, List<int>>? selectedWargearIndices
+        Map<String, List<int>>? selectedWargearIndices,
+        List<Map<String, dynamic>>? weaponSnapshot
     })
     {
         return UnitDOM._(
@@ -165,7 +171,8 @@ class UnitDOM
             leader: leader ?? this.leader,
             ledBy: ledBy ?? this.ledBy,
             modelStats: modelStats ?? this.modelStats,
-            selectedWargearIndices: selectedWargearIndices ?? this.selectedWargearIndices
+            selectedWargearIndices: selectedWargearIndices ?? this.selectedWargearIndices,
+            weaponSnapshot: weaponSnapshot ?? this.weaponSnapshot
         );
     }
 }

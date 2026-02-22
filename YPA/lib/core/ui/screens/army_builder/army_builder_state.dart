@@ -76,43 +76,43 @@ class ArmyBuilderState
         );
     }
 
-    // ==========================================
-    // Updates
-    // ==========================================
+    /// ==========================================
+    /// Updates
+    /// ==========================================
 
-    // ==========================================
-    // Getters
-    // ==========================================
+    /// ==========================================
+    /// Getters
+    /// ==========================================
 
     List<ArmyBuilderUnitItemUi> getAllUnitsByRoleFromUserArmy(String role)
     {
-        // 1. Проверяем на null или пустоту всей карты
+        /// 1. Проверяем на null или пустоту всей карты
         if (userArmyUnits == null || userArmyUnits!.isEmpty)
         {
             debugPrint('Warning: userArmyUnits is null or empty');
             return [];
         }
 
-        // 2. Преобразуем строковый заголовок (например, "Troops") в Enum UnitRoleCode
+        /// 2. Преобразуем строковый заголовок (например, "Troops") в Enum UnitRoleCode
         final roleCode = UnitRoleCode.fromName(role);
 
-        // Если роль не распознана, возвращаем пустой список
+        /// Если роль не распознана, возвращаем пустой список
         if (roleCode == null) return [];
 
-        // 3. Возвращаем список юнитов для этой роли из карты (или пустой список, если такой роли в карте нет)
+        /// 3. Возвращаем список юнитов для этой роли из карты (или пустой список, если такой роли в карте нет)
         return userArmyUnits![roleCode] ?? [];
     }
 
     List<ArmyBuilderUnitItemUi> getAllUnitsByRoleFromDB(String role)
     {
-        // 1. Проверяем на null или пустоту
+        /// 1. Проверяем на null или пустоту
         if (allUnitsFromDb.isEmpty)
         {
-            // Вывод ошибки в консоль (поможет при отладке)
+            /// Вывод ошибки в консоль (поможет при отладке)
             debugPrint('Warning: allUnits is null or empty');
             return [];
         }
-        // 2. Фильтруем и возвращаем список
+        /// 2. Фильтруем и возвращаем список
         return allUnitsFromDb.where((unit) => unit.role == role).toList();
     }
 
@@ -123,7 +123,7 @@ class ArmyBuilderState
 
     List<ArmyBuilderUnitItemUi> getallUnitByNameFromUserArmy(String unitName)
     {
-        // 1. Проверяем на null
+        /// 1. Проверяем на null
         if (userArmyUnits == null)
         {
             debugPrint('Warning: userArmyUnits is null or empty');
@@ -131,8 +131,8 @@ class ArmyBuilderState
         }
 
         return userArmyUnits!.values
-            .expand((units) => units) // Превращаем Map<Key, List> в один общий Iterable
-            .where((unit) => unit.name == unitName) // Фильтруем
+            .expand((units) => units) /// Превращаем Map<Key, List> в один общий Iterable
+            .where((unit) => unit.name == unitName) /// Фильтруем
             .toList();
     }
 
@@ -145,16 +145,16 @@ class ArmyBuilderState
     {
         final roleCode = UnitRoleCode.fromName(role);
 
-        // 2. Если роль не валидна или список юнитов пуст — возвращаем 0
+        /// 2. Если роль не валидна или список юнитов пуст — возвращаем 0
         if (roleCode == null || userArmyUnits == null || userArmyUnits!.isEmpty)
         {
             return 0;
         }
 
-        // 3. Получаем список юнитов для этой роли
+        /// 3. Получаем список юнитов для этой роли
         final unitsInRole = userArmyUnits![roleCode] ?? [];
 
-        // 4. Считаем количество юнитов с нужным именем
+        /// 4. Считаем количество юнитов с нужным именем
         return unitsInRole.where((unit) => unit.name == unitName).length;
     }
 
@@ -177,7 +177,9 @@ class ArmyBuilderState
             leader: findedUnit.leader,
             ledBy: findedUnit.ledBy,
             modelStats: findedUnit.modelStats,
-            selectedWargearIndices: findedUnit.selectedWargearIndices
+            selectedWargearIndices: findedUnit.selectedWargearIndices,
+            weaponSnapshot: findedUnit.weaponSnapshot
+
         );
     }
 }

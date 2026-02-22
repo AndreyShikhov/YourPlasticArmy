@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/application/army/get_army_by_id.dart';
 import 'package:ypa/application/unit_abilities/get_all_core_unit_abilities.dart';
@@ -268,6 +269,30 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
     {
         final List< ({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> weaponInfo = [];
 
+        /// 1. Пытаемся восстановить данные из сохраненного снапшота
+        if (unit.weaponSnapshot.isNotEmpty)
+        {
+            try
+            {
+                return unit.weaponSnapshot.map((w)
+                    {
+                        return (
+                        modelName: w['modelName'] as String,
+                        weaponType: WeaponType.values.byName(w['weaponType'] as String),
+                        weaponName: w['weaponName'] as String,
+                        isEquiped: w['isEquiped'] as bool,
+                        amount: w['amount'] as int
+                        );
+                    }).toList();
+
+            } catch (e)
+            {
+                /// Если структура снапшота устарела или повреждена,
+                /// логика перейдет к расчету по умолчанию ниже
+                debugPrint('Weapon snapshot restore error: $e');
+            }
+        }
+
         /// 1. Считаем общее количество сержантов во всем юните заранее
         int totalSergeantsInUnit = 0;
         unit.modelStats.forEach((_, stats)
@@ -430,7 +455,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                                 modelName: modelName,
                                 weaponType: type,
                                 weaponName: weapon.name,
-                                isEquiped: isEquiped,
+                                isEquiped: totalAmount > 0,
                                 amount: totalAmount
                                 ));
                         }
@@ -585,10 +610,10 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
         if (state.unit == null) return;
 
         final currentIndices = Map<String, List<int>>.from(state.unit!.selectedWargearIndices);
-        if (index == null) 
+        if (index == null)
         {
             currentIndices[optionId] = []; /// Если null, очищаем (развыделяем)
-        } else 
+        } else
         {
             currentIndices[optionId] = [index]; /// Если есть значение, устанавливаем его
         }
@@ -619,6 +644,24 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
             role: role,
             category: SaveCategoryCode.wargearOptions,
             updateData: newIndices
+        );
+
+        /// Конвертируем список кортежей в список Map для корректного JSON-кодирования
+        final List<Map<String, dynamic>> weaponDataToSave = recalculatedWeaponInfo.map((w) => 
+            {
+                'modelName': w.modelName,
+                'weaponType': w.weaponType.name,
+                'weaponName': w.weaponName,
+                'isEquiped': w.isEquiped,
+                'amount': w.amount
+            }).toList();
+
+        await _updateUnitInUserRoster(
+            armyId: _armyId,
+            instanceId: _instanceUnitId,
+            role: role,
+            category: SaveCategoryCode.weaponInfo,
+            updateData: weaponDataToSave
         );
 
         /// 4. Обновление основного экрана (синхронизация)
