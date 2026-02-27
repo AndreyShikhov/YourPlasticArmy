@@ -7,6 +7,7 @@ import 'package:drift/drift.dart';
 import 'package:uuid/uuid.dart';
 import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
 import 'package:ypa/core/database/tables/seed/seed_objects/units/blood_angels.dart';
+import 'package:ypa/core/database/tables/seed/seed_objects/units/dark_angels.dart';
 import 'package:ypa/core/database/tables/seed/seed_objects/units/orks.dart';
 import 'package:ypa/core/database/tables/seed/seed_objects/units/space_marines.dart';
 import 'package:ypa/core/database/tables/seed/seed_objects/units/ultramarines.dart';
@@ -24,6 +25,7 @@ Future<void> seedUnits(
     final units = <UnitSeed>[
         ...spaceMarinesUnits(),
         ...bloodAngelsUnits(),
+        ...darkAngelsUnits(),
         ...ultramarinesUnits(),
         ...orksUnits()
     ];
