@@ -61,14 +61,14 @@ class UnitCompositionDom
 
     int get totalUnitAmount
     {
-      final base = selectedComposition ?? compositions.firstOrNull;
-      int res = base?.amount ?? 0;
+        final base = selectedComposition ?? compositions.firstOrNull;
+        int res = base?.amount ?? 0;
 
-      for (var model in additionalModels)
-      {
-        if (model.isSelected) res += model.amount;
-      }
-      return res;
+        for (var model in additionalModels)
+        {
+            if (model.isSelected) res += model.amount;
+        }
+        return res;
     }
 
     List<String> get allModelNames
@@ -187,13 +187,15 @@ class WargearOptionsDom
     final Map<WargearConditionCount, int> conditionCount;
     final List<String> additionalWeapons;
     final Map<List<String>, List<String>> replaceWeapons;
+    final Map<List<String>, List<Map<String, int>>>? changeParameter;
 
     const WargearOptionsDom({
         required this.text,
         required this.modelName,
         required this.conditionCount,
         required this.additionalWeapons,
-        required this.replaceWeapons
+        required this.replaceWeapons,
+        this.changeParameter
     });
 
     Map<String, dynamic> toJson() =>
@@ -202,7 +204,8 @@ class WargearOptionsDom
         'modelName': modelName,
         'conditionCount': conditionCount.map((key, value) => MapEntry(key.name, value)),
         'additionalWeapons': additionalWeapons,
-        'replaceWeapons': replaceWeapons.map((key, value) => MapEntry(key.join(','), value.join(',')))
+        'replaceWeapons': replaceWeapons.map((key, value) => MapEntry(key.join(','), value.join(','))),
+        'changeParameter': changeParameter?.map((key, value) => MapEntry(key.join(','), value))
     };
 
     factory WargearOptionsDom.fromJson(Map<String, dynamic> json)
@@ -224,7 +227,10 @@ class WargearOptionsDom
                     key.split(','),
                     (value as String).split(',')
                 )
-            )
+            ),
+            changeParameter: (json['changeParameter'] as Map<String, dynamic>? ?? {}).map(
+                (key, value) => MapEntry(key.split(','), 
+                    (value as List).map((e) => Map<String, int>.from(e as Map)).toList()))
         );
     }
 
@@ -233,7 +239,8 @@ class WargearOptionsDom
         modelName: '',
         conditionCount: {},
         additionalWeapons: [],
-        replaceWeapons: {}
+        replaceWeapons: {},
+        changeParameter: {}
     );
 }
 
