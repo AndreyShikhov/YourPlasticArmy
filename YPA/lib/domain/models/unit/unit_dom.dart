@@ -32,6 +32,8 @@ class UnitDOM
     final Map<String, ModelStatsDom> modelStats;
     final Map<String, List<int>> selectedWargearIndices;
     final List<Map<String, dynamic>> weaponSnapshot;
+    final Map<String, dynamic> characteristics;
+
 
     const UnitDOM._({
         required this.id,
@@ -50,7 +52,9 @@ class UnitDOM
         required this.ledBy,
         required this.modelStats,
         required this.selectedWargearIndices,
-        required this.weaponSnapshot
+        required this.weaponSnapshot,
+        required this.characteristics,
+
     });
 
     factory UnitDOM.restore({
@@ -70,7 +74,8 @@ class UnitDOM
         required List<LeaderFilterDom> ledBy,
         required Map<String, ModelStatsDom> modelStats,
         Map<String, List<int>>? selectedWargearIndices,
-        List<Map<String, dynamic>>? weaponSnapshot
+        List<Map<String, dynamic>>? weaponSnapshot,
+        Map<String, dynamic>? characteristics,
 
     })
     {
@@ -91,7 +96,8 @@ class UnitDOM
             ledBy: ledBy,
             modelStats: modelStats,
             selectedWargearIndices: selectedWargearIndices ?? {},
-            weaponSnapshot: weaponSnapshot ?? []
+            weaponSnapshot: weaponSnapshot ?? [],
+            characteristics: characteristics ?? {}
         );
     }
 
@@ -130,7 +136,8 @@ class UnitDOM
             ledBy: ledBy,
             modelStats: modelStats,
             selectedWargearIndices: {},
-            weaponSnapshot: []
+            weaponSnapshot: [],
+            characteristics: {}
         );
     }
 
@@ -151,7 +158,8 @@ class UnitDOM
         List<LeaderFilterDom>? ledBy,
         Map<String, ModelStatsDom>? modelStats,
         Map<String, List<int>>? selectedWargearIndices,
-        List<Map<String, dynamic>>? weaponSnapshot
+        List<Map<String, dynamic>>? weaponSnapshot,
+        Map<String, dynamic>? characteristics,
     })
     {
         return UnitDOM._(
@@ -172,7 +180,8 @@ class UnitDOM
             ledBy: ledBy ?? this.ledBy,
             modelStats: modelStats ?? this.modelStats,
             selectedWargearIndices: selectedWargearIndices ?? this.selectedWargearIndices,
-            weaponSnapshot: weaponSnapshot ?? this.weaponSnapshot
+            weaponSnapshot: weaponSnapshot ?? this.weaponSnapshot,
+            characteristics: characteristics ?? this.characteristics,
         );
     }
 }

@@ -178,7 +178,8 @@ class ArmyBuilderState
             ledBy: findedUnit.ledBy,
             modelStats: findedUnit.modelStats,
             selectedWargearIndices: findedUnit.selectedWargearIndices,
-            weaponSnapshot: findedUnit.weaponSnapshot
+            weaponSnapshot: findedUnit.weaponSnapshot,
+            characteristics: findedUnit.characteristics
 
         );
     }

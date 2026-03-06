@@ -22,7 +22,8 @@ enum SaveCategoryCode
     composition('composition', 'Composition'),
     points('points', 'Points'),
     wargearOptions('wargearOptions', 'Wargear Options'),
-    weaponInfo('weaponInfo', 'Weapon Info');
+    weaponInfo('weaponInfo', 'Weapon Info'),
+    characteristics('characteristics', 'Characteristics');
 
     final String code;
     final String title;
@@ -105,7 +106,9 @@ class UserArmyDOM
         String role,
         UnitCompositionDom composition,
         Map<String, List<int>> selectedWargear,
-        List<Map<String, dynamic>> weaponSnapshot) async
+        List<Map<String, dynamic>> weaponSnapshot,
+        Map<String,dynamic> characteristics,
+        ) async
     {
         /// 1. Декодируем текущий JSON или создаем структуру по умолчанию
         Map<String, dynamic> root;
@@ -149,7 +152,8 @@ class UserArmyDOM
                 SaveCategoryCode.composition.code: finalComposition.toSaveUserArmyJson(),   /// Сохзраняем не весь Compositionа только выбранные элементы
                 SaveCategoryCode.points.code: finalComposition.totalUnitCost,               /// Cтоимость юнита"
                 SaveCategoryCode.wargearOptions.code: selectedWargear,                      /// Warger выбранные варгиры
-                SaveCategoryCode.weaponInfo.code: weaponSnapshot                            /// Информация таблиц с оружием
+                SaveCategoryCode.weaponInfo.code: weaponSnapshot,                           /// Информация таблиц с оружием
+                SaveCategoryCode.characteristics.code: characteristics                      /// Обновлённые характеристики Юнита
             };
 
         /// 5. Добавляем юнит в список и обновляем структуру

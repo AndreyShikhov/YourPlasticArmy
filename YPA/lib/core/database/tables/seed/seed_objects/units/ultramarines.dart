@@ -29,11 +29,11 @@ List<UnitSeed> ultramarinesUnits()
             factionKeywords: ['Adeptus Astartes'],
             unitComposition: const UnitCompositionDom(
                 compositions: [
-                  UnitCompositionModelDom(
-                      name: 'Roboute Guilliman',
-                      amount: 1,
-                      cost: 300
-                  )
+                    UnitCompositionModelDom(
+                        name: 'Roboute Guilliman',
+                        amount: 1,
+                        cost: 300
+                    )
                 ]
             ),
             unitAbility: const[
@@ -46,73 +46,73 @@ List<UnitSeed> ultramarinesUnits()
             ],
             ledBy: const[],
             leader: const[],
-            modelStats: 
+            modelStats:
             {
                 'Roboute Guilliman': ModelStatsDom(
                     characteristics: const CharacteristicsDom(
-                      movement: 8,
-                      toughness: 9,
-                      save: 2,
-                      invulnerableSave: 4,
-                      wounds: 10,
-                      leadership: 5,
-                      objectiveControl: 4,
+                        movement: 8,
+                        toughness: 9,
+                        save: 2,
+                        invulnerableSave: 4,
+                        wounds: 10,
+                        leadership: 5,
+                        objectiveControl: 4
                     ),
 
                     modelWeapons: ModelWeaponsDom(
                         weapons:
                         {
-                          WeaponType.ranged : [
-                            WeaponDom(
-                                name: 'Perdition Pistol',
-                                weapons:
-                                {'': WeaponProfileDom(
-                                    weaponAbilities: const[
-                                      WeaponAbilitiesCode.pistol,
-                                      WeaponAbilitiesCode.melta
-                                    ],
-                                    range: 6,
-                                    attacks: const Dice(fix: 1).toString(),
-                                    skill: 2,
-                                    strength: 8,
-                                    ap: -4,
-                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
-                                        .toString()
-                                )
-                                }
+                            WeaponType.ranged : [
+                                WeaponDom(
+                                    name: 'Perdition Pistol',
+                                    weapons:
+                                    {'': WeaponProfileDom(
+                                            weaponAbilities: const[
+                                                WeaponAbilitiesCode.pistol,
+                                                WeaponAbilitiesCode.melta
+                                            ],
+                                            range: 6,
+                                            attacks: const Dice(fix: 1).toString(),
+                                            skill: 2,
+                                            strength: 8,
+                                            ap: -4,
+                                            damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
+                                                .toString()
+                                        )
+                                    }
 
-                            )
-                          ],
-                          WeaponType.melee : [
-                            WeaponDom(
-                                name: 'The Axe Mortalis',
-                                weapons:
-                                {'': WeaponProfileDom(
-                                    weaponAbilities: const[
-                                      WeaponAbilitiesCode.pistol,
-                                      WeaponAbilitiesCode.melta
-                                    ],
-                                    range: 6,
-                                    attacks: const Dice(fix: 1).toString(),
-                                    skill: 2,
-                                    strength: 8,
-                                    ap: -4,
-                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
-                                        .toString()
                                 )
-                                }
+                            ],
+                            WeaponType.melee : [
+                                WeaponDom(
+                                    name: 'The Axe Mortalis',
+                                    weapons:
+                                    {'': WeaponProfileDom(
+                                            weaponAbilities: const[
+                                                WeaponAbilitiesCode.pistol,
+                                                WeaponAbilitiesCode.melta
+                                            ],
+                                            range: 6,
+                                            attacks: const Dice(fix: 1).toString(),
+                                            skill: 2,
+                                            strength: 8,
+                                            ap: -4,
+                                            damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
+                                                .toString()
+                                        )
+                                    }
 
-                            )
-                          ]
+                                )
+                            ]
                         },
                         selectedWeapons:
                         {
-                          WeaponType.ranged : ['Perdition Pistol'],
-                          WeaponType.melee : ['The Axe Mortalis']
+                            WeaponType.ranged : ['Perdition Pistol'],
+                            WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
 
-                    wargearOptions:[]
+                    wargearOptions: []
                 )
             }
         )

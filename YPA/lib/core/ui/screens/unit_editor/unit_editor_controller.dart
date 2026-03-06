@@ -129,7 +129,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                 modelStats: unit.modelStats,
                 selectedWargearIndices: unit.selectedWargearIndices,
                 weaponInfo: weaponInfo,
-                modifiedModelCharacteristics: {}, /// возможно при загрузке нужно будет переделать и достать и зсейвов
+                modifiedModelCharacteristics: {} /// возможно при загрузке нужно будет переделать и достать и зсейвов
 
             );
 
@@ -812,17 +812,23 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                 final modelName = parts[0];
                 final optionIdx = int.tryParse(parts[1]);
 
-                if(!unit.modelStats.containsKey(modelName)) return;
+                if (!unit.modelStats.containsKey(modelName)) return;
 
-                final originalModelCharacteristics = unit.modelStats[modelName]!.characteristics;
-                if ( optionIdx == null || optionIdx >= unit.modelStats[modelName]!.wargearOptions.length) return;
+                ///final originalModelCharacteristics = unit.modelStats[modelName]!.characteristics;
+                if (optionIdx == null || optionIdx >= unit.modelStats[modelName]!.wargearOptions.length) return;
 
                 final option = unit.modelStats[modelName]!.wargearOptions[optionIdx];
                 if (option.changeParameter == null || option.changeParameter!.isEmpty) return;
 
+                /// Если для этой модели еще нет записи в модифицированных статах, берем базу
+                if (!modifiedStats.containsKey(modelName))
+                {
+                  modifiedStats[modelName] = unit.modelStats[modelName]!.characteristics;
+                }
+
                 for (var idx in selectedIndices)
                 {
-                    if (idx < option.changeParameter!.length) 
+                    if (idx < option.changeParameter!.length)
                     {
                         final paramChanges = option.changeParameter!.values.elementAt(idx);
 

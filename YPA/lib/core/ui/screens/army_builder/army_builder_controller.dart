@@ -447,6 +447,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                                     map[SaveCategoryCode.composition.code],
                                     map[SaveCategoryCode.wargearOptions.code],
                                     map[SaveCategoryCode.weaponInfo.code],
+                                    map[SaveCategoryCode.characteristics.code],
                               /// добавить окастомные статы
                                 ));
                         }
@@ -481,7 +482,8 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         String instanceId,
         Map<String, dynamic>? saveComposition,
         Map<String, dynamic>? saveWargear,
-        List<dynamic>? saveWeaponSnapshot
+        List<dynamic>? saveWeaponSnapshot,
+        Map<String, dynamic>? svaeCharacteristics,
         )
     {
         return ArmyBuilderUnitItemUi(
@@ -501,19 +503,20 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             modelStats: unit.modelStats,
             selectedWargearIndices: _buildWargearFromSaveData(saveWargear),
             weaponSnapshot: _buildWWeaponInfoFromSaveData(saveWeaponSnapshot),
+            characteristics: svaeCharacteristics ?? {},
         );
     }
 
     Future<List<ArmyBuilderUnitItemUi>> getAllUnitsByCodexId(CodexId codexId) async
     {
         List<UnitDOM> unitDomain = await _getAllUnitsByCodexid(codexId);
-        return unitDomain.map((unit) => _convertDomainUnitToUnitItemUi(unit, '', null, null, null)).toList();
+        return unitDomain.map((unit) => _convertDomainUnitToUnitItemUi(unit, '', null, null, null, null)).toList();
     }
 
     Future<List<ArmyBuilderUnitItemUi>> getAllUnitsByArmyId(ArmyId armyId) async
     {
         List<UnitDOM> unitDomain = await _getAllUnitsByArmyId(armyId);
-        return unitDomain.map((unit) => _convertDomainUnitToUnitItemUi(unit, '', null, null, null)).toList();
+        return unitDomain.map((unit) => _convertDomainUnitToUnitItemUi(unit, '', null, null, null, null)).toList();
     }
 
     UnitCompositionDom _buildCompositionFromSaveData(UnitCompositionDom unitCompositionFromDB, Map<String, dynamic>? saveComposition)
