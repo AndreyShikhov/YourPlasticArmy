@@ -78,13 +78,15 @@ List<UnitSeed> spaceMarinesUnits()
             modelStats:
             {
                 'Ancient': ModelStatsDom(
-                    movement: 6,
-                    toughness: 4,
-                    save: 3,
-                    invulnerableSave: 0,
-                    wounds: 4,
-                    leadership: 6,
-                    objectiveControl: 1,
+                    characteristics: const CharacteristicsDom(
+                        movement: 12,
+                        toughness: 4,
+                        save: 2,
+                        invulnerableSave: 4,
+                        wounds: 5,
+                        leadership: 5,
+                        objectiveControl: 1
+                    ),
                     modelWeapons: ModelWeaponsDom(
                         weapons:
                         {
@@ -177,13 +179,15 @@ List<UnitSeed> spaceMarinesUnits()
             modelStats:
             {
                 'Ancient In Terminator Armour' : ModelStatsDom(
-                    movement: 5,
-                    toughness: 5,
-                    save: 2,
-                    invulnerableSave: 4,
-                    wounds: 5,
-                    leadership: 5,
-                    objectiveControl: 1,
+                    characteristics: const CharacteristicsDom(
+                        movement: 12,
+                        toughness: 4,
+                        save: 2,
+                        invulnerableSave: 4,
+                        wounds: 5,
+                        leadership: 5,
+                        objectiveControl: 1
+                    ),
                     modelWeapons: ModelWeaponsDom(
                         weapons:
                         {
@@ -276,13 +280,15 @@ List<UnitSeed> spaceMarinesUnits()
             modelStats:
             {
                 'Apothecary' :  ModelStatsDom(
-                    movement: 6,
-                    toughness: 4,
-                    save: 3,
-                    invulnerableSave: 0,
-                    wounds: 4,
-                    leadership: 6,
-                    objectiveControl: 1,
+                    characteristics: const CharacteristicsDom(
+                        movement: 12,
+                        toughness: 4,
+                        save: 2,
+                        invulnerableSave: 4,
+                        wounds: 5,
+                        leadership: 5,
+                        objectiveControl: 1
+                    ),
                     modelWeapons: ModelWeaponsDom(
                         weapons:
                         {
@@ -376,13 +382,15 @@ List<UnitSeed> spaceMarinesUnits()
             modelStats:
             {
                 'Apothecary Biologis':ModelStatsDom(
-                    movement: 5,
-                    toughness: 6,
-                    save: 3,
-                    invulnerableSave: 0,
-                    wounds: 5,
-                    leadership: 6,
-                    objectiveControl: 3,
+                    characteristics: const CharacteristicsDom(
+                        movement: 12,
+                        toughness: 4,
+                        save: 2,
+                        invulnerableSave: 4,
+                        wounds: 5,
+                        leadership: 5,
+                        objectiveControl: 1
+                    ),
                     modelWeapons: ModelWeaponsDom(
                         weapons:
                         {
@@ -483,13 +491,15 @@ List<UnitSeed> spaceMarinesUnits()
             modelStats:
             {
                 'Chaplain In Terminator Armour':ModelStatsDom(
-                    movement: 5,
-                    toughness: 5,
-                    save: 2,
-                    invulnerableSave: 4,
-                    wounds: 5,
-                    leadership: 5,
-                    objectiveControl: 1,
+                    characteristics: const CharacteristicsDom(
+                      movement: 5,
+                      toughness: 5,
+                      save: 2,
+                      invulnerableSave: 4,
+                      wounds: 5,
+                      leadership: 5,
+                      objectiveControl: 1,
+                    ),
                     modelWeapons: ModelWeaponsDom(
                         weapons:
                         {
@@ -629,13 +639,16 @@ List<UnitSeed> spaceMarinesUnits()
                 'Assault Intercessor Sergeant':ModelStatsDom(
                     isNeedShow: false,
                     isSergeant: true,
-                    movement: 6,
-                    toughness: 4,
-                    save: 3,
-                    invulnerableSave: 0,
-                    wounds: 2,
-                    leadership: 6,
-                    objectiveControl: 2,
+                    characteristics: const CharacteristicsDom(
+                      movement: 6,
+                      toughness: 4,
+                      save: 3,
+                      invulnerableSave: 0,
+                      wounds: 2,
+                      leadership: 6,
+                      objectiveControl: 2,
+                    ),
+
                     modelWeapons: ModelWeaponsDom(
                         weapons:
                         {
@@ -718,13 +731,16 @@ List<UnitSeed> spaceMarinesUnits()
                 ),
                 'Assault Intercessor':ModelStatsDom(
                     isNeedShow: true,
-                    movement: 6,
-                    toughness: 4,
-                    save: 3,
-                    invulnerableSave: 0,
-                    wounds: 2,
-                    leadership: 6,
-                    objectiveControl: 2,
+                    characteristics: const CharacteristicsDom(
+                      movement: 6,
+                      toughness: 4,
+                      save: 3,
+                      invulnerableSave: 0,
+                      wounds: 2,
+                      leadership: 6,
+                      objectiveControl: 2,
+                    ),
+
                     modelWeapons: ModelWeaponsDom(
                         weapons:
                         {
@@ -842,13 +858,16 @@ List<UnitSeed> spaceMarinesUnits()
                 'Heavy Intercessor Sergeant' : ModelStatsDom(
                     isNeedShow: false,
                     isSergeant: true,
-                    movement: 5,
-                    toughness: 6,
-                    save: 3,
-                    invulnerableSave: 0,
-                    wounds: 3,
-                    leadership: 6,
-                    objectiveControl: 2,
+                    characteristics: const CharacteristicsDom(
+                      movement: 5,
+                      toughness: 6,
+                      save: 3,
+                      invulnerableSave: 0,
+                      wounds: 3,
+                      leadership: 6,
+                      objectiveControl: 2,
+                    ),
+
                     modelWeapons: ModelWeaponsDom(
                         weapons:
                         {
@@ -948,13 +967,16 @@ List<UnitSeed> spaceMarinesUnits()
                     wargearOptions: []
                 ),
                 'Heavy Intercessor' : ModelStatsDom(
-                    movement: 5,
-                    toughness: 6,
-                    save: 3,
-                    invulnerableSave: 0,
-                    wounds: 3,
-                    leadership: 6,
-                    objectiveControl: 2,
+                    characteristics: const CharacteristicsDom(
+                      movement: 5,
+                      toughness: 6,
+                      save: 3,
+                      invulnerableSave: 0,
+                      wounds: 3,
+                      leadership: 6,
+                      objectiveControl: 2,
+                    ),
+
                     modelWeapons: ModelWeaponsDom(
                         weapons:
                         {
@@ -1189,13 +1211,16 @@ List<UnitSeed> spaceMarinesUnits()
             {
                 'Intercessor Sergeant' : ModelStatsDom(
                     isNeedShow: false,
-                    movement: 6,
-                    toughness: 4,
-                    save: 3,
-                    invulnerableSave: 0,
-                    wounds: 2,
-                    leadership: 6,
-                    objectiveControl: 2,
+                    characteristics: const CharacteristicsDom(
+                      movement: 6,
+                      toughness: 4,
+                      save: 3,
+                      invulnerableSave: 0,
+                      wounds: 2,
+                      leadership: 6,
+                      objectiveControl: 2,
+                    ),
+
                     modelWeapons: ModelWeaponsDom(
                         weapons:
                         {
@@ -1251,13 +1276,16 @@ List<UnitSeed> spaceMarinesUnits()
                     wargearOptions: []
                 ),
                 'Intercessor' : ModelStatsDom(
-                    movement: 6,
-                    toughness: 4,
-                    save: 3,
-                    invulnerableSave: 0,
-                    wounds: 2,
-                    leadership: 6,
-                    objectiveControl: 2,
+                    characteristics: const CharacteristicsDom(
+                      movement: 6,
+                      toughness: 4,
+                      save: 3,
+                      invulnerableSave: 0,
+                      wounds: 2,
+                      leadership: 6,
+                      objectiveControl: 2,
+                    ),
+
                     modelWeapons: ModelWeaponsDom(
                         weapons:
                         {
@@ -1350,13 +1378,16 @@ List<UnitSeed> spaceMarinesUnits()
             modelStats:
             {
                 'Tactical' : ModelStatsDom(
-                    movement: 6,
-                    toughness: 4,
-                    save: 3,
-                    invulnerableSave: 0,
-                    wounds: 2,
-                    leadership: 6,
-                    objectiveControl: 2,
+                    characteristics: const CharacteristicsDom(
+                      movement: 6,
+                      toughness: 4,
+                      save: 3,
+                      invulnerableSave: 0,
+                      wounds: 2,
+                      leadership: 6,
+                      objectiveControl: 2,
+                    ),
+
                     modelWeapons: ModelWeaponsDom(
                         weapons:
                         {
@@ -1452,13 +1483,16 @@ List<UnitSeed> spaceMarinesUnits()
             modelStats:
             {
                 'Drop Pod' :  ModelStatsDom(
-                    movement: 0,
-                    toughness: 7,
-                    save: 3,
-                    invulnerableSave: 0,
-                    wounds: 8,
-                    leadership: 6,
-                    objectiveControl: 0,
+                    characteristics: const CharacteristicsDom(
+                      movement: 0,
+                      toughness: 7,
+                      save: 3,
+                      invulnerableSave: 0,
+                      wounds: 8,
+                      leadership: 6,
+                      objectiveControl: 0,
+                    ),
+
 
                     modelWeapons: ModelWeaponsDom(
                         weapons:
@@ -1552,13 +1586,16 @@ List<UnitSeed> spaceMarinesUnits()
             modelStats:
             {
                 'Impulsor' : ModelStatsDom(
-                    movement: 12,
-                    toughness: 9,
-                    save: 3,
-                    invulnerableSave: 0,
-                    wounds: 11,
-                    leadership: 6,
-                    objectiveControl: 2,
+                    characteristics: const CharacteristicsDom(
+                      movement: 12,
+                      toughness: 9,
+                      save: 3,
+                      invulnerableSave: 0,
+                      wounds: 11,
+                      leadership: 6,
+                      objectiveControl: 2,
+                    ),
+
                     modelWeapons: ModelWeaponsDom(
                         weapons:
                         {
@@ -1651,13 +1688,16 @@ List<UnitSeed> spaceMarinesUnits()
             modelStats:
             {
                 'Razorback' : ModelStatsDom(
-                    movement: 12,
-                    toughness: 9,
-                    save: 3,
-                    invulnerableSave: 0,
-                    wounds: 10,
-                    leadership: 6,
-                    objectiveControl: 2,
+                    characteristics: const CharacteristicsDom(
+                      movement: 12,
+                      toughness: 9,
+                      save: 3,
+                      invulnerableSave: 0,
+                      wounds: 10,
+                      leadership: 6,
+                      objectiveControl: 2,
+                    ),
+
                     modelWeapons: ModelWeaponsDom(
                         weapons:
                         {
@@ -1750,13 +1790,16 @@ List<UnitSeed> spaceMarinesUnits()
             modelStats:
             {
                 'Rhino' : ModelStatsDom(
-                    movement: 12,
-                    toughness: 9,
-                    save: 3,
-                    invulnerableSave: 0,
-                    wounds: 10,
-                    leadership: 6,
-                    objectiveControl: 2,
+                    characteristics: const CharacteristicsDom(
+                      movement: 12,
+                      toughness: 9,
+                      save: 3,
+                      invulnerableSave: 0,
+                      wounds: 10,
+                      leadership: 6,
+                      objectiveControl: 2,
+                    ),
+
                     modelWeapons: ModelWeaponsDom(
                         weapons:
                         {
@@ -1850,13 +1893,16 @@ List<UnitSeed> spaceMarinesUnits()
             modelStats:
             {
                 'Hammerfall Bunker' : ModelStatsDom(
-                    movement: 0,
-                    toughness: 12,
-                    save: 2,
-                    invulnerableSave: 0,
-                    wounds: 14,
-                    leadership: 6,
-                    objectiveControl: 0,
+                    characteristics: const CharacteristicsDom(
+                      movement: 0,
+                      toughness: 12,
+                      save: 2,
+                      invulnerableSave: 0,
+                      wounds: 14,
+                      leadership: 6,
+                      objectiveControl: 0,
+                    ),
+
                     modelWeapons: ModelWeaponsDom(
                         weapons:
                         {
@@ -1951,13 +1997,16 @@ List<UnitSeed> spaceMarinesUnits()
             modelStats:
             {
                 'Aggressor' : ModelStatsDom(
-                    movement: 5,
-                    toughness: 6,
-                    save: 3,
-                    invulnerableSave: 0,
-                    wounds: 3,
-                    leadership: 6,
-                    objectiveControl: 1,
+                    characteristics: const CharacteristicsDom(
+                      movement: 5,
+                      toughness: 6,
+                      save: 3,
+                      invulnerableSave: 0,
+                      wounds: 3,
+                      leadership: 6,
+                      objectiveControl: 1,
+                    ),
+
                     modelWeapons: ModelWeaponsDom(
                         weapons:
                         {
@@ -2050,13 +2099,16 @@ List<UnitSeed> spaceMarinesUnits()
             modelStats:
             {
                 'Assault Intercessors With Jump Packs' :  ModelStatsDom(
-                    movement: 12,
-                    toughness: 4,
-                    save: 3,
-                    invulnerableSave: 0,
-                    wounds: 2,
-                    leadership: 6,
-                    objectiveControl: 1,
+                    characteristics: const CharacteristicsDom(
+                      movement: 12,
+                      toughness: 4,
+                      save: 3,
+                      invulnerableSave: 0,
+                      wounds: 2,
+                      leadership: 6,
+                      objectiveControl: 1,
+                    ),
+
                     modelWeapons: ModelWeaponsDom(
                         weapons:
                         {
@@ -2149,13 +2201,16 @@ List<UnitSeed> spaceMarinesUnits()
             modelStats:
             {
                 'Ballistus Dreadnought' :ModelStatsDom(
-                    movement: 8,
-                    toughness: 10,
-                    save: 2,
-                    invulnerableSave: 0,
-                    wounds: 12,
-                    leadership: 6,
-                    objectiveControl: 4,
+                    characteristics: const CharacteristicsDom(
+                      movement: 8,
+                      toughness: 10,
+                      save: 2,
+                      invulnerableSave: 0,
+                      wounds: 12,
+                      leadership: 6,
+                      objectiveControl: 4,
+                    ),
+
                     modelWeapons: ModelWeaponsDom(
                         weapons:
                         {
@@ -2248,13 +2303,16 @@ List<UnitSeed> spaceMarinesUnits()
             modelStats:
             {
                 'Bladeguard Veteran': ModelStatsDom(
-                    movement: 6,
-                    toughness: 4,
-                    save: 3,
-                    invulnerableSave: 4,
-                    wounds: 3,
-                    leadership: 6,
-                    objectiveControl: 1,
+                    characteristics: const CharacteristicsDom(
+                      movement: 6,
+                      toughness: 4,
+                      save: 3,
+                      invulnerableSave: 4,
+                      wounds: 3,
+                      leadership: 6,
+                      objectiveControl: 1,
+                    ),
+
                     modelWeapons: ModelWeaponsDom(
                         weapons:
                         {
@@ -2372,13 +2430,16 @@ List<UnitSeed> spaceMarinesUnits()
             modelStats:
             {
                 'Outrider': ModelStatsDom(
-                    movement: 12,
-                    toughness: 5,
-                    save: 3,
-                    invulnerableSave: 0,
-                    wounds: 4,
-                    leadership: 6,
-                    objectiveControl: 2,
+                    characteristics: const CharacteristicsDom(
+                      movement: 12,
+                      toughness: 5,
+                      save: 3,
+                      invulnerableSave: 0,
+                      wounds: 4,
+                      leadership: 6,
+                      objectiveControl: 2,
+                    ),
+
                     modelWeapons: ModelWeaponsDom(
                         weapons:
                         {
@@ -2436,13 +2497,16 @@ List<UnitSeed> spaceMarinesUnits()
                 'Outrider Sergeant': ModelStatsDom(
                     isNeedShow: false,
                     isSergeant: true,
-                    movement: 12,
-                    toughness: 5,
-                    save: 3,
-                    invulnerableSave: 0,
-                    wounds: 4,
-                    leadership: 6,
-                    objectiveControl: 2,
+                    characteristics: const CharacteristicsDom(
+                      movement: 12,
+                      toughness: 5,
+                      save: 3,
+                      invulnerableSave: 0,
+                      wounds: 4,
+                      leadership: 6,
+                      objectiveControl: 2,
+                    ),
+
                     modelWeapons: ModelWeaponsDom(
                         weapons:
                         {
@@ -2499,13 +2563,16 @@ List<UnitSeed> spaceMarinesUnits()
                 ),
                 'Invader ATV': ModelStatsDom(
                     isNeedShow: false,
-                    movement: 12,
-                    toughness: 5,
-                    save: 3,
-                    invulnerableSave: 0,
-                    wounds: 8,
-                    leadership: 6,
-                    objectiveControl: 2,
+                    characteristics: const CharacteristicsDom(
+                      movement: 12,
+                      toughness: 5,
+                      save: 3,
+                      invulnerableSave: 0,
+                      wounds: 8,
+                      leadership: 6,
+                      objectiveControl: 2,
+                    ),
+
                     modelWeapons: ModelWeaponsDom(
                         weapons:
                         {

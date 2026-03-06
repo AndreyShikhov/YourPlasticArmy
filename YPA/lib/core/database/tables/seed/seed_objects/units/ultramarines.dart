@@ -49,13 +49,16 @@ List<UnitSeed> ultramarinesUnits()
             modelStats: 
             {
                 'Roboute Guilliman': ModelStatsDom(
-                    movement: 8,
-                    toughness: 9,
-                    save: 2,
-                    invulnerableSave: 4,
-                    wounds: 10,
-                    leadership: 5,
-                    objectiveControl: 4,
+                    characteristics: const CharacteristicsDom(
+                      movement: 8,
+                      toughness: 9,
+                      save: 2,
+                      invulnerableSave: 4,
+                      wounds: 10,
+                      leadership: 5,
+                      objectiveControl: 4,
+                    ),
+
                     modelWeapons: ModelWeaponsDom(
                         weapons:
                         {

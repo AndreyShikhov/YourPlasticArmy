@@ -46,13 +46,15 @@ List<UnitSeed> darkAngelsUnits()
             {
                 'Boyz' : ModelStatsDom(
                     isNeedShow: true,
-                    movement: 6,
-                    toughness: 5,
-                    save: 5,
-                    invulnerableSave: 5,
-                    wounds: 1,
-                    leadership: 7,
-                    objectiveControl: 2,
+                    characteristics: const CharacteristicsDom(
+                        movement: 6,
+                        toughness: 5,
+                        save: 5,
+                        invulnerableSave: 5,
+                        wounds: 1,
+                        leadership: 7,
+                        objectiveControl: 2
+                    ),
                     modelWeapons: ModelWeaponsDom(
                         weapons:
                         {

@@ -24,11 +24,11 @@ List<UnitSeed> orksUnits()
             factionKeywords: const['Waaagh! Tribe'],
             unitComposition: const UnitCompositionDom(
                 compositions: [
-                  UnitCompositionModelDom(
-                    name: '1 model',
-                    amount: 1,
-                    cost: 120,
-                  ),
+                    UnitCompositionModelDom(
+                        name: '1 model',
+                        amount: 1,
+                        cost: 120
+                    )
                 ]
             ),
             unitAbility: const[
@@ -45,63 +45,66 @@ List<UnitSeed> orksUnits()
             {
                 'Boyz' : ModelStatsDom(
                     isNeedShow: true,
-                    movement: 6,
-                    toughness: 5,
-                    save: 5,
-                    invulnerableSave: 5,
-                    wounds: 1,
-                    leadership: 7,
-                    objectiveControl: 2,
+                    characteristics: const CharacteristicsDom(
+                        movement: 6,
+                        toughness: 5,
+                        save: 5,
+                        invulnerableSave: 5,
+                        wounds: 1,
+                        leadership: 7,
+                        objectiveControl: 2
+                    ),
+
                     modelWeapons: ModelWeaponsDom(
                         weapons:
                         {
-                          WeaponType.ranged : [
-                            WeaponDom(
-                                name: 'Perdition Pistol',
-                                weapons:
-                                {'': WeaponProfileDom(
-                                    weaponAbilities: const[
-                                      WeaponAbilitiesCode.pistol,
-                                      WeaponAbilitiesCode.melta
-                                    ],
-                                    range: 6,
-                                    attacks: const Dice(fix: 1).toString(),
-                                    skill: 2,
-                                    strength: 8,
-                                    ap: -4,
-                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
-                                        .toString()
-                                )
-                                }
+                            WeaponType.ranged : [
+                                WeaponDom(
+                                    name: 'Perdition Pistol',
+                                    weapons:
+                                    {'': WeaponProfileDom(
+                                            weaponAbilities: const[
+                                                WeaponAbilitiesCode.pistol,
+                                                WeaponAbilitiesCode.melta
+                                            ],
+                                            range: 6,
+                                            attacks: const Dice(fix: 1).toString(),
+                                            skill: 2,
+                                            strength: 8,
+                                            ap: -4,
+                                            damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
+                                                .toString()
+                                        )
+                                    }
 
-                            )
-                          ],
-                          WeaponType.melee : [
-                            WeaponDom(
-                                name: 'The Axe Mortalis',
-                                weapons:
-                                {'': WeaponProfileDom(
-                                    weaponAbilities: const[
-                                      WeaponAbilitiesCode.pistol,
-                                      WeaponAbilitiesCode.melta
-                                    ],
-                                    range: 6,
-                                    attacks: const Dice(fix: 1).toString(),
-                                    skill: 2,
-                                    strength: 8,
-                                    ap: -4,
-                                    damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
-                                        .toString()
                                 )
-                                }
+                            ],
+                            WeaponType.melee : [
+                                WeaponDom(
+                                    name: 'The Axe Mortalis',
+                                    weapons:
+                                    {'': WeaponProfileDom(
+                                            weaponAbilities: const[
+                                                WeaponAbilitiesCode.pistol,
+                                                WeaponAbilitiesCode.melta
+                                            ],
+                                            range: 6,
+                                            attacks: const Dice(fix: 1).toString(),
+                                            skill: 2,
+                                            strength: 8,
+                                            ap: -4,
+                                            damage: const Dice(fix: 0, amount: 1, side: DiceSides.d6)
+                                                .toString()
+                                        )
+                                    }
 
-                            )
-                          ]
+                                )
+                            ]
                         },
                         selectedWeapons:
                         {
-                          WeaponType.ranged : ['Perdition Pistol'],
-                          WeaponType.melee : ['The Axe Mortalis']
+                            WeaponType.ranged : ['Perdition Pistol'],
+                            WeaponType.melee : ['The Axe Mortalis']
                         }
                     ),
                     wargearOptions: []
