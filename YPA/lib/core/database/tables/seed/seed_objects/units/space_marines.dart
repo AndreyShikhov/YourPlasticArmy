@@ -536,12 +536,14 @@ List<UnitSeed> spaceMarinesUnits()
                         }
                     ),
                     wargearOptions: [
-                        WargearOptionsDom(
+                        const WargearOptionsDom(
                             text: 'This model’s storm bolter can be replaced with 1 relic shield.',
                             modelName: 'Chaplain In Terminator Armour',
                             conditionCount: {WargearConditionCount.only : 1},
                             additionalWeapons: [],
-                            replaceWeapons: {['Storm bolter']:['Heavy bolter']})
+                            replaceWeapons: {},
+                            changeParameter: {['Storm bolter']:[{'wounds':1}]}
+                        )
                     ]
                 )
             }
