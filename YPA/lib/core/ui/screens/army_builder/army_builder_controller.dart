@@ -447,6 +447,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                                     map[SaveCategoryCode.composition.code],
                                     map[SaveCategoryCode.wargearOptions.code],
                                     map[SaveCategoryCode.weaponInfo.code],
+                              /// добавить окастомные статы
                                 ));
                         }
                     }

@@ -257,7 +257,7 @@ class _WargearCheckbox extends StatelessWidget
                         onChanged: onChanged
                     ),
                     const SizedBox(width: 4),
-                    // Оптимизация: один виджет Text вместо списка через map
+                    /// Оптимизация: один виджет Text вместо списка через map
                     Flexible(
                         child: Text(
                             titles.join(' + '),
@@ -290,7 +290,7 @@ class _WargearRadio extends StatelessWidget
                         toggleable: true
                     ),
                     const SizedBox(width: 4),
-                    // Оптимизация: один виджет Text вместо списка через map
+                    /// Оптимизация: один виджет Text вместо списка через map
                     Flexible(
                         child: Text(
                             titles.join(' + '),

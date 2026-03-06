@@ -128,7 +128,9 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                 ledBy: unit.ledBy,
                 modelStats: unit.modelStats,
                 selectedWargearIndices: unit.selectedWargearIndices,
-                weaponInfo: weaponInfo
+                weaponInfo: weaponInfo,
+                modifiedModelCharacteristics: {}, /// возможно при загрузке нужно будет переделать и достать и зсейвов
+
             );
 
             /// Сначала сохраняем юнита, чтобы функции get... могли его использовать
@@ -631,8 +633,13 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
         /// 2. Полный пересчет weaponInfo на основе снапшота
         final recalculatedWeaponInfo = _calculateWeaponInfoFromSnapshot(updatedUnit);
 
+        /// 3.  Полный пересчёт параметров модели
+        final recalculatedStats = _recalculateModifiedStats(updatedUnit);
+
         state = state.copyWith(
-            unit: updatedUnit.copyWith(weaponInfo: recalculatedWeaponInfo)
+            unit: updatedUnit.copyWith(
+                weaponInfo: recalculatedWeaponInfo,
+                modifiedModelCharacteristics: recalculatedStats)
         );
 
         /// 3. Сохранение в БД
@@ -647,7 +654,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
         );
 
         /// Конвертируем список кортежей в список Map для корректного JSON-кодирования
-        final List<Map<String, dynamic>> weaponDataToSave = recalculatedWeaponInfo.map((w) => 
+        final List<Map<String, dynamic>> weaponDataToSave = recalculatedWeaponInfo.map((w) =>
             {
                 'modelName': w.modelName,
                 'weaponType': w.weaponType.name,
@@ -792,14 +799,77 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
         return weaponInfo;
     }
 
-    void replaceWeapon(String unitModelName, List<String> replace, List<String> replaceable)
+    Map<String, CharacteristicsDom> _recalculateModifiedStats(UnitEditorItemUi unit)
     {
-        /// Старый метод оставляем пока для совместимости, если он где-то используется,
-        /// но логику переносим на snapshot
-    }
+        /// 1. Создаем глубокую копию оригинальных статов, чтобы не мутировать их
+        final Map<String, CharacteristicsDom> modifiedStats = unit.modifiedModelCharacteristics;
 
-    void addWeapon(String unitModelName, List<String> addWeapons, bool isAdd)
-    {
-        /// Аналогично
+        unit.selectedWargearIndices.forEach((optionId, selectedIndices)
+            {
+                final parts = optionId.split('-');
+                if (parts.length < 2) return;
+
+                final modelName = parts[0];
+                final optionIdx = int.tryParse(parts[1]);
+
+                if(!unit.modelStats.containsKey(modelName)) return;
+
+                final originalModelCharacteristics = unit.modelStats[modelName]!.characteristics;
+                if ( optionIdx == null || optionIdx >= unit.modelStats[modelName]!.wargearOptions.length) return;
+
+                final option = unit.modelStats[modelName]!.wargearOptions[optionIdx];
+                if (option.changeParameter == null || option.changeParameter!.isEmpty) return;
+
+                for (var idx in selectedIndices)
+                {
+                    if (idx < option.changeParameter!.length) 
+                    {
+                        final paramChanges = option.changeParameter!.values.elementAt(idx);
+
+                        for (var change in paramChanges)
+                        {
+                            final statName = change.keys.first;
+                            final value = change.values.first;
+
+                            /// Получаем текущую (уже, возможно, измененную) версию статов
+                            final currentStats = modifiedStats[modelName]!;
+                            CharacteristicsDom updatedStats;
+
+                            /// Применяем изменение
+                            switch (statName)
+                            {
+                                case 'movement':
+                                    updatedStats = currentStats.copyWith(movement: currentStats.movement + value);
+                                    break;
+                                case 'toughness':
+                                    updatedStats = currentStats.copyWith(toughness: currentStats.toughness + value);
+                                    break;
+                                case 'save':
+                                    updatedStats = currentStats.copyWith(save: currentStats.save + value);
+                                    break;
+                                case 'invulnerableSave':
+                                    updatedStats = currentStats.copyWith(invulnerableSave: currentStats.invulnerableSave + value);
+                                    break;
+                                case 'wounds':
+                                    updatedStats = currentStats.copyWith(wounds: currentStats.wounds + value);
+                                    break;
+                                case 'leadership':
+                                    updatedStats = currentStats.copyWith(leadership: currentStats.leadership + value);
+                                    break;
+                                case 'objectiveControl':
+                                    updatedStats = currentStats.copyWith(objectiveControl: currentStats.objectiveControl + value);
+                                    break;
+                                default:
+                                updatedStats = currentStats; /// Если стат не найден, ничего не меняем
+                                break;
+                            }
+                            /// Сохраняем обновленные статы обратно в карту
+                            modifiedStats[modelName] = updatedStats;
+                        }
+                    }
+                }
+            });
+
+        return modifiedStats;
     }
 }

@@ -31,7 +31,7 @@ class ModelWeaponsDom
       };
 
   factory ModelWeaponsDom.fromJson(Map<String, dynamic> json) {
-    // Парсинг доступного оружия (объекты)
+    /// Парсинг доступного оружия (объекты)
     final Map<String, dynamic> weaponsRaw = json['weapons'] as Map<String, dynamic>? ?? {};
     final Map<WeaponType, List<WeaponDom>> parsedWeapons = weaponsRaw.map((k, v) {
       final type = WeaponType.values.firstWhere(

@@ -14,7 +14,7 @@ class UnitCompositionDom
 {
     final List<UnitCompositionModelDom> compositions;
     final UnitCompositionModelDom? selectedComposition;
-    final List<UnitCompositionModelDom> additionalModels; // Сделал не nullable для удобства (по умолчанию [])
+    final List<UnitCompositionModelDom> additionalModels;
 
     const UnitCompositionDom({
         required this.compositions,
@@ -271,8 +271,8 @@ class LeaderFilterDom
     Map<String, dynamic> toJson() =>
     {
         'faction': faction.name,
-        'army': army.name, // ИСПРАВЛЕНО: сохраняем как строку (имя Enum)
-        'codex': codex?.name, // ИСПРАВЛЕНО: сохраняем как строку
+        'army': army.name,
+        'codex': codex?.name,
         'detachment': detachmentCode,
         'names': names
     };
@@ -291,13 +291,11 @@ class LeaderFilterDom
 }
 
 /// ==========================================
-/// Model STATS
+/// Model Characteristics 
 /// ==========================================
 
-class ModelStatsDom
+class CharacteristicsDom
 {
-    final bool? isNeedShow;
-    final bool? isSergeant;
     final int movement;
     final int toughness;
     final int save;
@@ -305,19 +303,103 @@ class ModelStatsDom
     final int wounds;
     final int leadership;
     final int objectiveControl;
-    final ModelWeaponsDom modelWeapons;
-    final List<WargearOptionsDom> wargearOptions;
 
-    const ModelStatsDom({
-        this.isNeedShow = true,
-        this.isSergeant = false,
+    const CharacteristicsDom({
         required this.movement,
         required this.toughness,
         required this.save,
         required this.invulnerableSave,
         required this.wounds,
         required this.leadership,
-        required this.objectiveControl,
+        required this.objectiveControl
+    });
+
+    Map<String, dynamic> toJson() =>
+    {
+        'movement': movement,
+        'toughness': toughness,
+        'save': save,
+        'invulnerableSave': invulnerableSave,
+        'wounds': wounds,
+        'leadership': leadership,
+        'objectiveControl': objectiveControl
+    };
+
+    factory CharacteristicsDom.fromJson(Map<String, dynamic> json)
+    {
+        return CharacteristicsDom(
+            movement: json['movement'] as int? ?? 0,
+            toughness: json['toughness'] as int? ?? 0,
+            save: json['save'] as int? ?? 0,
+            invulnerableSave: json['invulnerableSave'] as int? ?? 0,
+            wounds: json['wounds'] as int? ?? 0,
+            leadership: json['leadership'] as int? ?? 0,
+            objectiveControl: json['objectiveControl'] as int? ?? 0
+        );
+    }
+
+    factory CharacteristicsDom.empty()
+    {
+        return const CharacteristicsDom(
+            movement: 0,
+            toughness: 0,
+            save: 0,
+            invulnerableSave: 0,
+            wounds: 0,
+            leadership: 0,
+            objectiveControl: 0
+        );
+    }
+
+    CharacteristicsDom copyWith({
+        int? movement,
+        int? toughness,
+        int? save,
+        int? invulnerableSave,
+        int? wounds,
+        int? leadership,
+        int? objectiveControl
+
+    }) 
+    {
+        return CharacteristicsDom(
+            movement: movement ?? this.movement,
+            toughness: toughness ?? this.toughness,
+            save: save ?? this.save,
+            invulnerableSave: invulnerableSave ?? this.invulnerableSave,
+            wounds: wounds ?? this.wounds,
+            leadership: leadership ?? this.leadership,
+            objectiveControl: objectiveControl ?? this.objectiveControl
+        );
+    }
+
+    static const CharacteristicsDom emptyOptions = CharacteristicsDom(
+        movement: 0,
+        toughness: 0,
+        save: 0,
+        invulnerableSave: 0,
+        wounds: 0,
+        leadership: 0,
+        objectiveControl: 0
+    );
+}
+
+/// ==========================================
+/// Model STATS
+/// ==========================================
+
+class ModelStatsDom
+{
+    final bool? isNeedShow;
+    final bool? isSergeant;
+    final CharacteristicsDom characteristics;
+    final ModelWeaponsDom modelWeapons;
+    final List<WargearOptionsDom> wargearOptions;
+
+    const ModelStatsDom({
+        this.isNeedShow = true,
+        this.isSergeant = false,
+        required this.characteristics,
         required this.modelWeapons,
         required this.wargearOptions
     });
@@ -326,13 +408,7 @@ class ModelStatsDom
     {
         'isNeedShow': isNeedShow,
         'isSergeant': isSergeant,
-        'movement': movement,
-        'toughness': toughness,
-        'save': save,
-        'invulnerableSave': invulnerableSave,
-        'wounds': wounds,
-        'leadership': leadership,
-        'objectiveControl': objectiveControl,
+        'characteristics': characteristics.toJson(),
         'modelWeapons': modelWeapons.toJson(),
         'wargearOptions': wargearOptions.map((w) => w.toJson()).toList()
     };
@@ -343,13 +419,7 @@ class ModelStatsDom
         return ModelStatsDom(
             isNeedShow: json['isNeedShow'] as bool? ?? false,
             isSergeant: json['isSergeant'] as bool? ?? false,
-            movement: json['movement'] as int? ?? 0,
-            toughness: json['toughness'] as int? ?? 0,
-            save: json['save'] as int? ?? 0,
-            invulnerableSave: json['invulnerableSave'] as int? ?? 0,
-            wounds: json['wounds'] as int? ?? 1,
-            leadership: json['leadership'] as int? ?? 6,
-            objectiveControl: json['objectiveControl'] as int? ?? 0,
+            characteristics: CharacteristicsDom.fromJson(json['characteristics'] as Map<String, dynamic>? ?? {}),
             modelWeapons: ModelWeaponsDom.fromJson(json['modelWeapons'] as Map<String, dynamic>? ?? {}),
             wargearOptions: (json['wargearOptions'] as List? ?? [])
                 .map((e) => WargearOptionsDom.fromJson(e as Map<String, dynamic>))
@@ -362,13 +432,7 @@ class ModelStatsDom
         return const ModelStatsDom(
             isNeedShow: false,
             isSergeant: false,
-            movement: 0,
-            toughness: 0,
-            save: 0,
-            invulnerableSave: 0,
-            wounds: 0,
-            leadership: 0,
-            objectiveControl: 0,
+            characteristics: CharacteristicsDom.emptyOptions,
             modelWeapons: ModelWeaponsDom.emptyOptions,
             wargearOptions: []
         );
@@ -377,13 +441,7 @@ class ModelStatsDom
     ModelStatsDom copyWith({
         bool? isNeedShow,
         bool? isSergeant,
-        int? movement,
-        int? toughness,
-        int? save,
-        int? invulnerableSave,
-        int? wounds,
-        int? leadership,
-        int? objectiveControl,
+        CharacteristicsDom? characteristics,
         ModelWeaponsDom? modelWeapons,
         List<WargearOptionsDom>? wargearOptions
     })
@@ -391,13 +449,7 @@ class ModelStatsDom
         return ModelStatsDom(
             isNeedShow: isNeedShow ?? this.isNeedShow,
             isSergeant: isSergeant ?? this.isSergeant,
-            movement: movement ?? this.movement,
-            toughness: toughness ?? this.toughness,
-            save: save ?? this.save,
-            invulnerableSave: invulnerableSave ?? this.invulnerableSave,
-            wounds: wounds ?? this.wounds,
-            leadership: leadership ?? this.leadership,
-            objectiveControl: objectiveControl ?? this.objectiveControl,
+            characteristics: characteristics ?? this.characteristics,
             modelWeapons: modelWeapons ?? this.modelWeapons,
             wargearOptions: wargearOptions ?? this.wargearOptions
         );
@@ -416,7 +468,7 @@ class UnitStatsDom
     final List<FactionUnitAbilityCode> factionAbilities;
     final List<LeaderFilterDom> leader;
     final List<LeaderFilterDom> ledBy;
-    final Map<String, ModelStatsDom> modelStats; // Характеристики моделей юнита
+    final Map<String, ModelStatsDom> modelStats;
 
     const UnitStatsDom({
         required this.repeat,

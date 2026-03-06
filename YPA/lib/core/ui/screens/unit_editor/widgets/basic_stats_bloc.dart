@@ -37,17 +37,18 @@ class BasicStatsBloc extends ConsumerWidget
     List<Widget> _createModelsBloc(UnitEditorItemUi unit)
     {
         List<Widget> allStats = [];
+
         unit.modelStats.forEach((name, stats)
             {
                 if (stats.isNeedShow!)
                 {
-                    allStats.add(_createStatsBloc(name, stats));
+                    allStats.add(_createStatsBloc(name, stats.characteristics));
                 }
             });
         return allStats;
     }
 
-    Widget _createStatsBloc(String name, ModelStatsDom stats)
+    Widget _createStatsBloc(String name, CharacteristicsDom characteristics)
     {
         return Padding(
             padding: const EdgeInsets.only(bottom: 16.0),
@@ -85,7 +86,7 @@ class BasicStatsBloc extends ConsumerWidget
                                                         const _StatBox('M', isHeader: true),
                                                         const _StatBox('T', isHeader: true),
                                                         const _StatBox('SV', isHeader: true),
-                                                        if (stats.invulnerableSave > 0) const _StatBox('ISV', isHeader: true),
+                                                        if (characteristics.invulnerableSave > 0) const _StatBox('ISV', isHeader: true),
                                                         const _StatBox('W', isHeader: true),
                                                         const _StatBox('LD', isHeader: true),
                                                         const _StatBox('OC', isHeader: true)
@@ -107,13 +108,13 @@ class BasicStatsBloc extends ConsumerWidget
                                                 child: Row(
                                                     mainAxisSize: MainAxisSize.min,
                                                     children: [
-                                                        _StatBox('${stats.movement}"'),
-                                                        _StatBox('${stats.toughness}'),
-                                                        _StatBox('${stats.save}+'),
-                                                        if (stats.invulnerableSave > 0) _StatBox('${stats.invulnerableSave}+'),
-                                                        _StatBox('${stats.wounds}'),
-                                                        _StatBox('${stats.leadership}+'),
-                                                        _StatBox('${stats.objectiveControl}')
+                                                        _StatBox('${characteristics.movement}"'),
+                                                        _StatBox('${characteristics.toughness}'),
+                                                        _StatBox('${characteristics.save}+'),
+                                                        if (characteristics.invulnerableSave > 0) _StatBox('${characteristics.invulnerableSave}+'),
+                                                        _StatBox('${characteristics.wounds}'),
+                                                        _StatBox('${characteristics.leadership}+'),
+                                                        _StatBox('${characteristics.objectiveControl}')
                                                     ]
                                                 )
                                             )

@@ -21,10 +21,10 @@ class UnitEditorItemUi
     final List<FactionUnitAbilityCode> factionAbilities;
     final List<LeaderFilterDom> leader;
     final List<LeaderFilterDom> ledBy;
-    final Map<String, ModelStatsDom> modelStats;
+    final Map<String, ModelStatsDom> modelStats; /// Базовые, неизменяемые статы
     final Map<String, List<int>> selectedWargearIndices;
+    final Map<String, CharacteristicsDom> modifiedModelCharacteristics; /// Статы с учетом варгира
 
-    /// Изменили на List, так как оружия много
     final List<({
         String modelName,
         WeaponType weaponType,
@@ -48,6 +48,7 @@ class UnitEditorItemUi
         required this.ledBy,
         required this.modelStats,
         required this.selectedWargearIndices,
+        required this.modifiedModelCharacteristics,
         this.weaponInfo,
     });
 
@@ -66,6 +67,7 @@ class UnitEditorItemUi
         List<LeaderFilterDom>? ledBy,
         Map<String, ModelStatsDom>? modelStats,
         Map<String, List<int>>? selectedWargearIndices,
+        Map<String, CharacteristicsDom>? modifiedModelCharacteristics,
         List<({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})>? weaponInfo,
     })
     {
@@ -84,6 +86,7 @@ class UnitEditorItemUi
             ledBy: ledBy ?? this.ledBy,
             modelStats: modelStats ?? this.modelStats,
             selectedWargearIndices: selectedWargearIndices ?? this.selectedWargearIndices,
+            modifiedModelCharacteristics: modifiedModelCharacteristics ?? this.modifiedModelCharacteristics,
             weaponInfo: weaponInfo ?? this.weaponInfo,
         );
     }
