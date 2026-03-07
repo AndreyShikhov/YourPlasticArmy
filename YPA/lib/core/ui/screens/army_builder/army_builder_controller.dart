@@ -447,8 +447,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                                     map[SaveCategoryCode.composition.code],
                                     map[SaveCategoryCode.wargearOptions.code],
                                     map[SaveCategoryCode.weaponInfo.code],
-                                    map[SaveCategoryCode.characteristics.code],
-                              /// добавить окастомные статы
+                                    map[SaveCategoryCode.characteristics.code]
                                 ));
                         }
                     }
@@ -483,8 +482,8 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         Map<String, dynamic>? saveComposition,
         Map<String, dynamic>? saveWargear,
         List<dynamic>? saveWeaponSnapshot,
-        Map<String, dynamic>? svaeCharacteristics,
-        )
+        Map<String, dynamic>? svaeCharacteristics
+    )
     {
         return ArmyBuilderUnitItemUi(
             instanceId: instanceId == '' ? const Uuid().v4() : instanceId,
@@ -503,7 +502,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             modelStats: unit.modelStats,
             selectedWargearIndices: _buildWargearFromSaveData(saveWargear),
             weaponSnapshot: _buildWWeaponInfoFromSaveData(saveWeaponSnapshot),
-            characteristics: svaeCharacteristics ?? {},
+            characteristics: _buildCharacteristicsFromSaveData(svaeCharacteristics)
         );
     }
 
@@ -548,19 +547,31 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
     Map<String, List<int>> _buildWargearFromSaveData(Map<String, dynamic>? saveWargear)
     {
 
-      if (saveWargear != null)
-      {
-        return saveWargear.map((k, v) => MapEntry(k, List<int>.from(v as List)));
-      }
-      return {};
+        if (saveWargear != null)
+        {
+            return saveWargear.map((k, v) => MapEntry(k, List<int>.from(v as List)));
+        }
+        return {};
     }
 
     List<Map<String, dynamic>> _buildWWeaponInfoFromSaveData(List<dynamic>? savedWeaponInfo)
     {
-      if (savedWeaponInfo != null)
-      {
-        return savedWeaponInfo.map((e) => Map<String, dynamic>.from(e as Map)).toList();
-      }
-      return [];
+        if (savedWeaponInfo != null)
+        {
+            return savedWeaponInfo.map((e) => Map<String, dynamic>.from(e as Map)).toList();
+        }
+        return [];
+    }
+
+    Map<String, CharacteristicsDom> _buildCharacteristicsFromSaveData(Map<String, dynamic>? savedCharacteristicsInfo)
+    {
+        if (savedCharacteristicsInfo != null)
+        {
+            if (savedCharacteristicsInfo.isNotEmpty)
+            {
+                return savedCharacteristicsInfo.map((k, v) => MapEntry(k, CharacteristicsDom.fromJson(v as Map<String, dynamic>)));
+            }
+        }
+        return {};
     }
 }

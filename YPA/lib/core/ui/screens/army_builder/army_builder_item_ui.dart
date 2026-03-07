@@ -26,7 +26,7 @@ class ArmyBuilderUnitItemUi
     final Map<String, ModelStatsDom> modelStats;
     final Map<String, List<int>> selectedWargearIndices;
     final List<Map<String, dynamic>> weaponSnapshot;
-    final Map<String, dynamic> characteristics;
+    final Map<String, CharacteristicsDom> characteristics;
 
     ArmyBuilderUnitItemUi({
         required this.instanceId,
@@ -65,7 +65,7 @@ class ArmyBuilderUnitItemUi
         Map<String, ModelStatsDom>? modelStats,
         Map<String, List<int>>? selectedWargearIndices,
         List<Map<String, dynamic>>? weaponSnapshot,
-        Map<String, dynamic>? characteristics
+        Map<String, CharacteristicsDom>? characteristics
     })
     {
         return ArmyBuilderUnitItemUi(
@@ -109,7 +109,7 @@ class ArmyBuilderUnitItemUi
             'modelStats': modelStats.map((k, v) => MapEntry(k, v.toJson())),
             SaveCategoryCode.wargearOptions.code: selectedWargearIndices,
             SaveCategoryCode.weaponInfo.code: weaponSnapshot,
-            SaveCategoryCode.characteristics.code: characteristics
+            SaveCategoryCode.characteristics.code: characteristics.map((k, v) => MapEntry(k, v.toJson())) /// ИСПРАВЛЕНО
         };
     }
 

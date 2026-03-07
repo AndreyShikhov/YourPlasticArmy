@@ -8,7 +8,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../domain/models/unit/unit.dart';
 import '../unit_editor_controller.dart';
-import '../unit_editor_item_ui.dart';
 
 class BasicStatsBloc extends ConsumerWidget
 {
@@ -22,27 +21,34 @@ class BasicStatsBloc extends ConsumerWidget
     @override
     Widget build(BuildContext context, WidgetRef ref)
     {
-        final unit = ref.watch(unitEditorControllerProvider(ids).select((s) => s.unit));
 
-        if (unit == null) return const SizedBox.shrink();
+        final (modelStats, modifiedStats) = ref.watch(unitEditorControllerProvider(ids).select((s) => (s.unit?.modelStats,
+                s.unit?.modifiedModelCharacteristics
+                )));
+
+        if (modelStats == null || modifiedStats == null) return const SizedBox.shrink();
 
         return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-                ..._createModelsBloc(unit)
+                ..._createModelsBloc(modelStats, modifiedStats)
             ]
         );
     }
 
-    List<Widget> _createModelsBloc(UnitEditorItemUi unit)
+    List<Widget> _createModelsBloc(Map<String, ModelStatsDom> modelStats, Map<String, CharacteristicsDom> modifiedStats)
     {
         List<Widget> allStats = [];
 
-        unit.modelStats.forEach((name, stats)
+        modelStats.forEach((name, stats)
             {
                 if (stats.isNeedShow!)
                 {
-                    allStats.add(_createStatsBloc(name, stats.characteristics));
+                    allStats.add(_createStatsBloc(
+                            name,
+                            modifiedStats.isNotEmpty ?
+                                modifiedStats[name]! : 
+                                stats.characteristics));
                 }
             });
         return allStats;
@@ -138,7 +144,7 @@ class _StatBox extends StatelessWidget
     const _StatBox(this.value, {this.isHeader = false});
 
     @override
-    Widget build(BuildContext context) 
+    Widget build(BuildContext context)
     {
         return SizedBox(
             width: 50,

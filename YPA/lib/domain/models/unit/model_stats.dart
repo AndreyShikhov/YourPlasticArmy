@@ -382,6 +382,30 @@ class CharacteristicsDom
         leadership: 0,
         objectiveControl: 0
     );
+
+    @override
+    bool operator ==(Object other) =>
+        identical(this, other) ||
+        other is CharacteristicsDom &&
+            runtimeType == other.runtimeType &&
+            movement == other.movement &&
+            toughness == other.toughness &&
+            save == other.save &&
+            invulnerableSave == other.invulnerableSave &&
+            wounds == other.wounds &&
+            leadership == other.leadership &&
+            objectiveControl == other.objectiveControl;
+
+    @override
+    int get hashCode => Object.hash(
+          movement,
+          toughness,
+          save,
+          invulnerableSave,
+          wounds,
+          leadership,
+          objectiveControl,
+        );
 }
 
 /// ==========================================

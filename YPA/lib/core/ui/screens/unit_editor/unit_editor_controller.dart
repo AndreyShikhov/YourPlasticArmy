@@ -128,9 +128,8 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                 ledBy: unit.ledBy,
                 modelStats: unit.modelStats,
                 selectedWargearIndices: unit.selectedWargearIndices,
-                weaponInfo: weaponInfo,
-                modifiedModelCharacteristics: {} /// возможно при загрузке нужно будет переделать и достать и зсейвов
-
+                modifiedModelCharacteristics: _recalculateModifiedStatsFromUnit(unit),
+                weaponInfo: weaponInfo
             );
 
             /// Сначала сохраняем юнита, чтобы функции get... могли его использовать
@@ -269,8 +268,6 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
 
     List< ({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> _calculateWeaponInfoWithUnitArmyEditor(ArmyBuilderUnitItemUi unit)
     {
-        final List< ({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> weaponInfo = [];
-
         /// 1. Пытаемся восстановить данные из сохраненного снапшота
         if (unit.weaponSnapshot.isNotEmpty)
         {
@@ -294,6 +291,8 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                 debugPrint('Weapon snapshot restore error: $e');
             }
         }
+
+        final List< ({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> weaponInfo = [];
 
         /// 1. Считаем общее количество сержантов во всем юните заранее
         int totalSergeantsInUnit = 0;
@@ -633,18 +632,42 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
         /// 2. Полный пересчет weaponInfo на основе снапшота
         final recalculatedWeaponInfo = _calculateWeaponInfoFromSnapshot(updatedUnit);
 
-        /// 3.  Полный пересчёт параметров модели
-        final recalculatedStats = _recalculateModifiedStats(updatedUnit);
+        /// 3. Полный пересчет статов на основе снапшота (с нуля от базы)
+        final fullEffectiveStats = _recalculateModifiedStats(updatedUnit);
+
+        /// 4. Поиск отличий для сохранения в БД
+        final Map<String, CharacteristicsDom> diffStats = {};
+        fullEffectiveStats.forEach((modelName, currentStats)
+            {
+                final baseStats = updatedUnit.modelStats[modelName]?.characteristics;
+                if (baseStats != null && baseStats != currentStats) 
+                {
+                    diffStats[modelName] = currentStats;
+                }
+            });
 
         state = state.copyWith(
             unit: updatedUnit.copyWith(
                 weaponInfo: recalculatedWeaponInfo,
-                modifiedModelCharacteristics: recalculatedStats)
+                modifiedModelCharacteristics: fullEffectiveStats
+            )
         );
 
-        /// 3. Сохранение в БД
         final role = UnitRoleCode.fromName(state.unit!.role)!;
 
+        /// 5. Сохранение в БД только если есть отличия в статах
+        if (diffStats.isNotEmpty) 
+        {
+            await _updateUnitInUserRoster(
+                armyId: _armyId,
+                instanceId: _instanceUnitId,
+                role: role,
+                category: SaveCategoryCode.characteristics,
+                updateData: diffStats.map((k, v) => MapEntry(k, v.toJson()))
+            );
+        }
+
+        /// 6. Сохранение индексов варгира
         await _updateUnitInUserRoster(
             armyId: _armyId,
             instanceId: _instanceUnitId,
@@ -653,8 +676,8 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
             updateData: newIndices
         );
 
-        /// Конвертируем список кортежей в список Map для корректного JSON-кодирования
-        final List<Map<String, dynamic>> weaponDataToSave = recalculatedWeaponInfo.map((w) =>
+        /// 7. Сохранение weapon info
+        final List<Map<String, dynamic>> weaponInfoToSave = recalculatedWeaponInfo.map((w) =>
             {
                 'modelName': w.modelName,
                 'weaponType': w.weaponType.name,
@@ -668,13 +691,12 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
             instanceId: _instanceUnitId,
             role: role,
             category: SaveCategoryCode.weaponInfo,
-            updateData: weaponDataToSave
+            updateData: weaponInfoToSave
         );
 
-        /// 4. Обновление основного экрана (синхронизация)
+        /// 8. Обновление основного экрана
         _ref.read(armyBuilderControllerProvider(_armyId).notifier)
             .updateUnitWargearInState(_instanceUnitId, role, newIndices);
-
     }
 
     List< ({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> _calculateWeaponInfoFromSnapshot(UnitEditorItemUi unit)
@@ -728,9 +750,6 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                         /// Если это замена
                         if (option.replaceWeapons.isNotEmpty)
                         {
-                            /// Определяем, какой вариант замены использовать
-                            /// В случае Radio (multiple choice) - idx это индекс варианта
-                            /// В случае Checkbox - idx это индекс слота/модели, а вариант всегда один (0)
                             final int entryIdx = (option.replaceWeapons.length > 1) ? idx : 0;
 
                             if (entryIdx < option.replaceWeapons.length)
@@ -739,12 +758,10 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                                 final baseWeapons = replaceEntry.key;
                                 final newWeapons = replaceEntry.value;
 
-                                /// Убираем базу
                                 for (var w in baseWeapons)
                                 {
                                     equippedCount[modelName]![w] = (equippedCount[modelName]![w] ?? 0) - 1;
                                 }
-                                /// Добавляем новое
                                 for (var w in newWeapons)
                                 {
                                     equippedCount[modelName]![w] = (equippedCount[modelName]![w] ?? 0) + 1;
@@ -759,6 +776,17 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                                 equippedCount[modelName]![w] = (equippedCount[modelName]![w] ?? 0) + 1;
                             }
                         }
+                        /// Если это замена оружия на статы
+                        else if (option.changeParameter != null && option.changeParameter!.isNotEmpty) 
+                        {
+                            for (var weapons in option.changeParameter!.keys)
+                            {
+                                for (String weapon in weapons)
+                                {
+                                    equippedCount[modelName]![weapon] = (equippedCount[modelName]![weapon] ?? 0) - 1;
+                                }
+                            }
+                        }
                     }
                 }
             });
@@ -768,7 +796,6 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
             {
                 if (!(stats.isNeedShow == true || stats.isSergeant == true)) return;
 
-                /// Собираем все уникальные названия оружия для этой модели (и базу, и опции)
                 final Set<String> allPossibleWeapons = {};
                 for (var type in [WeaponType.ranged, WeaponType.melee])
                 {
@@ -779,7 +806,6 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                 {
                     int amount = equippedCount[modelName]?[wName] ?? 0;
                     WeaponType? type;
-                    /// Находим тип оружия
                     if (stats.modelWeapons.weapons[WeaponType.ranged]?.any((w) => w.name == wName) == true) type = WeaponType.ranged;
                     else if (stats.modelWeapons.weapons[WeaponType.melee]?.any((w) => w.name == wName) == true) type = WeaponType.melee;
 
@@ -801,9 +827,12 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
 
     Map<String, CharacteristicsDom> _recalculateModifiedStats(UnitEditorItemUi unit)
     {
-        /// 1. Создаем глубокую копию оригинальных статов, чтобы не мутировать их
-        final Map<String, CharacteristicsDom> modifiedStats = unit.modifiedModelCharacteristics;
+        /// 1. Начинаем с оригинальных характеристик всех моделей (база)
+        final Map<String, CharacteristicsDom> modifiedStats = unit.modelStats.map(
+            (key, value) => MapEntry(key, value.characteristics)
+        );
 
+        /// 2. Проходим по всем выбранным опциям и применяем их бонусы
         unit.selectedWargearIndices.forEach((optionId, selectedIndices)
             {
                 final parts = optionId.split('-');
@@ -813,18 +842,12 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                 final optionIdx = int.tryParse(parts[1]);
 
                 if (!unit.modelStats.containsKey(modelName)) return;
+                final model = unit.modelStats[modelName]!;
 
-                ///final originalModelCharacteristics = unit.modelStats[modelName]!.characteristics;
-                if (optionIdx == null || optionIdx >= unit.modelStats[modelName]!.wargearOptions.length) return;
+                if (optionIdx == null || optionIdx >= model.wargearOptions.length) return;
+                final option = model.wargearOptions[optionIdx];
 
-                final option = unit.modelStats[modelName]!.wargearOptions[optionIdx];
                 if (option.changeParameter == null || option.changeParameter!.isEmpty) return;
-
-                /// Если для этой модели еще нет записи в модифицированных статах, берем базу
-                if (!modifiedStats.containsKey(modelName))
-                {
-                  modifiedStats[modelName] = unit.modelStats[modelName]!.characteristics;
-                }
 
                 for (var idx in selectedIndices)
                 {
@@ -835,47 +858,107 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                         for (var change in paramChanges)
                         {
                             final statName = change.keys.first;
-                            final value = change.values.first;
+                            final value = change.values.first; 
 
-                            /// Получаем текущую (уже, возможно, измененную) версию статов
-                            final currentStats = modifiedStats[modelName]!;
-                            CharacteristicsDom updatedStats;
+                            final current = modifiedStats[modelName]!;
+                            CharacteristicsDom updated;
 
-                            /// Применяем изменение
                             switch (statName)
                             {
-                                case 'movement':
-                                    updatedStats = currentStats.copyWith(movement: currentStats.movement + value);
+                                case 'movement': updated = current.copyWith(movement: current.movement + value);
                                     break;
-                                case 'toughness':
-                                    updatedStats = currentStats.copyWith(toughness: currentStats.toughness + value);
+                                case 'toughness': updated = current.copyWith(toughness: current.toughness + value);
                                     break;
-                                case 'save':
-                                    updatedStats = currentStats.copyWith(save: currentStats.save + value);
+                                case 'save': updated = current.copyWith(save: current.save + value);
                                     break;
-                                case 'invulnerableSave':
-                                    updatedStats = currentStats.copyWith(invulnerableSave: currentStats.invulnerableSave + value);
+                                case 'invulnerableSave': updated = current.copyWith(invulnerableSave: current.invulnerableSave + value);
                                     break;
-                                case 'wounds':
-                                    updatedStats = currentStats.copyWith(wounds: currentStats.wounds + value);
+                                case 'wounds': updated = current.copyWith(wounds: current.wounds + value);
                                     break;
-                                case 'leadership':
-                                    updatedStats = currentStats.copyWith(leadership: currentStats.leadership + value);
+                                case 'leadership': updated = current.copyWith(leadership: current.leadership + value);
                                     break;
-                                case 'objectiveControl':
-                                    updatedStats = currentStats.copyWith(objectiveControl: currentStats.objectiveControl + value);
+                                case 'objectiveControl': updated = current.copyWith(objectiveControl: current.objectiveControl + value);
                                     break;
-                                default:
-                                updatedStats = currentStats; /// Если стат не найден, ничего не меняем
+                                default: updated = current;
                                 break;
                             }
-                            /// Сохраняем обновленные статы обратно в карту
-                            modifiedStats[modelName] = updatedStats;
+                            modifiedStats[modelName] = updated;
                         }
                     }
                 }
             });
 
         return modifiedStats;
+    }
+
+    Map<String, CharacteristicsDom> _recalculateModifiedStatsFromUnit(ArmyBuilderUnitItemUi unit)
+    {
+        final Map<String, CharacteristicsDom> modifiedStats = unit.modelStats.map(
+            (key, value) => MapEntry(key, value.characteristics)
+        );
+
+        unit.selectedWargearIndices.forEach((optionId, selectedIndices)
+            {
+                final parts = optionId.split('-');
+                if (parts.length < 2) return;
+
+                final modelName = parts[0];
+                final optionIdx = int.tryParse(parts[1]);
+
+                if (!unit.modelStats.containsKey(modelName)) return;
+                final model = unit.modelStats[modelName]!;
+
+                if (optionIdx == null || optionIdx >= model.wargearOptions.length) return;
+                final option = model.wargearOptions[optionIdx];
+
+                if (option.changeParameter == null || option.changeParameter!.isEmpty) return;
+
+                for (var idx in selectedIndices)
+                {
+                    if (idx < option.changeParameter!.length)
+                    {
+                        final paramChanges = option.changeParameter!.values.elementAt(idx);
+
+                        for (var change in paramChanges)
+                        {
+                            final statName = change.keys.first;
+                            final value = change.values.first; 
+
+                            final current = modifiedStats[modelName]!;
+                            CharacteristicsDom updated;
+
+                            switch (statName)
+                            {
+                                case 'movement': updated = current.copyWith(movement: current.movement + value);
+                                    break;
+                                case 'toughness': updated = current.copyWith(toughness: current.toughness + value);
+                                    break;
+                                case 'save': updated = current.copyWith(save: current.save + value);
+                                    break;
+                                case 'invulnerableSave': updated = current.copyWith(invulnerableSave: current.invulnerableSave + value);
+                                    break;
+                                case 'wounds': updated = current.copyWith(wounds: current.wounds + value);
+                                    break;
+                                case 'leadership': updated = current.copyWith(leadership: current.leadership + value);
+                                    break;
+                                case 'objectiveControl': updated = current.copyWith(objectiveControl: current.objectiveControl + value);
+                                    break;
+                                default: updated = current;
+                                break;
+                            }
+                            modifiedStats[modelName] = updated;
+                        }
+                    }
+                }
+            });
+
+        return modifiedStats;
+    }
+
+    void replaceWeapon(String unitModelName, List<String> replace, List<String> replaceable) 
+    {
+    }
+    void addWeapon(String unitModelName, List<String> addWeapons, bool isAdd) 
+    {
     }
 }

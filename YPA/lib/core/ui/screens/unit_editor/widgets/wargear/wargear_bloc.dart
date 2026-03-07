@@ -32,21 +32,21 @@ class _WargearState extends ConsumerState<Wargear>
     int _currentPage = 0;
 
     @override
-    void initState() 
+    void initState()
     {
         super.initState();
         _pageController = PageController(viewportFraction: 1.0);
     }
 
     @override
-    void dispose() 
+    void dispose()
     {
         _pageController.dispose();
         super.dispose();
     }
 
     @override
-    Widget build(BuildContext context) 
+    Widget build(BuildContext context)
     {
         final (modelStats, composition, snapshot) = ref.watch(unitEditorControllerProvider(widget.ids).select((s) => (
                 s.unit?.modelStats,
@@ -91,7 +91,7 @@ class _WargearState extends ConsumerState<Wargear>
         );
     }
 
-    List< ({String modelName, WargearOptionsDom option, int index})> _getAllWargearWithModel(Map<String, ModelStatsDom> allStats) 
+    List< ({String modelName, WargearOptionsDom option, int index})> _getAllWargearWithModel(Map<String, ModelStatsDom> allStats)
     {
         List< ({String modelName, WargearOptionsDom option, int index})> res = [];
         allStats.forEach((modelName, stats)
@@ -104,7 +104,7 @@ class _WargearState extends ConsumerState<Wargear>
         return res;
     }
 
-    Widget _buildWargearSection(String modelName, WargearOptionsDom option, int optionIdx, UnitCompositionDom composition, Map<String, List<int>> snapshot) 
+    Widget _buildWargearSection(String modelName, WargearOptionsDom option, int optionIdx, UnitCompositionDom composition, Map<String, List<int>> snapshot)
     {
         final optionId = "$modelName-$optionIdx";
         final condition = option.conditionCount.keys.firstOrNull ?? WargearConditionCount.none;
@@ -113,7 +113,7 @@ class _WargearState extends ConsumerState<Wargear>
         List<Widget> widgets = [];
         final notifier = ref.read(unitEditorControllerProvider(widget.ids).notifier);
 
-        if (condition == WargearConditionCount.only && option.replaceWeapons.length > 1) 
+        if (condition == WargearConditionCount.only && option.replaceWeapons.length > 1)
         {
             final int? selectedIdx = selectedIndices.firstOrNull;
             widgets = [
@@ -130,7 +130,7 @@ class _WargearState extends ConsumerState<Wargear>
                     )
                 )
             ];
-        } else 
+        } else
         {
             final limit = _calculateLimit(condition, option, composition);
             widgets = List.generate(limit, (idx)
@@ -149,7 +149,7 @@ class _WargearState extends ConsumerState<Wargear>
         return _buildSectionLayout(option.text, widgets);
     }
 
-    int _calculateLimit(WargearConditionCount condition, WargearOptionsDom option, UnitCompositionDom composition) 
+    int _calculateLimit(WargearConditionCount condition, WargearOptionsDom option, UnitCompositionDom composition)
     {
         switch (condition)
         {
@@ -163,7 +163,7 @@ class _WargearState extends ConsumerState<Wargear>
         }
     }
 
-    Widget _buildSectionLayout(String title, List<Widget> children) 
+    Widget _buildSectionLayout(String title, List<Widget> children)
     {
         return Padding(
             padding: const EdgeInsets.all(16.0),
@@ -180,7 +180,7 @@ class _WargearState extends ConsumerState<Wargear>
         );
     }
 
-    Widget _buildPageIndicator(int pageCount) 
+    Widget _buildPageIndicator(int pageCount)
     {
         return Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -214,7 +214,7 @@ class _PageDot extends StatelessWidget
     const _PageDot({required this.isActive, required this.onTap});
 
     @override
-    Widget build(BuildContext context) 
+    Widget build(BuildContext context)
     {
         return GestureDetector(
             onTap: onTap,
@@ -244,7 +244,7 @@ class _WargearCheckbox extends StatelessWidget
     const _WargearCheckbox({required this.isSelected, required this.onChanged, required this.titles});
 
     @override
-    Widget build(BuildContext context) 
+    Widget build(BuildContext context)
     {
         return IntrinsicWidth(
             child: Row(
@@ -279,7 +279,7 @@ class _WargearRadio extends StatelessWidget
     const _WargearRadio({required this.value, required this.titles});
 
     @override
-    Widget build(BuildContext context) 
+    Widget build(BuildContext context)
     {
         return IntrinsicWidth(
             child: Row(

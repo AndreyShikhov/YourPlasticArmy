@@ -95,9 +95,9 @@ class DriftUserArmyRepository implements UserArmyRepository
     {
       final army = await getUserArmyById(armyId);
       if (army != null) {
-        // Вызываем логику домена
+        /// Вызываем логику домена
         final updatedArmy = await army.duplicateUnitInstance(instanceId, role.name);
-        // Сохраняем результат
+        /// Сохраняем результат
         await saveUserArmy(updatedArmy);
       }
     }
@@ -107,9 +107,9 @@ class DriftUserArmyRepository implements UserArmyRepository
     {
       final army = await getUserArmyById(armyId);
       if (army != null) {
-        // Вызываем логику домена
+        /// Вызываем логику домена
         final updatedArmy = await army.updateUnitInstance(instanceId, role.name,category, updateData);
-        // Сохраняем результат
+        /// Сохраняем результат
         await saveUserArmy(updatedArmy);
       }
     }
