@@ -17,12 +17,13 @@ List<UnitSeed> spaceMarinesUnits()
             name: 'Ancient',
             army: ArmyTypeCode.spaceMarines,
             role: UnitRoleCode.characters,
-            repeat: 1,
+            repeat: 3,
             keywords: [
                 'Infantry',
                 'Battleline',
                 'Grenades',
                 'Imperium',
+                'Character',
                 'Tacticus'
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
@@ -148,12 +149,13 @@ List<UnitSeed> spaceMarinesUnits()
             name: 'Ancient In Terminator Armour',
             army: ArmyTypeCode.spaceMarines,
             role: UnitRoleCode.characters,
-            repeat: 1,
+            repeat: 3,
             keywords: [
                 'Infantry',
                 'Battleline',
                 'Grenades',
                 'Imperium',
+                'Character',
                 'Tacticus'
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],
@@ -249,12 +251,13 @@ List<UnitSeed> spaceMarinesUnits()
             name: 'Apothecary',
             army: ArmyTypeCode.spaceMarines,
             role: UnitRoleCode.characters,
-            repeat: 1,
+            repeat: 3,
             keywords: [
                 'Infantry',
                 'Battleline',
                 'Grenades',
                 'Imperium',
+                'Character',
                 'Tacticus'
             ],
             factionKeywords: ['ADEPTUS ASTARTES'],

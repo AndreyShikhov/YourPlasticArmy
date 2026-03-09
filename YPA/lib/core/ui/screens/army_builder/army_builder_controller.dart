@@ -33,6 +33,7 @@ final armyBuilderControllerProvider =
             final updateName = ref.watch(updateUserArmyNameUseCaseProvider);
             final updateDetachment = ref.watch(updateUserArmyDetachmentUseCaseProvider);
             final updateBattleSize = ref.watch(updateUserArmyBattleSizeUseCaseProvider);
+            final updateArmyWarlord = ref.watch(updateUserArmyWarlordUseCaseProvider);
             final getAllDetachmentsByCodexId = ref.watch(getAlldetachmentsByCodexIdUseCaseProvider);
             final getAllUnitsByCodexId = ref.watch(getAllUnitsByCodexIdUseCaseProvider);
             final getAllUnitsByArmyId = ref.watch(getUnitsByArmyUseCaseProvider);
@@ -47,6 +48,7 @@ final armyBuilderControllerProvider =
                 updateName,
                 updateDetachment,
                 updateBattleSize,
+                updateArmyWarlord,
                 getAllDetachmentsByCodexId,
                 getAllUnitsByCodexId,
                 getAllUnitsByArmyId,
@@ -65,6 +67,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
     final UpdateUserArmyName _updateName;
     final UpdateUserArmyDetachment _updateDetachment;
     final UpdateUserArmyBattleSize _updateBattleSize;
+    final UpdateUserArmyWarlord _updateArmyWarlord;
     final GetAllDetachmentsByCodexId _getAllDetachmentsByCodexId;
     final GetAllUnitsByCodexId _getAllUnitsByCodexid;
     final GetUnitsByArmy _getAllUnitsByArmyId;
@@ -82,6 +85,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         this._updateName,
         this._updateDetachment,
         this._updateBattleSize,
+        this._updateArmyWarlord,
         this._getAllDetachmentsByCodexId,
         this._getAllUnitsByCodexid,
         this._getAllUnitsByArmyId,
@@ -136,7 +140,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             orElse: () => state.allDetachments.first
         );
 
-        state = state.copyWith(detachment: selectedDetachment);
+        state = state.copyWith(selectedDetachment: selectedDetachment);
 
         try
         {
@@ -151,11 +155,26 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
     Future<void> updateBattleSizeArmyRoster(BattleSizeCode newSize) async
     {
         final newSb = BattleSize.selected(newSize);
-        state = state.copyWith(battleSize: {newSize: newSb.total});
+        state = state.copyWith(selectedBattleSize: {newSize: newSb.total});
 
         try
         {
             await _updateBattleSize(id: _armyId, newSize: newSize);
+        } catch (e)
+        {
+            state = state.copyWith(error: e.toString());
+            loadArmy();
+        }
+    }
+
+    Future<void> updateWarlordArmyRoster(String instanceID) async
+    {
+
+        state = state.copyWith(selectedInstanceIdWarlord: instanceID);
+
+        try
+        {
+            await _updateArmyWarlord(id: _armyId, newWarlordInstanceId: instanceID);
         } catch (e)
         {
             state = state.copyWith(error: e.toString());
@@ -379,10 +398,10 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                 isLoading: false,
                 userArmyName: userArmy.userArmyName,
                 factionId: userArmy.factionId,
-                codex: codex,
-                detachment: savedDetachment,
+                selectedCodex: codex,
+                selectedDetachment: savedDetachment,
                 allDetachments: allDetachments,
-                battleSize: battleSizeMap,
+                selectedBattleSize: battleSizeMap,
                 armyId: userArmy.armyId.value,
                 userArmyUnits: userArmyUnits,
                 allUnitsFromDb: allUnitsFromDb

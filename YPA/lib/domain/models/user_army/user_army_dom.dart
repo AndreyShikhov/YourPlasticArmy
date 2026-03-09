@@ -46,6 +46,7 @@ class UserArmyDOM
     final String? detachmentId;
     final DetachmentDOM? detachment;
     final BattleSize? battleSize;
+    final String? warlordInstanceId;
     final String jsonData;
     final DateTime createdAt;
 
@@ -58,6 +59,7 @@ class UserArmyDOM
         this.detachmentId,
         this.detachment,
         this.battleSize,
+        this.warlordInstanceId,
         required this.jsonData,
         required this.createdAt
     });
@@ -72,8 +74,9 @@ class UserArmyDOM
         String? detachmentId,
         DetachmentDOM? detachment,
         BattleSize? battleSize,
+        String? warlordInstanceId,
         String? jsonData,
-        DateTime? createdAt,
+        DateTime? createdAt
     })
     {
         return UserArmyDOM(
@@ -85,6 +88,7 @@ class UserArmyDOM
             detachmentId: detachmentId ?? this.detachmentId,
             detachment: detachment ?? this.detachment,
             battleSize: battleSize ?? this.battleSize,
+            warlordInstanceId: warlordInstanceId ?? this.warlordInstanceId,
             jsonData: jsonData ?? this.jsonData,
             createdAt: this.createdAt
         );
@@ -98,6 +102,13 @@ class UserArmyDOM
         );
     }
 
+    UserArmyDOM updateSelectedWarlord(String newIdWarlord)
+    {
+        return copyWith(
+            warlordInstanceId: newIdWarlord,
+        );
+    }
+
     /// Добавляет юнит в jsonData, соблюдая структуру категорий.
     /// [role] — это строковый код роли (например, 'Characters', 'Battleline'), который станет ключом в JSON.
     Future<UserArmyDOM> addUnitToUserArmy(
@@ -107,8 +118,8 @@ class UserArmyDOM
         UnitCompositionDom composition,
         Map<String, List<int>> selectedWargear,
         List<Map<String, dynamic>> weaponSnapshot,
-        Map<String,dynamic> characteristics,
-        ) async
+        Map<String, dynamic> characteristics
+    ) async
     {
         /// 1. Декодируем текущий JSON или создаем структуру по умолчанию
         Map<String, dynamic> root;
@@ -234,7 +245,7 @@ class UserArmyDOM
     }
 
     /// Обновляет парметры [updateData] экземпляр юнита с указанным [unitId] из конкретной [role].
-    Future<UserArmyDOM> updateUnitInstance(String instanceId, String role, SaveCategoryCode category,  dynamic updateData) async
+    Future<UserArmyDOM> updateUnitInstance(String instanceId, String role, SaveCategoryCode category, dynamic updateData) async
     {
         if (jsonData.isEmpty) return this;
         final root = jsonDecode(jsonData);
@@ -249,7 +260,6 @@ class UserArmyDOM
 
         return copyWith(jsonData: jsonEncode(root));
     }
-
 
     /// ==========================================
     /// Getters

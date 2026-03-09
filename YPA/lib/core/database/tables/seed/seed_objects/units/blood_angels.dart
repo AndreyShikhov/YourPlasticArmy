@@ -125,7 +125,7 @@ List<UnitSeed> bloodAngelsUnits()
             army: ArmyTypeCode.spaceMarines,
             codex: CodexTypeCode.bloodAngels,
             role: UnitRoleCode.characters,
-            repeat: 1,
+            repeat: 3,
             keywords: [
                 'Infantry',
                 'Character',

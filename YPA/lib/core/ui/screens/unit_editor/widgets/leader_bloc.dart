@@ -38,8 +38,8 @@ class LeaderBloc extends ConsumerWidget
         final Map<String, bool> unitsInArmy = _getUnitsInArmy(
             armyState, 
             unitState.armyTypeCode!, 
-            armyState.codex, 
-            armyState.detachment
+            armyState.selectedCodex,
+            armyState.selectedDetachment
         );
 
         final entries = unitsInArmy.entries.toList();

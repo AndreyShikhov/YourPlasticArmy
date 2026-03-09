@@ -22,7 +22,7 @@ class ArmyPointsEditor extends ConsumerWidget
         final state = ref.watch(armyBuilderControllerProvider(armyId));
 
         /// Получаем текущее выбранное значение Enum из стейта
-        final selectedSize = state.battleSize?.keys.firstOrNull;
+        final selectedSize = state.selectedBattleSize?.keys.firstOrNull;
 
         return DropdownButtonFormField<BattleSizeCode>(
             dropdownColor: const Color.fromARGB(255, 55, 55, 55),

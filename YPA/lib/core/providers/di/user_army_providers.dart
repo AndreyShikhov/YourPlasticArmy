@@ -62,6 +62,12 @@ final updateUserArmyBattleSizeUseCaseProvider = Provider<UpdateUserArmyBattleSiz
         return UpdateUserArmyBattleSize(repository);
     });
 
+final updateUserArmyWarlordUseCaseProvider = Provider<UpdateUserArmyWarlord>((ref)
+{
+  final repository = ref.watch(userArmyRepositoryProvider);
+  return UpdateUserArmyWarlord(repository);
+});
+
 final removeLastUnitFromUserRosterUseCaseProvider = Provider<RemoveLastUnitFromUserRoster>((ref)
     {
         final repository = ref.watch(userArmyRepositoryProvider);

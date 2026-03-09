@@ -12,6 +12,7 @@ import 'package:ypa/core/ui/screens/army_builder/widgets/units_block/model_from_
 import 'package:ypa/core/ui/screens/data/style_data.dart';
 
 import '../../../../../../domain/models/unit/unit.dart';
+import '../../../../../../features/common_functions_lib.dart';
 import '../../army_builder_controller.dart';
 import 'btn_action_unit.dart';
 
@@ -68,7 +69,7 @@ class UnitWidget extends ConsumerWidget
                                 children: [
                                     Expanded(
                                         child: Text(
-                                            '${unit.name} ${_getRomeNumber(numberUnit)}',
+                                            '${unit.name} ${getRomeNumber(numberUnit)}',
                                             style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis,
@@ -130,23 +131,7 @@ class UnitWidget extends ConsumerWidget
         );
     }
 
-    String _getRomeNumber(int arabianNumber)
-    {
-        switch (arabianNumber)
-        {
-            case 1: return 'I';
-            case 2: return 'II';
-            case 3: return 'III';
-            case 4: return 'IV';
-            case 5: return 'V';
-            case 6: return 'VI';
-            case 7: return 'VII';
-            case 8: return 'VIII';
-            case 9: return 'IX';
-            case 10: return 'X';
-            default: return '';
-        }
-    }
+
 
     String _getModelsAndPts(UnitCompositionDom composition)
     {

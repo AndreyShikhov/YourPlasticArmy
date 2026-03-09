@@ -24,22 +24,25 @@ class DriftUserArmyRepository implements UserArmyRepository
     }
 
     @override
-    Future<List<Map<UserArmyDOM, (String, String?)>>> getAllUserArmyWithCodexNames() async {
-      final query = db.select(db.userArmies).join([
-        innerJoin(db.codexes, db.codexes.id.equalsExp(db.userArmies.codexId)),
-        leftOuterJoin(db.detachments, db.detachments.id.equalsExp(db.userArmies.detachmentId)),
-      ]);
+    Future<List<Map<UserArmyDOM,  (String, String?)>>> getAllUserArmyWithCodexNames() async
+    {
+        final query = db.select(db.userArmies).join([
+                innerJoin(db.codexes, db.codexes.id.equalsExp(db.userArmies.codexId)),
+                leftOuterJoin(db.detachments, db.detachments.id.equalsExp(db.userArmies.detachmentId))
+            ]);
 
-      final rows = await query.get();
-      return rows.map((row) {
-        final userArmyRow = row.readTable(db.userArmies);
-        final codexRow = row.readTable(db.codexes);
-        final detachmentRow = row.readTableOrNull(db.detachments);
+        final rows = await query.get();
+        return rows.map((row)
+            {
+                final userArmyRow = row.readTable(db.userArmies);
+                final codexRow = row.readTable(db.codexes);
+                final detachmentRow = row.readTableOrNull(db.detachments);
 
-        return {
-          UserArmyMapper.fromRow(userArmyRow): (codexRow.name, detachmentRow?.name)
-        };
-      }).toList();
+                return 
+                {
+                    UserArmyMapper.fromRow(userArmyRow): (codexRow.name, detachmentRow?.name)
+                };
+            }).toList();
     }
 
     @override
@@ -72,7 +75,7 @@ class DriftUserArmyRepository implements UserArmyRepository
     Future<void> removeLastUnitFromUserArmy(String armyId, UnitRoleCode role, String unitId) async
     {
         final army = await getUserArmyById(armyId);
-        if (army != null) 
+        if (army != null)
         {
             final updatedArmy = await army.removeLastUnitFromUserArmy(unitId, role.name);
             await saveUserArmy(updatedArmy);
@@ -83,34 +86,48 @@ class DriftUserArmyRepository implements UserArmyRepository
     Future<void> updateBattleSize(String armyId, BattleSizeCode newSize) async
     {
         final army = await getUserArmyById(armyId);
-        if (army != null) 
+        if (army != null)
         {
             final updatedArmy = army.updateBattleSize(newSize);
             await saveUserArmy(updatedArmy);
         }
     }
 
-    @override
-    Future<void> dublecateUnitToUserArmy(String armyId, String instanceId, UnitRoleCode role) async
+    @override 
+    Future<void> updateWarlord(String armyId, String newInstanceIdWarlord) async
     {
-      final army = await getUserArmyById(armyId);
-      if (army != null) {
-        /// Вызываем логику домена
-        final updatedArmy = await army.duplicateUnitInstance(instanceId, role.name);
-        /// Сохраняем результат
-        await saveUserArmy(updatedArmy);
-      }
+        final army = await getUserArmyById(armyId);
+        if (army != null)
+        {
+            final updatedArmy = army.updateSelectedWarlord(newInstanceIdWarlord);
+            await saveUserArmy(updatedArmy);
+        }
+
     }
 
     @override
-    Future<void> updateUnitInstanceFromUserArmy(String armyId, String instanceId, UnitRoleCode role,SaveCategoryCode category,  dynamic updateData) async
+    Future<void> dublecateUnitToUserArmy(String armyId, String instanceId, UnitRoleCode role) async
     {
-      final army = await getUserArmyById(armyId);
-      if (army != null) {
-        /// Вызываем логику домена
-        final updatedArmy = await army.updateUnitInstance(instanceId, role.name,category, updateData);
-        /// Сохраняем результат
-        await saveUserArmy(updatedArmy);
-      }
+        final army = await getUserArmyById(armyId);
+        if (army != null) 
+        {
+            /// Вызываем логику домена
+            final updatedArmy = await army.duplicateUnitInstance(instanceId, role.name);
+            /// Сохраняем результат
+            await saveUserArmy(updatedArmy);
+        }
+    }
+
+    @override
+    Future<void> updateUnitInstanceFromUserArmy(String armyId, String instanceId, UnitRoleCode role, SaveCategoryCode category, dynamic updateData) async
+    {
+        final army = await getUserArmyById(armyId);
+        if (army != null) 
+        {
+            /// Вызываем логику домена
+            final updatedArmy = await army.updateUnitInstance(instanceId, role.name, category, updateData);
+            /// Сохраняем результат
+            await saveUserArmy(updatedArmy);
+        }
     }
 }

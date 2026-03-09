@@ -19,4 +19,6 @@ abstract class UserArmyRepository
     Future<void> updateUnitInstanceFromUserArmy(String armyId, String instanceId, UnitRoleCode role, SaveCategoryCode category,  dynamic updateData);
 
     Future<void> updateBattleSize(String armyId, BattleSizeCode newSize);
+    Future<void> updateWarlord(String armyId, String newInstanceIdWarlord);
+
 }

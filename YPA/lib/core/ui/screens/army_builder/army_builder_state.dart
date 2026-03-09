@@ -15,13 +15,14 @@ class ArmyBuilderState
 {
     final bool isLoading;
     final String? armyId;
-    final String userArmyName;
-    final Map<BattleSizeCode, int>? battleSize;
-    final int? currentPts;
     final FactionId? factionId;
-    final CodexDom? codex;
-    final DetachmentDOM? detachment;
+    final CodexDom? selectedCodex;
+    final String userArmyName;
+    final Map<BattleSizeCode, int>? selectedBattleSize;
     final List<DetachmentDOM> allDetachments;
+    final DetachmentDOM? selectedDetachment;
+    final String? selectedInstanceIdWarlord;
+    final int? currentPts;
     final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>? userArmyUnits; /// уже добавленный в ростер игрока юниты
     final List<ArmyBuilderUnitItemUi> allUnitsFromDb; /// юниты из базы
     final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>? temDataUnitsByRoleFromdb; /// отфильтрованные по роли юниты из базы данны
@@ -29,14 +30,15 @@ class ArmyBuilderState
 
     const ArmyBuilderState({
         this.isLoading = false,
-        this.userArmyName = '',
         this.armyId,
-        this.battleSize,
-        this.currentPts,
         this.factionId,
-        this.codex,
-        this.detachment,
+        this.selectedCodex,
+        this.userArmyName = '',
+        this.selectedBattleSize,
         this.allDetachments = const[],
+        this.selectedDetachment,
+        this.selectedInstanceIdWarlord,
+        this.currentPts,
         this.userArmyUnits = const {},
         this.allUnitsFromDb = const[],
         this.temDataUnitsByRoleFromdb = const {},
@@ -45,14 +47,15 @@ class ArmyBuilderState
 
     ArmyBuilderState copyWith({
         bool? isLoading,
-        String? userArmyName,
         String? armyId,
-        Map<BattleSizeCode, int>? battleSize,
-        int? currentPts,
         FactionId? factionId,
-        CodexDom? codex,
-        DetachmentDOM? detachment,
+        CodexDom? selectedCodex,
+        String? userArmyName,
+        Map<BattleSizeCode, int>? selectedBattleSize,
         List<DetachmentDOM>? allDetachments,
+        DetachmentDOM? selectedDetachment,
+        String? selectedInstanceIdWarlord,
+        int? currentPts,
         Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>? userArmyUnits,
         List<ArmyBuilderUnitItemUi>? allUnitsFromDb,
         Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>? temDataUnitsByRoleFromdb,
@@ -61,14 +64,15 @@ class ArmyBuilderState
     {
         return ArmyBuilderState(
             isLoading: isLoading ?? this.isLoading,
-            userArmyName: userArmyName ?? this.userArmyName,
             armyId: armyId ?? this.armyId,
-            battleSize: battleSize ?? this.battleSize,
-            currentPts: currentPts ?? this.currentPts,
             factionId: factionId ?? this.factionId,
-            codex: codex ?? this.codex,
-            detachment: detachment ?? this.detachment,
+            selectedCodex: selectedCodex ?? this.selectedCodex,
+            userArmyName: userArmyName ?? this.userArmyName,
+            selectedBattleSize: selectedBattleSize ?? this.selectedBattleSize,
             allDetachments: allDetachments ?? this.allDetachments,
+            selectedDetachment: selectedDetachment ?? this.selectedDetachment,
+            selectedInstanceIdWarlord: selectedInstanceIdWarlord ?? this.selectedInstanceIdWarlord,
+            currentPts: currentPts ?? this.currentPts,
             userArmyUnits: userArmyUnits ?? this.userArmyUnits,
             allUnitsFromDb: allUnitsFromDb ?? this.allUnitsFromDb,
             temDataUnitsByRoleFromdb: temDataUnitsByRoleFromdb ?? this.temDataUnitsByRoleFromdb,
@@ -141,7 +145,7 @@ class ArmyBuilderState
         return getallUnitByNameFromUserArmy(unitName).length;
     }
 
-    int getAmountUnitsFromUserArmy(String role, String unitName) 
+    int getAmountUnitsFromUserArmy(String role, String unitName)
     {
         final roleCode = UnitRoleCode.fromName(role);
 

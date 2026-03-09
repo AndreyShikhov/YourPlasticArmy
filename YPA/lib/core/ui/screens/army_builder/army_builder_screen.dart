@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/core/ui/screens/army_builder/widgets/army_settings/army_points_editor.dart';
 import 'package:ypa/core/ui/screens/army_builder/widgets/army_settings/detachment_selector.dart';
+import 'package:ypa/core/ui/screens/army_builder/widgets/army_settings/warlord_selector.dart';
 
 import '../../../database/tables/seed/seed_objects/_types.dart';
 import '../../widgets/expandable_section.dart';
@@ -34,7 +35,7 @@ class ArmyBuilderScreen extends ConsumerWidget
                         builder: (context, ref, _)
                         {
                             final title = ref.watch(armyBuilderControllerProvider(armyId).select((s) => 
-                                    s.userArmyName.isEmpty ? 'Loading...' : '${s.codex?.name.value ?? "Unknown"}: ${s.userArmyName}'));
+                                    s.userArmyName.isEmpty ? 'Loading...' : '${s.selectedCodex?.name.value ?? "Unknown"}: ${s.userArmyName}'));
                             return Padding(
                                 padding: const EdgeInsets.only(left: 10),
                                 child: Text(title)
@@ -48,8 +49,8 @@ class ArmyBuilderScreen extends ConsumerWidget
                             child: Consumer(
                                 builder: (context, ref, _)
                                 {
-                                    final detachmentName = ref.watch(armyBuilderControllerProvider(armyId).select((s) => s.detachment?.name.value ?? 'No detachment'));
-                                    final ptsText = ref.watch(armyBuilderControllerProvider(armyId).select((s) => '${s.currentPts ?? 0} / ${s.battleSize?.values.firstOrNull.toString()} pts'));
+                                    final detachmentName = ref.watch(armyBuilderControllerProvider(armyId).select((s) => s.selectedDetachment?.name.value ?? 'No detachment'));
+                                    final ptsText = ref.watch(armyBuilderControllerProvider(armyId).select((s) => '${s.currentPts ?? 0} / ${s.selectedBattleSize?.values.firstOrNull.toString()} pts'));
 
                                     return Row(
                                         mainAxisSize: MainAxisSize.min,
@@ -79,15 +80,15 @@ class ArmyBuilderScreen extends ConsumerWidget
 
 class ArmySettingsExpanded extends ConsumerStatefulWidget
 {
-  final String armyId;
+    final String armyId;
 
-  const ArmySettingsExpanded({
-    super.key,
-    required this.armyId,
-  });
+    const ArmySettingsExpanded({
+        super.key,
+        required this.armyId
+    });
 
-  @override
-  ConsumerState<ArmySettingsExpanded> createState() =>  _ArmySettingsExpandedState();
+    @override
+    ConsumerState<ArmySettingsExpanded> createState() => _ArmySettingsExpandedState();
 }
 
 class _ArmySettingsExpandedState extends ConsumerState<ArmySettingsExpanded>
@@ -95,25 +96,29 @@ class _ArmySettingsExpandedState extends ConsumerState<ArmySettingsExpanded>
     bool _isExpanded = false;
 
     @override
-    Widget build(BuildContext context) 
+    Widget build(BuildContext context)
     {
 
-      final (userArmyName, detachment, allDetachments, battleSize) = ref.watch(
-        armyBuilderControllerProvider(widget.armyId).select((s) => (
-        s.userArmyName,
-        s.detachment,
-        s.allDetachments,
-        s.battleSize,
-        )),
-      );
-       
+        final (userArmyName, detachment, allDetachments, battleSize, warlordInstanceId) = ref.watch(
+            armyBuilderControllerProvider(widget.armyId).select((s) => (
+                s.userArmyName,
+                s.selectedDetachment,
+                s.allDetachments,
+                s.selectedBattleSize,
+                s.selectedInstanceIdWarlord
+                )
+            )
+        );
+
         return ExpandableSection(
             title: 'Army Description',
             isExpanded: _isExpanded,
-            onExpansionChanged: (expanded) {
-                setState(() {
-                    _isExpanded = expanded;
-                });
+            onExpansionChanged: (expanded)
+            {
+                setState(()
+                    {
+                        _isExpanded = expanded;
+                    });
             },
             child: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -121,15 +126,17 @@ class _ArmySettingsExpandedState extends ConsumerState<ArmySettingsExpanded>
                     children: [
                         ArmyNameEditor(armyId: widget.armyId, initialName: userArmyName),
                         const SizedBox(height: 20),
-                        DetachmentSelector(armyId: widget.armyId, detachment: detachment, allDetachments: allDetachments,),
-                        const SizedBox(height: 20),
                         ArmyPointsEditor(
                             armyId: widget.armyId,
                             initialPoints: battleSize!.values.firstOrNull?.toString() ?? '0'
-                        )
+                        ),
+                        const SizedBox(height: 20),
+                        DetachmentSelector(armyId: widget.armyId, detachment: detachment, allDetachments: allDetachments),
+                        const SizedBox(height: 20),
+                        WarlordSelector(armyId: widget.armyId, warlordInstanceId: warlordInstanceId ?? '')
                     ]
                 )
-            ),
+            )
         );
     }
 }
