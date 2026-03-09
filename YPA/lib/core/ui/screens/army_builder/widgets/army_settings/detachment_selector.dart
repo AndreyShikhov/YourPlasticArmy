@@ -12,20 +12,25 @@ import '../../army_builder_controller.dart';
 class DetachmentSelector extends ConsumerWidget
 {
     final String armyId;
-    final DetachmentDOM? initialDetachment;
-    final List<DetachmentDOM> allDetachments;
 
     const DetachmentSelector({
-      super.key,
-      required this.armyId,
-      required this.initialDetachment,
-      required this.allDetachments
+        super.key,
+        required this.armyId
     });
 
     @override
     Widget build(BuildContext context, WidgetRef ref)
     {
+        final selectedDetachment = ref.watch(
+            armyBuilderControllerProvider(armyId).select((s) => s.selectedDetachment)
+        );
+
+        final allDetachments = ref.watch(
+            armyBuilderControllerProvider(armyId).select((s) => s.allDetachments)
+        );
+
         return DropdownButtonFormField<String>(
+            initialValue: selectedDetachment?.name.value,
             dropdownColor: const Color.fromARGB(255, 55, 55, 55),
             style: const TextStyle(color: Colors.white),
             decoration: const InputDecoration(
@@ -36,7 +41,7 @@ class DetachmentSelector extends ConsumerWidget
             items: _buildDropdownItems(allDetachments),
             onChanged: (newValue)
             {
-                if (newValue != null && newValue != initialDetachment?.name.value)
+                if (newValue != null && newValue != selectedDetachment?.name.value)
                 {
                     ref.read(armyBuilderControllerProvider(armyId).notifier).updateDetachmentArmyRoster(newValue);
                 }

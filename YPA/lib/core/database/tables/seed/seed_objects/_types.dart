@@ -221,6 +221,9 @@ enum BattleSizeCode {
 
   static BattleSizeCode? fromName(String name) =>
       values.where((e) => e.name == name).firstOrNull;
+
+  static BattleSizeCode? fromCode(String code) =>
+      values.where((e) => e.code == code).firstOrNull;
 }
 
 

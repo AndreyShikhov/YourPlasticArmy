@@ -41,7 +41,7 @@ class UserArmyMapper
             armyId: dom.armyId.value,
             codexId: dom.codexId.value,
             detachmentId: dom.detachment == null ? '' : dom.detachmentId.toString(),
-            selectedBattleSize: dom.battleSize?.selected?.name ?? BattleSizeCode.strikeForce.name,
+            selectedBattleSize: dom.battleSize?.selected?.code ?? BattleSizeCode.strikeForce.code,
             selectedWarlordInstanceId: dom.warlordInstanceId?? '',
             jsonData: dom.jsonData,
             createdAt: Value(dom.createdAt)

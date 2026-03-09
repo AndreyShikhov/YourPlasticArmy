@@ -12,23 +12,18 @@ import '../../army_builder_controller.dart';
 class ArmyPointsEditor extends ConsumerWidget
 {
     final String armyId;
-    final String? initialBattleSizeCode;
 
-    const ArmyPointsEditor({super.key, required this.armyId, required this.initialBattleSizeCode});
+    const ArmyPointsEditor({
+      super.key,
+      required this.armyId,
+    });
 
     @override
     Widget build(BuildContext context, WidgetRef ref)
     {
-        final battleSize = ref.watch(armyBuilderControllerProvider(armyId)).selectedBattleSize;
-
-        /// Получаем текущее выбранное значение Enum из стейта
-       // final selectedSize = state.selectedBattleSize?.keys.firstOrNull;
-
-        /// 1. Определяем текущий выбранный размер.
-        /// Сначала пытаемся взять из загруженного стейта (реактивно),
-        /// если там еще пусто (загрузка), пытаемся определить из initialPoints.
-        final BattleSizeCode? selectedSize = BattleSizeCode.fromName(initialBattleSizeCode?? '');
-
+        final selectedSize = ref.watch(
+            armyBuilderControllerProvider(armyId).select((s) => s.selectedBattleSize?.keys.firstOrNull)
+        );
 
         return DropdownButtonFormField<BattleSizeCode>(
             initialValue: selectedSize,
@@ -57,21 +52,4 @@ class ArmyPointsEditor extends ConsumerWidget
         );
     }
 
-    /// Вспомогательный метод для превращения строки/очков обратно в Enum,
-    /// если стейт еще не загружен.
-    BattleSizeCode? _parseInitialPoints(String points)
-    {
-      if (points.isEmpty) return null;
-
-      /// Проверяем по названию или по количеству очков
-      for (var code in BattleSizeCode.values)
-      {
-        if (code.name == points || code.title == points) return code;
-
-        /// Если передали именно число очков (например "1000")
-        final basePoints = BattleSize.base().battleSize[code].toString();
-        if (basePoints == points) return code;
-      }
-      return null;
-    }
 }
