@@ -484,6 +484,7 @@ class ModelStatsDom
 class UnitStatsDom
 {
     final int repeat;
+    final bool isEpicHero;
     final List<String> keywords;
     final List<String> factionKeywords;
     final UnitCompositionDom unitComposition;
@@ -496,6 +497,7 @@ class UnitStatsDom
 
     const UnitStatsDom({
         required this.repeat,
+        required this.isEpicHero,
         required this.keywords,
         required this.factionKeywords,
         required this.unitComposition,
@@ -510,6 +512,7 @@ class UnitStatsDom
     Map<String, dynamic> toJson() =>
     {
         'repeat': repeat,
+        'isEpicHero': isEpicHero,
         'keywords': keywords,
         'factionKeywords': factionKeywords,
         'unitComposition': unitComposition.toJson(),
@@ -527,6 +530,7 @@ class UnitStatsDom
 
         return UnitStatsDom(
             repeat: json['repeat'] as int? ?? 1,
+            isEpicHero: json['isEpicHero'] as bool? ?? false,
             keywords: List<String>.from(json['keywords'] ?? []),
             factionKeywords: List<String>.from(json['factionKeywords'] ?? []),
             unitComposition: UnitCompositionDom.fromJson(json['unitComposition'] ?? {}),
@@ -541,6 +545,7 @@ class UnitStatsDom
 
     static UnitStatsDom empty() => const UnitStatsDom(
         repeat: 1,
+        isEpicHero: false,
         keywords: [],
         factionKeywords: [],
         unitComposition: UnitCompositionDom.emptyComposition,

@@ -9,7 +9,7 @@ import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
 import 'package:ypa/core/ui/screens/army_builder/army_builder_state.dart';
 import 'package:ypa/domain/models/codex/codex.dart';
 import 'package:ypa/domain/models/detachment/detachment.dart';
-import 'package:ypa/domain/models/unit/model_stats.dart';
+import 'package:ypa/domain/models/unit/unit_stats.dart';
 
 import '../../army_builder/army_builder_controller.dart';
 import '../unit_editor_controller.dart';

@@ -5,7 +5,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ypa/domain/models/unit/model_stats.dart';
+import 'package:ypa/domain/models/unit/unit_stats.dart';
 
 import '../unit_editor_controller.dart';
 

@@ -21,6 +21,7 @@ class UnitMapper {
       armyId: ArmyId.fromString(row.armyId),
       codexId: row.codexId != null ? CodexId.fromString(row.codexId!) : null,
       role: UnitRoleCodeDom.fromString(row.roleCode).toEnum(),
+      isEpicHero: stats.isEpicHero,
       repeat: stats.repeat,
       keywords: stats.keywords,
       factionKeywords: stats.factionKeywords,
@@ -38,6 +39,7 @@ class UnitMapper {
     // Упаковываем все поля UnitDOM обратно в контейнер UnitStatsDom для сохранения в одну JSON колонку
     final statsWrapper = UnitStatsDom(
       repeat: unit.repeat,
+      isEpicHero: unit.isEpicHero,
       keywords: unit.keywords,
       factionKeywords: unit.factionKeywords,
       unitComposition: unit.unitComposition,

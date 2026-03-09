@@ -30,6 +30,7 @@ Future<void> seedUnits(
         ...orksUnits()
     ];
 
+
     for (final u in units)
     {
         _validateUnitSeed(u, armyIds, codexIds, roleIds);
@@ -46,7 +47,8 @@ Future<void> seedUnits(
 
         // 1. Извлекаем объект UnitStats из седа (теперь это контейнер для JSON колонки)
         final UnitStatsDom statsToSave = UnitStatsDom(
-            repeat: u.repeat, 
+            repeat: u.repeat,
+            isEpicHero: u.isEpicHero,
             keywords: u.keywords, 
             factionKeywords: u.factionKeywords, 
             unitComposition: u.unitComposition, 

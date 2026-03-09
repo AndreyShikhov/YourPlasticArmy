@@ -6,7 +6,7 @@
 import 'dart:convert';
 
 import 'package:drift/drift.dart';
-import 'package:ypa/domain/models/unit/model_stats.dart';
+import 'package:ypa/domain/models/unit/unit_stats.dart';
 
 class UnitStatsConverter extends TypeConverter<UnitStatsDom, String>
 {

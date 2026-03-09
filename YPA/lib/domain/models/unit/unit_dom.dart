@@ -4,7 +4,7 @@
  */
 
 import 'package:uuid/uuid.dart';
-import 'package:ypa/domain/models/unit/model_stats.dart';
+import 'package:ypa/domain/models/unit/unit_stats.dart';
 
 import '../../../core/database/tables/seed/seed_objects/_types.dart';
 import '../army/army_id.dart';
@@ -20,6 +20,7 @@ class UnitDOM
     final ArmyId armyId;
     final CodexId? codexId;
     final UnitRoleCodeDom role;
+    final bool isEpicHero;
     final int repeat;
     final List<String> keywords;
     final List<String> factionKeywords;
@@ -41,6 +42,7 @@ class UnitDOM
         required this.armyId,
         required this.codexId,
         required this.role,
+        required this.isEpicHero,
         required this.repeat,
         required this.keywords,
         required this.factionKeywords,
@@ -63,6 +65,7 @@ class UnitDOM
         required ArmyId armyId,
         required CodexId? codexId,
         required UnitRoleCode role,
+        required bool isEpicHero,
         required int repeat,
         required List<String> keywords,
         required List<String> factionKeywords,
@@ -85,6 +88,7 @@ class UnitDOM
             armyId: armyId,
             codexId: codexId,
             role: UnitRoleCodeDom(role),
+            isEpicHero: isEpicHero,
             repeat: repeat,
             keywords: keywords,
             factionKeywords: factionKeywords,
@@ -106,6 +110,7 @@ class UnitDOM
         required ArmyId armyId,
         required CodexId? codexId,
         required UnitRoleCodeDom role,
+        required bool isEpicHero,
         required int repeat,
         required List<String> keywords,
         required List<String> factionKeywords,
@@ -125,6 +130,7 @@ class UnitDOM
             armyId: armyId,
             codexId: codexId,
             role: role,
+            isEpicHero: isEpicHero,
             repeat: repeat,
             keywords: keywords,
             factionKeywords: factionKeywords,
@@ -147,6 +153,7 @@ class UnitDOM
         ArmyId? armyId,
         Object? codexId = const _Sentinel(),
         UnitRoleCodeDom? role,
+        bool? isEpicHero,
         int? repeat,
         List<String>? keywords,
         List<String>? factionKeywords,
@@ -169,6 +176,7 @@ class UnitDOM
             codexId: codexId == const _Sentinel()
                 ? this.codexId : (codexId as CodexId?),
             role: role ?? this.role,
+            isEpicHero: isEpicHero ?? this.isEpicHero,
             repeat: repeat ?? this.repeat,
             keywords: keywords ?? this.keywords,
             factionKeywords: factionKeywords ?? this.factionKeywords,

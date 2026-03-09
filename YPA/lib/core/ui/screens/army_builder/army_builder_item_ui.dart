@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import 'package:ypa/domain/models/unit/model_stats.dart';
+import 'package:ypa/domain/models/unit/unit_stats.dart';
 import 'package:ypa/domain/models/user_army/user_army_dom.dart';
 
 import '../../../database/tables/seed/seed_objects/_types.dart';

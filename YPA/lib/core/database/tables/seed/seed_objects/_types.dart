@@ -2,7 +2,7 @@
  * Copyright (c) 2026 Andrey Shikhov
  * SPDX-License-Identifier: MIT
  */
-import 'package:ypa/domain/models/unit/model_stats.dart';
+import 'package:ypa/domain/models/unit/unit_stats.dart';
 
 import '../../../../../domain/models/faction/faction.dart';
 
@@ -271,6 +271,7 @@ class UnitSeed {
   final ArmyTypeCode army;
   final CodexTypeCode? codex;
   final UnitRoleCode role;
+  final bool isEpicHero;
   final int repeat;
   final List<String> keywords;
   final List<String> factionKeywords;
@@ -288,6 +289,7 @@ class UnitSeed {
     required this.army,
     this.codex,
     required this.role,
+    this.isEpicHero = false,
     required this.repeat,
     required this.keywords,
     required this.factionKeywords,

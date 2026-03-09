@@ -17,6 +17,7 @@ List<UnitSeed> bloodAngelsUnits()
             army: ArmyTypeCode.spaceMarines,
             codex: CodexTypeCode.bloodAngels,
             role: UnitRoleCode.characters,
+            isEpicHero: true,
             repeat: 1,
             keywords: [
                 'Infantry',
@@ -229,6 +230,7 @@ List<UnitSeed> bloodAngelsUnits()
             army: ArmyTypeCode.spaceMarines,
             codex: CodexTypeCode.bloodAngels,
             role: UnitRoleCode.characters,
+            isEpicHero: true,
             repeat: 1,
             keywords: [
                 'Infantry',
@@ -334,6 +336,7 @@ List<UnitSeed> bloodAngelsUnits()
             army: ArmyTypeCode.spaceMarines,
             codex: CodexTypeCode.bloodAngels,
             role: UnitRoleCode.characters,
+            isEpicHero: true,
             repeat: 1,
             keywords: [
                 'Infantry',
