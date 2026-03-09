@@ -54,7 +54,6 @@ List<UnitSeed> orksUnits()
                         leadership: 7,
                         objectiveControl: 2
                     ),
-
                     modelWeapons: ModelWeaponsDom(
                         weapons:
                         {
