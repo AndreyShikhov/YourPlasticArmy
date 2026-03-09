@@ -98,9 +98,6 @@ class _ArmySettingsExpandedState extends ConsumerState<ArmySettingsExpanded>
     @override
     Widget build(BuildContext context)
     {
-
-        final (userArmyName, ) = ref.watch(armyBuilderControllerProvider(widget.armyId).select((s) => (s.userArmyName, )));
-
         return ExpandableSection(
             title: 'Army Description',
             isExpanded: _isExpanded,
@@ -115,13 +112,13 @@ class _ArmySettingsExpandedState extends ConsumerState<ArmySettingsExpanded>
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                     children: [
-                        ArmyNameEditor(armyId: widget.armyId, initialName: userArmyName),
+                        ArmyNameEditor(armyId: widget.armyId),
                         const SizedBox(height: 20),
                         ArmyPointsEditor(armyId: widget.armyId),
                         const SizedBox(height: 20),
                         DetachmentSelector(armyId: widget.armyId),
                         const SizedBox(height: 20),
-                        WarlordSelector(armyId: widget.armyId,)
+                        WarlordSelector(armyId: widget.armyId)
                     ]
                 )
             )
