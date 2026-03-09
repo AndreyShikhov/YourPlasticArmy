@@ -19,8 +19,8 @@ class UpdateUserArmyName
         final army = await repository.getUserArmyById(id);
         if (army != null) 
         {
-            final updatedArmy = army.copyWith(userArmyName: newUserArmyName);
-            await repository.saveUserArmy(updatedArmy);
+          repository.updateUserArmyName(id, newUserArmyName);
+
         }
     }
 }

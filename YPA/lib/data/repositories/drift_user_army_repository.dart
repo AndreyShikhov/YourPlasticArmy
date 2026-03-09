@@ -8,6 +8,7 @@ import 'package:ypa/core/database/app_database.dart';
 import 'package:ypa/data/mappers/user_army_mapper.dart';
 
 import '../../../core/database/tables/seed/seed_objects/_types.dart';
+import '../../domain/models/detachment/detachment.dart';
 import '../../domain/models/user_army/user_army.dart';
 
 class DriftUserArmyRepository implements UserArmyRepository
@@ -38,7 +39,7 @@ class DriftUserArmyRepository implements UserArmyRepository
                 final codexRow = row.readTable(db.codexes);
                 final detachmentRow = row.readTableOrNull(db.detachments);
 
-                return 
+                return
                 {
                     UserArmyMapper.fromRow(userArmyRow): (codexRow.name, detachmentRow?.name)
                 };
@@ -83,12 +84,34 @@ class DriftUserArmyRepository implements UserArmyRepository
     }
 
     @override
+    Future<void> updateUserArmyName(String armyId, String newUserArmyName) async
+    {
+        final army = await getUserArmyById(armyId);
+        if (army != null)
+        {
+            final updatedArmy = army.updateUserArmyName(newUserArmyName);
+            await saveUserArmy(updatedArmy);
+        }
+    }
+
+    @override
     Future<void> updateBattleSize(String armyId, BattleSizeCode newSize) async
     {
         final army = await getUserArmyById(armyId);
         if (army != null)
         {
             final updatedArmy = army.updateBattleSize(newSize);
+            await saveUserArmy(updatedArmy);
+        }
+    }
+
+    @override
+    Future<void> updateUserArmyDetachment(String armyId, DetachmentDOM newDetachment, String newDetachmentId) async
+    {
+        final army = await getUserArmyById(armyId);
+        if (army != null)
+        {
+            final updatedArmy = army.updateSelectedDetachment(newDetachment, newDetachmentId);
             await saveUserArmy(updatedArmy);
         }
     }
@@ -109,7 +132,7 @@ class DriftUserArmyRepository implements UserArmyRepository
     Future<void> dublecateUnitToUserArmy(String armyId, String instanceId, UnitRoleCode role) async
     {
         final army = await getUserArmyById(armyId);
-        if (army != null) 
+        if (army != null)
         {
             /// Вызываем логику домена
             final updatedArmy = await army.duplicateUnitInstance(instanceId, role.name);
@@ -122,7 +145,7 @@ class DriftUserArmyRepository implements UserArmyRepository
     Future<void> updateUnitInstanceFromUserArmy(String armyId, String instanceId, UnitRoleCode role, SaveCategoryCode category, dynamic updateData) async
     {
         final army = await getUserArmyById(armyId);
-        if (army != null) 
+        if (army != null)
         {
             /// Вызываем логику домена
             final updatedArmy = await army.updateUnitInstance(instanceId, role.name, category, updateData);

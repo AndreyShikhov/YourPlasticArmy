@@ -12,13 +12,13 @@ import '../../army_builder_controller.dart';
 class DetachmentSelector extends ConsumerWidget
 {
     final String armyId;
-    final DetachmentDOM? detachment;
+    final DetachmentDOM? initialDetachment;
     final List<DetachmentDOM> allDetachments;
 
     const DetachmentSelector({
       super.key,
       required this.armyId,
-      required this.detachment,
+      required this.initialDetachment,
       required this.allDetachments
     });
 
@@ -36,7 +36,7 @@ class DetachmentSelector extends ConsumerWidget
             items: _buildDropdownItems(allDetachments),
             onChanged: (newValue)
             {
-                if (newValue != null && newValue != detachment?.name.value)
+                if (newValue != null && newValue != initialDetachment?.name.value)
                 {
                     ref.read(armyBuilderControllerProvider(armyId).notifier).updateDetachmentArmyRoster(newValue);
                 }

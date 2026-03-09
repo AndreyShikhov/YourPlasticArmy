@@ -19,10 +19,9 @@ class UpdateUserArmyDetachment
     }) async
     {
         final army = await repository.getUserArmyById(id);
-        if (army != null) 
+        if (army != null)
         {
-            final updatedArmy = army.copyWith(detachment: newDetachment, detachmentId: newDetachment.id.value);
-            await repository.saveUserArmy(updatedArmy);
+            repository.updateUserArmyDetachment(id, newDetachment, newDetachment.id.value);
         }
     }
 }

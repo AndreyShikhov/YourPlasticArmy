@@ -123,11 +123,12 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             {
                 try
                 {
+                    /// пытемся сохранить в базу данных
                     await _updateName(id: _armyId, newUserArmyName: newName);
                 } catch (e)
                 {
                     state = state.copyWith(error: e.toString());
-                    loadArmy(); // В случае ошибки синхронизируем данные с БД
+                    loadArmy(); /// В случае ошибки синхронизируем данные с БД
                 }
             });
     }
@@ -140,10 +141,12 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             orElse: () => state.allDetachments.first
         );
 
+        /// просто обновляемстейт для интерфейса
         state = state.copyWith(selectedDetachment: selectedDetachment);
 
         try
         {
+            /// пытемся сохранить в базу данных
             await _updateDetachment(id: _armyId, newDetachment: selectedDetachment);
         } catch (e)
         {
@@ -155,10 +158,13 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
     Future<void> updateBattleSizeArmyRoster(BattleSizeCode newSize) async
     {
         final newSb = BattleSize.selected(newSize);
+
+        /// просто обновляемстейт для интерфейса
         state = state.copyWith(selectedBattleSize: {newSize: newSb.total});
 
         try
         {
+            /// пытемся сохранить в базу данных
             await _updateBattleSize(id: _armyId, newSize: newSize);
         } catch (e)
         {
@@ -169,11 +175,14 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
 
     Future<void> updateWarlordArmyRoster(String instanceID) async
     {
+        if (instanceID == '') return;
 
+        /// просто обновляемстейт для интерфейса
         state = state.copyWith(selectedInstanceIdWarlord: instanceID);
 
         try
         {
+            /// пытемся сохранить в базу данных
             await _updateArmyWarlord(id: _armyId, newWarlordInstanceId: instanceID);
         } catch (e)
         {
@@ -404,7 +413,8 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                 selectedBattleSize: battleSizeMap,
                 armyId: userArmy.armyId.value,
                 userArmyUnits: userArmyUnits,
-                allUnitsFromDb: allUnitsFromDb
+                allUnitsFromDb: allUnitsFromDb,
+              selectedInstanceIdWarlord: userArmy.warlordInstanceId,
             );
 
             fillTemDataUnitsByRole();

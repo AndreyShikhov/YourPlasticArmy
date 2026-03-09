@@ -4187,6 +4187,17 @@ class $UserArmiesTable extends UserArmies
         type: DriftSqlType.string,
         requiredDuringInsert: true,
       );
+  static const VerificationMeta _selectedWarlordInstanceIdMeta =
+      const VerificationMeta('selectedWarlordInstanceId');
+  @override
+  late final GeneratedColumn<String> selectedWarlordInstanceId =
+      GeneratedColumn<String>(
+        'selected_warlord_instance_id',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      );
   static const VerificationMeta _jsonDataMeta = const VerificationMeta(
     'jsonData',
   );
@@ -4219,6 +4230,7 @@ class $UserArmiesTable extends UserArmies
     codexId,
     detachmentId,
     selectedBattleSize,
+    selectedWarlordInstanceId,
     jsonData,
     createdAt,
   ];
@@ -4293,6 +4305,17 @@ class $UserArmiesTable extends UserArmies
     } else if (isInserting) {
       context.missing(_selectedBattleSizeMeta);
     }
+    if (data.containsKey('selected_warlord_instance_id')) {
+      context.handle(
+        _selectedWarlordInstanceIdMeta,
+        selectedWarlordInstanceId.isAcceptableOrUnknown(
+          data['selected_warlord_instance_id']!,
+          _selectedWarlordInstanceIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_selectedWarlordInstanceIdMeta);
+    }
     if (data.containsKey('json_data')) {
       context.handle(
         _jsonDataMeta,
@@ -4344,6 +4367,10 @@ class $UserArmiesTable extends UserArmies
         DriftSqlType.string,
         data['${effectivePrefix}selected_battle_size'],
       )!,
+      selectedWarlordInstanceId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}selected_warlord_instance_id'],
+      )!,
       jsonData: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}json_data'],
@@ -4369,6 +4396,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
   final String codexId;
   final String detachmentId;
   final String selectedBattleSize;
+  final String selectedWarlordInstanceId;
   final String jsonData;
   final DateTime createdAt;
   const UserArmyRow({
@@ -4379,6 +4407,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
     required this.codexId,
     required this.detachmentId,
     required this.selectedBattleSize,
+    required this.selectedWarlordInstanceId,
     required this.jsonData,
     required this.createdAt,
   });
@@ -4392,6 +4421,9 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
     map['codex_id'] = Variable<String>(codexId);
     map['detachment_id'] = Variable<String>(detachmentId);
     map['selected_battle_size'] = Variable<String>(selectedBattleSize);
+    map['selected_warlord_instance_id'] = Variable<String>(
+      selectedWarlordInstanceId,
+    );
     map['json_data'] = Variable<String>(jsonData);
     map['created_at'] = Variable<DateTime>(createdAt);
     return map;
@@ -4406,6 +4438,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
       codexId: Value(codexId),
       detachmentId: Value(detachmentId),
       selectedBattleSize: Value(selectedBattleSize),
+      selectedWarlordInstanceId: Value(selectedWarlordInstanceId),
       jsonData: Value(jsonData),
       createdAt: Value(createdAt),
     );
@@ -4426,6 +4459,9 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
       selectedBattleSize: serializer.fromJson<String>(
         json['selectedBattleSize'],
       ),
+      selectedWarlordInstanceId: serializer.fromJson<String>(
+        json['selectedWarlordInstanceId'],
+      ),
       jsonData: serializer.fromJson<String>(json['jsonData']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
     );
@@ -4441,6 +4477,9 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
       'codexId': serializer.toJson<String>(codexId),
       'detachmentId': serializer.toJson<String>(detachmentId),
       'selectedBattleSize': serializer.toJson<String>(selectedBattleSize),
+      'selectedWarlordInstanceId': serializer.toJson<String>(
+        selectedWarlordInstanceId,
+      ),
       'jsonData': serializer.toJson<String>(jsonData),
       'createdAt': serializer.toJson<DateTime>(createdAt),
     };
@@ -4454,6 +4493,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
     String? codexId,
     String? detachmentId,
     String? selectedBattleSize,
+    String? selectedWarlordInstanceId,
     String? jsonData,
     DateTime? createdAt,
   }) => UserArmyRow(
@@ -4464,6 +4504,8 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
     codexId: codexId ?? this.codexId,
     detachmentId: detachmentId ?? this.detachmentId,
     selectedBattleSize: selectedBattleSize ?? this.selectedBattleSize,
+    selectedWarlordInstanceId:
+        selectedWarlordInstanceId ?? this.selectedWarlordInstanceId,
     jsonData: jsonData ?? this.jsonData,
     createdAt: createdAt ?? this.createdAt,
   );
@@ -4480,6 +4522,9 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
       selectedBattleSize: data.selectedBattleSize.present
           ? data.selectedBattleSize.value
           : this.selectedBattleSize,
+      selectedWarlordInstanceId: data.selectedWarlordInstanceId.present
+          ? data.selectedWarlordInstanceId.value
+          : this.selectedWarlordInstanceId,
       jsonData: data.jsonData.present ? data.jsonData.value : this.jsonData,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
     );
@@ -4495,6 +4540,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
           ..write('codexId: $codexId, ')
           ..write('detachmentId: $detachmentId, ')
           ..write('selectedBattleSize: $selectedBattleSize, ')
+          ..write('selectedWarlordInstanceId: $selectedWarlordInstanceId, ')
           ..write('jsonData: $jsonData, ')
           ..write('createdAt: $createdAt')
           ..write(')'))
@@ -4510,6 +4556,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
     codexId,
     detachmentId,
     selectedBattleSize,
+    selectedWarlordInstanceId,
     jsonData,
     createdAt,
   );
@@ -4524,6 +4571,7 @@ class UserArmyRow extends DataClass implements Insertable<UserArmyRow> {
           other.codexId == this.codexId &&
           other.detachmentId == this.detachmentId &&
           other.selectedBattleSize == this.selectedBattleSize &&
+          other.selectedWarlordInstanceId == this.selectedWarlordInstanceId &&
           other.jsonData == this.jsonData &&
           other.createdAt == this.createdAt);
 }
@@ -4536,6 +4584,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
   final Value<String> codexId;
   final Value<String> detachmentId;
   final Value<String> selectedBattleSize;
+  final Value<String> selectedWarlordInstanceId;
   final Value<String> jsonData;
   final Value<DateTime> createdAt;
   final Value<int> rowid;
@@ -4547,6 +4596,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
     this.codexId = const Value.absent(),
     this.detachmentId = const Value.absent(),
     this.selectedBattleSize = const Value.absent(),
+    this.selectedWarlordInstanceId = const Value.absent(),
     this.jsonData = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.rowid = const Value.absent(),
@@ -4559,6 +4609,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
     required String codexId,
     required String detachmentId,
     required String selectedBattleSize,
+    required String selectedWarlordInstanceId,
     required String jsonData,
     this.createdAt = const Value.absent(),
     this.rowid = const Value.absent(),
@@ -4569,6 +4620,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
        codexId = Value(codexId),
        detachmentId = Value(detachmentId),
        selectedBattleSize = Value(selectedBattleSize),
+       selectedWarlordInstanceId = Value(selectedWarlordInstanceId),
        jsonData = Value(jsonData);
   static Insertable<UserArmyRow> custom({
     Expression<String>? id,
@@ -4578,6 +4630,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
     Expression<String>? codexId,
     Expression<String>? detachmentId,
     Expression<String>? selectedBattleSize,
+    Expression<String>? selectedWarlordInstanceId,
     Expression<String>? jsonData,
     Expression<DateTime>? createdAt,
     Expression<int>? rowid,
@@ -4591,6 +4644,8 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
       if (detachmentId != null) 'detachment_id': detachmentId,
       if (selectedBattleSize != null)
         'selected_battle_size': selectedBattleSize,
+      if (selectedWarlordInstanceId != null)
+        'selected_warlord_instance_id': selectedWarlordInstanceId,
       if (jsonData != null) 'json_data': jsonData,
       if (createdAt != null) 'created_at': createdAt,
       if (rowid != null) 'rowid': rowid,
@@ -4605,6 +4660,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
     Value<String>? codexId,
     Value<String>? detachmentId,
     Value<String>? selectedBattleSize,
+    Value<String>? selectedWarlordInstanceId,
     Value<String>? jsonData,
     Value<DateTime>? createdAt,
     Value<int>? rowid,
@@ -4617,6 +4673,8 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
       codexId: codexId ?? this.codexId,
       detachmentId: detachmentId ?? this.detachmentId,
       selectedBattleSize: selectedBattleSize ?? this.selectedBattleSize,
+      selectedWarlordInstanceId:
+          selectedWarlordInstanceId ?? this.selectedWarlordInstanceId,
       jsonData: jsonData ?? this.jsonData,
       createdAt: createdAt ?? this.createdAt,
       rowid: rowid ?? this.rowid,
@@ -4647,6 +4705,11 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
     if (selectedBattleSize.present) {
       map['selected_battle_size'] = Variable<String>(selectedBattleSize.value);
     }
+    if (selectedWarlordInstanceId.present) {
+      map['selected_warlord_instance_id'] = Variable<String>(
+        selectedWarlordInstanceId.value,
+      );
+    }
     if (jsonData.present) {
       map['json_data'] = Variable<String>(jsonData.value);
     }
@@ -4669,6 +4732,7 @@ class UserArmiesCompanion extends UpdateCompanion<UserArmyRow> {
           ..write('codexId: $codexId, ')
           ..write('detachmentId: $detachmentId, ')
           ..write('selectedBattleSize: $selectedBattleSize, ')
+          ..write('selectedWarlordInstanceId: $selectedWarlordInstanceId, ')
           ..write('jsonData: $jsonData, ')
           ..write('createdAt: $createdAt, ')
           ..write('rowid: $rowid')
@@ -10149,6 +10213,7 @@ typedef $$UserArmiesTableCreateCompanionBuilder =
       required String codexId,
       required String detachmentId,
       required String selectedBattleSize,
+      required String selectedWarlordInstanceId,
       required String jsonData,
       Value<DateTime> createdAt,
       Value<int> rowid,
@@ -10162,6 +10227,7 @@ typedef $$UserArmiesTableUpdateCompanionBuilder =
       Value<String> codexId,
       Value<String> detachmentId,
       Value<String> selectedBattleSize,
+      Value<String> selectedWarlordInstanceId,
       Value<String> jsonData,
       Value<DateTime> createdAt,
       Value<int> rowid,
@@ -10266,6 +10332,11 @@ class $$UserArmiesTableFilterComposer
 
   ColumnFilters<String> get selectedBattleSize => $composableBuilder(
     column: $table.selectedBattleSize,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get selectedWarlordInstanceId => $composableBuilder(
+    column: $table.selectedWarlordInstanceId,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -10396,6 +10467,11 @@ class $$UserArmiesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get selectedWarlordInstanceId => $composableBuilder(
+    column: $table.selectedWarlordInstanceId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<String> get jsonData => $composableBuilder(
     column: $table.jsonData,
     builder: (column) => ColumnOrderings(column),
@@ -10516,6 +10592,11 @@ class $$UserArmiesTableAnnotationComposer
 
   GeneratedColumn<String> get selectedBattleSize => $composableBuilder(
     column: $table.selectedBattleSize,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get selectedWarlordInstanceId => $composableBuilder(
+    column: $table.selectedWarlordInstanceId,
     builder: (column) => column,
   );
 
@@ -10658,6 +10739,7 @@ class $$UserArmiesTableTableManager
                 Value<String> codexId = const Value.absent(),
                 Value<String> detachmentId = const Value.absent(),
                 Value<String> selectedBattleSize = const Value.absent(),
+                Value<String> selectedWarlordInstanceId = const Value.absent(),
                 Value<String> jsonData = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
@@ -10669,6 +10751,7 @@ class $$UserArmiesTableTableManager
                 codexId: codexId,
                 detachmentId: detachmentId,
                 selectedBattleSize: selectedBattleSize,
+                selectedWarlordInstanceId: selectedWarlordInstanceId,
                 jsonData: jsonData,
                 createdAt: createdAt,
                 rowid: rowid,
@@ -10682,6 +10765,7 @@ class $$UserArmiesTableTableManager
                 required String codexId,
                 required String detachmentId,
                 required String selectedBattleSize,
+                required String selectedWarlordInstanceId,
                 required String jsonData,
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
@@ -10693,6 +10777,7 @@ class $$UserArmiesTableTableManager
                 codexId: codexId,
                 detachmentId: detachmentId,
                 selectedBattleSize: selectedBattleSize,
+                selectedWarlordInstanceId: selectedWarlordInstanceId,
                 jsonData: jsonData,
                 createdAt: createdAt,
                 rowid: rowid,

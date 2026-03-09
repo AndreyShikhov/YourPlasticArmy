@@ -109,6 +109,21 @@ class UserArmyDOM
         );
     }
 
+    UserArmyDOM updateSelectedDetachment(DetachmentDOM newDetachment, String newDetachmentId)
+    {
+      return copyWith(
+        detachment: newDetachment,
+        detachmentId: newDetachmentId
+      );
+    }
+
+    UserArmyDOM updateUserArmyName(String newArmyName)
+    {
+      return copyWith(
+        userArmyName: newArmyName,
+      );
+    }
+
     /// Добавляет юнит в jsonData, соблюдая структуру категорий.
     /// [role] — это строковый код роли (например, 'Characters', 'Battleline'), который станет ключом в JSON.
     Future<UserArmyDOM> addUnitToUserArmy(

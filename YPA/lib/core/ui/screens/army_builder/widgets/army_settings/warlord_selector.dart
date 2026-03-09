@@ -13,12 +13,12 @@ class WarlordSelector extends ConsumerWidget
 {
 
     final String armyId;
-    final String? warlordInstanceId;
+    final String? initialWarlordInstanceId;
 
     const WarlordSelector({
         super.key,
         required this.armyId,
-        required this.warlordInstanceId
+        required this.initialWarlordInstanceId
     });
 
     @override
@@ -62,7 +62,7 @@ class WarlordSelector extends ConsumerWidget
                 }).toList(),
             onChanged: (newValue)
             {
-                if (newValue != null && newValue != warlordInstanceId)
+                if (newValue != null && newValue != initialWarlordInstanceId)
                 {
                     ref.read(armyBuilderControllerProvider(armyId).notifier).updateWarlordArmyRoster(newValue);
                 }

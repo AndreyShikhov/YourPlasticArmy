@@ -128,12 +128,12 @@ class _ArmySettingsExpandedState extends ConsumerState<ArmySettingsExpanded>
                         const SizedBox(height: 20),
                         ArmyPointsEditor(
                             armyId: widget.armyId,
-                            initialPoints: battleSize!.values.firstOrNull?.toString() ?? '0'
+                            initialBattleSizeCode: battleSize?.keys.first.code ?? '',
                         ),
                         const SizedBox(height: 20),
-                        DetachmentSelector(armyId: widget.armyId, detachment: detachment, allDetachments: allDetachments),
+                        DetachmentSelector(armyId: widget.armyId, initialDetachment: detachment, allDetachments: allDetachments),
                         const SizedBox(height: 20),
-                        WarlordSelector(armyId: widget.armyId, warlordInstanceId: warlordInstanceId ?? '')
+                        WarlordSelector(armyId: widget.armyId, initialWarlordInstanceId: warlordInstanceId ?? '')
                     ]
                 )
             )

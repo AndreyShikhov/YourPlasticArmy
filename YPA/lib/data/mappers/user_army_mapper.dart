@@ -26,6 +26,7 @@ class UserArmyMapper
             battleSize: BattleSize.selected(
                 BattleSizeCode.fromName(row.selectedBattleSize) ?? BattleSizeCode.strikeForce
             ),
+            warlordInstanceId: row.selectedWarlordInstanceId,
             jsonData: row.jsonData,
             createdAt: row.createdAt
         );
@@ -41,6 +42,7 @@ class UserArmyMapper
             codexId: dom.codexId.value,
             detachmentId: dom.detachment == null ? '' : dom.detachmentId.toString(),
             selectedBattleSize: dom.battleSize?.selected?.name ?? BattleSizeCode.strikeForce.name,
+            selectedWarlordInstanceId: dom.warlordInstanceId?? '',
             jsonData: dom.jsonData,
             createdAt: Value(dom.createdAt)
         );

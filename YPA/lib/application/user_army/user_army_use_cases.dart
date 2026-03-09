@@ -13,6 +13,5 @@ export 'update_unit_parameters_from_user_army.dart';
 export 'update_user_army_battle_size.dart';
 export 'update_user_army_detachment.dart';
 export 'update_user_army_name.dart';
-export 'update_user_army_roster.dart';
 export 'update_user_army_warlord.dart';
 
