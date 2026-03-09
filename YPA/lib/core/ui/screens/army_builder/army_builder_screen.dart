@@ -99,13 +99,7 @@ class _ArmySettingsExpandedState extends ConsumerState<ArmySettingsExpanded>
     Widget build(BuildContext context)
     {
 
-        final (userArmyName, warlordInstanceId) = ref.watch(
-            armyBuilderControllerProvider(widget.armyId).select((s) => (
-                s.userArmyName,
-                s.selectedInstanceIdWarlord
-                )
-            )
-        );
+        final (userArmyName, ) = ref.watch(armyBuilderControllerProvider(widget.armyId).select((s) => (s.userArmyName, )));
 
         return ExpandableSection(
             title: 'Army Description',
@@ -127,7 +121,7 @@ class _ArmySettingsExpandedState extends ConsumerState<ArmySettingsExpanded>
                         const SizedBox(height: 20),
                         DetachmentSelector(armyId: widget.armyId),
                         const SizedBox(height: 20),
-                        WarlordSelector(armyId: widget.armyId, initialWarlordInstanceId: warlordInstanceId ?? '')
+                        WarlordSelector(armyId: widget.armyId,)
                     ]
                 )
             )
