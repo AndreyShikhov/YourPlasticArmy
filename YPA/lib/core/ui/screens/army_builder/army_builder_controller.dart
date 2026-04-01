@@ -10,9 +10,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import 'package:ypa/application/codex/get_codex_by_id.dart';
+import 'package:ypa/application/enhancement/enhancement_use_case.dart';
 import 'package:ypa/core/providers/di/di_providers.dart';
 import 'package:ypa/domain/models/army/army.dart';
 import 'package:ypa/domain/models/codex/codex.dart';
+import 'package:ypa/domain/models/enhancement/enhancement.dart';
 
 import '../../../../application/detachment/detachments_use_cases.dart';
 import '../../../../application/unit/unt_use_case.dart';
@@ -35,6 +37,7 @@ final armyBuilderControllerProvider =
             final updateBattleSize = ref.watch(updateUserArmyBattleSizeUseCaseProvider);
             final updateArmyWarlord = ref.watch(updateUserArmyWarlordUseCaseProvider);
             final getAllDetachmentsByCodexId = ref.watch(getAlldetachmentsByCodexIdUseCaseProvider);
+            final getAllEnhancementsByDetachment = ref.watch(getAllEnhancementsByDetachmentUseCaseProvider);
             final getAllUnitsByCodexId = ref.watch(getAllUnitsByCodexIdUseCaseProvider);
             final getAllUnitsByArmyId = ref.watch(getUnitsByArmyUseCaseProvider);
             final addUnitToUserRoster = ref.watch(addUnitToUserRosterUseCaseProvider);
@@ -50,6 +53,7 @@ final armyBuilderControllerProvider =
                 updateBattleSize,
                 updateArmyWarlord,
                 getAllDetachmentsByCodexId,
+                getAllEnhancementsByDetachment,
                 getAllUnitsByCodexId,
                 getAllUnitsByArmyId,
                 addUnitToUserRoster,
@@ -69,6 +73,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
     final UpdateUserArmyBattleSize _updateBattleSize;
     final UpdateUserArmyWarlord _updateArmyWarlord;
     final GetAllDetachmentsByCodexId _getAllDetachmentsByCodexId;
+    final GetAllEnhancementsByDetachment _getAllEnchancmentByDetachment;
     final GetAllUnitsByCodexId _getAllUnitsByCodexid;
     final GetUnitsByArmy _getAllUnitsByArmyId;
     final AddUnitToUserRoster _addUnitToUserRoster;
@@ -87,6 +92,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         this._updateBattleSize,
         this._updateArmyWarlord,
         this._getAllDetachmentsByCodexId,
+        this._getAllEnchancmentByDetachment,
         this._getAllUnitsByCodexid,
         this._getAllUnitsByArmyId,
         this._addUnitToUserRoster,
@@ -389,6 +395,13 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                 ? allDetachments.where((d) => d.id.value == userArmy.detachmentId).firstOrNull
                 : null;
 
+
+            /// загрузка Enhancements
+
+            List<EnhancementDOM> allEnhancement =  await _getAllEnchancmentByDetachment(DetachmentId.fromString(savedDetachment!.id.value));
+
+            Map<String,EnhancementDOM> selecetedEnhancmentSaved = {};
+
             /// --- ОПТИМИЗИРОВАННАЯ ЗАГРУЗКА ЮНИТОВ ---
             final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> userArmyUnits = await _getAllUserArmyUnitsOptimized(
                 userArmy.jsonData
@@ -410,8 +423,8 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                 selectedCodex: codex,
                 selectedDetachment: savedDetachment,
                 allDetachments: allDetachments,
-                allEnhancement: codex.enhancements,
-                selectedEnhancement: ??,
+                allEnhancement: allEnhancement,
+                selectedEnhancement: selecetedEnhancmentSaved,
                 selectedBattleSize: battleSizeMap,
                 armyId: userArmy.armyId.value,
                 userArmyUnits: userArmyUnits,

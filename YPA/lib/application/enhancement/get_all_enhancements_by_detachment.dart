@@ -6,11 +6,11 @@
 import 'package:ypa/domain/models/detachment/detachment.dart';
 import 'package:ypa/domain/models/enhancement/enhancement.dart';
 
-class GetEnhancementsByDetachment
+class GetAllEnhancementsByDetachment
 {
     final EnhancementRepository repository;
 
-    GetEnhancementsByDetachment(this.repository);
+    GetAllEnhancementsByDetachment(this.repository);
 
     Future<List<EnhancementDOM>> call(DetachmentId detachmentId) async
     {

@@ -6,9 +6,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/application/army/get_army_by_id.dart';
-import 'package:ypa/application/unit_abilities/get_all_core_unit_abilities.dart';
-import 'package:ypa/application/unit_abilities/get_factions_unit_ability_by_code.dart';
-import 'package:ypa/application/unit_abilities/get_unit_bility_by_code.dart';
+import 'package:ypa/application/unit_abilities/unit_ability_use_case.dart';
 import 'package:ypa/application/weapon_abilities/get_all_weapon_abilities.dart';
 import 'package:ypa/core/ui/screens/unit_editor/unit_editor_item_ui.dart';
 import 'package:ypa/core/ui/screens/unit_editor/unit_editor_state.dart';

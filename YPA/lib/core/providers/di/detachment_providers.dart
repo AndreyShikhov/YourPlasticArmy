@@ -4,7 +4,7 @@
  */
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ypa/application/enhancement/get_enhancements_by_detachment.dart';
+import 'package:ypa/application/enhancement/enhancement_use_case.dart';
 import 'package:ypa/application/strategem/get_stratagems_by_detachment.dart';
 import 'package:ypa/core/database/database_providers.dart';
 import 'package:ypa/data/repositories/drift_detachment_repository.dart';
@@ -41,7 +41,7 @@ final enhancementRepositoryProvider = Provider<EnhancementRepository>((ref)
         return DriftEnhancementRepository(db);
     });
 
-// --- USE CASES ---
+/// --- USE CASES ---
 
 final getAllDetachmentsUseCaseProvider = Provider<GetAllDetachments>((ref)
     {
@@ -55,10 +55,10 @@ final getStratagemsByDetachmentUseCaseProvider = Provider<GetStratagemsByDetachm
         return GetStratagemsByDetachment(repository);
     });
 
-final getEnhancementsByDetachmentUseCaseProvider = Provider<GetEnhancementsByDetachment>((ref)
+final getAllEnhancementsByDetachmentUseCaseProvider = Provider<GetAllEnhancementsByDetachment>((ref)
     {
         final repository = ref.watch(enhancementRepositoryProvider);
-        return GetEnhancementsByDetachment(repository);
+        return GetAllEnhancementsByDetachment(repository);
     });
 
 final getAlldetachmentsByCodexIdUseCaseProvider = Provider<GetAllDetachmentsByCodexId>((ref)
@@ -76,14 +76,14 @@ final getDetachmentByIdUseCaseProvider = Provider<GetDetachmentById>((ref)
 
 // --- UI STATE ---
 
-// Список всех детачментов
+/// Список всех детачментов
 final allDetachmentsProvider = FutureProvider<List<DetachmentDOM>>((ref) async
     {
         final useCase = ref.watch(getAllDetachmentsUseCaseProvider);
         return useCase();
     });
 
-// Стратагемы для конкретного детачмента
+/// Стратагемы для конкретного детачмента
 final stratagemsByDetachmentProvider = FutureProvider.family<List<StratagemDOM>, String>((ref, detachmentIdRaw) async
     {
         final useCase = ref.watch(getStratagemsByDetachmentUseCaseProvider);
@@ -92,11 +92,11 @@ final stratagemsByDetachmentProvider = FutureProvider.family<List<StratagemDOM>,
         return useCase(detachmentId);
     });
 
-// Улучшения для конкретного детачмента
+/// Улучшения для конкретного детачмента
 final enhancementsByDetachmentProvider = FutureProvider.family<List<EnhancementDOM>, String>((ref, detachmentIdRaw) async
     {
-        final useCase = ref.watch(getEnhancementsByDetachmentUseCaseProvider);
-        // Исправление: используем фабрику fromString
+        final useCase = ref.watch(getAllEnhancementsByDetachmentUseCaseProvider);
+        /// Исправление: используем фабрику fromString
         final detachmentId = DetachmentId.fromString(detachmentIdRaw);
         return useCase(detachmentId);
     });

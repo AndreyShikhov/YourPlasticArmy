@@ -4,11 +4,10 @@
  */
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ypa/application/unit_abilities/get_all_unit_abilities.dart';
+import 'package:ypa/application/unit_abilities/unit_ability_use_case.dart';
 import 'package:ypa/core/database/database_providers.dart';
 import 'package:ypa/data/repositories/drift_unit_ability_repository.dart';
 
-import '../../../application/unit_abilities/get_unit_bility_by_code.dart';
 import '../../../domain/models/abilities/unit_ability/unit_ability.dart';
 
 // --- REPOSITORIES ---
