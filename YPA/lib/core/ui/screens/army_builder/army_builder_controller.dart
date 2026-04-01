@@ -410,11 +410,13 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                 selectedCodex: codex,
                 selectedDetachment: savedDetachment,
                 allDetachments: allDetachments,
+                allEnhancement: codex.enhancements,
+                selectedEnhancement: ??,
                 selectedBattleSize: battleSizeMap,
                 armyId: userArmy.armyId.value,
                 userArmyUnits: userArmyUnits,
                 allUnitsFromDb: allUnitsFromDb,
-              selectedInstanceIdWarlord: userArmy.warlordInstanceId,
+                selectedInstanceIdWarlord: userArmy.warlordInstanceId,
             );
 
             fillTemDataUnitsByRole();
@@ -531,7 +533,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             modelStats: unit.modelStats,
             selectedWargearIndices: _buildWargearFromSaveData(saveWargear),
             weaponSnapshot: _buildWWeaponInfoFromSaveData(saveWeaponSnapshot),
-            characteristics: _buildCharacteristicsFromSaveData(svaeCharacteristics),
+            characteristics: _buildCharacteristicsFromSaveData(svaeCharacteristics)
         );
     }
 
