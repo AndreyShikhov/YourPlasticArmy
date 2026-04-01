@@ -531,7 +531,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             modelStats: unit.modelStats,
             selectedWargearIndices: _buildWargearFromSaveData(saveWargear),
             weaponSnapshot: _buildWWeaponInfoFromSaveData(saveWeaponSnapshot),
-            characteristics: _buildCharacteristicsFromSaveData(svaeCharacteristics)
+            characteristics: _buildCharacteristicsFromSaveData(svaeCharacteristics),
         );
     }
 

@@ -29,4 +29,13 @@ class EnhancementDescription extends ValueObject<String>
 
         return EnhancementDescription._(trimmed);
     }
+
+    factory EnhancementDescription.fromString(String value)
+    {
+      if (value.isEmpty)
+      {
+        throw ArgumentError('EnhancementDescription cannot be empty');
+      }
+      return EnhancementDescription._(value);
+    }
 }

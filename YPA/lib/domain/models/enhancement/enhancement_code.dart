@@ -27,14 +27,21 @@ class EnhancementCode extends ValueObject<String>
             );
         }
 
-        // Проверяем, что код содержит только буквы, цифры и подчёркивания
         if (!RegExp(r'^[a-z0-9_]+$').hasMatch(trimmed)) 
         {
             throw ArgumentError(
                 'EnhancementCode can only contain lowercase letters, numbers and underscores'
             );
         }
-
         return EnhancementCode._(trimmed);
+    }
+
+    factory EnhancementCode.fromString(String value)
+    {
+      if (value.isEmpty)
+      {
+        throw ArgumentError('EnhancementCode cannot be empty');
+      }
+      return EnhancementCode._(value);
     }
 }

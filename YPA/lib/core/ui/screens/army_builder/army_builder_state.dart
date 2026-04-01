@@ -9,6 +9,7 @@ import 'package:ypa/core/ui/screens/army_builder/army_builder_item_ui.dart';
 
 import '../../../../domain/models/codex/codex.dart';
 import '../../../../domain/models/detachment/detachment.dart';
+import '../../../../domain/models/enhancement/enhancement.dart';
 import '../../../../domain/models/faction/faction.dart';
 
 class ArmyBuilderState
@@ -21,6 +22,8 @@ class ArmyBuilderState
     final Map<BattleSizeCode, int>? selectedBattleSize;
     final List<DetachmentDOM> allDetachments;
     final DetachmentDOM? selectedDetachment;
+    final List<EnhancementDOM> allEnhancement;
+    final Map<String , EnhancementDOM>? selectedEnhancement;
     final String? selectedInstanceIdWarlord;
     final int? currentPts;
     final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>? userArmyUnits; /// уже добавленный в ростер игрока юниты
@@ -37,6 +40,8 @@ class ArmyBuilderState
         this.selectedBattleSize,
         this.allDetachments = const[],
         this.selectedDetachment,
+        this.allEnhancement = const[],
+        this.selectedEnhancement,
         this.selectedInstanceIdWarlord,
         this.currentPts,
         this.userArmyUnits = const {},
@@ -54,6 +59,8 @@ class ArmyBuilderState
         Map<BattleSizeCode, int>? selectedBattleSize,
         List<DetachmentDOM>? allDetachments,
         DetachmentDOM? selectedDetachment,
+        List<EnhancementDOM>? allEnhancement,
+        Map<String, EnhancementDOM>? selectedEnhancement,
         String? selectedInstanceIdWarlord,
         int? currentPts,
         Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>? userArmyUnits,
@@ -71,6 +78,8 @@ class ArmyBuilderState
             selectedBattleSize: selectedBattleSize ?? this.selectedBattleSize,
             allDetachments: allDetachments ?? this.allDetachments,
             selectedDetachment: selectedDetachment ?? this.selectedDetachment,
+            allEnhancement: allEnhancement ?? this.allEnhancement,
+            selectedEnhancement: selectedEnhancement ?? this.selectedEnhancement,
             selectedInstanceIdWarlord: selectedInstanceIdWarlord ?? this.selectedInstanceIdWarlord,
             currentPts: currentPts ?? this.currentPts,
             userArmyUnits: userArmyUnits ?? this.userArmyUnits,
@@ -183,8 +192,7 @@ class ArmyBuilderState
             modelStats: findedUnit.modelStats,
             selectedWargearIndices: findedUnit.selectedWargearIndices,
             weaponSnapshot: findedUnit.weaponSnapshot,
-            characteristics: findedUnit.characteristics
-
+            characteristics: findedUnit.characteristics,
         );
     }
 }

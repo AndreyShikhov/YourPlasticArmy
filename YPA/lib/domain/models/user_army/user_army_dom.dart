@@ -23,7 +23,8 @@ enum SaveCategoryCode
     points('points', 'Points'),
     wargearOptions('wargearOptions', 'Wargear Options'),
     weaponInfo('weaponInfo', 'Weapon Info'),
-    characteristics('characteristics', 'Characteristics');
+    characteristics('characteristics', 'Characteristics'),
+    enhancement('enhancement','Enhancement');
 
     final String code;
     final String title;

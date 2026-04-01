@@ -25,6 +25,15 @@ class EnhancementDOM
         required this.points
     });
 
+    const EnhancementDOM({
+        required this.id,
+        required this.code,
+        required this.name,
+        required this.description,
+        required this.detachmentId,
+        required this.points
+    });
+
     factory EnhancementDOM.create({
         required EnhancementCode code,
         required EnhancementName name,
@@ -33,7 +42,7 @@ class EnhancementDOM
         int points = 0
     })
     {
-        if (points < 0) 
+        if (points < 0)
         {
             throw ArgumentError('points cannot be negative');
         }
@@ -64,6 +73,28 @@ class EnhancementDOM
             description: description,
             detachmentId: detachmentId,
             points: points
+        );
+    }
+
+    Map<String, dynamic> toJson() =>
+    {
+        'id': id.value,
+        'Code': code.value,
+        'Name': name.value,
+        'Enhancement Description': description.value,
+        'Detachment Id': detachmentId,
+        'Points': points
+    };
+
+    factory EnhancementDOM.fromJson(Map<String, dynamic> json)
+    {
+        return EnhancementDOM(
+            id: EnhancementId.fromString(json['id'] as String? ?? ''),
+            code: EnhancementCode.fromString(json['Code'] as String? ?? ''),
+            name: EnhancementName.fromString(json['Name'] as String? ?? ''),
+            description: EnhancementDescription.fromString(json['Enhancement Description'] as String? ?? ''),
+            detachmentId: DetachmentId.fromString(json['Detachment Id'] as String? ?? ''),
+            points: json['Points'] as int? ?? 0
         );
     }
 }

@@ -29,4 +29,13 @@ class EnhancementName extends ValueObject<String>
 
         return EnhancementName._(trimmed);
     }
+
+    factory EnhancementName.fromString(String value)
+    {
+      if (value.isEmpty)
+      {
+        throw ArgumentError('EnhancementName cannot be empty');
+      }
+      return EnhancementName._(value);
+    }
 }

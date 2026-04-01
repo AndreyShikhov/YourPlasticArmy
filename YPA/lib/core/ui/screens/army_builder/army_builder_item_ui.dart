@@ -45,7 +45,8 @@ class ArmyBuilderUnitItemUi
         required this.modelStats,
         required this.selectedWargearIndices,
         required this.weaponSnapshot,
-        required this.characteristics
+        required this.characteristics,
+
     });
 
     ArmyBuilderUnitItemUi copyWith({
@@ -65,7 +66,7 @@ class ArmyBuilderUnitItemUi
         Map<String, ModelStatsDom>? modelStats,
         Map<String, List<int>>? selectedWargearIndices,
         List<Map<String, dynamic>>? weaponSnapshot,
-        Map<String, CharacteristicsDom>? characteristics
+        Map<String, CharacteristicsDom>? characteristics,
     })
     {
         return ArmyBuilderUnitItemUi(
@@ -85,7 +86,7 @@ class ArmyBuilderUnitItemUi
             modelStats: modelStats ?? this.modelStats,
             selectedWargearIndices: selectedWargearIndices ?? this.selectedWargearIndices,
             weaponSnapshot: weaponSnapshot ?? this.weaponSnapshot,
-            characteristics: characteristics ?? this.characteristics
+            characteristics: characteristics ?? this.characteristics,
         );
     }
 
@@ -109,7 +110,7 @@ class ArmyBuilderUnitItemUi
             'modelStats': modelStats.map((k, v) => MapEntry(k, v.toJson())),
             SaveCategoryCode.wargearOptions.code: selectedWargearIndices,
             SaveCategoryCode.weaponInfo.code: weaponSnapshot,
-            SaveCategoryCode.characteristics.code: characteristics.map((k, v) => MapEntry(k, v.toJson())) /// ИСПРАВЛЕНО
+            SaveCategoryCode.characteristics.code: characteristics.map((k, v) => MapEntry(k, v.toJson())),
         };
     }
 
@@ -144,7 +145,7 @@ class ArmyBuilderUnitItemUi
                 .toList(),
             characteristics: (json[SaveCategoryCode.characteristics.code] as Map<String, dynamic>? ?? {}).map(
                 (k, v) => MapEntry(k, CharacteristicsDom.fromJson(v as Map<String, dynamic>))
-            )
+            ),
         );
     }
 
@@ -167,7 +168,7 @@ class ArmyBuilderUnitItemUi
             modelStats: {},
             selectedWargearIndices: {},
             weaponSnapshot: [],
-            characteristics: {}
+            characteristics: {},
         );
     }
 }
