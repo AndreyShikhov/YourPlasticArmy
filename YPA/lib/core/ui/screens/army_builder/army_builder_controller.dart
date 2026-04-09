@@ -159,6 +159,9 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             state = state.copyWith(error: e.toString());
             loadArmy();
         }
+
+        List<EnhancementDOM> allEnchancment = await  _loadAllEnchancmentByDetachment(null);
+        state.copyWith(allEnhancement: allEnchancment);
     }
 
     Future<void> updateBattleSizeArmyRoster(BattleSizeCode newSize) async
@@ -395,12 +398,13 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                 ? allDetachments.where((d) => d.id.value == userArmy.detachmentId).firstOrNull
                 : null;
 
-
             /// загрузка Enhancements
 
-            List<EnhancementDOM> allEnhancement =  await _getAllEnchancmentByDetachment(DetachmentId.fromString(savedDetachment!.id.value));
+            List<EnhancementDOM> allEnhancement = savedDetachment != null
+                ? await _loadAllEnchancmentByDetachment(DetachmentId.fromString(savedDetachment.id.value)) :
+                [];
 
-            Map<String,EnhancementDOM> selecetedEnhancmentSaved = {};
+            Map<String, EnhancementDOM> selecetedEnhancmentSaved = {};
 
             /// --- ОПТИМИЗИРОВАННАЯ ЗАГРУЗКА ЮНИТОВ ---
             final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> userArmyUnits = await _getAllUserArmyUnitsOptimized(
@@ -429,7 +433,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                 armyId: userArmy.armyId.value,
                 userArmyUnits: userArmyUnits,
                 allUnitsFromDb: allUnitsFromDb,
-                selectedInstanceIdWarlord: userArmy.warlordInstanceId,
+                selectedInstanceIdWarlord: userArmy.warlordInstanceId
             );
 
             fillTemDataUnitsByRole();
@@ -562,6 +566,19 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         return unitDomain.map((unit) => _convertDomainUnitToUnitItemUi(unit, '', null, null, null, null)).toList();
     }
 
+    Future<List<EnhancementDOM>> _loadAllEnchancmentByDetachment(DetachmentId? id) async
+    {
+
+        List<EnhancementDOM> allEnhancement = id != null ?
+            await _getAllEnchancmentByDetachment(id) :
+            await _getAllEnchancmentByDetachment(state.selectedDetachment!.id);
+
+        return allEnhancement;
+    }
+
+    /// ==========================================
+    ///  Build Info
+    /// ==========================================
     UnitCompositionDom _buildCompositionFromSaveData(UnitCompositionDom unitCompositionFromDB, Map<String, dynamic>? saveComposition)
     {
         var tempComposition = unitCompositionFromDB;
