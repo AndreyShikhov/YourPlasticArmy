@@ -14,6 +14,7 @@ class ArmyBuilderUnitItemUi
     final String dbId;
     final String name;
     final String role;
+    final bool isEpicHero;
     final int repeat;
     final List<String> keywords;
     final List<String> factionKeywords;
@@ -33,6 +34,7 @@ class ArmyBuilderUnitItemUi
         required this.dbId,
         required this.name,
         required this.role,
+        required this.isEpicHero,
         required this.repeat,
         required this.keywords,
         required this.factionKeywords,
@@ -54,6 +56,7 @@ class ArmyBuilderUnitItemUi
         String? dbId,
         String? name,
         String? role,
+        bool? isEpicHero,
         int? repeat,
         List<String>? keywords,
         List<String>? factionKeywords,
@@ -74,6 +77,7 @@ class ArmyBuilderUnitItemUi
             dbId: dbId ?? this.dbId,
             name: name ?? this.name,
             role: role ?? this.role,
+            isEpicHero: isEpicHero ?? this.isEpicHero,
             repeat: repeat ?? this.repeat,
             keywords: keywords ?? this.keywords,
             factionKeywords: factionKeywords ?? this.factionKeywords,
@@ -98,6 +102,7 @@ class ArmyBuilderUnitItemUi
             'dbId': dbId,
             'name': name,
             'role': role,
+            'isEpicHero': isEpicHero,
             'repeat': repeat,
             'keywords': keywords,
             'factionKeywords': factionKeywords,
@@ -123,6 +128,7 @@ class ArmyBuilderUnitItemUi
             dbId: json['dbId'] ?? '',
             name: json['name'] ?? '',
             role: json['role'] ?? '',
+            isEpicHero: json['isEpicHero'] ?? false,
             repeat: json['repeat'] ?? '1',
             keywords: List<String>.from(json['keywords'] ?? []),
             factionKeywords: List<String>.from(json['factionKeywords'] ?? []),
@@ -156,6 +162,7 @@ class ArmyBuilderUnitItemUi
             dbId: '',
             name: '',
             role: '',
+            isEpicHero: false,
             repeat: 1,
             keywords: [],
             factionKeywords: [],

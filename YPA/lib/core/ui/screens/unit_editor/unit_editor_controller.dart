@@ -115,6 +115,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                 instanceId: unit.instanceId,
                 name: unit.name,
                 role: unit.role,
+                isEpicHero: unit.isEpicHero,
                 repeat: unit.repeat,
                 keywords: unit.keywords,
                 factionKeywords: unit.factionKeywords,

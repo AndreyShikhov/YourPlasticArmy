@@ -12,6 +12,7 @@ class UnitEditorItemUi
     final String instanceId;
     final String name;
     final String role;
+    final bool isEpicHero;
     final int repeat;
     final List<String> keywords;
     final List<String> factionKeywords;
@@ -37,6 +38,7 @@ class UnitEditorItemUi
         required this.instanceId,
         required this.name,
         required this.role,
+        required this.isEpicHero,
         required this.repeat,
         required this.keywords,
         required this.factionKeywords,
@@ -56,6 +58,7 @@ class UnitEditorItemUi
         String? instanceId,
         String? name,
         String? role,
+        bool? isEpicHero,
         int? repeat,
         List<String>? keywords,
         List<String>? factionKeywords,
@@ -75,6 +78,7 @@ class UnitEditorItemUi
             instanceId: instanceId ?? this.instanceId,
             name: name ?? this.name,
             role: role ?? this.role,
+            isEpicHero: isEpicHero ?? this.isEpicHero,
             repeat: repeat ?? this.repeat,
             keywords: keywords ?? this.keywords,
             factionKeywords: factionKeywords ?? this.factionKeywords,

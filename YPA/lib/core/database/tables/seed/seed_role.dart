@@ -12,7 +12,7 @@ import 'seed_objects/_types.dart';
 Future<Map<String, String>> seedRole(AppDatabase db) async
 {
     final data = [
-        UnitRoleCode.characters,
+        UnitRoleCode.character,
         UnitRoleCode.battleline,
         UnitRoleCode.dedicatedTransports,
         UnitRoleCode.fortifications,

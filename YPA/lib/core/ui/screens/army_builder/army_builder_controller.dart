@@ -538,6 +538,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             dbId: unit.id.value,
             name: unit.name.value,
             role: unit.role.value.name,
+            isEpicHero: unit.isEpicHero,
             repeat: unit.repeat,
             keywords: unit.keywords,
             factionKeywords: unit.factionKeywords,

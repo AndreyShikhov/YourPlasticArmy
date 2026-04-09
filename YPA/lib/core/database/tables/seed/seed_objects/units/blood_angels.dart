@@ -16,7 +16,7 @@ List<UnitSeed> bloodAngelsUnits()
             name: 'Astorath',
             army: ArmyTypeCode.spaceMarines,
             codex: CodexTypeCode.bloodAngels,
-            role: UnitRoleCode.characters,
+            role: UnitRoleCode.character,
             isEpicHero: true,
             repeat: 1,
             keywords: [
@@ -124,7 +124,7 @@ List<UnitSeed> bloodAngelsUnits()
             name: 'Blood Angels Captain',
             army: ArmyTypeCode.spaceMarines,
             codex: CodexTypeCode.bloodAngels,
-            role: UnitRoleCode.characters,
+            role: UnitRoleCode.character,
             repeat: 3,
             keywords: [
                 'Infantry',
@@ -229,7 +229,7 @@ List<UnitSeed> bloodAngelsUnits()
             name: 'Chief Librarian Mephiston',
             army: ArmyTypeCode.spaceMarines,
             codex: CodexTypeCode.bloodAngels,
-            role: UnitRoleCode.characters,
+            role: UnitRoleCode.character,
             isEpicHero: true,
             repeat: 1,
             keywords: [
@@ -335,7 +335,7 @@ List<UnitSeed> bloodAngelsUnits()
             name: 'Commander Dante',
             army: ArmyTypeCode.spaceMarines,
             codex: CodexTypeCode.bloodAngels,
-            role: UnitRoleCode.characters,
+            role: UnitRoleCode.character,
             isEpicHero: true,
             repeat: 1,
             keywords: [

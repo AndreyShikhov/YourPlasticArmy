@@ -180,6 +180,7 @@ class ArmyBuilderState
             dbId: findedUnit.dbId,
             name: findedUnit.name,
             role: findedUnit.role,
+            isEpicHero: findedUnit.isEpicHero,
             repeat: findedUnit.repeat,
             keywords: findedUnit.keywords,
             factionKeywords: findedUnit.factionKeywords,

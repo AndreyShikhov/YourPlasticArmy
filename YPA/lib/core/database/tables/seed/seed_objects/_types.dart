@@ -126,7 +126,7 @@ enum CodexTypeCode {
 }
 
 enum UnitRoleCode {
-  characters('characters', 'Characters'),
+  character('character', 'Character'),
   battleline('battleline', 'Battleline'),
   dedicatedTransports('dedicated_transports', 'Dedicated Transports'),
   fortifications('fortifications', 'Fortifications'),

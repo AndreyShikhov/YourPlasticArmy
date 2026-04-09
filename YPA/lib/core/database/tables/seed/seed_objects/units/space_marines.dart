@@ -16,7 +16,7 @@ List<UnitSeed> spaceMarinesUnits()
             id: '89e076f9-9c48-4cdc-952f-b069c9d827ad',
             name: 'Ancient',
             army: ArmyTypeCode.spaceMarines,
-            role: UnitRoleCode.characters,
+            role: UnitRoleCode.character,
             repeat: 3,
             keywords: [
                 'Infantry',
@@ -148,7 +148,7 @@ List<UnitSeed> spaceMarinesUnits()
             id: 'd12c01ec-e404-41a5-8ad5-d72f3079d34a',
             name: 'Ancient In Terminator Armour',
             army: ArmyTypeCode.spaceMarines,
-            role: UnitRoleCode.characters,
+            role: UnitRoleCode.character,
             repeat: 3,
             keywords: [
                 'Infantry',
@@ -250,7 +250,7 @@ List<UnitSeed> spaceMarinesUnits()
             id: '7e580b74-5241-4db5-8948-28d5831f2bf0',
             name: 'Apothecary',
             army: ArmyTypeCode.spaceMarines,
-            role: UnitRoleCode.characters,
+            role: UnitRoleCode.character,
             repeat: 3,
             keywords: [
                 'Infantry',
@@ -353,7 +353,7 @@ List<UnitSeed> spaceMarinesUnits()
             id: '8338f4f6-d8ee-452d-a593-84f1dc1b64bb',
             name: 'Apothecary Biologis',
             army: ArmyTypeCode.spaceMarines,
-            role: UnitRoleCode.characters,
+            role: UnitRoleCode.character,
             repeat: 1,
             keywords: [
                 'Infantry',
@@ -454,7 +454,7 @@ List<UnitSeed> spaceMarinesUnits()
             id: '84e59ee8-daa8-45bd-885b-d1c59df79969',
             name: 'Chaplain In Terminator Armour',
             army: ArmyTypeCode.spaceMarines,
-            role: UnitRoleCode.characters,
+            role: UnitRoleCode.character,
             repeat: 1,
             keywords: [
                 'Infantry',

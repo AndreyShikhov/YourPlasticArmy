@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/core/ui/screens/army_builder/army_builder_item_ui.dart';
 
 import '../../../../../../features/common_functions_lib.dart';
+import '../../../../../database/tables/seed/seed_objects/_types.dart';
 import '../../army_builder_controller.dart';
 
 class WarlordSelector extends ConsumerWidget
@@ -33,13 +34,18 @@ class WarlordSelector extends ConsumerWidget
         );
 
         final characterUnits = (userArmyUnits?.values.expand((list) => list) ?? [])
-            .where((unit) => unit.keywords.contains("Character"))
+            .where((unit) => unit.role == UnitRoleCode.character.code)
             .toList();
+
+        final bool isWarlordInList = characterUnits.any((u) => u.instanceId == warlordInstaceId);
+        final String? effectiveValue = (warlordInstaceId != null && warlordInstaceId.isNotEmpty && isWarlordInList)
+            ? warlordInstaceId
+            : null;
 
 
         ///getRomeNumber(numberUnit);
         return DropdownButtonFormField<String>(
-            initialValue: warlordInstaceId,
+            initialValue: effectiveValue,
             dropdownColor: const Color.fromARGB(255, 55, 55, 55),
             style: const TextStyle(color: Colors.white),
             decoration: const InputDecoration(
