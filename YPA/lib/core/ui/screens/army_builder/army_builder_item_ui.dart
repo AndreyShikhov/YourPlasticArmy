@@ -28,6 +28,7 @@ class ArmyBuilderUnitItemUi
     final Map<String, List<int>> selectedWargearIndices;
     final List<Map<String, dynamic>> weaponSnapshot;
     final Map<String, CharacteristicsDom> characteristics;
+    final String selectedEnhancementId;
 
     ArmyBuilderUnitItemUi({
         required this.instanceId,
@@ -48,6 +49,7 @@ class ArmyBuilderUnitItemUi
         required this.selectedWargearIndices,
         required this.weaponSnapshot,
         required this.characteristics,
+        required this.selectedEnhancementId,
 
     });
 
@@ -70,6 +72,7 @@ class ArmyBuilderUnitItemUi
         Map<String, List<int>>? selectedWargearIndices,
         List<Map<String, dynamic>>? weaponSnapshot,
         Map<String, CharacteristicsDom>? characteristics,
+        String? selectedEnhancementId,
     })
     {
         return ArmyBuilderUnitItemUi(
@@ -91,6 +94,7 @@ class ArmyBuilderUnitItemUi
             selectedWargearIndices: selectedWargearIndices ?? this.selectedWargearIndices,
             weaponSnapshot: weaponSnapshot ?? this.weaponSnapshot,
             characteristics: characteristics ?? this.characteristics,
+            selectedEnhancementId: selectedEnhancementId ?? this.selectedEnhancementId,
         );
     }
 
@@ -116,6 +120,7 @@ class ArmyBuilderUnitItemUi
             SaveCategoryCode.wargearOptions.code: selectedWargearIndices,
             SaveCategoryCode.weaponInfo.code: weaponSnapshot,
             SaveCategoryCode.characteristics.code: characteristics.map((k, v) => MapEntry(k, v.toJson())),
+            SaveCategoryCode.enhancement.code: selectedEnhancementId,
         };
     }
 
@@ -152,6 +157,7 @@ class ArmyBuilderUnitItemUi
             characteristics: (json[SaveCategoryCode.characteristics.code] as Map<String, dynamic>? ?? {}).map(
                 (k, v) => MapEntry(k, CharacteristicsDom.fromJson(v as Map<String, dynamic>))
             ),
+            selectedEnhancementId: json[SaveCategoryCode.enhancement.code] ?? '',
         );
     }
 
@@ -176,6 +182,7 @@ class ArmyBuilderUnitItemUi
             selectedWargearIndices: {},
             weaponSnapshot: [],
             characteristics: {},
+            selectedEnhancementId: '',
         );
     }
 }

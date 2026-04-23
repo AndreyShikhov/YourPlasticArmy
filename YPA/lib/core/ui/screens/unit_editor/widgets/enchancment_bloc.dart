@@ -23,7 +23,7 @@ class EnchancmentBloc extends StatelessWidget
     });
 
     @override
-    Widget build(BuildContext context) 
+    Widget build(BuildContext context)
     {
         if (allEnhancement.isEmpty) return const SizedBox.shrink();
 
@@ -60,6 +60,7 @@ class EnchancmentTile extends ConsumerWidget
     final String unitInstanceId;
     final EnhancementDOM enhancement;
 
+    // ИСПРАВЛЕНО: Добавлен конструктор
     const EnchancmentTile({
         super.key,
         required this.armyId,
@@ -70,23 +71,40 @@ class EnchancmentTile extends ConsumerWidget
     @override
     Widget build(BuildContext context, WidgetRef ref) 
     {
-        // ОПТИМИЗАЦИЯ: Виджет перерисуется ТОЛЬКО если статус ЭТОГО энхансмента изменится
-        final isSelected = ref.watch(
-            armyBuilderControllerProvider(armyId).select(
-                (s) => s.selectedEnhancement?[unitInstanceId]?.id == enhancement.id
-            )
+        // 1. Подписываемся на ВСЮ карту выбранных энхансментов (реактивно)
+        final allSelected = ref.watch(
+            armyBuilderControllerProvider(armyId).select((s) => s.selectedEnhancement)
+        ) ?? {};
+
+        // 2. Вычисляем статусы
+        final bool isSelectedByMe = allSelected[unitInstanceId]?.id == enhancement.id;
+
+        // Проверяем, не взял ли этот энхансмент кто-то другой (в 10-ке они уникальны на армию)
+        final bool isSelectedByOther = allSelected.entries.any(
+            (entry) => entry.key != unitInstanceId && entry.value.id == enhancement.id
         );
+
+        // 3. Определяем цвета
+        final Color colorBg = isSelectedByMe
+            ? Color.fromARGB(144, 67, 232, 219)
+            : Color.fromARGB(192, 140, 136, 136);
+
+        final Color colorButton = isSelectedByMe
+            ? Colors.greenAccent
+            : (isSelectedByOther ? Colors.yellowAccent : Colors.white38);
 
         return Container(
             margin: const EdgeInsets.symmetric(vertical: 4),
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-                color: isSelected ? Colors.blueGrey.withOpacity(0.2) : Colors.white.withOpacity(0.05),
-                borderRadius: BorderRadius.circular(8)
+                color: colorBg,
+                borderRadius: BorderRadius.circular(8),
+                border: isSelectedByOther
+                    ? Border.all(color: Colors.yellowAccent.withOpacity(0.3), width: 1)
+                    : null
             ),
             child: Row(
                 children: [
-                    // 1. Левая описательная часть
                     Expanded(
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,21 +130,18 @@ class EnchancmentTile extends ConsumerWidget
                             ]
                         )
                     ),
-
                     const SizedBox(width: 12),
-
-                    // 2. Правая часть - кнопка управления
                     IconButton(
+                        // Если выбран другим, можно заблокировать кнопку или оставить для инфо
                         icon: Icon(
-                            isSelected ? Icons.check_circle : Icons.add_circle_outline,
-                            color: isSelected ? Colors.greenAccent : Colors.white38
+                            isSelectedByMe ? Icons.check_circle : Icons.add_circle_outline,
+                            color: colorButton
                         ),
-                        onPressed: ()
-                        {
-                            // Вызываем метод в контроллере для переключения
-                             ref.read(armyBuilderControllerProvider(armyId).notifier)
-                               .selectEnchancment(unitInstanceId, enhancement, isSelected);
-                        }
+                        onPressed:  ()
+                            {
+                                ref.read(armyBuilderControllerProvider(armyId).notifier)
+                                    .selectEnchancment(unitInstanceId, enhancement, !isSelectedByMe);
+                            }
                     )
                 ]
             )

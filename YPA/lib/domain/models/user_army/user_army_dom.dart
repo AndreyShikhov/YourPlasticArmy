@@ -9,6 +9,7 @@ import 'package:uuid/uuid.dart';
 import 'package:ypa/domain/models/army/army.dart';
 import 'package:ypa/domain/models/codex/codex_id.dart';
 import 'package:ypa/domain/models/detachment/detachment.dart';
+import 'package:ypa/domain/models/enhancement/enhancement.dart';
 
 import '../../../core/database/tables/seed/seed_objects/_types.dart';
 import '../enhancement/enhancement_dom.dart';
@@ -24,8 +25,8 @@ enum SaveCategoryCode
     points('points', 'Points'),
     wargearOptions('wargearOptions', 'Wargear Options'),
     weaponInfo('weaponInfo', 'Weapon Info'),
-    characteristics('characteristics', 'Characteristics');
-    //enhancement('enhancement', 'Enhancement');
+    characteristics('characteristics', 'Characteristics'),
+    enhancement('enhancement', 'Enhancement');
 
     final String code;
     final String title;
@@ -139,7 +140,8 @@ class UserArmyDOM
         UnitCompositionDom composition,
         Map<String, List<int>> selectedWargear,
         List<Map<String, dynamic>> weaponSnapshot,
-        Map<String, dynamic> characteristics
+        Map<String, dynamic> characteristics,
+        String selectedEnchancment,
     ) async
     {
         /// 1. Декодируем текущий JSON или создаем структуру по умолчанию
@@ -179,13 +181,14 @@ class UserArmyDOM
         final newUnitInstance =
             {
 
-                SaveCategoryCode.instanceId.code: instanceId,                               /// Уникальный ID отряда в ростере
-                SaveCategoryCode.unitId.code: unitId,                                       /// Ссылка на ID базового юнита из таблицы Units
-                SaveCategoryCode.composition.code: finalComposition.toSaveUserArmyJson(),   /// Сохзраняем не весь Compositionа только выбранные элементы
-                SaveCategoryCode.points.code: finalComposition.totalUnitCost,               /// Cтоимость юнита"
-                SaveCategoryCode.wargearOptions.code: selectedWargear,                      /// Warger выбранные варгиры
-                SaveCategoryCode.weaponInfo.code: weaponSnapshot,                           /// Информация таблиц с оружием
-                SaveCategoryCode.characteristics.code: characteristics                     /// Обновлённые характеристики Юнита
+                SaveCategoryCode.instanceId.code: instanceId,                                 /// Уникальный ID отряда в ростере
+                SaveCategoryCode.unitId.code: unitId,                                         /// Ссылка на ID базового юнита из таблицы Units
+                SaveCategoryCode.composition.code: finalComposition.toSaveUserArmyJson(),     /// Сохзраняем не весь Compositionа только выбранные элементы
+                SaveCategoryCode.points.code: finalComposition.totalUnitCost,                 /// Cтоимость юнита"
+                SaveCategoryCode.wargearOptions.code: selectedWargear,                        /// Warger выбранные варгиры
+                SaveCategoryCode.weaponInfo.code: weaponSnapshot,                             /// Информация таблиц с оружием
+                SaveCategoryCode.characteristics.code: characteristics,                       /// Обновлённые характеристики Юнита
+                SaveCategoryCode.enhancement.code: selectedEnchancment                        /// Enchancment юнита
 
             };
 
@@ -286,7 +289,7 @@ class UserArmyDOM
     Future<UserArmyDOM> updateUnitInstanceEnhancement(String instanceId, Map<String, EnhancementDOM> newSelectedEnhancement) async
     {
 
-        return copyWith(selectedEnhancement: selectedEnhancement);
+        return copyWith(selectedEnhancement: newSelectedEnhancement);
     }
     /// ==========================================
     /// Getters

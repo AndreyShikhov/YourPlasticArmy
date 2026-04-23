@@ -31,7 +31,7 @@ class UnitMapper {
       factionAbilities: stats.factionAbilities,
       leader: stats.leader,
       ledBy: stats.ledBy,
-      modelStats: stats.modelStats, // Передаем Map<String, ModelStatsDom>
+      modelStats: stats.modelStats,
     );
   }
 

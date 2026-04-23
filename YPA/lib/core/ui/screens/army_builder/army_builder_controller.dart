@@ -165,8 +165,8 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             loadArmy();
         }
 
-        List<EnhancementDOM> allEnchancment = await  _loadAllEnchancmentByDetachment(null);
-        state.copyWith(allEnhancement: allEnchancment);
+        List<EnhancementDOM> allEnhancement = await  _loadAllEnchancmentByDetachment(null);
+        state.copyWith(allEnhancement: allEnhancement);
     }
 
     Future<void> updateBattleSizeArmyRoster(BattleSizeCode newSize) async
@@ -365,41 +365,83 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         }
 
         /// Считаем очки за юнитов
-        state.userArmyUnits?.values.expand((u) => u).forEach((unit) {
-          total += unit.unitComposition.totalUnitCost;
-        });
+        state.userArmyUnits?.values.expand((u) => u).forEach((unit)
+            {
+                total += unit.unitComposition.totalUnitCost;
+            });
 
         /// ПЛЮС считаем очки за улучшения (Enhancements)
-        state.selectedEnhancement?.values.forEach((e) {
-          total += e.points;
-        });
+        state.selectedEnhancement?.values.forEach((e)
+            {
+                total += e.points;
+            });
 
         state = state.copyWith(currentPts: total);
     }
 
     void selectEnchancment(String unitInstanceId, EnhancementDOM enhancement, bool isSelected) async
     {
-        /// 1. Создаем копию текущей карты
         final currentMap = Map<String, EnhancementDOM>.from(state.selectedEnhancement ?? {});
 
-        /// 2. Всегда удаляем старый Enhancement
-
+        /// 1. Управляем картой соответствия Юнит -> Enhancement
         currentMap.remove(unitInstanceId);
+        /// Если это уникальное улучшение, убираем его у других
+        if (isSelected) currentMap.removeWhere((key, value) => value.id == enhancement.id);
 
-        if (isSelected) 
+        if (isSelected)
         {
-            /// Если мы включаем это улучшение:
-            /// Сначала удаляем очки старого (если оно было), потом прибавляем новое
             currentMap[unitInstanceId] = enhancement;
         }
 
-        /// 3. Обновляем стейт (пересчет очков сделаем через общий метод для надежности)
-        state = state.copyWith(selectedEnhancement: currentMap);
+        /// 2. Обновляем список юнитов (проходим по всем, чтобы обеспечить уникальность)
+        final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> updatedUserUnits = Map.from(state.userArmyUnits!);
+
+        for (final role in updatedUserUnits.keys)
+        {
+            final List<ArmyBuilderUnitItemUi> units = List.from(updatedUserUnits[role]!);
+            bool roleUpdated = false;
+
+            for (int i = 0; i < units.length; i++)
+            {
+                if (units[i].instanceId == unitInstanceId)
+                {
+                    /// Ставим или удаляем ID у текущего юнита
+                    units[i] = units[i].copyWith(selectedEnhancementId: isSelected ? enhancement.id.value : '');
+                    roleUpdated = true;
+                    await _updateUnitInUserRoster(
+                        armyId: _armyId,
+                        instanceId: unitInstanceId,
+                        role: role,
+                        category: SaveCategoryCode.enhancement,
+                        updateData: isSelected ? enhancement.id.value : ''
+                    );
+                }
+                else if (isSelected && units[i].selectedEnhancementId == enhancement.id.value)
+                {
+                    /// Уникальность: снимаем это улучшение с другого юнита, если оно там было
+                    units[i] = units[i].copyWith(selectedEnhancementId: '');
+                    roleUpdated = true;
+                    await _updateUnitInUserRoster(
+                        armyId: _armyId,
+                        instanceId: units[i].instanceId,
+                        role: role,
+                        category: SaveCategoryCode.enhancement,
+                        updateData:  ''
+                    );
+                }
+            }
+
+            if (roleUpdated) updatedUserUnits[role] = units;
+        }
+
+        state = state.copyWith(
+            selectedEnhancement: currentMap,
+            userArmyUnits: updatedUserUnits
+        );
         updateCurrentPts();
 
         try
         {
-            /// 4. Сохраняем в БД
             await _updateUserArmyEnhancement(
                 armyId: _armyId,
                 selectedEnhancement: state.selectedEnhancement ?? {}
@@ -407,7 +449,6 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         } catch (e)
         {
             state = state.copyWith(error: e.toString());
-            /// В случае ошибки лучше перезагрузить, чтобы UI не врал
             loadArmy();
         }
     }
@@ -446,12 +487,13 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                 ? await _loadAllEnchancmentByDetachment(DetachmentId.fromString(savedDetachment.id.value)) :
                 [];
 
-            Map<String, EnhancementDOM> selecetedEnhancmentSaved = userArmy.selectedEnhancement?? {};
-
             /// --- ОПТИМИЗИРОВАННАЯ ЗАГРУЗКА ЮНИТОВ ---
             final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> userArmyUnits = await _getAllUserArmyUnitsOptimized(
                 userArmy.jsonData
             );
+
+            ///создаём мапу сохранённых enhancement из юнитов
+            Map<String, EnhancementDOM> selecetedEnhancmentSaved = _buildEnhancementFromSaveData(allEnhancement, userArmyUnits);
 
             final List<ArmyBuilderUnitItemUi> allUnitsFromDb = await getAllUnitsByArmyId(userArmy.armyId);
             allUnitsFromDb.addAll(await getAllUnitsByCodexId(userArmy.codexId));
@@ -475,7 +517,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                 armyId: userArmy.armyId.value,
                 userArmyUnits: userArmyUnits,
                 allUnitsFromDb: allUnitsFromDb,
-                selectedInstanceIdWarlord: userArmy.warlordInstanceId,
+                selectedInstanceIdWarlord: userArmy.warlordInstanceId
 
             );
 
@@ -538,7 +580,8 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                                     map[SaveCategoryCode.composition.code],
                                     map[SaveCategoryCode.wargearOptions.code],
                                     map[SaveCategoryCode.weaponInfo.code],
-                                    map[SaveCategoryCode.characteristics.code]
+                                    map[SaveCategoryCode.characteristics.code],
+                                    map[SaveCategoryCode.enhancement.code]
                                 ));
                         }
                     }
@@ -570,10 +613,11 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
     ArmyBuilderUnitItemUi _convertDomainUnitToUnitItemUi(
         UnitDOM unit,
         String instanceId,
-        Map<String, dynamic>? saveComposition,
-        Map<String, dynamic>? saveWargear,
-        List<dynamic>? saveWeaponSnapshot,
-        Map<String, dynamic>? svaeCharacteristics
+        Map<String, dynamic>? savedComposition,
+        Map<String, dynamic>? savedWargear,
+        List<dynamic>? savedWeaponSnapshot,
+        Map<String, dynamic>? savedCharacteristics,
+        String savedSelectedEnhancementId
     )
     {
         return ArmyBuilderUnitItemUi(
@@ -585,29 +629,30 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             repeat: unit.repeat,
             keywords: unit.keywords,
             factionKeywords: unit.factionKeywords,
-            unitComposition: _buildCompositionFromSaveData(unit.unitComposition, saveComposition),
+            unitComposition: _buildCompositionFromSaveData(unit.unitComposition, savedComposition),
             unitAbility: unit.unitAbility,
             coreAbilities: unit.coreAbilities,
             factionAbilities: unit.factionAbilities,
             leader: unit.leader,
             ledBy: unit.ledBy,
             modelStats: unit.modelStats,
-            selectedWargearIndices: _buildWargearFromSaveData(saveWargear),
-            weaponSnapshot: _buildWWeaponInfoFromSaveData(saveWeaponSnapshot),
-            characteristics: _buildCharacteristicsFromSaveData(svaeCharacteristics)
+            selectedWargearIndices: _buildWargearFromSaveData(savedWargear),
+            weaponSnapshot: _buildWWeaponInfoFromSaveData(savedWeaponSnapshot),
+            characteristics: _buildCharacteristicsFromSaveData(savedCharacteristics),
+            selectedEnhancementId: savedSelectedEnhancementId
         );
     }
 
     Future<List<ArmyBuilderUnitItemUi>> getAllUnitsByCodexId(CodexId codexId) async
     {
         List<UnitDOM> unitDomain = await _getAllUnitsByCodexid(codexId);
-        return unitDomain.map((unit) => _convertDomainUnitToUnitItemUi(unit, '', null, null, null, null)).toList();
+        return unitDomain.map((unit) => _convertDomainUnitToUnitItemUi(unit, '', null, null, null, null, '')).toList();
     }
 
     Future<List<ArmyBuilderUnitItemUi>> getAllUnitsByArmyId(ArmyId armyId) async
     {
         List<UnitDOM> unitDomain = await _getAllUnitsByArmyId(armyId);
-        return unitDomain.map((unit) => _convertDomainUnitToUnitItemUi(unit, '', null, null, null, null)).toList();
+        return unitDomain.map((unit) => _convertDomainUnitToUnitItemUi(unit, '', null, null, null, null, '')).toList();
     }
 
     Future<List<EnhancementDOM>> _loadAllEnchancmentByDetachment(DetachmentId? id) async
@@ -678,5 +723,27 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             }
         }
         return {};
+    }
+
+    Map<String, EnhancementDOM> _buildEnhancementFromSaveData(List<EnhancementDOM> allEnhancement, Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> units)
+    {
+        Map<String, EnhancementDOM> res = {};
+        if (allEnhancement.isEmpty) return res;
+
+        final allIdEnhancement = allEnhancement.map((e) => e.id.value).toSet();
+
+        for (final unitsInRole in units.values)
+        {
+            for (final unit in unitsInRole)
+            {
+                final eId = unit.selectedEnhancementId;
+
+                if (eId.isNotEmpty && allIdEnhancement.contains(eId))
+                {
+                    res[unit.instanceId] = allEnhancement.firstWhere((e) => e.id.value == eId);
+                }
+            }
+        }
+        return res;
     }
 }

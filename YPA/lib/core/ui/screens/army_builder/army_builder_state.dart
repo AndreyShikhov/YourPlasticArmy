@@ -194,6 +194,7 @@ class ArmyBuilderState
             selectedWargearIndices: findedUnit.selectedWargearIndices,
             weaponSnapshot: findedUnit.weaponSnapshot,
             characteristics: findedUnit.characteristics,
+            selectedEnhancementId: findedUnit.selectedEnhancementId
         );
     }
 }

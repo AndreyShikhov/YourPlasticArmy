@@ -32,7 +32,9 @@ class CreateUnit
         required List<FactionUnitAbilityCode> factionAbilities,
         required List<LeaderFilterDom> leader,
         required List<LeaderFilterDom> ledBy,
-        required Map<String, ModelStatsDom> modelStats
+        required Map<String, ModelStatsDom> modelStats,
+        required String selectedEnhancement,
+
     }) async
     {
         final unit = UnitDOM.create(
@@ -50,7 +52,8 @@ class CreateUnit
             factionAbilities: factionAbilities,
             leader: leader,
             ledBy: ledBy,
-            modelStats: modelStats
+            modelStats: modelStats,
+            selectedEnhancement: selectedEnhancement,
         );
 
         await repository.saveUnit(unit);
