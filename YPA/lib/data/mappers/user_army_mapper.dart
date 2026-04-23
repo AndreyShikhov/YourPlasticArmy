@@ -40,7 +40,7 @@ class UserArmyMapper
             factionId: dom.factionId.value,
             armyId: dom.armyId.value,
             codexId: dom.codexId.value,
-            detachmentId: dom.detachment == null ? '' : dom.detachmentId.toString(),
+            detachmentId: (dom.detachment?.id.value ?? dom.detachmentId) ?? '',
             selectedBattleSize: dom.battleSize?.selected?.code ?? BattleSizeCode.strikeForce.code,
             selectedWarlordInstanceId: dom.warlordInstanceId?? '',
             jsonData: dom.jsonData,
