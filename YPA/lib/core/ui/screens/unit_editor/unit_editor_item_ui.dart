@@ -25,6 +25,7 @@ class UnitEditorItemUi
     final Map<String, ModelStatsDom> modelStats; /// Базовые, неизменяемые статы
     final Map<String, List<int>> selectedWargearIndices;
     final Map<String, CharacteristicsDom> modifiedModelCharacteristics; /// Статы с учетом варгира
+    final String selectedEnhancement;
 
     final List<({
         String modelName,
@@ -52,6 +53,7 @@ class UnitEditorItemUi
         required this.selectedWargearIndices,
         required this.modifiedModelCharacteristics,
         this.weaponInfo,
+        required this.selectedEnhancement,
     });
 
     UnitEditorItemUi copyWith({
@@ -72,6 +74,7 @@ class UnitEditorItemUi
         Map<String, List<int>>? selectedWargearIndices,
         Map<String, CharacteristicsDom>? modifiedModelCharacteristics,
         List<({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})>? weaponInfo,
+        String? selectedEnhancement,
     })
     {
         return UnitEditorItemUi(
@@ -92,6 +95,7 @@ class UnitEditorItemUi
             selectedWargearIndices: selectedWargearIndices ?? this.selectedWargearIndices,
             modifiedModelCharacteristics: modifiedModelCharacteristics ?? this.modifiedModelCharacteristics,
             weaponInfo: weaponInfo ?? this.weaponInfo,
+            selectedEnhancement: selectedEnhancement ?? this.selectedEnhancement,
         );
     }
 }

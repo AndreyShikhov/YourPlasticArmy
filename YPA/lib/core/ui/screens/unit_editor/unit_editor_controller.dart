@@ -11,6 +11,7 @@ import 'package:ypa/application/weapon_abilities/get_all_weapon_abilities.dart';
 import 'package:ypa/core/ui/screens/unit_editor/unit_editor_item_ui.dart';
 import 'package:ypa/core/ui/screens/unit_editor/unit_editor_state.dart';
 import 'package:ypa/domain/models/army/army.dart';
+import 'package:ypa/domain/models/enhancement/enhancement.dart';
 
 import '../../../../application/user_army/user_army_use_cases.dart';
 import '../../../../domain/models/abilities/core_unit_ability/core_unit_ability.dart';
@@ -128,7 +129,8 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                 modelStats: unit.modelStats,
                 selectedWargearIndices: unit.selectedWargearIndices,
                 modifiedModelCharacteristics: _recalculateModifiedStatsFromUnit(unit),
-                weaponInfo: weaponInfo
+                weaponInfo: weaponInfo,
+                selectedEnhancement: unit.selectedEnhancementId
             );
 
             /// Сначала сохраняем юнита, чтобы функции get... могли его использовать
@@ -466,6 +468,36 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
         return weaponInfo;
     }
 
+    /// ==========================================
+    ///  Updates
+    /// ==========================================
+
+    void selectEnhancement(EnhancementDOM enhancement, bool isSelected) async
+    {
+        if (state.unit == null) return;
+
+        final role = getUnitRoleCode()!;
+        final String enhancementId = isSelected ? enhancement.id.value : '';
+
+        /// 1. Обновляем локальный стейт редактора (чтобы кнопка сразу изменилась)
+        /// Добавь это поле в UnitEditorItemUi!
+        state = state.copyWith(unit: state.unit!.copyWith(selectedEnhancement: enhancementId));
+
+        /// 2. Сохраняем в БД в jsonData юнита
+        await _updateUnitInUserRoster(
+            armyId: _armyId,
+            instanceId: _instanceUnitId,
+            role: role,
+            category: SaveCategoryCode.enhancement,
+            updateData: enhancementId
+        );
+
+        /// 3. Вызываем метод в главном контроллере, чтобы он обновил карту энхансментов 
+        /// всей армии и пересчитал очки (метод, который мы писали ранее)
+        _ref.read(armyBuilderControllerProvider(_armyId).notifier)
+            .selectEnhancement(_instanceUnitId, enhancement, isSelected);
+    }
+
     void updateComposition(UnitCompositionModelDom newComposition) async
     {
         /// 1. Локальное обновление экрана редактора
@@ -639,7 +671,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
         fullEffectiveStats.forEach((modelName, currentStats)
             {
                 final baseStats = updatedUnit.modelStats[modelName]?.characteristics;
-                if (baseStats != null && baseStats != currentStats) 
+                if (baseStats != null && baseStats != currentStats)
                 {
                     diffStats[modelName] = currentStats;
                 }
@@ -655,7 +687,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
         final role = UnitRoleCode.fromName(state.unit!.role)!;
 
         /// 5. Сохранение в БД только если есть отличия в статах
-        if (diffStats.isNotEmpty) 
+        if (diffStats.isNotEmpty)
         {
             await _updateUnitInUserRoster(
                 armyId: _armyId,
@@ -776,7 +808,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                             }
                         }
                         /// Если это замена оружия на статы
-                        else if (option.changeParameter != null && option.changeParameter!.isNotEmpty) 
+                        else if (option.changeParameter != null && option.changeParameter!.isNotEmpty)
                         {
                             for (var weapons in option.changeParameter!.keys)
                             {
@@ -954,10 +986,10 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
         return modifiedStats;
     }
 
-    void replaceWeapon(String unitModelName, List<String> replace, List<String> replaceable) 
+    void replaceWeapon(String unitModelName, List<String> replace, List<String> replaceable)
     {
     }
-    void addWeapon(String unitModelName, List<String> addWeapons, bool isAdd) 
+    void addWeapon(String unitModelName, List<String> addWeapons, bool isAdd)
     {
     }
 }

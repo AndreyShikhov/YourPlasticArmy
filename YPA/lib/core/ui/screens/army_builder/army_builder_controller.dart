@@ -426,7 +426,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                         instanceId: units[i].instanceId,
                         role: role,
                         category: SaveCategoryCode.enhancement,
-                        updateData:  ''
+                        updateData: ''
                     );
                 }
             }
@@ -510,6 +510,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                 factionId: userArmy.factionId,
                 selectedCodex: codex,
                 selectedDetachment: savedDetachment,
+                detachmentId: userArmy.detachmentId,
                 allDetachments: allDetachments,
                 allEnhancement: allEnhancement,
                 selectedEnhancement: selecetedEnhancementSaved,
@@ -518,7 +519,6 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                 userArmyUnits: userArmyUnits,
                 allUnitsFromDb: allUnitsFromDb,
                 selectedInstanceIdWarlord: userArmy.warlordInstanceId
-
             );
 
             fillTemDataUnitsByRole();

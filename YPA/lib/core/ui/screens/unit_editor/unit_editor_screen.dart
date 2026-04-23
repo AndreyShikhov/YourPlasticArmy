@@ -183,7 +183,7 @@ class UnitEditorScreen extends ConsumerWidget
         if (unit.role == 'character' && !unit.isEpicHero){
           sections.add(ExpandableSection(
             title: 'Enhancement',
-            child: EnhancementBloc(armyId: armyId, unitInstanceId: instanceId, allEnhancement: ref.read(armyBuilderControllerProvider(armyId)).allEnhancement),
+            child: EnhancementBloc(ids: ids, allEnhancement: ref.read(armyBuilderControllerProvider(armyId)).allEnhancement),
           ));
         }
 

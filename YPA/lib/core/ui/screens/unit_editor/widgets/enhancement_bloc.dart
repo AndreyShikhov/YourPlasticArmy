@@ -5,20 +5,19 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ypa/core/ui/screens/unit_editor/unit_editor_controller.dart';
 
 import '../../../../../domain/models/enhancement/enhancement.dart';
 import '../../army_builder/army_builder_controller.dart';
 
 class EnhancementBloc extends StatelessWidget
 {
-    final String armyId;
-    final String unitInstanceId;
+    final  (String, String, String) ids;
     final List<EnhancementDOM> allEnhancement;
 
     const EnhancementBloc({
         super.key,
-        required this.armyId,
-        required this.unitInstanceId,
+        required this.ids,
         required this.allEnhancement
     });
 
@@ -43,10 +42,8 @@ class EnhancementBloc extends StatelessWidget
                         )
                     )
                 ),
-                // Используем ListView или просто Column, так как список обычно короткий
                 ...allEnhancement.map((e) => EnhancementTile(
-                        armyId: armyId,
-                        unitInstanceId: unitInstanceId,
+                        ids: ids,
                         enhancement: e
                     ))
             ]
@@ -56,35 +53,32 @@ class EnhancementBloc extends StatelessWidget
 
 class EnhancementTile extends ConsumerWidget
 {
-    final String armyId;
-    final String unitInstanceId;
+    final  (String, String, String) ids;
     final EnhancementDOM enhancement;
 
-    // ИСПРАВЛЕНО: Добавлен конструктор
     const EnhancementTile({
         super.key,
-        required this.armyId,
-        required this.unitInstanceId,
+        required this.ids,
         required this.enhancement
     });
 
     @override
-    Widget build(BuildContext context, WidgetRef ref) 
+    Widget build(BuildContext context, WidgetRef ref)
     {
-        // 1. Подписываемся на ВСЮ карту выбранных энхансментов (реактивно)
+        /// 1. Подписываемся на ВСЮ карту выбранных энхансментов (реактивно)
         final allSelected = ref.watch(
-            armyBuilderControllerProvider(armyId).select((s) => s.selectedEnhancement)
+            armyBuilderControllerProvider(ids.$1).select((s) => s.selectedEnhancement)
         ) ?? {};
 
-        // 2. Вычисляем статусы
-        final bool isSelectedByMe = allSelected[unitInstanceId]?.id == enhancement.id;
+        /// 2. Вычисляем статусы
+        final bool isSelectedByMe = allSelected[ids.$2]?.id == enhancement.id;
 
-        // Проверяем, не взял ли этот энхансмент кто-то другой (в 10-ке они уникальны на армию)
+        /// Проверяем, не взял ли этот энхансмент кто-то другой (в 10-ке они уникальны на армию)
         final bool isSelectedByOther = allSelected.entries.any(
-            (entry) => entry.key != unitInstanceId && entry.value.id == enhancement.id
+            (entry) => entry.key != ids.$2 && entry.value.id == enhancement.id
         );
 
-        // 3. Определяем цвета
+        /// 3. Определяем цвета
         final Color colorBg = isSelectedByMe
             ? Color.fromARGB(144, 67, 232, 219)
             : Color.fromARGB(192, 140, 136, 136);
@@ -132,16 +126,18 @@ class EnhancementTile extends ConsumerWidget
                     ),
                     const SizedBox(width: 12),
                     IconButton(
-                        // Если выбран другим, можно заблокировать кнопку или оставить для инфо
+                        /// Если выбран другим, можно заблокировать кнопку или оставить для инфо
                         icon: Icon(
                             isSelectedByMe ? Icons.check_circle : Icons.add_circle_outline,
                             color: colorButton
                         ),
-                        onPressed:  ()
-                            {
-                                ref.read(armyBuilderControllerProvider(armyId).notifier)
-                                    .selectEnhancement(unitInstanceId, enhancement, !isSelectedByMe);
-                            }
+                        onPressed: ()
+                        {
+                            ref.read(unitEditorControllerProvider(ids).notifier).selectEnhancement(enhancement, !isSelectedByMe);
+                            ///selectEnhancement
+                            ///ref.read(armyBuilderControllerProvider(armyId).notifier)
+                            /// .selectEnhancement(unitInstanceId, enhancement, !isSelectedByMe);
+                        }
                     )
                 ]
             )

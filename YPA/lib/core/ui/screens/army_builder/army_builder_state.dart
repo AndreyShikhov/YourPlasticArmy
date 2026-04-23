@@ -22,8 +22,9 @@ class ArmyBuilderState
     final Map<BattleSizeCode, int>? selectedBattleSize;
     final List<DetachmentDOM> allDetachments;
     final DetachmentDOM? selectedDetachment;
+    final String? detachmentId;
     final List<EnhancementDOM> allEnhancement;
-    final Map<String , EnhancementDOM>? selectedEnhancement;
+    final Map<String, EnhancementDOM>? selectedEnhancement;
     final String? selectedInstanceIdWarlord;
     final int? currentPts;
     final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>? userArmyUnits; /// уже добавленный в ростер игрока юниты
@@ -40,6 +41,7 @@ class ArmyBuilderState
         this.selectedBattleSize,
         this.allDetachments = const[],
         this.selectedDetachment,
+        this.detachmentId,
         this.allEnhancement = const[],
         this.selectedEnhancement,
         this.selectedInstanceIdWarlord,
@@ -59,6 +61,7 @@ class ArmyBuilderState
         Map<BattleSizeCode, int>? selectedBattleSize,
         List<DetachmentDOM>? allDetachments,
         DetachmentDOM? selectedDetachment,
+        String? detachmentId,
         List<EnhancementDOM>? allEnhancement,
         Map<String, EnhancementDOM>? selectedEnhancement,
         String? selectedInstanceIdWarlord,
@@ -78,6 +81,7 @@ class ArmyBuilderState
             selectedBattleSize: selectedBattleSize ?? this.selectedBattleSize,
             allDetachments: allDetachments ?? this.allDetachments,
             selectedDetachment: selectedDetachment ?? this.selectedDetachment,
+            detachmentId: detachmentId ?? this.detachmentId,
             allEnhancement: allEnhancement ?? this.allEnhancement,
             selectedEnhancement: selectedEnhancement ?? this.selectedEnhancement,
             selectedInstanceIdWarlord: selectedInstanceIdWarlord ?? this.selectedInstanceIdWarlord,

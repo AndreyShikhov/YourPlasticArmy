@@ -18,6 +18,14 @@ class DriftUserArmyRepository implements UserArmyRepository
 
     DriftUserArmyRepository(this.db);
 
+    // Вспомогательный метод для атомарного обновления jsonData
+    Future<void> _updateJsonData(String armyId, String jsonData) async
+    {
+        await (db.update(db.userArmies)..where((t) => t.id.equals(armyId))).write(
+            UserArmiesCompanion(jsonData: Value(jsonData))
+        );
+    }
+
     @override
     Future<List<UserArmyDOM>> getAllUserArmy() async
     {
@@ -58,6 +66,8 @@ class DriftUserArmyRepository implements UserArmyRepository
     @override
     Future<void> saveUserArmy(UserArmyDOM userArmy) async
     {
+        // Используется при первом создании или полной перезаписи. 
+        // Твой маппер теперь застрахован, но атомарные методы ниже еще надежнее.
         await db.into(db.userArmies).insertOnConflictUpdate(UserArmyMapper.toCompanion(userArmy));
     }
 
@@ -70,7 +80,8 @@ class DriftUserArmyRepository implements UserArmyRepository
     @override
     Future<void> addUnitToUserArmy(UserArmyDOM userArmy) async
     {
-        await saveUserArmy(userArmy);
+        // Обновляем ТОЛЬКО jsonData, чтобы не задеть detachmentId
+        await _updateJsonData(userArmy.id, userArmy.jsonData);
     }
 
     @override
@@ -80,53 +91,40 @@ class DriftUserArmyRepository implements UserArmyRepository
         if (army != null)
         {
             final updatedArmy = await army.removeLastUnitFromUserArmy(unitId, role.name);
-            await saveUserArmy(updatedArmy);
+            await _updateJsonData(armyId, updatedArmy.jsonData);
         }
     }
 
     @override
     Future<void> updateUserArmyName(String armyId, String newUserArmyName) async
     {
-        final army = await getUserArmyById(armyId);
-        if (army != null)
-        {
-            final updatedArmy = army.updateUserArmyName(newUserArmyName);
-            await saveUserArmy(updatedArmy);
-        }
+        await (db.update(db.userArmies)..where((t) => t.id.equals(armyId))).write(
+            UserArmiesCompanion(name: Value(newUserArmyName))
+        );
     }
 
     @override
     Future<void> updateBattleSize(String armyId, BattleSizeCode newSize) async
     {
-        final army = await getUserArmyById(armyId);
-        if (army != null)
-        {
-            final updatedArmy = army.updateBattleSize(newSize);
-            await saveUserArmy(updatedArmy);
-        }
+        await (db.update(db.userArmies)..where((t) => t.id.equals(armyId))).write(
+            UserArmiesCompanion(selectedBattleSize: Value(newSize.code))
+        );
     }
 
     @override
     Future<void> updateUserArmyDetachment(String armyId, DetachmentDOM newDetachment, String newDetachmentId) async
     {
-        final army = await getUserArmyById(armyId);
-        if (army != null)
-        {
-            final updatedArmy = army.updateSelectedDetachment(newDetachment, newDetachmentId);
-            await saveUserArmy(updatedArmy);
-        }
+        await (db.update(db.userArmies)..where((t) => t.id.equals(armyId))).write(
+            UserArmiesCompanion(detachmentId: Value(newDetachmentId))
+        );
     }
 
-    @override 
+    @override
     Future<void> updateWarlord(String armyId, String newInstanceIdWarlord) async
     {
-        final army = await getUserArmyById(armyId);
-        if (army != null)
-        {
-            final updatedArmy = army.updateSelectedWarlord(newInstanceIdWarlord);
-            await saveUserArmy(updatedArmy);
-        }
-
+        await (db.update(db.userArmies)..where((t) => t.id.equals(armyId))).write(
+            UserArmiesCompanion(selectedWarlordInstanceId: Value(newInstanceIdWarlord))
+        );
     }
 
     @override
@@ -135,10 +133,8 @@ class DriftUserArmyRepository implements UserArmyRepository
         final army = await getUserArmyById(armyId);
         if (army != null)
         {
-            /// Вызываем логику домена
             final updatedArmy = await army.duplicateUnitInstance(instanceId, role.name);
-            /// Сохраняем результат
-            await saveUserArmy(updatedArmy);
+            await _updateJsonData(armyId, updatedArmy.jsonData);
         }
     }
 
@@ -148,10 +144,8 @@ class DriftUserArmyRepository implements UserArmyRepository
         final army = await getUserArmyById(armyId);
         if (army != null)
         {
-            /// Вызываем логику домена
             final updatedArmy = await army.updateUnitInstance(instanceId, role.name, category, updateData);
-            /// Сохраняем результат
-            await saveUserArmy(updatedArmy);
+            await _updateJsonData(armyId, updatedArmy.jsonData);
         }
     }
 
@@ -161,10 +155,8 @@ class DriftUserArmyRepository implements UserArmyRepository
         final army = await getUserArmyById(armyId);
         if (army != null)
         {
-            /// Вызываем логику домена
-            final updatedArmy = await army.updateUnitInstanceEnhancement(armyId, selectedEnhancement);
-            /// Сохраняем результат
-            await saveUserArmy(updatedArmy);
+            final updatedArmy = await army.updateUnitInstanceEnhancement( selectedEnhancement);
+            await _updateJsonData(armyId, updatedArmy.jsonData);
         }
     }
 }

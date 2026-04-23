@@ -141,7 +141,7 @@ class UserArmyDOM
         Map<String, List<int>> selectedWargear,
         List<Map<String, dynamic>> weaponSnapshot,
         Map<String, dynamic> characteristics,
-        String selectedEnhancement,
+        String selectedEnhancement
     ) async
     {
         /// 1. Декодируем текущий JSON или создаем структуру по умолчанию
@@ -286,10 +286,31 @@ class UserArmyDOM
         return copyWith(jsonData: jsonEncode(root));
     }
 
-    Future<UserArmyDOM> updateUnitInstanceEnhancement(String instanceId, Map<String, EnhancementDOM> newSelectedEnhancement) async
+    Future<UserArmyDOM> updateUnitInstanceEnhancement(Map<String, EnhancementDOM> newSelectedEnhancement) async
     {
+        if (jsonData.isEmpty) return copyWith(selectedEnhancement: newSelectedEnhancement);
 
-        return copyWith(selectedEnhancement: newSelectedEnhancement);
+        final root = jsonDecode(jsonData);
+        final categories = root["categories"] ?? {};
+
+        /// Проходим по всем юнитам во всех ролях
+        for (var role in categories.keys)
+        {
+            final List<dynamic> unitList = categories[role] ?? [];
+            for (var unit in unitList)
+            {
+                final String instanceId = unit[SaveCategoryCode.instanceId.code];
+
+                /// Если для этого юнита есть энхансмент в новой карте - записываем ID
+                /// Если нет - зачищаем
+                unit[SaveCategoryCode.enhancement.code] = newSelectedEnhancement[instanceId]?.id.value ?? '';
+            }
+        }
+
+        return copyWith(
+            selectedEnhancement: newSelectedEnhancement,
+            jsonData: jsonEncode(root) /// ОБЯЗАТЕЛЬНО обновляем JSON
+        );
     }
     /// ==========================================
     /// Getters
