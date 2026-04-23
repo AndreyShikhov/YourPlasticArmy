@@ -9,13 +9,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../../domain/models/enhancement/enhancement.dart';
 import '../../army_builder/army_builder_controller.dart';
 
-class EnchancmentBloc extends StatelessWidget
+class EnhancementBloc extends StatelessWidget
 {
     final String armyId;
     final String unitInstanceId;
     final List<EnhancementDOM> allEnhancement;
 
-    const EnchancmentBloc({
+    const EnhancementBloc({
         super.key,
         required this.armyId,
         required this.unitInstanceId,
@@ -44,7 +44,7 @@ class EnchancmentBloc extends StatelessWidget
                     )
                 ),
                 // Используем ListView или просто Column, так как список обычно короткий
-                ...allEnhancement.map((e) => EnchancmentTile(
+                ...allEnhancement.map((e) => EnhancementTile(
                         armyId: armyId,
                         unitInstanceId: unitInstanceId,
                         enhancement: e
@@ -54,14 +54,14 @@ class EnchancmentBloc extends StatelessWidget
     }
 }
 
-class EnchancmentTile extends ConsumerWidget
+class EnhancementTile extends ConsumerWidget
 {
     final String armyId;
     final String unitInstanceId;
     final EnhancementDOM enhancement;
 
     // ИСПРАВЛЕНО: Добавлен конструктор
-    const EnchancmentTile({
+    const EnhancementTile({
         super.key,
         required this.armyId,
         required this.unitInstanceId,
@@ -140,7 +140,7 @@ class EnchancmentTile extends ConsumerWidget
                         onPressed:  ()
                             {
                                 ref.read(armyBuilderControllerProvider(armyId).notifier)
-                                    .selectEnchancment(unitInstanceId, enhancement, !isSelectedByMe);
+                                    .selectEnhancement(unitInstanceId, enhancement, !isSelectedByMe);
                             }
                     )
                 ]

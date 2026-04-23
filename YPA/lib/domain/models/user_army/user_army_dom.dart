@@ -141,7 +141,7 @@ class UserArmyDOM
         Map<String, List<int>> selectedWargear,
         List<Map<String, dynamic>> weaponSnapshot,
         Map<String, dynamic> characteristics,
-        String selectedEnchancment,
+        String selectedEnhancement,
     ) async
     {
         /// 1. Декодируем текущий JSON или создаем структуру по умолчанию
@@ -188,7 +188,7 @@ class UserArmyDOM
                 SaveCategoryCode.wargearOptions.code: selectedWargear,                        /// Warger выбранные варгиры
                 SaveCategoryCode.weaponInfo.code: weaponSnapshot,                             /// Информация таблиц с оружием
                 SaveCategoryCode.characteristics.code: characteristics,                       /// Обновлённые характеристики Юнита
-                SaveCategoryCode.enhancement.code: selectedEnchancment                        /// Enchancment юнита
+                SaveCategoryCode.enhancement.code: selectedEnhancement                        /// Enhancement юнита
 
             };
 

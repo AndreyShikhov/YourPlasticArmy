@@ -76,7 +76,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
     final UpdateUserArmyBattleSize _updateBattleSize;
     final UpdateUserArmyWarlord _updateArmyWarlord;
     final GetAllDetachmentsByCodexId _getAllDetachmentsByCodexId;
-    final GetAllEnhancementsByDetachment _getAllEnchancmentByDetachment;
+    final GetAllEnhancementsByDetachment _getAllEnhancementByDetachment;
     final UpdateUserArmyEnhancement _updateUserArmyEnhancement;
     final GetAllUnitsByCodexId _getAllUnitsByCodexid;
     final GetUnitsByArmy _getAllUnitsByArmyId;
@@ -96,7 +96,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         this._updateBattleSize,
         this._updateArmyWarlord,
         this._getAllDetachmentsByCodexId,
-        this._getAllEnchancmentByDetachment,
+        this._getAllEnhancementByDetachment,
         this._updateUserArmyEnhancement,
         this._getAllUnitsByCodexid,
         this._getAllUnitsByArmyId,
@@ -165,7 +165,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             loadArmy();
         }
 
-        List<EnhancementDOM> allEnhancement = await  _loadAllEnchancmentByDetachment(null);
+        List<EnhancementDOM> allEnhancement = await  _loadAllEnhancementByDetachment(null);
         state.copyWith(allEnhancement: allEnhancement);
     }
 
@@ -379,7 +379,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         state = state.copyWith(currentPts: total);
     }
 
-    void selectEnchancment(String unitInstanceId, EnhancementDOM enhancement, bool isSelected) async
+    void selectEnhancement(String unitInstanceId, EnhancementDOM enhancement, bool isSelected) async
     {
         final currentMap = Map<String, EnhancementDOM>.from(state.selectedEnhancement ?? {});
 
@@ -484,7 +484,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             /// загрузка Enhancements
 
             List<EnhancementDOM> allEnhancement = savedDetachment != null
-                ? await _loadAllEnchancmentByDetachment(DetachmentId.fromString(savedDetachment.id.value)) :
+                ? await _loadAllEnhancementByDetachment(DetachmentId.fromString(savedDetachment.id.value)) :
                 [];
 
             /// --- ОПТИМИЗИРОВАННАЯ ЗАГРУЗКА ЮНИТОВ ---
@@ -493,7 +493,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             );
 
             ///создаём мапу сохранённых enhancement из юнитов
-            Map<String, EnhancementDOM> selecetedEnhancmentSaved = _buildEnhancementFromSaveData(allEnhancement, userArmyUnits);
+            Map<String, EnhancementDOM> selecetedEnhancementSaved = _buildEnhancementFromSaveData(allEnhancement, userArmyUnits);
 
             final List<ArmyBuilderUnitItemUi> allUnitsFromDb = await getAllUnitsByArmyId(userArmy.armyId);
             allUnitsFromDb.addAll(await getAllUnitsByCodexId(userArmy.codexId));
@@ -512,7 +512,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                 selectedDetachment: savedDetachment,
                 allDetachments: allDetachments,
                 allEnhancement: allEnhancement,
-                selectedEnhancement: selecetedEnhancmentSaved,
+                selectedEnhancement: selecetedEnhancementSaved,
                 selectedBattleSize: battleSizeMap,
                 armyId: userArmy.armyId.value,
                 userArmyUnits: userArmyUnits,
@@ -655,12 +655,12 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         return unitDomain.map((unit) => _convertDomainUnitToUnitItemUi(unit, '', null, null, null, null, '')).toList();
     }
 
-    Future<List<EnhancementDOM>> _loadAllEnchancmentByDetachment(DetachmentId? id) async
+    Future<List<EnhancementDOM>> _loadAllEnhancementByDetachment(DetachmentId? id) async
     {
 
         List<EnhancementDOM> allEnhancement = id != null ?
-            await _getAllEnchancmentByDetachment(id) :
-            await _getAllEnchancmentByDetachment(state.selectedDetachment!.id);
+            await _getAllEnhancementByDetachment(id) :
+            await _getAllEnhancementByDetachment(state.selectedDetachment!.id);
 
         return allEnhancement;
     }

@@ -10,7 +10,7 @@ import 'package:ypa/core/ui/screens/unit_editor/unit_editor_controller.dart';
 import 'package:ypa/core/ui/screens/unit_editor/unit_editor_state.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/base_ability_bloc.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/basic_stats_bloc.dart';
-import 'package:ypa/core/ui/screens/unit_editor/widgets/enchancment_bloc.dart';
+import 'package:ypa/core/ui/screens/unit_editor/widgets/enhancement_bloc.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/keywords_bloc.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/leader_bloc.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/unit_composition_bloc.dart';
@@ -183,7 +183,7 @@ class UnitEditorScreen extends ConsumerWidget
         if (unit.role == 'character' && !unit.isEpicHero){
           sections.add(ExpandableSection(
             title: 'Enhancement',
-            child: EnchancmentBloc(armyId: armyId, unitInstanceId: instanceId, allEnhancement: ref.read(armyBuilderControllerProvider(armyId)).allEnhancement),
+            child: EnhancementBloc(armyId: armyId, unitInstanceId: instanceId, allEnhancement: ref.read(armyBuilderControllerProvider(armyId)).allEnhancement),
           ));
         }
 
