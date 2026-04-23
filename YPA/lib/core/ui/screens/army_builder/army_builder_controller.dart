@@ -146,27 +146,42 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
 
     Future<void> updateDetachmentArmyRoster(String nameDetachment) async
     {
-        if (nameDetachment == '') return;
         final selectedDetachment = state.allDetachments.firstWhere(
             (d) => d.name.value == nameDetachment,
             orElse: () => state.allDetachments.first
         );
 
-        /// просто обновляемстейт для интерфейса
-        state = state.copyWith(selectedDetachment: selectedDetachment);
+        /// 1. Сначала загружаем список новых энхансментов для этого детачмента
+        final newAllEnhancements = await _loadAllEnhancementByDetachment(selectedDetachment.id);
+
+        /// 2. Очищаем юнитов от старых энхансментов в памяти
+        final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> clearedUnits = {};
+        state.userArmyUnits?.forEach((role, units)
+            {
+                clearedUnits[role] = units.map((u) => u.copyWith(selectedEnhancementId: '')).toList();
+            });
+
+        /// 3. Обновляем стейт: новый детачмент, новые доступные улучшения, но пустой выбор
+        state = state.copyWith(
+            selectedDetachment: selectedDetachment,
+            allEnhancement: newAllEnhancements,
+            selectedEnhancement: {}, /// Сбрасываем выбранные
+            userArmyUnits: clearedUnits,
+            detachmentId: selectedDetachment.id.value
+        );
 
         try
         {
-            /// пытемся сохранить в базу данных
+            /// 4. Сохраняем в базу: новый детачмент и ПУСТУЮ карту энхансментов (это зачистит jsonData юнитов)
             await _updateDetachment(id: _armyId, newDetachment: selectedDetachment);
+            await _updateUserArmyEnhancement(armyId: _armyId, selectedEnhancement: {});
+
+            updateCurrentPts();
         } catch (e)
         {
             state = state.copyWith(error: e.toString());
             loadArmy();
         }
-
-        List<EnhancementDOM> allEnhancement = await  _loadAllEnhancementByDetachment(null);
-        state.copyWith(allEnhancement: allEnhancement);
     }
 
     Future<void> updateBattleSizeArmyRoster(BattleSizeCode newSize) async
@@ -280,6 +295,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
 
     Future<void> removeLastUnitFromUserArmy(String unitId, UnitRoleCode role) async
     {
+
         if (state.userArmyUnits == null) return;
 
         try
@@ -289,6 +305,20 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
 
             if (index != -1)
             {
+                final unitToRemove = unitsInRole[index];
+                if (state.selectedEnhancement != null && state.selectedEnhancement!.containsKey(unitToRemove.instanceId))
+                {
+                    final updatedEnhancemets = Map<String, EnhancementDOM>.from(state.selectedEnhancement!);
+                    updatedEnhancemets.remove(unitToRemove.instanceId);
+
+                    state = state.copyWith(selectedEnhancement: updatedEnhancemets);
+
+                    await _updateUserArmyEnhancement(
+                        armyId: _armyId,
+                        selectedEnhancement: updatedEnhancemets
+                    );
+                }
+
                 unitsInRole.removeAt(index);
                 final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> updatedUnits = Map.from(state.userArmyUnits!);
                 updatedUnits[role] = unitsInRole;
