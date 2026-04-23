@@ -6,6 +6,7 @@
 import 'package:ypa/domain/models/detachment/detachment.dart';
 
 import '../../../core/database/tables/seed/seed_objects/_types.dart';
+import '../enhancement/enhancement_dom.dart';
 import 'user_army_dom.dart';
 
 abstract class UserArmyRepository
@@ -24,5 +25,6 @@ abstract class UserArmyRepository
     Future<void> updateBattleSize(String armyId, BattleSizeCode newSize);
     Future<void> updateUserArmyDetachment(String armyId, DetachmentDOM newDetachment, String newDetachmentId);
     Future<void> updateWarlord(String armyId, String newInstanceIdWarlord);
+    Future<void> updateArmyEnhancement(String armyId, Map<String, EnhancementDOM> selectedEnhancement);
 
 }

@@ -4,7 +4,7 @@
  */
 
 import 'package:uuid/uuid.dart';
-import 'package:ypa/domain/models/stratagem/strategem.dart';
+import 'package:ypa/domain/models/stratagem/stratagem.dart';
 
 import '../codex/codex.dart';
 import '../detachment/detachment.dart';

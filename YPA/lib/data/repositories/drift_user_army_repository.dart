@@ -6,6 +6,7 @@
 import 'package:drift/drift.dart';
 import 'package:ypa/core/database/app_database.dart';
 import 'package:ypa/data/mappers/user_army_mapper.dart';
+import 'package:ypa/domain/models/enhancement/enhancement_dom.dart';
 
 import '../../../core/database/tables/seed/seed_objects/_types.dart';
 import '../../domain/models/detachment/detachment.dart';
@@ -149,6 +150,19 @@ class DriftUserArmyRepository implements UserArmyRepository
         {
             /// Вызываем логику домена
             final updatedArmy = await army.updateUnitInstance(instanceId, role.name, category, updateData);
+            /// Сохраняем результат
+            await saveUserArmy(updatedArmy);
+        }
+    }
+
+    @override
+    Future<void> updateArmyEnhancement(String armyId, Map<String, EnhancementDOM> selectedEnhancement) async
+    {
+        final army = await getUserArmyById(armyId);
+        if (army != null)
+        {
+            /// Вызываем логику домена
+            final updatedArmy = await army.updateUnitInstanceEnhancement(armyId, selectedEnhancement);
             /// Сохраняем результат
             await saveUserArmy(updatedArmy);
         }

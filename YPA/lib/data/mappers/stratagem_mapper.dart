@@ -8,7 +8,7 @@ import 'package:drift/drift.dart';
 import '../../core/database/app_database.dart';
 import '../../domain/models/codex/codex.dart';
 import '../../domain/models/detachment/detachment.dart';
-import '../../domain/models/stratagem/strategem.dart';
+import '../../domain/models/stratagem/stratagem.dart';
 
 class StratagemMapper
 {

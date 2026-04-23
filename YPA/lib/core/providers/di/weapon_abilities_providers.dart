@@ -6,7 +6,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/application/weapon_abilities/get_all_weapon_abilities.dart';
 import 'package:ypa/core/database/database_providers.dart';
-import 'package:ypa/data/repositories/drift_weapon_ability_repository.dart';
+import 'package:ypa/data/repositories/repositories.dart';
 
 import '../../../domain/models/abilities/weapon_ability/weapon_ability.dart';
 

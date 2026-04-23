@@ -5,7 +5,7 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/core/database/database_providers.dart';
-import 'package:ypa/data/repositories/drift_faction_repository.dart';
+import 'package:ypa/data/repositories/repositories.dart';
 import 'package:ypa/domain/models/faction/faction_dom.dart';
 import 'package:ypa/domain/models/faction/faction_repository.dart';
 import 'package:ypa/domain/use_cases/get_all_factions_usecase.dart';

@@ -6,8 +6,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/application/role/get_all_roles.dart';
 import 'package:ypa/core/database/database_providers.dart';
-import 'package:ypa/data/repositories/drift_role_repository.dart';
-import 'package:ypa/data/repositories/drift_unit_repository.dart';
+import 'package:ypa/data/repositories/repositories.dart';
 
 import '../../../application/unit/unt_use_case.dart';
 import '../../../domain/models/army/army.dart';

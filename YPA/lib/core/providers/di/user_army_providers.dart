@@ -5,7 +5,7 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/core/database/database_providers.dart';
-import 'package:ypa/data/repositories/drift_user_army_repository.dart';
+import 'package:ypa/data/repositories/repositories.dart';
 import 'package:ypa/domain/models/user_army/user_army_repository.dart';
 
 import '../../../application/user_army/user_army_use_cases.dart';

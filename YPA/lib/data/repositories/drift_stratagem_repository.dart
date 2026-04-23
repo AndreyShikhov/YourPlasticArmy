@@ -7,7 +7,7 @@ import 'package:ypa/core/database/app_database.dart';
 import 'package:ypa/data/mappers/stratagem_mapper.dart';
 import 'package:ypa/domain/models/codex/codex_id.dart';
 import 'package:ypa/domain/models/detachment/detachment_id.dart';
-import 'package:ypa/domain/models/stratagem/strategem.dart';
+import 'package:ypa/domain/models/stratagem/stratagem.dart';
 
 class DriftStratagemRepository implements StratagemRepository
 {

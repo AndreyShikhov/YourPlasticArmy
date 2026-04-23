@@ -9,7 +9,7 @@ import 'package:ypa/application/codex/get_codex_by_id.dart';
 import 'package:ypa/application/codex/get_codexes_by_army.dart';
 import 'package:ypa/core/database/database_providers.dart';
 import 'package:ypa/core/providers/di/di_providers.dart';
-import 'package:ypa/data/repositories/drift_codex_repository.dart';
+import 'package:ypa/data/repositories/repositories.dart';
 import 'package:ypa/domain/models/army/army_id.dart';
 import 'package:ypa/domain/models/codex/codex_dom.dart';
 import 'package:ypa/domain/models/codex/codex_repository.dart';

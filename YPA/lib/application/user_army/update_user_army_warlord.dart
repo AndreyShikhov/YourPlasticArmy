@@ -12,10 +12,14 @@ class UpdateUserArmyWarlord
     UpdateUserArmyWarlord(this.repository);
 
     Future<void> call({
-        required String id,
+        required String armyId,
         required String newWarlordInstanceId
     }) async
     {
-        await repository.updateWarlord(id, newWarlordInstanceId);
+        final army = await repository.getUserArmyById(armyId);
+        if (army != null) 
+        {
+            await repository.updateWarlord(armyId, newWarlordInstanceId);
+        }
     }
 }

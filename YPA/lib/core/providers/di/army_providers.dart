@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/application/army/get_all_armies.dart';
 import 'package:ypa/application/army/get_armies_by_faction.dart';
 import 'package:ypa/core/database/database_providers.dart';
-import 'package:ypa/data/repositories/drift_army_repository.dart';
+import 'package:ypa/data/repositories/repositories.dart';
 import 'package:ypa/domain/models/army/army.dart';
 import 'package:ypa/domain/models/faction/faction_id.dart';
 

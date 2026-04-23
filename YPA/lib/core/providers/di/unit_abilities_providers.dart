@@ -6,7 +6,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/application/unit_abilities/unit_ability_use_case.dart';
 import 'package:ypa/core/database/database_providers.dart';
-import 'package:ypa/data/repositories/drift_unit_ability_repository.dart';
+import 'package:ypa/data/repositories/repositories.dart';
 
 import '../../../domain/models/abilities/unit_ability/unit_ability.dart';
 

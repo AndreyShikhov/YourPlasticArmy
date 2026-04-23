@@ -4,7 +4,7 @@
  */
 
 import 'package:ypa/domain/models/detachment/detachment.dart';
-import 'package:ypa/domain/models/stratagem/strategem.dart';
+import 'package:ypa/domain/models/stratagem/stratagem.dart';
 
 class GetStratagemsByDetachment
 {

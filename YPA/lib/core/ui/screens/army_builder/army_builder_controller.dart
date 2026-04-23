@@ -23,6 +23,7 @@ import '../../../../domain/models/detachment/detachment.dart';
 import '../../../../domain/models/unit/unit.dart';
 import '../../../../domain/models/user_army/user_army.dart';
 import '../../../database/tables/seed/seed_objects/_types.dart';
+import '../../../providers/di/enhancment_provider.dart';
 import 'army_builder_item_ui.dart';
 import 'army_builder_state.dart';
 
@@ -38,6 +39,7 @@ final armyBuilderControllerProvider =
             final updateArmyWarlord = ref.watch(updateUserArmyWarlordUseCaseProvider);
             final getAllDetachmentsByCodexId = ref.watch(getAlldetachmentsByCodexIdUseCaseProvider);
             final getAllEnhancementsByDetachment = ref.watch(getAllEnhancementsByDetachmentUseCaseProvider);
+            final updateUserArmyEnhancement = ref.watch(updateUserArmyEnhancementUseCaseProvider);
             final getAllUnitsByCodexId = ref.watch(getAllUnitsByCodexIdUseCaseProvider);
             final getAllUnitsByArmyId = ref.watch(getUnitsByArmyUseCaseProvider);
             final addUnitToUserRoster = ref.watch(addUnitToUserRosterUseCaseProvider);
@@ -54,6 +56,7 @@ final armyBuilderControllerProvider =
                 updateArmyWarlord,
                 getAllDetachmentsByCodexId,
                 getAllEnhancementsByDetachment,
+                updateUserArmyEnhancement,
                 getAllUnitsByCodexId,
                 getAllUnitsByArmyId,
                 addUnitToUserRoster,
@@ -74,6 +77,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
     final UpdateUserArmyWarlord _updateArmyWarlord;
     final GetAllDetachmentsByCodexId _getAllDetachmentsByCodexId;
     final GetAllEnhancementsByDetachment _getAllEnchancmentByDetachment;
+    final UpdateUserArmyEnhancement _updateUserArmyEnhancement;
     final GetAllUnitsByCodexId _getAllUnitsByCodexid;
     final GetUnitsByArmy _getAllUnitsByArmyId;
     final AddUnitToUserRoster _addUnitToUserRoster;
@@ -93,6 +97,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         this._updateArmyWarlord,
         this._getAllDetachmentsByCodexId,
         this._getAllEnchancmentByDetachment,
+        this._updateUserArmyEnhancement,
         this._getAllUnitsByCodexid,
         this._getAllUnitsByArmyId,
         this._addUnitToUserRoster,
@@ -192,7 +197,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         try
         {
             /// пытемся сохранить в базу данных
-            await _updateArmyWarlord(id: _armyId, newWarlordInstanceId: instanceID);
+            await _updateArmyWarlord(armyId: _armyId, newWarlordInstanceId: instanceID);
         } catch (e)
         {
             state = state.copyWith(error: e.toString());
@@ -359,15 +364,52 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             return;
         }
 
-        state.userArmyUnits!.forEach((role, units)
-            {
-                for (var unit in units)
-                {
-                    total += unit.unitComposition.totalUnitCost;
-                }
-            });
+        /// Считаем очки за юнитов
+        state.userArmyUnits?.values.expand((u) => u).forEach((unit) {
+          total += unit.unitComposition.totalUnitCost;
+        });
+
+        /// ПЛЮС считаем очки за улучшения (Enhancements)
+        state.selectedEnhancement?.values.forEach((e) {
+          total += e.points;
+        });
 
         state = state.copyWith(currentPts: total);
+    }
+
+    void selectEnchancment(String unitInstanceId, EnhancementDOM enhancement, bool isSelected) async
+    {
+        /// 1. Создаем копию текущей карты
+        final currentMap = Map<String, EnhancementDOM>.from(state.selectedEnhancement ?? {});
+
+        /// 2. Всегда удаляем старый Enhancement
+
+        currentMap.remove(unitInstanceId);
+
+        if (isSelected) 
+        {
+            /// Если мы включаем это улучшение:
+            /// Сначала удаляем очки старого (если оно было), потом прибавляем новое
+            currentMap[unitInstanceId] = enhancement;
+        }
+
+        /// 3. Обновляем стейт (пересчет очков сделаем через общий метод для надежности)
+        state = state.copyWith(selectedEnhancement: currentMap);
+        updateCurrentPts();
+
+        try
+        {
+            /// 4. Сохраняем в БД
+            await _updateUserArmyEnhancement(
+                armyId: _armyId,
+                selectedEnhancement: state.selectedEnhancement ?? {}
+            );
+        } catch (e)
+        {
+            state = state.copyWith(error: e.toString());
+            /// В случае ошибки лучше перезагрузить, чтобы UI не врал
+            loadArmy();
+        }
     }
 
     /// ==========================================
@@ -404,7 +446,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                 ? await _loadAllEnchancmentByDetachment(DetachmentId.fromString(savedDetachment.id.value)) :
                 [];
 
-            Map<String, EnhancementDOM> selecetedEnhancmentSaved = {};
+            Map<String, EnhancementDOM> selecetedEnhancmentSaved = userArmy.selectedEnhancement?? {};
 
             /// --- ОПТИМИЗИРОВАННАЯ ЗАГРУЗКА ЮНИТОВ ---
             final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> userArmyUnits = await _getAllUserArmyUnitsOptimized(
@@ -433,7 +475,8 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                 armyId: userArmy.armyId.value,
                 userArmyUnits: userArmyUnits,
                 allUnitsFromDb: allUnitsFromDb,
-                selectedInstanceIdWarlord: userArmy.warlordInstanceId
+                selectedInstanceIdWarlord: userArmy.warlordInstanceId,
+
             );
 
             fillTemDataUnitsByRole();

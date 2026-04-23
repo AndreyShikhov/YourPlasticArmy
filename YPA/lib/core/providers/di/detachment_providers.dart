@@ -4,22 +4,16 @@
  */
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ypa/application/enhancement/enhancement_use_case.dart';
 import 'package:ypa/application/strategem/get_stratagems_by_detachment.dart';
 import 'package:ypa/core/database/database_providers.dart';
-import 'package:ypa/data/repositories/drift_detachment_repository.dart';
-import 'package:ypa/data/repositories/drift_enhancement_repository.dart';
-import 'package:ypa/data/repositories/drift_stratagem_repository.dart';
-import 'package:ypa/domain/models/detachment/detachment_dom.dart';
-import 'package:ypa/domain/models/detachment/detachment_id.dart';
-import 'package:ypa/domain/models/detachment/detachment_repository.dart';
+import 'package:ypa/data/repositories/repositories.dart';
+import 'package:ypa/domain/models/detachment/detachment.dart';
 import 'package:ypa/domain/models/enhancement/enhancement_dom.dart';
-import 'package:ypa/domain/models/enhancement/enhancement_repository.dart';
-import 'package:ypa/domain/models/stratagem/stratagem_dom.dart';
-import 'package:ypa/domain/models/stratagem/stratagem_repository.dart';
+import 'package:ypa/domain/models/stratagem/stratagem.dart';
 
 import '../../../application/detachment/detachments_use_cases.dart';
 import '../../../application/detachment/get_detachment_by_id.dart';
+import 'enhancment_provider.dart';
 
 // --- REPOSITORIES ---
 
@@ -35,11 +29,7 @@ final stratagemRepositoryProvider = Provider<StratagemRepository>((ref)
         return DriftStratagemRepository(db);
     });
 
-final enhancementRepositoryProvider = Provider<EnhancementRepository>((ref)
-    {
-        final db = ref.watch(databaseProvider).requireValue;
-        return DriftEnhancementRepository(db);
-    });
+
 
 /// --- USE CASES ---
 
@@ -55,11 +45,6 @@ final getStratagemsByDetachmentUseCaseProvider = Provider<GetStratagemsByDetachm
         return GetStratagemsByDetachment(repository);
     });
 
-final getAllEnhancementsByDetachmentUseCaseProvider = Provider<GetAllEnhancementsByDetachment>((ref)
-    {
-        final repository = ref.watch(enhancementRepositoryProvider);
-        return GetAllEnhancementsByDetachment(repository);
-    });
 
 final getAlldetachmentsByCodexIdUseCaseProvider = Provider<GetAllDetachmentsByCodexId>((ref)
     {
@@ -72,7 +57,6 @@ final getDetachmentByIdUseCaseProvider = Provider<GetDetachmentById>((ref)
         final repository = ref.watch(detachmentRepositoryProvider);
         return GetDetachmentById(repository);
     });
-
 
 // --- UI STATE ---
 

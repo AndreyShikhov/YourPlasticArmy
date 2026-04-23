@@ -11,6 +11,7 @@ import 'package:ypa/domain/models/codex/codex_id.dart';
 import 'package:ypa/domain/models/detachment/detachment.dart';
 
 import '../../../core/database/tables/seed/seed_objects/_types.dart';
+import '../enhancement/enhancement_dom.dart';
 import '../faction/faction.dart';
 import '../unit/unit.dart';
 
@@ -23,8 +24,8 @@ enum SaveCategoryCode
     points('points', 'Points'),
     wargearOptions('wargearOptions', 'Wargear Options'),
     weaponInfo('weaponInfo', 'Weapon Info'),
-    characteristics('characteristics', 'Characteristics'),
-    enhancement('enhancement','Enhancement');
+    characteristics('characteristics', 'Characteristics');
+    //enhancement('enhancement', 'Enhancement');
 
     final String code;
     final String title;
@@ -48,6 +49,7 @@ class UserArmyDOM
     final DetachmentDOM? detachment;
     final BattleSize? battleSize;
     final String? warlordInstanceId;
+    final Map<String, EnhancementDOM>? selectedEnhancement;
     final String jsonData;
     final DateTime createdAt;
 
@@ -61,6 +63,7 @@ class UserArmyDOM
         this.detachment,
         this.battleSize,
         this.warlordInstanceId,
+        this.selectedEnhancement,
         required this.jsonData,
         required this.createdAt
     });
@@ -76,6 +79,7 @@ class UserArmyDOM
         DetachmentDOM? detachment,
         BattleSize? battleSize,
         String? warlordInstanceId,
+        Map<String, EnhancementDOM>? selectedEnhancement,
         String? jsonData,
         DateTime? createdAt
     })
@@ -90,6 +94,7 @@ class UserArmyDOM
             detachment: detachment ?? this.detachment,
             battleSize: battleSize ?? this.battleSize,
             warlordInstanceId: warlordInstanceId ?? this.warlordInstanceId,
+            selectedEnhancement: selectedEnhancement ?? this.selectedEnhancement,
             jsonData: jsonData ?? this.jsonData,
             createdAt: this.createdAt
         );
@@ -106,23 +111,23 @@ class UserArmyDOM
     UserArmyDOM updateSelectedWarlord(String newIdWarlord)
     {
         return copyWith(
-            warlordInstanceId: newIdWarlord,
+            warlordInstanceId: newIdWarlord
         );
     }
 
     UserArmyDOM updateSelectedDetachment(DetachmentDOM newDetachment, String newDetachmentId)
     {
-      return copyWith(
-        detachment: newDetachment,
-        detachmentId: newDetachmentId
-      );
+        return copyWith(
+            detachment: newDetachment,
+            detachmentId: newDetachmentId
+        );
     }
 
     UserArmyDOM updateUserArmyName(String newArmyName)
     {
-      return copyWith(
-        userArmyName: newArmyName,
-      );
+        return copyWith(
+            userArmyName: newArmyName
+        );
     }
 
     /// Добавляет юнит в jsonData, соблюдая структуру категорий.
@@ -180,7 +185,8 @@ class UserArmyDOM
                 SaveCategoryCode.points.code: finalComposition.totalUnitCost,               /// Cтоимость юнита"
                 SaveCategoryCode.wargearOptions.code: selectedWargear,                      /// Warger выбранные варгиры
                 SaveCategoryCode.weaponInfo.code: weaponSnapshot,                           /// Информация таблиц с оружием
-                SaveCategoryCode.characteristics.code: characteristics                      /// Обновлённые характеристики Юнита
+                SaveCategoryCode.characteristics.code: characteristics                     /// Обновлённые характеристики Юнита
+
             };
 
         /// 5. Добавляем юнит в список и обновляем структуру
@@ -271,12 +277,17 @@ class UserArmyDOM
         final index = unitList.indexWhere((u) => u[SaveCategoryCode.instanceId.code] == instanceId);
         if (index == -1) return this;
 
-        // Обновляем данные инстанса, подмешивая новые поля (updateData)
+        /// Обновляем данные инстанса, подмешивая новые поля (updateData)
         unitList[index][category.code] = updateData;
 
         return copyWith(jsonData: jsonEncode(root));
     }
 
+    Future<UserArmyDOM> updateUnitInstanceEnhancement(String instanceId, Map<String, EnhancementDOM> newSelectedEnhancement) async
+    {
+
+        return copyWith(selectedEnhancement: selectedEnhancement);
+    }
     /// ==========================================
     /// Getters
     /// ==========================================

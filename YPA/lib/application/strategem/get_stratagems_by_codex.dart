@@ -4,7 +4,7 @@
  */
 
 import 'package:ypa/domain/models/codex/codex.dart';
-import 'package:ypa/domain/models/stratagem/strategem.dart';
+import 'package:ypa/domain/models/stratagem/stratagem.dart';
 
 class GetStratagemsByCodex
 {
