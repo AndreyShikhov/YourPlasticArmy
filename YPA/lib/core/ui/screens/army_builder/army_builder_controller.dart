@@ -423,6 +423,14 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             currentMap[unitInstanceId] = enhancement;
         }
 
+        String removedThirdID = '';
+        /// Enhancement  не может быть больше 3
+        if(currentMap.length > 3)
+        {
+          removedThirdID = currentMap.keys.first;
+          currentMap.remove(removedThirdID);
+        }
+
         /// 2. Обновляем список юнитов (проходим по всем, чтобы обеспечить уникальность)
         final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> updatedUserUnits = Map.from(state.userArmyUnits!);
 
@@ -458,11 +466,16 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                         category: SaveCategoryCode.enhancement,
                         updateData: ''
                     );
+                }else if (removedThirdID != '' && units[i].instanceId == removedThirdID) /// зачистка первого улчшений если их стало больше 3
+                {
+                    units[i] = units[i].copyWith(selectedEnhancementId: '');
                 }
             }
 
             if (roleUpdated) updatedUserUnits[role] = units;
         }
+
+
 
         state = state.copyWith(
             selectedEnhancement: currentMap,

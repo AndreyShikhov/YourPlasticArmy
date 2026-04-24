@@ -134,9 +134,6 @@ class EnhancementTile extends ConsumerWidget
                         onPressed: ()
                         {
                             ref.read(unitEditorControllerProvider(ids).notifier).selectEnhancement(enhancement, !isSelectedByMe);
-                            ///selectEnhancement
-                            ///ref.read(armyBuilderControllerProvider(armyId).notifier)
-                            /// .selectEnhancement(unitInstanceId, enhancement, !isSelectedByMe);
                         }
                     )
                 ]
