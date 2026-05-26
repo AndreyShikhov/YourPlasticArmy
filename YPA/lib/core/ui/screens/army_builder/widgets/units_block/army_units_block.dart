@@ -28,7 +28,7 @@ class ArmyUnitsBlock extends ConsumerWidget
                 decoration: BoxDecoration(color: bgColor, borderRadius: ypaBorderRadius),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min, 
+                    mainAxisSize: MainAxisSize.min,
                     children: 
                     [
                         ..._getUnitsWidgets(context, ref)

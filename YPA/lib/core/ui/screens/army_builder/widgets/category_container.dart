@@ -81,7 +81,8 @@ class CategoryContainer extends ConsumerWidget
                 return ArmyUnitsBlock(
                     armyId: armyId,
                     units: unitsGroup,
-                    bgColor: isLight ? const Color.fromARGB(64, 255, 255, 255) : const Color.fromARGB(64, 30, 30, 30)
+                    bgColor: isLight ? const Color.fromARGB(128, 255, 255, 255) : const Color.fromARGB(
+                        128, 124, 124, 124)
                 );
             }).toList();
     }

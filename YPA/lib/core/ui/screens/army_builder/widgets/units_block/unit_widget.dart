@@ -9,7 +9,6 @@ import 'package:go_router/go_router.dart';
 import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
 import 'package:ypa/core/ui/screens/army_builder/army_builder_item_ui.dart';
 import 'package:ypa/core/ui/screens/army_builder/widgets/units_block/model_from_unit.dart';
-import 'package:ypa/core/ui/screens/data/style_data.dart';
 
 import '../../../../../../domain/models/unit/unit.dart';
 import '../../../../../../features/common_functions_lib.dart';
@@ -42,17 +41,13 @@ class UnitWidget extends ConsumerWidget
     {
         final state = ref.watch(armyBuilderControllerProvider(armyId));
 
-        /// Исправлено сравнение: проверяем, что текущее количество МЕНЬШЕ лимита
+
         bool canDuplicate = unit.repeat > state.getAmountUnitsFromUserArmy(unit.role, unit.name);
 
         return Container(
             width: double.infinity,
             margin: const EdgeInsets.symmetric(vertical: 4),
 
-            decoration: const BoxDecoration(
-                borderRadius: ypaBorderRadius,
-                border:  Border(bottom: BorderSide(color: Colors.white, width: 2.0)),
-            ),
             child: InkWell(
                 onTap: ()
                 {
