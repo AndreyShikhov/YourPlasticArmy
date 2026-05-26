@@ -5,6 +5,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ypa/core/ui/screens/army_builder/widgets/army_settings/army_points_editor.dart';
 import 'package:ypa/core/ui/screens/army_builder/widgets/army_settings/detachment_selector.dart';
 import 'package:ypa/core/ui/screens/army_builder/widgets/army_settings/warlord_selector.dart';
@@ -31,6 +32,12 @@ class ArmyBuilderScreen extends ConsumerWidget
                 preferredSize: const Size.fromHeight(60),
                 child: AppBar(
                     centerTitle: false,
+                    actions: [
+                        IconButton(
+                            onPressed: () => context.push('/game_screen/army_lyst/view_army/${armyId}'),
+                            icon: const Icon(Icons.visibility_outlined)
+                        )
+                    ],
                     title: Consumer(
                         builder: (context, ref, _)
                         {
