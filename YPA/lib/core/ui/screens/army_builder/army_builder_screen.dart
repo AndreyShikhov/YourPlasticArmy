@@ -13,6 +13,7 @@ import 'package:ypa/core/ui/screens/army_builder/widgets/army_settings/warlord_s
 import '../../../database/tables/seed/seed_objects/_types.dart';
 import '../../widgets/expandable_section.dart';
 import '../../widgets/expanded/category_expanded.dart';
+import '../view_army/view_army_controller.dart';
 import 'army_builder_controller.dart';
 import 'widgets/army_settings/army_name_editor.dart';
 
@@ -34,7 +35,11 @@ class ArmyBuilderScreen extends ConsumerWidget
                     centerTitle: false,
                     actions: [
                         IconButton(
-                            onPressed: () => context.push('/game_screen/army_lyst/view_army/${armyId}'),
+                            onPressed: () 
+                            {
+                                ref.read(viewArmyControllerProvider(armyId).notifier).loadArmy();
+                                context.push('/game_screen/army_lyst/view_army/$armyId');
+                            },
                             icon: const Icon(Icons.visibility_outlined)
                         )
                     ],

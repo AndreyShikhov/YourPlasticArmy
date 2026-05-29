@@ -12,6 +12,7 @@ import 'view_army_item.dart';
 class ViewArmyState
 {
     final bool isLoading;
+    final bool needRefresh;
     final String armyName;
     final DetachmentName? armyDetachmentName;
     final BattleSize? selectedBattleSize;
@@ -21,6 +22,7 @@ class ViewArmyState
 
     const ViewArmyState({
         this.isLoading = false,
+        this.needRefresh = true,
         this.armyName = '',
         this.armyDetachmentName,
         this.selectedBattleSize,
@@ -31,6 +33,7 @@ class ViewArmyState
 
     ViewArmyState copyWith({
         bool? isLoading,
+        bool? needRefresh,
         String? armyName,
         int? totalPts,
         DetachmentName? armyDetachmentName,
@@ -42,6 +45,7 @@ class ViewArmyState
     {
         return ViewArmyState(
             isLoading: isLoading ?? this.isLoading,
+            needRefresh: needRefresh ?? this.needRefresh,
             armyName: armyName ?? this.armyName,
             armyDetachmentName: armyDetachmentName ?? this.armyDetachmentName,
             selectedBattleSize: selectedBattleSize ?? this.selectedBattleSize,
