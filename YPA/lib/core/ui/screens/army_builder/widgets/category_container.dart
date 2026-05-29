@@ -31,10 +31,8 @@ class CategoryContainer extends ConsumerWidget
     {
         final state = ref.watch(armyBuilderControllerProvider(armyId));
 
-        /// получить все юниты определённой роли из юзхер армии
         final allCategoryUnitsFromUserArmy = state.getAllUnitsByRoleFromUserArmy(role.name); // все юниты (армия/кодекс) из армии пользователя
 
-        /// Здесь будет ваша логика и контейнер со скроллом
         return Container(
             padding: const EdgeInsets.all(8.0),
             child: SingleChildScrollView(
@@ -45,13 +43,13 @@ class CategoryContainer extends ConsumerWidget
                         /// 1. Список юнитов, которые УЖЕ в армии (показываем всегда)
                         if (allCategoryUnitsFromUserArmy.isNotEmpty && !isSelectionModeContainer) ...[
                             ..._getUnitsUserArmyWindowByList(allCategoryUnitsFromUserArmy),
-                            const SizedBox(height: 20)
+                            //const SizedBox(height: 20)
                         ],
 
                         /// 2. Список доступных для выбора юнитов (показываем ТОЛЬКО в режиме выбора)
                         if (isSelectionModeContainer) ...[_showUnitsSelectionDialog(), const SizedBox(height: 20)]
                     ]
-                // load data from data base
+                    // load data from data base
                 )
             )
         );
@@ -61,7 +59,6 @@ class CategoryContainer extends ConsumerWidget
     /// void _checkDetachment()
     /// {
     /// }
-
 
     List<ArmyUnitsBlock> _getUnitsUserArmyWindowByList(List<ArmyBuilderUnitItemUi> listUnit)
     {

@@ -9,7 +9,7 @@ import 'package:flutter/cupertino.dart';
 ///  Colors
 /// ==========================================
 
-const  mainScreenColor = Color.fromARGB(255, 141, 141, 141);
+const mainScreenColor = Color.fromARGB(255, 141, 141, 141);
 
 const texColor = Color.fromARGB(255, 190, 187, 187);
 
@@ -17,6 +17,18 @@ const texColor = Color.fromARGB(255, 190, 187, 187);
 /// Borders
 /// ==========================================
 
-const  ypaBorderRadius =  BorderRadius.all(Radius.circular(8));
+const double ypaBorderRadiusValue = 8;
+const ypaBorderRadius = BorderRadius.all(Radius.circular(ypaBorderRadiusValue));
 
-const   ypaRadius = Radius.circular(3);
+const ypaRadius = Radius.circular(3);
+
+/// ==========================================
+/// Enums
+/// ==========================================
+
+enum StylePosition {
+  first,
+  middle,
+  last,
+  single
+}

@@ -12,6 +12,7 @@ import 'package:ypa/core/ui/screens/army_builder/widgets/units_block/model_from_
 
 import '../../../../../../domain/models/unit/unit.dart';
 import '../../../../../../features/common_functions_lib.dart';
+import '../../../data/style_data.dart';
 import '../../army_builder_controller.dart';
 import 'btn_action_unit.dart';
 
@@ -20,12 +21,16 @@ class UnitWidget extends ConsumerWidget
     final String armyId;
     final ArmyBuilderUnitItemUi unit;
     final int numberUnit;
+    final Color bgColor;
+    final StylePosition position;
 
     const UnitWidget(
     {super.key,
         required this.armyId,
         required this.unit,
-        required this.numberUnit
+        required this.numberUnit,
+        required this.bgColor,
+        required this.position
     });
 
     List<ModelFromUnit> _getModelsWidgets()
@@ -41,12 +46,21 @@ class UnitWidget extends ConsumerWidget
     {
         final state = ref.watch(armyBuilderControllerProvider(armyId));
 
-
         bool canDuplicate = unit.repeat > state.getAmountUnitsFromUserArmy(unit.role, unit.name);
 
         return Container(
             width: double.infinity,
             margin: const EdgeInsets.symmetric(vertical: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+            decoration: BoxDecoration(
+                color: bgColor,
+                borderRadius: BorderRadius.only(
+                    topLeft: position == StylePosition.first || position == StylePosition.single ? const Radius.circular(ypaBorderRadiusValue) : Radius.zero,
+                    topRight: position == StylePosition.first || position == StylePosition.single ? const Radius.circular(ypaBorderRadiusValue) : Radius.zero,
+                    bottomLeft: position == StylePosition.last || position == StylePosition.single ? const Radius.circular(ypaBorderRadiusValue) : Radius.zero,
+                    bottomRight: position == StylePosition.last || position == StylePosition.single ? const Radius.circular(ypaBorderRadiusValue) : Radius.zero
+                )
+            ),
 
             child: InkWell(
                 onTap: ()
@@ -67,13 +81,13 @@ class UnitWidget extends ConsumerWidget
                                             '${unit.name} ${getRomeNumber(numberUnit)}',
                                             style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                                             maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                        ),
+                                            overflow: TextOverflow.ellipsis
+                                        )
                                     ),
                                     const SizedBox(width: 8),
                                     Text(
                                         ' ${_getModelsAndPts(unit.unitComposition)}',
-                                        style: const TextStyle(color: Colors.white70, fontSize: 12),
+                                        style: const TextStyle(color: Colors.white70, fontSize: 12)
                                     )
                                 ]
                             ),
@@ -126,27 +140,24 @@ class UnitWidget extends ConsumerWidget
         );
     }
 
-
-
     String _getModelsAndPts(UnitCompositionDom composition)
     {
-      // 1. Берем базовый состав (выбранный или первый по умолчанию)
-      final base = composition.selectedComposition ?? composition.compositions.firstOrNull;
+        // 1. Берем базовый состав (выбранный или первый по умолчанию)
+        final base = composition.selectedComposition ?? composition.compositions.firstOrNull;
 
-      int models = base?.amount ?? 0;
-      int pts = base?.cost ?? 0;
+        int models = base?.amount ?? 0;
+        int pts = base?.cost ?? 0;
 
-      // 2. Добавляем данные из дополнительных выбранных моделей
-      for (var model in composition.additionalModels)
-      {
-        if (model.isSelected)
+        // 2. Добавляем данные из дополнительных выбранных моделей
+        for (var model in composition.additionalModels)
         {
-          models += model.amount;
-          pts += model.cost;
+            if (model.isSelected)
+            {
+                models += model.amount;
+                pts += model.cost;
+            }
         }
-      }
 
-
-      return  '$models models / $pts pts';
+        return '$models models / $pts pts';
     }
 }

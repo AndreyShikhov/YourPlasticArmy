@@ -22,31 +22,51 @@ class ArmyUnitsBlock extends ConsumerWidget
     Widget build(BuildContext context, WidgetRef ref)
     {
         return Center(
-            child: Container(
-                margin: const EdgeInsets.symmetric(vertical: 4),
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                decoration: BoxDecoration(color: bgColor, borderRadius: ypaBorderRadius),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: 
-                    [
-                        ..._getUnitsWidgets(context, ref)
-                    ]
-                )
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: 
+                [
+                    ..._getUnitsWidgets(context, ref),
+                  const SizedBox(height: 8)
+
+                ]
             )
         );
     }
 
-    List<UnitWidget> _getUnitsWidgets(BuildContext context, WidgetRef ref)
+    List<Widget> _getUnitsWidgets(BuildContext context, WidgetRef ref)
     {
-        return List.generate(
-            units.length,
-            (index) => UnitWidget(
+        List<Widget> resultWidgets = [];
+        for (int i = 0; i < units.length; i++)
+        {
+            StylePosition position;
+            if (i == 0 && units.length > 1)
+            {
+                position = StylePosition.first;
+            } else if (i == units.length - 1 && units.length > 1)
+            {
+                position = StylePosition.last;
+            } else if (i > 0 && i < units.length)
+            {
+                position = StylePosition.middle;
+            } else
+            {
+                position = StylePosition.single;
+            }
+            resultWidgets.add(UnitWidget(
                 armyId: armyId,
-                unit: units[index],
-                numberUnit: index + 1
-            )
-        );
+                unit: units[i],
+                numberUnit: i + 1,
+                bgColor: bgColor,
+                position: position
+            ));
+            if (i < units.length - 1)
+            {
+                resultWidgets.add(const SizedBox(height: 2));
+            }
+        }
+
+        return resultWidgets;
     }
 }
