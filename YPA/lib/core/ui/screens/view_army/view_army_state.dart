@@ -14,6 +14,7 @@ class ViewArmyState
     final bool isLoading;
     final bool needRefresh;
     final String armyName;
+    final int totalPts;
     final DetachmentName? armyDetachmentName;
     final BattleSize? selectedBattleSize;
     final CodexName? codexName;
@@ -24,6 +25,7 @@ class ViewArmyState
         this.isLoading = false,
         this.needRefresh = true,
         this.armyName = '',
+        this.totalPts = 0,
         this.armyDetachmentName,
         this.selectedBattleSize,
         this.codexName,
@@ -47,6 +49,7 @@ class ViewArmyState
             isLoading: isLoading ?? this.isLoading,
             needRefresh: needRefresh ?? this.needRefresh,
             armyName: armyName ?? this.armyName,
+            totalPts: totalPts ?? this.totalPts,
             armyDetachmentName: armyDetachmentName ?? this.armyDetachmentName,
             selectedBattleSize: selectedBattleSize ?? this.selectedBattleSize,
             codexName: codexName ?? this.codexName,

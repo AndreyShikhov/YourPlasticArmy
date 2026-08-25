@@ -46,7 +46,7 @@ class ViewArmyScreen extends ConsumerWidget
                                     const SizedBox(width: 25),
 
                                     Text(
-                                        '${state.selectedBattleSize?.total} pts',
+                                        ' ${state.totalPts} / ${state.selectedBattleSize?.total} pts',
                                         style: const TextStyle(color: Colors.white70, fontSize: 14)
                                     )
                                 ]
