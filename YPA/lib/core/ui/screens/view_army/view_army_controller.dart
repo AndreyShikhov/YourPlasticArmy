@@ -12,9 +12,15 @@ import 'package:ypa/core/providers/di/detachment_providers.dart';
 import 'package:ypa/core/providers/di/user_army_providers.dart';
 import 'package:ypa/core/ui/screens/army_builder/army_builder_controller.dart';
 import 'package:ypa/core/ui/screens/army_builder/army_builder_state.dart';
-import 'package:ypa/core/ui/screens/view_army/view_army_item.dart';
 import 'package:ypa/core/ui/screens/view_army/view_army_state.dart';
 import 'package:ypa/domain/models/detachment/detachment.dart';
+
+import '../../../../application/unit/unt_use_case.dart';
+import '../../../../domain/models/unit/unit.dart';
+import '../../../../features/common_functions_lib.dart';
+import '../../../database/tables/seed/seed_objects/_types.dart';
+import '../../../providers/di/unit_providers.dart';
+import '../army_builder/army_builder_item_ui.dart';
 
 /// Провайдер контроллера с параметром armyId
 final viewArmyControllerProvider = StateNotifierProvider.family<ViewArmyController, ViewArmyState, String>((
@@ -25,18 +31,19 @@ final viewArmyControllerProvider = StateNotifierProvider.family<ViewArmyControll
         final getUserArmyById = ref.watch(getUserArmyByIdUseCaseProvider);
         final getCodexById = ref.watch(getCodexByIdUseCaseProvider);
         final getDetachmentById = ref.watch(getDetachmentByIdUseCaseProvider);
+        final getUnitsByIdsFromDb = ref.watch(getUnitsByIdsFromDbUseCaseProvider);
 
-        final controller = ViewArmyController(getUserArmyById, getCodexById, armyId, getDetachmentById);
+        final controller = ViewArmyController(getUserArmyById, getCodexById, getDetachmentById, armyId, getUnitsByIdsFromDb);
 
         /// Слушаем изменения в редакторе армии через провайдер билдера.
         /// Используем локальную переменную 'controller', чтобы избежать циклической зависимости типов.
-        ref.listen<ArmyBuilderState>(armyBuilderControllerProvider(armyId), (previous, next) 
-        {
-            if (previous != null && !next.isLoading && previous != next) 
+        ref.listen<ArmyBuilderState>(armyBuilderControllerProvider(armyId), (previous, next)
             {
-                controller.markNeedsRefresh();
-            }
-        });
+                if (previous != null && !next.isLoading && previous != next)
+                {
+                    controller.markNeedsRefresh();
+                }
+            });
 
         return controller;
     });
@@ -47,8 +54,16 @@ class ViewArmyController extends StateNotifier<ViewArmyState>
     final GetCodexById _getCodexById; 
     final GetDetachmentById _getDetachmentById;
     final String _armyId;
+    final GetUnitsByIdsFromDb _getUnitsByIdsFromDb;
 
-    ViewArmyController(this._getUserArmyById, this._getCodexById, this._armyId, this._getDetachmentById) : super(const ViewArmyState())
+    ViewArmyController(
+        this._getUserArmyById, 
+        this._getCodexById,
+        this._getDetachmentById,
+        this._armyId, 
+        this._getUnitsByIdsFromDb
+
+    ) : super(const ViewArmyState())
     {
         loadArmy();
     }
@@ -70,7 +85,7 @@ class ViewArmyController extends StateNotifier<ViewArmyState>
         {
             final userArmy = await _getUserArmyById(_armyId);
 
-            if (userArmy == null) 
+            if (userArmy == null)
             {
                 state = state.copyWith(isLoading: false, error: 'Army not found');
                 return;
@@ -78,11 +93,21 @@ class ViewArmyController extends StateNotifier<ViewArmyState>
 
             final detachment = await _getDetachmentById(DetachmentId.fromString(userArmy.detachmentId!));
 
-
             final codex = await _getCodexById(userArmy.codexId);
 
-            /// TODO: В будущем здесь будет логика восстановления юнитов из JSON
-            final List<ViewArmyUnitItemUi> units = [];
+            /// загрузка юнитов
+            final Map<String, dynamic> decodedJson = getDecodedJsonUserArmyUnit(userArmy.jsonData);
+
+            final Set<String> unitIds = extractUnitIds(decodedJson);
+
+            List<UnitDOM> loadedUnitsUserArmy = await _getUnitsByIdsFromDb(unitIds.toList());
+
+            /// --- ОПТИМИЗИРОВАННАЯ ЗАГРУЗКА ЮНИТОВ ---
+            final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> userArmyUnits = getAllUserArmyUnitsOptimized(
+                userArmy.jsonData,
+                loadedUnitsUserArmy
+            );
+
 
             state = state.copyWith(
                 isLoading: false,
@@ -92,7 +117,7 @@ class ViewArmyController extends StateNotifier<ViewArmyState>
                 armyDetachmentName: detachment?.name,
                 selectedBattleSize: userArmy.battleSize,
                 codexName: codex?.name,
-                units: units
+                units: userArmyUnits
 
             );
         } catch (e)
@@ -100,4 +125,6 @@ class ViewArmyController extends StateNotifier<ViewArmyState>
             state = state.copyWith(isLoading: false, error: e.toString());
         }
     }
+
+
 }

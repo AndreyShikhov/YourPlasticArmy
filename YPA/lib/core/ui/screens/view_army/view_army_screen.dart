@@ -6,6 +6,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/core/ui/screens/view_army/view_army_controller.dart';
+import 'package:ypa/core/ui/screens/view_army/view_army_item.dart';
 
 class ViewArmyScreen extends ConsumerWidget
 {
@@ -62,9 +63,19 @@ class ViewArmyScreen extends ConsumerWidget
                     itemBuilder: (context, index)
                     {
                         final unit = state.units[index];
-                        return ListTile(title: Text(unit.name), subtitle: Text(unit.role));
+                        return ListTile(title: Text("text"), subtitle: Text("Sub text"));
                     }
                 )
         );
+    }
+
+
+    List<Widget>_buildCategories(List<ViewArmyUnitItemUi>? units){
+      List<Widget> result = [];
+
+      if(units == null) return result;
+
+
+      return result;
     }
 }

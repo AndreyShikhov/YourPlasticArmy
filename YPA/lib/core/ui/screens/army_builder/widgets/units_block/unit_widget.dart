@@ -104,7 +104,7 @@ class UnitWidget extends ConsumerWidget
                                             ]
                                         )
                                     ),
-                                    // 2. Кнопки действий
+                                    /// 2. Кнопки действий
                                     Row(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
@@ -142,13 +142,13 @@ class UnitWidget extends ConsumerWidget
 
     String _getModelsAndPts(UnitCompositionDom composition)
     {
-        // 1. Берем базовый состав (выбранный или первый по умолчанию)
+        /// 1. Берем базовый состав (выбранный или первый по умолчанию)
         final base = composition.selectedComposition ?? composition.compositions.firstOrNull;
 
         int models = base?.amount ?? 0;
         int pts = base?.cost ?? 0;
 
-        // 2. Добавляем данные из дополнительных выбранных моделей
+        /// 2. Добавляем данные из дополнительных выбранных моделей
         for (var model in composition.additionalModels)
         {
             if (model.isSelected)

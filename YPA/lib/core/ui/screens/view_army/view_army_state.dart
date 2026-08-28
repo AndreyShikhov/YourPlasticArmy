@@ -7,7 +7,7 @@ import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
 
 import '../../../../domain/models/codex/codex.dart';
 import '../../../../domain/models/detachment/detachment.dart';
-import 'view_army_item.dart';
+import '../army_builder/army_builder_item_ui.dart';
 
 class ViewArmyState
 {
@@ -18,7 +18,7 @@ class ViewArmyState
     final DetachmentName? armyDetachmentName;
     final BattleSize? selectedBattleSize;
     final CodexName? codexName;
-    final List<ViewArmyUnitItemUi> units;
+    final Map<UnitRoleCode,List<ArmyBuilderUnitItemUi>> units;
     final String? error;
 
     const ViewArmyState({
@@ -29,7 +29,7 @@ class ViewArmyState
         this.armyDetachmentName,
         this.selectedBattleSize,
         this.codexName,
-        this.units = const[],
+        this.units = const{},
         this.error
     });
 
@@ -41,7 +41,7 @@ class ViewArmyState
         DetachmentName? armyDetachmentName,
         BattleSize? selectedBattleSize,
         CodexName? codexName,
-        List<ViewArmyUnitItemUi>? units,
+        Map<UnitRoleCode,List<ArmyBuilderUnitItemUi>>? units,
         String? error
     }) 
     {

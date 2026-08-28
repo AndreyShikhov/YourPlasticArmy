@@ -5,7 +5,7 @@
 
 
 
-class ViewArmyUnitItemUi
+class ViewArmyUnitItemUi /// Unused
 {
     final String name;
     final String role;

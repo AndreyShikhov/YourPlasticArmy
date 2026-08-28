@@ -4,9 +4,7 @@
  */
 
 import 'dart:async';
-import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import 'package:ypa/application/codex/get_codex_by_id.dart';
@@ -22,6 +20,7 @@ import '../../../../application/user_army/user_army_use_cases.dart';
 import '../../../../domain/models/detachment/detachment.dart';
 import '../../../../domain/models/unit/unit.dart';
 import '../../../../domain/models/user_army/user_army.dart';
+import '../../../../features/common_functions_lib.dart';
 import '../../../database/tables/seed/seed_objects/_types.dart';
 import '../../../providers/di/enhancment_provider.dart';
 import 'army_builder_item_ui.dart';
@@ -530,9 +529,17 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                 ? await _loadAllEnhancementByDetachment(DetachmentId.fromString(savedDetachment.id.value)) :
                 [];
 
+            /// загрузка юнитов
+            final Map<String,dynamic> decodedJson = getDecodedJsonUserArmyUnit(userArmy.jsonData);
+
+            final Set<String> unitIds =  extractUnitIds(decodedJson);
+
+            List<UnitDOM> loadedUnitsUserArmy = await _getUnitsByIdsFromDb(unitIds.toList());
+
             /// --- ОПТИМИЗИРОВАННАЯ ЗАГРУЗКА ЮНИТОВ ---
-            final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> userArmyUnits = await _getAllUserArmyUnitsOptimized(
-                userArmy.jsonData
+            final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> userArmyUnits =  getAllUserArmyUnitsOptimized(
+                userArmy.jsonData,
+                loadedUnitsUserArmy
             );
 
             ///создаём мапу сохранённых enhancement из юнитов
@@ -572,72 +579,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         }
     }
 
-    Future<Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>> _getAllUserArmyUnitsOptimized(String jsonData) async
-    {
-        if (jsonData.isEmpty) return {};
 
-        try
-        {
-            final decoded = jsonDecode(jsonData) as Map<String, dynamic>;
-            final categoriesJson = decoded['categories'] as Map<String, dynamic>? ?? {};
-
-            /// 1. Собираем все уникальные unitId для пакетного запроса
-            final Set<String> allUnitIds = {};
-            for (var roleList in categoriesJson.values)
-            {
-                if (roleList is List)
-                {
-                    for (var u in roleList)
-                    {
-                        final id = u[SaveCategoryCode.unitId.code];
-                        if (id != null) allUnitIds.add(id);
-                    }
-                }
-            }
-
-            /// 2. Пакетная загрузка всех базовых данных юнитов за ОДИН запрос
-            final List<UnitDOM> baseUnits = await _getUnitsByIdsFromDb(allUnitIds.toList());
-            final Map<String, UnitDOM> baseUnitsMap = {for (var u in baseUnits) u.id.value: u};
-
-            /// 3. Распределяем по ролям и инстансам
-            final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> result = {};
-
-            for (final entry in categoriesJson.entries)
-            {
-                final roleCode = UnitRoleCode.fromName(entry.key);
-                if (roleCode != null && entry.value is List)
-                {
-                    final List<ArmyBuilderUnitItemUi> loadedUnits = [];
-                    for (var u in entry.value)
-                    {
-                        final map = u as Map<String, dynamic>;
-                        final unitId = map[SaveCategoryCode.unitId.code];
-                        final unitDom = baseUnitsMap[unitId];
-
-                        if (unitDom != null)
-                        {
-
-                            loadedUnits.add(_convertDomainUnitToUnitItemUi(
-                                    unitDom, 
-                                    map[SaveCategoryCode.instanceId.code], 
-                                    map[SaveCategoryCode.composition.code],
-                                    map[SaveCategoryCode.wargearOptions.code],
-                                    map[SaveCategoryCode.weaponInfo.code],
-                                    map[SaveCategoryCode.characteristics.code],
-                                    map[SaveCategoryCode.enhancement.code]
-                                ));
-                        }
-                    }
-                    result[roleCode] = loadedUnits;
-                }
-            }
-            return result;
-        } catch (e)
-        {
-            debugPrint('Optimization error: $e');
-            return {};
-        }
-    }
 
     void fillTemDataUnitsByRole()
     {
@@ -653,49 +595,18 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         state = state.copyWith(temDataUnitsByRoleFromdb: temDataUnitsByRole);
     }
 
-    ArmyBuilderUnitItemUi _convertDomainUnitToUnitItemUi(
-        UnitDOM unit,
-        String instanceId,
-        Map<String, dynamic>? savedComposition,
-        Map<String, dynamic>? savedWargear,
-        List<dynamic>? savedWeaponSnapshot,
-        Map<String, dynamic>? savedCharacteristics,
-        String savedSelectedEnhancementId
-    )
-    {
-        return ArmyBuilderUnitItemUi(
-            instanceId: instanceId == '' ? const Uuid().v4() : instanceId,
-            dbId: unit.id.value,
-            name: unit.name.value,
-            role: unit.role.value.name,
-            isEpicHero: unit.isEpicHero,
-            repeat: unit.repeat,
-            keywords: unit.keywords,
-            factionKeywords: unit.factionKeywords,
-            unitComposition: _buildCompositionFromSaveData(unit.unitComposition, savedComposition),
-            unitAbility: unit.unitAbility,
-            coreAbilities: unit.coreAbilities,
-            factionAbilities: unit.factionAbilities,
-            leader: unit.leader,
-            ledBy: unit.ledBy,
-            modelStats: unit.modelStats,
-            selectedWargearIndices: _buildWargearFromSaveData(savedWargear),
-            weaponSnapshot: _buildWWeaponInfoFromSaveData(savedWeaponSnapshot),
-            characteristics: _buildCharacteristicsFromSaveData(savedCharacteristics),
-            selectedEnhancementId: savedSelectedEnhancementId
-        );
-    }
+
 
     Future<List<ArmyBuilderUnitItemUi>> getAllUnitsByCodexId(CodexId codexId) async
     {
         List<UnitDOM> unitDomain = await _getAllUnitsByCodexid(codexId);
-        return unitDomain.map((unit) => _convertDomainUnitToUnitItemUi(unit, '', null, null, null, null, '')).toList();
+        return unitDomain.map((unit) => convertDomainUnitToUnitItemUi(unit, '', null, null, null, null, '')).toList();
     }
 
     Future<List<ArmyBuilderUnitItemUi>> getAllUnitsByArmyId(ArmyId armyId) async
     {
         List<UnitDOM> unitDomain = await _getAllUnitsByArmyId(armyId);
-        return unitDomain.map((unit) => _convertDomainUnitToUnitItemUi(unit, '', null, null, null, null, '')).toList();
+        return unitDomain.map((unit) => convertDomainUnitToUnitItemUi(unit, '', null, null, null, null, '')).toList();
     }
 
     Future<List<EnhancementDOM>> _loadAllEnhancementByDetachment(DetachmentId? id) async
@@ -708,65 +619,9 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         return allEnhancement;
     }
 
-    /// ==========================================
-    ///  Build Info
-    /// ==========================================
-    UnitCompositionDom _buildCompositionFromSaveData(UnitCompositionDom unitCompositionFromDB, Map<String, dynamic>? saveComposition)
-    {
-        var tempComposition = unitCompositionFromDB;
-        if (saveComposition != null)
-        {
-            final restoredComposition = UnitCompositionDom.fromJson(saveComposition);
-            if (restoredComposition.selectedComposition != null)
-            {
-                tempComposition = tempComposition.copyWith(
-                    selectedComposition: restoredComposition.selectedComposition
-                );
-            }
-            final updatedAdditional = tempComposition.additionalModels.map((baseModel)
-                {
-                    final bool isSelected = restoredComposition.additionalModels.any((rm) => 
-                        rm.name == baseModel.name && 
-                            rm.amount == baseModel.amount && 
-                            rm.cost == baseModel.cost
-                    );
-                    return isSelected ? baseModel.copyWith(isSelected: true) : baseModel;
-                }).toList();
-            tempComposition = tempComposition.copyWith(additionalModels: updatedAdditional);
-        }
-        return tempComposition;
-    }
 
-    Map<String, List<int>> _buildWargearFromSaveData(Map<String, dynamic>? saveWargear)
-    {
 
-        if (saveWargear != null)
-        {
-            return saveWargear.map((k, v) => MapEntry(k, List<int>.from(v as List)));
-        }
-        return {};
-    }
 
-    List<Map<String, dynamic>> _buildWWeaponInfoFromSaveData(List<dynamic>? savedWeaponInfo)
-    {
-        if (savedWeaponInfo != null)
-        {
-            return savedWeaponInfo.map((e) => Map<String, dynamic>.from(e as Map)).toList();
-        }
-        return [];
-    }
-
-    Map<String, CharacteristicsDom> _buildCharacteristicsFromSaveData(Map<String, dynamic>? savedCharacteristicsInfo)
-    {
-        if (savedCharacteristicsInfo != null)
-        {
-            if (savedCharacteristicsInfo.isNotEmpty)
-            {
-                return savedCharacteristicsInfo.map((k, v) => MapEntry(k, CharacteristicsDom.fromJson(v as Map<String, dynamic>)));
-            }
-        }
-        return {};
-    }
 
     Map<String, EnhancementDOM> _buildEnhancementFromSaveData(List<EnhancementDOM> allEnhancement, Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> units)
     {
