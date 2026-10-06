@@ -40,7 +40,6 @@ class _ViewArmyScreenState extends ConsumerState<ViewArmyScreen>
     {
         final state = ref.watch(viewArmyControllerProvider(widget.armyId));
 
-        // ensure expansion keys exist
         for (final role in state.units.keys)
         {
             _expanded.putIfAbsent(role, () => false);

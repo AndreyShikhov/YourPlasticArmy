@@ -3,34 +3,30 @@
  * SPDX-License-Identifier: MIT
  */
 
+import '../../../../domain/models/unit/unit_stats.dart';
+import '../../../database/tables/seed/seed_objects/_types.dart';
 
-
-class ViewArmyUnitItemUi /// Unused
+class ViewArmyUnitItemUi
 {
     final String name;
     final String role;
-    final String m; /// Movement
-    final String t; /// Toughness
-    final String sv; /// Save
-    final String isv; /// Invulnerable Save
-    final String w; /// Wounds
-    final String ld; /// Leadership
-    final String oc; /// Objective Control
+    final Map<String, ModelStatsDom> modelStats;
+    final List<Map<String, dynamic>> weaponSnapshot;
+    final List<String> unitAbility;
+    final List<CoreUnitAbilityCode> coreAbilities;
+    final List<FactionUnitAbilityCode> factionAbilities;
     final List<String> keywords;
     final List<String> factionKeywords;
-
 
     ViewArmyUnitItemUi({
         required this.name,
         required this.role,
-        required this.m,
-        required this.t,
-        required this.sv,
-        required this.isv,
-        required this.w,
-        required this.ld,
-        required this.oc,
+        required this.modelStats,
+        required this.weaponSnapshot,
+        required this.unitAbility,
+        required this.coreAbilities,
+        required this.factionAbilities,
         required this.keywords,
-        required this.factionKeywords,
+        required this.factionKeywords
     });
 }

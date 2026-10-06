@@ -4,24 +4,23 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ViewUnitScreen extends ConsumerWidget
+import '../view_army/view_army_item.dart';
+
+class ViewUnitScreen extends StatelessWidget
 {
     final String instanceId;
-    final String role;
-    final String armyId;
+    final ViewArmyUnitItemUi unit;
 
     const ViewUnitScreen({
         super.key,
         required this.instanceId,
-        required this.role,
-        required this.armyId
+        required this.unit
     });
 
     @override
-    Widget build(BuildContext context, WidgetRef ref) 
+    Widget build(BuildContext context)
     {
-        return Text('ViewUnitScreen');
+        return Text(unit.name);
     }
 }

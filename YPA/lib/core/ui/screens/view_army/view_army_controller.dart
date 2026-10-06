@@ -108,7 +108,6 @@ class ViewArmyController extends StateNotifier<ViewArmyState>
                 loadedUnitsUserArmy
             );
 
-
             state = state.copyWith(
                 isLoading: false,
                 needRefresh: false,
@@ -127,5 +126,13 @@ class ViewArmyController extends StateNotifier<ViewArmyState>
         }
     }
 
+    ArmyBuilderUnitItemUi? getUnitByRoleAndInstanceId(String unitInstanceId, UnitRoleCode roleCode)
+    {
+        for (var unit in state.units[roleCode] ?? [])
+        {
+            if (unit.instanceId == unitInstanceId) return unit;
+        }
 
+        return null;
+    }
 }

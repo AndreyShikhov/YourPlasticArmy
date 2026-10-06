@@ -6,8 +6,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ypa/core/ui/screens/view_army/view_army_controller.dart';
 
+import '../../../../database/tables/seed/seed_objects/_types.dart';
 import '../../data/style_data.dart';
+import '../view_army_item.dart';
 
 class ViewUnitButton extends ConsumerWidget
 {
@@ -31,45 +34,75 @@ class ViewUnitButton extends ConsumerWidget
     @override
     Widget build(BuildContext context, WidgetRef ref)
     {
-        return Container(
-            width: double.infinity,
-            margin: const EdgeInsets.symmetric(vertical: 4),
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-            decoration: BoxDecoration(
-                color: bgColor,
-                borderRadius: BorderRadius.only(
-                    topLeft: position == StylePosition.first || position == StylePosition.single ? const Radius.circular(ypaBorderRadiusValue) : Radius.zero,
-                    topRight: position == StylePosition.first || position == StylePosition.single ? const Radius.circular(ypaBorderRadiusValue) : Radius.zero,
-                    bottomLeft: position == StylePosition.last || position == StylePosition.single ? const Radius.circular(ypaBorderRadiusValue) : Radius.zero,
-                    bottomRight: position == StylePosition.last || position == StylePosition.single ? const Radius.circular(ypaBorderRadiusValue) : Radius.zero
-                )
-            ),
-            child: InkWell(
-                onTap: ()
-                {
-                    final String unitInsID = unitInstanceId;
-                    final String roleCode = role;
-                    context.push('/game_screen/army_lyst/view_army/$armyId/view_unit/$roleCode/$unitInsID');
-                },
-                child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                            Row( /// название юнита и стоимость
-                                children: [
-                                    Expanded(
-                                        child: Text(name,
-                                            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis)
-                                    ) 
-                                ]
-                            )
-                        ]
+        try
+        {
+            final roleCode = UnitRoleCode.fromTitle(role);
+            if (roleCode == null) return const SizedBox.shrink();
+
+            final unit = ref.read(viewArmyControllerProvider(armyId).notifier)
+                .getUnitByRoleAndInstanceId(unitInstanceId, roleCode);
+
+            if (unit == null) return const SizedBox.shrink();
+
+            final viewItem = ViewArmyUnitItemUi(
+                name: unit.name,
+                role: unit.role,
+                modelStats: unit.modelStats,
+                weaponSnapshot: unit.weaponSnapshot,
+                coreAbilities: unit.coreAbilities,
+                unitAbility: unit.unitAbility,
+                factionAbilities: unit.factionAbilities,
+                keywords: unit.keywords,
+                factionKeywords: unit.factionKeywords
+            );
+
+            return Container(
+                width: double.infinity,
+                margin: const EdgeInsets.symmetric(vertical: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                decoration: BoxDecoration(
+                    color: bgColor,
+                    borderRadius: BorderRadius.only(
+                        topLeft: position == StylePosition.first || position == StylePosition.single ? const Radius.circular(ypaBorderRadiusValue) : Radius.zero,
+                        topRight: position == StylePosition.first || position == StylePosition.single ? const Radius.circular(ypaBorderRadiusValue) : Radius.zero,
+                        bottomLeft: position == StylePosition.last || position == StylePosition.single ? const Radius.circular(ypaBorderRadiusValue) : Radius.zero,
+                        bottomRight: position == StylePosition.last || position == StylePosition.single ? const Radius.circular(ypaBorderRadiusValue) : Radius.zero
+                    )
+                ),
+                child: InkWell(
+                    onTap: ()
+                    {
+                        context.push(
+                            '/game_screen/army_lyst/view_army/$armyId/view_unit/$unitInstanceId',
+                            extra: viewItem
+                        );
+                    },
+                    child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                                Row(
+                                    children: [
+                                        Expanded(
+                                            child: Text(
+                                                name,
+                                                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis
+                                            )
+                                        )
+                                    ]
+                                )
+                            ]
+                        )
                     )
                 )
-            )
-        );
+            );
+        }
+        catch (_)
+        {
+            return const SizedBox.shrink();
+        }
     }
 }

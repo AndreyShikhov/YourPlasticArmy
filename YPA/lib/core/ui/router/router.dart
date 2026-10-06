@@ -8,6 +8,7 @@ import 'package:ypa/core/ui/screens/screen.dart';
 
 import '../screens/data/style_data.dart';
 import '../screens/unit_editor/unit_editor_screen.dart';
+import '../screens/view_army/view_army_item.dart';
 import '../screens/view_unit/view_unit_screen.dart';
 import '../widgets/base_window.dart';
 
@@ -73,19 +74,17 @@ final GoRouter router = GoRouter(
                                     routes: [
                                         ///  просмотр юнита
                                         GoRoute(
-                                            path: 'view_unit/:roleCode/:instanceId',
+                                            path: 'view_unit/:instanceId',
                                             builder: (context, state)
                                             {
-                                                final armyId = state.pathParameters['armyId']!;
-                                                final roleCode = state.pathParameters['roleCode']!;
                                                 final unitInstanceId = state.pathParameters['instanceId']!;
+                                                final unit = state.extra as ViewArmyUnitItemUi;
 
                                                 return BaseWindow(
                                                     bgColor: mainScreenColor,
                                                     child: ViewUnitScreen(
-                                                        armyId: armyId,
                                                         instanceId: unitInstanceId,
-                                                        role: roleCode
+                                                        unit: unit
                                                     )
                                                 );
                                             }

@@ -11,7 +11,7 @@ import '../unit_editor_controller.dart';
 
 class BasicStatsBloc extends ConsumerWidget
 {
-    final  (String, String, String) ids;
+    final (String, String, String) ids;
 
     const BasicStatsBloc({
         super.key,
@@ -21,10 +21,9 @@ class BasicStatsBloc extends ConsumerWidget
     @override
     Widget build(BuildContext context, WidgetRef ref)
     {
-
         final (modelStats, modifiedStats) = ref.watch(unitEditorControllerProvider(ids).select((s) => (s.unit?.modelStats,
                 s.unit?.modifiedModelCharacteristics
-                )));
+            )));
 
         if (modelStats == null || modifiedStats == null) return const SizedBox.shrink();
 
@@ -45,10 +44,10 @@ class BasicStatsBloc extends ConsumerWidget
                 if (stats.isNeedShow!)
                 {
                     allStats.add(_createStatsBloc(
-                            name,
-                            modifiedStats.isNotEmpty ?
-                                modifiedStats[name]! : 
-                                stats.characteristics));
+                        name,
+                        modifiedStats.isNotEmpty ?
+                        modifiedStats[name]! : 
+                        stats.characteristics));
                 }
             });
         return allStats;
@@ -72,12 +71,15 @@ class BasicStatsBloc extends ConsumerWidget
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                     /// Строка заголовков
-                                    Text(
-                                        name,
-                                        style: const TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16)),
+                                    Padding(
+                                        padding: const EdgeInsets.only(left: 6.0),
+                                        child: Text(
+                                            name,
+                                            style: const TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16))
+                                    ),
                                     DecoratedBox(
                                         decoration: const BoxDecoration(
                                             color: Colors.black26,
