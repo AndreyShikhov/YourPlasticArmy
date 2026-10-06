@@ -95,7 +95,7 @@ class UnitWidget extends ConsumerWidget
                             Row(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                    // 1. Оборачиваем список моделей в Expanded
+                                    /// 1. Оборачиваем список моделей в Expanded
                                     Expanded(
                                         child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
