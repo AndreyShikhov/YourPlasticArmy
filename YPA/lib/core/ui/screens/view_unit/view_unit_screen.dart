@@ -3,23 +3,25 @@
  * SPDX-License-Identifier: MIT
  */
 
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ViewUnitScreen extends ConsumerWidget {
+class ViewUnitScreen extends ConsumerWidget
+{
+    final String instanceId;
+    final String role;
+    final String armyId;
 
-  String instanceId;
+    const ViewUnitScreen({
+        super.key,
+        required this.instanceId,
+        required this.role,
+        required this.armyId
+    });
 
-  ViewUnitScreen({
-    required this.instanceId,
-  });
-
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-
-    return Text('ViewUnitScreen');
-  }
+    @override
+    Widget build(BuildContext context, WidgetRef ref) 
+    {
+        return Text('ViewUnitScreen');
+    }
 }

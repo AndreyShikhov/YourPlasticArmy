@@ -8,6 +8,7 @@ import 'package:ypa/core/ui/screens/screen.dart';
 
 import '../screens/data/style_data.dart';
 import '../screens/unit_editor/unit_editor_screen.dart';
+import '../screens/view_unit/view_unit_screen.dart';
 import '../widgets/base_window.dart';
 
 final GoRouter router = GoRouter(
@@ -15,7 +16,7 @@ final GoRouter router = GoRouter(
     routes: [
         GoRoute(
             path: '/',
-            builder: (context, state) => const BaseWindow(bgColor: mainScreenColor, child:  MainScreen()),
+            builder: (context, state) => const BaseWindow(bgColor: mainScreenColor, child: MainScreen()),
             routes: [
                 GoRoute(
                     path: 'game_screen',
@@ -23,7 +24,7 @@ final GoRouter router = GoRouter(
                     routes: [
                         GoRoute(
                             path: 'army_lyst',
-                            builder: (context, state) => const  BaseWindow(bgColor: mainScreenColor, child:  ArmyListScreen()),
+                            builder: (context, state) => const BaseWindow(bgColor: mainScreenColor, child: ArmyListScreen()),
                             routes: [
                                 /// Билдер армии (принимает ID)
                                 GoRoute(
@@ -37,7 +38,7 @@ final GoRouter router = GoRouter(
                                         );
                                     },
                                     routes: [
-                                      /// Билдер юнита
+                                        /// Билдер юнита
                                         GoRoute(
                                             path: 'unit_editor/:roleCode/:instanceId',
                                             builder: (context, state)
@@ -69,28 +70,27 @@ final GoRouter router = GoRouter(
                                             child: ViewArmyScreen(armyId: armyId)
                                         );
                                     },
-                                  routes: [
-                                    ///  просмотр юнита
-                                    GoRoute(
-                                        path: 'view_unit/:roleCode/:instanceId',
-                                        builder: (context, state)
-                                        {
-                                            final armyId = state.pathParameters['armyId']!;
-                                            final roleCode = state.pathParameters['roleCode']!;
-                                            final unitInstanceId = state.pathParameters['instanceId']!;
+                                    routes: [
+                                        ///  просмотр юнита
+                                        GoRoute(
+                                            path: 'view_unit/:roleCode/:instanceId',
+                                            builder: (context, state)
+                                            {
+                                                final armyId = state.pathParameters['armyId']!;
+                                                final roleCode = state.pathParameters['roleCode']!;
+                                                final unitInstanceId = state.pathParameters['instanceId']!;
 
-                                            return BaseWindow(
-                                                bgColor: mainScreenColor,
-                                                child: UnitEditorScreen(
-                                                    armyId: armyId,
-                                                    instanceId: unitInstanceId,
-                                                    roleCode: roleCode
-                                                )
-                                            );
-                                        }
-                                    )
-                                  ]
-
+                                                return BaseWindow(
+                                                    bgColor: mainScreenColor,
+                                                    child: ViewUnitScreen(
+                                                        armyId: armyId,
+                                                        instanceId: unitInstanceId,
+                                                        role: roleCode
+                                                    )
+                                                );
+                                            }
+                                        )
+                                    ]
                                 )
                             ]
                         )
