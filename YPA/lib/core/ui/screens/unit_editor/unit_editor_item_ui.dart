@@ -28,12 +28,15 @@ class UnitEditorItemUi
     final String selectedEnhancement;
 
     final List<({
-        String modelName,
-        WeaponType weaponType,
-        String weaponName, 
-        bool isEquiped, 
-        int amount
-    })>? weaponInfo;
+                String modelName,
+                WeaponType weaponType,
+                String weaponName, 
+                bool isEquiped, 
+                int amount
+            })>? weaponInfo;
+
+
+
 
     UnitEditorItemUi({
         required this.instanceId,
@@ -53,8 +56,9 @@ class UnitEditorItemUi
         required this.selectedWargearIndices,
         required this.modifiedModelCharacteristics,
         this.weaponInfo,
-        required this.selectedEnhancement,
+        required this.selectedEnhancement
     });
+
 
     UnitEditorItemUi copyWith({
         String? instanceId,
@@ -74,7 +78,7 @@ class UnitEditorItemUi
         Map<String, List<int>>? selectedWargearIndices,
         Map<String, CharacteristicsDom>? modifiedModelCharacteristics,
         List<({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})>? weaponInfo,
-        String? selectedEnhancement,
+        String? selectedEnhancement
     })
     {
         return UnitEditorItemUi(
@@ -95,7 +99,10 @@ class UnitEditorItemUi
             selectedWargearIndices: selectedWargearIndices ?? this.selectedWargearIndices,
             modifiedModelCharacteristics: modifiedModelCharacteristics ?? this.modifiedModelCharacteristics,
             weaponInfo: weaponInfo ?? this.weaponInfo,
-            selectedEnhancement: selectedEnhancement ?? this.selectedEnhancement,
+            selectedEnhancement: selectedEnhancement ?? this.selectedEnhancement
         );
     }
+
+
+
 }

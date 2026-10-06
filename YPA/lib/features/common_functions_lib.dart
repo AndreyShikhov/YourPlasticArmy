@@ -10,6 +10,7 @@ import 'package:uuid/uuid.dart';
 
 import '../core/database/tables/seed/seed_objects/_types.dart';
 import '../core/ui/screens/army_builder/army_builder_item_ui.dart';
+import '../core/ui/screens/unit_editor/unit_editor_item_ui.dart';
 import '../domain/models/unit/unit.dart';
 import '../domain/models/user_army/user_army.dart';
 
@@ -218,4 +219,178 @@ Map<String, CharacteristicsDom> _buildCharacteristicsFromSaveData(Map<String, dy
         }
     }
     return {};
+}
+
+
+
+
+/// ==========================================
+///  Build Unit Item UI
+/// ==========================================
+
+UnitEditorItemUi getItemUiByUnit(ArmyBuilderUnitItemUi unit)  {
+  return UnitEditorItemUi(
+      instanceId: unit.instanceId,
+      name: unit.name,
+      role: unit.role,
+      isEpicHero: unit.isEpicHero,
+      repeat: unit.repeat,
+      keywords: unit.keywords,
+      factionKeywords: unit.factionKeywords,
+      unitComposition: unit.unitComposition,
+      unitAbility: unit.unitAbility,
+      coreAbilities: unit.coreAbilities,
+      factionAbilities: unit.factionAbilities,
+      leader: unit.leader,
+      ledBy: unit.ledBy,
+      modelStats: unit.modelStats,
+      selectedWargearIndices: unit.selectedWargearIndices,
+      modifiedModelCharacteristics:  _recalculateModifiedStatsFromUnit(unit),
+      weaponInfo: _calculateWeaponInfoWithUnitArmyEditor(unit),
+      selectedEnhancement: unit.selectedEnhancementId
+  );
+}
+
+Map<String, CharacteristicsDom> _recalculateModifiedStatsFromUnit(ArmyBuilderUnitItemUi unit)
+{
+  final Map<String, CharacteristicsDom> modifiedStats = unit.modelStats.map(
+          (key, value) => MapEntry(key, value.characteristics)
+  );
+
+  unit.selectedWargearIndices.forEach((optionId, selectedIndices)
+  {
+    final parts = optionId.split('-');
+    if (parts.length < 2) return;
+
+    final modelName = parts[0];
+    final optionIdx = int.tryParse(parts[1]);
+
+    if (!unit.modelStats.containsKey(modelName)) return;
+    final model = unit.modelStats[modelName]!;
+
+    if (optionIdx == null || optionIdx >= model.wargearOptions.length) return;
+    final option = model.wargearOptions[optionIdx];
+
+    if (option.changeParameter == null || option.changeParameter!.isEmpty) return;
+
+    for (var idx in selectedIndices)
+    {
+      if (idx < option.changeParameter!.length)
+      {
+        final paramChanges = option.changeParameter!.values.elementAt(idx);
+
+        for (var change in paramChanges)
+        {
+          final statName = change.keys.first;
+          final value = change.values.first;
+
+          final current = modifiedStats[modelName]!;
+          CharacteristicsDom updated;
+
+          switch (statName)
+          {
+            case 'movement': updated = current.copyWith(movement: current.movement + value);
+            break;
+            case 'toughness': updated = current.copyWith(toughness: current.toughness + value);
+            break;
+            case 'save': updated = current.copyWith(save: current.save + value);
+            break;
+            case 'invulnerableSave': updated = current.copyWith(invulnerableSave: current.invulnerableSave + value);
+            break;
+            case 'wounds': updated = current.copyWith(wounds: current.wounds + value);
+            break;
+            case 'leadership': updated = current.copyWith(leadership: current.leadership + value);
+            break;
+            case 'objectiveControl': updated = current.copyWith(objectiveControl: current.objectiveControl + value);
+            break;
+            default: updated = current;
+            break;
+          }
+          modifiedStats[modelName] = updated;
+        }
+      }
+    }
+  });
+
+  return modifiedStats;
+}
+
+List<({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> _calculateWeaponInfoWithUnitArmyEditor(ArmyBuilderUnitItemUi unit)
+{
+  /// 1. Пытаемся восстановить данные из сохраненного снапшота
+  if (unit.weaponSnapshot.isNotEmpty)
+  {
+    try
+    {
+      return unit.weaponSnapshot.map((w)
+      {
+        return (
+        modelName: w['modelName'] as String,
+        weaponType: WeaponType.values.byName(w['weaponType'] as String),
+        weaponName: w['weaponName'] as String,
+        isEquiped: w['isEquiped'] as bool,
+        amount: w['amount'] as int
+        );
+      }).toList();
+    } catch (e)
+    {
+      /// Если структура снапшота устарела или повреждена,
+      /// логика перейдет к расчету по умолчанию ниже
+      debugPrint('Weapon snapshot restore error: $e');
+    }
+  }
+
+  final List<({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> weaponInfo = [];
+
+  /// 1. Считаем общее количество сержантов во всем юните заранее
+  int totalSergeantsInUnit = 0;
+  unit.modelStats.forEach((_, stats)
+  {
+    if (stats.isSergeant ?? false) totalSergeantsInUnit++;
+  });
+
+  /// 2. Основной цикл по моделям
+  unit.modelStats.forEach((modelName, stats)
+  {
+    if (stats.isNeedShow! || stats.isSergeant!)
+    {
+      bool isSergeant = stats.isSergeant ?? false;
+
+      for (final type in [WeaponType.ranged, WeaponType.melee])
+      {
+        final availableWeapons = stats.modelWeapons.weapons[type] ?? [];
+        final equippedNames = stats.modelWeapons.selectedWeapons[type] ?? [];
+
+        for (final weapon in availableWeapons)
+        {
+          int totalAmount = 0;
+          bool isEquiped = equippedNames.contains(weapon.name);
+
+          if (isEquiped)
+          {
+            if (isSergeant)
+            {
+              totalAmount = 1;
+            }
+            else
+            {
+              /// Количество моделей без сержантов
+              final totalModelsCount = unit.unitComposition.effectiveComposition.keys.firstOrNull ?? 0;
+              totalAmount = totalModelsCount - totalSergeantsInUnit;
+            }
+          }
+
+          weaponInfo.add((
+          modelName: modelName,
+          weaponType: type,
+          weaponName: weapon.name,
+          isEquiped: isEquiped,
+          amount: totalAmount
+          ));
+        }
+      }
+    }
+  });
+
+  return weaponInfo;
 }

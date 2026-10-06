@@ -8,9 +8,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ypa/core/ui/screens/view_army/view_army_controller.dart';
 
+import '../../../../../features/common_functions_lib.dart';
 import '../../../../database/tables/seed/seed_objects/_types.dart';
 import '../../data/style_data.dart';
-import '../view_army_item.dart';
+import '../../unit_editor/unit_editor_item_ui.dart';
 
 class ViewUnitButton extends ConsumerWidget
 {
@@ -44,17 +45,8 @@ class ViewUnitButton extends ConsumerWidget
 
             if (unit == null) return const SizedBox.shrink();
 
-            final viewItem = ViewArmyUnitItemUi(
-                name: unit.name,
-                role: unit.role,
-                modelStats: unit.modelStats,
-                weaponSnapshot: unit.weaponSnapshot,
-                coreAbilities: unit.coreAbilities,
-                unitAbility: unit.unitAbility,
-                factionAbilities: unit.factionAbilities,
-                keywords: unit.keywords,
-                factionKeywords: unit.factionKeywords
-            );
+            UnitEditorItemUi  unitItemUi = getItemUiByUnit(unit);
+            unitItemUi = unitItemUi.copyWith(name: name); /// преисываем отдельно имя для шапки
 
             return Container(
                 width: double.infinity,
@@ -74,7 +66,7 @@ class ViewUnitButton extends ConsumerWidget
                     {
                         context.push(
                             '/game_screen/army_lyst/view_army/$armyId/view_unit/$unitInstanceId',
-                            extra: viewItem
+                            extra: unitItemUi
                         );
                     },
                     child: Padding(

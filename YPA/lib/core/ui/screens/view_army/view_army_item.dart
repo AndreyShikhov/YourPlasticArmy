@@ -11,6 +11,7 @@ class ViewArmyUnitItemUi
     final String name;
     final String role;
     final Map<String, ModelStatsDom> modelStats;
+    final Map<String, CharacteristicsDom> modifiedModelCharacteristics;
     final List<Map<String, dynamic>> weaponSnapshot;
     final List<String> unitAbility;
     final List<CoreUnitAbilityCode> coreAbilities;
@@ -22,6 +23,7 @@ class ViewArmyUnitItemUi
         required this.name,
         required this.role,
         required this.modelStats,
+        required this.modifiedModelCharacteristics,
         required this.weaponSnapshot,
         required this.unitAbility,
         required this.coreAbilities,

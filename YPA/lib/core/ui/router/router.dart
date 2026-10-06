@@ -7,8 +7,8 @@ import 'package:go_router/go_router.dart';
 import 'package:ypa/core/ui/screens/screen.dart';
 
 import '../screens/data/style_data.dart';
+import '../screens/unit_editor/unit_editor_item_ui.dart';
 import '../screens/unit_editor/unit_editor_screen.dart';
-import '../screens/view_army/view_army_item.dart';
 import '../screens/view_unit/view_unit_screen.dart';
 import '../widgets/base_window.dart';
 
@@ -78,7 +78,7 @@ final GoRouter router = GoRouter(
                                             builder: (context, state)
                                             {
                                                 final unitInstanceId = state.pathParameters['instanceId']!;
-                                                final unit = state.extra as ViewArmyUnitItemUi;
+                                                final unit = state.extra as UnitEditorItemUi;
 
                                                 return BaseWindow(
                                                     bgColor: mainScreenColor,
