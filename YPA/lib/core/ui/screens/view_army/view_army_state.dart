@@ -13,6 +13,7 @@ class ViewArmyState
 {
     final bool isLoading;
     final bool needRefresh;
+    final String armyId;
     final String armyName;
     final int totalPts;
     final DetachmentName? armyDetachmentName;
@@ -24,6 +25,7 @@ class ViewArmyState
     const ViewArmyState({
         this.isLoading = false,
         this.needRefresh = true,
+        this.armyId = '',
         this.armyName = '',
         this.totalPts = 0,
         this.armyDetachmentName,
@@ -36,6 +38,7 @@ class ViewArmyState
     ViewArmyState copyWith({
         bool? isLoading,
         bool? needRefresh,
+        String? armyId,
         String? armyName,
         int? totalPts,
         DetachmentName? armyDetachmentName,
@@ -48,6 +51,7 @@ class ViewArmyState
         return ViewArmyState(
             isLoading: isLoading ?? this.isLoading,
             needRefresh: needRefresh ?? this.needRefresh,
+            armyId: armyId ?? this.armyId,
             armyName: armyName ?? this.armyName,
             totalPts: totalPts ?? this.totalPts,
             armyDetachmentName: armyDetachmentName ?? this.armyDetachmentName,

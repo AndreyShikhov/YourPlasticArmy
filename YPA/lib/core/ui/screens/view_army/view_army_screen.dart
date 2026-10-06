@@ -9,7 +9,7 @@ import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
 import 'package:ypa/core/ui/screens/army_builder/army_builder_item_ui.dart';
 import 'package:ypa/core/ui/screens/view_army/units_block/unit_button.dart';
 import 'package:ypa/core/ui/screens/view_army/view_army_controller.dart';
-import 'package:ypa/core/ui/widgets/expandable_section.dart';
+import 'package:ypa/core/ui/widgets/expanded/expandable_section.dart';
 
 import '../../../../features/common_functions_lib.dart';
 import '../data/style_data.dart';
@@ -84,13 +84,13 @@ class _ViewArmyScreenState extends ConsumerState<ViewArmyScreen>
                     thumbVisibility: true,
                     child: ListView(
                         controller: _scrollController,
-                        children: _buildCategories(state.units)
+                        children: _buildCategories(state.units, widget.armyId)
                     )
                 )
         );
     }
 
-    List<Widget> _buildCategories(Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> units)
+    List<Widget> _buildCategories(Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> units, String armyId)
     {
         List<Widget> result = [];
         if (units.isEmpty)
@@ -107,7 +107,7 @@ class _ViewArmyScreenState extends ConsumerState<ViewArmyScreen>
                         isExpanded: _expanded[role] ?? false,
                         onExpansionChanged: (v) => setState(() => _expanded[role] = v),
                         child: Column(
-                            children: _getSortedButtonsUnit(items)
+                            children: _getSortedButtonsUnit(items, role.title)
                         )
                     )
                 );
@@ -116,7 +116,7 @@ class _ViewArmyScreenState extends ConsumerState<ViewArmyScreen>
         return result;
     }
 
-    List<Widget> _getSortedButtonsUnit(List<ArmyBuilderUnitItemUi> units)
+    List<Widget> _getSortedButtonsUnit(List<ArmyBuilderUnitItemUi> units, String role)
     {
         if (units.isEmpty) return const[];
 
@@ -136,9 +136,12 @@ class _ViewArmyScreenState extends ConsumerState<ViewArmyScreen>
                 return List<Widget>.generate(len, (i)
                     {
                         final pos = _stylePositionForIndex(i, len);
-                        return UnitButton(
+                        return ViewUnitButton(
+
                             name: '$name  ${getRomeNumber(i + 1)}',
+                            armyId: widget.armyId,
                             unitInstanceId: ids[i],
+                            role: role,
                             position: pos,
                             bgColor: isLight ? const Color.fromARGB(128, 255, 255, 255) : const Color.fromARGB(
                                 128, 124, 124, 124)
@@ -155,50 +158,4 @@ class _ViewArmyScreenState extends ConsumerState<ViewArmyScreen>
         return StylePosition.middle;
     }
 
-    //     List<Widget> _getSortedButtonsUnit(List<ArmyBuilderUnitItemUi> units)
-    //     {
-    //         List<Widget> result = [];
-    //
-    //         Map<String, List<String>> unitsByGroup = {};
-    //         for (ArmyBuilderUnitItemUi unit in units)
-    //         {
-    //             if (!unitsByGroup.containsKey(unit.name))
-    //             {
-    //                 unitsByGroup[unit.name] = [];
-    //             }
-    //             unitsByGroup[unit.name]!.add(unit.instanceId);
-    //         }
-    //
-    //         for (var element in unitsByGroup.entries)
-    //         {
-    //             int numberUnit = 0;
-    //             for (String id in element.value)
-    //             {         
-    //                 numberUnit++;
-    //                 StylePosition sPosition;
-    //                 if (numberUnit == 1 && element.value.length < 2)
-    //                 {
-    //                     sPosition = StylePosition.single;
-    //                 } else if (numberUnit == 1 && element.value.length > 1)
-    //                 {
-    //                     sPosition = StylePosition.first;
-    //                 } 
-    //                 else if (numberUnit == element.value.length && numberUnit > 1)
-    //                 {
-    //                     sPosition = StylePosition.last;
-    //                 } else
-    //                 {
-    //                     sPosition = StylePosition.middle;
-    //                 }
-    //                
-    //                 result.add(
-    //                     UnitButton(
-    //                         name: '${element.key}  ${getRomeNumber(numberUnit)}',
-    //                         unitInstanceId: id,
-    //                         position: sPosition
-    //                     ));
-    //             }
-    //         }
-    //         return result;
-    //     }
 }

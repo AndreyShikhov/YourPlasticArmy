@@ -5,20 +5,25 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../data/style_data.dart';
 
-class UnitButton extends ConsumerWidget
+class ViewUnitButton extends ConsumerWidget
 {
     final String name;
+    final String armyId;
     final String unitInstanceId;
+    final String role;
     final StylePosition position;
     final Color bgColor;
 
-    const UnitButton({
+    const ViewUnitButton({
         super.key, 
         required this.name,
+        required this.armyId,
         required this.unitInstanceId,
+        required this.role,
         required this.position,
         required this.bgColor
     });
@@ -42,9 +47,9 @@ class UnitButton extends ConsumerWidget
             child: InkWell(
                 onTap: ()
                 {
-                    // final String unitInsID = unit.instanceId;
-                    // final String roleCode = unit.role;
-                    // context.push('/game_screen/army_lyst/army_builder/$armyId/unit_editor/$roleCode/$unitInsID');
+                    final String unitInsID = unitInstanceId;
+                    final String roleCode = role;
+                    context.push('/game_screen/army_lyst/view_army/$armyId/view_unit/$roleCode/$unitInsID');
                 },
                 child: Padding(
                     padding: const EdgeInsets.all(8.0),

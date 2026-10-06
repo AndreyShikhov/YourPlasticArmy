@@ -37,6 +37,7 @@ final GoRouter router = GoRouter(
                                         );
                                     },
                                     routes: [
+                                      /// Билдер юнита
                                         GoRoute(
                                             path: 'unit_editor/:roleCode/:instanceId',
                                             builder: (context, state)
@@ -67,7 +68,29 @@ final GoRouter router = GoRouter(
                                             bgColor: mainScreenColor,
                                             child: ViewArmyScreen(armyId: armyId)
                                         );
-                                    }
+                                    },
+                                  routes: [
+                                    ///  просмотр юнита
+                                    GoRoute(
+                                        path: 'view_unit/:roleCode/:instanceId',
+                                        builder: (context, state)
+                                        {
+                                            final armyId = state.pathParameters['armyId']!;
+                                            final roleCode = state.pathParameters['roleCode']!;
+                                            final unitInstanceId = state.pathParameters['instanceId']!;
+
+                                            return BaseWindow(
+                                                bgColor: mainScreenColor,
+                                                child: UnitEditorScreen(
+                                                    armyId: armyId,
+                                                    instanceId: unitInstanceId,
+                                                    roleCode: roleCode
+                                                )
+                                            );
+                                        }
+                                    )
+                                  ]
+
                                 )
                             ]
                         )

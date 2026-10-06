@@ -112,6 +112,7 @@ class ViewArmyController extends StateNotifier<ViewArmyState>
             state = state.copyWith(
                 isLoading: false,
                 needRefresh: false,
+                armyId: _armyId,
                 armyName: userArmy.userArmyName,
                 totalPts: userArmy.totalPoints,
                 armyDetachmentName: detachment?.name,

@@ -11,8 +11,8 @@ import 'package:ypa/core/ui/screens/army_builder/widgets/army_settings/detachmen
 import 'package:ypa/core/ui/screens/army_builder/widgets/army_settings/warlord_selector.dart';
 
 import '../../../database/tables/seed/seed_objects/_types.dart';
-import '../../widgets/expandable_section.dart';
 import '../../widgets/expanded/category_expanded.dart';
+import '../../widgets/expanded/expandable_section.dart';
 import '../view_army/view_army_controller.dart';
 import 'army_builder_controller.dart';
 import 'widgets/army_settings/army_name_editor.dart';
@@ -83,7 +83,7 @@ class ArmyBuilderScreen extends ConsumerWidget
                 : ListView(
                     children: [
                         ArmySettingsExpanded(armyId: armyId),
-                        ...UnitRoleCode.values.map((role) => CategoryExpanded(armyId: armyId, role: role))
+                        ...UnitRoleCode.values.map((role) => CategoryExpandedBase(armyId: armyId, role: role))
                     ]
                 )
         );
