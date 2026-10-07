@@ -4,28 +4,44 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ypa/core/ui/screens/view_unit/view_unit_controller.dart';
+import 'package:ypa/core/ui/screens/view_unit/view_unit_state.dart';
 
 import '../../widgets/Stats/base_ability_bloc.dart';
 import '../../widgets/Stats/base_unit_stats_bloc.dart';
 import '../../widgets/Stats/keywords_bloc.dart';
 import '../../widgets/expanded/expandable_section_unit_stats.dart';
-import '../unit_editor/unit_editor_item_ui.dart';
 
-
-class ViewUnitScreen extends StatelessWidget
+class ViewUnitScreen extends ConsumerWidget
 {
+    final String armyId;
     final String instanceId;
-    final UnitEditorItemUi unit;
+    final String roleCode;
+    final String numericUnitName;
 
     const ViewUnitScreen({
         super.key,
+        required this.armyId,
         required this.instanceId,
-        required this.unit
+        required this.roleCode,
+        required this.numericUnitName
     });
 
     @override
-    Widget build(BuildContext context)
+    Widget build(BuildContext context, WidgetRef ref)
     {
+        final ids = (armyId, instanceId, roleCode); 
+        final state = ref.watch(ViewUnitControllerProvider(ids));
+
+        if (state.isLoading) {
+          return const Scaffold(body: Center(child: CircularProgressIndicator()));
+        }
+
+        if (state.unit == null) {
+          return const Scaffold(body: Center(child: Text('Unit not found')));
+        }
+
         return Scaffold(
             appBar: PreferredSize(
                 preferredSize: const Size.fromHeight(40),
@@ -33,7 +49,7 @@ class ViewUnitScreen extends StatelessWidget
                     centerTitle: false,
                     /// 2. ИСПОЛЬЗУЕМ Consumer, чтобы обновлялся ТОЛЬКО ТЕКСТ в AppBar
                     title: Text(
-                        unit.name,
+                        numericUnitName,
                         style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                         softWrap: true,
                         maxLines: 2
@@ -42,13 +58,13 @@ class ViewUnitScreen extends StatelessWidget
             ),
             body:
             ListView(
-                children: _buildSections()
+                children: _buildSections(state)
             )
 
         );
     }
 
-    List<Widget> _buildSections()
+    List<Widget> _buildSections(ViewUnitState state)
     {
         List<Widget> sections = [];
 
@@ -61,8 +77,8 @@ class ViewUnitScreen extends StatelessWidget
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                         ...BaseUnitStatsBloc().createModelsBloc(
-                            unit.modelStats,
-                            unit.modifiedModelCharacteristics
+                            state.unit!.modelStats,
+                            state.unit!.modifiedModelCharacteristics
                         )
                     ]
                 ))
@@ -89,28 +105,28 @@ class ViewUnitScreen extends StatelessWidget
         // ));
         //
         /// Секции правил (добавляем только если они есть)
-        if (unit.unitAbility.isNotEmpty)
+        if (state.unit?.unitAbility.isNotEmpty == true)
         {
-          sections.add(ExpandableSectionUnitStats(
-              title: 'Unit Ability',
-              child: UnitAbilityBloc(abilities: []) ///unit.unitAbility
-          ));
+            sections.add(ExpandableSectionUnitStats(
+                title: 'Unit Ability',
+                child: UnitAbilityBloc(abilities: state.unitAbilities) ///unit.unitAbility
+            ));
         }
 
-        if (unit.coreAbilities.isNotEmpty)
+        if (state.unit?.coreAbilities.isNotEmpty == true)
         {
-          sections.add(ExpandableSectionUnitStats(
-              title: 'Core Abilities',
-              child: UnitAbilityBloc(abilities: [])
-          ));
+            sections.add(ExpandableSectionUnitStats(
+                title: 'Core Abilities',
+                child: UnitAbilityBloc(abilities: state.coreAbilities)
+            ));
         }
 
-        if (unit.factionAbilities.isNotEmpty)
+        if (state.unit?.factionAbilities.isNotEmpty == true)
         {
-          sections.add(ExpandableSectionUnitStats(
-              title: 'Faction Abilities',
-              child: UnitAbilityBloc(abilities: [])
-          ));
+            sections.add(ExpandableSectionUnitStats(
+                title: 'Faction Abilities',
+                child: UnitAbilityBloc(abilities: state.factionAbilities)
+            ));
         }
         //
         // /// таблица юнитов которые этот юнит может лидировать
@@ -135,8 +151,8 @@ class ViewUnitScreen extends StatelessWidget
         sections.add(ExpandableSectionUnitStats(
             title: 'Keywords',
             child: KeywordsBloc(
-                keywords: unit.keywords,
-                factionKeywords: unit.factionKeywords
+                keywords: state.unit!.keywords,
+                factionKeywords: state.unit!.factionKeywords
             )
         ));
         //

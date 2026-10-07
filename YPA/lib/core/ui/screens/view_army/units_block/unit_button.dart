@@ -8,10 +8,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ypa/core/ui/screens/view_army/view_army_controller.dart';
 
-import '../../../../../features/common_functions_lib.dart';
 import '../../../../database/tables/seed/seed_objects/_types.dart';
 import '../../data/style_data.dart';
-import '../../unit_editor/unit_editor_item_ui.dart';
 
 class ViewUnitButton extends ConsumerWidget
 {
@@ -45,9 +43,6 @@ class ViewUnitButton extends ConsumerWidget
 
             if (unit == null) return const SizedBox.shrink();
 
-            UnitEditorItemUi  unitItemUi = getItemUiByUnit(unit);
-            unitItemUi = unitItemUi.copyWith(name: name); /// преисываем отдельно имя для шапки
-
             return Container(
                 width: double.infinity,
                 margin: const EdgeInsets.symmetric(vertical: 4),
@@ -65,9 +60,8 @@ class ViewUnitButton extends ConsumerWidget
                     onTap: ()
                     {
                         context.push(
-                            '/game_screen/army_lyst/view_army/$armyId/view_unit/$unitInstanceId',
-                            extra: unitItemUi
-                        );
+                            '/game_screen/army_lyst/view_army/$armyId/view_unit/$unitInstanceId/$role/'
+                            ,extra: name);
                     },
                     child: Padding(
                         padding: const EdgeInsets.all(8.0),

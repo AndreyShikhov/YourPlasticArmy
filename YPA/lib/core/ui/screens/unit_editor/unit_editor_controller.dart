@@ -30,7 +30,7 @@ import '../../../providers/di/weapon_abilities_providers.dart';
 import '../army_builder/army_builder_controller.dart';
 
 final unitEditorControllerProvider = 
-    StateNotifierProvider.family<UnitEditorController, UnitEditorState,  (String, String, String)>((ref, ids)
+    StateNotifierProvider.family<UnitEditorController, UnitEditorState, (String, String, String)>((ref, ids)
         {
             final (armyId, instanceId, roldeCode) = ids;
             final getUnitAbilityByCode = ref.watch(getunitAbilityByCodeUseCaseProvider);
@@ -52,13 +52,11 @@ final unitEditorControllerProvider =
                 armyId,
                 roldeCode
             );
-
         }
     );
 
 class UnitEditorController extends StateNotifier<UnitEditorState>
 {
-
     final Ref _ref; /// ссылка на контроллер Army editor
     final GetUnitAbilityByCode _getUnitAbilityByCode;
     final GetAllCoreUnitAbilities _getAllCoreUnitAbilities;
@@ -83,12 +81,14 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
         this._armyId,
         this._role
 
-    ) : super(UnitEditorState(
+    ) : super(
+            UnitEditorState(
                 isLoading: true,
                 unitInstanceId: _instanceUnitId,
                 error: null,
                 unit: null
-            ))
+            )
+        )
     {
         _init();
     }
@@ -98,7 +98,6 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
     /// ==========================================
     Future<void> _init() async
     {
-
         final armyState = _ref.read(armyBuilderControllerProvider(_armyId));
         /// Здесь будет логика загрузки данных юнита из общего стора или БД
         state = state.copyWith(isLoading: true, error: null, unitInstanceId: _instanceUnitId);
@@ -110,17 +109,16 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
             /// 2. Создаем UI модель юнита
             final editorUnit = getItemUiByUnit(unit);
 
-
             /// Сначала сохраняем юнита, чтобы функции get... могли его использовать
             state = state.copyWith(unit: editorUnit);
 
             /// 3. ЗАГРУЖАЕМ ВСЕ СПОСОБНОСТИ ПАРАЛЛЕЛЬНО
             final abilitiesResults = await Future.wait([
-                    getUnitAbility(),
-                    getCoreUnitAbility(),
-                    getFactionUnitAbility(),
-                    getWeaponAbilities()
-                ]);
+                getUnitAbility(),
+                getCoreUnitAbility(),
+                getFactionUnitAbility(),
+                getWeaponAbilities()
+            ]);
 
             /// 4. Добавляем Арим код
             final ArmyDOM? army = await _getArmyById(ArmyId.fromString(armyState.armyId!));
@@ -141,7 +139,6 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
         {
             state = state.copyWith(isLoading: false, error: e.toString());
         }
-
     }
 
     /// ==========================================
@@ -176,7 +173,6 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
 
     Future<List<CoreUnitAbilityDOM>> getCoreUnitAbility() async
     {
-
         if (state.unit == null || state.unit!.coreAbilities.isEmpty)
         {
             return [];
@@ -192,7 +188,6 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
 
     Future<List<FactionUnitAbilityDOM>> getFactionUnitAbility() async
     {
-
         /// 1. Проверяем, что юнит загружен и у него есть способности
         if (state.unit == null || state.unit!.factionAbilities.isEmpty)
         {
@@ -245,11 +240,10 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
     ///  Tools
     /// ==========================================
 
-
-    List< ({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> _calculateWeaponUnitWithComposition(UnitEditorItemUi unit, UnitCompositionDom composition)
+    List<({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> _calculateWeaponUnitWithComposition(UnitEditorItemUi unit, UnitCompositionDom composition)
 
     {
-        final List< ({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> weaponInfo = [];
+        final List<({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> weaponInfo = [];
 
         /// 1. Считаем общее количество сержантов во всем юните заранее
         int totalSergeantsInUnit = 0;
@@ -295,7 +289,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                                 weaponName: weapon.name,
                                 isEquiped: isEquiped,
                                 amount: totalAmount
-                                ));
+                            ));
                         }
                     }
                 }
@@ -304,13 +298,13 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
         return weaponInfo;
     }
 
-    List< ({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> _calculateWeaponUnitWithCompositionAndStats(
+    List<({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> _calculateWeaponUnitWithCompositionAndStats(
         UnitEditorItemUi unit,
         UnitCompositionDom composition,
         Map<String, ModelStatsDom> modelStats)
 
     {
-        final List< ({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> weaponInfo = [];
+        final List<({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> weaponInfo = [];
 
         /// 1. Считаем общее количество сержантов во всем юните заранее
         int totalSergeantsInUnit = 0;
@@ -356,7 +350,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                                 weaponName: weapon.name,
                                 isEquiped: totalAmount > 0,
                                 amount: totalAmount
-                                ));
+                            ));
                         }
                     }
                 }
@@ -425,7 +419,6 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
         /// 3. Оптимизированное обновление основного экрана
         _ref.read(armyBuilderControllerProvider(_armyId).notifier)
             .updateUnitInState(_instanceUnitId, getUnitRoleCode()!, updatedComp);
-
     }
 
     void toggleAdditionalModel(String modelName, bool isSelected) async
@@ -505,7 +498,6 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
         /// 3. Оптимизированное обновление основного экрана
         _ref.read(armyBuilderControllerProvider(_armyId).notifier)
             .updateUnitInState(_instanceUnitId, getUnitRoleCode()!, state.unit!.unitComposition);
-
     }
 
     /// ==========================================
@@ -627,9 +619,9 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
             .updateUnitWargearInState(_instanceUnitId, role, newIndices);
     }
 
-    List< ({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> _calculateWeaponInfoFromSnapshot(UnitEditorItemUi unit)
+    List<({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> _calculateWeaponInfoFromSnapshot(UnitEditorItemUi unit)
     {
-        final List< ({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> weaponInfo = [];
+        final List<({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> weaponInfo = [];
 
         /// Временная карта для подсчета количества экипированного оружия
         /// Map<modelName, Map<weaponName, amount>>
@@ -745,7 +737,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                             weaponName: wName,
                             isEquiped: amount > 0,
                             amount: amount
-                            ));
+                        ));
                     }
                 }
             });
@@ -808,7 +800,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
                                 case 'objectiveControl': updated = current.copyWith(objectiveControl: current.objectiveControl + value);
                                     break;
                                 default: updated = current;
-                                break;
+                                    break;
                             }
                             modifiedStats[modelName] = updated;
                         }
@@ -818,7 +810,6 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
 
         return modifiedStats;
     }
-
 
     void replaceWeapon(String unitModelName, List<String> replace, List<String> replaceable)
     {

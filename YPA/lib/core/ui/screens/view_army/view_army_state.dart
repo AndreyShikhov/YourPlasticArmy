@@ -8,6 +8,7 @@ import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
 import '../../../../domain/models/codex/codex.dart';
 import '../../../../domain/models/detachment/detachment.dart';
 import '../army_builder/army_builder_item_ui.dart';
+import '../unit_editor/unit_editor_item_ui.dart';
 
 class ViewArmyState
 {
@@ -19,7 +20,7 @@ class ViewArmyState
     final DetachmentName? armyDetachmentName;
     final BattleSize? selectedBattleSize;
     final CodexName? codexName;
-    final Map<UnitRoleCode,List<ArmyBuilderUnitItemUi>> units;
+    final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> units;
     final String? error;
 
     const ViewArmyState({
@@ -44,9 +45,9 @@ class ViewArmyState
         DetachmentName? armyDetachmentName,
         BattleSize? selectedBattleSize,
         CodexName? codexName,
-        Map<UnitRoleCode,List<ArmyBuilderUnitItemUi>>? units,
+        Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>? units,
         String? error
-    }) 
+    })
     {
         return ViewArmyState(
             isLoading: isLoading ?? this.isLoading,
@@ -59,6 +60,31 @@ class ViewArmyState
             codexName: codexName ?? this.codexName,
             units: units ?? this.units,
             error: error ?? this.error
+        );
+    }
+
+    Future<UnitEditorItemUi> getUnitByInstanceIdFromUserArmy(String unitInstanceId, UnitRoleCode role) async
+    {
+        final findedUnit = units[role]?.firstWhere((u) => u.instanceId == unitInstanceId);
+
+        return UnitEditorItemUi(
+            instanceId: findedUnit!.instanceId,
+            name: findedUnit.name,
+            role: findedUnit.role,
+            isEpicHero: findedUnit.isEpicHero,
+            repeat: findedUnit.repeat,
+            keywords: findedUnit.keywords,
+            factionKeywords: findedUnit.factionKeywords,
+            unitComposition: findedUnit.unitComposition,
+            unitAbility: findedUnit.unitAbility,
+            coreAbilities: findedUnit.coreAbilities,
+            factionAbilities: findedUnit.factionAbilities,
+            leader: findedUnit.leader,
+            ledBy: findedUnit.ledBy,
+            modelStats: findedUnit.modelStats,
+            selectedWargearIndices: findedUnit.selectedWargearIndices,
+            modifiedModelCharacteristics: {}, 
+            selectedEnhancement: findedUnit.selectedEnhancementId
         );
     }
 }
