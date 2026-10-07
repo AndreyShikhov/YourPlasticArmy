@@ -11,6 +11,7 @@ import 'package:ypa/core/ui/screens/view_unit/view_unit_state.dart';
 import '../../widgets/Stats/base_ability_bloc.dart';
 import '../../widgets/Stats/base_unit_stats_bloc.dart';
 import '../../widgets/Stats/keywords_bloc.dart';
+import '../../widgets/Stats/wargear_stats_bloc_view.dart';
 import '../../widgets/expanded/expandable_section_unit_stats.dart';
 
 class ViewUnitScreen extends ConsumerWidget
@@ -34,12 +35,14 @@ class ViewUnitScreen extends ConsumerWidget
         final ids = (armyId, instanceId, roleCode); 
         final state = ref.watch(ViewUnitControllerProvider(ids));
 
-        if (state.isLoading) {
-          return const Scaffold(body: Center(child: CircularProgressIndicator()));
+        if (state.isLoading) 
+        {
+            return const Scaffold(body: Center(child: CircularProgressIndicator()));
         }
 
-        if (state.unit == null) {
-          return const Scaffold(body: Center(child: Text('Unit not found')));
+        if (state.unit == null) 
+        {
+            return const Scaffold(body: Center(child: Text('Unit not found')));
         }
 
         return Scaffold(
@@ -86,24 +89,17 @@ class ViewUnitScreen extends ConsumerWidget
 
         /// Секция состава
 
-        // if (unit.unitComposition.compositions.length > 1)
-        // {
-        //   sections.add(ExpandableSection(
-        //       title: 'Unit Composition',
-        //       child: UnitCompositionBloc(
-        //           armyId: armyId,
-        //           instanceId: instanceId,
-        //           roleCode: roleCode
-        //       )
-        //   ));
-        // }
-        //
-        // /// секция настройки вооружения
-        // sections.add(ExpandableSection(
-        //     title: 'Wargear Options',
-        //     child: WargearStatsBloc(ids: ids)
-        // ));
-        //
+        /// секция настройки вооружения
+        sections.add(ExpandableSectionUnitStats(
+            title: 'Wargear Options',
+            child: WargearStatsBlocView(
+                modelStats: state.unit!.modelStats,
+                weaponInfo: state.unit!.weaponInfo,
+                weaponAbilities: state.weaponAbilities
+            )
+        ));
+
+
         /// Секции правил (добавляем только если они есть)
         if (state.unit?.unitAbility.isNotEmpty == true)
         {

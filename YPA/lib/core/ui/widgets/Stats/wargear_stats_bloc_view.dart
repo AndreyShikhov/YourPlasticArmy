@@ -7,14 +7,13 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
-import 'package:ypa/core/ui/screens/unit_editor/widgets/wargear/wargear_bloc.dart';
-import 'package:ypa/core/ui/widgets/Stats/base_ability_bloc.dart';
-import 'package:ypa/domain/models/abilities/base_ability.dart';
 
-import '../../../../../../domain/models/abilities/weapon_ability/weapon_ability.dart';
-import '../../../../../../domain/models/unit/unit.dart';
-import '../../unit_editor_controller.dart';
+import '../../../../domain/models/abilities/base_ability.dart';
+import '../../../../domain/models/abilities/weapon_ability/weapon_ability_dom.dart';
+import '../../../../domain/models/unit/unit_stats.dart';
+import '../../../../domain/models/unit/unit_weapon.dart';
+import '../../../database/tables/seed/seed_objects/_types.dart';
+import 'base_ability_bloc.dart';
 
 /// --- КОНСТАНТЫ СТИЛЕЙ И ДЕКОРАЦИЙ ДЛЯ ОПТИМИЗАЦИИ ---
 const _kAbilityTextStyle = TextStyle(color: Colors.white70, fontWeight: FontWeight.bold, fontSize: 9);
@@ -28,20 +27,32 @@ const _kNameUsedStyle = TextStyle(color: Colors.white, fontWeight: FontWeight.bo
 const _kNameUnusedStyle = TextStyle(color: Color.fromARGB(153, 143, 143, 143), fontWeight: FontWeight.bold, fontSize: 13);
 const _kAmountStyle = TextStyle(color: Color.fromARGB(215, 255, 174, 0), fontWeight: FontWeight.bold, fontSize: 13);
 
-class WargearStatsBloc extends ConsumerStatefulWidget
+class WargearStatsBlocView extends ConsumerStatefulWidget
 {
-    final (String, String, String) ids;
+    final Map<String, ModelStatsDom> modelStats;
 
-    const WargearStatsBloc({
+    final List<({
+                String modelName,
+                WeaponType weaponType,
+                String weaponName,
+                bool isEquiped,
+                int amount
+            })>? weaponInfo;
+
+    final List<WeaponAbilityDOM> weaponAbilities;
+
+    const WargearStatsBlocView({
         super.key,
-        required this.ids
+        required this.modelStats,
+        required this.weaponInfo,
+        required this.weaponAbilities
     });
 
     @override
-    ConsumerState<WargearStatsBloc> createState() => _WargearStatsBlocState();
+    ConsumerState<WargearStatsBlocView> createState() => _WargearStatsBlocState();
 }
 
-class _WargearStatsBlocState extends ConsumerState<WargearStatsBloc>
+class _WargearStatsBlocState extends ConsumerState<WargearStatsBlocView>
 {
     late final PageController _pageController;
     late final ValueNotifier<int> _currentPageNotifier;
@@ -65,14 +76,8 @@ class _WargearStatsBlocState extends ConsumerState<WargearStatsBloc>
     @override
     Widget build(BuildContext context)
     {
-        final (weaponInfo, modelStats) = ref.watch(unitEditorControllerProvider(widget.ids).select((s) => (
-                s.unit?.weaponInfo,
-                s.unit?.modelStats
-            )));
 
-        final weaponAbilities = ref.watch(unitEditorControllerProvider(widget.ids).select((s) => s.weaponAbilities));
-
-        if (weaponInfo == null || modelStats == null) return const SizedBox.shrink();
+        if (widget.weaponInfo == null || widget.modelStats == {} || widget.weaponAbilities.isEmpty) return const SizedBox.shrink();
 
         final screenWidth = MediaQuery.sizeOf(context).width;
         final isWide = screenWidth > 900;
@@ -87,13 +92,12 @@ class _WargearStatsBlocState extends ConsumerState<WargearStatsBloc>
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                                Expanded(child: _buildCategorySection(weaponInfo, modelStats, weaponAbilities, WeaponType.ranged)),
+                                Expanded(child: _buildCategorySection(widget.weaponInfo!, widget.modelStats, widget.weaponAbilities, WeaponType.ranged)),
                                 const SizedBox(width: 32),
-                                Expanded(child: _buildCategorySection(weaponInfo, modelStats, weaponAbilities, WeaponType.melee))
+                                Expanded(child: _buildCategorySection(widget.weaponInfo!, widget.modelStats, widget.weaponAbilities, WeaponType.melee))
                             ]
                         ),
-                        const SizedBox(height: 10),
-                        Wargear(ids: widget.ids)
+                        const SizedBox(height: 10)
                     ]
                 )
             );
@@ -119,8 +123,8 @@ class _WargearStatsBlocState extends ConsumerState<WargearStatsBloc>
                                 controller: _pageController,
                                 onPageChanged: (int page) => _currentPageNotifier.value = page,
                                 children: [
-                                    SingleChildScrollView(child: _buildCategorySection(weaponInfo, modelStats, weaponAbilities, WeaponType.ranged)),
-                                    SingleChildScrollView(child: _buildCategorySection(weaponInfo, modelStats, weaponAbilities, WeaponType.melee))
+                                    SingleChildScrollView(child: _buildCategorySection(widget.weaponInfo!, widget.modelStats, widget.weaponAbilities, WeaponType.ranged)),
+                                    SingleChildScrollView(child: _buildCategorySection(widget.weaponInfo!, widget.modelStats, widget.weaponAbilities, WeaponType.melee))
                                 ]
                             )
                         )
@@ -130,8 +134,8 @@ class _WargearStatsBlocState extends ConsumerState<WargearStatsBloc>
                         valueListenable: _currentPageNotifier,
                         builder: (context, currentPage, _) => _buildPageIndicator(2, currentPage)
                     ),
-                    const SizedBox(height: 10),
-                    Wargear(ids: widget.ids)
+                    const SizedBox(height: 10)
+
                 ]
             )
         );

@@ -84,7 +84,8 @@ class ViewArmyState
             modelStats: findedUnit.modelStats,
             selectedWargearIndices: findedUnit.selectedWargearIndices,
             modifiedModelCharacteristics: {}, 
-            selectedEnhancement: findedUnit.selectedEnhancementId
+            selectedEnhancement: findedUnit.selectedEnhancementId,
+            weaponInfo: []
         );
     }
 }
