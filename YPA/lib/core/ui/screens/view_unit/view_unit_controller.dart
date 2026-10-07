@@ -21,7 +21,7 @@ import '../../../providers/di/unit_abilities_providers.dart';
 import '../../../providers/di/weapon_abilities_providers.dart';
 import '../unit_editor/unit_editor_item_ui.dart';
 
-final ViewUnitControllerProvider = StateNotifierProvider.family<ViewUnitController, ViewUnitState, (String, String, String)>((ref, ids)
+final ViewUnitControllerProvider = StateNotifierProvider.autoDispose.family<ViewUnitController, ViewUnitState, (String, String, String)>((ref, ids)
     {
         final (armyId, instanceId, roleCode) = ids;  
         final getUnitAbilityByCode = ref.watch(getunitAbilityByCodeUseCaseProvider);

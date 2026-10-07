@@ -23,7 +23,7 @@ import '../../../providers/di/unit_providers.dart';
 import '../army_builder/army_builder_item_ui.dart';
 
 /// Провайдер контроллера с параметром armyId
-final viewArmyControllerProvider = StateNotifierProvider.family<ViewArmyController, ViewArmyState, String>((
+final viewArmyControllerProvider = StateNotifierProvider.autoDispose.family<ViewArmyController, ViewArmyState, String>((
         ref,
         armyId
     )
@@ -39,9 +39,9 @@ final viewArmyControllerProvider = StateNotifierProvider.family<ViewArmyControll
         /// Используем локальную переменную 'controller', чтобы избежать циклической зависимости типов.
         ref.listen<ArmyBuilderState>(armyBuilderControllerProvider(armyId), (previous, next)
             {
-                if (previous != null && !next.isLoading && previous != next)
+                if (previous != next && !next.isLoading) 
                 {
-                    controller.markNeedsRefresh();
+                    controller.loadArmy();
                 }
             });
 
@@ -77,10 +77,8 @@ class ViewArmyController extends StateNotifier<ViewArmyState>
 
     Future<void> loadArmy() async
     {
-        /// Если обновление не требуется и данные уже есть, ничего не делаем
-        if (!state.needRefresh && !state.isLoading && state.armyName.isNotEmpty) return;
-
         state = state.copyWith(isLoading: true, error: null);
+
         try
         {
             final userArmy = await _getUserArmyById(_armyId);
