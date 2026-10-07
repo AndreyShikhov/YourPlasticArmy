@@ -63,7 +63,13 @@ class ViewArmyState
         );
     }
 
-    Future<UnitEditorItemUi> getUnitByInstanceIdFromUserArmy(String unitInstanceId, UnitRoleCode role) async
+    Future<ArmyBuilderUnitItemUi?> getArmyBuilderUnitItemUiByInstanceIdFromUserArmy(String unitInstanceId, UnitRoleCode role) async
+    {
+        final unit = units[role]?.firstWhere((u) => u.instanceId == unitInstanceId);
+        return unit;
+    }
+
+    Future<UnitEditorItemUi> getUnitEditorItemUiByInstanceIdFromUserArmy(String unitInstanceId, UnitRoleCode role) async
     {
         final findedUnit = units[role]?.firstWhere((u) => u.instanceId == unitInstanceId);
 

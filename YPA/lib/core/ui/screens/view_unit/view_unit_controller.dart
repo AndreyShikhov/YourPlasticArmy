@@ -14,6 +14,7 @@ import '../../../../domain/models/abilities/faction_unit_ability/faction_unit_ab
 import '../../../../domain/models/abilities/unit_ability/unit_ability_dom.dart';
 import '../../../../domain/models/abilities/weapon_ability/weapon_ability_dom.dart';
 import '../../../../domain/models/unit/unit_stats.dart';
+import '../../../../features/common_functions_lib.dart';
 import '../../../database/tables/seed/seed_objects/_types.dart';
 import '../../../providers/di/core_unit_abilities_providers.dart';
 import '../../../providers/di/faction_unit_abilities_providers.dart';
@@ -83,16 +84,25 @@ class ViewUnitController extends StateNotifier<ViewUnitState>
         {
             final roleCode = UnitRoleCode.fromTitle(_role);
 
-            final unit = await viewArmyState.getUnitByInstanceIdFromUserArmy(_instanceUnitId, roleCode!);
+            final dataBaseUnit = await viewArmyState.getArmyBuilderUnitItemUiByInstanceIdFromUserArmy(_instanceUnitId, roleCode!);
 
-            final core = await getCoreUnitAbility(unit);
-            final abilities = await getUnitAbility(unit);
-            final factions = await getFactionUnitAbility(unit);
-            final weapons = await getWeaponAbilities(unit);
+            if (dataBaseUnit == null)
+            {
+                state = state.copyWith(
+                    isLoading: false,
+                    error: 'Unit not found'
+                );
+                return;
+            }
 
+            final editorUnit = getItemUiByUnit(dataBaseUnit);
 
+            final core = await getCoreUnitAbility(editorUnit);
+            final abilities = await getUnitAbility(editorUnit);
+            final factions = await getFactionUnitAbility(editorUnit);
+            final weapons = await getWeaponAbilities(editorUnit);
 
-            final updatedUnit = unit.copyWith(weaponInfo:_calculateWeaponUnitWithCompositionAndStats(unit, unit.unitComposition, unit.modelStats));
+            final updatedUnit = editorUnit.copyWith(weaponInfo: _calculateWeaponUnitWithCompositionAndStats(editorUnit, editorUnit.unitComposition, editorUnit.modelStats));
 
             state = state.copyWith(
                 isLoading: false,
