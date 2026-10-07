@@ -8,8 +8,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/core/database/tables/seed/seed_objects/_types.dart';
-import 'package:ypa/core/ui/screens/unit_editor/widgets/base_ability_bloc.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/wargear/wargear_bloc.dart';
+import 'package:ypa/core/ui/widgets/Stats/base_ability_bloc.dart';
 import 'package:ypa/domain/models/abilities/base_ability.dart';
 
 import '../../../../../../domain/models/abilities/weapon_ability/weapon_ability.dart';

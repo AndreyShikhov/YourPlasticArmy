@@ -5,7 +5,10 @@
 
 import 'package:flutter/material.dart';
 
+import '../../widgets/Stats/base_ability_bloc.dart';
 import '../../widgets/Stats/base_unit_stats_bloc.dart';
+import '../../widgets/Stats/keywords_bloc.dart';
+import '../../widgets/expanded/expandable_section_unit_stats.dart';
 import '../unit_editor/unit_editor_item_ui.dart';
 
 
@@ -85,30 +88,30 @@ class ViewUnitScreen extends StatelessWidget
         //     child: WargearStatsBloc(ids: ids)
         // ));
         //
-        // /// Секции правил (добавляем только если они есть)
-        // if (unit.unitAbility.isNotEmpty)
-        // {
-        //   sections.add(ExpandableSection(
-        //       title: 'Unit Ability',
-        //       child: UnitAbilityBloc(abilities: ref.read(unitEditorControllerProvider(ids)).unitAbilities)
-        //   ));
-        // }
-        //
-        // if (unit.coreAbilities.isNotEmpty)
-        // {
-        //   sections.add(ExpandableSection(
-        //       title: 'Core Abilities',
-        //       child: UnitAbilityBloc(abilities: ref.read(unitEditorControllerProvider(ids)).coreAbilities)
-        //   ));
-        // }
-        //
-        // if (unit.factionAbilities.isNotEmpty)
-        // {
-        //   sections.add(ExpandableSection(
-        //       title: 'Faction Abilities',
-        //       child: UnitAbilityBloc(abilities: ref.read(unitEditorControllerProvider(ids)).factionAbilities)
-        //   ));
-        // }
+        /// Секции правил (добавляем только если они есть)
+        if (unit.unitAbility.isNotEmpty)
+        {
+          sections.add(ExpandableSectionUnitStats(
+              title: 'Unit Ability',
+              child: UnitAbilityBloc(abilities: []) ///unit.unitAbility
+          ));
+        }
+
+        if (unit.coreAbilities.isNotEmpty)
+        {
+          sections.add(ExpandableSectionUnitStats(
+              title: 'Core Abilities',
+              child: UnitAbilityBloc(abilities: [])
+          ));
+        }
+
+        if (unit.factionAbilities.isNotEmpty)
+        {
+          sections.add(ExpandableSectionUnitStats(
+              title: 'Faction Abilities',
+              child: UnitAbilityBloc(abilities: [])
+          ));
+        }
         //
         // /// таблица юнитов которые этот юнит может лидировать
         // if (unit.leader.isNotEmpty)
@@ -128,14 +131,14 @@ class ViewUnitScreen extends StatelessWidget
         //   ));
         // }
         //
-        // /// секция Keywords
-        // sections.add(ExpandableSection(
-        //     title: 'Keywords',
-        //     child: KeywordsBloc(
-        //         keywords: unit.keywords,
-        //         factionKeywords: unit.factionKeywords
-        //     )
-        // ));
+        /// секция Keywords
+        sections.add(ExpandableSectionUnitStats(
+            title: 'Keywords',
+            child: KeywordsBloc(
+                keywords: unit.keywords,
+                factionKeywords: unit.factionKeywords
+            )
+        ));
         //
         // /// секция Enchansment только для Character  и не Epic Heroes
         // if (unit.role == 'character' && !unit.isEpicHero)

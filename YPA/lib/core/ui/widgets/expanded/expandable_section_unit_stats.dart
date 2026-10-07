@@ -5,7 +5,7 @@
 
 import 'package:flutter/material.dart';
 
-class ExpandableSection extends StatefulWidget
+class ExpandableSectionUnitStats extends StatefulWidget
 {
     final String title;
     final String? subtitle;
@@ -15,7 +15,7 @@ class ExpandableSection extends StatefulWidget
     /// Добавляем колбэк для отслеживания состояния
     final ValueChanged<bool>? onExpansionChanged;
 
-    const ExpandableSection({
+    const ExpandableSectionUnitStats({
         super.key,
         required this.title,
         required this.child,
@@ -26,10 +26,10 @@ class ExpandableSection extends StatefulWidget
     });
 
     @override
-    State<ExpandableSection> createState() => _ExpandableSectionState();
+    State<ExpandableSectionUnitStats> createState() => _ExpandableSectionState();
 }
 
-class _ExpandableSectionState extends State<ExpandableSection>
+class _ExpandableSectionState extends State<ExpandableSectionUnitStats>
 {
     late bool _isExpanded;
 

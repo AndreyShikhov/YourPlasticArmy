@@ -8,15 +8,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ypa/core/ui/screens/army_builder/army_builder_controller.dart';
 import 'package:ypa/core/ui/screens/unit_editor/unit_editor_controller.dart';
 import 'package:ypa/core/ui/screens/unit_editor/unit_editor_state.dart';
-import 'package:ypa/core/ui/screens/unit_editor/widgets/base_ability_bloc.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/basic_stats_bloc.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/enhancement_bloc.dart';
-import 'package:ypa/core/ui/screens/unit_editor/widgets/keywords_bloc.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/leader_bloc.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/unit_composition_bloc.dart';
 import 'package:ypa/core/ui/screens/unit_editor/widgets/wargear/wargear_stats_bloc.dart';
+import 'package:ypa/core/ui/widgets/Stats/base_ability_bloc.dart';
+import 'package:ypa/core/ui/widgets/Stats/keywords_bloc.dart';
 
-import '../../widgets/expanded/expandable_section_base.dart';
+import '../../widgets/expanded/expandable_section_unit_stats.dart';
 
 class UnitEditorScreen extends ConsumerWidget
 {
@@ -109,7 +109,7 @@ class UnitEditorScreen extends ConsumerWidget
 
         if (unit.unitComposition.compositions.length > 1)
         {
-            sections.add(ExpandableSection(
+            sections.add(ExpandableSectionUnitStats(
                 title: 'Unit Composition',
                 child: UnitCompositionBloc(
                     armyId: armyId,
@@ -120,7 +120,7 @@ class UnitEditorScreen extends ConsumerWidget
         }
 
         /// секция настройки вооружения
-        sections.add(ExpandableSection(
+        sections.add(ExpandableSectionUnitStats(
             title: 'Wargear Options',
             child: WargearStatsBloc(ids: ids)
         ));
@@ -128,7 +128,7 @@ class UnitEditorScreen extends ConsumerWidget
         /// Секции правил (добавляем только если они есть)
         if (unit.unitAbility.isNotEmpty)
         {
-            sections.add(ExpandableSection(
+            sections.add(ExpandableSectionUnitStats(
                 title: 'Unit Ability',
                 child: UnitAbilityBloc(abilities: ref.read(unitEditorControllerProvider(ids)).unitAbilities)
             ));
@@ -136,7 +136,7 @@ class UnitEditorScreen extends ConsumerWidget
 
         if (unit.coreAbilities.isNotEmpty)
         {
-            sections.add(ExpandableSection(
+            sections.add(ExpandableSectionUnitStats(
                 title: 'Core Abilities',
                 child: UnitAbilityBloc(abilities: ref.read(unitEditorControllerProvider(ids)).coreAbilities)
             ));
@@ -144,7 +144,7 @@ class UnitEditorScreen extends ConsumerWidget
 
         if (unit.factionAbilities.isNotEmpty)
         {
-            sections.add(ExpandableSection(
+            sections.add(ExpandableSectionUnitStats(
                 title: 'Faction Abilities',
                 child: UnitAbilityBloc(abilities: ref.read(unitEditorControllerProvider(ids)).factionAbilities)
             ));
@@ -153,7 +153,7 @@ class UnitEditorScreen extends ConsumerWidget
         /// таблица юнитов которые этот юнит может лидировать
         if (unit.leader.isNotEmpty)
         {
-            sections.add(ExpandableSection(
+            sections.add(ExpandableSectionUnitStats(
                 title: 'Leader',
                 child: LeaderBloc(armyId: armyId, instanceId: instanceId, roleCode: roleCode, filters: unit.leader)
             ));
@@ -162,14 +162,14 @@ class UnitEditorScreen extends ConsumerWidget
         /// таблица юнитов которые могут лидировать этот юнит
         if (unit.ledBy.isNotEmpty)
         {
-            sections.add(ExpandableSection(
+            sections.add(ExpandableSectionUnitStats(
                 title: 'Led By',
                 child: LeaderBloc(armyId: armyId, instanceId: instanceId, roleCode: roleCode, filters: unit.ledBy)
             ));
         }
 
         /// секция Keywords
-        sections.add(ExpandableSection(
+        sections.add(ExpandableSectionUnitStats(
             title: 'Keywords',
             child: KeywordsBloc(
                 keywords: unit.keywords,
@@ -180,7 +180,7 @@ class UnitEditorScreen extends ConsumerWidget
         /// секция Enchansment только для Character  и не Epic Heroes
         if (unit.role == 'character' && !unit.isEpicHero) 
         {
-            sections.add(ExpandableSection(
+            sections.add(ExpandableSectionUnitStats(
                 title: 'Enhancement',
                 child: EnhancementBloc(ids: ids, allEnhancement: ref.read(armyBuilderControllerProvider(armyId)).allEnhancement)
             ));
