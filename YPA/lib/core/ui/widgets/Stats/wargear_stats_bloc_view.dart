@@ -77,7 +77,7 @@ class _WargearStatsBlocState extends ConsumerState<WargearStatsBlocView>
     Widget build(BuildContext context)
     {
 
-        if (widget.weaponInfo == null || widget.modelStats == {} || widget.weaponAbilities.isEmpty) return const SizedBox.shrink();
+        if (widget.weaponInfo == null ) return const SizedBox.shrink();
 
         final screenWidth = MediaQuery.sizeOf(context).width;
         final isWide = screenWidth > 900;

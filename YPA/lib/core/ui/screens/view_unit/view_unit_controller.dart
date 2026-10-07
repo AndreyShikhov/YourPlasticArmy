@@ -102,7 +102,15 @@ class ViewUnitController extends StateNotifier<ViewUnitState>
             final factions = await getFactionUnitAbility(editorUnit);
             final weapons = await getWeaponAbilities(editorUnit);
 
-            final updatedUnit = editorUnit.copyWith(weaponInfo: _calculateWeaponUnitWithCompositionAndStats(editorUnit, editorUnit.unitComposition, editorUnit.modelStats));
+
+            final weaponInfo = calculateWeaponInfoFromSnapshot(editorUnit);
+            final modifiedStats = recalculateModifiedStats(editorUnit);
+
+            final updatedUnit = editorUnit.copyWith(
+              weaponInfo: weaponInfo,
+              modifiedModelCharacteristics: modifiedStats,
+            );
+
 
             state = state.copyWith(
                 isLoading: false,

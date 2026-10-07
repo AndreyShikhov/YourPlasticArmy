@@ -35,12 +35,12 @@ class ViewUnitScreen extends ConsumerWidget
         final ids = (armyId, instanceId, roleCode); 
         final state = ref.watch(ViewUnitControllerProvider(ids));
 
-        if (state.isLoading) 
+        if (state.isLoading)
         {
             return const Scaffold(body: Center(child: CircularProgressIndicator()));
         }
 
-        if (state.unit == null) 
+        if (state.unit == null)
         {
             return const Scaffold(body: Center(child: Text('Unit not found')));
         }
@@ -89,16 +89,17 @@ class ViewUnitScreen extends ConsumerWidget
 
         /// Секция состава
 
+
+
         /// секция настройки вооружения
         sections.add(ExpandableSectionUnitStats(
             title: 'Wargear Options',
             child: WargearStatsBlocView(
-                modelStats: state.unit!.modelStats,
+                modelStats:state.unit!.modelStats,
                 weaponInfo: state.unit!.weaponInfo,
                 weaponAbilities: state.weaponAbilities
             )
         ));
-
 
         /// Секции правил (добавляем только если они есть)
         if (state.unit?.unitAbility.isNotEmpty == true)
