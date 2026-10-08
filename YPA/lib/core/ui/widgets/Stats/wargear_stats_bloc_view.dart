@@ -76,8 +76,7 @@ class _WargearStatsBlocState extends ConsumerState<WargearStatsBlocView>
     @override
     Widget build(BuildContext context)
     {
-
-        if (widget.weaponInfo == null ) return const SizedBox.shrink();
+        if (widget.weaponInfo == null) return const SizedBox.shrink();
 
         final screenWidth = MediaQuery.sizeOf(context).width;
         final isWide = screenWidth > 900;
@@ -265,13 +264,16 @@ class _ModelWeaponBlock extends StatelessWidget
 
             if (info.isEquiped) isLight = !isLight;
 
-            weaponRows.add(_WeaponRow(
-                weapon: weapon,
-                isUsed: info.isEquiped,
-                isLight: isLight,
-                weaponAbilities: weaponAbilities,
-                amount: info.amount
-            ));
+            if (info.amount > 0)
+            {
+                weaponRows.add(_WeaponRow(
+                    weapon: weapon,
+                    isUsed: info.isEquiped,
+                    isLight: isLight,
+                    weaponAbilities: weaponAbilities,
+                    amount: info.amount
+                ));
+            }
         }
 
         return Padding(

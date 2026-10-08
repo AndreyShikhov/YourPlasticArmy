@@ -13,7 +13,6 @@ import '../../../../domain/models/abilities/core_unit_ability/core_unit_ability_
 import '../../../../domain/models/abilities/faction_unit_ability/faction_unit_ability_dom.dart';
 import '../../../../domain/models/abilities/unit_ability/unit_ability_dom.dart';
 import '../../../../domain/models/abilities/weapon_ability/weapon_ability_dom.dart';
-import '../../../../domain/models/unit/unit_stats.dart';
 import '../../../../features/common_functions_lib.dart';
 import '../../../database/tables/seed/seed_objects/_types.dart';
 import '../../../providers/di/core_unit_abilities_providers.dart';
@@ -219,64 +218,4 @@ class ViewUnitController extends StateNotifier<ViewUnitState>
         ).toList();
     }
 
-    List<({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> _calculateWeaponUnitWithCompositionAndStats(
-        UnitEditorItemUi unit,
-        UnitCompositionDom composition,
-        Map<String, ModelStatsDom> modelStats)
-
-    {
-        final List<({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> weaponInfo = [];
-
-        /// 1. Считаем общее количество сержантов во всем юните заранее
-        int totalSergeantsInUnit = 0;
-        modelStats.forEach((_, stats)
-            {
-                if (stats.isSergeant ?? false) totalSergeantsInUnit++;
-            });
-
-        /// 2. Основной цикл по моделям
-        modelStats.forEach((modelName, stats)
-            {
-                if (stats.isNeedShow! || stats.isSergeant!)
-                {
-                    bool isSergeant = stats.isSergeant ?? false;
-
-                    for (final type in [WeaponType.ranged, WeaponType.melee])
-                    {
-                        final availableWeapons = stats.modelWeapons.weapons[type] ?? [];
-                        final equippedNames = stats.modelWeapons.selectedWeapons[type] ?? [];
-
-                        for (final weapon in availableWeapons)
-                        {
-                            int totalAmount = 0;
-                            bool isEquiped = equippedNames.contains(weapon.name);
-
-                            if (isEquiped)
-                            {
-                                if (isSergeant)
-                                {
-                                    totalAmount = 1;
-                                }
-                                else
-                                {
-                                    /// Количество моделей без сержантов
-                                    final totalModelsCount = composition.effectiveComposition.keys.firstOrNull ?? 0;
-                                    totalAmount = totalModelsCount - totalSergeantsInUnit;
-                                }
-                            }
-
-                            weaponInfo.add((
-                                modelName: modelName,
-                                weaponType: type,
-                                weaponName: weapon.name,
-                                isEquiped: totalAmount > 0,
-                                amount: totalAmount
-                            ));
-                        }
-                    }
-                }
-            });
-
-        return weaponInfo;
-    }
 }
