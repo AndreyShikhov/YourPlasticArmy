@@ -186,6 +186,7 @@ class ArmyBuilderState
             role: findedUnit.role,
             isEpicHero: findedUnit.isEpicHero,
             repeat: findedUnit.repeat,
+            unitInstanceIndex: findedUnit.unitInstanceIndex,
             keywords: findedUnit.keywords,
             factionKeywords: findedUnit.factionKeywords,
             unitComposition: findedUnit.unitComposition,

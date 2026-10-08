@@ -57,7 +57,6 @@ class ArmyUnitsBlock extends ConsumerWidget
             resultWidgets.add(UnitWidget(
                 armyId: armyId,
                 unit: units[i],
-                numberUnit: i + 1,
                 bgColor: bgColor,
                 position: position
             ));

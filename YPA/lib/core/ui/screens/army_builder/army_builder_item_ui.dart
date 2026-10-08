@@ -16,6 +16,7 @@ class ArmyBuilderUnitItemUi
     final String role;
     final bool isEpicHero;
     final int repeat;
+    final int unitInstanceIndex; ///  номер дубликата в армии юзера
     final List<String> keywords;
     final List<String> factionKeywords;
     final UnitCompositionDom unitComposition;
@@ -37,6 +38,7 @@ class ArmyBuilderUnitItemUi
         required this.role,
         required this.isEpicHero,
         required this.repeat,
+        required this.unitInstanceIndex,
         required this.keywords,
         required this.factionKeywords,
         required this.unitComposition,
@@ -60,6 +62,7 @@ class ArmyBuilderUnitItemUi
         String? role,
         bool? isEpicHero,
         int? repeat,
+        int? unitInstanceIndex,
         List<String>? keywords,
         List<String>? factionKeywords,
         UnitCompositionDom? unitComposition,
@@ -82,6 +85,7 @@ class ArmyBuilderUnitItemUi
             role: role ?? this.role,
             isEpicHero: isEpicHero ?? this.isEpicHero,
             repeat: repeat ?? this.repeat,
+            unitInstanceIndex: unitInstanceIndex ?? this.unitInstanceIndex,
             keywords: keywords ?? this.keywords,
             factionKeywords: factionKeywords ?? this.factionKeywords,
             unitComposition: unitComposition ?? this.unitComposition,
@@ -108,6 +112,7 @@ class ArmyBuilderUnitItemUi
             'role': role,
             'isEpicHero': isEpicHero,
             'repeat': repeat,
+            'unitInstanceIndex': unitInstanceIndex,
             'keywords': keywords,
             'factionKeywords': factionKeywords,
             'unitComposition': unitComposition.toJson(),
@@ -135,6 +140,7 @@ class ArmyBuilderUnitItemUi
             role: json['role'] ?? '',
             isEpicHero: json['isEpicHero'] ?? false,
             repeat: json['repeat'] ?? '1',
+            unitInstanceIndex: json['unitInstanceIndex'] ?? 1,
             keywords: List<String>.from(json['keywords'] ?? []),
             factionKeywords: List<String>.from(json['factionKeywords'] ?? []),
             unitComposition: UnitCompositionDom.fromJson(json['unitComposition'] ?? {}),
@@ -170,6 +176,7 @@ class ArmyBuilderUnitItemUi
             role: '',
             isEpicHero: false,
             repeat: 1,
+            unitInstanceIndex: 1,
             keywords: [],
             factionKeywords: [],
             unitComposition: UnitCompositionDom.emptyComposition,

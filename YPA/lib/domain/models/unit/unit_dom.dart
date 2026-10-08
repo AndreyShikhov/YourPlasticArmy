@@ -36,7 +36,6 @@ class UnitDOM
     final Map<String, dynamic> characteristics;
     final String selectedEnhancement;
 
-
     const UnitDOM._({
         required this.id,
         required this.name,
@@ -57,8 +56,7 @@ class UnitDOM
         required this.selectedWargearIndices,
         required this.weaponSnapshot,
         required this.characteristics,
-        required this.selectedEnhancement,
-
+        required this.selectedEnhancement
     });
 
     factory UnitDOM.restore({
@@ -81,8 +79,7 @@ class UnitDOM
         Map<String, List<int>>? selectedWargearIndices,
         List<Map<String, dynamic>>? weaponSnapshot,
         Map<String, dynamic>? characteristics,
-        String? selectedEnhancement,
-
+        String? selectedEnhancement
     })
     {
         return UnitDOM._(
@@ -105,7 +102,7 @@ class UnitDOM
             selectedWargearIndices: selectedWargearIndices ?? {},
             weaponSnapshot: weaponSnapshot ?? [],
             characteristics: characteristics ?? {},
-            selectedEnhancement: selectedEnhancement?? '',
+            selectedEnhancement: selectedEnhancement ?? ''
         );
     }
 
@@ -125,8 +122,7 @@ class UnitDOM
         required List<LeaderFilterDom> leader,
         required List<LeaderFilterDom> ledBy,
         required Map<String, ModelStatsDom> modelStats,
-        required String selectedEnhancement,
-
+        required String selectedEnhancement
     })
     {
         return UnitDOM._(
@@ -149,7 +145,7 @@ class UnitDOM
             selectedWargearIndices: {},
             weaponSnapshot: [],
             characteristics: {},
-            selectedEnhancement: selectedEnhancement,
+            selectedEnhancement: selectedEnhancement
         );
     }
 
@@ -173,7 +169,7 @@ class UnitDOM
         Map<String, List<int>>? selectedWargearIndices,
         List<Map<String, dynamic>>? weaponSnapshot,
         Map<String, dynamic>? characteristics,
-        String? selectedEnhancement,
+        String? selectedEnhancement
     })
     {
         return UnitDOM._(
@@ -197,7 +193,7 @@ class UnitDOM
             selectedWargearIndices: selectedWargearIndices ?? this.selectedWargearIndices,
             weaponSnapshot: weaponSnapshot ?? this.weaponSnapshot,
             characteristics: characteristics ?? this.characteristics,
-            selectedEnhancement: selectedEnhancement ?? this.selectedEnhancement,
+            selectedEnhancement: selectedEnhancement ?? this.selectedEnhancement
         );
     }
 }

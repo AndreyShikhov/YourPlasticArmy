@@ -18,10 +18,10 @@ import '../unit/unit.dart';
 
 enum SaveCategoryCode
 {
-
     instanceId('instanceId', 'Instance Id'),
     unitId('unitId', 'Unit Id'),
     composition('composition', 'Composition'),
+    unitInstanceIndex('unitInstanceIndex', 'Unit Instance Index'),
     points('points', 'Points'),
     wargearOptions('wargearOptions', 'Wargear Options'),
     weaponInfo('weaponInfo', 'Weapon Info'),
@@ -137,6 +137,7 @@ class UserArmyDOM
         String unitId,
         String instanceId,
         String role,
+        int unitInstanceIndex,
         UnitCompositionDom composition,
         Map<String, List<int>> selectedWargear,
         List<Map<String, dynamic>> weaponSnapshot,
@@ -180,16 +181,15 @@ class UserArmyDOM
         /// 4. Формируем новый объект юнита
         final newUnitInstance =
             {
-
                 SaveCategoryCode.instanceId.code: instanceId,                                 /// Уникальный ID отряда в ростере
                 SaveCategoryCode.unitId.code: unitId,                                         /// Ссылка на ID базового юнита из таблицы Units
+                SaveCategoryCode.unitInstanceIndex.code: unitInstanceIndex,                   /// индекс юнита в армии юзера
                 SaveCategoryCode.composition.code: finalComposition.toSaveUserArmyJson(),     /// Сохзраняем не весь Compositionа только выбранные элементы
                 SaveCategoryCode.points.code: finalComposition.totalUnitCost,                 /// Cтоимость юнита"
                 SaveCategoryCode.wargearOptions.code: selectedWargear,                        /// Warger выбранные варгиры
                 SaveCategoryCode.weaponInfo.code: weaponSnapshot,                             /// Информация таблиц с оружием
                 SaveCategoryCode.characteristics.code: characteristics,                       /// Обновлённые характеристики Юнита
                 SaveCategoryCode.enhancement.code: selectedEnhancement                        /// Enhancement юнита
-
             };
 
         /// 5. Добавляем юнит в список и обновляем структуру
@@ -343,5 +343,4 @@ class UserArmyDOM
             return 0;
         }
     }
-
 }

@@ -181,7 +181,6 @@ class UnitCompositionModelDom
 
 class WargearOptionsDom
 {
-
     final String text;
     final String modelName;
     final Map<WargearConditionCount, int> conditionCount;
@@ -287,7 +286,6 @@ class LeaderFilterDom
             names: List<String>.from(json['names'] ?? [])
         );
     }
-
 }
 
 /// ==========================================
@@ -359,8 +357,7 @@ class CharacteristicsDom
         int? wounds,
         int? leadership,
         int? objectiveControl
-
-    }) 
+    })
     {
         return CharacteristicsDom(
             movement: movement ?? this.movement,
@@ -384,8 +381,8 @@ class CharacteristicsDom
     );
 
     @override
-    bool operator ==(Object other) =>
-        identical(this, other) ||
+    bool operator==(Object other) =>
+    identical(this, other) ||
         other is CharacteristicsDom &&
             runtimeType == other.runtimeType &&
             movement == other.movement &&
@@ -398,14 +395,14 @@ class CharacteristicsDom
 
     @override
     int get hashCode => Object.hash(
-          movement,
-          toughness,
-          save,
-          invulnerableSave,
-          wounds,
-          leadership,
-          objectiveControl,
-        );
+        movement,
+        toughness,
+        save,
+        invulnerableSave,
+        wounds,
+        leadership,
+        objectiveControl
+    );
 }
 
 /// ==========================================
@@ -439,7 +436,6 @@ class ModelStatsDom
 
     factory ModelStatsDom.fromJson(Map<String, dynamic> json)
     {
-
         return ModelStatsDom(
             isNeedShow: json['isNeedShow'] as bool? ?? false,
             isSergeant: json['isSergeant'] as bool? ?? false,
@@ -478,7 +474,6 @@ class ModelStatsDom
             wargearOptions: wargearOptions ?? this.wargearOptions
         );
     }
-
 }
 
 class UnitStatsDom

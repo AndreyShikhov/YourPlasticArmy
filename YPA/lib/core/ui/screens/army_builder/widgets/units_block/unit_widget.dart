@@ -20,7 +20,6 @@ class UnitWidget extends ConsumerWidget
 {
     final String armyId;
     final ArmyBuilderUnitItemUi unit;
-    final int numberUnit;
     final Color bgColor;
     final StylePosition position;
 
@@ -28,7 +27,6 @@ class UnitWidget extends ConsumerWidget
     {super.key,
         required this.armyId,
         required this.unit,
-        required this.numberUnit,
         required this.bgColor,
         required this.position
     });
@@ -78,7 +76,7 @@ class UnitWidget extends ConsumerWidget
                                 children: [
                                     Expanded(
                                         child: Text(
-                                            '${unit.name} ${getRomeNumber(numberUnit)}',
+                                            '${unit.name} ${getRomeNumber(unit.unitInstanceIndex)}',
                                             style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                                             maxLines: 1,
                                             overflow: TextOverflow.ellipsis

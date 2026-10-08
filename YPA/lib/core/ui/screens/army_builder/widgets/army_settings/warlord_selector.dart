@@ -13,7 +13,6 @@ import '../../army_builder_controller.dart';
 
 class WarlordSelector extends ConsumerWidget
 {
-
     final String armyId;
 
     const WarlordSelector({
@@ -24,7 +23,6 @@ class WarlordSelector extends ConsumerWidget
     @override
     Widget build(BuildContext context, WidgetRef ref)
     {
-
         final userArmyUnits = ref.watch(
             armyBuilderControllerProvider(armyId).select((s) => s.userArmyUnits)
         );
@@ -41,7 +39,6 @@ class WarlordSelector extends ConsumerWidget
         final String? effectiveValue = (warlordInstaceId != null && warlordInstaceId.isNotEmpty && isWarlordInList)
             ? warlordInstaceId
             : null;
-
 
         ///getRomeNumber(numberUnit);
         return DropdownButtonFormField<String>(
@@ -75,16 +72,10 @@ class WarlordSelector extends ConsumerWidget
 
     List<DropdownMenuItem<String>> _buildDropdownItems(List<ArmyBuilderUnitItemUi> characterUnits)
     {
-        final Map<String, int> nameCounts = {};
-
         return characterUnits.map((unit)
             {
-                /// Считаем, сколько раз мы уже встретили это имя
-                final currentCount = (nameCounts[unit.name] ?? 0) + 1;
-                nameCounts[unit.name] = currentCount;
-
                 /// Генерируем имя с римской цифрой (например, "Captain II")
-                final displayName = "${unit.name} ${getRomeNumber(currentCount)}";
+                final displayName = "${unit.name} ${getRomeNumber(unit.unitInstanceIndex)}";
 
                 return DropdownMenuItem<String>(
                     value: unit.instanceId,
@@ -92,5 +83,4 @@ class WarlordSelector extends ConsumerWidget
                 );
             }).toList();
     }
-
 }

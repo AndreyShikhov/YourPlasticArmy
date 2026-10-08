@@ -57,7 +57,7 @@ class _ViewArmyScreenState extends ConsumerState<ViewArmyScreen>
                     ),
                     flexibleSpace: SafeArea(
                         child: Padding(
-                            padding: const EdgeInsets.only(top: 50, left: 84, right: 10 ),
+                            padding: const EdgeInsets.only(top: 50, left: 84, right: 10),
                             child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
@@ -137,7 +137,7 @@ class _ViewArmyScreenState extends ConsumerState<ViewArmyScreen>
                         final pos = _stylePositionForIndex(i, len);
                         return ViewUnitButton(
 
-                            name: '$name  ${getRomeNumber(i + 1)}',
+                            name: '$name  ${getRomeNumber(units[i].unitInstanceIndex)}',
                             armyId: widget.armyId,
                             unitInstanceId: ids[i],
                             role: role,
@@ -156,5 +156,4 @@ class _ViewArmyScreenState extends ConsumerState<ViewArmyScreen>
         if (index == length - 1) return StylePosition.last;
         return StylePosition.middle;
     }
-
 }

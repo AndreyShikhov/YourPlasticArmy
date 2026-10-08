@@ -32,18 +32,14 @@ String getRomeNumber(int arabianNumber)
     }
 }
 
-
-
 Map<String, dynamic> getDecodedJsonUserArmyUnit(String jsonData)
 {
-  if (jsonData.isEmpty) return {};
+    if (jsonData.isEmpty) return {};
 
-  final decoded = jsonDecode(jsonData) as Map<String, dynamic>;
-  final categoriesJson = decoded['categories'] as Map<String, dynamic>? ?? {};
-  return categoriesJson;
+    final decoded = jsonDecode(jsonData) as Map<String, dynamic>;
+    final categoriesJson = decoded['categories'] as Map<String, dynamic>? ?? {};
+    return categoriesJson;
 }
-
-
 
 Set<String> extractUnitIds(Map<String, dynamic> categoriesJson)
 {
@@ -62,8 +58,7 @@ Set<String> extractUnitIds(Map<String, dynamic> categoriesJson)
     return unitIds;
 }
 
-
-Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> getAllUserArmyUnitsOptimized(String jsonData,  List<UnitDOM> loadedBaseUnits)
+Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> getAllUserArmyUnitsOptimized(String jsonData, List<UnitDOM> loadedBaseUnits)
 {
     if (jsonData.isEmpty) return {};
 
@@ -114,7 +109,8 @@ Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> getAllUserArmyUnitsOptimized(Stri
                             map[SaveCategoryCode.wargearOptions.code],
                             map[SaveCategoryCode.weaponInfo.code],
                             map[SaveCategoryCode.characteristics.code],
-                            map[SaveCategoryCode.enhancement.code]
+                            map[SaveCategoryCode.unitInstanceIndex.code],
+                            map[SaveCategoryCode.enhancement.code],
                         ));
                     }
                 }
@@ -136,6 +132,7 @@ ArmyBuilderUnitItemUi convertDomainUnitToUnitItemUi(
     Map<String, dynamic>? savedWargear,
     List<dynamic>? savedWeaponSnapshot,
     Map<String, dynamic>? savedCharacteristics,
+    int? savedUnitInstanceIndex,
     String savedSelectedEnhancementId
 )
 {
@@ -146,6 +143,7 @@ ArmyBuilderUnitItemUi convertDomainUnitToUnitItemUi(
         role: unit.role.value.name,
         isEpicHero: unit.isEpicHero,
         repeat: unit.repeat,
+        unitInstanceIndex: savedUnitInstanceIndex ?? 1,
         keywords: unit.keywords,
         factionKeywords: unit.factionKeywords,
         unitComposition: _buildCompositionFromSaveData(unit.unitComposition, savedComposition),
@@ -221,180 +219,177 @@ Map<String, CharacteristicsDom> _buildCharacteristicsFromSaveData(Map<String, dy
     return {};
 }
 
-
-
-
 /// ==========================================
 ///  Build Unit Item UI
 /// ==========================================
 
-UnitEditorItemUi getItemUiByUnit(ArmyBuilderUnitItemUi unit)  {
-  return UnitEditorItemUi(
-      instanceId: unit.instanceId,
-      name: unit.name,
-      role: unit.role,
-      isEpicHero: unit.isEpicHero,
-      repeat: unit.repeat,
-      keywords: unit.keywords,
-      factionKeywords: unit.factionKeywords,
-      unitComposition: unit.unitComposition,
-      unitAbility: unit.unitAbility,
-      coreAbilities: unit.coreAbilities,
-      factionAbilities: unit.factionAbilities,
-      leader: unit.leader,
-      ledBy: unit.ledBy,
-      modelStats: unit.modelStats,
-      selectedWargearIndices: unit.selectedWargearIndices,
-      modifiedModelCharacteristics:  _recalculateModifiedStatsFromUnit(unit),
-      weaponInfo: _calculateWeaponInfoWithUnitArmyEditor(unit),
-      selectedEnhancement: unit.selectedEnhancementId
-  );
+UnitEditorItemUi getItemUiByUnit(ArmyBuilderUnitItemUi unit)
+{
+    return UnitEditorItemUi(
+        instanceId: unit.instanceId,
+        name: unit.name,
+        role: unit.role,
+        isEpicHero: unit.isEpicHero,
+        repeat: unit.repeat,
+        keywords: unit.keywords,
+        factionKeywords: unit.factionKeywords,
+        unitComposition: unit.unitComposition,
+        unitAbility: unit.unitAbility,
+        coreAbilities: unit.coreAbilities,
+        factionAbilities: unit.factionAbilities,
+        leader: unit.leader,
+        ledBy: unit.ledBy,
+        modelStats: unit.modelStats,
+        selectedWargearIndices: unit.selectedWargearIndices,
+        modifiedModelCharacteristics: _recalculateModifiedStatsFromUnit(unit),
+        weaponInfo: _calculateWeaponInfoWithUnitArmyEditor(unit),
+        selectedEnhancement: unit.selectedEnhancementId
+    );
 }
 
 Map<String, CharacteristicsDom> _recalculateModifiedStatsFromUnit(ArmyBuilderUnitItemUi unit)
 {
-  final Map<String, CharacteristicsDom> modifiedStats = unit.modelStats.map(
-          (key, value) => MapEntry(key, value.characteristics)
-  );
+    final Map<String, CharacteristicsDom> modifiedStats = unit.modelStats.map(
+        (key, value) => MapEntry(key, value.characteristics)
+    );
 
-  unit.selectedWargearIndices.forEach((optionId, selectedIndices)
-  {
-    final parts = optionId.split('-');
-    if (parts.length < 2) return;
-
-    final modelName = parts[0];
-    final optionIdx = int.tryParse(parts[1]);
-
-    if (!unit.modelStats.containsKey(modelName)) return;
-    final model = unit.modelStats[modelName]!;
-
-    if (optionIdx == null || optionIdx >= model.wargearOptions.length) return;
-    final option = model.wargearOptions[optionIdx];
-
-    if (option.changeParameter == null || option.changeParameter!.isEmpty) return;
-
-    for (var idx in selectedIndices)
-    {
-      if (idx < option.changeParameter!.length)
-      {
-        final paramChanges = option.changeParameter!.values.elementAt(idx);
-
-        for (var change in paramChanges)
+    unit.selectedWargearIndices.forEach((optionId, selectedIndices)
         {
-          final statName = change.keys.first;
-          final value = change.values.first;
+            final parts = optionId.split('-');
+            if (parts.length < 2) return;
 
-          final current = modifiedStats[modelName]!;
-          CharacteristicsDom updated;
+            final modelName = parts[0];
+            final optionIdx = int.tryParse(parts[1]);
 
-          switch (statName)
-          {
-            case 'movement': updated = current.copyWith(movement: current.movement + value);
-            break;
-            case 'toughness': updated = current.copyWith(toughness: current.toughness + value);
-            break;
-            case 'save': updated = current.copyWith(save: current.save + value);
-            break;
-            case 'invulnerableSave': updated = current.copyWith(invulnerableSave: current.invulnerableSave + value);
-            break;
-            case 'wounds': updated = current.copyWith(wounds: current.wounds + value);
-            break;
-            case 'leadership': updated = current.copyWith(leadership: current.leadership + value);
-            break;
-            case 'objectiveControl': updated = current.copyWith(objectiveControl: current.objectiveControl + value);
-            break;
-            default: updated = current;
-            break;
-          }
-          modifiedStats[modelName] = updated;
-        }
-      }
-    }
-  });
+            if (!unit.modelStats.containsKey(modelName)) return;
+            final model = unit.modelStats[modelName]!;
 
-  return modifiedStats;
+            if (optionIdx == null || optionIdx >= model.wargearOptions.length) return;
+            final option = model.wargearOptions[optionIdx];
+
+            if (option.changeParameter == null || option.changeParameter!.isEmpty) return;
+
+            for (var idx in selectedIndices)
+            {
+                if (idx < option.changeParameter!.length)
+                {
+                    final paramChanges = option.changeParameter!.values.elementAt(idx);
+
+                    for (var change in paramChanges)
+                    {
+                        final statName = change.keys.first;
+                        final value = change.values.first;
+
+                        final current = modifiedStats[modelName]!;
+                        CharacteristicsDom updated;
+
+                        switch (statName)
+                        {
+                            case 'movement': updated = current.copyWith(movement: current.movement + value);
+                                break;
+                            case 'toughness': updated = current.copyWith(toughness: current.toughness + value);
+                                break;
+                            case 'save': updated = current.copyWith(save: current.save + value);
+                                break;
+                            case 'invulnerableSave': updated = current.copyWith(invulnerableSave: current.invulnerableSave + value);
+                                break;
+                            case 'wounds': updated = current.copyWith(wounds: current.wounds + value);
+                                break;
+                            case 'leadership': updated = current.copyWith(leadership: current.leadership + value);
+                                break;
+                            case 'objectiveControl': updated = current.copyWith(objectiveControl: current.objectiveControl + value);
+                                break;
+                            default: updated = current;
+                                break;
+                        }
+                        modifiedStats[modelName] = updated;
+                    }
+                }
+            }
+        });
+
+    return modifiedStats;
 }
 
 List<({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> _calculateWeaponInfoWithUnitArmyEditor(ArmyBuilderUnitItemUi unit)
 {
-  /// 1. Пытаемся восстановить данные из сохраненного снапшота
-  if (unit.weaponSnapshot.isNotEmpty)
-  {
-    try
+    /// 1. Пытаемся восстановить данные из сохраненного снапшота
+    if (unit.weaponSnapshot.isNotEmpty)
     {
-      return unit.weaponSnapshot.map((w)
-      {
-        return (
-        modelName: w['modelName'] as String,
-        weaponType: WeaponType.values.byName(w['weaponType'] as String),
-        weaponName: w['weaponName'] as String,
-        isEquiped: w['isEquiped'] as bool,
-        amount: w['amount'] as int
-        );
-      }).toList();
-    } catch (e)
-    {
-      /// Если структура снапшота устарела или повреждена,
-      /// логика перейдет к расчету по умолчанию ниже
-      debugPrint('Weapon snapshot restore error: $e');
-    }
-  }
-
-  final List<({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> weaponInfo = [];
-
-  /// 1. Считаем общее количество сержантов во всем юните заранее
-  int totalSergeantsInUnit = 0;
-  unit.modelStats.forEach((_, stats)
-  {
-    if (stats.isSergeant ?? false) totalSergeantsInUnit++;
-  });
-
-  /// 2. Основной цикл по моделям
-  unit.modelStats.forEach((modelName, stats)
-  {
-    if (stats.isNeedShow! || stats.isSergeant!)
-    {
-      bool isSergeant = stats.isSergeant ?? false;
-
-      for (final type in [WeaponType.ranged, WeaponType.melee])
-      {
-        final availableWeapons = stats.modelWeapons.weapons[type] ?? [];
-        final equippedNames = stats.modelWeapons.selectedWeapons[type] ?? [];
-
-        for (final weapon in availableWeapons)
+        try
         {
-          int totalAmount = 0;
-          bool isEquiped = equippedNames.contains(weapon.name);
-
-          if (isEquiped)
-          {
-            if (isSergeant)
-            {
-              totalAmount = 1;
-            }
-            else
-            {
-              /// Количество моделей без сержантов
-              final totalModelsCount = unit.unitComposition.effectiveComposition.keys.firstOrNull ?? 0;
-              totalAmount = totalModelsCount - totalSergeantsInUnit;
-            }
-          }
-
-          weaponInfo.add((
-          modelName: modelName,
-          weaponType: type,
-          weaponName: weapon.name,
-          isEquiped: isEquiped,
-          amount: totalAmount
-          ));
+            return unit.weaponSnapshot.map((w)
+                {
+                    return (
+                        modelName: w['modelName'] as String,
+                        weaponType: WeaponType.values.byName(w['weaponType'] as String),
+                        weaponName: w['weaponName'] as String,
+                        isEquiped: w['isEquiped'] as bool,
+                        amount: w['amount'] as int
+                    );
+                }).toList();
+        } catch (e)
+        {
+            /// Если структура снапшота устарела или повреждена,
+            /// логика перейдет к расчету по умолчанию ниже
+            debugPrint('Weapon snapshot restore error: $e');
         }
-      }
     }
-  });
 
-  return weaponInfo;
+    final List<({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> weaponInfo = [];
+
+    /// 1. Считаем общее количество сержантов во всем юните заранее
+    int totalSergeantsInUnit = 0;
+    unit.modelStats.forEach((_, stats)
+        {
+            if (stats.isSergeant ?? false) totalSergeantsInUnit++;
+        });
+
+    /// 2. Основной цикл по моделям
+    unit.modelStats.forEach((modelName, stats)
+        {
+            if (stats.isNeedShow! || stats.isSergeant!)
+            {
+                bool isSergeant = stats.isSergeant ?? false;
+
+                for (final type in [WeaponType.ranged, WeaponType.melee])
+                {
+                    final availableWeapons = stats.modelWeapons.weapons[type] ?? [];
+                    final equippedNames = stats.modelWeapons.selectedWeapons[type] ?? [];
+
+                    for (final weapon in availableWeapons)
+                    {
+                        int totalAmount = 0;
+                        bool isEquiped = equippedNames.contains(weapon.name);
+
+                        if (isEquiped)
+                        {
+                            if (isSergeant)
+                            {
+                                totalAmount = 1;
+                            }
+                            else
+                            {
+                                /// Количество моделей без сержантов
+                                final totalModelsCount = unit.unitComposition.effectiveComposition.keys.firstOrNull ?? 0;
+                                totalAmount = totalModelsCount - totalSergeantsInUnit;
+                            }
+                        }
+
+                        weaponInfo.add((
+                            modelName: modelName,
+                            weaponType: type,
+                            weaponName: weapon.name,
+                            isEquiped: isEquiped,
+                            amount: totalAmount
+                        ));
+                    }
+                }
+            }
+        });
+
+    return weaponInfo;
 }
-
 
 /// ==========================================
 ///  Calculate unit wargear
@@ -402,192 +397,192 @@ List<({String modelName, WeaponType weaponType, String weaponName, bool isEquipe
 
 List<({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> calculateWeaponInfoFromSnapshot(UnitEditorItemUi unit)
 {
-  final List<({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> weaponInfo = [];
+    final List<({String modelName, WeaponType weaponType, String weaponName, bool isEquiped, int amount})> weaponInfo = [];
 
-  /// Временная карта для подсчета количества экипированного оружия
-  /// Map<modelName, Map<weaponName, amount>>
-  final Map<String, Map<String, int>> equippedCount = {};
+    /// Временная карта для подсчета количества экипированного оружия
+    /// Map<modelName, Map<weaponName, amount>>
+    final Map<String, Map<String, int>> equippedCount = {};
 
-  /// 1. Инициализируем базовое оружие для всех видимых моделей
-  int totalSergeants = 0;
-  unit.modelStats.forEach((modelName, stats)
-  {
-    if (stats.isSergeant == true) totalSergeants++;
-  });
-
-  int totalModels = unit.unitComposition.effectiveComposition.keys.firstOrNull ?? 0;
-  int normalModels = totalModels - totalSergeants;
-
-  unit.modelStats.forEach((modelName, stats)
-  {
-    if (!(stats.isNeedShow == true || stats.isSergeant == true)) return;
-
-    equippedCount[modelName] ??= {};
-    int modelCount = (stats.isSergeant == true) ? 1 : normalModels;
-
-    for (final type in [WeaponType.ranged, WeaponType.melee])
-    {
-      final baseWeapons = stats.modelWeapons.selectedWeapons[type] ?? [];
-      for (var wName in baseWeapons)
-      {
-        equippedCount[modelName]![wName] = (equippedCount[modelName]![wName] ?? 0) + modelCount;
-      }
-    }
-  });
-
-  /// 2. Применяем изменения из снапшота
-  unit.modelStats.forEach((modelName, stats)
-  {
-    if (!(stats.isNeedShow == true || stats.isSergeant == true)) return;
-
-    for (int i = 0; i < stats.wargearOptions.length; i++)
-    {
-      final option = stats.wargearOptions[i];
-      final optionId = "$modelName-$i";
-      final selectedIndices = unit.selectedWargearIndices[optionId] ?? [];
-
-      for (var idx in selectedIndices)
-      {
-        /// Если это замена
-        if (option.replaceWeapons.isNotEmpty)
+    /// 1. Инициализируем базовое оружие для всех видимых моделей
+    int totalSergeants = 0;
+    unit.modelStats.forEach((modelName, stats)
         {
-          final int entryIdx = (option.replaceWeapons.length > 1) ? idx : 0;
+            if (stats.isSergeant == true) totalSergeants++;
+        });
 
-          if (entryIdx < option.replaceWeapons.length)
-          {
-            final replaceEntry = option.replaceWeapons.entries.elementAt(entryIdx);
-            final baseWeapons = replaceEntry.key;
-            final newWeapons = replaceEntry.value;
+    int totalModels = unit.unitComposition.effectiveComposition.keys.firstOrNull ?? 0;
+    int normalModels = totalModels - totalSergeants;
 
-            for (var w in baseWeapons)
-            {
-              equippedCount[modelName]![w] = (equippedCount[modelName]![w] ?? 0) - 1;
-            }
-            for (var w in newWeapons)
-            {
-              equippedCount[modelName]![w] = (equippedCount[modelName]![w] ?? 0) + 1;
-            }
-          }
-        }
-        /// Если это просто добавление
-        else if (option.additionalWeapons.isNotEmpty)
+    unit.modelStats.forEach((modelName, stats)
         {
-          for (var w in option.additionalWeapons)
-          {
-            equippedCount[modelName]![w] = (equippedCount[modelName]![w] ?? 0) + 1;
-          }
-        }
-        /// Если это замена оружия на статы
-        else if (option.changeParameter != null && option.changeParameter!.isNotEmpty)
-        {
-          for (var weapons in option.changeParameter!.keys)
-          {
-            for (String weapon in weapons)
+            if (!(stats.isNeedShow == true || stats.isSergeant == true)) return;
+
+            equippedCount[modelName] ??= {};
+            int modelCount = (stats.isSergeant == true) ? 1 : normalModels;
+
+            for (final type in [WeaponType.ranged, WeaponType.melee])
             {
-              equippedCount[modelName]![weapon] = (equippedCount[modelName]![weapon] ?? 0) - 1;
+                final baseWeapons = stats.modelWeapons.selectedWeapons[type] ?? [];
+                for (var wName in baseWeapons)
+                {
+                    equippedCount[modelName]![wName] = (equippedCount[modelName]![wName] ?? 0) + modelCount;
+                }
             }
-          }
-        }
-      }
-    }
-  });
+        });
 
-  /// 3. Формируем финальный список weaponInfo
-  unit.modelStats.forEach((modelName, stats)
-  {
-    if (!(stats.isNeedShow == true || stats.isSergeant == true)) return;
+    /// 2. Применяем изменения из снапшота
+    unit.modelStats.forEach((modelName, stats)
+        {
+            if (!(stats.isNeedShow == true || stats.isSergeant == true)) return;
 
-    final Set<String> allPossibleWeapons = {};
-    for (var type in [WeaponType.ranged, WeaponType.melee])
-    {
-      allPossibleWeapons.addAll(stats.modelWeapons.weapons[type]?.map((w) => w.name) ?? []);
-    }
+            for (int i = 0; i < stats.wargearOptions.length; i++)
+            {
+                final option = stats.wargearOptions[i];
+                final optionId = "$modelName-$i";
+                final selectedIndices = unit.selectedWargearIndices[optionId] ?? [];
 
-    for (var wName in allPossibleWeapons)
-    {
-      int amount = equippedCount[modelName]?[wName] ?? 0;
-      WeaponType? type;
-      if (stats.modelWeapons.weapons[WeaponType.ranged]?.any((w) => w.name == wName) == true) type = WeaponType.ranged;
-      else if (stats.modelWeapons.weapons[WeaponType.melee]?.any((w) => w.name == wName) == true) type = WeaponType.melee;
+                for (var idx in selectedIndices)
+                {
+                    /// Если это замена
+                    if (option.replaceWeapons.isNotEmpty)
+                    {
+                        final int entryIdx = (option.replaceWeapons.length > 1) ? idx : 0;
 
-      if (type != null)
-      {
-        weaponInfo.add((
-        modelName: modelName,
-        weaponType: type,
-        weaponName: wName,
-        isEquiped: amount > 0,
-        amount: amount
-        ));
-      }
-    }
-  });
+                        if (entryIdx < option.replaceWeapons.length)
+                        {
+                            final replaceEntry = option.replaceWeapons.entries.elementAt(entryIdx);
+                            final baseWeapons = replaceEntry.key;
+                            final newWeapons = replaceEntry.value;
 
-  return weaponInfo;
+                            for (var w in baseWeapons)
+                            {
+                                equippedCount[modelName]![w] = (equippedCount[modelName]![w] ?? 0) - 1;
+                            }
+                            for (var w in newWeapons)
+                            {
+                                equippedCount[modelName]![w] = (equippedCount[modelName]![w] ?? 0) + 1;
+                            }
+                        }
+                    }
+                    /// Если это просто добавление
+                    else if (option.additionalWeapons.isNotEmpty)
+                    {
+                        for (var w in option.additionalWeapons)
+                        {
+                            equippedCount[modelName]![w] = (equippedCount[modelName]![w] ?? 0) + 1;
+                        }
+                    }
+                    /// Если это замена оружия на статы
+                    else if (option.changeParameter != null && option.changeParameter!.isNotEmpty)
+                    {
+                        for (var weapons in option.changeParameter!.keys)
+                        {
+                            for (String weapon in weapons)
+                            {
+                                equippedCount[modelName]![weapon] = (equippedCount[modelName]![weapon] ?? 0) - 1;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+    /// 3. Формируем финальный список weaponInfo
+    unit.modelStats.forEach((modelName, stats)
+        {
+            if (!(stats.isNeedShow == true || stats.isSergeant == true)) return;
+
+            final Set<String> allPossibleWeapons = {};
+            for (var type in [WeaponType.ranged, WeaponType.melee])
+            {
+                allPossibleWeapons.addAll(stats.modelWeapons.weapons[type]?.map((w) => w.name) ?? []);
+            }
+
+            for (var wName in allPossibleWeapons)
+            {
+                int amount = equippedCount[modelName]?[wName] ?? 0;
+                WeaponType? type;
+                if (stats.modelWeapons.weapons[WeaponType.ranged]?.any((w) => w.name == wName) == true) type = WeaponType.ranged;
+                else if (stats.modelWeapons.weapons[WeaponType.melee]?.any((w) => w.name == wName) == true) type = WeaponType.melee;
+
+                if (type != null)
+                {
+                    weaponInfo.add((
+                        modelName: modelName,
+                        weaponType: type,
+                        weaponName: wName,
+                        isEquiped: amount > 0,
+                        amount: amount
+                    ));
+                }
+            }
+        });
+
+    return weaponInfo;
 }
 
 Map<String, CharacteristicsDom> recalculateModifiedStats(UnitEditorItemUi unit)
 {
-  /// 1. Начинаем с оригинальных характеристик всех моделей (база)
-  final Map<String, CharacteristicsDom> modifiedStats = unit.modelStats.map(
-          (key, value) => MapEntry(key, value.characteristics)
-  );
+    /// 1. Начинаем с оригинальных характеристик всех моделей (база)
+    final Map<String, CharacteristicsDom> modifiedStats = unit.modelStats.map(
+        (key, value) => MapEntry(key, value.characteristics)
+    );
 
-  /// 2. Проходим по всем выбранным опциям и применяем их бонусы
-  unit.selectedWargearIndices.forEach((optionId, selectedIndices)
-  {
-    final parts = optionId.split('-');
-    if (parts.length < 2) return;
-
-    final modelName = parts[0];
-    final optionIdx = int.tryParse(parts[1]);
-
-    if (!unit.modelStats.containsKey(modelName)) return;
-    final model = unit.modelStats[modelName]!;
-
-    if (optionIdx == null || optionIdx >= model.wargearOptions.length) return;
-    final option = model.wargearOptions[optionIdx];
-
-    if (option.changeParameter == null || option.changeParameter!.isEmpty) return;
-
-    for (var idx in selectedIndices)
-    {
-      if (idx < option.changeParameter!.length)
-      {
-        final paramChanges = option.changeParameter!.values.elementAt(idx);
-
-        for (var change in paramChanges)
+    /// 2. Проходим по всем выбранным опциям и применяем их бонусы
+    unit.selectedWargearIndices.forEach((optionId, selectedIndices)
         {
-          final statName = change.keys.first;
-          final value = change.values.first;
+            final parts = optionId.split('-');
+            if (parts.length < 2) return;
 
-          final current = modifiedStats[modelName]!;
-          CharacteristicsDom updated;
+            final modelName = parts[0];
+            final optionIdx = int.tryParse(parts[1]);
 
-          switch (statName)
-          {
-            case 'movement': updated = current.copyWith(movement: current.movement + value);
-            break;
-            case 'toughness': updated = current.copyWith(toughness: current.toughness + value);
-            break;
-            case 'save': updated = current.copyWith(save: current.save + value);
-            break;
-            case 'invulnerableSave': updated = current.copyWith(invulnerableSave: current.invulnerableSave + value);
-            break;
-            case 'wounds': updated = current.copyWith(wounds: current.wounds + value);
-            break;
-            case 'leadership': updated = current.copyWith(leadership: current.leadership + value);
-            break;
-            case 'objectiveControl': updated = current.copyWith(objectiveControl: current.objectiveControl + value);
-            break;
-            default: updated = current;
-            break;
-          }
-          modifiedStats[modelName] = updated;
-        }
-      }
-    }
-  });
+            if (!unit.modelStats.containsKey(modelName)) return;
+            final model = unit.modelStats[modelName]!;
 
-  return modifiedStats;
+            if (optionIdx == null || optionIdx >= model.wargearOptions.length) return;
+            final option = model.wargearOptions[optionIdx];
+
+            if (option.changeParameter == null || option.changeParameter!.isEmpty) return;
+
+            for (var idx in selectedIndices)
+            {
+                if (idx < option.changeParameter!.length)
+                {
+                    final paramChanges = option.changeParameter!.values.elementAt(idx);
+
+                    for (var change in paramChanges)
+                    {
+                        final statName = change.keys.first;
+                        final value = change.values.first;
+
+                        final current = modifiedStats[modelName]!;
+                        CharacteristicsDom updated;
+
+                        switch (statName)
+                        {
+                            case 'movement': updated = current.copyWith(movement: current.movement + value);
+                                break;
+                            case 'toughness': updated = current.copyWith(toughness: current.toughness + value);
+                                break;
+                            case 'save': updated = current.copyWith(save: current.save + value);
+                                break;
+                            case 'invulnerableSave': updated = current.copyWith(invulnerableSave: current.invulnerableSave + value);
+                                break;
+                            case 'wounds': updated = current.copyWith(wounds: current.wounds + value);
+                                break;
+                            case 'leadership': updated = current.copyWith(leadership: current.leadership + value);
+                                break;
+                            case 'objectiveControl': updated = current.copyWith(objectiveControl: current.objectiveControl + value);
+                                break;
+                            default: updated = current;
+                                break;
+                        }
+                        modifiedStats[modelName] = updated;
+                    }
+                }
+            }
+        });
+
+    return modifiedStats;
 }

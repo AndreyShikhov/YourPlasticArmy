@@ -620,9 +620,6 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
     }
 
 
-
-
-
     void replaceWeapon(String unitModelName, List<String> replace, List<String> replaceable)
     {
     }
