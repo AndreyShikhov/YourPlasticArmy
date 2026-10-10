@@ -430,10 +430,10 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
         /// Создаем новый список моделей, меняя флаг у нужной
         final updatedAdditional = currentComp.additionalModels.map((m)
             {
-                if (m.name == modelName)
+                if (m.faceText == modelName)
                 {
                     return UnitCompositionModelDom(
-                        name: m.name,
+                        faceText: m.faceText,
                         amount: m.amount,
                         cost: m.cost,
                         isSelected: isSelected

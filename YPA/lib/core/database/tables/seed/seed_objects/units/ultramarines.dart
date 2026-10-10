@@ -30,7 +30,7 @@ List<UnitSeed> ultramarinesUnits()
             unitComposition: const UnitCompositionDom(
                 compositions: [
                     UnitCompositionModelDom(
-                        name: 'Roboute Guilliman',
+                        faceText: 'Roboute Guilliman',
                         amount: 1,
                         cost: 300
                     )

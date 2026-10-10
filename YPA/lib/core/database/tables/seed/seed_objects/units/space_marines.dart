@@ -30,7 +30,7 @@ List<UnitSeed> spaceMarinesUnits()
             unitComposition: const UnitCompositionDom(
                 compositions: [
                     UnitCompositionModelDom(
-                        name: '1 model',
+                        faceText: '1 model',
                         amount: 1,
                         cost: 120
                     )
@@ -162,7 +162,7 @@ List<UnitSeed> spaceMarinesUnits()
             unitComposition: const UnitCompositionDom(
                 compositions: [
                     UnitCompositionModelDom(
-                        name: '1 model',
+                        faceText: '1 model',
                         amount: 1,
                         cost: 120
                     )
@@ -264,7 +264,7 @@ List<UnitSeed> spaceMarinesUnits()
             unitComposition: const UnitCompositionDom(
                 compositions: [
                     UnitCompositionModelDom(
-                        name: '1 model',
+                        faceText: '1 model',
                         amount: 1,
                         cost: 120
                     )
@@ -366,7 +366,7 @@ List<UnitSeed> spaceMarinesUnits()
             unitComposition: const UnitCompositionDom(
                 compositions: [
                     UnitCompositionModelDom(
-                        name: '1 model',
+                        faceText: '1 model',
                         amount: 1,
                         cost: 120
                     )
@@ -467,7 +467,7 @@ List<UnitSeed> spaceMarinesUnits()
             unitComposition: const UnitCompositionDom(
                 compositions: [
                     UnitCompositionModelDom(
-                        name: '1 model',
+                        faceText: '1 model',
                         amount: 1,
                         cost: 75
                     )
@@ -580,12 +580,12 @@ List<UnitSeed> spaceMarinesUnits()
             unitComposition: const UnitCompositionDom(
                 compositions: [
                     UnitCompositionModelDom(
-                        name: '5 model',
+                        faceText: '5 model',
                         amount: 5,
                         cost: 75
                     ),
                     UnitCompositionModelDom(
-                        name: '10 model',
+                        faceText: '10 model',
                         amount: 10,
                         cost: 150
                     )
@@ -811,14 +811,26 @@ List<UnitSeed> spaceMarinesUnits()
             unitComposition: const UnitCompositionDom(
                 compositions: [
                     UnitCompositionModelDom(
-                        name: '5 model',
+                        faceText: '5 model',
                         amount: 5,
                         cost: 100
                     ),
                     UnitCompositionModelDom(
-                        name: '10 model',
+                        faceText: '10 model',
                         amount: 10,
                         cost: 200
+                    )
+                ],
+                additionalRuleFromComposition: [
+                    AdditionalRuleCompositionDom(
+                        moreThan: 3,   
+                        amount: 5,
+                        cost: 110
+                    ),
+                    AdditionalRuleCompositionDom(
+                        moreThan: 3,
+                        amount: 10,
+                        cost: 220
                     )
                 ]
             ),
@@ -1192,7 +1204,7 @@ List<UnitSeed> spaceMarinesUnits()
             unitComposition: const UnitCompositionDom(
                 compositions: [
                     UnitCompositionModelDom(
-                        name: '1 model',
+                        faceText: '1 model',
                         amount: 1,
                         cost: 120
                     )
@@ -1362,7 +1374,7 @@ List<UnitSeed> spaceMarinesUnits()
             unitComposition: const UnitCompositionDom(
                 compositions: [
                     UnitCompositionModelDom(
-                        name: '1 model',
+                        faceText: '1 model',
                         amount: 1,
                         cost: 120
                     )
@@ -1467,7 +1479,7 @@ List<UnitSeed> spaceMarinesUnits()
             unitComposition: const UnitCompositionDom(
                 compositions: [
                     UnitCompositionModelDom(
-                        name: '1 model',
+                        faceText: '1 model',
                         amount: 1,
                         cost: 120
                     )
@@ -1569,7 +1581,7 @@ List<UnitSeed> spaceMarinesUnits()
             unitComposition: const UnitCompositionDom(
                 compositions: [
                     UnitCompositionModelDom(
-                        name: '1 model',
+                        faceText: '1 model',
                         amount: 1,
                         cost: 120
                     )
@@ -1671,7 +1683,7 @@ List<UnitSeed> spaceMarinesUnits()
             unitComposition: const UnitCompositionDom(
                 compositions: [
                     UnitCompositionModelDom(
-                        name: '1 model',
+                        faceText: '1 model',
                         amount: 1,
                         cost: 120
                     )
@@ -1773,7 +1785,7 @@ List<UnitSeed> spaceMarinesUnits()
             unitComposition: const UnitCompositionDom(
                 compositions: [
                     UnitCompositionModelDom(
-                        name: '1 model',
+                        faceText: '1 model',
                         amount: 1,
                         cost: 120
                     )
@@ -1876,7 +1888,7 @@ List<UnitSeed> spaceMarinesUnits()
             unitComposition: const UnitCompositionDom(
                 compositions: [
                     UnitCompositionModelDom(
-                        name: '1 model',
+                        faceText: '1 model',
                         amount: 1,
                         cost: 120
                     )
@@ -1980,7 +1992,7 @@ List<UnitSeed> spaceMarinesUnits()
             unitComposition: const UnitCompositionDom(
                 compositions: [
                     UnitCompositionModelDom(
-                        name: '1 model',
+                        faceText: '1 model',
                         amount: 1,
                         cost: 120
                     )
@@ -2082,7 +2094,7 @@ List<UnitSeed> spaceMarinesUnits()
             unitComposition: const UnitCompositionDom(
                 compositions: [
                     UnitCompositionModelDom(
-                        name: '1 model',
+                        faceText: '1 model',
                         amount: 1,
                         cost: 120
                     )
@@ -2184,7 +2196,7 @@ List<UnitSeed> spaceMarinesUnits()
             unitComposition: const UnitCompositionDom(
                 compositions: [
                     UnitCompositionModelDom(
-                        name: '1 model',
+                        faceText: '1 model',
                         amount: 1,
                         cost: 120
                     )
@@ -2286,7 +2298,7 @@ List<UnitSeed> spaceMarinesUnits()
             unitComposition: const UnitCompositionDom(
                 compositions: [
                     UnitCompositionModelDom(
-                        name: '1 model',
+                        faceText: '1 model',
                         amount: 1,
                         cost: 120
                     )
@@ -2388,27 +2400,27 @@ List<UnitSeed> spaceMarinesUnits()
             const UnitCompositionDom(
                 compositions: [
                     UnitCompositionModelDom(
-                        name: 'Outrider Squad',
+                        faceText: 'Outrider Squad',
                         amount: 3,
                         cost: 80
                     ),
                     UnitCompositionModelDom(
-                        name: 'Outrider Squad',
+                        faceText: 'Outrider Squad',
                         amount: 6,
                         cost: 160
                     )
                 ],
                 additionalModels: [
                     UnitCompositionModelDom(
-                        name: 'Invader ATV', 
+                        faceText: 'Invader ATV', 
                         amount: 1, 
                         cost: 60),
                     UnitCompositionModelDom(
-                        name: 'Invader ATV2',
+                        faceText: 'Invader ATV2',
                         amount: 1,
                         cost: 60),
                     UnitCompositionModelDom(
-                        name: 'Invader ATV3',
+                        faceText: 'Invader ATV3',
                         amount: 1,
                         cost: 60)
                 ]

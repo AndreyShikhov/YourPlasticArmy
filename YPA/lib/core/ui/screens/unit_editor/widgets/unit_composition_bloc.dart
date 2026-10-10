@@ -121,7 +121,7 @@ class UnitCompositionBloc extends ConsumerWidget
                                     if (newValue != null && newValue != model.isSelected)
                                     {
                                         ref.read(unitEditorControllerProvider(ids).notifier)
-                                            .toggleAdditionalModel(model.name, newValue);
+                                            .toggleAdditionalModel(model.faceText, newValue);
                                     }
                                 }
                             ),
@@ -129,7 +129,7 @@ class UnitCompositionBloc extends ConsumerWidget
                                 mainAxisSize: MainAxisSize.min,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                    Text(model.name, style: const TextStyle(color: Colors.white, fontSize: 12)),
+                                    Text(model.faceText, style: const TextStyle(color: Colors.white, fontSize: 12)),
                                     Text('+ ${model.cost} pts', style: const TextStyle(color: Colors.white38, fontSize: 10))
                                 ]
                             ),

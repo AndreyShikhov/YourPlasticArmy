@@ -178,7 +178,7 @@ UnitCompositionDom _buildCompositionFromSaveData(UnitCompositionDom unitComposit
         final updatedAdditional = tempComposition.additionalModels.map((baseModel)
             {
                 final bool isSelected = restoredComposition.additionalModels.any((rm) =>
-                    rm.name == baseModel.name &&
+                    rm.faceText == baseModel.faceText &&
                         rm.amount == baseModel.amount &&
                         rm.cost == baseModel.cost
                 );

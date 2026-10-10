@@ -15,23 +15,27 @@ class UnitCompositionDom
     final List<UnitCompositionModelDom> compositions;
     final UnitCompositionModelDom? selectedComposition;
     final List<UnitCompositionModelDom> additionalModels;
+    final List<AdditionalRuleCompositionDom> additionalRuleFromComposition;
 
     const UnitCompositionDom({
         required this.compositions,
         this.selectedComposition,
-        this.additionalModels = const[]
+        this.additionalModels = const[],
+        this.additionalRuleFromComposition = const[]
     });
 
     UnitCompositionDom copyWith({
         List<UnitCompositionModelDom>? compositions,
         UnitCompositionModelDom? selectedComposition,
-        List<UnitCompositionModelDom>? additionalModels
+        List<UnitCompositionModelDom>? additionalModels,
+        List<AdditionalRuleCompositionDom>? additionalRuleFromComposition
     })
     {
         return UnitCompositionDom(
             compositions: compositions ?? this.compositions,
             selectedComposition: selectedComposition ?? this.selectedComposition,
-            additionalModels: additionalModels ?? this.additionalModels
+            additionalModels: additionalModels ?? this.additionalModels,
+            additionalRuleFromComposition: additionalRuleFromComposition ?? this.additionalRuleFromComposition
         );
     }
 
@@ -71,11 +75,11 @@ class UnitCompositionDom
         return res;
     }
 
-    List<String> get allModelNames
+    List<String> get allModelFaceText
     {
         Set<String> res = {};
-        res.addAll(compositions.map((e) => e.name));
-        res.addAll(additionalModels.map((e) => e.name));
+        res.addAll(compositions.map((e) => e.faceText));
+        res.addAll(additionalModels.map((e) => e.faceText));
         return res.toList();
     }
     /// ==========================================
@@ -85,7 +89,8 @@ class UnitCompositionDom
     {
         'compositions': compositions.map((c) => c.toJson()).toList(),
         'selectedComposition': selectedComposition?.toJson(),
-        'additionalModels': additionalModels.map((c) => c.toJson()).toList()
+        'additionalModels': additionalModels.map((c) => c.toJson()).toList(),
+        'additionalRuleFromComposition': additionalRuleFromComposition.map((r) => r.toJson()).toList()
     };
 
     Map<String, dynamic> toSaveUserArmyJson() =>
@@ -94,7 +99,8 @@ class UnitCompositionDom
         'additionalModels': additionalModels
             .where((c) => c.isSelected)
             .map((c) => c.toJson())
-            .toList()
+            .toList(),
+        'additionalRuleFromComposition': additionalRuleFromComposition.map((r) => r.toJson()).toList()
     };
 
     factory UnitCompositionDom.fromJson(Map<String, dynamic> json)
@@ -108,6 +114,9 @@ class UnitCompositionDom
                 : null,
             additionalModels: (json['additionalModels'] as List? ?? [])
                 .map((e) => UnitCompositionModelDom.fromJson(e as Map<String, dynamic>))
+                .toList(),
+            additionalRuleFromComposition: (json['additionalRuleFromComposition'] as List? ?? [])
+                .map((e) => AdditionalRuleCompositionDom.fromJson(e as Map<String, dynamic>))
                 .toList()
         );
     }
@@ -115,19 +124,20 @@ class UnitCompositionDom
     static const UnitCompositionDom emptyComposition = UnitCompositionDom(
         compositions: [],
         selectedComposition: null,
-        additionalModels: []
+        additionalModels: [],
+        additionalRuleFromComposition: []
     );
 }
 
 class UnitCompositionModelDom
 {
-    final String name;
+    final String faceText;
     final int amount;
     final int cost;
     final bool isSelected;
 
     const UnitCompositionModelDom({
-        required this.name,
+        required this.faceText,
         required this.amount,
         required this.cost,
         this.isSelected = false
@@ -135,28 +145,28 @@ class UnitCompositionModelDom
 
     Map<String, dynamic> toJson() =>
     {
-        'name': name,
+        'faceText': faceText,
         'amount': amount,
         'cost': cost,
         'isSelected': isSelected
     };
 
     factory UnitCompositionModelDom.fromJson(Map<String, dynamic> json) => UnitCompositionModelDom(
-        name: json['name'] as String,
+        faceText: json['faceText'] as String,
         amount: json['amount'] as int,
         cost: json['cost'] as int,
         isSelected: json['isSelected'] as bool? ?? false
     );
 
     UnitCompositionModelDom copyWith({
-        String? name,
+        String? faceText,
         int? amount,
         int? cost,
         bool? isSelected
     })
     {
         return UnitCompositionModelDom(
-            name: name ?? this.name,
+            faceText: faceText ?? this.faceText,
             amount: amount ?? this.amount,
             cost: cost ?? this.cost,
             isSelected: isSelected ?? this.isSelected
@@ -168,13 +178,55 @@ class UnitCompositionModelDom
     identical(this, other) ||
         other is UnitCompositionModelDom &&
             runtimeType == other.runtimeType &&
-            name == other.name &&
+            faceText == other.faceText &&
             amount == other.amount &&
             cost == other.cost;
 
     @override
-    int get hashCode => name.hashCode ^ amount.hashCode ^ cost.hashCode;
+    int get hashCode => faceText.hashCode ^ amount.hashCode ^ cost.hashCode;
 }
+
+class AdditionalRuleCompositionDom
+{
+    final int moreThan;
+    final int amount;
+    final int cost;
+
+    const AdditionalRuleCompositionDom({
+        required this.moreThan,  
+        required this.amount,
+        required this.cost
+    });
+
+    Map<String, dynamic> toJson() =>
+    {
+        'moreThan': moreThan,
+        'amount': amount,
+        'cost': cost
+    };
+
+    factory AdditionalRuleCompositionDom.fromJson(Map<String, dynamic> json) => AdditionalRuleCompositionDom(
+        moreThan: json['moreThan'] as int,
+        amount: json['amount'] as int,
+        cost: json['cost'] as int
+
+    );
+
+    AdditionalRuleCompositionDom copyWith({
+        int? moreThan,
+        int? amount,
+        int? cost
+    })
+    {
+        return AdditionalRuleCompositionDom(
+            moreThan: moreThan ?? this.moreThan,  
+            amount: amount ?? this.amount,
+            cost: cost ?? this.cost
+
+        );
+    }
+}
+
 /// ==========================================
 /// WARGEAR OPTIONS
 /// ==========================================

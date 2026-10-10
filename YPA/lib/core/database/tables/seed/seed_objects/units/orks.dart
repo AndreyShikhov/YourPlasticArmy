@@ -25,7 +25,7 @@ List<UnitSeed> orksUnits()
             unitComposition: const UnitCompositionDom(
                 compositions: [
                     UnitCompositionModelDom(
-                        name: '1 model',
+                        faceText: '1 model',
                         amount: 1,
                         cost: 120
                     )
@@ -111,11 +111,11 @@ List<UnitSeed> orksUnits()
                 )
             }
         )
-    //=============Dedicated Transports============
+        //=============Dedicated Transports============
 
-    //=============Fortifications============
+        //=============Fortifications============
 
-    //=============Other============
+        //=============Other============
 
     ];
 }

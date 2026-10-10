@@ -33,7 +33,7 @@ List<UnitSeed> bloodAngelsUnits()
             unitComposition: const UnitCompositionDom(
                 compositions: [
                     UnitCompositionModelDom(
-                        name: '1 model',
+                        faceText: '1 model',
                         amount: 1,
                         cost: 120
                     )
@@ -139,8 +139,7 @@ List<UnitSeed> bloodAngelsUnits()
             factionKeywords: ['Adeptus Astartes', 'Blood Angels'],
             unitComposition: const UnitCompositionDom(
                 compositions: [
-                    UnitCompositionModelDom(
-                        name: '1 model',
+                    UnitCompositionModelDom(faceText: '1 model',
                         amount: 1,
                         cost: 120
                     )
@@ -246,7 +245,7 @@ List<UnitSeed> bloodAngelsUnits()
             unitComposition: const UnitCompositionDom(
                 compositions: [
                     UnitCompositionModelDom(
-                        name: '1 model',
+                        faceText: '1 model',
                         amount: 1,
                         cost: 120
                     )
@@ -352,7 +351,7 @@ List<UnitSeed> bloodAngelsUnits()
             unitComposition: const UnitCompositionDom(
                 compositions: [
                     UnitCompositionModelDom(
-                        name: '1 model',
+                        faceText: '1 model',
                         amount: 1,
                         cost: 120
                     )
@@ -481,7 +480,7 @@ List<UnitSeed> bloodAngelsUnits()
             unitComposition: const UnitCompositionDom(
                 compositions: [
                     UnitCompositionModelDom(
-                        name: '1 model',
+                        faceText: '1 model',
                         amount: 1,
                         cost: 120
                     )
@@ -586,7 +585,7 @@ List<UnitSeed> bloodAngelsUnits()
             unitComposition: const UnitCompositionDom(
                 compositions: [
                     UnitCompositionModelDom(
-                        name: '1 model',
+                        faceText: '1 model',
                         amount: 1,
                         cost: 120
                     )
@@ -691,7 +690,7 @@ List<UnitSeed> bloodAngelsUnits()
             unitComposition: const UnitCompositionDom(
                 compositions: [
                     UnitCompositionModelDom(
-                        name: '1 model',
+                        faceText: '1 model',
                         amount: 1,
                         cost: 120
                     )
@@ -796,7 +795,7 @@ List<UnitSeed> bloodAngelsUnits()
             unitComposition: const UnitCompositionDom(
                 compositions: [
                     UnitCompositionModelDom(
-                        name: '1 model',
+                        faceText: '1 model',
                         amount: 1,
                         cost: 120
                     )
@@ -901,7 +900,7 @@ List<UnitSeed> bloodAngelsUnits()
             unitComposition: const UnitCompositionDom(
                 compositions: [
                     UnitCompositionModelDom(
-                        name: '1 model',
+                        faceText: '1 model',
                         amount: 1,
                         cost: 120
                     )
@@ -1006,7 +1005,7 @@ List<UnitSeed> bloodAngelsUnits()
             unitComposition: const UnitCompositionDom(
                 compositions: [
                     UnitCompositionModelDom(
-                        name: '1 model',
+                        faceText: '1 model',
                         amount: 1,
                         cost: 120
                     )
