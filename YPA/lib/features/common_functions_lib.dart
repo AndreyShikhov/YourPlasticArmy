@@ -110,7 +110,7 @@ Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> getAllUserArmyUnitsOptimized(Stri
                             map[SaveCategoryCode.weaponInfo.code],
                             map[SaveCategoryCode.characteristics.code],
                             map[SaveCategoryCode.unitInstanceIndex.code],
-                            map[SaveCategoryCode.enhancement.code],
+                            map[SaveCategoryCode.enhancement.code]
                         ));
                     }
                 }
@@ -586,3 +586,4 @@ Map<String, CharacteristicsDom> recalculateModifiedStats(UnitEditorItemUi unit)
 
     return modifiedStats;
 }
+

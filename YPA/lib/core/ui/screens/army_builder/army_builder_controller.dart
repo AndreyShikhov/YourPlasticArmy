@@ -232,14 +232,14 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
 
             final newUnit = baseUnitItem.copyWith(
                 instanceId: instanceId,
-                unitInstanceIndex: newUnitInstanceIndex
+                unitInstanceIndex: newUnitInstanceIndex,
+                unitComposition: calculateFinalUnitComposition(baseUnitItem.unitComposition, newUnitInstanceIndex)
             );
 
             final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> updatedUnits = Map.from(state.userArmyUnits!);
             updatedUnits[role] = [...(updatedUnits[role] ?? []), newUnit];
 
             state = state.copyWith(userArmyUnits: updatedUnits);
-            updateCurrentPts();
 
             await _addUnitToUserRoster(
                 armyId: _armyId, 
@@ -247,6 +247,8 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                 unitId: unitId,
                 unitInstanceIndex: newUnit.unitInstanceIndex
             );
+
+            updateCurrentPts();
         } catch (e)
         {
             state = state.copyWith(error: e.toString());
@@ -263,16 +265,17 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             final baseUnitItem = state.allUnitsFromDb.firstWhere((u) => u.dbId == unitId);
             final instanceId = const Uuid().v4();
             final role = UnitRoleCode.fromName(baseUnitItem.role)!;
+            final newUnitInstanceIndex = _getUnitInstanceIndex(baseUnitItem.dbId, role);
             final newUnit = baseUnitItem.copyWith(
                 instanceId: instanceId,
                 dbId: unit.dbId,
                 name: unit.name,
                 role: unit.role,
                 repeat: unit.repeat,
-                unitInstanceIndex: _getUnitInstanceIndex(baseUnitItem.dbId, role),
+                unitInstanceIndex: newUnitInstanceIndex,
                 keywords: unit.keywords,
                 factionKeywords: unit.factionKeywords,
-                unitComposition: unit.unitComposition,
+                unitComposition: calculateFinalUnitComposition(unit.unitComposition, newUnitInstanceIndex),
                 unitAbility: unit.unitAbility,
                 coreAbilities: unit.coreAbilities,
                 factionAbilities: unit.factionAbilities,
@@ -285,7 +288,6 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             updatedUnits[role] = [...(updatedUnits[role] ?? []), newUnit];
 
             state = state.copyWith(userArmyUnits: updatedUnits);
-            updateCurrentPts();
 
             await _addUnitToUserRoster(
                 armyId: _armyId,
@@ -301,6 +303,8 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                 category: SaveCategoryCode.composition,
                 updateData: newUnit.unitComposition.toSaveUserArmyJson()
             );
+
+            updateCurrentPts();
         } catch (e)
         {
             state = state.copyWith(error: e.toString());
@@ -446,6 +450,20 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             });
 
         state = state.copyWith(currentPts: total);
+    }
+
+    int getTotalArmyPts(Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> userArmyUnits)
+    {
+        int total = 0;
+        if (userArmyUnits.isNotEmpty) 
+        {
+            userArmyUnits.values.expand((u) => u).forEach((unit)
+                {
+                    total += unit.unitComposition.totalUnitCost;
+                });
+            return total;
+        }
+        return total;
     }
 
     void selectEnhancement(String unitInstanceId, EnhancementDOM enhancement, bool isSelected) async
@@ -606,7 +624,9 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                 armyId: userArmy.armyId.value,
                 userArmyUnits: userArmyUnits,
                 allUnitsFromDb: allUnitsFromDb,
-                selectedInstanceIdWarlord: userArmy.warlordInstanceId
+                selectedInstanceIdWarlord: userArmy.warlordInstanceId,
+                currentPts: getTotalArmyPts(userArmyUnits)
+
             );
 
             fillTemDataUnitsByRole();

@@ -5,6 +5,7 @@
 
 export 'model_weapons.dart';
 export 'unit_dom.dart';
+export 'unit_function_lib.dart';
 export 'unit_id.dart';
 export 'unit_name.dart';
 export 'unit_repository.dart';

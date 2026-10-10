@@ -12,6 +12,7 @@ import 'package:ypa/domain/models/detachment/detachment.dart';
 import 'package:ypa/domain/models/enhancement/enhancement.dart';
 
 import '../../../core/database/tables/seed/seed_objects/_types.dart';
+import '../../../features/common_functions_lib.dart';
 import '../enhancement/enhancement_dom.dart';
 import '../faction/faction.dart';
 import '../unit/unit.dart';
@@ -171,12 +172,16 @@ class UserArmyDOM
         /// 3. Получаем список юнитов для конкретной роли
         List<dynamic> unitList = categories[role] ?? [];
 
-        final finalComposition = (composition.selectedComposition == null && composition.compositions.isNotEmpty)
+        UnitCompositionDom  finalComposition = (composition.selectedComposition == null && composition.compositions.isNotEmpty)
             ? UnitCompositionDom(
                 compositions: composition.compositions,
                 selectedComposition: composition.compositions.first,
-                additionalModels: composition.additionalModels
+                additionalModels: composition.additionalModels,
+                additionalRuleFromComposition: composition.additionalRuleFromComposition,
             ) : composition;
+
+
+        finalComposition =  calculateFinalUnitComposition(finalComposition,unitInstanceIndex);
 
         /// 4. Формируем новый объект юнита
         final newUnitInstance =
