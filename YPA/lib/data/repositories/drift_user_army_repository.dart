@@ -96,6 +96,17 @@ class DriftUserArmyRepository implements UserArmyRepository
     }
 
     @override
+    Future<void> removeUnitFromUserArmy(String armyId, UnitRoleCode role, String unitInstanceId) async
+    {
+        final army = await getUserArmyById(armyId);
+        if (army != null)
+        {
+            final updatedArmy = await army.removeUnitFromUserArmy(unitInstanceId, role.name);
+            await _updateJsonData(armyId, updatedArmy.jsonData);
+        }
+    }
+
+    @override
     Future<void> updateUserArmyName(String armyId, String newUserArmyName) async
     {
         await (db.update(db.userArmies)..where((t) => t.id.equals(armyId))).write(

@@ -124,7 +124,7 @@ class UnitWidget extends ConsumerWidget
                                                 {
                                                     final roleEnum = UnitRoleCode.fromName(unit.role)!;
                                                     ref.read(armyBuilderControllerProvider(armyId).notifier)
-                                                        .removeLastUnitFromUserArmy(unit.dbId, roleEnum);
+                                                        .removeUnitFromUserArmy(unit.instanceId, roleEnum); /// кдалит ьконкретный юнит а не последний
                                                 }
                                             )
                                         ]

@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import 'package:ypa/application/codex/get_codex_by_id.dart';
 import 'package:ypa/application/enhancement/enhancement_use_case.dart';
+import 'package:ypa/application/user_army/remove_unit_from_user_roster.dart';
 import 'package:ypa/core/providers/di/di_providers.dart';
 import 'package:ypa/domain/models/army/army.dart';
 import 'package:ypa/domain/models/codex/codex.dart';
@@ -45,6 +46,7 @@ final armyBuilderControllerProvider =
             final updateUnitInUserRoster = ref.watch(updateUnitParametersFromUserArmyUseCaseProvider);
             final getUnitsByIdsFromDb = ref.watch(getUnitsByIdsFromDbUseCaseProvider);
             final removeLastUnitFromUserRoster = ref.watch(removeLastUnitFromUserRosterUseCaseProvider);
+            final removeUnitFromUserRoster = ref.watch(removeUnitFromUserRosterUseCaseProvider);
 
             return ArmyBuilderController(
                 getUserArmyById,
@@ -62,6 +64,7 @@ final armyBuilderControllerProvider =
                 updateUnitInUserRoster,
                 getUnitsByIdsFromDb,
                 removeLastUnitFromUserRoster,
+                removeUnitFromUserRoster,
                 armyId
             );
         });
@@ -82,6 +85,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
     final AddUnitToUserRoster _addUnitToUserRoster;
     final UpdateUnitParametersFromUserArmy _updateUnitInUserRoster;
     final RemoveLastUnitFromUserRoster _removeLastUnitFromUserRoster;
+    final RemoveUnitFromUserRoster _removeUnitFromUserRoster;
     final GetUnitsByIdsFromDb _getUnitsByIdsFromDb;
     final String _armyId;
 
@@ -103,6 +107,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         this._updateUnitInUserRoster,
         this._getUnitsByIdsFromDb,
         this._removeLastUnitFromUserRoster,
+        this._removeUnitFromUserRoster,
         this._armyId
     ) : super(const ArmyBuilderState())
     {
@@ -377,6 +382,75 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             }
 
             await _removeLastUnitFromUserRoster(armyId: _armyId, role: role, unitId: unitId);
+        } catch (e)
+        {
+            state = state.copyWith(error: e.toString());
+            loadArmy();
+        }
+    }
+
+    Future<void> removeUnitFromUserArmy(String unitInstanceId, UnitRoleCode role) async
+    {
+        if (state.userArmyUnits == null) return;
+
+        try
+        {
+            final List<ArmyBuilderUnitItemUi> unitsInRole = List.from(state.userArmyUnits![role] ?? []);
+            final index = unitsInRole.lastIndexWhere((u) => u.instanceId == unitInstanceId);
+
+            if (index != -1)
+            {
+                final unitToRemove = unitsInRole[index];
+                if (state.selectedEnhancement != null && state.selectedEnhancement!.containsKey(unitToRemove.instanceId))
+                {
+                    final updatedEnhancemets = Map<String, EnhancementDOM>.from(state.selectedEnhancement!);
+                    updatedEnhancemets.remove(unitToRemove.instanceId);
+
+                    state = state.copyWith(selectedEnhancement: updatedEnhancemets);
+
+                    await _updateUserArmyEnhancement(
+                        armyId: _armyId,
+                        selectedEnhancement: updatedEnhancemets
+                    );
+                }
+
+                unitsInRole.removeAt(index);
+                final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> updatedUnits = Map.from(state.userArmyUnits!);
+                updatedUnits[role] = unitsInRole;
+
+                var nextIndex = 0;
+                final units = updatedUnits[role] ?? [];
+                final List<ArmyBuilderUnitItemUi> changedUnits = [];
+
+                updatedUnits[role] = units.map((u) /// перепись id в стейте
+                    {
+                        if (u.dbId != unitToRemove.dbId) return u;
+
+                        nextIndex++;
+                        final changedUnit = u.copyWith(unitInstanceIndex: nextIndex);
+                        changedUnits.add(changedUnit);
+                        return changedUnit;
+                    }).toList();
+
+                for (ArmyBuilderUnitItemUi unit in changedUnits) /// сохранение новых id в базе данных
+                    {
+                        await _updateUnitInUserRoster(
+                            armyId: _armyId,
+                            instanceId: unit.instanceId,
+                            role: role,
+                            category: SaveCategoryCode.unitInstanceIndex,
+                            updateData: unit.unitInstanceIndex
+                        );
+                    }
+
+                state = state.copyWith(userArmyUnits: updatedUnits);
+                updateCurrentPts();
+            }
+
+            await _removeUnitFromUserRoster(
+                armyId: _armyId,
+                role: role,
+                unitInstanceId: unitInstanceId);
         } catch (e)
         {
             state = state.copyWith(error: e.toString());

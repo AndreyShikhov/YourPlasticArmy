@@ -8,6 +8,7 @@ import 'package:ypa/core/database/database_providers.dart';
 import 'package:ypa/data/repositories/repositories.dart';
 import 'package:ypa/domain/models/user_army/user_army_repository.dart';
 
+import '../../../application/user_army/remove_unit_from_user_roster.dart';
 import '../../../application/user_army/user_army_use_cases.dart';
 
 // --- REPOSITORIES ---
@@ -63,15 +64,21 @@ final updateUserArmyBattleSizeUseCaseProvider = Provider<UpdateUserArmyBattleSiz
     });
 
 final updateUserArmyWarlordUseCaseProvider = Provider<UpdateUserArmyWarlord>((ref)
-{
-  final repository = ref.watch(userArmyRepositoryProvider);
-  return UpdateUserArmyWarlord(repository);
-});
+    {
+        final repository = ref.watch(userArmyRepositoryProvider);
+        return UpdateUserArmyWarlord(repository);
+    });
 
 final removeLastUnitFromUserRosterUseCaseProvider = Provider<RemoveLastUnitFromUserRoster>((ref)
     {
         final repository = ref.watch(userArmyRepositoryProvider);
         return RemoveLastUnitFromUserRoster(repository);
+    });
+
+final removeUnitFromUserRosterUseCaseProvider = Provider<RemoveUnitFromUserRoster>((ref)
+    {
+        final repository = ref.watch(userArmyRepositoryProvider);
+        return RemoveUnitFromUserRoster(repository);
     });
 
 final updateUnitParametersFromUserArmyUseCaseProvider = Provider<UpdateUnitParametersFromUserArmy>((ref)

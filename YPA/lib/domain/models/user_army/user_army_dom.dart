@@ -12,7 +12,6 @@ import 'package:ypa/domain/models/detachment/detachment.dart';
 import 'package:ypa/domain/models/enhancement/enhancement.dart';
 
 import '../../../core/database/tables/seed/seed_objects/_types.dart';
-import '../../../features/common_functions_lib.dart';
 import '../enhancement/enhancement_dom.dart';
 import '../faction/faction.dart';
 import '../unit/unit.dart';
@@ -172,16 +171,15 @@ class UserArmyDOM
         /// 3. Получаем список юнитов для конкретной роли
         List<dynamic> unitList = categories[role] ?? [];
 
-        UnitCompositionDom  finalComposition = (composition.selectedComposition == null && composition.compositions.isNotEmpty)
+        UnitCompositionDom finalComposition = (composition.selectedComposition == null && composition.compositions.isNotEmpty)
             ? UnitCompositionDom(
                 compositions: composition.compositions,
                 selectedComposition: composition.compositions.first,
                 additionalModels: composition.additionalModels,
-                additionalRuleFromComposition: composition.additionalRuleFromComposition,
+                additionalRuleFromComposition: composition.additionalRuleFromComposition
             ) : composition;
 
-
-        finalComposition =  calculateFinalUnitComposition(finalComposition,unitInstanceIndex);
+        finalComposition = calculateFinalUnitComposition(finalComposition, unitInstanceIndex);
 
         /// 4. Формируем новый объект юнита
         final newUnitInstance =
@@ -251,6 +249,49 @@ class UserArmyDOM
             for (int i = unitList.length - 1; i >= 0; i--)
             {
                 if (unitList[i][SaveCategoryCode.unitId.code] == unitId)
+                {
+                    lastIndex = i;
+                    break;
+                }
+            }
+
+            /// Если нашли — удаляем и обновляем JSON
+            if (lastIndex != -1)
+            {
+                unitList.removeAt(lastIndex);
+                categories[role] = unitList;
+                root["categories"] = categories;
+                return copyWith(jsonData: jsonEncode(root));
+            }
+
+            return this; /// Если не нашли в этой категории
+        } catch (e)
+        {
+            /// Использование print или debugPrint для доменных моделей допустимо для отладки
+            return this;
+        }
+    }
+
+    /// Удаляет конкретный добавленный экземпляр юнита с указанным [unitInstanceId] из конкретной [role].
+    Future<UserArmyDOM> removeUnitFromUserArmy(String unitInstanceId, String role) async
+    {
+        if (jsonData.isEmpty) return this;
+
+        try
+        {
+            final Map<String, dynamic> root = jsonDecode(jsonData);
+            final Map<String, dynamic> categories = root["categories"] ?? {};
+
+            /// Ищем список именно в той категории, которую передали
+            List<dynamic> unitList = categories[role] ?? [];
+
+            if (unitList.isEmpty) return this;
+
+            /// Ищем индекс последнего юнита с таким unitInstanceId в этой категории
+            int lastIndex = -1;
+            for (int i = unitList.length - 1; i >= 0; i--)
+            {
+                if (unitList[i][SaveCategoryCode.instanceId.code] == unitInstanceId)
                 {
                     lastIndex = i;
                     break;
