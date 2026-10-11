@@ -266,11 +266,13 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             final instanceId = const Uuid().v4();
             final role = UnitRoleCode.fromName(baseUnitItem.role)!;
             final newUnitInstanceIndex = _getUnitInstanceIndex(baseUnitItem.dbId, role);
+
             final newUnit = baseUnitItem.copyWith(
                 instanceId: instanceId,
                 dbId: unit.dbId,
                 name: unit.name,
                 role: unit.role,
+                isEpicHero: unit.isEpicHero,
                 repeat: unit.repeat,
                 unitInstanceIndex: newUnitInstanceIndex,
                 keywords: unit.keywords,
@@ -281,7 +283,11 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                 factionAbilities: unit.factionAbilities,
                 leader: unit.leader,
                 ledBy: unit.ledBy,
-                modelStats: unit.modelStats
+                modelStats: unit.modelStats,
+                selectedWargearIndices: unit.selectedWargearIndices,
+                weaponSnapshot: unit.weaponSnapshot,
+                characteristics: unit.characteristics,
+                selectedEnhancementId: unit.selectedEnhancementId
             );
 
             final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> updatedUnits = Map.from(state.userArmyUnits!);
@@ -455,7 +461,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
     int getTotalArmyPts(Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> userArmyUnits)
     {
         int total = 0;
-        if (userArmyUnits.isNotEmpty) 
+        if (userArmyUnits.isNotEmpty)
         {
             userArmyUnits.values.expand((u) => u).forEach((unit)
                 {

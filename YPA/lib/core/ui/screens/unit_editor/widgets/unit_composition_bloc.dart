@@ -19,14 +19,14 @@ class UnitCompositionBloc extends ConsumerWidget
         super.key,
         required this.armyId,
         required this.instanceId,
-        required this.roleCode,
+        required this.roleCode
     });
 
     @override
     Widget build(BuildContext context, WidgetRef ref)
     {
         final ids = (armyId, instanceId, roleCode);
-        
+
         /// Подписываемся на изменения состава конкретного юнита
         final composition = ref.watch(unitEditorControllerProvider(ids).select(
             (s) => s.unit?.unitComposition ?? UnitCompositionDom.emptyComposition
@@ -36,7 +36,32 @@ class UnitCompositionBloc extends ConsumerWidget
 
         if (composition.compositions.length > 1)
         {
+            /// Берём выбранный вариант. Если он ещё не задан, используем первый из списка.
             final selectedModel = composition.selectedComposition ?? composition.compositions.first;
+
+            /// Сначала ищем точное совпадение по названию, количеству моделей и стоимости.
+            final exactIndex = composition.compositions.indexWhere(
+                (model) =>
+                model.faceText == selectedModel.faceText &&
+                    model.amount == selectedModel.amount &&
+                    model.cost == selectedModel.cost
+            );
+
+            /// Стоимость могла измениться при расчёте очков для экземпляра.
+            /// Если точного совпадения нет, ищем тот же вариант по названию и количеству моделей.
+            final matchingIndex = composition.compositions.indexWhere(
+                (model) =>
+                model.faceText == selectedModel.faceText &&
+                    model.amount == selectedModel.amount
+            );
+
+            /// Dropdown использует уникальный индекс пункта, а не объект модели.
+            /// Так выбранное значение однозначно соответствует ровно одному пункту списка.
+            final selectedIndex = exactIndex >= 0
+                ? exactIndex
+                : matchingIndex >= 0
+                    ? matchingIndex
+                    : 0;
 
             return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,8 +69,8 @@ class UnitCompositionBloc extends ConsumerWidget
                 children: [
                     SizedBox(
                         width: 200,
-                        child: DropdownButtonFormField<UnitCompositionModelDom>(
-                            initialValue: selectedModel,
+                        child: DropdownButtonFormField<int>(
+                            initialValue: selectedIndex,
                             decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
@@ -53,15 +78,28 @@ class UnitCompositionBloc extends ConsumerWidget
                                 fillColor: const Color.fromARGB(26, 255, 255, 255)
                             ),
                             dropdownColor: const Color(0xFF323232),
-                            items: composition.compositions.map((model) => DropdownMenuItem(
-                                    value: model,
-                                    child: Text('${model.amount} models / ${model.cost} pts', style: const TextStyle(fontSize: 12))
-                                )).toList(),
-                            onChanged: (newValue)
-                            {
-                                if (newValue != null && newValue != selectedModel)
+                            items: composition.compositions.indexed.map((entry)
                                 {
-                                    ref.read(unitEditorControllerProvider(ids).notifier)
+                                    final (index, model) = entry;
+                                    return DropdownMenuItem<int>(
+                                        value: index,
+                                        child: Text(
+                                            '${model.amount} models / ${model.cost} pts',
+                                            style: const TextStyle(fontSize: 12)
+                                        )
+                                    );
+                                }).toList(),
+                            onChanged: (newIndex)
+                            {
+                                /// Если значение не выбрано, состояние состава не меняем.
+                                if (newIndex == null) return;
+                                /// Преобразуем выбранный индекс обратно в модель состава.
+                                final newValue = composition.compositions[newIndex];
+                                /// Обновляем состав, только если пользователь выбрал другой вариант.
+                                if (newValue != selectedModel)
+                                {
+                                    ref
+                                        .read(unitEditorControllerProvider(ids).notifier)
                                         .updateComposition(newValue);
                                 }
                             }
@@ -86,10 +124,10 @@ class UnitCompositionBloc extends ConsumerWidget
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
                 if (composition.compositions.isNotEmpty)
-                    Text(
-                        '${composition.compositions.first.amount} models / ${composition.compositions.first.cost} pts',
-                        style: const TextStyle(color: Colors.white70, fontSize: 13)
-                    ),
+                Text(
+                    '${composition.compositions.first.amount} models / ${composition.compositions.first.cost} pts',
+                    style: const TextStyle(color: Colors.white70, fontSize: 13)
+                ),
                 if (additionalCheckboxes.isNotEmpty) ...[
                     const SizedBox(height: 12),
                     Wrap(
