@@ -15,6 +15,7 @@ import 'package:ypa/core/ui/screens/unit_editor/widgets/unit_composition_bloc.da
 import 'package:ypa/core/ui/screens/unit_editor/widgets/wargear/wargear_stats_bloc.dart';
 import 'package:ypa/core/ui/widgets/Stats/base_ability_bloc.dart';
 import 'package:ypa/core/ui/widgets/Stats/keywords_bloc.dart';
+import 'package:ypa/features/common_functions_lib.dart';
 
 import '../../widgets/expanded/expandable_section_unit_stats.dart';
 
@@ -54,10 +55,11 @@ class UnitEditorScreen extends ConsumerWidget
                         builder: (context, ref, _)
                         {
                             final unitName = ref.watch(unitEditorControllerProvider(ids).select((s) => s.unit?.name ?? ''));
+                            final unitIndex =  getRomeNumber(ref.watch(unitEditorControllerProvider(ids).select((s) => s.unit?.unitInstanceIndex ?? 0)));
                             final compStr = ref.watch(unitEditorControllerProvider(ids).select((s) => _calculateCompString(s)));
 
                             return Text(
-                                '$unitName : $compStr',
+                                '$unitName $unitIndex : $compStr',
                                 style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                                 softWrap: true,
                                 maxLines: 2

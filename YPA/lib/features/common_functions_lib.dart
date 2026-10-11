@@ -231,6 +231,7 @@ UnitEditorItemUi getItemUiByUnit(ArmyBuilderUnitItemUi unit)
         role: unit.role,
         isEpicHero: unit.isEpicHero,
         repeat: unit.repeat,
+        unitInstanceIndex: unit.unitInstanceIndex,
         keywords: unit.keywords,
         factionKeywords: unit.factionKeywords,
         unitComposition: unit.unitComposition,

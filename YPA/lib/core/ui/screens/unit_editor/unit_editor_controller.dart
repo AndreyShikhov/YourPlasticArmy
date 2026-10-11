@@ -106,6 +106,7 @@ class UnitEditorController extends StateNotifier<UnitEditorState>
         {
             final unit = await armyState.getUnitByInstanceIdFromUserArmy(_instanceUnitId, getUnitRoleCode()!);
 
+
             /// 2. Создаем UI модель юнита
             final editorUnit = getItemUiByUnit(unit);
 

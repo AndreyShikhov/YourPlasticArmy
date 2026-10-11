@@ -14,6 +14,7 @@ class UnitEditorItemUi
     final String role;
     final bool isEpicHero;
     final int repeat;
+    final int unitInstanceIndex;
     final List<String> keywords;
     final List<String> factionKeywords;
     final UnitCompositionDom unitComposition;
@@ -44,6 +45,7 @@ class UnitEditorItemUi
         required this.role,
         required this.isEpicHero,
         required this.repeat,
+        required this.unitInstanceIndex,
         required this.keywords,
         required this.factionKeywords,
         required this.unitComposition,
@@ -66,6 +68,7 @@ class UnitEditorItemUi
         String? role,
         bool? isEpicHero,
         int? repeat,
+        int? unitInstanceIndex,
         List<String>? keywords,
         List<String>? factionKeywords,
         UnitCompositionDom? unitComposition,
@@ -87,6 +90,7 @@ class UnitEditorItemUi
             role: role ?? this.role,
             isEpicHero: isEpicHero ?? this.isEpicHero,
             repeat: repeat ?? this.repeat,
+            unitInstanceIndex: unitInstanceIndex ?? this.unitInstanceIndex,
             keywords: keywords ?? this.keywords,
             factionKeywords: factionKeywords ?? this.factionKeywords,
             unitComposition: unitComposition ?? this.unitComposition,
