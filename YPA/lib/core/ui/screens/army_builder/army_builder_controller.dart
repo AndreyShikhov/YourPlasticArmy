@@ -224,6 +224,113 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         }
     }
 
+    Future<void> updateCompositionAfterRemoveUnit(UnitRoleCode role, String dbId) async
+    {
+        if (state.userArmyUnits == null) return;
+
+        try
+        {
+            final currentUnits = state.userArmyUnits?[role];
+            if (currentUnits == null) return;
+
+            final baseUnit = state.allUnitsFromDb
+                .where((unit) => unit.dbId == dbId)
+                .firstOrNull;
+
+            if (baseUnit == null) 
+            {
+                throw StateError('Base unit $dbId was not found while recalculating composition.');
+            }
+
+            final changedUnits = <ArmyBuilderUnitItemUi>[];
+
+            final updatedUnits = currentUnits.map((unit)
+            {
+                if (unit.dbId != dbId) return unit;
+
+                /// Пересчитываем цены от базовых данных, чтобы не оставить старую скидку.
+                final recalculated = calculateFinalUnitComposition(
+                    baseUnit.unitComposition,
+                    unit.unitInstanceIndex
+                );
+
+                /// Сохраняем выбранный вариант, подставляя его уже пересчитанную модель.
+                UnitCompositionModelDom? selectedComposition;
+                final previousSelection = unit.unitComposition.selectedComposition;
+
+                if (previousSelection == null) 
+                {
+                    selectedComposition = recalculated.selectedComposition;
+                } else 
+                {
+                    for (final option in recalculated.compositions)
+                    {
+                        if (option.faceText == previousSelection.faceText &&
+                            option.amount == previousSelection.amount) 
+                        {
+                            selectedComposition = option;
+                            break;
+                        }
+                    }
+                    selectedComposition ??= recalculated.selectedComposition;
+                }
+
+                /// Сохраняем выбор дополнительных моделей, используя актуальные данные и цены.
+                final additionalModels = recalculated.additionalModels.map((model)
+                {
+                    final wasSelected = unit.unitComposition.additionalModels.any(
+                        (previousModel) =>
+                        previousModel.faceText == model.faceText &&
+                            previousModel.amount == model.amount &&
+                            previousModel.isSelected
+                    );
+
+                    return model.copyWith(isSelected: wasSelected);
+                }).toList();
+
+                final composition = UnitCompositionDom(
+                    compositions: recalculated.compositions,
+                    selectedComposition: selectedComposition,
+                    additionalModels: additionalModels,
+                    additionalRuleFromComposition:
+                    recalculated.additionalRuleFromComposition
+                );
+
+                final changedUnit = unit.copyWith(unitComposition: composition);
+                changedUnits.add(changedUnit);
+                return changedUnit;
+            }).toList();
+
+            for (final unit in changedUnits)
+            {
+                await _updateUnitInUserRoster(
+                    armyId: _armyId,
+                    instanceId: unit.instanceId,
+                    role: role,
+                    category: SaveCategoryCode.composition,
+                    updateData: unit.unitComposition.toSaveUserArmyJson()
+                );
+
+                await _updateUnitInUserRoster(
+                    armyId: _armyId,
+                    instanceId: unit.instanceId,
+                    role: role,
+                    category: SaveCategoryCode.points,
+                    updateData: unit.unitComposition.totalUnitCost
+                );
+            }
+
+            final updatedArmyUnits =
+                Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>.from(state.userArmyUnits!);
+            updatedArmyUnits[role] = updatedUnits;
+            state = state.copyWith(userArmyUnits: updatedArmyUnits);
+        }
+        catch(e)
+        {
+            state = state.copyWith(error: e.toString());
+        }
+    }
+
     Future<void> addUnitToUserArmy(String unitId) async
     {
         if (state.userArmyUnits == null) return;
@@ -386,6 +493,9 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                     }
 
                 state = state.copyWith(userArmyUnits: updatedUnits);
+
+                await updateCompositionAfterRemoveUnit(role, unitToRemove.dbId);
+
                 updateCurrentPts();
             }
 
@@ -462,6 +572,9 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                     }
 
                 state = state.copyWith(userArmyUnits: updatedUnits);
+
+                await updateCompositionAfterRemoveUnit(role, unitToRemove.dbId);
+
                 updateCurrentPts();
             }
 
