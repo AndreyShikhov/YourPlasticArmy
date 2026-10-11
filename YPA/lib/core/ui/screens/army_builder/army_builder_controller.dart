@@ -348,6 +348,14 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                     );
                 }
 
+                if (state.selectedInstanceIdWarlord == unitToRemove.instanceId)
+                {
+                    state = state.copyWith(selectedInstanceIdWarlord: '');
+                    await _updateArmyWarlord(
+                        armyId: _armyId,
+                        newWarlordInstanceId: '');
+                }
+
                 unitsInRole.removeAt(index);
                 final Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>> updatedUnits = Map.from(state.userArmyUnits!);
                 updatedUnits[role] = unitsInRole;
@@ -406,12 +414,22 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                     final updatedEnhancemets = Map<String, EnhancementDOM>.from(state.selectedEnhancement!);
                     updatedEnhancemets.remove(unitToRemove.instanceId);
 
-                    state = state.copyWith(selectedEnhancement: updatedEnhancemets);
+                    state = state.copyWith(
+                        selectedEnhancement: updatedEnhancemets
+                    );
 
                     await _updateUserArmyEnhancement(
                         armyId: _armyId,
                         selectedEnhancement: updatedEnhancemets
                     );
+                }
+
+                if (state.selectedInstanceIdWarlord == unitInstanceId)
+                {
+                    state = state.copyWith(selectedInstanceIdWarlord: '');
+                    await _updateArmyWarlord(
+                        armyId: _armyId,
+                        newWarlordInstanceId: '');
                 }
 
                 unitsInRole.removeAt(index);
