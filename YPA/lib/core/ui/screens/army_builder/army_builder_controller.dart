@@ -443,7 +443,6 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
 
                 var nextIndex = 0;
                 final units = updatedUnits[role] ?? [];
-               // final List<ArmyBuilderUnitItemUi> changedUnits = [];
 
                 updatedUnits[role] = units.map((u) /// перепись id в стейте
                     {
@@ -451,7 +450,6 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
 
                         nextIndex++;
                         final changedUnit = u.copyWith(unitInstanceIndex: nextIndex);
-                       // changedUnits.add(changedUnit);
                         return changedUnit;
                     }).toList();
 
@@ -517,7 +515,6 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
 
                 var nextIndex = 0;
                 final units = updatedUnits[role] ?? [];
-               // final List<ArmyBuilderUnitItemUi> changedUnits = [];
 
                 updatedUnits[role] = units.map((u) /// перепись id в стейте
                     {
@@ -525,7 +522,6 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
 
                         nextIndex++;
                         final changedUnit = u.copyWith(unitInstanceIndex: nextIndex);
-                     //   changedUnits.add(changedUnit);
                         return changedUnit;
                     }).toList();
 
