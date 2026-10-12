@@ -16,6 +16,14 @@ import '../enhancement/enhancement_dom.dart';
 import '../faction/faction.dart';
 import '../unit/unit.dart';
 
+typedef UnitRosterUpdate = ({
+    int unitInstanceIndex,
+    Map<String, dynamic> composition,
+    int points
+});
+
+typedef UnitRosterUpdates = Map<String, UnitRosterUpdate>;
+
 enum SaveCategoryCode
 {
     instanceId('instanceId', 'Instance Id'),
@@ -229,90 +237,127 @@ class UserArmyDOM
         return copyWith(jsonData: jsonEncode(root));
     }
 
-    /// Удаляет ПОСЛЕДНИЙ добавленный экземпляр юнита с указанным [unitId] из конкретной [role].
-    Future<UserArmyDOM> removeLastUnitFromUserArmy(String unitId, String role) async
+    /// Удаляет последний экземпляр базового юнита [unitId] в указанной [role],
+    /// затем обновляет данные оставшихся экземпляров из [updates].
+    Future<UserArmyDOM> removeLastUnitFromUserArmy(
+        String unitId,
+        String role,
+        UnitRosterUpdates updates
+    ) async
     {
-        if (jsonData.isEmpty) return this;
-
-        try
+        if (jsonData.isEmpty) 
         {
-            final Map<String, dynamic> root = jsonDecode(jsonData);
-            final Map<String, dynamic> categories = root["categories"] ?? {};
-
-            /// Ищем список именно в той категории, которую передали
-            List<dynamic> unitList = categories[role] ?? [];
-
-            if (unitList.isEmpty) return this;
-
-            /// Ищем индекс последнего юнита с таким unitId в этой категории
-            int lastIndex = -1;
-            for (int i = unitList.length - 1; i >= 0; i--)
-            {
-                if (unitList[i][SaveCategoryCode.unitId.code] == unitId)
-                {
-                    lastIndex = i;
-                    break;
-                }
-            }
-
-            /// Если нашли — удаляем и обновляем JSON
-            if (lastIndex != -1)
-            {
-                unitList.removeAt(lastIndex);
-                categories[role] = unitList;
-                root["categories"] = categories;
-                return copyWith(jsonData: jsonEncode(root));
-            }
-
-            return this; /// Если не нашли в этой категории
-        } catch (e)
-        {
-            /// Использование print или debugPrint для доменных моделей допустимо для отладки
-            return this;
+            throw StateError('Cannot remove a unit: army JSON is empty.');
         }
+
+        /// Декодируем ростер и находим список экземпляров нужной роли.
+        final root = jsonDecode(jsonData) as Map<String, dynamic>;
+        final categories = root['categories'] as Map<String, dynamic>?;
+        final rawUnitList = categories?[role];
+
+        if (categories == null || rawUnitList is! List) 
+        {
+            throw StateError('Cannot find the "$role" category in the army JSON.');
+        }
+
+        /// Создаём изменяемый список записей юнитов.
+        final unitList = rawUnitList
+            .map((unit) => Map<String, dynamic>.from(unit as Map))
+            .toList();
+
+        /// Ищем последний экземпляр по ID базового юнита, а не по instanceId.
+        final unitIndex = unitList.lastIndexWhere(
+            (unit) => unit[SaveCategoryCode.unitId.code] == unitId
+        );
+
+        if (unitIndex == -1) 
+        {
+            throw StateError(
+                'No unit with base unit ID "$unitId" was found in "$role".'
+            );
+        }
+
+        /// Удаляем найденный последний экземпляр.
+        unitList.removeAt(unitIndex);
+
+        /// Перезаписываем индекс, композицию и очки оставшихся экземпляров
+        /// по пакету, ключом которого является их уникальный instanceId.
+        for (final unit in unitList)
+        {
+            final instanceId = unit[SaveCategoryCode.instanceId.code];
+            if (instanceId is! String) continue;
+
+            final update = updates[instanceId];
+            if (update == null) continue;
+
+            unit[SaveCategoryCode.unitInstanceIndex.code] = update.unitInstanceIndex;
+            unit[SaveCategoryCode.composition.code] = update.composition;
+            unit[SaveCategoryCode.points.code] = update.points;
+        }
+
+        /// Сохраняем изменённую категорию и кодируем JSON один раз.
+        categories[role] = unitList;
+        root['categories'] = categories;
+
+        return copyWith(jsonData: jsonEncode(root));
     }
 
     /// Удаляет конкретный добавленный экземпляр юнита с указанным [unitInstanceId] из конкретной [role].
-    Future<UserArmyDOM> removeUnitFromUserArmy(String unitInstanceId, String role) async
+    Future<UserArmyDOM> removeUnitFromUserArmy(String unitInstanceId, String role, UnitRosterUpdates updates) async
     {
-        if (jsonData.isEmpty) return this;
-
-        try
+        if (jsonData.isEmpty)
         {
-            final Map<String, dynamic> root = jsonDecode(jsonData);
-            final Map<String, dynamic> categories = root["categories"] ?? {};
-
-            /// Ищем список именно в той категории, которую передали
-            List<dynamic> unitList = categories[role] ?? [];
-
-            if (unitList.isEmpty) return this;
-
-            /// Ищем индекс последнего юнита с таким unitInstanceId в этой категории
-            int lastIndex = -1;
-            for (int i = unitList.length - 1; i >= 0; i--)
-            {
-                if (unitList[i][SaveCategoryCode.instanceId.code] == unitInstanceId)
-                {
-                    lastIndex = i;
-                    break;
-                }
-            }
-
-            /// Если нашли — удаляем и обновляем JSON
-            if (lastIndex != -1)
-            {
-                unitList.removeAt(lastIndex);
-                categories[role] = unitList;
-                root["categories"] = categories;
-                return copyWith(jsonData: jsonEncode(root));
-            }
-
-            return this; /// Если не нашли в этой категории
-        } catch (e)
-        {
-            /// Использование print или debugPrint для доменных моделей допустимо для отладки
-            return this;
+            throw StateError('Cannot remove a unit: army JSON is empty.');
         }
+
+        /// Декодируем ростер и получаем список экземпляров указанной роли.
+        final root = jsonDecode(jsonData) as Map<String, dynamic>;
+        final categories = root['categories'] as Map<String, dynamic>?;
+        final rawUnitList = categories?[role];
+
+        if (categories == null || rawUnitList is! List)
+        {
+            throw StateError('Cannot find the "$role" category in the army JSON.');
+        }
+
+        /// Создаём изменяемый список карт юнитов.
+        final unitList = rawUnitList
+            .map((unit) => Map<String, dynamic>.from(unit as Map))
+            .toList();
+
+        /// Находим именно тот экземпляр, который запросили удалить.
+        final unitIndex = unitList.indexWhere(
+            (unit) => unit[SaveCategoryCode.instanceId.code] == unitInstanceId
+        );
+
+        if (unitIndex == -1)
+        {
+            throw StateError('Unit instance "$unitInstanceId" was not found in "$role".');
+        }
+
+        /// Удаляем экземпляр до применения обновлений к оставшимся юнитам.
+        unitList.removeAt(unitIndex);
+
+        /// Обновляем индекс, композицию и очки оставшихся экземпляров,
+        /// если для них есть данные в переданном пакете.
+        for (final unit in unitList)
+        {
+            final instanceId = unit[SaveCategoryCode.instanceId.code];
+            if (instanceId is! String) continue;
+
+            final update = updates[instanceId];
+            if (update == null) continue;
+
+            unit[SaveCategoryCode.unitInstanceIndex.code] = update.unitInstanceIndex;
+            unit[SaveCategoryCode.composition.code] = update.composition;
+            unit[SaveCategoryCode.points.code] = update.points;
+        }
+
+        /// Записываем изменённый список обратно и кодируем JSON один раз.
+        categories[role] = unitList;
+        root['categories'] = categories;
+
+        return copyWith(jsonData: jsonEncode(root));
     }
 
     /// Обновляет парметры [updateData] экземпляр юнита с указанным [unitId] из конкретной [role].
@@ -332,6 +377,7 @@ class UserArmyDOM
         return copyWith(jsonData: jsonEncode(root));
     }
 
+    /// Обновляет енхансменты в армии игрока [newSelectedEnhancement].
     Future<UserArmyDOM> updateUnitInstanceEnhancement(Map<String, EnhancementDOM> newSelectedEnhancement) async
     {
         if (jsonData.isEmpty) return copyWith(selectedEnhancement: newSelectedEnhancement);
@@ -358,6 +404,7 @@ class UserArmyDOM
             jsonData: jsonEncode(root) /// ОБЯЗАТЕЛЬНО обновляем JSON
         );
     }
+
     /// ==========================================
     /// Getters
     /// ==========================================

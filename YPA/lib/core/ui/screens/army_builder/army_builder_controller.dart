@@ -224,69 +224,63 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         }
     }
 
-    Future<void> updateCompositionAfterRemoveUnit(UnitRoleCode role, String dbId) async
+    UnitRosterUpdates updateCompositionAfterRemoveUnit(UnitRoleCode role, String dbId)
     {
-        if (state.userArmyUnits == null) return;
+        final allUnits = state.userArmyUnits;
+        if (allUnits == null) return {};
 
-        try
+        final currentUnits = allUnits[role];
+        if (currentUnits == null) return {};
+
+        final baseUnit = state.allUnitsFromDb
+            .where((unit) => unit.dbId == dbId)
+            .firstOrNull;
+
+        if (baseUnit == null)
         {
-            final currentUnits = state.userArmyUnits?[role];
-            if (currentUnits == null) return;
+            throw StateError(
+                'Base unit $dbId was not found while recalculating composition.'
+            );
+        }
 
-            final baseUnit = state.allUnitsFromDb
-                .where((unit) => unit.dbId == dbId)
-                .firstOrNull;
+        final updates = <String, UnitRosterUpdate>{};
 
-            if (baseUnit == null) 
-            {
-                throw StateError('Base unit $dbId was not found while recalculating composition.');
-            }
-
-            final changedUnits = <ArmyBuilderUnitItemUi>[];
-
-            final updatedUnits = currentUnits.map((unit)
+        /// Пересчитываем всех оставшихся экземпляров этой базовой модели.
+        final updatedUnits = currentUnits.map((unit)
             {
                 if (unit.dbId != dbId) return unit;
 
-                /// Пересчитываем цены от базовых данных, чтобы не оставить старую скидку.
+                /// Берём базовую композицию, чтобы не сохранить цену от прежнего индекса.
                 final recalculated = calculateFinalUnitComposition(
                     baseUnit.unitComposition,
                     unit.unitInstanceIndex
                 );
 
-                /// Сохраняем выбранный вариант, подставляя его уже пересчитанную модель.
-                UnitCompositionModelDom? selectedComposition;
+                /// Сохраняем выбранный вариант, сопоставляя его с вариантом по актуальной цене.
                 final previousSelection = unit.unitComposition.selectedComposition;
+                final selectedComposition = previousSelection == null
+                    ? recalculated.selectedComposition
+                    : recalculated.compositions
+                        .where(
+                            (option) =>
+                            option.faceText == previousSelection.faceText &&
+                                option.amount == previousSelection.amount
+                        )
+                        .firstOrNull ??
+                        recalculated.selectedComposition;
 
-                if (previousSelection == null) 
-                {
-                    selectedComposition = recalculated.selectedComposition;
-                } else 
-                {
-                    for (final option in recalculated.compositions)
-                    {
-                        if (option.faceText == previousSelection.faceText &&
-                            option.amount == previousSelection.amount) 
-                        {
-                            selectedComposition = option;
-                            break;
-                        }
-                    }
-                    selectedComposition ??= recalculated.selectedComposition;
-                }
-
-                /// Сохраняем выбор дополнительных моделей, используя актуальные данные и цены.
+                /// Сохраняем выбор дополнительных моделей при обновлении их данных.
                 final additionalModels = recalculated.additionalModels.map((model)
-                {
-                    final wasSelected = unit.unitComposition.additionalModels.any(
-                        (previousModel) =>
-                        previousModel.faceText == model.faceText &&
-                            previousModel.amount == model.amount &&
-                            previousModel.isSelected
-                    );
+                    {
+                        final wasSelected = unit.unitComposition.additionalModels.any(
+                            (previousModel) =>
+                            previousModel.faceText == model.faceText &&
+                                previousModel.amount == model.amount &&
+                                previousModel.isSelected
+                        );
 
-                    return model.copyWith(isSelected: wasSelected);
-                }).toList();
+                        return model.copyWith(isSelected: wasSelected);
+                    }).toList();
 
                 final composition = UnitCompositionDom(
                     compositions: recalculated.compositions,
@@ -296,39 +290,26 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                     recalculated.additionalRuleFromComposition
                 );
 
-                final changedUnit = unit.copyWith(unitComposition: composition);
-                changedUnits.add(changedUnit);
-                return changedUnit;
+                final updatedUnit = unit.copyWith(unitComposition: composition);
+
+                /// Пакет будет применён к JSON по instanceId вместе с удалением юнита.
+                updates[unit.instanceId] = (
+                    unitInstanceIndex: unit.unitInstanceIndex,
+                    composition: composition.toSaveUserArmyJson(),
+                    points: composition.totalUnitCost
+                );
+
+                return updatedUnit;
             }).toList();
 
-            for (final unit in changedUnits)
-            {
-                await _updateUnitInUserRoster(
-                    armyId: _armyId,
-                    instanceId: unit.instanceId,
-                    role: role,
-                    category: SaveCategoryCode.composition,
-                    updateData: unit.unitComposition.toSaveUserArmyJson()
-                );
+        /// Обновляем состояние и общий итог армии.
+        final updatedArmyUnits =
+            Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>.from(allUnits);
+        updatedArmyUnits[role] = updatedUnits;
+        state = state.copyWith(userArmyUnits: updatedArmyUnits);
+        updateCurrentPts();
 
-                await _updateUnitInUserRoster(
-                    armyId: _armyId,
-                    instanceId: unit.instanceId,
-                    role: role,
-                    category: SaveCategoryCode.points,
-                    updateData: unit.unitComposition.totalUnitCost
-                );
-            }
-
-            final updatedArmyUnits =
-                Map<UnitRoleCode, List<ArmyBuilderUnitItemUi>>.from(state.userArmyUnits!);
-            updatedArmyUnits[role] = updatedUnits;
-            state = state.copyWith(userArmyUnits: updatedArmyUnits);
-        }
-        catch(e)
-        {
-            state = state.copyWith(error: e.toString());
-        }
+        return updates;
     }
 
     Future<void> addUnitToUserArmy(String unitId) async
@@ -414,14 +395,6 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                 unitInstanceIndex: newUnit.unitInstanceIndex
             );
 
-            await _updateUnitInUserRoster(
-                armyId: _armyId,
-                instanceId: instanceId,
-                role: UnitRoleCode.fromName(unit.role)!,
-                category: SaveCategoryCode.composition,
-                updateData: newUnit.unitComposition.toSaveUserArmyJson()
-            );
-
             updateCurrentPts();
         } catch (e)
         {
@@ -430,18 +403,19 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
         }
     }
 
-    Future<void> removeLastUnitFromUserArmy(String unitId, UnitRoleCode role) async
+    Future<void> removeLastUnitFromUserArmy(String unitDbId, UnitRoleCode role) async
     {
         if (state.userArmyUnits == null) return;
 
         try
         {
             final List<ArmyBuilderUnitItemUi> unitsInRole = List.from(state.userArmyUnits![role] ?? []);
-            final index = unitsInRole.lastIndexWhere((u) => u.dbId == unitId);
+            final index = unitsInRole.lastIndexWhere((u) => u.dbId == unitDbId);
 
             if (index != -1)
             {
                 final unitToRemove = unitsInRole[index];
+                final saveDbId = unitToRemove.dbId;
                 if (state.selectedEnhancement != null && state.selectedEnhancement!.containsKey(unitToRemove.instanceId))
                 {
                     final updatedEnhancemets = Map<String, EnhancementDOM>.from(state.selectedEnhancement!);
@@ -469,7 +443,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
 
                 var nextIndex = 0;
                 final units = updatedUnits[role] ?? [];
-                final List<ArmyBuilderUnitItemUi> changedUnits = [];
+               // final List<ArmyBuilderUnitItemUi> changedUnits = [];
 
                 updatedUnits[role] = units.map((u) /// перепись id в стейте
                     {
@@ -477,29 +451,22 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
 
                         nextIndex++;
                         final changedUnit = u.copyWith(unitInstanceIndex: nextIndex);
-                        changedUnits.add(changedUnit);
+                       // changedUnits.add(changedUnit);
                         return changedUnit;
                     }).toList();
 
-                for (ArmyBuilderUnitItemUi unit in changedUnits) /// сохранение новых id в базе данных
-                    {
-                        await _updateUnitInUserRoster(
-                            armyId: _armyId,
-                            instanceId: unit.instanceId,
-                            role: role,
-                            category: SaveCategoryCode.unitInstanceIndex,
-                            updateData: unit.unitInstanceIndex
-                        );
-                    }
-
                 state = state.copyWith(userArmyUnits: updatedUnits);
 
-                await updateCompositionAfterRemoveUnit(role, unitToRemove.dbId);
+                final updatedComposition = updateCompositionAfterRemoveUnit(role, saveDbId);
+
+                await _removeLastUnitFromUserRoster(
+                    armyId: _armyId,
+                    role: role,
+                    unitId: unitDbId,
+                    updates: updatedComposition);
 
                 updateCurrentPts();
             }
-
-            await _removeLastUnitFromUserRoster(armyId: _armyId, role: role, unitId: unitId);
         } catch (e)
         {
             state = state.copyWith(error: e.toString());
@@ -519,6 +486,8 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
             if (index != -1)
             {
                 final unitToRemove = unitsInRole[index];
+                final dbId = unitToRemove.dbId;
+
                 if (state.selectedEnhancement != null && state.selectedEnhancement!.containsKey(unitToRemove.instanceId))
                 {
                     final updatedEnhancemets = Map<String, EnhancementDOM>.from(state.selectedEnhancement!);
@@ -548,7 +517,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
 
                 var nextIndex = 0;
                 final units = updatedUnits[role] ?? [];
-                final List<ArmyBuilderUnitItemUi> changedUnits = [];
+               // final List<ArmyBuilderUnitItemUi> changedUnits = [];
 
                 updatedUnits[role] = units.map((u) /// перепись id в стейте
                     {
@@ -556,32 +525,23 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
 
                         nextIndex++;
                         final changedUnit = u.copyWith(unitInstanceIndex: nextIndex);
-                        changedUnits.add(changedUnit);
+                     //   changedUnits.add(changedUnit);
                         return changedUnit;
                     }).toList();
 
-                for (ArmyBuilderUnitItemUi unit in changedUnits) /// сохранение новых id в базе данных
-                    {
-                        await _updateUnitInUserRoster(
-                            armyId: _armyId,
-                            instanceId: unit.instanceId,
-                            role: role,
-                            category: SaveCategoryCode.unitInstanceIndex,
-                            updateData: unit.unitInstanceIndex
-                        );
-                    }
-
                 state = state.copyWith(userArmyUnits: updatedUnits);
 
-                await updateCompositionAfterRemoveUnit(role, unitToRemove.dbId);
+                final updatedComposition = updateCompositionAfterRemoveUnit(role, dbId);
+
+                await _removeUnitFromUserRoster(
+                    armyId: _armyId,
+                    role: role,
+                    unitInstanceId: unitInstanceId,
+                    updates: updatedComposition
+                );
 
                 updateCurrentPts();
             }
-
-            await _removeUnitFromUserRoster(
-                armyId: _armyId,
-                role: role,
-                unitInstanceId: unitInstanceId);
         } catch (e)
         {
             state = state.copyWith(error: e.toString());
