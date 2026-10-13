@@ -21,7 +21,7 @@ Future<Map<String, String>> seedDetachments(
     {
         final detachmentId = const Uuid().v4();
 
-        // Получаем UUID армии, используя armyCode из DetachmentSeed
+        /// Получаем UUID армии, используя armyCode из DetachmentSeed
         final currentArmyId = armyIds[d.armyCode.code];
 
         if (currentArmyId == null) 

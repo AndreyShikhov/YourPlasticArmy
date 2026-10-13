@@ -57,7 +57,7 @@ List<EnhancementSeed> enhancementSeed()
           name: 'Artisan of War',
           description:
           'ADEPTUS ASTARTES JUMP PACK model only. Improve the Armour Penetration characteristic of the bearers weapons by 1, and the bearer has a Save characteristic of 2+.',
-          detachmentCode: 'the_angelic_host',
+          detachmentCode: 'angelic_inheritors',
           points: 20
       ),
       EnhancementSeed(
@@ -65,7 +65,7 @@ List<EnhancementSeed> enhancementSeed()
           name: 'Visage of Death',
           description:
           'ADEPTUS ASTARTES JUMP PACK model only. In the Battle-shock step of your opponents Command phase, each enemy unit (excluding MONSTERS and VEHICLES) within Engagement Range of the bearer must take a Battle-shock test.',
-          detachmentCode: 'the_angelic_host',
+          detachmentCode: 'angelic_inheritors',
           points: 15
       ),
       EnhancementSeed(
@@ -73,7 +73,7 @@ List<EnhancementSeed> enhancementSeed()
           name: 'Archangel’s Shard',
           description:
           'ADEPTUS ASTARTES JUMP PACK model only. The bearer’s melee weapons have the [Anti-Chaos 5+] and [Lance] abilities.',
-          detachmentCode: 'the_angelic_host',
+          detachmentCode: 'angelic_inheritors',
           points: 15
       ),
       EnhancementSeed(
@@ -81,7 +81,7 @@ List<EnhancementSeed> enhancementSeed()
           name: 'Gleaming Pinions',
           description:
           'ADEPTUS ASTARTES JUMP PACK model only. Once per turn, when an enemy unit ends a Normal, Advance or Fall Back move within 9" of the bearer, if this bearer’s unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to 6' ,
-          detachmentCode: 'the_angelic_host',
+          detachmentCode: 'angelic_inheritors',
           points: 25
       ),
     ];

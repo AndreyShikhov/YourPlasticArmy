@@ -26,7 +26,7 @@ Future<Map<String, String>> seedCodexes(
                 id: codexId,
                 code: c.code.code,
                 name: c.name,
-                armyId: armyIds[c.army.code]! // Теперь это String (UUID)
+                armyId: armyIds[c.army.code]!
             ),
             mode: InsertMode.insertOrIgnore
         );
