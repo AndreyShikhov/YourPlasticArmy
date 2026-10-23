@@ -222,8 +222,7 @@ enum StratagemsCode
 enum BattleSizeCode
 {
     incursion('incursion', 'Incursion'),
-    strikeForce('strike_force', 'Strike Force'),
-    onslaught('onslaught', 'Onslaught');
+    strikeForce('strike_force', 'Strike Force');
 
     final String code;
     final String title;
@@ -252,6 +251,21 @@ enum WargearConditionCount
     const WargearConditionCount(this.code, this.title);
 
     static WargearConditionCount? fromName(String name) =>
+    values.where((e) => e.name == name).firstOrNull;
+}
+
+enum BattleSizeDetails
+{
+    pointsTotal('points_total', 'Points Total'),
+    detachmentPoints('detachment_points', 'Detachment Points'),
+    enhancementLimit('enhancement_limit', 'Enhancement Limit'),
+    unitLimit('unit_limit', 'Unit Limit');
+
+    final String code;
+    final String title;
+    const BattleSizeDetails(this.code, this.title);
+
+    static BattleSizeDetails? fromName(String name) =>
     values.where((e) => e.name == name).firstOrNull;
 }
 
@@ -470,30 +484,107 @@ class FactionUnitAbilitySeed
 
 class BattleSize
 {
-    final Map<BattleSizeCode, int> battleSize;
     final BattleSizeCode? selected;
+    final Map<BattleSizeCode, List<Map<BattleSizeDetails, int>>>? battleSizeDetails;
 
-    const BattleSize({required this.battleSize, this.selected});
+    const BattleSize(
+    {
+        this.selected,
+        this.battleSizeDetails
+    }
+    );
 
     factory BattleSize.base() => const BattleSize(
-        battleSize:
+
+        selected: null,
+        battleSizeDetails:
         {
-            BattleSizeCode.incursion: 1000,
-            BattleSizeCode.strikeForce: 2000,
-            BattleSizeCode.onslaught: 3000
-        },
-        selected: null
+            BattleSizeCode.incursion: [
+            {BattleSizeDetails.pointsTotal: 1000},
+            {BattleSizeDetails.detachmentPoints: 2},
+            {BattleSizeDetails.enhancementLimit: 2},
+            {BattleSizeDetails.unitLimit: 2}
+            ],
+            BattleSizeCode.strikeForce: [
+            {BattleSizeDetails.pointsTotal: 2000},
+            {BattleSizeDetails.detachmentPoints: 3},
+            {BattleSizeDetails.enhancementLimit: 4},
+            {BattleSizeDetails.unitLimit: 3}
+            ]
+        }
+
     );
 
     factory BattleSize.selected(BattleSizeCode selected) => BattleSize(
-        battleSize:
+
+        battleSizeDetails:
         {
-            BattleSizeCode.incursion: 1000,
-            BattleSizeCode.strikeForce: 2000,
-            BattleSizeCode.onslaught: 3000
+            BattleSizeCode.incursion: [
+            {BattleSizeDetails.pointsTotal: 1000},
+            {BattleSizeDetails.detachmentPoints: 2},
+            {BattleSizeDetails.enhancementLimit: 2},
+            {BattleSizeDetails.unitLimit: 2}
+            ],
+            BattleSizeCode.strikeForce: [
+            {BattleSizeDetails.pointsTotal: 2000},
+            {BattleSizeDetails.detachmentPoints: 3},
+            {BattleSizeDetails.enhancementLimit: 4},
+            {BattleSizeDetails.unitLimit: 3}
+            ]
         },
         selected: selected
     );
 
-    int get total => battleSize[selected] ?? 0;
+    int get total {
+        if (selected == null || battleSizeDetails == null) return 0;
+
+        final details = battleSizeDetails![selected!];
+        for (final entry in details ?? const []) {
+            final value = entry[BattleSizeDetails.pointsTotal];
+            if (value != null) return value;
+        }
+
+        return 0;
+    }
+
+    int getSizeByCode (BattleSizeCode code)   {
+        if (battleSizeDetails == null) return 0;
+        final details = battleSizeDetails![code];
+        for (final entry in details ?? const []) {
+            final value = entry[BattleSizeDetails.pointsTotal];
+            if (value != null) return value;
+        }
+        return 0;
+    }
+
+    int getDetachmentPointsByCode(BattleSizeCode code){
+        if (battleSizeDetails == null) return 0;
+        final details = battleSizeDetails![code];
+        for (final entry in details ?? const []) {
+            final value = entry[BattleSizeDetails.detachmentPoints];
+            if (value != null) return value;
+        }
+        return 0;
+    }
+
+
+    int getEnchancementPointsByCode(BattleSizeCode code){
+      if (battleSizeDetails == null) return 0;
+      final details = battleSizeDetails![code];
+      for (final entry in details ?? const []) {
+        final value = entry[BattleSizeDetails.enhancementLimit];
+        if (value != null) return value;
+      }
+      return 0;
+    }
+
+    int getUnitLimitByCode(BattleSizeCode code){
+      if (battleSizeDetails == null) return 0;
+      final details = battleSizeDetails![code];
+      for (final entry in details ?? const []) {
+        final value = entry[BattleSizeDetails.unitLimit];
+        if (value != null) return value;
+      }
+      return 0;
+    }
 }

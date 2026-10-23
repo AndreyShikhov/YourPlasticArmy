@@ -25,6 +25,7 @@ class ArmyPointsEditor extends ConsumerWidget
             armyBuilderControllerProvider(armyId).select((s) => s.selectedBattleSize?.keys.firstOrNull)
         );
 
+        final  battleSizeRule = BattleSize.base();
         return DropdownButtonFormField<BattleSizeCode>(
             initialValue: selectedSize,
             dropdownColor: const Color.fromARGB(255, 55, 55, 55),
@@ -38,7 +39,7 @@ class ArmyPointsEditor extends ConsumerWidget
                 {
                     return DropdownMenuItem<BattleSizeCode>(
                         value: size,
-                        child: Text('${size.title} (${BattleSize.base().battleSize[size]} pts)')
+                        child: Text('${size.title} ${battleSizeRule.getSizeByCode(size)} pts |  Detachment Points ${battleSizeRule.getDetachmentPointsByCode(size)} | Enhancement Limit ${battleSizeRule.getEnchancementPointsByCode(size)} | Unit Limit ${battleSizeRule.getUnitLimitByCode(size)}'),
                     );
                 }).toList(),
             onChanged: (newValue)
