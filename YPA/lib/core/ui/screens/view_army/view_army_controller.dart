@@ -39,7 +39,7 @@ final viewArmyControllerProvider = StateNotifierProvider.autoDispose.family<View
         /// Используем локальную переменную 'controller', чтобы избежать циклической зависимости типов.
         ref.listen<ArmyBuilderState>(armyBuilderControllerProvider(armyId), (previous, next)
             {
-                if (previous != next && !next.isLoading) 
+                if (previous != next && !next.isLoading)
                 {
                     controller.loadArmy();
                 }
@@ -89,7 +89,11 @@ class ViewArmyController extends StateNotifier<ViewArmyState>
                 return;
             }
 
-            final detachment = await _getDetachmentById(DetachmentId.fromString(userArmy.detachmentId!));
+            DetachmentDOM? detachment;
+            if (userArmy.detachmentId != "")
+            {
+                detachment = await _getDetachmentById(DetachmentId.fromString(userArmy.detachmentId!));
+            }
 
             final codex = await _getCodexById(userArmy.codexId);
 
@@ -106,18 +110,34 @@ class ViewArmyController extends StateNotifier<ViewArmyState>
                 loadedUnitsUserArmy
             );
 
-            state = state.copyWith(
-                isLoading: false,
-                needRefresh: false,
-                armyId: _armyId,
-                armyName: userArmy.userArmyName,
-                totalPts: userArmy.totalPoints,
-                armyDetachmentName: detachment?.name,
-                selectedBattleSize: userArmy.battleSize,
-                codexName: codex?.name,
-                units: userArmyUnits
+            if (detachment != null)
+            {
+                state = state.copyWith(
+                    isLoading: false,
+                    needRefresh: false,
+                    armyId: _armyId,
+                    armyName: userArmy.userArmyName,
+                    totalPts: userArmy.totalPoints,
+                    armyDetachmentName: detachment.name,
+                    selectedBattleSize: userArmy.battleSize,
+                    codexName: codex?.name,
+                    units: userArmyUnits
 
-            );
+                );
+            } else
+            {
+              state = state.copyWith(
+                  isLoading: false,
+                  needRefresh: false,
+                  armyId: _armyId,
+                  armyName: userArmy.userArmyName,
+                  totalPts: userArmy.totalPoints,
+                  selectedBattleSize: userArmy.battleSize,
+                  codexName: codex?.name,
+                  units: userArmyUnits
+
+              );
+            }
         } catch (e)
         {
             state = state.copyWith(isLoading: false, error: e.toString());
