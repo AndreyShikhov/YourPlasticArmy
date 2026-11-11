@@ -22,7 +22,7 @@ class ArmyPointsEditor extends ConsumerWidget
     Widget build(BuildContext context, WidgetRef ref)
     {
         final selectedSize = ref.watch(
-            armyBuilderControllerProvider(armyId).select((s) => s.selectedBattleSize?.keys.firstOrNull)
+            armyBuilderControllerProvider(armyId).select((s) => s.selectedBattleSize?.selected)
         );
 
         final  battleSizeRule = BattleSize.base();
@@ -31,7 +31,7 @@ class ArmyPointsEditor extends ConsumerWidget
             dropdownColor: const Color.fromARGB(255, 55, 55, 55),
             style: const TextStyle(color: Colors.white),
             decoration: const InputDecoration(
-                labelText: 'Battle Size (Max points)',
+                labelText: 'Battle Size',
                 labelStyle: TextStyle(color: Colors.white70),
                 enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white24))
             ),
@@ -39,7 +39,7 @@ class ArmyPointsEditor extends ConsumerWidget
                 {
                     return DropdownMenuItem<BattleSizeCode>(
                         value: size,
-                        child: Text('${size.title} ${battleSizeRule.getSizeByCode(size)} pts |  Detachment Points ${battleSizeRule.getDetachmentPointsByCode(size)} | Enhancement Limit ${battleSizeRule.getEnchancementPointsByCode(size)} | Unit Limit ${battleSizeRule.getUnitLimitByCode(size)}'),
+                        child: Text('${size.title}'),// ${battleSizeRule.getSizeByCode(size)} pts |  Detachment Points ${battleSizeRule.getDetachmentPointsByCode(size)} | Enhancement Limit ${battleSizeRule.getEnchancementPointsByCode(size)} | Unit Limit ${battleSizeRule.getUnitLimitByCode(size)}'),
                     );
                 }).toList(),
             onChanged: (newValue)

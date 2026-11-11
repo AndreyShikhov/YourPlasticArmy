@@ -57,19 +57,35 @@ class ArmyBuilderScreen extends ConsumerWidget
                     flexibleSpace: SafeArea(
                         child: Container(
                             alignment: Alignment.centerLeft,
-                            padding: const EdgeInsets.only(left: 82, top: 35),
+                            padding: const EdgeInsets.only(left: 82, top: 40),
                             child: Consumer(
                                 builder: (context, ref, _)
                                 {
-                                    final detachmentName = ref.watch(armyBuilderControllerProvider(armyId).select((s) => s.selectedDetachment?.name.value ?? 'No detachment'));
-                                    final ptsText = ref.watch(armyBuilderControllerProvider(armyId).select((s) => '${s.currentPts ?? 0} / ${s.selectedBattleSize?.values.firstOrNull.toString()} pts'));
+
+                                    final battleSize = ref.watch(armyBuilderControllerProvider(armyId).select((s) =>s.selectedBattleSize));
+
+                                    final ptsText = ref.watch(armyBuilderControllerProvider(armyId).select((s) => '${s.currentPts ?? 0} / ${battleSize?.total.toString()} PTS'));
+                                    final detachmentPoints = ref.watch(armyBuilderControllerProvider(armyId).select((s) => '${battleSize?.selected == null
+                                        ? 0
+                                        : battleSize!.getDetachmentPointsByCode(battleSize.selected!)} DP'));
+                                    final enchancmentLimit = ref.watch(armyBuilderControllerProvider(armyId).select((s) => '${battleSize?.selected == null
+                                        ? 0
+                                        : battleSize!.getEnchancementPointsByCode(battleSize.selected!)} EL'));
+                                    final unitLimit = ref.watch(armyBuilderControllerProvider(armyId).select((s) => '${battleSize?.selected == null
+                                        ? 0
+                                        : battleSize!.getUnitLimitByCode(battleSize.selected!)} UL'));
 
                                     return Row(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                            Text(detachmentName, style: const TextStyle(color: Colors.white70, fontSize: 14)),
-                                            const SizedBox(width: 25),
-                                            Text(ptsText, style: const TextStyle(color: Colors.white70, fontSize: 14))
+                                          Text(ptsText, style: const TextStyle(color: Colors.white70, fontSize: 14)),
+                                          const SizedBox(width: 25),
+                                          Text(detachmentPoints, style: const TextStyle(color: Colors.white70, fontSize: 14)),
+                                          const SizedBox(width: 25),
+                                          Text(enchancmentLimit, style: const TextStyle(color: Colors.white70, fontSize: 14)),
+                                          const SizedBox(width: 25),
+                                          Text(unitLimit, style: const TextStyle(color: Colors.white70, fontSize: 14)),
+                                          const SizedBox(width: 25),
                                         ]
                                     );
                                 }

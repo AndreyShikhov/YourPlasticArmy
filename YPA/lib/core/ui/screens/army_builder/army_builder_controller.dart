@@ -192,8 +192,8 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
     {
         final newSb = BattleSize.selected(newSize);
 
-        /// просто обновляемстейт для интерфейса
-        state = state.copyWith(selectedBattleSize: {newSize: newSb.total});
+        /// просто обновляем стейт для интерфейса
+        state = state.copyWith(selectedBattleSize: newSb);
 
         try
         {
@@ -773,9 +773,9 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
 
             final sb = userArmy.battleSize;
             final selectedCode = sb?.selected;
-            final Map<BattleSizeCode, int> battleSizeMap = (sb != null && selectedCode != null)
-                ? {selectedCode: sb.total}
-                : {};
+            final battleSize = (sb != null && selectedCode != null)
+                ? BattleSize.selected(selectedCode)
+                : null;
 
             state = state.copyWith(
                 isLoading: false,
@@ -787,7 +787,7 @@ class ArmyBuilderController extends StateNotifier<ArmyBuilderState>
                 allDetachments: allDetachments,
                 allEnhancement: allEnhancement,
                 selectedEnhancement: selecetedEnhancementSaved,
-                selectedBattleSize: battleSizeMap,
+                selectedBattleSize: battleSize,
                 armyId: userArmy.armyId.value,
                 userArmyUnits: userArmyUnits,
                 allUnitsFromDb: allUnitsFromDb,

@@ -19,7 +19,7 @@ class ArmyBuilderState
     final FactionId? factionId;
     final CodexDom? selectedCodex;
     final String userArmyName;
-    final Map<BattleSizeCode, int>? selectedBattleSize;
+    final BattleSize? selectedBattleSize;
     final List<DetachmentDOM> allDetachments;
     final DetachmentDOM? selectedDetachment;
     final String? detachmentId;
@@ -58,7 +58,7 @@ class ArmyBuilderState
         FactionId? factionId,
         CodexDom? selectedCodex,
         String? userArmyName,
-        Map<BattleSizeCode, int>? selectedBattleSize,
+        BattleSize? selectedBattleSize,
         List<DetachmentDOM>? allDetachments,
         DetachmentDOM? selectedDetachment,
         String? detachmentId,
